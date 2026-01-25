@@ -1,18 +1,51 @@
-# CIHOF Timeline View
+# CIHOF Kiosk App
 
-## Local image strategy
+## Manifest + media expectations
 
-This app only uses local images listed in `cihf_images/manifest.csv`. To make the `saved_path` values resolvable in a kiosk build, copy the full `cihf_images/` folder into the Vite `public/` directory (or configure your static file host to serve the folder from the site root). The data loader normalizes `saved_path` entries so that any path containing `cihf_images/` is converted into a `/cihf_images/...` URL.
+The kiosk loads inductees from the consolidated manifest CSV at `public/cihof_kiosk_manifest.csv`. Media files are expected to live in `public/images/` and `public/videos/`. The loader normalizes Windows/Unix paths and strips prefixes to the `/images/` or `/videos/` portion so kiosk builds can resolve local media correctly.
+
+If the consolidated manifest is missing or fails to load, the app falls back to legacy sources (`public/cihf_inductees.json` and `public/cihf_images/manifest.csv`) to avoid breaking older builds.
 
 **Expected public structure**
 
 ```
 public/
-  cihf_images/
+  cihof_kiosk_manifest.csv
+  images/
     <class_year>/
       <safe_name>/
         <hashed>_<filename>
+  videos/
+    <class_year>/
+      <safe_name>/
+        <hashed>_<filename>
+  cihf_inductees.json
+  cihf_images/
     manifest.csv
 ```
 
-The JSON file `cihf_inductees.json` should also live in `public/` so it can be loaded via `/cihf_inductees.json`.
+## Mode selection
+
+The kiosk supports two UI options:
+
+- `option1`: Timeline view
+- `option2`: Explore view (default)
+
+Set the mode using the Vite env var or `public/config.json`:
+
+```
+VITE_CIHOF_MODE=option1
+```
+
+```
+public/config.json
+{
+  "mode": "option1"
+}
+```
+
+To show a small corner label for the active mode during development, set:
+
+```
+VITE_CIHOF_SHOW_MODE=true
+```

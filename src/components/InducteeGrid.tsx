@@ -1,14 +1,16 @@
-import type { Inductee } from '../types';
+import type { Inductee } from '../data/types';
 import InducteeCard from './InducteeCard';
 
 const InducteeGrid = ({
   inductees,
   getImage,
   onSelect,
+  showYear,
 }: {
   inductees: Inductee[];
   getImage: (inductee: Inductee) => string;
   onSelect: (inductee: Inductee) => void;
+  showYear?: boolean;
 }) => {
   return (
     <section className="inductee-grid">
@@ -20,6 +22,7 @@ const InducteeGrid = ({
             key={`${inductee.class_year}-${inductee.name}`}
             inductee={inductee}
             image={getImage(inductee)}
+            showYear={showYear}
             onSelect={() => onSelect(inductee)}
           />
         ))

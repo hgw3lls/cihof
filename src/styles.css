@@ -32,14 +32,31 @@ h3 {
   color: #ff9a9a;
 }
 
-.timeline-view {
+.app-shell {
+  min-height: 100vh;
+}
+
+.mode-badge {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: rgba(39, 67, 255, 0.85);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  z-index: 30;
+}
+
+.timeline-view,
+.explore-view {
   padding: 24px 32px 48px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.timeline-header {
+.view-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,7 +64,7 @@ h3 {
   flex-wrap: wrap;
 }
 
-.timeline-header h1 {
+.view-header h1 {
   font-size: 2.4rem;
 }
 
@@ -64,7 +81,9 @@ h3 {
   min-width: 240px;
 }
 
-.search-box input {
+.search-box input,
+.control-group input,
+.control-group select {
   background: #111827;
   border: 1px solid #1f2937;
   border-radius: 12px;
@@ -72,6 +91,20 @@ h3 {
   font-size: 1rem;
   color: #f6f7fb;
   min-height: 48px;
+}
+
+.explore-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
 }
 
 .year-scrubber {
@@ -208,11 +241,16 @@ h3 {
   border: none;
   background: #1f2937;
   color: #f6f7fb;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  padding: 0 16px;
 }
 
 .modal-header {
   margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .modal-meta {
@@ -227,7 +265,7 @@ h3 {
   align-items: start;
 }
 
-.modal-gallery img {
+.media-gallery img {
   width: 100%;
   border-radius: 18px;
   border: 1px solid #1f2937;
@@ -280,6 +318,12 @@ h3 {
   background: #111827;
 }
 
+.video-grid video {
+  width: 100%;
+  border-radius: 12px;
+  background: #111827;
+}
+
 .video-link {
   display: inline-flex;
   align-items: center;
@@ -291,6 +335,34 @@ h3 {
   color: #f6f7fb;
   text-decoration: none;
   font-weight: 600;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #1f2937;
+  color: #f6f7fb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+}
+
+.load-more button {
+  min-height: 48px;
+  min-width: 160px;
+  border-radius: 16px;
+  border: none;
+  background: #2743ff;
+  color: #ffffff;
+  font-size: 1.05rem;
 }
 
 @media (max-width: 900px) {
