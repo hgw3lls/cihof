@@ -36,6 +36,39 @@ h3 {
   min-height: 100vh;
 }
 
+.mode-menu-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #0b0f16;
+  border-bottom: 1px solid #1f2937;
+}
+
+.mode-menu-button {
+  min-height: 52px;
+  min-width: 160px;
+  padding: 12px 20px;
+  border-radius: 16px;
+  border: 2px solid #2b364a;
+  background: #111827;
+  color: #f6f7fb;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  touch-action: manipulation;
+}
+
+.mode-menu-button--active {
+  background: #2743ff;
+  border-color: #4b63ff;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(39, 67, 255, 0.35);
+}
+
 .mode-badge {
   position: fixed;
   top: 12px;

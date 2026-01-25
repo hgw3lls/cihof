@@ -4,11 +4,13 @@ import type { Inductee } from '../data/types';
 import { getRegionOptions, getYearOptions, getYearOptionsDesc } from '../data/selectors';
 import TimelineView from '../views/option1-timeline/TimelineView';
 import ExploreView from '../views/option2-explore/ExploreView';
-import { resolveMode, shouldShowModeBadge } from './mode';
+import ModeMenuBar from '../components/ModeMenuBar';
+import type { AppMode } from './mode';
+import { resolveMode, setStoredModeOverride, shouldShowModeBadge } from './mode';
 
 const App = () => {
   const [inductees, setInductees] = useState<Inductee[]>([]);
-  const [mode, setMode] = useState<'option1' | 'option2' | null>(null);
+  const [mode, setMode] = useState<AppMode | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -54,8 +56,14 @@ const App = () => {
     return <div className="app-state">Loading CIHOF kiosk…</div>;
   }
 
+  const handleModeChange = (nextMode: AppMode) => {
+    setMode(nextMode);
+    setStoredModeOverride(nextMode);
+  };
+
   return (
     <div className="app-shell">
+      <ModeMenuBar mode={mode} onModeChange={handleModeChange} />
       {showMode && <div className="mode-badge">Mode: {mode}</div>}
       {mode === 'option1' ? (
         <TimelineView inductees={inductees} years={yearsAscending} regions={regions} />
