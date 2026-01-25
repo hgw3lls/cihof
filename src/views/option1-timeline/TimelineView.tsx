@@ -157,6 +157,10 @@ const TimelineView = ({ inductees }: { inductees: Inductee[]; years: string[]; r
       <YearMenu years={sortedYears} activeYear={activeYear} onSelectYear={handleSelectYear} />
 
       <TimelineScroller ref={timelineRef} onScroll={handleScroll} onWheel={handleWheel}>
+<<<<<<< ours
+=======
+        <div className="timeline-spacer" aria-hidden="true" />
+>>>>>>> theirs
         {sortedYears.map((year) => (
           <YearStop
             key={year}
@@ -170,6 +174,10 @@ const TimelineView = ({ inductees }: { inductees: Inductee[]; years: string[]; r
             placeholderImage={PLACEHOLDER_IMAGE}
           />
         ))}
+<<<<<<< ours
+=======
+        <div className="timeline-spacer" aria-hidden="true" />
+>>>>>>> theirs
       </TimelineScroller>
 
       {selectedInductee && (
