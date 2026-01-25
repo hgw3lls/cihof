@@ -20,6 +20,8 @@ const useDebouncedValue = (value: string, delayMs: number) => {
 
 type SortMode = 'year_desc' | 'name_asc';
 
+const normalizeValue = (value: string) => value.trim().toLowerCase();
+
 const ExploreView = ({
   inductees,
   regions,
@@ -37,10 +39,22 @@ const ExploreView = ({
   const [activeInductee, setActiveInductee] = useState<Inductee | null>(null);
 
   const debouncedSearch = useDebouncedValue(searchTerm, 200).toLowerCase();
+  const sortedYears = useMemo(
+    () => [...years].sort((a, b) => Number(b) - Number(a)),
+    [years],
+  );
+
+  useEffect(() => {
+    document.body.classList.add('explore-brutalist-root');
+    return () => {
+      document.body.classList.remove('explore-brutalist-root');
+    };
+  }, []);
 
   const filteredInductees = useMemo(() => {
+    const normalizedRegion = normalizeValue(selectedRegion);
     return inductees.filter((inductee) => {
-      if (selectedRegion !== 'All' && inductee.region !== selectedRegion) {
+      if (selectedRegion !== 'All' && normalizeValue(inductee.region) !== normalizedRegion) {
         return false;
       }
       if (selectedYear !== 'All' && inductee.class_year !== selectedYear) {
@@ -77,18 +91,33 @@ const ExploreView = ({
   }, [selectedRegion, selectedYear, debouncedSearch, sortMode]);
 
   const displayedInductees = sortedInductees.slice(0, visibleCount);
+  const resultsCount = sortedInductees.length;
+
+  const handleReset = () => {
+    setSelectedRegion('All');
+    setSelectedYear('All');
+    setSearchTerm('');
+    setSortMode('year_desc');
+  };
 
   return (
-    <div className="explore-view">
-      <header className="view-header">
-        <div>
-          <h1>Explore Inductees</h1>
-          <p className="subtitle">Browse the full CIHOF archive</p>
+    <div className="explore-view explore-brutalist">
+      <header className="explore-top-bar">
+        <div className="explore-top-bar__title">
+          <h1>CIHOF / EXPLORE</h1>
+          <p>Discovery mode</p>
+        </div>
+        <div className="explore-top-bar__status" aria-live="polite">
+          <strong>{resultsCount}</strong>
+          <span>Results</span>
+        </div>
+        <div className="explore-top-bar__actions">
+          <button onClick={handleReset}>Reset Filters</button>
         </div>
       </header>
 
-      <section className="explore-controls">
-        <div className="control-group">
+      <section className="explore-filter-strip">
+        <div className="filter-block filter-block--search">
           <label htmlFor="explore-search">Search</label>
           <input
             id="explore-search"
@@ -98,21 +127,31 @@ const ExploreView = ({
             onChange={(event) => setSearchTerm(event.target.value)}
           />
         </div>
-        <div className="control-group">
-          <label htmlFor="explore-year">Class Year</label>
+        <div className="filter-block filter-block--regions">
+          <span className="filter-label">Region</span>
+          <div className="filter-scroll">
+            <RegionFilterChips
+              regions={regions}
+              selectedRegion={selectedRegion}
+              onSelectRegion={setSelectedRegion}
+            />
+          </div>
+        </div>
+        <div className="filter-block">
+          <label htmlFor="explore-year">Year</label>
           <select
             id="explore-year"
             value={selectedYear}
             onChange={(event) => setSelectedYear(event.target.value)}
           >
-            {['All', ...years].map((year) => (
+            {['All', ...sortedYears].map((year) => (
               <option key={year} value={year}>
                 {year}
               </option>
             ))}
           </select>
         </div>
-        <div className="control-group">
+        <div className="filter-block">
           <label htmlFor="explore-sort">Sort</label>
           <select
             id="explore-sort"
@@ -125,24 +164,24 @@ const ExploreView = ({
         </div>
       </section>
 
-      <RegionFilterChips
-        regions={regions}
-        selectedRegion={selectedRegion}
-        onSelectRegion={setSelectedRegion}
-      />
+      <section className="explore-content">
+        <div className="explore-grid-pane">
+          <div className="explore-grid-scroll">
+            <InducteeGrid
+              inductees={displayedInductees}
+              getImage={(inductee) => inductee.primaryImage ?? PLACEHOLDER_IMAGE}
+              onSelect={setActiveInductee}
+              showYear
+            />
 
-      <InducteeGrid
-        inductees={displayedInductees}
-        getImage={(inductee) => inductee.primaryImage ?? PLACEHOLDER_IMAGE}
-        onSelect={setActiveInductee}
-        showYear
-      />
-
-      {sortedInductees.length > displayedInductees.length && (
-        <div className="load-more">
-          <button onClick={() => setVisibleCount((count) => count + 24)}>Load more</button>
+            {sortedInductees.length > displayedInductees.length && (
+              <div className="load-more">
+                <button onClick={() => setVisibleCount((count) => count + 24)}>Load more</button>
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </section>
 
       {activeInductee && (
         <InducteeDetailModal

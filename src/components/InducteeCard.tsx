@@ -18,9 +18,9 @@ const InducteeCard = ({
       </div>
       <div className="inductee-card__body">
         <h3>{inductee.name}</h3>
-        <p>
-          {showYear ? `Class of ${inductee.class_year} · ` : ''}
-          {inductee.region}
+        <p className="inductee-card__meta">
+          {showYear && <span>Class of {inductee.class_year}</span>}
+          <span>{inductee.region}</span>
         </p>
       </div>
     </button>
