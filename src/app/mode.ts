@@ -1,4 +1,4 @@
-export type AppMode = 'option1' | 'option2';
+export type AppMode = 'option1' | 'option2' | 'option3';
 
 const MODE_STORAGE_KEY = 'cihof-mode-override';
 
@@ -7,7 +7,7 @@ export const normalizeMode = (value: string | undefined | null): AppMode | null 
     return null;
   }
   const normalized = value.toLowerCase();
-  if (normalized === 'option1' || normalized === 'option2') {
+  if (normalized === 'option1' || normalized === 'option2' || normalized === 'option3') {
     return normalized;
   }
   return null;

@@ -4,6 +4,7 @@ import type { Inductee } from '../data/types';
 import { getRegionOptions, getYearOptions, getYearOptionsDesc } from '../data/selectors';
 import TimelineView from '../views/option1-timeline/TimelineView';
 import ExploreView from '../views/option2-explore/ExploreView';
+import HubMapView from '../views/option3-map/HubMapView';
 import ModeMenuBar from '../components/ModeMenuBar';
 import type { AppMode } from './mode';
 import { resolveMode, setStoredModeOverride, shouldShowModeBadge } from './mode';
@@ -65,11 +66,13 @@ const App = () => {
     <div className="app-shell">
       <ModeMenuBar mode={mode} onModeChange={handleModeChange} />
       {showMode && <div className="mode-badge">Mode: {mode}</div>}
-      {mode === 'option1' ? (
+      {mode === 'option1' && (
         <TimelineView inductees={inductees} years={yearsAscending} regions={regions} />
-      ) : (
+      )}
+      {mode === 'option2' && (
         <ExploreView inductees={inductees} years={yearsDescending} regions={regions} />
       )}
+      {mode === 'option3' && <HubMapView inductees={inductees} years={yearsDescending} />}
     </div>
   );
 };

@@ -29,6 +29,14 @@ const ModeMenuBar = ({ mode, onModeChange, hidden = false }: ModeMenuBarProps) =
       >
         Explore
       </button>
+      <button
+        type="button"
+        className={`mode-menu-button${mode === 'option3' ? ' mode-menu-button--active' : ''}`}
+        onClick={() => onModeChange('option3')}
+        aria-pressed={mode === 'option3'}
+      >
+        Map
+      </button>
     </div>
   );
 };
