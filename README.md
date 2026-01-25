@@ -26,10 +26,11 @@ public/
 
 ## Mode selection
 
-The kiosk supports two UI options:
+The kiosk supports three UI options:
 
 - `option1`: Timeline view
 - `option2`: Explore view (default)
+- `option3`: Cleveland hub map view
 
 Set the mode using the Vite env var or `public/config.json`:
 
@@ -49,3 +50,8 @@ To show a small corner label for the active mode during development, set:
 ```
 VITE_CIHOF_SHOW_MODE=true
 ```
+
+## Option3 hub map notes
+
+- Region nodes are laid out radially around Cleveland using a deterministic, alphabetical ordering of region labels. The layout computes an angle for each region and places it on a responsive radius derived from the viewport size.
+- Region labels are normalized by trimming, collapsing whitespace, and using a lowercase key for matching; the first non-empty label is preserved for display, and empty/odd labels fall back to “Unknown Region.”
