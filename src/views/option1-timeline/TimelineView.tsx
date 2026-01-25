@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Inductee } from '../../data/types';
-import YearScrubber from '../../components/YearScrubber';
-import RegionFilterChips from '../../components/RegionFilterChips';
-import InducteeGrid from '../../components/InducteeGrid';
-import InducteeDetailModal from '../../components/InducteeDetailModal';
+import BrutalistTopBar from './BrutalistTopBar';
+import ContextPane from './ContextPane';
+import InducteePane from './InducteePane';
+import TimelineStrip from './TimelineStrip';
 
 const PLACEHOLDER_IMAGE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect width='100%25' height='100%25' fill='%23252c37'/%3E%3Ctext x='50%25' y='50%25' font-size='28' fill='%23d9dee8' text-anchor='middle' dominant-baseline='middle'%3EPhoto%20Unavailable%3C/text%3E%3C/svg%3E";
@@ -35,6 +35,13 @@ const TimelineView = ({
   const [activeInductee, setActiveInductee] = useState<Inductee | null>(null);
 
   useEffect(() => {
+    document.documentElement.classList.add('timeline-brutalist-root');
+    return () => {
+      document.documentElement.classList.remove('timeline-brutalist-root');
+    };
+  }, []);
+
+  useEffect(() => {
     if (!selectedYear && latestYear) {
       setSelectedYear(latestYear);
     }
@@ -57,46 +64,68 @@ const TimelineView = ({
     });
   }, [inductees, selectedYear, selectedRegion, debouncedSearch]);
 
+  const yearInductees = useMemo(() => {
+    return inductees.filter((inductee) => inductee.class_year === selectedYear);
+  }, [inductees, selectedYear]);
+
+  useEffect(() => {
+    if (!activeInductee) {
+      return;
+    }
+    const stillVisible = filteredInductees.some(
+      (inductee) =>
+        inductee.name === activeInductee.name && inductee.class_year === activeInductee.class_year
+    );
+    if (!stillVisible) {
+      setActiveInductee(null);
+    }
+  }, [activeInductee, filteredInductees]);
+
+  const handleReset = () => {
+    setSelectedYear(latestYear);
+    setSelectedRegion('All');
+    setSearchTerm('');
+    setActiveInductee(null);
+  };
+
   return (
-    <div className="timeline-view">
-      <header className="view-header">
-        <div>
-          <h1>Cleveland International Hall of Fame</h1>
-          <p className="subtitle">Timeline View</p>
-        </div>
-        <div className="search-box">
-          <label htmlFor="timeline-search">Search</label>
-          <input
-            id="timeline-search"
-            type="text"
-            placeholder="Search inductee name"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-          />
-        </div>
-      </header>
-
-      <YearScrubber years={years} selectedYear={selectedYear} onSelectYear={setSelectedYear} />
-
-      <RegionFilterChips
-        regions={regions}
+    <div className="timeline-view timeline-brutalist">
+      <BrutalistTopBar
         selectedRegion={selectedRegion}
-        onSelectRegion={setSelectedRegion}
+        searchTerm={searchTerm}
+        selectedYear={selectedYear}
+        onReset={handleReset}
+        onJumpToLatest={() => setSelectedYear(latestYear)}
       />
 
-      <InducteeGrid
-        inductees={filteredInductees}
-        getImage={(inductee) => inductee.primaryImage ?? PLACEHOLDER_IMAGE}
-        onSelect={setActiveInductee}
+      <TimelineStrip
+        years={years}
+        selectedYear={selectedYear}
+        onSelectYear={(year) => {
+          setSelectedYear(year);
+          setActiveInductee(null);
+        }}
       />
 
-      {activeInductee && (
-        <InducteeDetailModal
-          inductee={activeInductee}
-          placeholder={PLACEHOLDER_IMAGE}
-          onClose={() => setActiveInductee(null)}
+      <div className="timeline-content">
+        <InducteePane
+          regions={regions}
+          selectedRegion={selectedRegion}
+          onSelectRegion={setSelectedRegion}
+          searchTerm={searchTerm}
+          onSearchTermChange={setSearchTerm}
+          inductees={filteredInductees}
+          onSelectInductee={setActiveInductee}
+          placeholderImage={PLACEHOLDER_IMAGE}
         />
-      )}
+        <ContextPane
+          selectedYear={selectedYear}
+          yearInductees={yearInductees}
+          activeInductee={activeInductee}
+          placeholderImage={PLACEHOLDER_IMAGE}
+          onClearSelection={() => setActiveInductee(null)}
+        />
+      </div>
     </div>
   );
 };
