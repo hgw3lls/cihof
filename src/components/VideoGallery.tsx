@@ -1,14 +1,14 @@
 import type { VideoSource } from '../data/types';
 import { isYouTubeSearchUrl } from '../data/media';
 
-const VideoGallery = ({ videos }: { videos: VideoSource[] }) => {
+const VideoGallery = ({ videos, heading = 'Videos' }: { videos: VideoSource[]; heading?: string }) => {
   if (videos.length === 0) {
     return null;
   }
 
   return (
     <div className="modal-videos">
-      <h3>Videos</h3>
+      <h3>{heading}</h3>
       <div className="video-grid">
         {videos.map((video) => {
           if (video.kind === 'local') {
