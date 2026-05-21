@@ -4,11 +4,12 @@ import type { Inductee } from '../../data/types';
 type InducteeDetailProps = {
   inductee: Inductee | null;
   allInductees: Inductee[];
+  kioskMode: boolean;
   onClose: () => void;
   onSelect: (inductee: Inductee) => void;
 };
 
-export function InducteeDetail({ inductee, allInductees, onClose, onSelect }: InducteeDetailProps) {
+export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onSelect }: InducteeDetailProps) {
   useEffect(() => {
     if (!inductee) return;
 
@@ -107,11 +108,12 @@ export function InducteeDetail({ inductee, allInductees, onClose, onSelect }: In
             </section>
           )}
 
-          {inductee.profileUrl && (
+          {inductee.profileUrl && !kioskMode && (
             <a className="source-link" href={inductee.profileUrl} target="_blank" rel="noreferrer">
               Original profile
             </a>
           )}
+          {inductee.profileUrl && kioskMode && <span className="source-link source-link--disabled">Original profile hidden in kiosk mode</span>}
         </div>
       </section>
     </aside>
