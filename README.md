@@ -13,6 +13,8 @@ Implemented:
 - Explore grid with search, region filter, year filter, and sorting
 - URL-persisted state for view, search, filters, sort, and selected person
 - Timeline view with year navigation, class counts, and region counts
+- Region hub view with radial region nodes, featured inductees, and region lists
+- Kiosk reset control to clear filters, selected person, and return home
 - Detail drawer with bio, gallery, video embeds, related inductees, and source link
 - Clickable related inductees inside the detail drawer
 - Responsive kiosk-friendly styling
@@ -54,4 +56,4 @@ npm run build
 
 ## Plan
 
-See `docs/rebuild-plan.md` for the broader product plan, including region map, kiosk mode, and future media/admin improvements.
+See `docs/rebuild-plan.md` for the broader product plan, including kiosk mode, richer region interactions, and future media/admin improvements.
