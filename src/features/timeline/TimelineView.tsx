@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { FallbackImage, initials } from '../../components/FallbackImage';
 import type { Inductee } from '../../data/types';
 
 type TimelineViewProps = {
@@ -60,7 +61,7 @@ export function TimelineView({ inductees, selectedYear, onYearChange, onSelect }
           <div className="timeline__people">
             {(selectedYear === 'all' ? inductees : activeGroup.inductees).map((inductee) => (
               <button className="timeline-person" key={inductee.id} type="button" onClick={() => onSelect(inductee)}>
-                {inductee.primaryImageUrl ? <img src={inductee.primaryImageUrl} alt="" loading="lazy" /> : <span>{initials(inductee.name)}</span>}
+                <FallbackImage fallbackClassName="timeline-person__fallback" fallbackLabel={initials(inductee.name)} src={inductee.primaryImageUrl} />
                 <strong>{inductee.name}</strong>
                 <small>{inductee.region}</small>
               </button>
@@ -97,11 +98,3 @@ function aggregateRegions(inductees: Inductee[]) {
     .sort((a, b) => b.count - a.count || a.region.localeCompare(b.region));
 }
 
-function initials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('');
-}

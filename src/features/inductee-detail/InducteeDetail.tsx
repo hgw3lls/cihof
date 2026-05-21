@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { FallbackImage, initials } from '../../components/FallbackImage';
 import type { Inductee } from '../../data/types';
 
 type InducteeDetailProps = {
@@ -47,7 +48,7 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
       <button className="detail__scrim" type="button" aria-label="Close details" onClick={onClose} />
       <section className="detail__panel">
         <div className="detail__hero">
-          {inductee.primaryImageUrl ? <img src={inductee.primaryImageUrl} alt="" /> : <div className="detail__heroFallback" />}
+          <FallbackImage className="detail__heroImage" fallbackClassName="detail__heroFallback" fallbackLabel={initials(inductee.name)} loading="eager" src={inductee.primaryImageUrl} />
           <button className="icon-button" type="button" onClick={onClose} aria-label="Close details">
             X
           </button>
@@ -68,7 +69,7 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
               <h3>Images</h3>
               <div className="gallery-grid">
                 {gallery.map((url) => (
-                  <img key={url} src={url} alt="" loading="lazy" />
+                  <FallbackImage key={url} fallbackClassName="gallery-grid__fallback" fallbackLabel={initials(inductee.name)} src={url} />
                 ))}
               </div>
             </section>

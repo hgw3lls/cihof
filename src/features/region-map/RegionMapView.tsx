@@ -1,4 +1,5 @@
 import { useMemo, type CSSProperties } from 'react';
+import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
 import type { Inductee } from '../../data/types';
 
@@ -84,7 +85,7 @@ export function RegionMapView({ inductees, allInductees, selectedRegion, onRegio
         <div className="region-map__featured" aria-label="Featured inductees">
           {(selectedRegion === allValue ? groups.flatMap((group) => group.featured.slice(0, 1)) : activeGroup?.featured ?? []).map((inductee) => (
             <button className="region-feature" key={inductee.id} type="button" onClick={() => onSelect(inductee)}>
-              {inductee.primaryImageUrl ? <img src={inductee.primaryImageUrl} alt="" loading="lazy" /> : <span>{initials(inductee.name)}</span>}
+              <FallbackImage fallbackClassName="region-feature__fallback" fallbackLabel={initials(inductee.name)} src={inductee.primaryImageUrl} />
               <strong>{inductee.name}</strong>
               <small>{inductee.classYear} / {inductee.region}</small>
             </button>
@@ -125,11 +126,3 @@ function buildRegionGroups(inductees: Inductee[]): RegionGroup[] {
     .sort((a, b) => b.count - a.count || a.region.localeCompare(b.region));
 }
 
-function initials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('');
-}
