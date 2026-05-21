@@ -32,6 +32,9 @@ export function App() {
   );
 
   const filtered = useMemo(() => filterInductees(inductees, exploreState), [exploreState, inductees]);
+  const selectedIndex = selected ? filtered.findIndex((item) => item.id === selected.id) : -1;
+  const previousInductee = selectedIndex > 0 ? filtered[selectedIndex - 1] : filtered[filtered.length - 1];
+  const nextInductee = selectedIndex >= 0 ? filtered[(selectedIndex + 1) % filtered.length] : null;
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -176,6 +179,8 @@ export function App() {
         inductee={attractActive ? null : selected}
         allInductees={inductees}
         kioskMode={kioskMode}
+        nextInductee={nextInductee}
+        previousInductee={previousInductee}
         onClose={() => setSelectedId('')}
         onSelect={selectInductee}
       />

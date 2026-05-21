@@ -19,6 +19,7 @@ Implemented:
 - Kiosk reset control, kiosk URL flag, larger touch targets, idle attract screen, and external-link suppression
 - Attract screen with rotating featured inductees and touch-to-explore start action
 - Broken-image fallbacks for cards, timeline, region features, hero images, and galleries
+- Detail Drawer v2 with previous/next navigation, related thumbnails, story block, and video empty states
 - Responsive kiosk-friendly styling
 
 ## Runtime
