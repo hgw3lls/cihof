@@ -1,5 +1,6 @@
 import type { ExploreState, Inductee, SortMode } from '../../data/types';
 import { allValue } from '../../data/filtering';
+import { FallbackImage, initials } from '../../components/FallbackImage';
 
 type ExploreViewProps = {
   inductees: Inductee[];
@@ -90,20 +91,14 @@ export function ExploreView({ inductees, filtered, facets, loading, error, state
 }
 
 function MediaThumb({ inductee }: { inductee: Inductee }) {
-  if (inductee.primaryImageUrl) {
-    return <img className="inductee-card__image" src={inductee.primaryImageUrl} alt="" loading="lazy" />;
-  }
-
-  return <span className="inductee-card__fallback">{initials(inductee.name)}</span>;
-}
-
-function initials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('');
+  return (
+    <FallbackImage
+      className="inductee-card__image"
+      fallbackClassName="inductee-card__fallback"
+      fallbackLabel={initials(inductee.name)}
+      src={inductee.primaryImageUrl}
+    />
+  );
 }
 
 function summarize(text: string) {

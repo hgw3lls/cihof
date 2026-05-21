@@ -1059,3 +1059,25 @@ select:focus,
     justify-content: center;
   }
 }
+
+.detail__heroFallback,
+.gallery-grid__fallback {
+  display: grid;
+  place-items: center;
+  color: #2f2b25;
+  font-weight: 950;
+}
+
+.detail__heroFallback {
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.gallery-grid__fallback {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, rgba(31, 111, 120, 0.2), rgba(183, 62, 47, 0.12)),
+    var(--panel);
+  font-size: 1.45rem;
+}
