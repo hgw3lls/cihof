@@ -1,6 +1,6 @@
 # CIHOF Explorer Rebuild
 
-A fresh interactive rebuild of the Cleveland International Hall of Fame experience. The app starts with an Explore view that lets visitors search, filter, sort, and open detailed inductee stories from the preserved source data.
+A fresh interactive rebuild of the Cleveland International Hall of Fame experience. The app lets visitors search, filter, sort, browse by timeline, and open detailed inductee stories from the preserved source data.
 
 ## Current Milestone
 
@@ -8,9 +8,13 @@ Implemented:
 
 - Fresh Vite + React + TypeScript app shell
 - CSV-to-JSON data preparation pipeline
-- Normalized inductee data in `public/data/inductees.json`
+- Data quality report at `public/data/data-report.json`
+- Normalized inductee data at `public/data/inductees.json`
 - Explore grid with search, region filter, year filter, and sorting
+- URL-persisted state for view, search, filters, sort, and selected person
+- Timeline view with year navigation, class counts, and region counts
 - Detail drawer with bio, gallery, video embeds, related inductees, and source link
+- Clickable related inductees inside the detail drawer
 - Responsive kiosk-friendly styling
 
 ## Data
@@ -32,6 +36,7 @@ That script writes:
 
 ```text
 public/data/inductees.json
+public/data/data-report.json
 ```
 
 ## Run
@@ -49,4 +54,4 @@ npm run build
 
 ## Plan
 
-See `docs/rebuild-plan.md` for the broader product plan, including timeline, region map, kiosk mode, and future media/admin improvements.
+See `docs/rebuild-plan.md` for the broader product plan, including region map, kiosk mode, and future media/admin improvements.

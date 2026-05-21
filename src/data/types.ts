@@ -16,3 +16,11 @@ export type Inductee = {
 };
 
 export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'region-asc';
+export type ViewMode = 'explore' | 'timeline';
+
+export type ExploreState = {
+  query: string;
+  region: string;
+  year: string;
+  sortMode: SortMode;
+};
