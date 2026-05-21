@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { allValue, filterInductees } from '../data/filtering';
 import { useDataFacets, useInductees } from '../data/useInductees';
+import { AttractView } from '../features/attract/AttractView';
 import { ExploreView } from '../features/explore/ExploreView';
 import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
 import { RegionMapView } from '../features/region-map/RegionMapView';
@@ -23,6 +24,7 @@ export function App() {
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
+  const [attractActive, setAttractActive] = useState(false);
 
   const selected = useMemo(
     () => inductees.find((item) => item.id === selectedId) ?? null,
@@ -49,10 +51,15 @@ export function App() {
   useEffect(() => {
     if (!kioskMode) return;
 
-    let timeout = window.setTimeout(resetExperience, kioskIdleMs);
+    const showAttract = () => {
+      resetExperience();
+      setAttractActive(true);
+    };
+    let timeout = window.setTimeout(showAttract, kioskIdleMs);
     const resetTimer = () => {
+      if (attractActive) return;
       window.clearTimeout(timeout);
-      timeout = window.setTimeout(resetExperience, kioskIdleMs);
+      timeout = window.setTimeout(showAttract, kioskIdleMs);
     };
 
     window.addEventListener('pointerdown', resetTimer);
@@ -65,7 +72,7 @@ export function App() {
       window.removeEventListener('keydown', resetTimer);
       window.removeEventListener('touchstart', resetTimer);
     };
-  }, [kioskMode]);
+  }, [attractActive, kioskMode]);
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
@@ -85,6 +92,12 @@ export function App() {
     setExploreState(defaultExploreState);
     setSelectedId('');
     setViewMode('explore');
+    setAttractActive(false);
+  }
+
+  function startFromAttract() {
+    setAttractActive(false);
+    resetExperience();
   }
 
   return (
@@ -123,7 +136,7 @@ export function App() {
         </button>
       </nav>
 
-      {kioskMode && <div className="kiosk-status">Kiosk mode resets after 2 minutes idle</div>}
+      {kioskMode && <div className="kiosk-status">Kiosk mode shows featured stories after 2 minutes idle</div>}
 
       {viewMode === 'explore' && (
         <ExploreView
@@ -157,8 +170,10 @@ export function App() {
         />
       )}
 
+      {kioskMode && attractActive && <AttractView inductees={inductees} onStart={startFromAttract} />}
+
       <InducteeDetail
-        inductee={selected}
+        inductee={attractActive ? null : selected}
         allInductees={inductees}
         kioskMode={kioskMode}
         onClose={() => setSelectedId('')}

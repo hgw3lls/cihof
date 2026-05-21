@@ -16,7 +16,8 @@ Implemented:
 - Region hub view with radial region nodes, featured inductees, and region lists
 - Detail drawer with bio, gallery, video embeds, related inductees, and source link
 - Clickable related inductees inside the detail drawer
-- Kiosk reset control, kiosk URL flag, larger touch targets, idle reset, and external-link suppression
+- Kiosk reset control, kiosk URL flag, larger touch targets, idle attract screen, and external-link suppression
+- Attract screen with rotating featured inductees and touch-to-explore start action
 - Broken-image fallbacks for cards, timeline, region features, hero images, and galleries
 - Responsive kiosk-friendly styling
 
