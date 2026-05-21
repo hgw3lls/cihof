@@ -6,16 +6,28 @@ type InducteeDetailProps = {
   inductee: Inductee | null;
   allInductees: Inductee[];
   kioskMode: boolean;
+  previousInductee: Inductee | null;
+  nextInductee: Inductee | null;
   onClose: () => void;
   onSelect: (inductee: Inductee) => void;
 };
 
-export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onSelect }: InducteeDetailProps) {
+export function InducteeDetail({
+  inductee,
+  allInductees,
+  kioskMode,
+  previousInductee,
+  nextInductee,
+  onClose,
+  onSelect,
+}: InducteeDetailProps) {
   useEffect(() => {
     if (!inductee) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowLeft' && previousInductee) onSelect(previousInductee);
+      if (event.key === 'ArrowRight' && nextInductee) onSelect(nextInductee);
     };
 
     document.body.classList.add('drawer-open');
@@ -25,7 +37,7 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
       document.body.classList.remove('drawer-open');
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [inductee, onClose]);
+  }, [inductee, nextInductee, onClose, onSelect, previousInductee]);
 
   const related = useMemo(() => {
     if (!inductee) return [];
@@ -42,6 +54,7 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
   if (!inductee) return null;
 
   const gallery = Array.from(new Set([inductee.primaryImageUrl, ...inductee.imageUrls].filter(Boolean))).slice(0, 8);
+  const hasVideo = inductee.youtubeVideoIds.length > 0 || inductee.localVideoPaths.length > 0;
 
   return (
     <aside className="detail" aria-label={`${inductee.name} details`}>
@@ -62,7 +75,25 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
             {inductee.inductedBy && <span>Inducted by {inductee.inductedBy}</span>}
           </div>
 
-          <p className="detail__bio">{inductee.bioText}</p>
+          <div className="detail__nav" aria-label="Adjacent inductees">
+            {previousInductee && previousInductee.id !== inductee.id && (
+              <button type="button" onClick={() => onSelect(previousInductee)}>
+                <small>Previous</small>
+                <strong>{previousInductee.name}</strong>
+              </button>
+            )}
+            {nextInductee && nextInductee.id !== inductee.id && (
+              <button type="button" onClick={() => onSelect(nextInductee)}>
+                <small>Next</small>
+                <strong>{nextInductee.name}</strong>
+              </button>
+            )}
+          </div>
+
+          <article className="detail__bioBlock">
+            <h3>Story</h3>
+            <p className="detail__bio">{inductee.bioText}</p>
+          </article>
 
           {gallery.length > 1 && (
             <section className="detail__section" aria-label="Image gallery">
@@ -75,9 +106,9 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
             </section>
           )}
 
-          {(inductee.youtubeVideoIds.length > 0 || inductee.localVideoPaths.length > 0) && (
-            <section className="detail__section" aria-label="Videos">
-              <h3>Video</h3>
+          <section className="detail__section" aria-label="Videos">
+            <h3>Video</h3>
+            {hasVideo ? (
               <div className="video-list">
                 {inductee.youtubeVideoIds.slice(0, 2).map((id) => (
                   <iframe
@@ -92,15 +123,18 @@ export function InducteeDetail({ inductee, allInductees, kioskMode, onClose, onS
                   <video key={path} controls src={`/${path}`} />
                 ))}
               </div>
-            </section>
-          )}
+            ) : (
+              <div className="video-empty">No video is linked for this inductee yet.</div>
+            )}
+          </section>
 
           {related.length > 0 && (
             <section className="detail__section" aria-label="Related inductees">
               <h3>Related</h3>
-              <div className="related-list">
+              <div className="related-list related-list--cards">
                 {related.map((item) => (
                   <button key={item.id} type="button" onClick={() => onSelect(item)}>
+                    <FallbackImage fallbackClassName="related-list__fallback" fallbackLabel={initials(item.name)} src={item.primaryImageUrl} />
                     <strong>{item.name}</strong>
                     <small>{item.classYear} / {item.region}</small>
                   </button>
