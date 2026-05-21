@@ -1,6 +1,6 @@
 # CIHOF Explorer Rebuild
 
-A fresh interactive rebuild of the Cleveland International Hall of Fame experience. The app lets visitors search, filter, sort, browse by timeline, and open detailed inductee stories from the preserved source data.
+A fresh interactive rebuild of the Cleveland International Hall of Fame experience. The app lets visitors search, filter, sort, browse by timeline and region, and open detailed inductee stories from the preserved source data.
 
 ## Current Milestone
 
@@ -11,13 +11,29 @@ Implemented:
 - Data quality report at `public/data/data-report.json`
 - Normalized inductee data at `public/data/inductees.json`
 - Explore grid with search, region filter, year filter, and sorting
-- URL-persisted state for view, search, filters, sort, and selected person
+- URL-persisted state for view, search, filters, sort, selected person, and kiosk mode
 - Timeline view with year navigation, class counts, and region counts
 - Region hub view with radial region nodes, featured inductees, and region lists
-- Kiosk reset control to clear filters, selected person, and return home
 - Detail drawer with bio, gallery, video embeds, related inductees, and source link
 - Clickable related inductees inside the detail drawer
+- Kiosk reset control, kiosk URL flag, larger touch targets, idle reset, and external-link suppression
 - Responsive kiosk-friendly styling
+
+## Runtime
+
+Use Node 22 LTS. This repo includes `.nvmrc` and `.node-version` set to `22`.
+
+On this machine, Homebrew Node 22 is available at:
+
+```sh
+/usr/local/opt/node@22/bin/node
+```
+
+If the shell still resolves `node` to another runtime, run commands with Node 22 first in `PATH`:
+
+```sh
+PATH=/usr/local/opt/node@22/bin:$PATH npm run build
+```
 
 ## Data
 
@@ -48,12 +64,24 @@ npm install
 npm run dev
 ```
 
+Kiosk mode can be enabled in the UI or with:
+
+```text
+?kiosk=1
+```
+
 ## Build
 
 ```sh
 npm run build
 ```
 
+If needed on macOS with Homebrew Node 22:
+
+```sh
+PATH=/usr/local/opt/node@22/bin:$PATH npm run build
+```
+
 ## Plan
 
-See `docs/rebuild-plan.md` for the broader product plan, including kiosk mode, richer region interactions, and future media/admin improvements.
+See `docs/rebuild-plan.md` for the broader product plan, including richer region interactions and future media/admin improvements.

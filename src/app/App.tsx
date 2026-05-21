@@ -14,12 +14,15 @@ const defaultExploreState: ExploreState = {
   sortMode: 'year-asc',
 };
 
+const kioskIdleMs = 120_000;
+
 export function App() {
   const { inductees, loading, error } = useInductees();
   const facets = useDataFacets(inductees);
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode());
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
+  const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
 
   const selected = useMemo(
     () => inductees.find((item) => item.id === selectedId) ?? null,
@@ -36,11 +39,33 @@ export function App() {
     if (exploreState.year !== allValue) params.set('year', exploreState.year);
     if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
     if (selectedId) params.set('person', selectedId);
+    if (kioskMode) params.set('kiosk', '1');
 
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [exploreState, selectedId, viewMode]);
+  }, [exploreState, kioskMode, selectedId, viewMode]);
+
+  useEffect(() => {
+    if (!kioskMode) return;
+
+    let timeout = window.setTimeout(resetExperience, kioskIdleMs);
+    const resetTimer = () => {
+      window.clearTimeout(timeout);
+      timeout = window.setTimeout(resetExperience, kioskIdleMs);
+    };
+
+    window.addEventListener('pointerdown', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('touchstart', resetTimer);
+
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener('pointerdown', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+      window.removeEventListener('touchstart', resetTimer);
+    };
+  }, [kioskMode]);
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
@@ -63,7 +88,7 @@ export function App() {
   }
 
   return (
-    <main className="app-shell">
+    <main className={kioskMode ? 'app-shell app-shell--kiosk' : 'app-shell'}>
       <header className="topbar">
         <div>
           <p className="eyebrow">Cleveland International Hall of Fame</p>
@@ -75,9 +100,14 @@ export function App() {
             <span>{facets.regions.length} regions</span>
             <span>{stats.withVideo} videos</span>
           </div>
-          <button className="home-button" type="button" onClick={resetExperience}>
-            Reset
-          </button>
+          <div className="topbar__buttons">
+            <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
+              Kiosk {kioskMode ? 'On' : 'Off'}
+            </button>
+            <button className="home-button" type="button" onClick={resetExperience}>
+              Reset
+            </button>
+          </div>
         </div>
       </header>
 
@@ -92,6 +122,8 @@ export function App() {
           Regions
         </button>
       </nav>
+
+      {kioskMode && <div className="kiosk-status">Kiosk mode resets after 2 minutes idle</div>}
 
       {viewMode === 'explore' && (
         <ExploreView
@@ -128,6 +160,7 @@ export function App() {
       <InducteeDetail
         inductee={selected}
         allInductees={inductees}
+        kioskMode={kioskMode}
         onClose={() => setSelectedId('')}
         onSelect={selectInductee}
       />
