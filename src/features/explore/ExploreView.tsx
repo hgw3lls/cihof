@@ -1,46 +1,29 @@
-import { useMemo, useState } from 'react';
-import type { Inductee, SortMode } from '../../data/types';
+import type { ExploreState, Inductee, SortMode } from '../../data/types';
+import { allValue } from '../../data/filtering';
 
 type ExploreViewProps = {
   inductees: Inductee[];
+  filtered: Inductee[];
   facets: {
     regions: string[];
     years: number[];
   };
   loading: boolean;
   error: string;
+  state: ExploreState;
+  onStateChange: (state: Partial<ExploreState>) => void;
   onSelect: (inductee: Inductee) => void;
 };
 
-const allValue = 'all';
-
-export function ExploreView({ inductees, facets, loading, error, onSelect }: ExploreViewProps) {
-  const [query, setQuery] = useState('');
-  const [region, setRegion] = useState(allValue);
-  const [year, setYear] = useState(allValue);
-  const [sortMode, setSortMode] = useState<SortMode>('year-asc');
-
-  const filtered = useMemo(() => {
-    const search = query.trim().toLowerCase();
-
-    return inductees
-      .filter((item) => {
-        const matchesSearch = !search || item.searchText.includes(search);
-        const matchesRegion = region === allValue || item.region === region;
-        const matchesYear = year === allValue || item.classYear === Number(year);
-        return matchesSearch && matchesRegion && matchesYear;
-      })
-      .sort((a, b) => sortInductees(a, b, sortMode));
-  }, [inductees, query, region, sortMode, year]);
-
+export function ExploreView({ inductees, filtered, facets, loading, error, state, onStateChange, onSelect }: ExploreViewProps) {
   return (
     <section className="explore" aria-label="Explore inductees">
       <div className="controls" aria-label="Search and filters">
         <label className="field field--search">
           <span>Search</span>
           <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            value={state.query}
+            onChange={(event) => onStateChange({ query: event.target.value })}
             placeholder="Name, region, year, story, or inducer"
             type="search"
           />
@@ -48,7 +31,7 @@ export function ExploreView({ inductees, facets, loading, error, onSelect }: Exp
 
         <label className="field">
           <span>Region</span>
-          <select value={region} onChange={(event) => setRegion(event.target.value)}>
+          <select value={state.region} onChange={(event) => onStateChange({ region: event.target.value })}>
             <option value={allValue}>All regions</option>
             {facets.regions.map((item) => (
               <option key={item} value={item}>
@@ -60,7 +43,7 @@ export function ExploreView({ inductees, facets, loading, error, onSelect }: Exp
 
         <label className="field">
           <span>Year</span>
-          <select value={year} onChange={(event) => setYear(event.target.value)}>
+          <select value={state.year} onChange={(event) => onStateChange({ year: event.target.value })}>
             <option value={allValue}>All years</option>
             {facets.years.map((item) => (
               <option key={item} value={item}>
@@ -72,7 +55,7 @@ export function ExploreView({ inductees, facets, loading, error, onSelect }: Exp
 
         <label className="field">
           <span>Sort</span>
-          <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
+          <select value={state.sortMode} onChange={(event) => onStateChange({ sortMode: event.target.value as SortMode })}>
             <option value="year-asc">Year, oldest first</option>
             <option value="year-desc">Year, newest first</option>
             <option value="name-asc">Name</option>
@@ -111,28 +94,19 @@ function MediaThumb({ inductee }: { inductee: Inductee }) {
     return <img className="inductee-card__image" src={inductee.primaryImageUrl} alt="" loading="lazy" />;
   }
 
-  const initials = inductee.name
+  return <span className="inductee-card__fallback">{initials(inductee.name)}</span>;
+}
+
+function initials(name: string) {
+  return name
     .split(' ')
     .filter(Boolean)
     .slice(0, 2)
     .map((part) => part[0])
     .join('');
-
-  return <span className="inductee-card__fallback">{initials}</span>;
 }
 
 function summarize(text: string) {
   if (text.length <= 170) return text;
   return `${text.slice(0, 170).trim()}...`;
-}
-
-function sortInductees(a: Inductee, b: Inductee, sortMode: SortMode) {
-  if (sortMode === 'name-asc') return a.name.localeCompare(b.name);
-  if (sortMode === 'region-asc') return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
-
-  const yearA = a.classYear ?? 9999;
-  const yearB = b.classYear ?? 9999;
-
-  if (sortMode === 'year-desc') return yearB - yearA || a.name.localeCompare(b.name);
-  return yearA - yearB || a.name.localeCompare(b.name);
 }

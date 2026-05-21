@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-05-21T04:47:33.029Z",
+  "source": "data/cihof_kiosk_manifest.csv",
+  "totalInductees": 105,
+  "regions": [
+    {
+      "region": "Africa",
+      "count": 7
+    },
+    {
+      "region": "Asia",
+      "count": 29
+    },
+    {
+      "region": "Europe",
+      "count": 60
+    },
+    {
+      "region": "North America",
+      "count": 8
+    },
+    {
+      "region": "South America",
+      "count": 1
+    }
+  ],
+  "yearRange": {
+    "min": 2010,
+    "max": 2025
+  },
+  "missing": {
+    "classYear": [],
+    "primaryImage": [],
+    "bioText": []
+  },
+  "media": {
+    "withPrimaryImage": 105,
+    "withGalleryImages": 105,
+    "withVideo": 58
+  }
+}

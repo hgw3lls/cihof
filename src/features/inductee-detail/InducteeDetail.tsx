@@ -5,9 +5,10 @@ type InducteeDetailProps = {
   inductee: Inductee | null;
   allInductees: Inductee[];
   onClose: () => void;
+  onSelect: (inductee: Inductee) => void;
 };
 
-export function InducteeDetail({ inductee, allInductees, onClose }: InducteeDetailProps) {
+export function InducteeDetail({ inductee, allInductees, onClose, onSelect }: InducteeDetailProps) {
   useEffect(() => {
     if (!inductee) return;
 
@@ -28,6 +29,11 @@ export function InducteeDetail({ inductee, allInductees, onClose }: InducteeDeta
     if (!inductee) return [];
     return allInductees
       .filter((item) => item.id !== inductee.id && (item.region === inductee.region || item.classYear === inductee.classYear))
+      .sort((a, b) => {
+        const yearMatchA = a.classYear === inductee.classYear ? 0 : 1;
+        const yearMatchB = b.classYear === inductee.classYear ? 0 : 1;
+        return yearMatchA - yearMatchB || a.name.localeCompare(b.name);
+      })
       .slice(0, 6);
   }, [allInductees, inductee]);
 
@@ -92,10 +98,10 @@ export function InducteeDetail({ inductee, allInductees, onClose }: InducteeDeta
               <h3>Related</h3>
               <div className="related-list">
                 {related.map((item) => (
-                  <span key={item.id}>
+                  <button key={item.id} type="button" onClick={() => onSelect(item)}>
                     <strong>{item.name}</strong>
                     <small>{item.classYear} / {item.region}</small>
-                  </span>
+                  </button>
                 ))}
               </div>
             </section>
