@@ -1,17 +1,18 @@
-export type VideoSource = {
-  kind: 'local' | 'youtube' | 'remote';
-  src: string;
-  label?: string;
+export type Inductee = {
+  id: string;
+  name: string;
+  classYear: number | null;
+  region: string;
+  profileUrl: string;
+  inductedBy: string;
+  primaryImageUrl: string;
+  imageUrls: string[];
+  videoUrls: string[];
+  youtubeVideoIds: string[];
+  localVideoPaths: string[];
+  localImagePaths: string[];
+  bioText: string;
+  searchText: string;
 };
 
-export type Inductee = {
-  name: string;
-  class_year: string;
-  region: string;
-  profile_url?: string;
-  inducted_by?: string;
-  bio_text?: string;
-  images: string[];
-  videos: VideoSource[];
-  primaryImage: string | null;
-};
+export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'region-asc';

@@ -1,80 +1,43 @@
-import { useEffect, useMemo, useState } from 'react';
-import { loadManifestCSV } from '../data/manifest';
+import { useMemo, useState } from 'react';
+import { ExploreView } from '../features/explore/ExploreView';
+import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
+import { useDataFacets, useInductees } from '../data/useInductees';
 import type { Inductee } from '../data/types';
-import { getRegionOptions, getYearOptions, getYearOptionsDesc } from '../data/selectors';
-import TimelineView from '../views/option1-timeline/TimelineView';
-import ExploreView from '../views/option2-explore/ExploreView';
-import HubMapView from '../views/option3-map/HubMapView';
-import ModeMenuBar from '../components/ModeMenuBar';
-import type { AppMode } from './mode';
-import { resolveMode, setStoredModeOverride, shouldShowModeBadge } from './mode';
 
-const App = () => {
-  const [inductees, setInductees] = useState<Inductee[]>([]);
-  const [mode, setMode] = useState<AppMode | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+export function App() {
+  const { inductees, loading, error } = useInductees();
+  const facets = useDataFacets(inductees);
+  const [selected, setSelected] = useState<Inductee | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    const load = async () => {
-      try {
-        const [inducteeData, resolvedMode] = await Promise.all([
-          loadManifestCSV(),
-          resolveMode(),
-        ]);
-        if (!mounted) {
-          return;
-        }
-        setInductees(inducteeData);
-        setMode(resolvedMode);
-      } catch (err) {
-        if (mounted) {
-          setError(err instanceof Error ? err.message : 'Failed to load data');
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-    load();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const yearsAscending = useMemo(() => getYearOptions(inductees), [inductees]);
-  const yearsDescending = useMemo(() => getYearOptionsDesc(inductees), [inductees]);
-  const regions = useMemo(() => getRegionOptions(inductees), [inductees]);
-  const showMode = shouldShowModeBadge();
-
-  if (error) {
-    return <div className="app-state app-state--error">{error}</div>;
-  }
-
-  if (loading || mode === null) {
-    return <div className="app-state">Loading CIHOF kiosk…</div>;
-  }
-
-  const handleModeChange = (nextMode: AppMode) => {
-    setMode(nextMode);
-    setStoredModeOverride(nextMode);
-  };
+  const stats = useMemo(() => {
+    const withImages = inductees.filter((item) => item.primaryImageUrl).length;
+    const withVideo = inductees.filter((item) => item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0).length;
+    return { total: inductees.length, withImages, withVideo };
+  }, [inductees]);
 
   return (
-    <div className="app-shell">
-      <ModeMenuBar mode={mode} onModeChange={handleModeChange} />
-      {showMode && <div className="mode-badge">Mode: {mode}</div>}
-      {mode === 'option1' && (
-        <TimelineView inductees={inductees} years={yearsAscending} regions={regions} />
-      )}
-      {mode === 'option2' && (
-        <ExploreView inductees={inductees} years={yearsDescending} regions={regions} />
-      )}
-      {mode === 'option3' && <HubMapView inductees={inductees} years={yearsDescending} />}
-    </div>
-  );
-};
+    <main className="app-shell">
+      <header className="topbar">
+        <div>
+          <p className="eyebrow">Cleveland International Hall of Fame</p>
+          <h1>Inductee Explorer</h1>
+        </div>
+        <div className="topbar__stats" aria-label="Collection summary">
+          <span>{stats.total} inductees</span>
+          <span>{facets.regions.length} regions</span>
+          <span>{stats.withVideo} videos</span>
+        </div>
+      </header>
 
-export default App;
+      <ExploreView
+        inductees={inductees}
+        facets={facets}
+        loading={loading}
+        error={error}
+        onSelect={setSelected}
+      />
+
+      <InducteeDetail inductee={selected} allInductees={inductees} onClose={() => setSelected(null)} />
+    </main>
+  );
+}
