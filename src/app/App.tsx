@@ -3,6 +3,7 @@ import { allValue, filterInductees } from '../data/filtering';
 import { useDataFacets, useInductees } from '../data/useInductees';
 import { ExploreView } from '../features/explore/ExploreView';
 import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
+import { RegionMapView } from '../features/region-map/RegionMapView';
 import { TimelineView } from '../features/timeline/TimelineView';
 import type { ExploreState, Inductee, SortMode, ViewMode } from '../data/types';
 
@@ -55,6 +56,12 @@ export function App() {
     setSelectedId(inductee.id);
   }
 
+  function resetExperience() {
+    setExploreState(defaultExploreState);
+    setSelectedId('');
+    setViewMode('explore');
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -62,10 +69,15 @@ export function App() {
           <p className="eyebrow">Cleveland International Hall of Fame</p>
           <h1>Inductee Explorer</h1>
         </div>
-        <div className="topbar__stats" aria-label="Collection summary">
-          <span>{stats.total} inductees</span>
-          <span>{facets.regions.length} regions</span>
-          <span>{stats.withVideo} videos</span>
+        <div className="topbar__actions">
+          <div className="topbar__stats" aria-label="Collection summary">
+            <span>{stats.total} inductees</span>
+            <span>{facets.regions.length} regions</span>
+            <span>{stats.withVideo} videos</span>
+          </div>
+          <button className="home-button" type="button" onClick={resetExperience}>
+            Reset
+          </button>
         </div>
       </header>
 
@@ -76,9 +88,12 @@ export function App() {
         <button className={viewMode === 'timeline' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('timeline')}>
           Timeline
         </button>
+        <button className={viewMode === 'region-map' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('region-map')}>
+          Regions
+        </button>
       </nav>
 
-      {viewMode === 'explore' ? (
+      {viewMode === 'explore' && (
         <ExploreView
           inductees={inductees}
           filtered={filtered}
@@ -89,11 +104,23 @@ export function App() {
           onStateChange={updateExploreState}
           onSelect={selectInductee}
         />
-      ) : (
+      )}
+
+      {viewMode === 'timeline' && (
         <TimelineView
           inductees={filtered}
           selectedYear={exploreState.year}
           onYearChange={(year) => updateExploreState({ year })}
+          onSelect={selectInductee}
+        />
+      )}
+
+      {viewMode === 'region-map' && (
+        <RegionMapView
+          inductees={filtered}
+          allInductees={inductees}
+          selectedRegion={exploreState.region}
+          onRegionChange={(region) => updateExploreState({ region })}
           onSelect={selectInductee}
         />
       )}
@@ -113,7 +140,9 @@ function readParam(name: string) {
 }
 
 function readViewMode(): ViewMode {
-  return readParam('view') === 'timeline' ? 'timeline' : 'explore';
+  const view = readParam('view');
+  if (view === 'timeline' || view === 'region-map') return view;
+  return 'explore';
 }
 
 function readExploreState(): ExploreState {

@@ -16,7 +16,7 @@ export type Inductee = {
 };
 
 export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'region-asc';
-export type ViewMode = 'explore' | 'timeline';
+export type ViewMode = 'explore' | 'timeline' | 'region-map';
 
 export type ExploreState = {
   query: string;
