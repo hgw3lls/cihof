@@ -2,3 +2,9 @@ node_modules/
 dist/
 .env
 .env.local
+
+# OS/editor/build artifacts
+.DS_Store
+*.bak
+*.bak.*
+*.tsbuildinfo
