@@ -1,5 +1,4 @@
 {
-  "generatedAt": "2026-05-21T20:25:01.385Z",
   "source": "data/cihof_kiosk_manifest.csv",
   "totalInductees": 105,
   "regions": [
@@ -24,6 +23,68 @@
       "count": 1
     }
   ],
+  "years": [
+    {
+      "year": 2010,
+      "count": 13
+    },
+    {
+      "year": 2011,
+      "count": 9
+    },
+    {
+      "year": 2012,
+      "count": 8
+    },
+    {
+      "year": 2013,
+      "count": 7
+    },
+    {
+      "year": 2014,
+      "count": 8
+    },
+    {
+      "year": 2015,
+      "count": 7
+    },
+    {
+      "year": 2016,
+      "count": 7
+    },
+    {
+      "year": 2017,
+      "count": 6
+    },
+    {
+      "year": 2018,
+      "count": 6
+    },
+    {
+      "year": 2019,
+      "count": 6
+    },
+    {
+      "year": 2020,
+      "count": 6
+    },
+    {
+      "year": 2022,
+      "count": 4
+    },
+    {
+      "year": 2023,
+      "count": 6
+    },
+    {
+      "year": 2024,
+      "count": 6
+    },
+    {
+      "year": 2025,
+      "count": 6
+    }
+  ],
   "yearRange": {
     "min": 2010,
     "max": 2025
@@ -31,11 +92,66 @@
   "missing": {
     "classYear": [],
     "primaryImage": [],
-    "bioText": []
+    "bioText": [],
+    "video": [
+      "alex-machaskee-2010",
+      "august-pust-2010",
+      "dr-dieu-thuc-do-2010",
+      "helen-karpinski-1899-2002-2010",
+      "irene-morrow-2010",
+      "jeanette-grasselli-brown-2010",
+      "leo-weidenthal-2010",
+      "lonnie-mccauley-2010",
+      "margaret-w-wong-2010",
+      "paramjit-singh-2010",
+      "paul-sciria-2010",
+      "robert-j-haas-2010",
+      "senator-george-voinovich-2010",
+      "albert-b-ratner-2011",
+      "gerald-m-quinn-2011",
+      "giahoa-ryan-2011",
+      "lucretia-stoica-2011",
+      "luis-martinez-2011",
+      "ralph-j-perk-2011",
+      "reverend-dr-otis-moss-jr-2011",
+      "tony-petkovsek-2011",
+      "vijaya-l-emani-2011",
+      "anthony-yen-yan-yuan-tai-2012",
+      "dr-jaya-shah-2012",
+      "fr-jim-o-donnell-2012",
+      "hon-mary-rose-oakar-2012",
+      "jose-c-feliciano-2012",
+      "ken-kovach-2012",
+      "milton-maltz-2012",
+      "vladimir-rus-2012",
+      "bishop-a-edward-pevec-2013",
+      "dr-maria-pujana-2013",
+      "jack-coyne-2013",
+      "josef-holzer-2013",
+      "nacy-panzica-2013",
+      "ratanjit-s-sondhe-2013",
+      "samuel-h-miller-2013",
+      "donna-hom-2014",
+      "ernie-mihaly-2014",
+      "eugene-bak-2014",
+      "jim-foster-2014",
+      "joseph-p-meissner-2014",
+      "margaret-callander-2014",
+      "monte-ahuja-2014",
+      "thomas-j-scanlon-2014",
+      "rev-mikhail-mikhail-2016",
+      "pat-dowd-2023"
+    ]
   },
   "media": {
     "withPrimaryImage": 105,
     "withGalleryImages": 105,
     "withVideo": 58
+  },
+  "duplicateIds": [],
+  "suspicious": {
+    "genericImageCandidates": [],
+    "emptyProfileUrl": [],
+    "emptyUrlFields": []
   }
 }
