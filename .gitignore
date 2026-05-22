@@ -8,3 +8,6 @@ dist/
 *.bak
 *.bak.*
 *.tsbuildinfo
+
+# Local generated audit output
+public/data/data-audit.local.json

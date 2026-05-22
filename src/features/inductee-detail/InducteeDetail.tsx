@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import type { Inductee } from '../../data/types';
 
@@ -21,23 +21,7 @@ export function InducteeDetail({
   onClose,
   onSelect,
 }: InducteeDetailProps) {
-  useEffect(() => {
-    if (!inductee) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-      if (event.key === 'ArrowLeft' && previousInductee) onSelect(previousInductee);
-      if (event.key === 'ArrowRight' && nextInductee) onSelect(nextInductee);
-    };
-
-    document.body.classList.add('drawer-open');
-    window.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.body.classList.remove('drawer-open');
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [inductee, nextInductee, onClose, onSelect, previousInductee]);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const related = useMemo(() => {
     if (!inductee) return [];
@@ -51,10 +35,45 @@ export function InducteeDetail({
       .slice(0, 6);
   }, [allInductees, inductee]);
 
+  const gallery = useMemo(() => {
+    if (!inductee) return [];
+    return Array.from(new Set([inductee.primaryImageUrl, ...inductee.imageUrls].filter(Boolean))).slice(0, 8);
+  }, [inductee]);
+
+  useEffect(() => {
+    if (!inductee) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (lightboxIndex !== null) setLightboxIndex(null);
+        else onClose();
+      }
+      if (lightboxIndex !== null) {
+        if (event.key === 'ArrowLeft') setLightboxIndex((current) => cycleImage(current, gallery.length, -1));
+        if (event.key === 'ArrowRight') setLightboxIndex((current) => cycleImage(current, gallery.length, 1));
+        return;
+      }
+      if (event.key === 'ArrowLeft' && previousInductee) onSelect(previousInductee);
+      if (event.key === 'ArrowRight' && nextInductee) onSelect(nextInductee);
+    };
+
+    document.body.classList.add('drawer-open');
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.classList.remove('drawer-open');
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [gallery.length, inductee, lightboxIndex, nextInductee, onClose, onSelect, previousInductee]);
+
+  useEffect(() => {
+    setLightboxIndex(null);
+  }, [inductee?.id]);
+
   if (!inductee) return null;
 
-  const gallery = Array.from(new Set([inductee.primaryImageUrl, ...inductee.imageUrls].filter(Boolean))).slice(0, 8);
   const hasVideo = inductee.youtubeVideoIds.length > 0 || inductee.localVideoPaths.length > 0;
+  const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
 
   return (
     <aside className="detail" aria-label={`${inductee.name} details`}>
@@ -99,8 +118,10 @@ export function InducteeDetail({
             <section className="detail__section" aria-label="Image gallery">
               <h3>Images</h3>
               <div className="gallery-grid">
-                {gallery.map((url) => (
-                  <FallbackImage key={url} fallbackClassName="gallery-grid__fallback" fallbackLabel={initials(inductee.name)} src={url} />
+                {gallery.map((url, index) => (
+                  <button className="gallery-grid__button" key={url} type="button" onClick={() => setLightboxIndex(index)}>
+                    <FallbackImage fallbackClassName="gallery-grid__fallback" fallbackLabel={initials(inductee.name)} src={url} />
+                  </button>
                 ))}
               </div>
             </section>
@@ -151,6 +172,26 @@ export function InducteeDetail({
           {inductee.profileUrl && kioskMode && <span className="source-link source-link--disabled">Original profile hidden in kiosk mode</span>}
         </div>
       </section>
+
+      {activeLightboxUrl && (
+        <div className="lightbox" role="dialog" aria-label={`${inductee.name} image viewer`}>
+          <button className="lightbox__scrim" type="button" aria-label="Close image viewer" onClick={() => setLightboxIndex(null)} />
+          <div className="lightbox__content">
+            <FallbackImage className="lightbox__image" fallbackClassName="lightbox__fallback" fallbackLabel={initials(inductee.name)} loading="eager" src={activeLightboxUrl} />
+            <div className="lightbox__bar">
+              <button type="button" onClick={() => setLightboxIndex((current) => cycleImage(current, gallery.length, -1))}>Previous</button>
+              <span>{(lightboxIndex ?? 0) + 1} / {gallery.length}</span>
+              <button type="button" onClick={() => setLightboxIndex((current) => cycleImage(current, gallery.length, 1))}>Next</button>
+              <button type="button" onClick={() => setLightboxIndex(null)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
+}
+
+function cycleImage(current: number | null, total: number, direction: -1 | 1) {
+  if (current === null || total <= 0) return null;
+  return (current + direction + total) % total;
 }

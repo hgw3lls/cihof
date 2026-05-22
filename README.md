@@ -19,7 +19,7 @@ Implemented:
 - Kiosk reset control, kiosk URL flag, larger touch targets, idle attract screen, and external-link suppression
 - Attract screen with rotating featured inductees and touch-to-explore start action
 - Broken-image fallbacks for cards, timeline, region features, hero images, and galleries
-- Detail Drawer v2 with previous/next navigation, related thumbnails, story block, and video empty states
+- Detail Drawer v2 with previous/next navigation, related thumbnails, story block, video empty states, and image lightbox
 - Responsive kiosk-friendly styling
 
 ## Runtime
@@ -58,6 +58,18 @@ That script writes:
 ```text
 public/data/inductees.json
 public/data/data-report.json
+```
+
+Run a local data audit with:
+
+```sh
+npm run audit:data
+```
+
+That writes ignored local diagnostics to:
+
+```text
+public/data/data-audit.local.json
 ```
 
 ## Run
