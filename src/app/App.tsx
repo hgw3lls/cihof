@@ -4,6 +4,7 @@ import { useDataFacets, useInductees } from '../data/useInductees';
 import { AttractView } from '../features/attract/AttractView';
 import { ExploreView } from '../features/explore/ExploreView';
 import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
+import { JourneyView } from '../features/journeys/JourneyView';
 import { RegionMapView } from '../features/region-map/RegionMapView';
 import { TimelineView } from '../features/timeline/TimelineView';
 import type { ExploreState, Inductee, SortMode, ViewMode } from '../data/types';
@@ -137,6 +138,9 @@ export function App() {
         <button className={viewMode === 'region-map' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('region-map')}>
           Regions
         </button>
+        <button className={viewMode === 'journeys' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('journeys')}>
+          Journeys
+        </button>
       </nav>
 
       {kioskMode && <div className="kiosk-status">Kiosk mode shows featured stories after 2 minutes idle</div>}
@@ -173,6 +177,8 @@ export function App() {
         />
       )}
 
+      {viewMode === 'journeys' && <JourneyView inductees={inductees} onSelect={selectInductee} />}
+
       {kioskMode && attractActive && <AttractView inductees={inductees} onStart={startFromAttract} />}
 
       <InducteeDetail
@@ -194,7 +200,7 @@ function readParam(name: string) {
 
 function readViewMode(): ViewMode {
   const view = readParam('view');
-  if (view === 'timeline' || view === 'region-map') return view;
+  if (view === 'timeline' || view === 'region-map' || view === 'journeys') return view;
   return 'explore';
 }
 
