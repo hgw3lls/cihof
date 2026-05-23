@@ -7,13 +7,15 @@ type DataState = {
   error: string;
 };
 
+const dataUrl = `${import.meta.env.BASE_URL}data/inductees.json`;
+
 export function useInductees(): DataState {
   const [state, setState] = useState<DataState>({ inductees: [], loading: true, error: '' });
 
   useEffect(() => {
     let cancelled = false;
 
-    fetch('/data/inductees.json')
+    fetch(dataUrl)
       .then((response) => {
         if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
         return response.json() as Promise<Inductee[]>;
