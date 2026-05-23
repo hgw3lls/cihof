@@ -14,6 +14,7 @@ Implemented:
 - URL-persisted state for view, search, filters, sort, selected person, and kiosk mode
 - Timeline view with year navigation, class counts, and region counts
 - Region hub view with radial region nodes, featured inductees, and region lists
+- Story Journeys view with curated guided exhibit paths and step-by-step story flow
 - Detail drawer with bio, gallery, video embeds, related inductees, and source link
 - Clickable related inductees inside the detail drawer
 - Kiosk reset control, kiosk URL flag, larger touch targets, idle attract screen, and external-link suppression
