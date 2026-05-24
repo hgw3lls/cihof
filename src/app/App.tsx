@@ -160,9 +160,12 @@ export function App() {
 
       {viewMode === 'timeline' && (
         <TimelineView
-          inductees={filtered}
-          selectedYear={exploreState.year}
-          onYearChange={(year) => updateExploreState({ year })}
+          inductees={inductees}
+          facets={facets}
+          loading={loading}
+          error={error}
+          state={exploreState}
+          onStateChange={updateExploreState}
           onSelect={selectInductee}
         />
       )}
