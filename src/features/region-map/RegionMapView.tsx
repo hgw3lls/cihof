@@ -298,7 +298,7 @@ export function RegionMapView({ inductees, selectedRegion, onRegionChange, onSel
                 <div className="region-insight__meta">
                   <span>{centeredInductee.classYear ?? 'Year unknown'}</span>
                   <span>{centeredInductee.region}</span>
-                  {(centeredInductee.youtubeVideoIds.length > 0 || centeredInductee.localVideoPaths.length > 0) && <span>Video</span>}
+                  {centeredInductee.hasVideo && <span>Video</span>}
                 </div>
                 <p>{summarize(centeredInductee.bioText)}</p>
                 <div className="region-insight__stats" aria-label="Visible region counts">
@@ -334,8 +334,8 @@ function filterRegionItems(inductees: Inductee[], decade: string, media: MediaFi
   return inductees
     .filter((item) => decade === allValue || getDecade(item.classYear) === decade)
     .filter((item) => {
-      if (media === 'with-video') return item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0;
-      if (media === 'with-gallery') return item.imageUrls.length > 1 || item.localImagePaths.length > 1;
+      if (media === 'with-video') return item.hasVideo;
+      if (media === 'with-gallery') return item.hasGallery;
       return true;
     })
     .sort((a, b) => sortInductees(a, b, order));
@@ -351,8 +351,8 @@ function buildRegionGroups(inductees: Inductee[]): RegionGroup[] {
       return {
         region,
         count: items.length,
-        withVideo: items.filter((item) => item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0).length,
-        withGallery: items.filter((item) => item.imageUrls.length > 1 || item.localImagePaths.length > 1).length,
+        withVideo: items.filter((item) => item.hasVideo).length,
+        withGallery: items.filter((item) => item.hasGallery).length,
         yearRange: years.length > 0 ? `${Math.min(...years)}-${Math.max(...years)}` : 'Years unknown',
       };
     })
@@ -379,7 +379,7 @@ function aggregateRegions(inductees: Inductee[]) {
 function summarizeVisibleItems(inductees: Inductee[]) {
   const years = inductees.map((item) => item.classYear).filter((year): year is number => typeof year === 'number');
   return {
-    withVideo: inductees.filter((item) => item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0).length,
+    withVideo: inductees.filter((item) => item.hasVideo).length,
     years: years.length > 0 ? `${Math.min(...years)}-${Math.max(...years)}` : 'Years unknown',
   };
 }

@@ -23,6 +23,78 @@
       "count": 1
     }
   ],
+  "decades": [
+    {
+      "decade": "2010s",
+      "count": 77
+    },
+    {
+      "decade": "2020s",
+      "count": 28
+    }
+  ],
+  "themes": [
+    {
+      "theme": "Education",
+      "count": 68
+    },
+    {
+      "theme": "Business and Entrepreneurship",
+      "count": 66
+    },
+    {
+      "theme": "Civic Leadership",
+      "count": 56
+    },
+    {
+      "theme": "Arts and Culture",
+      "count": 48
+    },
+    {
+      "theme": "Community Organizing",
+      "count": 43
+    },
+    {
+      "theme": "Diplomacy and Global Affairs",
+      "count": 29
+    },
+    {
+      "theme": "Faith and Service",
+      "count": 20
+    },
+    {
+      "theme": "Law and Justice",
+      "count": 20
+    },
+    {
+      "theme": "Medicine and Health",
+      "count": 14
+    },
+    {
+      "theme": "Media and Storytelling",
+      "count": 12
+    },
+    {
+      "theme": "Immigrant Advocacy",
+      "count": 9
+    },
+    {
+      "theme": "Public Safety and Military",
+      "count": 8
+    },
+    {
+      "theme": "Science and Technology",
+      "count": 8
+    },
+    {
+      "theme": "Philanthropy",
+      "count": 7
+    },
+    {
+      "theme": "Community Leadership",
+      "count": 1
+    }
+  ],
   "years": [
     {
       "year": 2010,
@@ -145,8 +217,31 @@
   },
   "media": {
     "withPrimaryImage": 105,
-    "withGalleryImages": 105,
-    "withVideo": 58
+    "withGalleryImages": 59,
+    "withVideo": 58,
+    "withoutVideo": 47,
+    "completeness": [
+      {
+        "score": "3",
+        "count": 58
+      },
+      {
+        "score": "1",
+        "count": 46
+      },
+      {
+        "score": "2",
+        "count": 1
+      }
+    ]
+  },
+  "content": {
+    "shortBio": [],
+    "withoutThemeTags": []
+  },
+  "relationships": {
+    "averageRelatedCount": 8,
+    "withoutRelated": []
   },
   "duplicateIds": [],
   "suspicious": {

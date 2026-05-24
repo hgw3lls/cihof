@@ -108,6 +108,66 @@ h1 {
   align-items: end;
 }
 
+.discovery-tools {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.media-toggle,
+.theme-chips,
+.active-filters,
+.inductee-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill,
+.theme-chip,
+.active-filters button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.78);
+  color: var(--ink);
+  padding: 0 13px;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.filter-pill--active,
+.theme-chip--active {
+  border-color: var(--accent-2);
+  background: #e7f0ef;
+  color: #124b52;
+}
+
+.active-filters {
+  margin-top: 12px;
+}
+
+.active-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  background: #f7f3eb;
+}
+
+.active-filters button strong {
+  color: var(--accent);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.active-filters__reset {
+  border-color: var(--ink) !important;
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+}
+
 .field {
   display: grid;
   gap: 7px;
@@ -136,7 +196,11 @@ select {
 input:focus,
 select:focus,
 .inductee-card:focus-visible,
+.filter-pill:focus-visible,
+.theme-chip:focus-visible,
+.active-filters button:focus-visible,
 .icon-button:focus-visible,
+.detail__resetButton:focus-visible,
 .source-link:focus-visible {
   box-shadow: 0 0 0 3px rgba(31, 111, 120, 0.25);
   border-color: var(--accent-2);
@@ -224,6 +288,16 @@ select:focus,
   line-height: 1.1;
 }
 
+.inductee-card__tags span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f6f1e7;
+  color: var(--muted);
+  padding: 5px 8px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
 .inductee-card__bio {
   color: #4e4941;
   font-size: 0.95rem;
@@ -285,6 +359,20 @@ select:focus,
   cursor: pointer;
 }
 
+.detail__resetButton {
+  position: absolute;
+  top: 16px;
+  right: 70px;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  background: rgba(20, 18, 16, 0.72);
+  color: white;
+  padding: 0 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .detail__content {
   padding: 26px;
 }
@@ -302,7 +390,15 @@ select:focus,
   margin-bottom: 22px;
 }
 
+.detail__themeTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -10px 0 22px;
+}
+
 .detail__facts span,
+.detail__themeTags span,
 .source-link {
   border: 1px solid var(--line);
   background: #f6f1e7;
@@ -1359,6 +1455,10 @@ select:focus,
 .app-shell--kiosk .view-tab,
 .app-shell--kiosk .home-button,
 .app-shell--kiosk .kiosk-button,
+.app-shell--kiosk .detail__resetButton,
+.app-shell--kiosk .filter-pill,
+.app-shell--kiosk .theme-chip,
+.app-shell--kiosk .active-filters button,
 .app-shell--kiosk input,
 .app-shell--kiosk select {
   min-height: 56px;
