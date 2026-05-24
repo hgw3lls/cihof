@@ -172,8 +172,7 @@ export function App() {
 
       {viewMode === 'region-map' && (
         <RegionMapView
-          inductees={filtered}
-          allInductees={inductees}
+          inductees={inductees}
           selectedRegion={exploreState.region}
           onRegionChange={(region) => updateExploreState({ region })}
           onSelect={selectInductee}
