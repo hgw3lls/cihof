@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Audit data
+        run: npm run audit:data
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
