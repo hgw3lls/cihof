@@ -7,12 +7,14 @@ import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
 import { JourneyView } from '../features/journeys/JourneyView';
 import { RegionMapView } from '../features/region-map/RegionMapView';
 import { TimelineView } from '../features/timeline/TimelineView';
-import type { ExploreState, Inductee, SortMode, ViewMode } from '../data/types';
+import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '../data/types';
 
 const defaultExploreState: ExploreState = {
   query: '',
   region: allValue,
   year: allValue,
+  theme: allValue,
+  media: 'all',
   sortMode: 'year-asc',
 };
 
@@ -43,6 +45,8 @@ export function App() {
     if (exploreState.query) params.set('q', exploreState.query);
     if (exploreState.region !== allValue) params.set('region', exploreState.region);
     if (exploreState.year !== allValue) params.set('year', exploreState.year);
+    if (exploreState.theme !== allValue) params.set('theme', exploreState.theme);
+    if (exploreState.media !== defaultExploreState.media) params.set('media', exploreState.media);
     if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
     if (selectedId) params.set('person', selectedId);
     if (kioskMode) params.set('kiosk', '1');
@@ -80,7 +84,7 @@ export function App() {
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
-    const withVideo = inductees.filter((item) => item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0).length;
+    const withVideo = inductees.filter((item) => item.hasVideo).length;
     return { total: inductees.length, filtered: filtered.length, withImages, withVideo };
   }, [filtered.length, inductees]);
 
@@ -89,14 +93,23 @@ export function App() {
   }
 
   function selectInductee(inductee: Inductee) {
+    stopActiveMedia();
+    setAttractActive(false);
     setSelectedId(inductee.id);
   }
 
   function resetExperience() {
-    setExploreState(defaultExploreState);
+    stopActiveMedia();
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    setExploreState({ ...defaultExploreState });
     setSelectedId('');
     setViewMode('explore');
     setAttractActive(false);
+  }
+
+  function closeDetail() {
+    stopActiveMedia();
+    setSelectedId('');
   }
 
   function startFromAttract() {
@@ -189,7 +202,8 @@ export function App() {
         kioskMode={kioskMode}
         nextInductee={nextInductee}
         previousInductee={previousInductee}
-        onClose={() => setSelectedId('')}
+        onClose={closeDetail}
+        onReset={resetExperience}
         onSelect={selectInductee}
       />
     </main>
@@ -208,12 +222,26 @@ function readViewMode(): ViewMode {
 
 function readExploreState(): ExploreState {
   const sort = readParam('sort') as SortMode;
+  const media = readParam('media') as MediaFilter;
   const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'region-asc'].includes(sort) ? sort : 'year-asc';
+  const mediaMode: MediaFilter = ['with-video', 'with-gallery'].includes(media) ? media : 'all';
 
   return {
     query: readParam('q'),
     region: readParam('region') || allValue,
     year: readParam('year') || allValue,
+    theme: readParam('theme') || allValue,
+    media: mediaMode,
     sortMode,
   };
+}
+
+function stopActiveMedia() {
+  document.querySelectorAll('video').forEach((video) => {
+    video.pause();
+    video.currentTime = 0;
+  });
+  document.querySelectorAll('iframe').forEach((frame) => {
+    frame.src = frame.src;
+  });
 }

@@ -21,12 +21,20 @@ export function loadInductees() {
     const youtubeVideoIds = Array.from(
       new Set([...splitList(record.youtube_video_ids), ...videoUrls.map(extractYoutubeId)].filter(Boolean)),
     );
+    const localVideoPaths = splitList(record.local_video_paths);
+    const localImagePaths = splitList(record.local_image_paths);
+    const hasVideo = youtubeVideoIds.length > 0 || localVideoPaths.length > 0;
+    const hasGallery = imageUrls.length > 1 || localImagePaths.length > 1;
     const bioText = record.bio_text.trim().replace(/\s+/g, ' ');
+    const themeTags = extractThemeTags([name, region, record.inducted_by, bioText].filter(Boolean).join(' '));
+    const storySummary = summarizeText(bioText);
+    const storyHighlights = extractHighlights(bioText);
 
     return {
       id: `${slugify(name)}-${Number.isFinite(classYear) ? classYear : 'unknown'}`,
       name,
       classYear: Number.isFinite(classYear) ? classYear : null,
+      decade: getDecade(Number.isFinite(classYear) ? classYear : null),
       region,
       profileUrl: record.profile_url.trim(),
       inductedBy: record.inducted_by.trim(),
@@ -34,14 +42,20 @@ export function loadInductees() {
       imageUrls,
       videoUrls,
       youtubeVideoIds,
-      localVideoPaths: splitList(record.local_video_paths),
-      localImagePaths: splitList(record.local_image_paths),
+      localVideoPaths,
+      localImagePaths,
+      hasVideo,
+      hasGallery,
       bioText,
-      searchText: [name, classYear, region, record.inducted_by, bioText].filter(Boolean).join(' ').toLowerCase(),
+      storySummary,
+      storyHighlights,
+      themeTags,
+      relatedIds: [],
+      searchText: [name, classYear, region, record.inducted_by, bioText, storySummary, ...themeTags].filter(Boolean).join(' ').toLowerCase(),
     };
   });
 
-  return records.sort((a, b) => {
+  return addRelatedIds(records).sort((a, b) => {
     const yearA = a.classYear ?? 9999;
     const yearB = b.classYear ?? 9999;
     return yearA - yearB || a.name.localeCompare(b.name);
@@ -64,6 +78,8 @@ export function buildReport(inductees) {
       region,
       count: inductees.filter((item) => item.region === region).length,
     })),
+    decades: countBy(inductees.map((item) => item.decade).filter(Boolean), 'decade'),
+    themes: countBy(inductees.flatMap((item) => item.themeTags), 'theme'),
     years: Array.from(new Set(years)).sort((a, b) => a - b).map((year) => ({
       year,
       count: inductees.filter((item) => item.classYear === year).length,
@@ -80,8 +96,20 @@ export function buildReport(inductees) {
     },
     media: {
       withPrimaryImage: inductees.filter((item) => item.primaryImageUrl).length,
-      withGalleryImages: inductees.filter((item) => item.imageUrls.length > 0).length,
-      withVideo: inductees.filter((item) => item.youtubeVideoIds.length > 0 || item.localVideoPaths.length > 0).length,
+      withGalleryImages: inductees.filter((item) => item.hasGallery).length,
+      withVideo: inductees.filter((item) => item.hasVideo).length,
+      withoutVideo: inductees.filter((item) => !item.hasVideo).length,
+      completeness: countBy(inductees.map(mediaCompleteness), 'score'),
+    },
+    content: {
+      shortBio: inductees.filter((item) => item.bioText.length < 320).map((item) => item.id),
+      withoutThemeTags: inductees.filter((item) => item.themeTags.length === 0).map((item) => item.id),
+    },
+    relationships: {
+      averageRelatedCount: round(
+        inductees.reduce((total, item) => total + item.relatedIds.length, 0) / Math.max(inductees.length, 1),
+      ),
+      withoutRelated: inductees.filter((item) => item.relatedIds.length === 0).map((item) => item.id),
     },
     duplicateIds,
     suspicious: {
@@ -143,6 +171,296 @@ export function splitList(value) {
     .split('|')
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+const themeRules = [
+  {
+    tag: 'Civic Leadership',
+    keywords: [
+      'mayor',
+      'senator',
+      'council',
+      'public service',
+      'public affairs',
+      'government',
+      'civic',
+      'city of cleveland',
+      'neighborhood',
+      'policy',
+      'legislative',
+    ],
+  },
+  {
+    tag: 'Arts and Culture',
+    keywords: [
+      'art',
+      'artist',
+      'arts',
+      'music',
+      'musician',
+      'dance',
+      'film',
+      'festival',
+      'cultural',
+      'culture',
+      'heritage',
+      'museum',
+      'theater',
+      'performing',
+    ],
+  },
+  {
+    tag: 'Business and Entrepreneurship',
+    keywords: [
+      'business',
+      'entrepreneur',
+      'company',
+      'corporation',
+      'founder',
+      'executive',
+      'industry',
+      'commerce',
+      'bank',
+      'real estate',
+      'economic',
+    ],
+  },
+  {
+    tag: 'Education',
+    keywords: ['education', 'educator', 'school', 'teacher', 'professor', 'university', 'college', 'student', 'academic', 'scholarship'],
+  },
+  {
+    tag: 'Medicine and Health',
+    keywords: ['medicine', 'medical', 'health', 'hospital', 'physician', 'nurse', 'healthcare', 'clinic', 'patient'],
+  },
+  {
+    tag: 'Law and Justice',
+    keywords: ['law', 'lawyer', 'attorney', 'judge', 'justice', 'legal', 'court', 'immigration law', 'rights'],
+  },
+  {
+    tag: 'Faith and Service',
+    keywords: ['faith', 'church', 'clergy', 'reverend', 'bishop', 'priest', 'sister', 'ministry', 'religious', 'parish'],
+  },
+  {
+    tag: 'Immigrant Advocacy',
+    keywords: ['immigrant', 'immigration', 'refugee', 'newcomer', 'diaspora', 'ethnic', 'nationality', 'naturalization'],
+  },
+  {
+    tag: 'Diplomacy and Global Affairs',
+    keywords: ['ambassador', 'diplomacy', 'diplomatic', 'international', 'global', 'consul', 'foreign', 'world affairs'],
+  },
+  {
+    tag: 'Media and Storytelling',
+    keywords: ['journalism', 'journalist', 'media', 'broadcast', 'radio', 'television', 'newspaper', 'publisher', 'writer', 'author'],
+  },
+  {
+    tag: 'Science and Technology',
+    keywords: ['science', 'scientist', 'engineering', 'engineer', 'technology', 'research', 'innovation', 'inventor', 'laboratory'],
+  },
+  {
+    tag: 'Philanthropy',
+    keywords: ['philanthropy', 'philanthropist', 'foundation', 'donor', 'charity', 'charitable', 'fundraising', 'endowment'],
+  },
+  {
+    tag: 'Community Organizing',
+    keywords: ['community', 'organizer', 'advocacy', 'volunteer', 'nonprofit', 'grassroots', 'service', 'social services'],
+  },
+  {
+    tag: 'Public Safety and Military',
+    keywords: ['police', 'firefighter', 'military', 'veteran', 'army', 'navy', 'air force', 'public safety'],
+  },
+];
+
+const stopWords = new Set([
+  'about',
+  'after',
+  'also',
+  'among',
+  'been',
+  'being',
+  'cleveland',
+  'from',
+  'have',
+  'hall',
+  'into',
+  'more',
+  'most',
+  'than',
+  'that',
+  'their',
+  'there',
+  'this',
+  'through',
+  'with',
+  'work',
+  'years',
+]);
+
+const highValueThemeKeywords = new Set([
+  'artist',
+  'attorney',
+  'bishop',
+  'doctor',
+  'educator',
+  'engineer',
+  'entrepreneur',
+  'filmmaker',
+  'founder',
+  'judge',
+  'lawyer',
+  'mayor',
+  'musician',
+  'nurse',
+  'philanthropist',
+  'physician',
+  'priest',
+  'professor',
+  'publisher',
+  'refugee',
+  'reverend',
+  'scientist',
+  'senator',
+  'teacher',
+  'veteran',
+]);
+
+function extractThemeTags(text) {
+  const lower = text.toLowerCase();
+  const tags = themeRules
+    .map((rule) => ({ tag: rule.tag, score: themeScore(lower, rule.keywords) }))
+    .filter((item) => item.score >= 2)
+    .sort((a, b) => b.score - a.score || a.tag.localeCompare(b.tag))
+    .map((item) => item.tag);
+
+  return tags.length > 0 ? tags.slice(0, 5) : ['Community Leadership'];
+}
+
+function themeScore(text, keywords) {
+  return keywords.reduce((score, keyword) => {
+    if (!containsKeyword(text, keyword)) return score;
+    return score + keywordWeight(keyword);
+  }, 0);
+}
+
+function keywordWeight(keyword) {
+  if (keyword.includes(' ')) return 2;
+  if (highValueThemeKeywords.has(keyword)) return 2;
+  return 1;
+}
+
+function containsKeyword(text, keyword) {
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, 'i').test(text);
+}
+
+function summarizeText(text, limit = 245) {
+  if (!text || text.length <= limit) return text;
+  const slice = text.slice(0, limit + 1);
+  const sentenceEnd = Math.max(slice.lastIndexOf('.'), slice.lastIndexOf('!'), slice.lastIndexOf('?'));
+  if (sentenceEnd >= 120) return `${slice.slice(0, sentenceEnd + 1).trim()}`;
+
+  const wordEnd = slice.lastIndexOf(' ');
+  return `${slice.slice(0, wordEnd > 120 ? wordEnd : limit).trim()}...`;
+}
+
+function extractHighlights(text) {
+  return splitSentences(text)
+    .filter((sentence) => sentence.length >= 45)
+    .slice(0, 4)
+    .map((sentence) => summarizeText(sentence, 150));
+}
+
+function splitSentences(text) {
+  return text
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+}
+
+function getDecade(year) {
+  if (typeof year !== 'number') return '';
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+function addRelatedIds(inductees) {
+  const tokenSets = new Map(inductees.map((item) => [item.id, tokenize(item.searchText)]));
+
+  return inductees.map((item) => {
+    const relatedIds = inductees
+      .filter((candidate) => candidate.id !== item.id)
+      .map((candidate) => ({
+        candidate,
+        score: relationshipScore(item, candidate, tokenSets.get(item.id) ?? new Set(), tokenSets.get(candidate.id) ?? new Set()),
+      }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => {
+        const yearDistanceA = yearDistance(item, a.candidate);
+        const yearDistanceB = yearDistance(item, b.candidate);
+        return b.score - a.score || yearDistanceA - yearDistanceB || a.candidate.name.localeCompare(b.candidate.name);
+      })
+      .slice(0, 8)
+      .map((entry) => entry.candidate.id);
+
+    return { ...item, relatedIds };
+  });
+}
+
+function relationshipScore(a, b, aTokens, bTokens) {
+  let score = 0;
+  if (a.classYear !== null && a.classYear === b.classYear) score += 8;
+  if (a.region === b.region) score += 5;
+  if (a.decade && a.decade === b.decade) score += 2;
+
+  const sharedThemes = a.themeTags.filter((tag) => b.themeTags.includes(tag));
+  score += sharedThemes.length * 7;
+
+  const sharedTerms = countSharedTerms(aTokens, bTokens);
+  score += Math.min(sharedTerms, 8);
+
+  if (a.hasVideo && b.hasVideo) score += 1;
+  return score;
+}
+
+function tokenize(text) {
+  return new Set(
+    text
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((token) => token.length > 4 && !stopWords.has(token)),
+  );
+}
+
+function countSharedTerms(aTokens, bTokens) {
+  let count = 0;
+  aTokens.forEach((token) => {
+    if (bTokens.has(token)) count += 1;
+  });
+  return count;
+}
+
+function yearDistance(a, b) {
+  if (a.classYear === null || b.classYear === null) return 9999;
+  return Math.abs(a.classYear - b.classYear);
+}
+
+function countBy(values, keyName) {
+  const counts = values.reduce((map, value) => map.set(value, (map.get(value) ?? 0) + 1), new Map());
+  return Array.from(counts.entries())
+    .map(([value, count]) => ({ [keyName]: value, count }))
+    .sort((a, b) => b.count - a.count || String(a[keyName]).localeCompare(String(b[keyName])));
+}
+
+function mediaCompleteness(inductee) {
+  let score = 0;
+  if (inductee.primaryImageUrl) score += 1;
+  if (inductee.hasGallery) score += 1;
+  if (inductee.hasVideo) score += 1;
+  return String(score);
+}
+
+function round(value) {
+  return Math.round(value * 10) / 10;
 }
 
 export function isGenericImage(url) {

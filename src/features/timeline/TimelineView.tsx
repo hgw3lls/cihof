@@ -264,7 +264,7 @@ export function TimelineView({ inductees, facets, loading, error, state, onState
                 <div className="timeline-insight__meta">
                   <span>{centeredInductee.classYear ?? 'Year unknown'}</span>
                   <span>{centeredInductee.region}</span>
-                  {(centeredInductee.youtubeVideoIds.length > 0 || centeredInductee.localVideoPaths.length > 0) && <span>Video</span>}
+                  {centeredInductee.hasVideo && <span>Video</span>}
                 </div>
                 <div className="timeline-insight__scale" aria-hidden="true">
                   <span style={{ left: `${activeYearPosition}%` }} />

@@ -9,7 +9,13 @@ type InducteeDetailProps = {
   previousInductee: Inductee | null;
   nextInductee: Inductee | null;
   onClose: () => void;
+  onReset: () => void;
   onSelect: (inductee: Inductee) => void;
+};
+
+type RelatedItem = {
+  inductee: Inductee;
+  reason: string;
 };
 
 export function InducteeDetail({
@@ -19,12 +25,23 @@ export function InducteeDetail({
   previousInductee,
   nextInductee,
   onClose,
+  onReset,
   onSelect,
 }: InducteeDetailProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const related = useMemo(() => {
     if (!inductee) return [];
+    const byId = new Map(allInductees.map((item) => [item.id, item]));
+    const ranked = inductee.relatedIds
+      .flatMap((id) => {
+        const relatedInductee = byId.get(id);
+        return relatedInductee ? [{ inductee: relatedInductee, reason: relationshipReason(inductee, relatedInductee) }] : [];
+      })
+      .slice(0, 6);
+
+    if (ranked.length > 0) return ranked;
+
     return allInductees
       .filter((item) => item.id !== inductee.id && (item.region === inductee.region || item.classYear === inductee.classYear))
       .sort((a, b) => {
@@ -32,7 +49,8 @@ export function InducteeDetail({
         const yearMatchB = b.classYear === inductee.classYear ? 0 : 1;
         return yearMatchA - yearMatchB || a.name.localeCompare(b.name);
       })
-      .slice(0, 6);
+      .slice(0, 6)
+      .map((item): RelatedItem => ({ inductee: item, reason: relationshipReason(inductee, item) }));
   }, [allInductees, inductee]);
 
   const gallery = useMemo(() => {
@@ -72,7 +90,7 @@ export function InducteeDetail({
 
   if (!inductee) return null;
 
-  const hasVideo = inductee.youtubeVideoIds.length > 0 || inductee.localVideoPaths.length > 0;
+  const hasVideo = inductee.hasVideo || inductee.youtubeVideoIds.length > 0 || inductee.localVideoPaths.length > 0;
   const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
 
   return (
@@ -84,6 +102,9 @@ export function InducteeDetail({
           <button className="icon-button" type="button" onClick={onClose} aria-label="Close details">
             X
           </button>
+          <button className="detail__resetButton" type="button" onClick={onReset}>
+            Reset
+          </button>
         </div>
 
         <div className="detail__content">
@@ -92,7 +113,16 @@ export function InducteeDetail({
           <div className="detail__facts">
             <span>{inductee.region}</span>
             {inductee.inductedBy && <span>Inducted by {inductee.inductedBy}</span>}
+            {inductee.hasVideo && <span>Video available</span>}
           </div>
+
+          {inductee.themeTags.length > 0 && (
+            <div className="detail__themeTags" aria-label="Story themes">
+              {inductee.themeTags.map((theme) => (
+                <span key={theme}>{theme}</span>
+              ))}
+            </div>
+          )}
 
           <div className="detail__nav" aria-label="Adjacent inductees">
             {previousInductee && previousInductee.id !== inductee.id && (
@@ -154,10 +184,10 @@ export function InducteeDetail({
               <h3>Related</h3>
               <div className="related-list related-list--cards">
                 {related.map((item) => (
-                  <button key={item.id} type="button" onClick={() => onSelect(item)}>
-                    <FallbackImage fallbackClassName="related-list__fallback" fallbackLabel={initials(item.name)} src={item.primaryImageUrl} />
-                    <strong>{item.name}</strong>
-                    <small>{item.classYear} / {item.region}</small>
+                  <button key={item.inductee.id} type="button" onClick={() => onSelect(item.inductee)}>
+                    <FallbackImage fallbackClassName="related-list__fallback" fallbackLabel={initials(item.inductee.name)} src={item.inductee.primaryImageUrl} />
+                    <strong>{item.inductee.name}</strong>
+                    <small>{item.reason} / {item.inductee.classYear} / {item.inductee.region}</small>
                   </button>
                 ))}
               </div>
@@ -194,4 +224,14 @@ export function InducteeDetail({
 function cycleImage(current: number | null, total: number, direction: -1 | 1) {
   if (current === null || total <= 0) return null;
   return (current + direction + total) % total;
+}
+
+function relationshipReason(active: Inductee, related: Inductee) {
+  const sharedTheme = active.themeTags.find((theme) => related.themeTags.includes(theme));
+  if (active.classYear !== null && active.classYear === related.classYear) return `Class of ${active.classYear}`;
+  if (sharedTheme) return `Shared theme: ${sharedTheme}`;
+  if (active.region === related.region) return `Shared region: ${active.region}`;
+  if (active.decade && active.decade === related.decade) return `${active.decade} inductees`;
+  if (active.hasVideo && related.hasVideo) return 'Both include video';
+  return 'Related story';
 }

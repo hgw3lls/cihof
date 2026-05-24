@@ -57,7 +57,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
               <span>{activeStep.inductee.region}</span>
             </div>
             <strong>{activeStep.label}</strong>
-            <p>{summarize(activeStep.inductee.bioText, 420)}</p>
+            <p>{activeStep.inductee.storySummary || summarize(activeStep.inductee.bioText, 420)}</p>
             <div className="journey-focus__actions">
               <button type="button" onClick={() => advance(-1)}>Previous</button>
               <span>{step + 1} / {activeJourney.people.length}</span>

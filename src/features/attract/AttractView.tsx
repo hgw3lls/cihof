@@ -47,7 +47,7 @@ export function AttractView({ inductees, onStart }: AttractViewProps) {
               <span>{active.classYear ?? 'Year unknown'}</span>
               <span>{active.region}</span>
             </div>
-            <p>{summarize(active.bioText)}</p>
+            <p>{active.storySummary || summarize(active.bioText)}</p>
           </div>
         </div>
       )}
@@ -69,7 +69,7 @@ function selectFeatured(inductees: Inductee[]) {
   return [...inductees]
     .filter((item) => item.primaryImageUrl && item.bioText)
     .sort((a, b) => {
-      const videoScore = Number(b.youtubeVideoIds.length > 0 || b.localVideoPaths.length > 0) - Number(a.youtubeVideoIds.length > 0 || a.localVideoPaths.length > 0);
+      const videoScore = Number(b.hasVideo) - Number(a.hasVideo);
       return videoScore || (b.classYear ?? 0) - (a.classYear ?? 0) || a.name.localeCompare(b.name);
     })
     .slice(0, 12);

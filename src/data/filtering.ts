@@ -10,7 +10,13 @@ export function filterInductees(inductees: Inductee[], state: ExploreState) {
       const matchesSearch = !search || item.searchText.includes(search);
       const matchesRegion = state.region === allValue || item.region === state.region;
       const matchesYear = state.year === allValue || item.classYear === Number(state.year);
-      return matchesSearch && matchesRegion && matchesYear;
+      const matchesTheme = state.theme === allValue || item.themeTags.includes(state.theme);
+      const matchesMedia =
+        state.media === allValue ||
+        (state.media === 'with-video' && item.hasVideo) ||
+        (state.media === 'with-gallery' && item.hasGallery);
+
+      return matchesSearch && matchesRegion && matchesYear && matchesTheme && matchesMedia;
     })
     .sort((a, b) => sortInductees(a, b, state.sortMode));
 }
