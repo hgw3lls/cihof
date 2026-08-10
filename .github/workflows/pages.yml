@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Hide GitHub Pages
 
 on:
   push:
@@ -16,42 +16,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy-placeholder:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Audit data
-        run: npm run audit:data
+      - name: Create temporary placeholder
+        run: |
+          mkdir -p dist
+          cat > dist/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta name="robots" content="noindex, nofollow" />
+              <title>Temporarily unavailable</title>
+              <style>
+                html, body { min-height: 100%; margin: 0; background: #0f0f0f; color: #f4f4f0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+                body { display: grid; place-items: center; }
+                main { width: min(34rem, calc(100% - 3rem)); }
+                h1 { margin: 0 0 0.75rem; font-size: clamp(2rem, 7vw, 4rem); line-height: 0.95; letter-spacing: 0; }
+                p { margin: 0; color: #c9c9c2; font-size: 1rem; line-height: 1.5; }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>Temporarily unavailable</h1>
+                <p>This site is not public right now.</p>
+              </main>
+            </body>
+          </html>
+          HTML
+          cp dist/index.html dist/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
