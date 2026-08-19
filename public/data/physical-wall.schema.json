@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cihof.local/schemas/physical-wall.schema.json",
+  "title": "CIHOF Physical Portrait Wall Positions",
+  "type": "object",
+  "required": ["schemaVersion", "positions"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "positions": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/physicalPosition"
+      }
+    }
+  },
+  "$defs": {
+    "physicalPosition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "physicalRow": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "physicalColumn": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "physicalPanel": {
+          "type": "string"
+        },
+        "wallLabel": {
+          "type": "string"
+        },
+        "wallCoordinates": {
+          "$ref": "#/$defs/wallCoordinates"
+        },
+        "physicalPortraitPresent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "wallCoordinates": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["grid", "percent", "pixels", "inches"]
+        }
+      }
+    }
+  }
+}

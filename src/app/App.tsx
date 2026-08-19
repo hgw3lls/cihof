@@ -1,12 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { allValue, filterInductees } from '../data/filtering';
 import { useDataFacets, useInductees } from '../data/useInductees';
+import { useRelationships } from '../data/useRelationships';
 import { AttractView } from '../features/attract/AttractView';
+import { ConnectionFinder } from '../features/connections/ConnectionFinder';
 import { ExploreView } from '../features/explore/ExploreView';
 import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
 import { JourneyView } from '../features/journeys/JourneyView';
-import { RegionMapView } from '../features/region-map/RegionMapView';
+import { PlacesView } from '../features/places/PlacesView';
+import { ReviewDashboardView } from '../features/review-dashboard/ReviewDashboardView';
+import { SearchView } from '../features/search/SearchView';
 import { TimelineView } from '../features/timeline/TimelineView';
+import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '../data/types';
 
 const defaultExploreState: ExploreState = {
@@ -19,19 +24,58 @@ const defaultExploreState: ExploreState = {
 };
 
 const kioskIdleMs = 120_000;
+const kioskResetWarningMs = 12_000;
+const contentProtectionActive = import.meta.env.PROD;
+const primaryNavItems: Array<{ mode: ViewMode; label: string }> = [
+  { mode: 'all-people', label: 'All People' },
+  { mode: 'time', label: 'Time' },
+  { mode: 'places', label: 'Places' },
+  { mode: 'journeys', label: 'Journeys' },
+  { mode: 'search', label: 'Search' },
+];
 
 export function App() {
   const { inductees, loading, error } = useInductees();
+  const { relationships } = useRelationships();
   const facets = useDataFacets(inductees);
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode());
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
+  const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
   const [attractActive, setAttractActive] = useState(false);
+  const [idleWarningActive, setIdleWarningActive] = useState(false);
+  const [connectionOpen, setConnectionOpen] = useState(false);
+  const [connectionSeedId, setConnectionSeedId] = useState('');
+  const [connectionReturnId, setConnectionReturnId] = useState('');
+  const scrollPositionRef = useRef({ left: 0, top: 0 });
+  const reviewModeEnabled = readParam('review') === '1';
+  const wallDebugEnabled = readParam('wallDebug') === '1' || readParam('debugWall') === '1';
+  const shellClassName = [
+    'app-shell',
+    'museum-shell',
+    kioskMode ? 'app-shell--kiosk' : '',
+    wallDebugEnabled ? 'app-shell--wall-debug' : '',
+    viewMode === 'review' ? 'museum-shell--staff' : '',
+    contentProtectionActive ? 'app-shell--protected' : '',
+  ].filter(Boolean).join(' ');
+  const stageClassName = ['museum-stage', `museum-stage--${viewMode}`].join(' ');
 
   const selected = useMemo(
     () => inductees.find((item) => item.id === selectedId) ?? null,
     [inductees, selectedId],
+  );
+  const lastSeen = useMemo(
+    () => inductees.find((item) => item.id === lastSeenId) ?? null,
+    [inductees, lastSeenId],
+  );
+  const connectionSeed = useMemo(
+    () => inductees.find((item) => item.id === connectionSeedId) ?? null,
+    [connectionSeedId, inductees],
+  );
+  const connectionReturn = useMemo(
+    () => inductees.find((item) => item.id === connectionReturnId) ?? null,
+    [connectionReturnId, inductees],
   );
 
   const filtered = useMemo(() => filterInductees(inductees, exploreState), [exploreState, inductees]);
@@ -41,7 +85,7 @@ export function App() {
 
   useEffect(() => {
     const params = new URLSearchParams();
-    if (viewMode !== 'explore') params.set('view', viewMode);
+    if (viewMode !== 'all-people') params.set('view', viewMode);
     if (exploreState.query) params.set('q', exploreState.query);
     if (exploreState.region !== allValue) params.set('region', exploreState.region);
     if (exploreState.year !== allValue) params.set('year', exploreState.year);
@@ -50,23 +94,35 @@ export function App() {
     if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
     if (selectedId) params.set('person', selectedId);
     if (kioskMode) params.set('kiosk', '1');
+    if (reviewModeEnabled) params.set('review', '1');
+    if (wallDebugEnabled) params.set('wallDebug', '1');
 
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [exploreState, kioskMode, selectedId, viewMode]);
+  }, [exploreState, kioskMode, reviewModeEnabled, selectedId, viewMode, wallDebugEnabled]);
 
   useEffect(() => {
-    if (!kioskMode) return;
+    if (!kioskMode || viewMode === 'review') return;
 
+    const warningDelay = Math.max(kioskIdleMs - kioskResetWarningMs, 0);
+    let warningTimeout = window.setTimeout(() => {
+      setIdleWarningActive(true);
+    }, warningDelay);
     const showAttract = () => {
+      setIdleWarningActive(false);
       resetExperience();
       setAttractActive(true);
     };
     let timeout = window.setTimeout(showAttract, kioskIdleMs);
     const resetTimer = () => {
       if (attractActive) return;
+      setIdleWarningActive(false);
+      window.clearTimeout(warningTimeout);
       window.clearTimeout(timeout);
+      warningTimeout = window.setTimeout(() => {
+        setIdleWarningActive(true);
+      }, warningDelay);
       timeout = window.setTimeout(showAttract, kioskIdleMs);
     };
 
@@ -75,12 +131,15 @@ export function App() {
     window.addEventListener('touchstart', resetTimer);
 
     return () => {
+      window.clearTimeout(warningTimeout);
       window.clearTimeout(timeout);
       window.removeEventListener('pointerdown', resetTimer);
       window.removeEventListener('keydown', resetTimer);
       window.removeEventListener('touchstart', resetTimer);
     };
-  }, [attractActive, kioskMode]);
+  }, [attractActive, kioskMode, viewMode]);
+
+  useContentProtection(viewMode !== 'review');
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
@@ -94,7 +153,11 @@ export function App() {
 
   function selectInductee(inductee: Inductee) {
     stopActiveMedia();
+    onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
     setAttractActive(false);
+    setIdleWarningActive(false);
+    scrollPositionRef.current = { left: window.scrollX, top: window.scrollY };
+    setLastSeenId(inductee.id);
     setSelectedId(inductee.id);
   }
 
@@ -103,13 +166,54 @@ export function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setExploreState({ ...defaultExploreState });
     setSelectedId('');
-    setViewMode('explore');
+    setLastSeenId('');
+    setViewMode('all-people');
     setAttractActive(false);
+    setIdleWarningActive(false);
+    setConnectionOpen(false);
+    setConnectionSeedId('');
+    setConnectionReturnId('');
   }
 
   function closeDetail() {
     stopActiveMedia();
     setSelectedId('');
+    setIdleWarningActive(false);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ left: scrollPositionRef.current.left, top: scrollPositionRef.current.top, behavior: 'auto' });
+    });
+  }
+
+  function returnHome() {
+    stopActiveMedia();
+    setAttractActive(false);
+    setIdleWarningActive(false);
+    setSelectedId('');
+    setConnectionOpen(false);
+    setConnectionSeedId('');
+    setViewMode('all-people');
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ left: scrollPositionRef.current.left, top: scrollPositionRef.current.top, behavior: 'auto' });
+    });
+  }
+
+  function openConnectionFinder(seed?: Inductee) {
+    stopActiveMedia();
+    setAttractActive(false);
+    setIdleWarningActive(false);
+    setConnectionSeedId(seed?.id ?? '');
+    setConnectionReturnId(selectedId || seed?.id || lastSeenId);
+    setConnectionOpen(true);
+  }
+
+  function closeConnectionFinder() {
+    setConnectionOpen(false);
+    setConnectionSeedId('');
+  }
+
+  function selectFromConnection(inductee: Inductee) {
+    setConnectionOpen(false);
+    selectInductee(inductee);
   }
 
   function startFromAttract() {
@@ -117,97 +221,189 @@ export function App() {
     resetExperience();
   }
 
+  function continueExploring() {
+    setIdleWarningActive(false);
+    setAttractActive(false);
+  }
+
   return (
-    <main className={kioskMode ? 'app-shell app-shell--kiosk' : 'app-shell'}>
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">Cleveland International Hall of Fame</p>
-          <h1>Inductee Explorer</h1>
+    <main className={shellClassName}>
+      <header className="museum-rail" aria-label="Collection status">
+        <div className="museum-brand">
+          <span>CIHOF</span>
+          <strong>Portrait Wall</strong>
         </div>
-        <div className="topbar__actions">
-          <div className="topbar__stats" aria-label="Collection summary">
-            <span>{stats.total} inductees</span>
-            <span>{facets.regions.length} regions</span>
-            <span>{stats.withVideo} videos</span>
-          </div>
-          <div className="topbar__buttons">
-            <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
-              Kiosk {kioskMode ? 'On' : 'Off'}
-            </button>
-            <button className="home-button" type="button" onClick={resetExperience}>
-              Reset
-            </button>
-          </div>
+        <div className="museum-status" aria-label="Collection summary">
+          <span>{stats.total} people</span>
+          <span>{stats.withVideo} videos</span>
+          {kioskMode && <span>Kiosk</span>}
+          {wallDebugEnabled && <span>Wall Debug</span>}
+        </div>
+        <div className="museum-utilities">
+          <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
+            Kiosk {kioskMode ? 'On' : 'Off'}
+          </button>
+          <button className="home-button" type="button" onClick={resetExperience}>
+            Reset
+          </button>
         </div>
       </header>
 
-      <nav className="view-tabs" aria-label="Views">
-        <button className={viewMode === 'explore' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('explore')}>
-          Explore
-        </button>
-        <button className={viewMode === 'timeline' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('timeline')}>
-          Timeline
-        </button>
-        <button className={viewMode === 'region-map' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('region-map')}>
-          Regions
-        </button>
-        <button className={viewMode === 'journeys' ? 'view-tab view-tab--active' : 'view-tab'} type="button" onClick={() => setViewMode('journeys')}>
-          Journeys
-        </button>
-      </nav>
+      <section className={stageClassName}>
+        {viewMode === 'all-people' && (
+          <ExploreView
+            inductees={inductees}
+            filtered={filtered}
+            facets={facets}
+            loading={loading}
+            error={error}
+            state={exploreState}
+            selectedId={selectedId}
+            currentInductee={selected ?? lastSeen}
+            wallDebug={wallDebugEnabled}
+            onStateChange={updateExploreState}
+            onSelect={selectInductee}
+            onFindConnection={() => openConnectionFinder()}
+          />
+        )}
 
-      {kioskMode && <div className="kiosk-status">Kiosk mode shows featured stories after 2 minutes idle</div>}
+        {viewMode === 'search' && (
+          <SearchView
+            inductees={inductees}
+            facets={facets}
+            loading={loading}
+            error={error}
+            state={exploreState}
+            selectedId={selectedId}
+            onStateChange={updateExploreState}
+            onSelect={selectInductee}
+            onFindConnection={() => openConnectionFinder()}
+          />
+        )}
 
-      {viewMode === 'explore' && (
-        <ExploreView
+        {viewMode === 'time' && (
+          <TimelineView
+            inductees={inductees}
+            loading={loading}
+            error={error}
+            state={exploreState}
+            onStateChange={updateExploreState}
+            onSelect={selectInductee}
+          />
+        )}
+
+        {viewMode === 'places' && <PlacesView inductees={inductees} onSelect={selectInductee} />}
+
+        {viewMode === 'journeys' && <JourneyView inductees={inductees} onSelect={selectInductee} />}
+
+        {viewMode === 'review' && reviewModeEnabled && <ReviewDashboardView inductees={inductees} onSelect={selectInductee} />}
+      </section>
+
+      {viewMode !== 'review' && (
+        <nav className="museum-bottom-nav" aria-label="Museum navigation">
+          {primaryNavItems.map((item) => (
+            <button
+              aria-current={viewMode === item.mode ? 'page' : undefined}
+              className={viewMode === item.mode ? 'museum-nav-item museum-nav-item--active' : 'museum-nav-item'}
+              key={item.mode}
+              type="button"
+              onClick={() => setViewMode(item.mode)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      )}
+
+      {kioskMode && idleWarningActive && !attractActive && (
+        <section className="idle-warning" aria-label="Idle reset warning" onPointerDown={continueExploring}>
+          <div className="idle-warning__panel">
+            <p className="museum-kicker">Session Reset</p>
+            <h2>CONTINUE EXPLORING?</h2>
+            <span>Touch anywhere to stay here.</span>
+          </div>
+        </section>
+      )}
+
+      {kioskMode && attractActive && (
+        <AttractView
           inductees={inductees}
-          filtered={filtered}
-          facets={facets}
-          loading={loading}
-          error={error}
-          state={exploreState}
-          onStateChange={updateExploreState}
+          relationships={relationships}
+          onStart={startFromAttract}
           onSelect={selectInductee}
         />
       )}
-
-      {viewMode === 'timeline' && (
-        <TimelineView
-          inductees={inductees}
-          facets={facets}
-          loading={loading}
-          error={error}
-          state={exploreState}
-          onStateChange={updateExploreState}
-          onSelect={selectInductee}
-        />
-      )}
-
-      {viewMode === 'region-map' && (
-        <RegionMapView
-          inductees={inductees}
-          selectedRegion={exploreState.region}
-          onRegionChange={(region) => updateExploreState({ region })}
-          onSelect={selectInductee}
-        />
-      )}
-
-      {viewMode === 'journeys' && <JourneyView inductees={inductees} onSelect={selectInductee} />}
-
-      {kioskMode && attractActive && <AttractView inductees={inductees} onStart={startFromAttract} />}
 
       <InducteeDetail
         inductee={attractActive ? null : selected}
         allInductees={inductees}
+        relationships={relationships}
         kioskMode={kioskMode}
         nextInductee={nextInductee}
         previousInductee={previousInductee}
+        wallDebug={wallDebugEnabled}
         onClose={closeDetail}
+        onHome={returnHome}
         onReset={resetExperience}
         onSelect={selectInductee}
+        onFindConnection={openConnectionFinder}
+      />
+
+      <ConnectionFinder
+        open={connectionOpen}
+        inductees={inductees}
+        relationships={relationships}
+        seedPerson={connectionSeed}
+        returnPerson={connectionReturn}
+        onClose={closeConnectionFinder}
+        onSelectPerson={selectFromConnection}
       />
     </main>
   );
+}
+
+function useContentProtection(active: boolean) {
+  useEffect(() => {
+    if (!contentProtectionActive || !active) return undefined;
+
+    function shouldAllowCopyTarget(target: EventTarget | null) {
+      return target instanceof HTMLElement && Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
+    }
+
+    function blockEvent(event: Event) {
+      if (shouldAllowCopyTarget(event.target)) return;
+      event.preventDefault();
+    }
+
+    function blockShortcut(event: KeyboardEvent) {
+      if (shouldAllowCopyTarget(event.target)) return;
+      const key = event.key.toLowerCase();
+      const modifier = event.ctrlKey || event.metaKey;
+      const blockedModifiedKeys = new Set(['a', 'c', 'p', 's', 'u']);
+      const blockedDevToolsKeys = new Set(['c', 'i', 'j']);
+
+      if (event.key === 'F12' || (modifier && blockedModifiedKeys.has(key)) || (modifier && event.shiftKey && blockedDevToolsKeys.has(key))) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+
+    document.addEventListener('contextmenu', blockEvent);
+    document.addEventListener('copy', blockEvent);
+    document.addEventListener('cut', blockEvent);
+    document.addEventListener('dragstart', blockEvent);
+    document.addEventListener('selectstart', blockEvent);
+    document.addEventListener('keydown', blockShortcut, { capture: true });
+
+    return () => {
+      document.removeEventListener('contextmenu', blockEvent);
+      document.removeEventListener('copy', blockEvent);
+      document.removeEventListener('cut', blockEvent);
+      document.removeEventListener('dragstart', blockEvent);
+      document.removeEventListener('selectstart', blockEvent);
+      document.removeEventListener('keydown', blockShortcut, { capture: true });
+    };
+  }, [active]);
 }
 
 function readParam(name: string) {
@@ -216,14 +412,18 @@ function readParam(name: string) {
 
 function readViewMode(): ViewMode {
   const view = readParam('view');
-  if (view === 'timeline' || view === 'region-map' || view === 'journeys') return view;
-  return 'explore';
+  if (view === 'review' && readParam('review') === '1') return view;
+  if (view === 'time' || view === 'timeline') return 'time';
+  if (view === 'places' || view === 'region-map') return 'places';
+  if (view === 'journeys') return 'journeys';
+  if (view === 'search' || view === 'explore') return 'search';
+  return 'all-people';
 }
 
 function readExploreState(): ExploreState {
   const sort = readParam('sort') as SortMode;
   const media = readParam('media') as MediaFilter;
-  const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'region-asc'].includes(sort) ? sort : 'year-asc';
+  const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'region-asc', 'physical-wall'].includes(sort) ? sort : 'year-asc';
   const mediaMode: MediaFilter = ['with-video', 'with-gallery'].includes(media) ? media : 'all';
 
   return {
@@ -237,11 +437,13 @@ function readExploreState(): ExploreState {
 }
 
 function stopActiveMedia() {
-  document.querySelectorAll('video').forEach((video) => {
-    video.pause();
-    video.currentTime = 0;
+  document.querySelectorAll('video, audio').forEach((media) => {
+    if (!(media instanceof HTMLMediaElement)) return;
+    media.pause();
+    media.currentTime = 0;
   });
   document.querySelectorAll('iframe').forEach((frame) => {
     frame.src = frame.src;
   });
+  window.dispatchEvent(new Event('cihof:stop-media'));
 }

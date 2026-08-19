@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "generator": "scripts/entity-model.js",
+    "entities": "public/data/entities.json",
+    "relationships": "public/data/entity-relationships.json",
+    "curatedSource": "data/cihof_curated_entities.json"
+  },
+  "totals": {
+    "entities": 494,
+    "relationships": 1837,
+    "curatedEntities": 0,
+    "curatedRelationships": 0
+  },
+  "entityTypes": [
+    {
+      "type": "Media",
+      "count": 286
+    },
+    {
+      "type": "Person",
+      "count": 177
+    },
+    {
+      "type": "Event",
+      "count": 16
+    },
+    {
+      "type": "Theme",
+      "count": 15
+    }
+  ],
+  "relationshipTypes": [
+    {
+      "type": "legacy_related_candidate",
+      "count": 888
+    },
+    {
+      "type": "has_theme",
+      "count": 436
+    },
+    {
+      "type": "has_media",
+      "count": 291
+    },
+    {
+      "type": "inducted_by_candidate",
+      "count": 111
+    },
+    {
+      "type": "inducted_in_class",
+      "count": 111
+    }
+  ],
+  "provenance": [
+    {
+      "confidence": "inferred",
+      "count": 1480
+    },
+    {
+      "confidence": "curated",
+      "count": 851
+    }
+  ],
+  "phaseCoverage": {
+    "phase1": {
+      "personEntities": 111,
+      "candidatePersonEntities": 66,
+      "themeEntities": 15,
+      "classEvents": 16,
+      "inductedByCandidates": 111
+    },
+    "phase2": {
+      "curatedEntitiesReady": true,
+      "supportedTypes": [
+        "Community",
+        "Organization",
+        "Place",
+        "Event"
+      ]
+    }
+  },
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

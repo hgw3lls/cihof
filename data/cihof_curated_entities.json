@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "owner": "CIHOF curatorial team",
+    "purpose": "Manual Phase 2 entity and relationship additions layered over the legacy inductee adapter."
+  },
+  "reviewGuidance": {
+    "entities": "Add manually curated Community, Organization, Place, and Event entities here. Person, Theme, Event class-year, and Media entities are generated from the existing inductee pipeline.",
+    "entityIdExamples": [
+      "community:slovenian-american",
+      "organization:cleveland-cultural-gardens-federation",
+      "place:cleveland-cultural-gardens",
+      "event:2025-induction-ceremony"
+    ],
+    "relationships": "Every relationship must reference existing entity ids from public/data/entities.json or curated entities in this file.",
+    "provenance": "Use documented only with a reviewed source note. Use curated for curator-approved assertions. Use inferred for suggestions needing review."
+  },
+  "entities": [],
+  "relationships": []
+}

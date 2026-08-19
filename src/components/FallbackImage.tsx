@@ -23,7 +23,7 @@ export function FallbackImage({
     return <span className={fallbackClassName}>{fallbackLabel}</span>;
   }
 
-  return <img className={className} src={src} alt={alt} loading={loading} onError={() => setFailed(true)} />;
+  return <img className={className} src={assetSrc(src)} alt={alt} loading={loading} onError={() => setFailed(true)} />;
 }
 
 export function initials(name: string) {
@@ -33,4 +33,10 @@ export function initials(name: string) {
     .slice(0, 2)
     .map((part) => part[0])
     .join('');
+}
+
+function assetSrc(src: string) {
+  if (/^(https?:|data:|blob:)/i.test(src)) return src;
+  if (!src.startsWith('/')) return src;
+  return `${import.meta.env.BASE_URL}${src.replace(/^\/+/, '')}`;
 }

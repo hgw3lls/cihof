@@ -1,14 +1,17 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export const sourcePath = resolve('data/cihof_kiosk_manifest.csv');
+export const curatedMetadataPath = resolve('data/cihof_curated_metadata.json');
+export const mediaManifestPath = resolve('data/media_manifest.json');
+export const physicalWallMetadataPath = resolve('data/physical_wall_positions.json');
 
-export function loadInductees() {
+export function loadInductees(options = {}) {
   const raw = readFileSync(sourcePath, 'utf8').replace(/^\uFEFF/, '');
   const rows = parseCsv(raw);
   const headers = rows.shift().map((header) => header.replace(/^\uFEFF/, '').trim());
 
-  const records = rows.map((row) => {
+  let records = rows.map((row) => {
     const record = Object.fromEntries(headers.map((header, index) => [header, row[index] ?? '']));
     const name = record.name.trim();
     const classYear = Number.parseInt(record.class_year, 10);
@@ -48,18 +51,298 @@ export function loadInductees() {
       hasGallery,
       bioText,
       storySummary,
+      storySummarySource: 'generated',
       storyHighlights,
       themeTags,
+      themeTagsSource: 'generated',
+      communityTags: [],
+      sortName: buildSortName(name),
+      imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null),
+      approvalStatus: 'unreviewed',
+      reviewPriority: 'standard',
+      featured: false,
+      featuredCandidate: false,
+      attractPriority: 0,
+      mediaReviewStatus: hasVideo ? 'unreviewed' : 'no-video-linked',
+      imageRightsStatus: 'unreviewed',
+      videoRightsStatus: hasVideo ? 'unreviewed' : 'not-applicable',
       relatedIds: [],
+      physicalRow: null,
+      physicalColumn: null,
+      physicalPanel: '',
+      wallLabel: '',
+      wallCoordinates: null,
+      physicalPortraitPresent: false,
       searchText: [name, classYear, region, record.inducted_by, bioText, storySummary, ...themeTags].filter(Boolean).join(' ').toLowerCase(),
     };
   });
+
+  if (options.includeCurated !== false) {
+    const curatedMetadata = loadCuratedMetadata();
+    const validation = validateCuratedMetadata(curatedMetadata, records.map((item) => item.id));
+    if (validation.errors.length > 0) {
+      throw new Error(`Curated metadata validation failed:\n${validation.errors.map((error) => `- ${error}`).join('\n')}`);
+    }
+    records = records.map((inductee) => applyCuratedMetadata(inductee, curatedMetadata.inductees?.[inductee.id]));
+  }
+
+  if (options.includeMedia !== false) {
+    const mediaManifest = loadMediaManifest();
+    records = records.map((inductee) => applyMediaManifest(inductee, mediaManifest.assets?.[inductee.id]));
+  }
+
+  if (options.includePhysicalWall !== false) {
+    const physicalWallMetadata = loadPhysicalWallMetadata();
+    const validation = validatePhysicalWallMetadata(physicalWallMetadata, records.map((item) => item.id));
+    if (validation.errors.length > 0) {
+      throw new Error(`Physical wall metadata validation failed:\n${validation.errors.map((error) => `- ${error}`).join('\n')}`);
+    }
+    records = records.map((inductee) => applyPhysicalWallMetadata(inductee, physicalWallMetadata.positions?.[inductee.id]));
+  }
 
   return addRelatedIds(records).sort((a, b) => {
     const yearA = a.classYear ?? 9999;
     const yearB = b.classYear ?? 9999;
     return yearA - yearB || a.name.localeCompare(b.name);
   });
+}
+
+export function loadCuratedMetadata(options = {}) {
+  const optional = options.optional !== false;
+  if (!existsSync(curatedMetadataPath)) {
+    if (optional) return { schemaVersion: 1, source: {}, reviewGuidance: {}, inductees: {} };
+    throw new Error(`Missing curated metadata file: ${curatedMetadataPath}`);
+  }
+
+  try {
+    const metadata = JSON.parse(readFileSync(curatedMetadataPath, 'utf8'));
+    return metadata && typeof metadata === 'object' ? metadata : { schemaVersion: 1, source: {}, reviewGuidance: {}, inductees: {} };
+  } catch (error) {
+    throw new Error(`Could not read curated metadata: ${error.message}`);
+  }
+}
+
+export function loadMediaManifest(options = {}) {
+  const optional = options.optional !== false;
+  if (!existsSync(mediaManifestPath)) {
+    if (optional) return { schemaVersion: 1, source: {}, reviewGuidance: {}, assets: {} };
+    throw new Error(`Missing media manifest file: ${mediaManifestPath}`);
+  }
+
+  try {
+    const manifest = JSON.parse(readFileSync(mediaManifestPath, 'utf8'));
+    return manifest && typeof manifest === 'object' ? manifest : { schemaVersion: 1, source: {}, reviewGuidance: {}, assets: {} };
+  } catch (error) {
+    throw new Error(`Could not read media manifest: ${error.message}`);
+  }
+}
+
+export function loadPhysicalWallMetadata(options = {}) {
+  const optional = options.optional !== false;
+  if (!existsSync(physicalWallMetadataPath)) {
+    if (optional) return emptyPhysicalWallMetadata();
+    throw new Error(`Missing physical wall metadata file: ${physicalWallMetadataPath}`);
+  }
+
+  try {
+    const metadata = JSON.parse(readFileSync(physicalWallMetadataPath, 'utf8'));
+    return metadata && typeof metadata === 'object' ? normalizePhysicalWallMetadata(metadata) : emptyPhysicalWallMetadata();
+  } catch (error) {
+    throw new Error(`Could not read physical wall metadata: ${error.message}`);
+  }
+}
+
+export function validateCuratedMetadata(metadata, expectedIds = []) {
+  const errors = [];
+  const warnings = [];
+  const records = metadata?.inductees;
+  const expectedIdSet = new Set(expectedIds);
+
+  if (!metadata || typeof metadata !== 'object') {
+    return { errors: ['Curated metadata must be a JSON object.'], warnings };
+  }
+
+  if (typeof metadata.schemaVersion !== 'number') warnings.push('Missing numeric schemaVersion.');
+  if (!records || typeof records !== 'object' || Array.isArray(records)) {
+    errors.push('Curated metadata must contain an inductees object.');
+    return { errors, warnings };
+  }
+
+  Object.entries(records).forEach(([id, record]) => {
+    if (!expectedIdSet.has(id)) warnings.push(`Curated metadata contains unknown inductee id: ${id}`);
+    if (!record || typeof record !== 'object' || Array.isArray(record)) {
+      errors.push(`${id}: metadata record must be an object.`);
+      return;
+    }
+
+    if (record.id && record.id !== id) errors.push(`${id}: record id does not match object key.`);
+    checkString(record, id, 'approvalStatus', errors);
+    checkString(record, id, 'reviewPriority', errors);
+    checkString(record, id, 'displayName', errors);
+    checkString(record, id, 'sortName', errors);
+    checkString(record, id, 'summaryDraft', errors);
+    checkString(record, id, 'approvedSummary', errors);
+    checkStringArray(record, id, 'themeTagCandidates', errors);
+    checkStringArray(record, id, 'approvedThemeTags', errors);
+    checkStringArray(record, id, 'communityTagCandidates', errors);
+    checkStringArray(record, id, 'approvedCommunityTags', errors);
+    checkBoolean(record, id, 'featured', errors);
+    checkBoolean(record, id, 'featuredCandidate', errors);
+    checkNumber(record, id, 'attractPriority', errors);
+    checkStringArray(record, id, 'journeySuggestions', errors);
+    checkStringArray(record, id, 'curatorNotes', errors);
+
+    if (record.image !== undefined) {
+      if (!record.image || typeof record.image !== 'object' || Array.isArray(record.image)) errors.push(`${id}: image must be an object.`);
+      else {
+        checkString(record.image, id, 'primaryAltText', errors, 'image.primaryAltText');
+        checkString(record.image, id, 'focalPoint', errors, 'image.focalPoint');
+        checkString(record.image, id, 'rightsStatus', errors, 'image.rightsStatus');
+        checkString(record.image, id, 'rightsNotes', errors, 'image.rightsNotes');
+        checkString(record.image, id, 'sourceUrl', errors, 'image.sourceUrl');
+      }
+    }
+
+    if (record.video !== undefined) {
+      if (!record.video || typeof record.video !== 'object' || Array.isArray(record.video)) errors.push(`${id}: video must be an object.`);
+      else {
+        checkBoolean(record.video, id, 'hasVideo', errors, 'video.hasVideo');
+        checkString(record.video, id, 'reviewStatus', errors, 'video.reviewStatus');
+        checkString(record.video, id, 'captionStatus', errors, 'video.captionStatus');
+        checkString(record.video, id, 'transcriptStatus', errors, 'video.transcriptStatus');
+        checkString(record.video, id, 'audioDescriptionStatus', errors, 'video.audioDescriptionStatus');
+        checkString(record.video, id, 'rightsStatus', errors, 'video.rightsStatus');
+        checkStringArray(record.video, id, 'sourceUrls', errors, 'video.sourceUrls');
+        checkStringArray(record.video, id, 'youtubeVideoIds', errors, 'video.youtubeVideoIds');
+        checkStringArray(record.video, id, 'localVideoPaths', errors, 'video.localVideoPaths');
+      }
+    }
+
+    if (record.accessibility !== undefined) {
+      if (!record.accessibility || typeof record.accessibility !== 'object' || Array.isArray(record.accessibility)) errors.push(`${id}: accessibility must be an object.`);
+      else {
+        checkString(record.accessibility, id, 'plainLanguageReview', errors, 'accessibility.plainLanguageReview');
+        checkString(record.accessibility, id, 'sensitiveContentReview', errors, 'accessibility.sensitiveContentReview');
+        checkString(record.accessibility, id, 'imageDescriptionReview', errors, 'accessibility.imageDescriptionReview');
+      }
+    }
+  });
+
+  expectedIds.forEach((id) => {
+    if (!records[id]) warnings.push(`No curated metadata record for inductee id: ${id}`);
+  });
+
+  return { errors, warnings };
+}
+
+export function validatePhysicalWallMetadata(metadata, expectedIds = []) {
+  const errors = [];
+  const warnings = [];
+  const records = metadata?.positions;
+  const expectedIdSet = new Set(expectedIds);
+  const seenCells = new Map();
+
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return { errors: ['Physical wall metadata must be a JSON object.'], warnings };
+  }
+
+  if (typeof metadata.schemaVersion !== 'number') warnings.push('Missing numeric schemaVersion.');
+  if (!records || typeof records !== 'object' || Array.isArray(records)) {
+    errors.push('Physical wall metadata must contain a positions object.');
+    return { errors, warnings };
+  }
+
+  Object.entries(records).forEach(([id, record]) => {
+    if (!expectedIdSet.has(id)) warnings.push(`Physical wall metadata contains unknown inductee id: ${id}`);
+    if (!record || typeof record !== 'object' || Array.isArray(record)) {
+      errors.push(`${id}: physical wall record must be an object.`);
+      return;
+    }
+
+    if (record.id && record.id !== id) errors.push(`${id}: record id does not match object key.`);
+    checkPositiveInteger(record, id, 'physicalRow', errors);
+    checkPositiveInteger(record, id, 'physicalColumn', errors);
+    checkString(record, id, 'physicalPanel', errors);
+    checkString(record, id, 'wallLabel', errors);
+    checkBoolean(record, id, 'physicalPortraitPresent', errors);
+    validateWallCoordinates(record.wallCoordinates, `${id}: wallCoordinates`, errors);
+
+    if (record.physicalPortraitPresent && !record.physicalRow && !record.physicalColumn && !record.physicalPanel) {
+      warnings.push(`${id}: physicalPortraitPresent is true but no row, column, or panel is set.`);
+    }
+
+    if (record.physicalRow && record.physicalColumn) {
+      const cellKey = [record.physicalPanel || 'unpaneled', record.physicalRow, record.physicalColumn].join(':');
+      const previousId = seenCells.get(cellKey);
+      if (previousId) warnings.push(`${id}: shares physical wall cell ${cellKey} with ${previousId}.`);
+      else seenCells.set(cellKey, id);
+    }
+  });
+
+  return { errors, warnings };
+}
+
+export function buildCurationReport(inductees, curatedMetadata, validation) {
+  const records = Object.values(curatedMetadata?.inductees ?? {});
+  const recordById = curatedMetadata?.inductees ?? {};
+  const byPriority = countBy(inductees.map((item) => item.reviewPriority || 'unreviewed'), 'priority');
+  const byApproval = countBy(inductees.map((item) => item.approvalStatus || 'unreviewed'), 'status');
+
+  return {
+    source: 'data/cihof_curated_metadata.json',
+    totalInductees: inductees.length,
+    curatedRecords: records.length,
+    validation,
+    approvalStatus: byApproval,
+    reviewPriority: byPriority,
+    summaries: {
+      approved: inductees.filter((item) => item.storySummarySource === 'curated').length,
+      draftOnly: inductees.filter((item) => item.storySummarySource !== 'curated').map((item) => item.id),
+      truncatedDrafts: records.filter((record) => String(record.summaryDraft ?? '').endsWith('...')).map((record) => record.id),
+    },
+    themes: {
+      approved: inductees.filter((item) => item.themeTagsSource === 'curated').length,
+      candidateOnly: inductees.filter((item) => item.themeTagsSource !== 'curated').map((item) => item.id),
+    },
+    communities: {
+      approved: inductees.filter((item) => item.communityTags.length > 0).length,
+      candidateOnly: records.filter((record) => toStringArray(record.communityTagCandidates).length > 0 && toStringArray(record.approvedCommunityTags).length === 0).map((record) => record.id),
+    },
+    featured: {
+      approved: inductees.filter((item) => item.featured).map((item) => item.id),
+      candidates: inductees.filter((item) => item.featuredCandidate).map((item) => item.id),
+      candidateNotFeatured: inductees.filter((item) => item.featuredCandidate && !item.featured).map((item) => item.id),
+    },
+    media: {
+      videoRecords: inductees.filter((item) => item.hasVideo).length,
+      captionTranscriptReviewNeeded: inductees
+        .filter((item) => item.hasVideo)
+        .filter((item) => {
+          const record = recordById[item.id];
+          const captionStatus = record?.video?.captionStatus ?? '';
+          const transcriptStatus = record?.video?.transcriptStatus ?? '';
+          return captionStatus !== 'approved' || transcriptStatus !== 'approved';
+        })
+        .map((item) => item.id),
+      videoRightsReviewNeeded: inductees
+        .filter((item) => item.hasVideo && item.videoRightsStatus !== 'approved' && item.videoRightsStatus !== 'not-applicable')
+        .map((item) => item.id),
+      imageRightsReviewNeeded: inductees
+        .filter((item) => item.imageRightsStatus !== 'approved')
+        .map((item) => item.id),
+      noVideoLinked: inductees.filter((item) => !item.hasVideo).map((item) => item.id),
+    },
+    accessibility: {
+      plainLanguageReviewNeeded: records.filter((record) => record.accessibility?.plainLanguageReview !== 'approved').map((record) => record.id),
+      sensitiveContentReviewNeeded: records.filter((record) => record.accessibility?.sensitiveContentReview !== 'approved').map((record) => record.id),
+      imageDescriptionReviewNeeded: records.filter((record) => record.accessibility?.imageDescriptionReview !== 'approved').map((record) => record.id),
+    },
+    priorities: {
+      high: inductees.filter((item) => item.reviewPriority === 'high').map((item) => item.id),
+      medium: inductees.filter((item) => item.reviewPriority === 'medium').map((item) => item.id),
+      standard: inductees.filter((item) => item.reviewPriority === 'standard').map((item) => item.id),
+    },
+  };
 }
 
 export function buildReport(inductees) {
@@ -80,6 +363,7 @@ export function buildReport(inductees) {
     })),
     decades: countBy(inductees.map((item) => item.decade).filter(Boolean), 'decade'),
     themes: countBy(inductees.flatMap((item) => item.themeTags), 'theme'),
+    communities: countBy(inductees.flatMap((item) => item.communityTags), 'community'),
     years: Array.from(new Set(years)).sort((a, b) => a - b).map((year) => ({
       year,
       count: inductees.filter((item) => item.classYear === year).length,
@@ -105,11 +389,37 @@ export function buildReport(inductees) {
       shortBio: inductees.filter((item) => item.bioText.length < 320).map((item) => item.id),
       withoutThemeTags: inductees.filter((item) => item.themeTags.length === 0).map((item) => item.id),
     },
+    curation: {
+      approvalStatus: countBy(inductees.map((item) => item.approvalStatus), 'status'),
+      reviewPriority: countBy(inductees.map((item) => item.reviewPriority), 'priority'),
+      approvedSummaries: inductees.filter((item) => item.storySummarySource === 'curated').length,
+      approvedThemeTags: inductees.filter((item) => item.themeTagsSource === 'curated').length,
+      approvedCommunityTags: inductees.filter((item) => item.communityTags.length > 0).length,
+      featured: inductees.filter((item) => item.featured).map((item) => item.id),
+      featuredCandidates: inductees.filter((item) => item.featuredCandidate).map((item) => item.id),
+      mediaNeedsReview: inductees
+        .filter((item) => item.mediaReviewStatus && !['approved', 'no-video-linked', 'not-applicable'].includes(item.mediaReviewStatus))
+        .map((item) => item.id),
+      imageRightsNeedsReview: inductees.filter((item) => item.imageRightsStatus !== 'approved').map((item) => item.id),
+      videoRightsNeedsReview: inductees
+        .filter((item) => item.videoRightsStatus !== 'approved' && item.videoRightsStatus !== 'not-applicable')
+        .map((item) => item.id),
+    },
     relationships: {
       averageRelatedCount: round(
         inductees.reduce((total, item) => total + item.relatedIds.length, 0) / Math.max(inductees.length, 1),
       ),
       withoutRelated: inductees.filter((item) => item.relatedIds.length === 0).map((item) => item.id),
+    },
+    physicalWall: {
+      mapped: inductees.filter(hasPhysicalWallMetadata).length,
+      physicalPortraitPresent: inductees.filter((item) => item.physicalPortraitPresent).length,
+      panels: countBy(inductees.map((item) => item.physicalPanel).filter(Boolean), 'panel'),
+      withoutPhysicalPortrait: inductees.filter((item) => hasPhysicalWallMetadata(item) && !item.physicalPortraitPresent).map((item) => item.id),
+      presentWithoutGridPosition: inductees
+        .filter((item) => item.physicalPortraitPresent && (!item.physicalRow || !item.physicalColumn))
+        .map((item) => item.id),
+      presentWithoutCoordinates: inductees.filter((item) => item.physicalPortraitPresent && !item.wallCoordinates).map((item) => item.id),
     },
     duplicateIds,
     suspicious: {
@@ -171,6 +481,208 @@ export function splitList(value) {
     .split('|')
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function applyCuratedMetadata(inductee, curated) {
+  if (!curated) return inductee;
+
+  const name = cleanString(curated.displayName) || inductee.name;
+  const sortName = cleanString(curated.sortName) || buildSortName(name);
+  const approvedSummary = cleanString(curated.approvedSummary);
+  const approvedThemeTags = toStringArray(curated.approvedThemeTags);
+  const approvedCommunityTags = toStringArray(curated.approvedCommunityTags);
+  const storySummary = approvedSummary || inductee.storySummary;
+  const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
+  const communityTags = approvedCommunityTags;
+  const imageAltText = cleanString(curated.image?.primaryAltText) || defaultImageAltText(name, inductee.classYear);
+  const mediaReviewStatus = cleanString(curated.video?.reviewStatus) || inductee.mediaReviewStatus;
+  const imageRightsStatus = cleanString(curated.image?.rightsStatus) || inductee.imageRightsStatus;
+  const videoRightsStatus = cleanString(curated.video?.rightsStatus) || inductee.videoRightsStatus;
+
+  return {
+    ...inductee,
+    name,
+    sortName,
+    storySummary,
+    storySummarySource: approvedSummary ? 'curated' : 'generated',
+    themeTags,
+    themeTagsSource: approvedThemeTags.length > 0 ? 'curated' : 'generated',
+    communityTags,
+    imageAltText,
+    approvalStatus: cleanString(curated.approvalStatus) || inductee.approvalStatus,
+    reviewPriority: cleanString(curated.reviewPriority) || inductee.reviewPriority,
+    featured: Boolean(curated.featured),
+    featuredCandidate: Boolean(curated.featuredCandidate),
+    attractPriority: typeof curated.attractPriority === 'number' && Number.isFinite(curated.attractPriority) ? curated.attractPriority : 0,
+    mediaReviewStatus,
+    imageRightsStatus,
+    videoRightsStatus,
+    searchText: [name, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, ...themeTags, ...communityTags]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase(),
+  };
+}
+
+function applyMediaManifest(inductee, mediaRecord) {
+  if (!mediaRecord) return inductee;
+
+  const primaryImage = mediaRecord.images?.primary;
+  const galleryImages = Array.isArray(mediaRecord.images?.gallery) ? mediaRecord.images.gallery : [];
+  const localPrimary = usableRuntimeAsset(primaryImage);
+  const localGallery = galleryImages.map(usableRuntimeAsset).filter(Boolean);
+  const localVideos = Array.isArray(mediaRecord.videos) ? mediaRecord.videos.map(usableRuntimeAsset).filter(Boolean) : [];
+  const imageUrls = localPrimary
+    ? Array.from(new Set([localPrimary, ...localGallery, ...inductee.imageUrls]))
+    : Array.from(new Set([...inductee.imageUrls]));
+  const primaryImageUrl = localPrimary || inductee.primaryImageUrl;
+
+  return {
+    ...inductee,
+    primaryImageUrl,
+    imageUrls,
+    localImagePaths: localPrimary ? [localPrimary, ...localGallery].map((path) => path.replace(/^\/+/, '')) : inductee.localImagePaths,
+    localVideoPaths: localVideos.length > 0 ? localVideos.map((path) => path.replace(/^\/+/, '')) : inductee.localVideoPaths,
+    hasGallery: imageUrls.length > 1 || localGallery.length > 0 || inductee.localImagePaths.length > 1,
+    hasVideo: inductee.hasVideo || localVideos.length > 0,
+  };
+}
+
+function applyPhysicalWallMetadata(inductee, wallRecord) {
+  if (!wallRecord) return inductee;
+
+  const physicalPanel = cleanString(wallRecord.physicalPanel);
+  const wallLabel = cleanString(wallRecord.wallLabel);
+  const wallCoordinates = normalizeWallCoordinates(wallRecord.wallCoordinates);
+
+  return {
+    ...inductee,
+    physicalRow: positiveIntegerOrNull(wallRecord.physicalRow),
+    physicalColumn: positiveIntegerOrNull(wallRecord.physicalColumn),
+    physicalPanel,
+    wallLabel,
+    wallCoordinates,
+    physicalPortraitPresent: Boolean(wallRecord.physicalPortraitPresent),
+    searchText: [inductee.searchText, physicalPanel, wallLabel].filter(Boolean).join(' ').toLowerCase(),
+  };
+}
+
+function emptyPhysicalWallMetadata() {
+  return {
+    schemaVersion: 1,
+    source: {},
+    positions: {},
+  };
+}
+
+function normalizePhysicalWallMetadata(metadata) {
+  const positions = metadata.positions && typeof metadata.positions === 'object' && !Array.isArray(metadata.positions)
+    ? metadata.positions
+    : {};
+
+  return {
+    ...metadata,
+    positions,
+  };
+}
+
+function normalizeWallCoordinates(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  if (typeof value.x !== 'number' || !Number.isFinite(value.x) || typeof value.y !== 'number' || !Number.isFinite(value.y)) return null;
+
+  return {
+    x: value.x,
+    y: value.y,
+    ...(typeof value.width === 'number' && Number.isFinite(value.width) ? { width: value.width } : {}),
+    ...(typeof value.height === 'number' && Number.isFinite(value.height) ? { height: value.height } : {}),
+    ...(typeof value.unit === 'string' && value.unit.trim() ? { unit: value.unit.trim() } : {}),
+  };
+}
+
+function positiveIntegerOrNull(value) {
+  return Number.isInteger(value) && value > 0 ? value : null;
+}
+
+function usableRuntimeAsset(asset) {
+  if (!asset?.filePath || !asset?.runtimePath) return '';
+  if (!existsSync(resolve(asset.filePath))) return '';
+  return cleanString(asset.runtimePath);
+}
+
+function cleanString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function toStringArray(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => cleanString(item)).filter(Boolean);
+}
+
+function defaultImageAltText(name, classYear) {
+  return `Portrait or archival image of ${name}, ${classYear ? `Class of ${classYear}` : 'Cleveland International Hall of Fame inductee'}.`;
+}
+
+function buildSortName(name) {
+  const cleaned = name
+    .replace(/^(ambassador|bishop|dr\.?|father|former mayor|fr\.?|hon\.?|mayor|reverend|rev\.?|senator|sister)\s+/i, '')
+    .trim();
+  const parts = cleaned.split(/\s+/).filter(Boolean);
+  if (parts.length <= 1) return cleaned;
+  const suffixes = new Set(['jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv', 'ph.d.', 'm.d.']);
+  const withoutSuffix = suffixes.has(parts.at(-1)?.toLowerCase() ?? '') ? parts.slice(0, -1) : parts;
+  if (withoutSuffix.length <= 1) return cleaned;
+  return `${withoutSuffix.at(-1)}, ${withoutSuffix.slice(0, -1).join(' ')}`;
+}
+
+function checkString(record, id, path, errors, label = path) {
+  const value = getPath(record, path);
+  if (value !== undefined && typeof value !== 'string') errors.push(`${id}: ${label} must be a string.`);
+}
+
+function checkStringArray(record, id, path, errors, label = path) {
+  const value = getPath(record, path);
+  if (value !== undefined && (!Array.isArray(value) || value.some((item) => typeof item !== 'string'))) {
+    errors.push(`${id}: ${label} must be an array of strings.`);
+  }
+}
+
+function checkBoolean(record, id, path, errors, label = path) {
+  const value = getPath(record, path);
+  if (value !== undefined && typeof value !== 'boolean') errors.push(`${id}: ${label} must be a boolean.`);
+}
+
+function checkNumber(record, id, path, errors, label = path) {
+  const value = getPath(record, path);
+  if (value !== undefined && (typeof value !== 'number' || !Number.isFinite(value))) errors.push(`${id}: ${label} must be a finite number.`);
+}
+
+function checkPositiveInteger(record, id, path, errors, label = path) {
+  const value = getPath(record, path);
+  if (value !== undefined && (!Number.isInteger(value) || value <= 0)) errors.push(`${id}: ${label} must be a positive integer.`);
+}
+
+function validateWallCoordinates(value, label, errors) {
+  if (value === undefined || value === null) return;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    errors.push(`${label} must be an object when present.`);
+    return;
+  }
+
+  ['x', 'y'].forEach((field) => {
+    if (typeof value[field] !== 'number' || !Number.isFinite(value[field])) errors.push(`${label}.${field} must be a finite number.`);
+  });
+  ['width', 'height'].forEach((field) => {
+    if (value[field] !== undefined && (typeof value[field] !== 'number' || !Number.isFinite(value[field]))) {
+      errors.push(`${label}.${field} must be a finite number when present.`);
+    }
+  });
+  if (value.unit !== undefined && !['grid', 'percent', 'pixels', 'inches'].includes(value.unit)) {
+    errors.push(`${label}.unit must be one of grid, percent, pixels, inches.`);
+  }
+}
+
+function getPath(record, path) {
+  return path.split('.').reduce((current, part) => (current && typeof current === 'object' ? current[part] : undefined), record);
 }
 
 const themeRules = [
@@ -449,6 +961,17 @@ function countBy(values, keyName) {
   return Array.from(counts.entries())
     .map(([value, count]) => ({ [keyName]: value, count }))
     .sort((a, b) => b.count - a.count || String(a[keyName]).localeCompare(String(b[keyName])));
+}
+
+function hasPhysicalWallMetadata(inductee) {
+  return Boolean(
+    inductee.physicalPortraitPresent ||
+      inductee.physicalRow ||
+      inductee.physicalColumn ||
+      inductee.physicalPanel ||
+      inductee.wallLabel ||
+      inductee.wallCoordinates,
+  );
 }
 
 function mediaCompleteness(inductee) {
