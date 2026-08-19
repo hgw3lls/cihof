@@ -16,7 +16,7 @@ The public visitor experience is now directionally aligned with the physical por
 
 - Added and adjusted GitHub Pages workflow support for deploying the Vite build.
 - Confirmed production base path uses `/cihof/`.
-- Current deployment remains static; it can host the visitor app and staff portal UI, but cannot run repo scripts or write changes.
+- Current deployment remains static and uses the public visitor entry. Staff portal editing now runs from the separate local portal entry because GitHub Pages cannot run repo scripts or write changes.
 
 Related commits:
 
@@ -118,6 +118,7 @@ Related commits:
 - Added a local-only portal runner so staff can trigger whitelisted scripts from the portal when running locally.
 - Added runner controls for data prep, curation report, media validation, entity validation, kiosk validation, data audit, build, kiosk build, metadata scaffold regeneration, media manifest regeneration, media localization, and 2026 import.
 - Added direct dry-run/apply flow for portal draft decisions.
+- Split the visitor app and staff portal into separate HTML/build entry points so the public kiosk build does not import the review dashboard.
 - Added documentation for running the portal and runner locally.
 - Added `.portal/` to `.gitignore` for local runner scratch files.
 
@@ -135,11 +136,11 @@ Related commit:
 - Entity validation currently reports 0 errors and 0 warnings.
 - Production build passed after the most recent portal runner work.
 - Media readiness is not museum-complete yet: reports still show rights, captions, transcripts, posters, and kiosk approval work remaining.
-- The GitHub Pages site is static. It can show the portal UI, but script-running and repo-writing features require the local runner.
+- The GitHub Pages site is static and now uses the public visitor entry by default. Staff portal script-running and repo-writing features require the local portal entry plus the local runner.
 
 ## Risks To Address Before Permanent Installation
 
-1. Staff portal and public kiosk are still part of the same app build and are URL-gated.
+1. Staff portal and public kiosk now have separate entry/build targets, but the local runner still needs stronger staff authentication and persistent logs.
 2. The local portal runner uses localhost/origin limits but does not yet require a per-session token or admin authentication.
 3. GitHub Pages deployment currently builds the site but should become stricter before museum release.
 4. No automated Playwright kiosk regression suite exists yet.
@@ -156,9 +157,9 @@ Related commit:
 
 Priority: highest.
 
-- Split visitor kiosk and staff portal into separate entry points or builds.
-- Disable review/debug routes in the public kiosk build.
-- Hide kiosk/admin controls from visitor mode unless explicitly configured.
+- Keep visitor kiosk and staff portal separated through explicit entry/build targets.
+- Keep review/debug routes disabled in the public kiosk build.
+- Keep kiosk/admin controls hidden from visitor mode unless explicitly configured.
 - Add a global error boundary with a museum-friendly reset screen.
 - Add a health heartbeat and local status file or endpoint for watchdog monitoring.
 - Add a scheduled reload/restart strategy for unattended operation.
@@ -294,8 +295,8 @@ Priority: medium.
 
 ## Recommended Immediate Next Five Tasks
 
-1. Add separate public kiosk/admin portal builds and remove URL-only access to staff mode.
-2. Add token authentication to the local portal runner.
+1. Add token authentication to the local portal runner.
+2. Add persistent runner job logs and a status panel.
 3. Add Playwright smoke tests for 1920x1080 All People, person view, timeline end years, attract mode, and media stop.
 4. Make GitHub Actions run `validate:entities` and a stricter kiosk validation job before Pages deployment.
 5. Start the media readiness pass: posters, captions, transcripts, rights approval, and kiosk approval status.

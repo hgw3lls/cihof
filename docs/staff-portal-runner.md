@@ -9,7 +9,7 @@ This is intentionally **local only**. The deployed GitHub Pages site cannot exec
 In one terminal:
 
 ```sh
-npm run dev -- --host 127.0.0.1
+npm run dev:portal -- --host 127.0.0.1
 ```
 
 In a second terminal:
@@ -21,7 +21,16 @@ npm run portal:server
 Open:
 
 ```text
-http://127.0.0.1:5173/?view=review&review=1
+http://127.0.0.1:5173/portal.html
+```
+
+The public visitor entry is `index.html`. The staff portal entry is `portal.html`.
+
+For static builds:
+
+```sh
+npm run build:public
+npm run build:portal
 ```
 
 ## What The Runner Can Do
