@@ -227,9 +227,11 @@ type RunnerState = {
   available: boolean;
   checking: boolean;
   error: string;
+  token: string;
   scripts: RunnerScript[];
   jobs: RunnerJob[];
   activeJob: RunnerJob | null;
+  setToken: (token: string) => void;
   refresh: () => Promise<void>;
   runScript: (scriptId: string) => Promise<RunnerJob | null>;
   applyDecisions: (csv: string, dryRun: boolean) => Promise<RunnerJob | null>;
@@ -725,6 +727,22 @@ function StoryLensEditor({
               {issue.message}
             </span>
           ))}
+        </div>
+      )}
+
+      {!runner.available && (
+        <div className="portal-runner-access">
+          <label className="field">
+            <span>Runner token</span>
+            <input
+              autoComplete="off"
+              type="password"
+              value={runner.token}
+              onChange={(event) => runner.setToken(event.target.value)}
+              placeholder="Required only for approved external portal origins"
+            />
+          </label>
+          <button type="button" onClick={() => void runner.refresh()}>{runner.checking ? 'Checking' : 'Connect Runner'}</button>
         </div>
       )}
 
@@ -1224,6 +1242,20 @@ function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRun
 
       {runner.error && <div className="portal-runner__error">{runner.error}</div>}
 
+      <div className="portal-runner-access portal-runner-access--embedded">
+        <label className="field">
+          <span>Runner token</span>
+          <input
+            autoComplete="off"
+            type="password"
+            value={runner.token}
+            onChange={(event) => runner.setToken(event.target.value)}
+            placeholder="Only needed from approved external portal origins"
+          />
+        </label>
+        <button type="button" onClick={() => void runner.refresh()}>{runner.checking ? 'Checking' : 'Reconnect'}</button>
+      </div>
+
       <div className="portal-runner__scripts" aria-label="Available scripts">
         {runner.scripts.map((script) => (
           <button
@@ -1330,6 +1362,7 @@ function usePortalRunner(): RunnerState {
   const [available, setAvailable] = useState(false);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState('');
+  const [token, setToken] = useState('');
   const [scripts, setScripts] = useState<RunnerScript[]>([]);
   const [jobs, setJobs] = useState<RunnerJob[]>([]);
 
@@ -1339,9 +1372,9 @@ function usePortalRunner(): RunnerState {
     setChecking(true);
     try {
       const [health, scriptPayload, jobPayload] = await Promise.all([
-        fetchRunner<{ ok: boolean }>('/api/health'),
-        fetchRunner<{ scripts: RunnerScript[] }>('/api/scripts'),
-        fetchRunner<{ jobs: RunnerJob[] }>('/api/jobs'),
+        fetchRunner<{ ok: boolean }>('/api/health', token),
+        fetchRunner<{ scripts: RunnerScript[] }>('/api/scripts', token),
+        fetchRunner<{ jobs: RunnerJob[] }>('/api/jobs', token),
       ]);
       setAvailable(Boolean(health.ok));
       setScripts(scriptPayload.scripts ?? []);
@@ -1359,7 +1392,7 @@ function usePortalRunner(): RunnerState {
 
   async function runScript(scriptId: string) {
     try {
-      const payload = await postRunner<{ job: RunnerJob }>('/api/run', { scriptId });
+      const payload = await postRunner<{ job: RunnerJob }>('/api/run', { scriptId }, token);
       await refresh();
       return payload.job;
     } catch (errorValue) {
@@ -1370,7 +1403,7 @@ function usePortalRunner(): RunnerState {
 
   async function applyDecisions(csv: string, dryRun: boolean) {
     try {
-      const payload = await postRunner<{ job: RunnerJob }>('/api/apply-decisions', { csv, dryRun, targets: ['curation', 'media'] });
+      const payload = await postRunner<{ job: RunnerJob }>('/api/apply-decisions', { csv, dryRun, targets: ['curation', 'media'] }, token);
       await refresh();
       return payload.job;
     } catch (errorValue) {
@@ -1381,7 +1414,7 @@ function usePortalRunner(): RunnerState {
 
   async function saveStoryLenses(document: StoryLensDocument) {
     try {
-      const payload = await postRunner<{ document: StoryLensDocument }>('/api/story-lenses', { document });
+      const payload = await postRunner<{ document: StoryLensDocument }>('/api/story-lenses', { document }, token);
       await refresh();
       return normalizeStoryLensDocument(payload.document);
     } catch (errorValue) {
@@ -1399,9 +1432,9 @@ function usePortalRunner(): RunnerState {
       void refresh();
     }, activeJob ? 1500 : 6000);
     return () => window.clearInterval(interval);
-  }, [activeJob?.id, activeJob?.status]);
+  }, [activeJob?.id, activeJob?.status, token]);
 
-  return { available, checking, error, scripts, jobs, activeJob, refresh, runScript, applyDecisions, saveStoryLenses };
+  return { available, checking, error, token, scripts, jobs, activeJob, setToken, refresh, runScript, applyDecisions, saveStoryLenses };
 }
 
 function fetchJson<T>(url: string): Promise<T> {
@@ -1411,17 +1444,20 @@ function fetchJson<T>(url: string): Promise<T> {
   });
 }
 
-function fetchRunner<T>(path: string): Promise<T> {
-  return fetch(`${portalRunnerBaseUrl}${path}`, { cache: 'no-store' }).then((response) => {
+function fetchRunner<T>(path: string, token = ''): Promise<T> {
+  return fetch(`${portalRunnerBaseUrl}${path}`, {
+    cache: 'no-store',
+    headers: runnerHeaders(token),
+  }).then((response) => {
     if (!response.ok) throw new Error(`Portal runner ${path} failed with ${response.status}`);
     return response.json() as Promise<T>;
   });
 }
 
-function postRunner<T>(path: string, body: unknown): Promise<T> {
+function postRunner<T>(path: string, body: unknown, token = ''): Promise<T> {
   return fetch(`${portalRunnerBaseUrl}${path}`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...runnerHeaders(token) },
     body: JSON.stringify(body),
   }).then((response) => {
     if (!response.ok) {
@@ -1431,6 +1467,10 @@ function postRunner<T>(path: string, body: unknown): Promise<T> {
     }
     return response.json() as Promise<T>;
   });
+}
+
+function runnerHeaders(token: string): HeadersInit {
+  return token ? { 'x-cihof-portal-token': token } : {};
 }
 
 function buildDashboardSummary(inductees: Inductee[], curation: CurationReport | null, media: MediaReport | null, drafts: DraftMap) {
