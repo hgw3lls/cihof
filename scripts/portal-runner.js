@@ -9,6 +9,13 @@ const repoRoot = resolve('.');
 const decisionsDir = resolve('.portal/decisions');
 const storyLensesSourcePath = resolve('data/cihof_story_lenses.json');
 const storyLensesPublicPath = resolve('public/data/story-lenses.json');
+const allowedExternalOrigins = new Set(
+  String(process.env.CIHOF_PORTAL_ALLOWED_ORIGINS || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+);
+const portalToken = String(process.env.CIHOF_PORTAL_TOKEN || '');
 const jobs = new Map();
 const maxBodyBytes = 12 * 1024 * 1024;
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -117,7 +124,12 @@ const server = createServer(async (request, response) => {
 
   try {
     if (!isAllowedOrigin(request.headers.origin)) {
-      sendJson(response, 403, { error: 'Origin not allowed. Portal runner only accepts localhost browser requests.' });
+      sendJson(response, 403, { error: 'Origin not allowed. Portal runner accepts localhost by default and configured external origins only.' });
+      return;
+    }
+
+    if (!isAuthorizedRequest(request)) {
+      sendJson(response, 401, { error: 'Portal runner token is required for configured external origins.' });
       return;
     }
 
@@ -130,6 +142,8 @@ const server = createServer(async (request, response) => {
         repoRoot,
         scripts: scripts.length,
         activeJobs: Array.from(jobs.values()).filter((job) => job.status === 'running').length,
+        externalOrigins: Array.from(allowedExternalOrigins),
+        tokenRequiredForExternalOrigins: true,
       });
       return;
     }
@@ -248,7 +262,9 @@ const server = createServer(async (request, response) => {
 
 server.listen(port, host, () => {
   console.log(`CIHOF portal runner listening at http://${host}:${port}`);
-  console.log('Only localhost origins are allowed. Use the Staff Portal runner controls to execute whitelisted scripts.');
+  console.log(`External portal origins: ${allowedExternalOrigins.size > 0 ? Array.from(allowedExternalOrigins).join(', ') : 'none'}.`);
+  console.log('Configured external origins require CIHOF_PORTAL_TOKEN and the matching portal token header.');
+  console.log('Use the Staff Portal runner controls to execute whitelisted scripts.');
 });
 
 function readStoryLensDocument() {
@@ -464,13 +480,24 @@ async function readJsonBody(request) {
 function setCorsHeaders(request, response) {
   const origin = request.headers.origin;
   if (isAllowedOrigin(origin)) response.setHeader('Access-Control-Allow-Origin', origin || '*');
-  response.setHeader('Access-Control-Allow-Headers', 'content-type');
+  response.setHeader('Access-Control-Allow-Headers', 'content-type, x-cihof-portal-token');
   response.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   response.setHeader('Access-Control-Max-Age', '600');
 }
 
 function isAllowedOrigin(origin) {
   if (!origin) return true;
+  return isLocalPortalOrigin(origin) || allowedExternalOrigins.has(origin);
+}
+
+function isAuthorizedRequest(request) {
+  const origin = request.headers.origin;
+  if (!origin || isLocalPortalOrigin(origin)) return true;
+  if (!allowedExternalOrigins.has(origin) || !portalToken) return false;
+  return request.headers['x-cihof-portal-token'] === portalToken;
+}
+
+function isLocalPortalOrigin(origin) {
   return /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origin);
 }
 
