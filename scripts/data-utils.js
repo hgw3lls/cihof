@@ -638,7 +638,7 @@ function applyMediaManifest(inductee, mediaRecord) {
   const localGallery = galleryImages.map(usableRuntimeAsset).filter(Boolean);
   const localVideos = Array.isArray(mediaRecord.videos) ? mediaRecord.videos.map(usableRuntimeAsset).filter(Boolean) : [];
   const imageUrls = localPrimary
-    ? Array.from(new Set([localPrimary, ...localGallery, ...inductee.imageUrls]))
+    ? Array.from(new Set([localPrimary, ...localGallery]))
     : Array.from(new Set([...inductee.imageUrls]));
   const primaryImageUrl = localPrimary || inductee.primaryImageUrl;
 
@@ -647,7 +647,7 @@ function applyMediaManifest(inductee, mediaRecord) {
     primaryImageUrl,
     imageUrls,
     localImagePaths: localPrimary ? [localPrimary, ...localGallery].map((path) => path.replace(/^\/+/, '')) : inductee.localImagePaths,
-    localVideoPaths: localVideos.length > 0 ? localVideos.map((path) => path.replace(/^\/+/, '')) : inductee.localVideoPaths,
+    localVideoPaths: localVideos.map((path) => path.replace(/^\/+/, '')),
     hasGallery: imageUrls.length > 1 || localGallery.length > 0 || inductee.localImagePaths.length > 1,
     hasVideo: inductee.hasVideo || localVideos.length > 0,
   };

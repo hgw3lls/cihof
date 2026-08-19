@@ -307,29 +307,32 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   const seenYoutubeIds = new Set<string>();
 
   (mediaRecord?.videos ?? []).forEach((video, index) => {
-    if (!video.runtimePath || seenLocalPaths.has(video.runtimePath)) return;
+    if (!isApprovedPlayableMedia(video) || !video.runtimePath || seenLocalPaths.has(video.runtimePath)) return;
     seenLocalPaths.add(video.runtimePath);
     items.push(videoToItem(video, index));
   });
 
-  inductee.localVideoPaths.forEach((path, index) => {
-    const runtimePath = path.startsWith('/') ? path : `/${path}`;
-    if (seenLocalPaths.has(runtimePath)) return;
-    seenLocalPaths.add(runtimePath);
-    items.push({
-      id: `local-video-${index + 1}-${runtimePath}`,
-      sourceType: 'local-video',
-      category: 'Ceremony Footage',
-      title: `Ceremony Footage ${index + 1}`,
-      description: `Local ceremony footage for ${inductee.name}.`,
-      runtimePath,
-      captionStatus: inductee.videoRightsStatus ? 'review-needed' : undefined,
-      transcriptStatus: 'needed',
-      rightsStatus: inductee.videoRightsStatus,
+  if (!mediaRecord) {
+    inductee.localVideoPaths.forEach((path, index) => {
+      const runtimePath = path.startsWith('/') ? path : `/${path}`;
+      if (seenLocalPaths.has(runtimePath)) return;
+      seenLocalPaths.add(runtimePath);
+      items.push({
+        id: `local-video-${index + 1}-${runtimePath}`,
+        sourceType: 'local-video',
+        category: 'Ceremony Footage',
+        title: `Ceremony Footage ${index + 1}`,
+        description: `Local ceremony footage for ${inductee.name}.`,
+        runtimePath,
+        captionStatus: inductee.videoRightsStatus ? 'review-needed' : undefined,
+        transcriptStatus: 'needed',
+        rightsStatus: inductee.videoRightsStatus,
+      });
     });
-  });
+  }
 
   (mediaRecord?.oralHistories ?? []).forEach((audio, index) => {
+    if (!isApprovedPlayableMedia(audio)) return;
     const item = audioToItem(audio, index, 'Oral History');
     if (!item || seenLocalPaths.has(item.runtimePath ?? '')) return;
     seenLocalPaths.add(item.runtimePath ?? '');
@@ -337,6 +340,7 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   });
 
   (mediaRecord?.audio ?? []).forEach((audio, index) => {
+    if (!isApprovedPlayableMedia(audio)) return;
     const item = audioToItem(audio, index, 'Audio');
     if (!item || seenLocalPaths.has(item.runtimePath ?? '')) return;
     seenLocalPaths.add(item.runtimePath ?? '');
@@ -363,6 +367,12 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   });
 
   return items;
+}
+
+function isApprovedPlayableMedia(asset: RuntimeVideoAsset | RuntimeAudioAsset) {
+  const captionsReady = asset.captionStatus === undefined || asset.captionStatus === 'approved' || asset.captionStatus === 'not-applicable';
+  const transcriptReady = asset.transcriptStatus === 'approved' || asset.transcriptStatus === 'not-applicable' || Boolean(asset.transcript?.text);
+  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && captionsReady && transcriptReady && asset.runtimePath);
 }
 
 function videoToItem(video: RuntimeVideoAsset, index: number): MediaItem {

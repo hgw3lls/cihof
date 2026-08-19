@@ -66,8 +66,16 @@ const scripts = [
   {
     id: 'validate:kiosk',
     label: 'Validate Kiosk',
-    description: 'Run curation report and strict media validation without building.',
+    description: 'Run curation report and the strict wall-profile media validation without building.',
     command: ['run', 'validate:kiosk'],
+    mutates: true,
+    strict: true,
+  },
+  {
+    id: 'validate:media-clearance',
+    label: 'Validate Media Clearance',
+    description: 'Run full strict media validation for rights-approved images, local videos, captions, and transcripts.',
+    command: ['run', 'validate:media-clearance'],
     mutates: true,
     strict: true,
   },
@@ -88,7 +96,7 @@ const scripts = [
   {
     id: 'build:kiosk',
     label: 'Strict Kiosk Build',
-    description: 'Run strict kiosk validation and production build. This can fail until every kiosk readiness item is approved.',
+    description: 'Run strict wall-profile kiosk validation and production build.',
     command: ['run', 'build:kiosk'],
     mutates: true,
     strict: true,
@@ -127,7 +135,7 @@ const scripts = [
 ];
 
 const scriptById = new Map(scripts.map((script) => [script.id, script]));
-const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk']);
+const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk', 'validate:media-clearance']);
 const buildScriptIds = new Set(['build', 'build:kiosk']);
 const curationDecisionColumns = new Set([
   'approval_status',

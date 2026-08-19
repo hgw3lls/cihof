@@ -76,6 +76,7 @@ type CurationReport = {
 
 type MediaReport = {
   generatedAt?: string;
+  strictProfile?: string;
   validation?: {
     errors?: string[];
     warnings?: string[];
@@ -83,6 +84,7 @@ type MediaReport = {
   strictFailures?: string[];
   summary?: {
     primaryImages?: number;
+    primaryImagesWallReady?: number;
     primaryImagesReady?: number;
     galleryImages?: number;
     galleryImagesReady?: number;
@@ -746,6 +748,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
           <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
           <StatusPill label="Links" value={`${relationshipRows.length}`} tone={relationshipState.error ? 'bad' : relationshipDraftCount > 0 ? 'warn' : 'ok'} />
+          <StatusPill label="Wall Build" value={summary.wallReady ? 'Yes' : 'No'} tone={summary.wallReady ? 'ok' : 'bad'} />
           <StatusPill label="Kiosk Ready" value={summary.kioskReady ? 'Yes' : 'No'} tone={summary.kioskReady ? 'ok' : 'bad'} />
         </div>
       </div>
@@ -776,7 +779,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         <MetricCard label="Open Drafts" value={draftCount} detail={`${summary.draftApprovedProfiles} profile approvals staged`} />
         <MetricCard label="Countries" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
         <MetricCard label="Summaries" value={summary.approvedSummaries} detail={`${summary.summaryDrafts} draft / ${summary.draftApprovedSummaries} staged`} />
-        <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesReady} kiosk-ready / ${summary.totalProfiles} local`} />
+        <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesWallReady} wall-ready / ${summary.primaryImagesReady} cleared`} />
         <MetricCard label="Videos" value={summary.videosReady} detail={`${summary.videoItems} items / ${summary.missingCaptions} captions needed`} />
       </div>
 
@@ -1788,13 +1791,14 @@ function ReadinessPanel({
     <section className="portal-readiness" aria-label="Kiosk readiness">
       <div className="portal-readiness__intro">
         <p className="eyebrow">Museum Readiness</p>
-        <h3>{summary.kioskReady ? 'Ready for kiosk validation' : 'Still needs staff decisions'}</h3>
-        <p>Use these queues to move profiles from generated/imported metadata to curator-approved installation data.</p>
+        <h3>{summary.wallReady ? 'Portrait wall build is runnable' : 'Portrait wall files need attention'}</h3>
+        <p>Use these queues to move profiles from generated/imported metadata to curator-approved installation data. Wall readiness confirms local portrait files; kiosk readiness still requires rights and accessible media clearance.</p>
       </div>
       <div className="portal-readiness__grid">
         <ReadinessCard title="Profile approval" ready={summary.approvedProfiles + summary.draftApprovedProfiles} total={summary.totalProfiles} action="Open high priority" onClick={() => onQueueChange('high')} />
         <ReadinessCard title="Country labels" ready={summary.approvedCountries + summary.draftApprovedCountries} total={summary.totalProfiles} action="Review countries" onClick={() => onQueueChange('country')} ids={countryIds} />
         <ReadinessCard title="Summaries" ready={summary.approvedSummaries + summary.draftApprovedSummaries} total={summary.totalProfiles} action="Review summaries" onClick={() => onQueueChange('summary')} />
+        <ReadinessCard title="Portrait wall images" ready={summary.primaryImagesWallReady} total={summary.totalProfiles} action="Review images" onClick={() => onQueueChange('image-rights')} ids={imageIds} />
         <ReadinessCard title="Primary image rights" ready={summary.primaryImagesReady + summary.draftApprovedImages} total={summary.totalProfiles} action="Review images" onClick={() => onQueueChange('image-rights')} ids={imageIds} />
         <ReadinessCard title="Video captions" ready={summary.videosReady + summary.draftApprovedVideos} total={Math.max(summary.videoItems, 1)} action="Review videos" onClick={() => onQueueChange('video-captions')} ids={videoIds} />
         <ReadinessCard title="Accessibility" ready={summary.draftApprovedAccessibility} total={summary.totalProfiles} action="Review accessibility" onClick={() => onQueueChange('accessibility')} ids={accessibilityIds} />
@@ -2356,6 +2360,7 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
   const mediumPriority = inductees.filter((item) => item.reviewPriority === 'medium').length;
   const standardPriority = inductees.filter((item) => item.reviewPriority === 'standard').length;
   const localPrimaryImages = inductees.filter((item) => item.primaryImageUrl.startsWith('/media/')).length;
+  const primaryImagesWallReady = media?.summary?.primaryImagesWallReady ?? localPrimaryImages;
   const primaryImagesReady = media?.summary?.primaryImagesReady ?? 0;
   const videosReady = media?.summary?.videosReady ?? 0;
   const videoItems = media?.summary?.videoItems ?? 0;
@@ -2379,6 +2384,7 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
     inferredCountries,
     countryNeedsReview: inductees.filter((item) => item.countryTagsSource !== 'curated').length,
     localPrimaryImages,
+    primaryImagesWallReady,
     primaryImagesReady,
     videosReady,
     videoItems,
@@ -2389,6 +2395,7 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
     draftApprovedImages: draftValues.filter((draft) => draft.imageRightsApproved || draft.imageRightsStatus === 'approved').length,
     draftApprovedVideos: draftValues.filter((draft) => draft.videoRightsApproved || draft.captionsApproved || draft.transcriptApproved).length,
     draftApprovedAccessibility: draftValues.filter((draft) => draft.accessibilityApproved).length,
+    wallReady: primaryImagesWallReady === totalProfiles && (media?.validation?.errors?.length ?? 0) === 0,
     kioskReady: primaryImagesReady === totalProfiles && videoItems === videosReady && (media?.validation?.errors?.length ?? 0) === 0,
   };
 }
@@ -2448,12 +2455,20 @@ function buildActionItems(summary: ReturnType<typeof buildDashboardSummary>, dra
       priority: 3,
     });
   }
+  if (summary.primaryImagesWallReady < summary.totalProfiles) {
+    items.push({
+      label: 'Fix Portrait Files',
+      detail: `${summary.totalProfiles - summary.primaryImagesWallReady} primary portraits are not local wall-ready`,
+      queue: 'image-rights',
+      priority: 4,
+    });
+  }
   if (summary.primaryImagesReady < summary.totalProfiles) {
     items.push({
       label: 'Approve Images',
       detail: `${summary.totalProfiles - summary.primaryImagesReady} primary images are not kiosk-ready`,
       queue: 'image-rights',
-      priority: 4,
+      priority: 5,
     });
   }
   if (items.length === 0) {

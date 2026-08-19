@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-08-19T12:03:32.428Z",
+  "generatedAt": "2026-08-19T22:56:15.783Z",
   "strict": false,
+  "strictProfile": "report",
   "source": "data/media_manifest.json",
   "totalInductees": 111,
   "validation": {
@@ -273,6 +274,7 @@
   "summary": {
     "mediaRecords": 111,
     "primaryImages": 111,
+    "primaryImagesWallReady": 111,
     "primaryImagesReady": 0,
     "galleryImages": 999,
     "galleryImagesReady": 0,
