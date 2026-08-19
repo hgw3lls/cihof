@@ -1,8 +1,9 @@
 import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
-import { randomBytes, timingSafeEqual } from 'node:crypto';
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { dirname, relative, resolve } from 'node:path';
 import { execFileSync, spawn } from 'node:child_process';
+import { parseCsv } from './data-utils.js';
 import { dedupeRelationshipRecords, normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
 
 const host = process.env.CIHOF_PORTAL_HOST || '127.0.0.1';
@@ -128,6 +129,109 @@ const scripts = [
 const scriptById = new Map(scripts.map((script) => [script.id, script]));
 const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk']);
 const buildScriptIds = new Set(['build', 'build:kiosk']);
+const curationDecisionColumns = new Set([
+  'approval_status',
+  'review_priority',
+  'approve_profile',
+  'display_name',
+  'name',
+  'sort_name',
+  'pronunciation',
+  'approved_summary',
+  'summary_approved',
+  'approved_theme_tags',
+  'theme_tags_approved',
+  'approved_country_tags',
+  'approved_countries',
+  'country_tags_approved',
+  'country_note',
+  'country_notes',
+  'approved_community_tags',
+  'community_tags',
+  'community_tags_approved',
+  'journey_suggestions',
+  'curator_notes',
+  'attract_priority',
+  'featured',
+  'featured_candidate',
+  'primary_image_alt_text',
+  'image_alt_text',
+  'image_focal_point',
+  'image_rights_status',
+  'image_rights_notes',
+  'image_source_url',
+  'image_rights_approved',
+  'video_review_status',
+  'caption_status',
+  'transcript_status',
+  'audio_description_status',
+  'video_rights_status',
+  'video_source_urls',
+  'youtube_video_ids',
+  'local_video_paths',
+  'video_rights_approved',
+  'captions_approved',
+  'transcript_approved',
+  'plain_language_review',
+  'sensitive_content_review',
+  'image_description_review',
+  'accessibility_approved',
+]);
+const mediaDecisionColumns = new Set([
+  'primary_image_source_url',
+  'image_source_url',
+  'primary_image_file_path',
+  'image_file_path',
+  'primary_image_runtime_path',
+  'image_runtime_path',
+  'primary_image_checksum_sha256',
+  'image_checksum_sha256',
+  'primary_image_width',
+  'image_width',
+  'primary_image_height',
+  'image_height',
+  'primary_image_alt_text',
+  'image_alt_text',
+  'image_rights_status',
+  'primary_image_rights_status',
+  'image_rights_approved',
+  'approve_image_rights',
+  'primary_image_rights_approved',
+  'primary_image_kiosk_approved',
+  'image_kiosk_approved',
+  'approve_primary_image_for_kiosk',
+  'video_index',
+  'video_source_url',
+  'youtube_video_id',
+  'video_file_path',
+  'video_runtime_path',
+  'video_poster_file_path',
+  'poster_file_path',
+  'video_poster_runtime_path',
+  'poster_runtime_path',
+  'caption_file_path',
+  'caption_runtime_path',
+  'transcript_file_path',
+  'transcript_runtime_path',
+  'video_checksum_sha256',
+  'duration_seconds',
+  'codec',
+  'video_rights_status',
+  'video_rights_approved',
+  'approve_video_rights',
+  'caption_status',
+  'captions_approved',
+  'approve_captions',
+  'transcript_status',
+  'transcript_approved',
+  'approve_transcript',
+  'audio_description_status',
+  'video_kiosk_approved',
+  'all_videos_kiosk_approved',
+  'approve_video_for_kiosk',
+  'media_notes',
+  'notes',
+]);
 hydratePersistedJobs();
 
 const server = createServer(async (request, response) => {
@@ -169,8 +273,8 @@ const server = createServer(async (request, response) => {
         maxPersistedJobs,
         runnerStartedAt,
         git: readGitStatus(),
-        lastSuccessfulValidation: findLastSuccessfulJob(validationScriptIds),
-        lastSuccessfulBuild: findLastSuccessfulJob(buildScriptIds),
+        lastSuccessfulValidation: findLastSuccessfulValidation(),
+        lastSuccessfulBuild: findLastSuccessfulBuild(),
       });
       return;
     }
@@ -276,6 +380,31 @@ const server = createServer(async (request, response) => {
         return;
       }
 
+      const csvHash = hashText(csv);
+      const applySummary = buildDecisionApplySummary(csv, targets);
+      if (!dryRun) {
+        const previewJobId = typeof body.previewJobId === 'string' ? body.previewJobId : '';
+        const previewHash = typeof body.previewHash === 'string' ? body.previewHash : '';
+        const previewJob = jobs.get(previewJobId);
+        const gitStatus = readGitStatus();
+
+        if (!previewJob || previewJob.status !== 'success' || previewJob.meta?.kind !== 'apply-decisions' || previewJob.meta?.dryRun !== true) {
+          sendJson(response, 409, { error: 'Run a successful dry run from this portal session before applying changes.' });
+          return;
+        }
+        if (previewJob.meta?.csvHash !== csvHash || (previewHash && previewHash !== csvHash)) {
+          sendJson(response, 409, { error: 'Portal edits changed after the dry run. Run the dry run again before applying.' });
+          return;
+        }
+        if (gitStatus.available && gitStatus.dirty) {
+          sendJson(response, 409, {
+            error: 'The repo has uncommitted changes. Commit, stash, or discard them before applying portal edits.',
+            git: gitStatus,
+          });
+          return;
+        }
+      }
+
       mkdirSync(decisionsDir, { recursive: true });
       const decisionPath = resolve(decisionsDir, `portal-decisions-${new Date().toISOString().replace(/[:.]/g, '-')}.csv`);
       writeFileSync(decisionPath, `${csv.replace(/^\uFEFF/, '')}\n`);
@@ -291,6 +420,8 @@ const server = createServer(async (request, response) => {
           { label: 'Prepare Data', command: ['run', 'prepare:data'] },
           { label: 'Curation Report', command: ['run', 'curate:report'] },
           { label: 'Media Validate', command: ['run', 'media:validate'] },
+          { label: 'Validate Entities', command: ['run', 'validate:entities'] },
+          { label: 'Build Public Site', command: ['run', 'build'] },
         );
       }
       const job = createJob(dryRun ? 'Dry Run Portal Decisions' : 'Apply Portal Decisions', steps, {
@@ -298,6 +429,9 @@ const server = createServer(async (request, response) => {
         decisionPath,
         dryRun,
         targets,
+        csvHash,
+        previewJobId: typeof body.previewJobId === 'string' ? body.previewJobId : '',
+        applySummary,
       });
       runJob(job);
       sendJson(response, 202, { job: toPublicJob(job) });
@@ -533,12 +667,17 @@ async function runJob(job) {
     job.currentStep = step.label;
     step.status = 'running';
     step.startedAt = new Date().toISOString();
+    step.output = '';
     persistJob(job);
     appendOutput(job, `\n> ${step.label}\n$ npm ${step.command.join(' ')}\n`);
-    const exitCode = await runNpmCommand(step.command, (chunk) => appendOutput(job, chunk));
+    const exitCode = await runNpmCommand(step.command, (chunk) => {
+      step.output = `${step.output}${redactSecrets(chunk)}`.slice(-24_000);
+      appendOutput(job, chunk);
+    });
     step.exitCode = exitCode;
     step.finishedAt = new Date().toISOString();
     step.status = exitCode === 0 ? 'success' : 'failed';
+    updateApplySummaryFromSteps(job);
     persistJob(job);
     if (exitCode !== 0) {
       job.status = 'failed';
@@ -640,6 +779,7 @@ function normalizePersistedStep(step) {
     startedAt: typeof step.startedAt === 'string' ? step.startedAt : '',
     finishedAt: typeof step.finishedAt === 'string' ? step.finishedAt : '',
     exitCode: Number.isFinite(step.exitCode) ? step.exitCode : null,
+    output: typeof step.output === 'string' ? redactSecrets(step.output).slice(-24_000) : '',
   };
 }
 
@@ -686,6 +826,129 @@ function jobLogPath(id) {
 function redactSecrets(value) {
   if (!portalToken) return value;
   return String(value).split(portalToken).join('[redacted portal token]');
+}
+
+function hashText(value) {
+  return createHash('sha256').update(value).digest('hex');
+}
+
+function buildDecisionApplySummary(csv, targets) {
+  const csvRows = parseCsv(csv.replace(/^\uFEFF/, ''));
+  const headers = csvRows.shift()?.map(normalizeDecisionHeader) ?? [];
+  const targetSet = new Set(targets);
+  const curationFieldCounts = {};
+  const mediaFieldCounts = {};
+  const affectedRecords = [];
+  const warnings = [];
+
+  csvRows.forEach((row, index) => {
+    const record = Object.fromEntries(headers.map((header, cellIndex) => [header, String(row[cellIndex] ?? '').trim()]));
+    const id = record.id || '';
+    if (!id) {
+      warnings.push(`Row ${index + 2} has no id and will be ignored by apply scripts.`);
+      return;
+    }
+
+    const curationFields = [];
+    const mediaFields = [];
+    headers.forEach((header) => {
+      const value = record[header];
+      if (!value) return;
+      if (targetSet.has('curation') && curationDecisionColumns.has(header)) {
+        curationFields.push(header);
+        curationFieldCounts[header] = (curationFieldCounts[header] ?? 0) + 1;
+      }
+      if (targetSet.has('media') && mediaDecisionColumns.has(header)) {
+        mediaFields.push(header);
+        mediaFieldCounts[header] = (mediaFieldCounts[header] ?? 0) + 1;
+      }
+    });
+
+    affectedRecords.push({
+      id,
+      name: record.name || '',
+      classYear: record.class_year || '',
+      curationFields,
+      mediaFields,
+      fieldInputs: curationFields.length + mediaFields.length,
+    });
+  });
+
+  return {
+    rowsRead: csvRows.length,
+    targetRows: affectedRecords.length,
+    targets,
+    curationFieldInputs: sumCounts(curationFieldCounts),
+    mediaFieldInputs: sumCounts(mediaFieldCounts),
+    curationFieldCounts,
+    mediaFieldCounts,
+    affectedRecords: affectedRecords.slice(0, 30),
+    warnings,
+    dryRunResults: [],
+    pipeline: targets.flatMap((target) => target === 'curation' ? ['Apply Curation Decisions'] : ['Apply Media Decisions']).concat([
+      'Prepare Data',
+      'Curation Report',
+      'Media Validate',
+      'Validate Entities',
+      'Build Public Site',
+    ]),
+  };
+}
+
+function updateApplySummaryFromSteps(job) {
+  if (job.meta?.kind !== 'apply-decisions' || !job.meta.applySummary) return;
+  job.meta.applySummary = {
+    ...job.meta.applySummary,
+    dryRunResults: summarizeApplySteps(job.steps),
+  };
+}
+
+function summarizeApplySteps(steps) {
+  return steps
+    .filter((step) => /Curation Decisions|Media Decisions/.test(step.label))
+    .map((step) => ({
+      label: step.label,
+      status: step.status,
+      rowsRead: parseFirstNumber(step.output, /Read (\d+) (?:curation|media) decision rows/),
+      recordsChanged: parseFirstNumber(step.output, /(\d+) (?:curated|media) records (?:would be updated|updated)/),
+      warnings: parseFirstNumber(step.output, /Warnings: (\d+)/) ?? countOutputLines(step.output, /^Warning:/),
+      errors: countOutputLines(step.output, /^Error:/),
+      changedRecords: parseChangedRecordLines(step.output).slice(0, 20),
+    }));
+}
+
+function parseFirstNumber(output, pattern) {
+  const match = String(output || '').match(pattern);
+  return match ? Number(match[1]) : null;
+}
+
+function countOutputLines(output, pattern) {
+  return String(output || '').split(/\r?\n/).filter((line) => pattern.test(line)).length;
+}
+
+function parseChangedRecordLines(output) {
+  return String(output || '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => /^- [a-z0-9-]+: /i.test(line))
+    .map((line) => {
+      const [, id, fields] = line.match(/^- ([^:]+): (.+)$/) ?? [];
+      return { id: id || '', fields: fields ? fields.split(',').map((field) => field.trim()).filter(Boolean) : [] };
+    })
+    .filter((record) => record.id);
+}
+
+function sumCounts(counts) {
+  return Object.values(counts).reduce((sum, count) => sum + Number(count || 0), 0);
+}
+
+function normalizeDecisionHeader(header) {
+  return String(header)
+    .trim()
+    .toLowerCase()
+    .replace(/^\uFEFF/, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
 }
 
 function trimJobs() {
@@ -785,11 +1048,29 @@ function gitErrorMessage(error) {
   return error instanceof Error ? error.message : 'Git command failed.';
 }
 
-function findLastSuccessfulJob(scriptIds) {
+function findLastSuccessfulValidation() {
+  return findLastSuccessfulJob((job) => {
+    if (validationScriptIds.has(job.meta?.scriptId)) return true;
+    return hasSuccessfulStep(job, 'Curation Report') && hasSuccessfulStep(job, 'Media Validate') && hasSuccessfulStep(job, 'Validate Entities');
+  });
+}
+
+function findLastSuccessfulBuild() {
+  return findLastSuccessfulJob((job) => {
+    if (buildScriptIds.has(job.meta?.scriptId)) return true;
+    return hasSuccessfulStep(job, 'Build Public Site');
+  });
+}
+
+function findLastSuccessfulJob(matchesJob) {
   const matching = Array.from(jobs.values())
-    .filter((job) => job.status === 'success' && scriptIds.has(job.meta?.scriptId))
+    .filter((job) => job.status === 'success' && matchesJob(job))
     .sort((a, b) => String(b.finishedAt || b.startedAt || '').localeCompare(String(a.finishedAt || a.startedAt || '')));
   return matching[0] ? summarizeJob(matching[0]) : null;
+}
+
+function hasSuccessfulStep(job, label) {
+  return Array.isArray(job.steps) && job.steps.some((step) => step.label === label && step.status === 'success');
 }
 
 function summarizeJob(job) {

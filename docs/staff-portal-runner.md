@@ -57,7 +57,11 @@ The portal can also send its local draft CSV directly to the runner for:
 - curation decision dry run
 - media decision dry run
 - real curation/media apply
-- report regeneration after a real apply
+- runtime data regeneration after a real apply
+- curation/media/entity validation after a real apply
+- public app build after a real apply
+
+Real portal applies are gated by the current dry run. If draft edits change after the dry run, the runner rejects the apply request and staff must run the dry run again.
 
 The portal can write curator-edited JSON directly to the repo for:
 
@@ -103,6 +107,25 @@ The Staff Portal runner panel shows:
 - last successful build job
 
 The validation/build status is based on persisted runner job logs, so it survives runner restarts as long as `.portal/jobs/` is preserved.
+
+## Safer Apply Flow
+
+Use this sequence when moving portal drafts into repo data:
+
+1. Run **Dry Run Portal Edits**.
+2. Review the Apply Gate summary and dry-run job output.
+3. Fix any blocking draft issues.
+4. Run **Apply Validated Edits**.
+5. Let the runner complete the full pipeline:
+   - apply curation decisions
+   - apply media decisions
+   - prepare runtime data
+   - regenerate curation report
+   - validate media
+   - validate entities
+   - build the public app
+
+The runner blocks real apply if the repo already has uncommitted changes. Commit, stash, or discard those changes first so curator edits do not mix with unrelated work.
 
 ## Environment Overrides
 
