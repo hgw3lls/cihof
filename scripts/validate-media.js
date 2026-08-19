@@ -4,19 +4,27 @@ import { loadInductees } from './data-utils.js';
 
 const manifestPath = resolve('data/media_manifest.json');
 const reportPath = resolve('public/data/media-report.json');
-const strict = process.argv.includes('--strict');
+const args = parseArgs(process.argv.slice(2));
+const strict = Boolean(args.strict);
+const strictProfile = strict ? args.profile || (args.wall ? 'wall' : 'full') : 'report';
+
+if (strict && !['full', 'wall'].includes(strictProfile)) {
+  console.error(`Unknown media strict profile "${strictProfile}". Use full or wall.`);
+  process.exit(1);
+}
 
 const inductees = loadInductees({ includeMedia: false });
 const manifest = loadManifest();
-const report = validateMediaManifest(manifest, inductees, { strict });
+const report = validateMediaManifest(manifest, inductees, { strict, strictProfile });
 
 mkdirSync(dirname(reportPath), { recursive: true });
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
-console.log(`Media validation ${strict ? '(strict)' : '(report)'}: ${report.totalInductees} inductees.`);
+console.log(`Media validation ${strict ? `(strict:${strictProfile})` : '(report)'}: ${report.totalInductees} inductees.`);
 console.log(`Schema errors: ${report.validation.errors.length}`);
 console.log(`Warnings: ${report.validation.warnings.length}`);
 console.log(`Strict failures: ${report.strictFailures.length}`);
+console.log(`Primary images wall-ready: ${report.summary.primaryImagesWallReady}/${report.totalInductees}`);
 console.log(`Primary images kiosk-ready: ${report.summary.primaryImagesReady}/${report.totalInductees}`);
 console.log(`Videos kiosk-ready: ${report.summary.videosReady}/${report.summary.videoItems}`);
 console.log(`Audio kiosk-ready: ${report.summary.audioReady}/${report.summary.audioItems}`);
@@ -152,32 +160,65 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
   });
 
   if (options.strict) {
-    primaryImageItems.forEach(({ id, asset }) => {
-      if (!isKioskReadyImage(asset)) strictFailures.push(`${id}: primary image is not kiosk-ready.`);
-    });
-
-    imageItems
-      .filter((item) => !item.primary)
-      .forEach(({ id, asset }) => {
-        if (!isKioskReadyImage(asset)) strictFailures.push(`${id}: gallery image ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
+    if (options.strictProfile === 'wall') {
+      primaryImageItems.forEach(({ id, asset }) => {
+        if (!isWallReadyImage(asset)) strictFailures.push(`${id}: primary image is not wall-ready.`);
       });
 
-    videoItems.forEach(({ id, asset }) => {
-      if (!isKioskReadyVideo(asset)) strictFailures.push(`${id}: video ${asset.youtubeVideoId || asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
-    });
+      imageItems
+        .filter((item) => !item.primary)
+        .forEach(({ id, asset }) => {
+          if (asset?.approvedForKiosk && !isKioskReadyImage(asset)) {
+            strictFailures.push(`${id}: gallery image ${asset.sourceUrl || asset.filePath || 'unknown'} is marked kiosk-approved but is not kiosk-ready.`);
+          }
+        });
 
-    audioItems.forEach(({ id, asset }) => {
-      if (!isKioskReadyAudio(asset)) strictFailures.push(`${id}: audio ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
-    });
+      videoItems.forEach(({ id, asset }) => {
+        if (asset?.approvedForKiosk && !isKioskReadyVideo(asset)) {
+          strictFailures.push(`${id}: video ${asset.youtubeVideoId || asset.sourceUrl || asset.filePath || 'unknown'} is marked kiosk-approved but is not kiosk-ready.`);
+        }
+      });
 
-    oralHistoryItems.forEach(({ id, asset }) => {
-      if (!isKioskReadyAudio(asset)) strictFailures.push(`${id}: oral history ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
-    });
+      audioItems.forEach(({ id, asset }) => {
+        if (asset?.approvedForKiosk && !isKioskReadyAudio(asset)) {
+          strictFailures.push(`${id}: audio ${asset.sourceUrl || asset.filePath || 'unknown'} is marked kiosk-approved but is not kiosk-ready.`);
+        }
+      });
+
+      oralHistoryItems.forEach(({ id, asset }) => {
+        if (asset?.approvedForKiosk && !isKioskReadyAudio(asset)) {
+          strictFailures.push(`${id}: oral history ${asset.sourceUrl || asset.filePath || 'unknown'} is marked kiosk-approved but is not kiosk-ready.`);
+        }
+      });
+    } else {
+      primaryImageItems.forEach(({ id, asset }) => {
+        if (!isKioskReadyImage(asset)) strictFailures.push(`${id}: primary image is not kiosk-ready.`);
+      });
+
+      imageItems
+        .filter((item) => !item.primary)
+        .forEach(({ id, asset }) => {
+          if (!isKioskReadyImage(asset)) strictFailures.push(`${id}: gallery image ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
+        });
+
+      videoItems.forEach(({ id, asset }) => {
+        if (!isKioskReadyVideo(asset)) strictFailures.push(`${id}: video ${asset.youtubeVideoId || asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
+      });
+
+      audioItems.forEach(({ id, asset }) => {
+        if (!isKioskReadyAudio(asset)) strictFailures.push(`${id}: audio ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
+      });
+
+      oralHistoryItems.forEach(({ id, asset }) => {
+        if (!isKioskReadyAudio(asset)) strictFailures.push(`${id}: oral history ${asset.sourceUrl || asset.filePath || 'unknown'} is not kiosk-ready.`);
+      });
+    }
   }
 
   return {
     generatedAt: new Date().toISOString(),
     strict: options.strict,
+    strictProfile: options.strictProfile,
     source: 'data/media_manifest.json',
     totalInductees: expectedInductees.length,
     validation: { errors, warnings },
@@ -185,6 +226,7 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
     summary: {
       mediaRecords: Object.keys(records).length,
       primaryImages: primaryImageItems.length,
+      primaryImagesWallReady: primaryImageItems.filter((item) => isWallReadyImage(item.asset)).length,
       primaryImagesReady: primaryImageItems.filter((item) => isKioskReadyImage(item.asset)).length,
       galleryImages: imageItems.filter((item) => !item.primary).length,
       galleryImagesReady: imageItems.filter((item) => !item.primary && isKioskReadyImage(item.asset)).length,
@@ -207,6 +249,17 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
       oralHistoryRightsNeedsReview: oralHistoryItems.filter((item) => item.asset.rightsStatus !== 'approved').map((item) => item.id),
     },
   };
+}
+
+function parseArgs(rawArgs) {
+  return rawArgs.reduce((parsed, arg, index) => {
+    if (arg === '--strict') return { ...parsed, strict: true };
+    if (arg === '--wall') return { ...parsed, wall: true, profile: 'wall' };
+    if (arg === '--full') return { ...parsed, profile: 'full' };
+    if (arg === '--profile') return { ...parsed, profile: rawArgs[index + 1] ?? '' };
+    if (arg.startsWith('--profile=')) return { ...parsed, profile: arg.slice('--profile='.length) };
+    return parsed;
+  }, {});
 }
 
 function validateImageAsset(asset, label, errors, warnings) {
@@ -335,6 +388,16 @@ function isKioskReadyImage(asset) {
       asset.rightsStatus === 'approved' &&
       asset.filePath &&
       asset.runtimePath &&
+      existsSync(resolve(asset.filePath)),
+  );
+}
+
+function isWallReadyImage(asset) {
+  return Boolean(
+    asset?.filePath &&
+      asset.runtimePath &&
+      asset.altText &&
+      asset.runtimePath.startsWith('/media/') &&
       existsSync(resolve(asset.filePath)),
   );
 }
