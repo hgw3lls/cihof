@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { RelationshipEntityType, RelationshipProvenance, RelationshipRecord, RelationshipType } from './types';
 
 type RelationshipState = {
   relationships: RelationshipRecord[];
   loading: boolean;
   error: string;
+  refresh: () => Promise<void>;
 };
+type RelationshipLoadState = Omit<RelationshipState, 'refresh'>;
 
 const relationshipsUrl = `${import.meta.env.BASE_URL}data/relationships.json`;
 
@@ -27,32 +29,29 @@ const provenanceValues = new Set<RelationshipProvenance>(['documented', 'curated
 const entityTypes = new Set<RelationshipEntityType>(['person', 'organization', 'place', 'community', 'event', 'theme', 'media']);
 
 export function useRelationships(): RelationshipState {
-  const [state, setState] = useState<RelationshipState>({ relationships: [], loading: true, error: '' });
+  const [state, setState] = useState<RelationshipLoadState>({ relationships: [], loading: true, error: '' });
 
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch(relationshipsUrl)
+  const refresh = useCallback(async () => {
+    setState((current) => ({ ...current, loading: true }));
+    try {
+      const payload = await fetch(relationshipsUrl, { cache: 'no-store' })
       .then((response) => {
         if (response.status === 404) return [] as unknown;
         if (!response.ok) throw new Error(`Relationships request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
       })
-      .then((payload) => {
-        if (cancelled) return;
-        if (!Array.isArray(payload)) throw new Error('Relationships data must be an array.');
-        setState({ relationships: payload.filter(isRelationshipRecord), loading: false, error: '' });
-      })
-      .catch((error: Error) => {
-        if (!cancelled) setState({ relationships: [], loading: false, error: error.message });
-      });
-
-    return () => {
-      cancelled = true;
-    };
+      if (!Array.isArray(payload)) throw new Error('Relationships data must be an array.');
+      setState({ relationships: payload.filter(isRelationshipRecord), loading: false, error: '' });
+    } catch (error) {
+      setState({ relationships: [], loading: false, error: error instanceof Error ? error.message : 'Could not load relationships.' });
+    }
   }, []);
 
-  return state;
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
+  return { ...state, refresh };
 }
 
 function isRelationshipRecord(value: unknown): value is RelationshipRecord {

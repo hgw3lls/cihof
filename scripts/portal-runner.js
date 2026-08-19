@@ -2,13 +2,18 @@ import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
+import { dedupeRelationshipRecords, normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
 
 const host = process.env.CIHOF_PORTAL_HOST || '127.0.0.1';
 const port = Number(process.env.CIHOF_PORTAL_PORT || 5174);
 const repoRoot = resolve('.');
 const decisionsDir = resolve('.portal/decisions');
+const relationshipsSourcePath = resolve('data/cihof_relationships.json');
+const relationshipsPublicPath = resolve('public/data/relationships.json');
 const storyLensesSourcePath = resolve('data/cihof_story_lenses.json');
 const storyLensesPublicPath = resolve('public/data/story-lenses.json');
+const runtimeInducteesPath = resolve('public/data/inductees.json');
+const sourceInducteesPath = resolve('data/cihof_inductees.json');
 const allowedExternalOrigins = new Set(
   String(process.env.CIHOF_PORTAL_ALLOWED_ORIGINS || '')
     .split(',')
@@ -164,6 +169,12 @@ const server = createServer(async (request, response) => {
       return;
     }
 
+    if (request.method === 'GET' && url.pathname === '/api/relationships') {
+      const records = readRelationshipRecords();
+      sendJson(response, 200, { records, validation: validateRelationshipRecords(records, readKnownInducteeIds()) });
+      return;
+    }
+
     if (request.method === 'GET' && url.pathname.startsWith('/api/jobs/')) {
       const id = decodeURIComponent(url.pathname.replace('/api/jobs/', ''));
       const job = jobs.get(id);
@@ -209,6 +220,23 @@ const server = createServer(async (request, response) => {
       writeFileSync(storyLensesSourcePath, `${JSON.stringify(savedDocument, null, 2)}\n`);
       writeFileSync(storyLensesPublicPath, `${JSON.stringify(savedDocument, null, 2)}\n`);
       sendJson(response, 200, { ok: true, document: savedDocument, validation: validateStoryLensDocument(savedDocument) });
+      return;
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/relationships') {
+      const body = await readJsonBody(request);
+      const records = dedupeRelationshipRecords(body.records ?? body.relationships ?? body);
+      const validation = validateRelationshipRecords(records, readKnownInducteeIds());
+      if (validation.errors.length > 0) {
+        sendJson(response, 400, { error: 'Relationship validation failed.', validation });
+        return;
+      }
+
+      mkdirSync(dirname(relationshipsSourcePath), { recursive: true });
+      mkdirSync(dirname(relationshipsPublicPath), { recursive: true });
+      writeFileSync(relationshipsSourcePath, `${JSON.stringify(records, null, 2)}\n`);
+      writeFileSync(relationshipsPublicPath, `${JSON.stringify(records, null, 2)}\n`);
+      sendJson(response, 200, { ok: true, records, validation: validateRelationshipRecords(records, readKnownInducteeIds()) });
       return;
     }
 
@@ -267,6 +295,17 @@ server.listen(port, host, () => {
   console.log('Use the Staff Portal runner controls to execute whitelisted scripts.');
 });
 
+function readRelationshipRecords() {
+  const path = existsSync(relationshipsSourcePath)
+    ? relationshipsSourcePath
+    : existsSync(relationshipsPublicPath)
+      ? relationshipsPublicPath
+      : '';
+
+  if (!path) return [];
+  return normalizeRelationshipRecords(JSON.parse(readFileSync(path, 'utf8')));
+}
+
 function readStoryLensDocument() {
   const fallback = {
     schemaVersion: 1,
@@ -318,6 +357,10 @@ function normalizeStoryLens(lens) {
     description: cleanStoryString(lens.description),
     terms: cleanStoryList(lens.terms),
     themes: cleanStoryList(lens.themes),
+    pinnedPersonIds: cleanStoryList(lens.pinnedPersonIds),
+    excludedPersonIds: cleanStoryList(lens.excludedPersonIds),
+    curatorNotes: cleanStoryList(lens.curatorNotes),
+    reviewStatus: ['draft', 'reviewed', 'approved'].includes(lens.reviewStatus) ? lens.reviewStatus : 'draft',
     maxPortraits: Number.isFinite(lens.maxPortraits) ? Math.round(lens.maxPortraits) : 48,
     enabled: lens.enabled !== false,
   };
@@ -327,6 +370,7 @@ function validateStoryLensDocument(document) {
   const errors = [];
   const warnings = [];
   const ids = new Set();
+  const knownInducteeIds = readKnownInducteeIds();
 
   if (!document || typeof document !== 'object' || Array.isArray(document)) {
     return { errors: ['Story lens document must be an object.'], warnings };
@@ -366,6 +410,29 @@ function validateStoryLensDocument(document) {
     if (Array.isArray(lens.terms) && Array.isArray(lens.themes) && lens.terms.length + lens.themes.length === 0) {
       errors.push(`${label} must contain at least one term or theme.`);
     }
+    ['pinnedPersonIds', 'excludedPersonIds', 'curatorNotes'].forEach((field) => {
+      if (lens[field] !== undefined && !Array.isArray(lens[field])) errors.push(`${label}.${field} must be an array when present.`);
+      if (Array.isArray(lens[field])) {
+        lens[field].forEach((value, valueIndex) => {
+          if (typeof value !== 'string' || value.trim().length === 0) errors.push(`${label}.${field}[${valueIndex}] is required.`);
+        });
+      }
+    });
+    ['pinnedPersonIds', 'excludedPersonIds'].forEach((field) => {
+      if (!Array.isArray(lens[field])) return;
+      lens[field].forEach((id) => {
+        if (typeof id === 'string' && knownInducteeIds.size > 0 && !knownInducteeIds.has(id)) errors.push(`${label}.${field} contains unknown inductee id ${id}.`);
+      });
+    });
+    if (Array.isArray(lens.pinnedPersonIds) && Array.isArray(lens.excludedPersonIds)) {
+      const excludedIds = new Set(lens.excludedPersonIds);
+      lens.pinnedPersonIds.forEach((id) => {
+        if (excludedIds.has(id)) errors.push(`${label}: ${id} cannot be both pinned and excluded.`);
+      });
+    }
+    if (lens.reviewStatus !== undefined && !['draft', 'reviewed', 'approved'].includes(lens.reviewStatus)) {
+      errors.push(`${label}.reviewStatus must be draft, reviewed, or approved when present.`);
+    }
     if (!Number.isFinite(lens.maxPortraits) || lens.maxPortraits < 12 || lens.maxPortraits > 96) {
       errors.push(`${label}.maxPortraits must be a number from 12 to 96.`);
     }
@@ -373,6 +440,28 @@ function validateStoryLensDocument(document) {
   });
 
   return { errors, warnings };
+}
+
+function readKnownInducteeIds() {
+  const ids = new Set();
+  const path = existsSync(runtimeInducteesPath)
+    ? runtimeInducteesPath
+    : existsSync(sourceInducteesPath)
+      ? sourceInducteesPath
+      : '';
+  if (!path) return ids;
+
+  try {
+    const payload = JSON.parse(readFileSync(path, 'utf8'));
+    const records = Array.isArray(payload) ? payload : Array.isArray(payload?.inductees) ? payload.inductees : [];
+    records.forEach((record) => {
+      if (record && typeof record.id === 'string') ids.add(record.id);
+    });
+  } catch {
+    return new Set();
+  }
+
+  return ids;
 }
 
 function cleanStoryString(value) {

@@ -48,6 +48,13 @@ The portal can also send its local draft CSV directly to the runner for:
 - real curation/media apply
 - report regeneration after a real apply
 
+The portal can write curator-edited JSON directly to the repo for:
+
+- Story Lens prompt configuration in `data/cihof_story_lenses.json`
+- Approved relationship records in `data/cihof_relationships.json`
+
+Relationship decisions marked hidden or needs research remain local/exportable review drafts. Only approved relationship drafts are saved into the visitor-facing relationship metadata.
+
 ## Safety Model
 
 - The runner binds to `127.0.0.1` by default.
@@ -55,6 +62,7 @@ The portal can also send its local draft CSV directly to the runner for:
 - The runner does not accept arbitrary shell commands.
 - Real portal applies require confirmation in the browser.
 - Real apply writes backups through the existing apply scripts.
+- Story Lens and relationship saves validate the payload before writing source and runtime JSON.
 - The runner keeps recent job output in memory only.
 
 ## Environment Overrides

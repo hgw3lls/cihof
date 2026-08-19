@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ExploreState, Inductee, MediaFilter, SortMode, StoryLensConfig } from '../../data/types';
 import { allValue } from '../../data/filtering';
-import { useStoryLenses } from '../../data/storyLenses';
+import { rankStoryLensMatches, useStoryLenses, type StoryLensMatch } from '../../data/storyLenses';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 
@@ -24,12 +24,6 @@ type ExploreViewProps = {
   onStateChange: (state: Partial<ExploreState>) => void;
   onSelect: (inductee: Inductee) => void;
   onFindConnection: () => void;
-};
-
-type LensMatch = {
-  inductee: Inductee;
-  score: number;
-  reasons: string[];
 };
 
 export function ExploreView({
@@ -59,7 +53,7 @@ export function ExploreView({
   const activeFilterCount = getActiveFilters(state, onStateChange).length;
   const activeLens = storyLenses.find((lens) => lens.id === activeLensId) ?? null;
   const lensMatches = useMemo(
-    () => activeLens ? rankLensMatches(filtered, activeLens) : [],
+    () => activeLens ? rankStoryLensMatches(filtered, activeLens) : [],
     [activeLens, filtered],
   );
   const lensMatchById = useMemo(
@@ -282,7 +276,7 @@ function StoryLensControls({
 }: {
   activeLens: StoryLensConfig | null;
   lenses: StoryLensConfig[];
-  lensMatches: LensMatch[];
+  lensMatches: StoryLensMatch[];
   onClearLens: () => void;
   onSelectLens: (lensId: string) => void;
   onSelectPerson: (inductee: Inductee) => void;
@@ -356,7 +350,7 @@ function PortraitTile({
   onSelect,
 }: {
   inductee: Inductee;
-  lensMatch?: LensMatch;
+  lensMatch?: StoryLensMatch;
   selected: boolean;
   wallDebug: boolean;
   onSelect: (inductee: Inductee) => void;
@@ -508,69 +502,7 @@ function formatCoordinate(value: number) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
-const defaultMaxLensPortraits = 48;
-
-function rankLensMatches(inductees: Inductee[], lens: StoryLensConfig): LensMatch[] {
-  return inductees
-    .map((inductee) => scoreLensMatch(inductee, lens))
-    .filter((match) => match.score >= 12)
-    .sort((a, b) => b.score - a.score || discoveryDefaultSort(a.inductee, b.inductee) || a.inductee.name.localeCompare(b.inductee.name))
-    .slice(0, lens.maxPortraits ?? defaultMaxLensPortraits);
-}
-
-function scoreLensMatch(inductee: Inductee, lens: StoryLensConfig): LensMatch {
-  const text = [
-    inductee.name,
-    inductee.inductedBy,
-    inductee.bioText,
-    inductee.storySummary,
-    inductee.storyHighlights.join(' '),
-    inductee.themeTags.join(' '),
-    inductee.communityTags.join(' '),
-    inductee.countryTags.join(' '),
-    inductee.searchText,
-  ].join(' ').toLowerCase();
-  const normalizedThemes = inductee.themeTags.map((theme) => theme.toLowerCase());
-  const reasons: string[] = [];
-  let score = 0;
-  let themeHits = 0;
-  let termHits = 0;
-
-  for (const themeTerm of lens.themes) {
-    const matchedTheme = normalizedThemes.find((theme) => theme.includes(themeTerm));
-    if (matchedTheme) {
-      themeHits += 1;
-      score += 28;
-      const originalTheme = inductee.themeTags[normalizedThemes.indexOf(matchedTheme)];
-      if (originalTheme && !reasons.includes(originalTheme)) reasons.push(originalTheme);
-    }
-  }
-
-  for (const term of lens.terms) {
-    if (text.includes(term.toLowerCase())) {
-      termHits += 1;
-      score += term.length > 8 ? 8 : 5;
-    }
-  }
-
-  if (themeHits === 0 && termHits < 2) score = 0;
-  if (inductee.featured) score += 5;
-  if (inductee.featuredCandidate) score += 3;
-  if (inductee.hasVideo) score += 1;
-
-  if (score > 0 && reasons.length === 0) {
-    const label = countryCommunityOrRegionLabel(inductee);
-    reasons.push(label ? `Story match: ${label}` : 'Story match');
-  }
-
-  return {
-    inductee,
-    score,
-    reasons: reasons.slice(0, 2),
-  };
-}
-
-function topLensThemes(matches: LensMatch[]) {
+function topLensThemes(matches: StoryLensMatch[]) {
   const counts = new Map<string, number>();
   for (const match of matches) {
     for (const theme of match.inductee.themeTags) {

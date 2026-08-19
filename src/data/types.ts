@@ -231,6 +231,10 @@ export type StoryLensConfig = {
   description: string;
   terms: string[];
   themes: string[];
+  pinnedPersonIds?: string[];
+  excludedPersonIds?: string[];
+  curatorNotes?: string[];
+  reviewStatus?: 'draft' | 'reviewed' | 'approved';
   maxPortraits?: number;
   enabled?: boolean;
 };

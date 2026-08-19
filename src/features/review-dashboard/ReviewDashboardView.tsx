@@ -1,6 +1,21 @@
 import { ChangeEvent, MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { FallbackImage, initials } from '../../components/FallbackImage';
+import {
+  buildConnectionGraph,
+  type ConnectionEdge,
+  type ConnectionNode,
+} from '../../data/connectionGraph';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
-import type { Inductee, StoryLensConfig, StoryLensDocument } from '../../data/types';
+import { rankStoryLensMatches, type StoryLensMatch } from '../../data/storyLenses';
+import type {
+  Inductee,
+  RelationshipProvenance,
+  RelationshipRecord,
+  RelationshipType,
+  StoryLensConfig,
+  StoryLensDocument,
+} from '../../data/types';
+import { useRelationships } from '../../data/useRelationships';
 
 type CountEntry = {
   [key: string]: string | number;
@@ -147,7 +162,9 @@ type QueueMode =
   | 'video-captions'
   | 'accessibility'
   | 'featured';
-type PortalTab = 'workbench' | 'lenses' | 'readiness' | 'exports';
+type PortalTab = 'workbench' | 'lenses' | 'relationships' | 'readiness' | 'exports';
+type RelationshipQueueMode = 'needs-review' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
+type RelationshipReviewStatus = 'approved' | 'hidden' | 'needs-research';
 
 type ReviewDraft = {
   id: string;
@@ -186,6 +203,31 @@ type ReviewDraft = {
 
 type DraftMap = Record<string, ReviewDraft>;
 type DraftPatch = Partial<Omit<ReviewDraft, 'id' | 'updatedAt'>>;
+type RelationshipDraft = {
+  id: string;
+  updatedAt: string;
+  reviewStatus?: RelationshipReviewStatus;
+  displayLabel?: string;
+  referenceNote?: string;
+  curatorNote?: string;
+  provenanceOverride?: RelationshipProvenance;
+  typeOverride?: RelationshipType;
+};
+type RelationshipDraftMap = Record<string, RelationshipDraft>;
+type RelationshipDraftPatch = Partial<Omit<RelationshipDraft, 'id' | 'updatedAt'>>;
+type RelationshipReviewRow = {
+  id: string;
+  edge: ConnectionEdge;
+  sourceNode: ConnectionNode;
+  targetNode: ConnectionNode;
+  draft?: RelationshipDraft;
+  effectiveLabel: string;
+  effectiveNote: string;
+  effectiveProvenance: RelationshipProvenance;
+  effectiveType: RelationshipType;
+  reviewStatus: 'approved' | 'hidden' | 'needs-research' | 'unreviewed';
+  searchText: string;
+};
 type CsvValue = string | number | boolean | null | undefined;
 type DraftIssue = {
   id: string;
@@ -236,6 +278,7 @@ type RunnerState = {
   runScript: (scriptId: string) => Promise<RunnerJob | null>;
   applyDecisions: (csv: string, dryRun: boolean) => Promise<RunnerJob | null>;
   saveStoryLenses: (document: StoryLensDocument) => Promise<StoryLensDocument | null>;
+  saveRelationships: (records: RelationshipRecord[]) => Promise<RelationshipRecord[] | null>;
 };
 
 type StoryLensEditorState = {
@@ -255,6 +298,23 @@ type ReviewDashboardViewProps = {
 };
 
 const draftStorageKey = 'cihof.portal.reviewDrafts.v1';
+const relationshipDraftStorageKey = 'cihof.portal.relationshipDrafts.v1';
+const relationshipTypeOptions: RelationshipType[] = [
+  'inducted_by',
+  'same_class',
+  'shared_theme',
+  'shared_organization',
+  'shared_community',
+  'civic_collaboration',
+  'mentor',
+  'colleague',
+  'family',
+  'related_place',
+  'related_event',
+];
+const relationshipTypeValues = new Set<RelationshipType>(relationshipTypeOptions);
+const relationshipProvenanceValues = new Set<RelationshipProvenance>(['documented', 'curated', 'inferred']);
+const relationshipReviewStatusValues = new Set<RelationshipReviewStatus>(['approved', 'hidden', 'needs-research']);
 
 const reportUrls = {
   curation: `${import.meta.env.BASE_URL}data/curation-report.json`,
@@ -266,20 +326,51 @@ const portalRunnerBaseUrl = 'http://127.0.0.1:5174';
 
 export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardViewProps) {
   const reports = useReviewReports();
+  const relationshipState = useRelationships();
   const runner = usePortalRunner();
   const storyLensState = useStoryLensDocument();
   const [query, setQuery] = useState('');
   const [queue, setQueue] = useState<QueueMode>('high');
+  const [relationshipQuery, setRelationshipQuery] = useState('');
+  const [relationshipQueue, setRelationshipQueue] = useState<RelationshipQueueMode>('needs-review');
+  const [selectedRelationshipId, setSelectedRelationshipId] = useState('');
   const [tab, setTab] = useState<PortalTab>('workbench');
   const [selectedId, setSelectedId] = useState('');
   const [drafts, setDrafts] = useState<DraftMap>(() => loadStoredDrafts());
+  const [relationshipDrafts, setRelationshipDrafts] = useState<RelationshipDraftMap>(() => loadStoredRelationshipDrafts());
   const [portalNotice, setPortalNotice] = useState('');
   const [storageState, setStorageState] = useState<DraftStorageResult>({ ok: true, message: 'No local drafts' });
+  const [relationshipStorageState, setRelationshipStorageState] = useState<DraftStorageResult>({ ok: true, message: 'No relationship drafts' });
   const importInputRef = useRef<HTMLInputElement | null>(null);
   const draftCount = Object.keys(drafts).length;
+  const relationshipDraftCount = Object.keys(relationshipDrafts).length;
   const summary = useMemo(() => buildDashboardSummary(inductees, reports.curation, reports.media, drafts), [drafts, inductees, reports.curation, reports.media]);
   const queueOptions = useMemo(() => buildQueueOptions(inductees, reports.curation, reports.media, drafts), [drafts, inductees, reports.curation, reports.media]);
   const actionItems = useMemo(() => buildActionItems(summary, draftCount), [draftCount, summary]);
+  const relationshipRows = useMemo(
+    () => buildRelationshipReviewRows(inductees, relationshipState.relationships, relationshipDrafts),
+    [inductees, relationshipDrafts, relationshipState.relationships],
+  );
+  const relationshipQueueOptions = useMemo(() => buildRelationshipQueueOptions(relationshipRows), [relationshipRows]);
+  const visibleRelationshipRows = useMemo(
+    () => relationshipRows
+      .filter((row) => matchesRelationshipQueue(row, relationshipQueue))
+      .filter((row) => !relationshipQuery.trim() || row.searchText.includes(relationshipQuery.trim().toLowerCase()))
+      .sort((a, b) => relationshipPriorityRank(a) - relationshipPriorityRank(b) || a.sourceNode.label.localeCompare(b.sourceNode.label) || a.targetNode.label.localeCompare(b.targetNode.label)),
+    [relationshipQuery, relationshipQueue, relationshipRows],
+  );
+  const selectedRelationship = useMemo(
+    () => relationshipRows.find((row) => row.id === selectedRelationshipId) ?? visibleRelationshipRows[0] ?? relationshipRows[0] ?? null,
+    [relationshipRows, selectedRelationshipId, visibleRelationshipRows],
+  );
+  const approvedRelationshipRecords = useMemo(
+    () => materializeApprovedRelationshipRecords(relationshipRows, relationshipState.relationships),
+    [relationshipRows, relationshipState.relationships],
+  );
+  const approvedRelationshipDraftCount = useMemo(
+    () => relationshipRows.filter((row) => row.draft?.reviewStatus === 'approved').length,
+    [relationshipRows],
+  );
   const visibleRows = useMemo(() => {
     const search = query.trim().toLowerCase();
     return inductees
@@ -312,6 +403,10 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   }, [drafts]);
 
   useEffect(() => {
+    setRelationshipStorageState(persistRelationshipDrafts(relationshipDrafts));
+  }, [relationshipDrafts]);
+
+  useEffect(() => {
     if (draftCount === 0) return undefined;
 
     function warnBeforeLeaving(event: BeforeUnloadEvent) {
@@ -329,6 +424,13 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       setSelectedId(visibleRows[0].id);
     }
   }, [selectedId, visibleRows]);
+
+  useEffect(() => {
+    if (visibleRelationshipRows.length === 0) return;
+    if (!selectedRelationshipId || !visibleRelationshipRows.some((row) => row.id === selectedRelationshipId)) {
+      setSelectedRelationshipId(visibleRelationshipRows[0].id);
+    }
+  }, [selectedRelationshipId, visibleRelationshipRows]);
 
   function patchDraft(id: string, patch: DraftPatch) {
     setDrafts((current) => {
@@ -359,6 +461,77 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
     if (draftCount > 0 && !window.confirm(`Clear ${draftCount} local portal drafts? Export first if you need to keep them.`)) return;
     setDrafts({});
     setPortalNotice('All local drafts cleared.');
+  }
+
+  function patchRelationshipDraft(id: string, patch: RelationshipDraftPatch) {
+    setRelationshipDrafts((current) => {
+      const nextDraft: RelationshipDraft = {
+        ...(current[id] ?? { id }),
+        ...patch,
+        id,
+        updatedAt: new Date().toISOString(),
+      };
+      const next = { ...current };
+      if (isMeaningfulRelationshipDraft(nextDraft)) next[id] = nextDraft;
+      else delete next[id];
+      return next;
+    });
+  }
+
+  function clearRelationshipDraft(id: string) {
+    setRelationshipDrafts((current) => {
+      const next = { ...current };
+      delete next[id];
+      return next;
+    });
+    setPortalNotice('Relationship review draft cleared.');
+  }
+
+  function clearAllRelationshipDrafts() {
+    if (relationshipDraftCount > 0 && !window.confirm(`Clear ${relationshipDraftCount} relationship review drafts? Export first if you need to keep them.`)) return;
+    setRelationshipDrafts({});
+    setPortalNotice('All relationship review drafts cleared.');
+  }
+
+  function exportRelationshipDraftJson() {
+    if (relationshipDraftCount === 0) {
+      window.alert('There are no relationship review drafts to export.');
+      return;
+    }
+    downloadJson({
+      schemaVersion: 1,
+      exportedAt: new Date().toISOString(),
+      source: 'CIHOF staff portal relationship review drafts',
+      drafts: relationshipDrafts,
+    }, `cihof-relationship-review-${dateStamp()}.json`);
+    setPortalNotice(`Exported ${relationshipDraftCount} relationship review drafts as JSON.`);
+  }
+
+  async function saveRelationshipReviews() {
+    if (!runner.available) {
+      window.alert('Start the local portal runner first: npm run portal:server');
+      return;
+    }
+    const approvedDraftIds = relationshipRows
+      .filter((row) => row.draft?.reviewStatus === 'approved')
+      .map((row) => row.id);
+    if (approvedDraftIds.length === 0) {
+      window.alert('Approve at least one relationship review draft before saving.');
+      return;
+    }
+    if (!window.confirm(`Save ${approvedRelationshipRecords.length} approved relationship record${approvedRelationshipRecords.length === 1 ? '' : 's'} to the repo?`)) return;
+
+    const savedRecords = await runner.saveRelationships(approvedRelationshipRecords);
+    if (!savedRecords) return;
+
+    const savedIds = new Set(approvedDraftIds);
+    setRelationshipDrafts((current) => {
+      const next = { ...current };
+      savedIds.forEach((id) => delete next[id]);
+      return next;
+    });
+    await relationshipState.refresh();
+    setPortalNotice(`Saved ${savedRecords.length} explicit relationship record${savedRecords.length === 1 ? '' : 's'} to the repo.`);
   }
 
   function exportDraftJson() {
@@ -448,14 +621,17 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           <StatusPill label="Media" value={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} tone={(reports.media?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'warn'} />
           <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
           <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
+          <StatusPill label="Links" value={`${relationshipRows.length}`} tone={relationshipState.error ? 'bad' : relationshipDraftCount > 0 ? 'warn' : 'ok'} />
           <StatusPill label="Kiosk Ready" value={summary.kioskReady ? 'Yes' : 'No'} tone={summary.kioskReady ? 'ok' : 'bad'} />
         </div>
       </div>
 
       {reports.error && <div className="review-dashboard__alert">Report load error: {reports.error}</div>}
       {storyLensState.error && <div className="review-dashboard__alert">Story lens load warning: {storyLensState.error}</div>}
+      {relationshipState.error && <div className="review-dashboard__alert">Relationship load warning: {relationshipState.error}</div>}
       {reports.loading && <div className="review-dashboard__alert">Loading review reports...</div>}
       {!storageState.ok && <div className="review-dashboard__alert">Draft save warning: {storageState.message}</div>}
+      {!relationshipStorageState.ok && <div className="review-dashboard__alert">Relationship draft save warning: {relationshipStorageState.message}</div>}
       {portalNotice && (
         <div className="portal-notice">
           <span>{portalNotice}</span>
@@ -466,6 +642,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       <div className="portal-tabs" aria-label="Portal sections">
         <button className={tab === 'workbench' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('workbench')}>Workbench</button>
         <button className={tab === 'lenses' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('lenses')}>Story Lenses {storyLensState.isDirty ? '*' : ''}</button>
+        <button className={tab === 'relationships' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('relationships')}>Relationships {relationshipDraftCount > 0 ? `(${relationshipDraftCount})` : ''}</button>
         <button className={tab === 'readiness' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('readiness')}>Readiness</button>
         <button className={tab === 'exports' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('exports')}>Exports {draftCount > 0 ? `(${draftCount})` : ''}</button>
       </div>
@@ -562,9 +739,34 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
 
       {tab === 'lenses' && (
         <StoryLensEditor
+          inductees={inductees}
           runner={runner}
           state={storyLensState}
           onNotice={setPortalNotice}
+        />
+      )}
+
+      {tab === 'relationships' && (
+        <RelationshipReviewPanel
+          queue={relationshipQueue}
+          query={relationshipQuery}
+          rows={relationshipRows}
+          visibleRows={visibleRelationshipRows}
+          selectedRow={selectedRelationship}
+          queueOptions={relationshipQueueOptions}
+          storageState={relationshipStorageState}
+          draftCount={relationshipDraftCount}
+          onClearAll={clearAllRelationshipDrafts}
+          onClearDraft={clearRelationshipDraft}
+          onExportDrafts={exportRelationshipDraftJson}
+          onPatchDraft={patchRelationshipDraft}
+          onSaveApproved={saveRelationshipReviews}
+          onQueueChange={setRelationshipQueue}
+          onQueryChange={setRelationshipQuery}
+          runnerAvailable={runner.available}
+          approvedRecordCount={approvedRelationshipRecords.length}
+          approvedDraftCount={approvedRelationshipDraftCount}
+          onSelectRow={(rowId) => setSelectedRelationshipId(rowId)}
         />
       )}
 
@@ -605,16 +807,18 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
 }
 
 function StoryLensEditor({
+  inductees,
   state,
   runner,
   onNotice,
 }: {
+  inductees: Inductee[];
   state: StoryLensEditorState;
   runner: RunnerState;
   onNotice: (message: string) => void;
 }) {
   const draft = state.draft ?? emptyStoryLensDocument();
-  const issues = getStoryLensDraftIssues(draft);
+  const issues = getStoryLensDraftIssues(draft, inductees);
   const blockingIssues = issues.filter((issue) => issue.severity === 'error');
 
   function patchLens(index: number, patch: Partial<StoryLensConfig>) {
@@ -636,6 +840,10 @@ function StoryLensEditor({
           description: 'Curator-written prompt description for this interpretive grouping.',
           terms: ['community'],
           themes: [],
+          pinnedPersonIds: [],
+          excludedPersonIds: [],
+          curatorNotes: [],
+          reviewStatus: 'draft',
           maxPortraits: 36,
           enabled: false,
         },
@@ -754,61 +962,399 @@ function StoryLensEditor({
       </div>
 
       <div className="portal-lens-list" aria-label="Editable Story Lenses">
-        {draft.lenses.map((lens, index) => (
-          <article className={lens.enabled === false ? 'portal-lens-card portal-lens-card--disabled' : 'portal-lens-card'} key={`${lens.id}-${index}`}>
-            <header className="portal-lens-card__header">
-              <div>
-                <span>Lens {index + 1}</span>
-                <strong>{lens.prompt || 'Untitled lens'}</strong>
+        {draft.lenses.map((lens, index) => {
+          const previewMatches = rankStoryLensMatches(inductees, lens);
+
+          return (
+            <article className={lens.enabled === false ? 'portal-lens-card portal-lens-card--disabled' : 'portal-lens-card'} key={`${lens.id}-${index}`}>
+              <header className="portal-lens-card__header">
+                <div>
+                  <span>Lens {index + 1} / {lens.reviewStatus ?? 'draft'}</span>
+                  <strong>{lens.prompt || 'Untitled lens'}</strong>
+                </div>
+                <label className="portal-check portal-check--compact">
+                  <input checked={lens.enabled !== false} onChange={(event) => patchLens(index, { enabled: event.target.checked })} type="checkbox" />
+                  <span>Enabled</span>
+                </label>
+              </header>
+
+              <div className="portal-lens-card__grid">
+                <label className="field">
+                  <span>ID</span>
+                  <input value={lens.id} onChange={(event) => patchLens(index, { id: slugifyLensId(event.target.value) })} />
+                </label>
+                <label className="field">
+                  <span>Short label</span>
+                  <input value={lens.label} onChange={(event) => patchLens(index, { label: event.target.value })} />
+                </label>
+                <label className="field">
+                  <span>Max portraits</span>
+                  <input min="12" max="96" type="number" value={lens.maxPortraits ?? 48} onChange={(event) => patchLens(index, { maxPortraits: Number(event.target.value) })} />
+                </label>
+                <label className="field">
+                  <span>Review status</span>
+                  <select value={lens.reviewStatus ?? 'draft'} onChange={(event) => patchLens(index, { reviewStatus: event.target.value as StoryLensConfig['reviewStatus'] })}>
+                    <option value="draft">Draft</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="approved">Approved</option>
+                  </select>
+                </label>
+                <label className="field portal-lens-card__wide">
+                  <span>Prompt</span>
+                  <input value={lens.prompt} onChange={(event) => patchLens(index, { prompt: event.target.value })} />
+                </label>
+                <label className="field portal-lens-card__wide">
+                  <span>Description</span>
+                  <textarea value={lens.description} onChange={(event) => patchLens(index, { description: event.target.value })} rows={3} />
+                </label>
+                <label className="field">
+                  <span>Keyword terms</span>
+                  <textarea value={joinList(lens.terms)} onChange={(event) => patchLens(index, { terms: parseListInput(event.target.value) })} rows={7} />
+                </label>
+                <label className="field">
+                  <span>Theme signals</span>
+                  <textarea value={joinList(lens.themes)} onChange={(event) => patchLens(index, { themes: parseListInput(event.target.value) })} rows={7} />
+                </label>
+                <label className="field">
+                  <span>Pinned person IDs</span>
+                  <textarea value={joinList(lens.pinnedPersonIds ?? [])} onChange={(event) => patchLens(index, { pinnedPersonIds: parseListInput(event.target.value) })} rows={5} />
+                </label>
+                <label className="field">
+                  <span>Hidden person IDs</span>
+                  <textarea value={joinList(lens.excludedPersonIds ?? [])} onChange={(event) => patchLens(index, { excludedPersonIds: parseListInput(event.target.value) })} rows={5} />
+                </label>
+                <label className="field portal-lens-card__wide">
+                  <span>Curator notes</span>
+                  <textarea value={joinList(lens.curatorNotes ?? [])} onChange={(event) => patchLens(index, { curatorNotes: parseListInput(event.target.value) })} rows={3} />
+                </label>
               </div>
-              <label className="portal-check portal-check--compact">
-                <input checked={lens.enabled !== false} onChange={(event) => patchLens(index, { enabled: event.target.checked })} type="checkbox" />
-                <span>Enabled</span>
-              </label>
-            </header>
 
-            <div className="portal-lens-card__grid">
-              <label className="field">
-                <span>ID</span>
-                <input value={lens.id} onChange={(event) => patchLens(index, { id: slugifyLensId(event.target.value) })} />
-              </label>
-              <label className="field">
-                <span>Short label</span>
-                <input value={lens.label} onChange={(event) => patchLens(index, { label: event.target.value })} />
-              </label>
-              <label className="field">
-                <span>Max portraits</span>
-                <input min="12" max="96" type="number" value={lens.maxPortraits ?? 48} onChange={(event) => patchLens(index, { maxPortraits: Number(event.target.value) })} />
-              </label>
-              <label className="field portal-lens-card__wide">
-                <span>Prompt</span>
-                <input value={lens.prompt} onChange={(event) => patchLens(index, { prompt: event.target.value })} />
-              </label>
-              <label className="field portal-lens-card__wide">
-                <span>Description</span>
-                <textarea value={lens.description} onChange={(event) => patchLens(index, { description: event.target.value })} rows={3} />
-              </label>
-              <label className="field">
-                <span>Keyword terms</span>
-                <textarea value={joinList(lens.terms)} onChange={(event) => patchLens(index, { terms: parseListInput(event.target.value) })} rows={7} />
-              </label>
-              <label className="field">
-                <span>Theme signals</span>
-                <textarea value={joinList(lens.themes)} onChange={(event) => patchLens(index, { themes: parseListInput(event.target.value) })} rows={7} />
-              </label>
-            </div>
+              <StoryLensPreview
+                inductees={inductees}
+                lens={lens}
+                matches={previewMatches}
+                onExcludePerson={(personId) => patchLens(index, {
+                  excludedPersonIds: addListValue(lens.excludedPersonIds ?? [], personId),
+                  pinnedPersonIds: removeListValue(lens.pinnedPersonIds ?? [], personId),
+                })}
+                onPinPerson={(personId) => patchLens(index, {
+                  pinnedPersonIds: addListValue(lens.pinnedPersonIds ?? [], personId),
+                  excludedPersonIds: removeListValue(lens.excludedPersonIds ?? [], personId),
+                })}
+                onRestorePerson={(personId) => patchLens(index, {
+                  excludedPersonIds: removeListValue(lens.excludedPersonIds ?? [], personId),
+                })}
+                onUnpinPerson={(personId) => patchLens(index, {
+                  pinnedPersonIds: removeListValue(lens.pinnedPersonIds ?? [], personId),
+                })}
+              />
 
-            <footer className="portal-lens-card__actions">
-              <button disabled={index === 0} type="button" onClick={() => moveLens(index, -1)}>Move Up</button>
-              <button disabled={index === draft.lenses.length - 1} type="button" onClick={() => moveLens(index, 1)}>Move Down</button>
-              <button type="button" onClick={() => duplicateLens(index)}>Duplicate</button>
-              <button type="button" onClick={() => removeLens(index)}>Remove</button>
-            </footer>
-          </article>
-        ))}
+              <footer className="portal-lens-card__actions">
+                <button disabled={index === 0} type="button" onClick={() => moveLens(index, -1)}>Move Up</button>
+                <button disabled={index === draft.lenses.length - 1} type="button" onClick={() => moveLens(index, 1)}>Move Down</button>
+                <button type="button" onClick={() => duplicateLens(index)}>Duplicate</button>
+                <button type="button" onClick={() => removeLens(index)}>Remove</button>
+              </footer>
+            </article>
+          );
+        })}
         {draft.lenses.length === 0 && <div className="portal-empty-state">No Story Lenses are defined.</div>}
       </div>
     </section>
+  );
+}
+
+function StoryLensPreview({
+  inductees,
+  lens,
+  matches,
+  onExcludePerson,
+  onPinPerson,
+  onRestorePerson,
+  onUnpinPerson,
+}: {
+  inductees: Inductee[];
+  lens: StoryLensConfig;
+  matches: StoryLensMatch[];
+  onExcludePerson: (personId: string) => void;
+  onPinPerson: (personId: string) => void;
+  onRestorePerson: (personId: string) => void;
+  onUnpinPerson: (personId: string) => void;
+}) {
+  const peopleById = useMemo(() => new Map(inductees.map((inductee) => [inductee.id, inductee])), [inductees]);
+  const pinnedIds = new Set(lens.pinnedPersonIds ?? []);
+  const excludedIds = lens.excludedPersonIds ?? [];
+  const excludedPeople = excludedIds.map((id) => peopleById.get(id)).filter((inductee): inductee is Inductee => Boolean(inductee));
+
+  return (
+    <section className="portal-lens-preview" aria-label={`${lens.label || lens.id} preview`}>
+      <header className="portal-lens-preview__header">
+        <div>
+          <strong>Live preview</strong>
+          <span>{matches.length} portraits / {pinnedIds.size} pinned / {excludedIds.length} hidden</span>
+        </div>
+      </header>
+
+      <div className="portal-lens-preview__people">
+        {matches.slice(0, 10).map((match) => {
+          const isPinned = pinnedIds.has(match.inductee.id);
+          return (
+            <article className={isPinned ? 'portal-lens-preview-person portal-lens-preview-person--pinned' : 'portal-lens-preview-person'} key={match.inductee.id}>
+              <FallbackImage
+                alt={match.inductee.imageAltText}
+                className="portal-lens-preview-person__image"
+                fallbackClassName="portal-lens-preview-person__fallback"
+                fallbackLabel={initials(match.inductee.name)}
+                src={match.inductee.primaryImageUrl}
+              />
+              <div>
+                <strong>{match.inductee.name}</strong>
+                <span>{match.inductee.classYear ? `Class of ${match.inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(match.inductee)}</span>
+                <small>{match.reasons.join(' / ') || `Score ${match.score}`}</small>
+              </div>
+              <div className="portal-lens-preview-person__actions">
+                {isPinned ? (
+                  <button type="button" onClick={() => onUnpinPerson(match.inductee.id)}>Unpin</button>
+                ) : (
+                  <button type="button" onClick={() => onPinPerson(match.inductee.id)}>Pin</button>
+                )}
+                <button type="button" onClick={() => onExcludePerson(match.inductee.id)}>Hide</button>
+              </div>
+            </article>
+          );
+        })}
+        {matches.length === 0 && <div className="portal-empty-state">No preview matches yet.</div>}
+      </div>
+
+      {excludedPeople.length > 0 && (
+        <div className="portal-lens-preview__hidden" aria-label="Hidden people">
+          <strong>Hidden from this lens</strong>
+          {excludedPeople.map((inductee) => (
+            <button key={inductee.id} type="button" onClick={() => onRestorePerson(inductee.id)}>
+              Restore {inductee.name}
+            </button>
+          ))}
+          {excludedIds.length > excludedPeople.length && <span>{excludedIds.length - excludedPeople.length} unknown hidden IDs</span>}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function RelationshipReviewPanel({
+  rows,
+  visibleRows,
+  selectedRow,
+  query,
+  queue,
+  queueOptions,
+  storageState,
+  draftCount,
+  approvedRecordCount,
+  approvedDraftCount,
+  runnerAvailable,
+  onClearAll,
+  onClearDraft,
+  onExportDrafts,
+  onPatchDraft,
+  onSaveApproved,
+  onQueryChange,
+  onQueueChange,
+  onSelectRow,
+}: {
+  rows: RelationshipReviewRow[];
+  visibleRows: RelationshipReviewRow[];
+  selectedRow: RelationshipReviewRow | null;
+  query: string;
+  queue: RelationshipQueueMode;
+  queueOptions: Array<{ mode: RelationshipQueueMode; label: string; count: number }>;
+  storageState: DraftStorageResult;
+  draftCount: number;
+  approvedRecordCount: number;
+  approvedDraftCount: number;
+  runnerAvailable: boolean;
+  onClearAll: () => void;
+  onClearDraft: (id: string) => void;
+  onExportDrafts: () => void;
+  onPatchDraft: (id: string, patch: RelationshipDraftPatch) => void;
+  onSaveApproved: () => void;
+  onQueryChange: (query: string) => void;
+  onQueueChange: (queue: RelationshipQueueMode) => void;
+  onSelectRow: (rowId: string) => void;
+}) {
+  const inferredCount = rows.filter((row) => row.edge.provenance === 'inferred').length;
+  const hiddenCount = rows.filter((row) => row.reviewStatus === 'hidden').length;
+  const approvedCount = rows.filter((row) => row.reviewStatus === 'approved').length;
+  const selectedDraft = selectedRow?.draft;
+  const selectedProvenance = selectedDraft?.provenanceOverride ?? selectedRow?.edge.provenance ?? 'inferred';
+  const selectedType = selectedDraft?.typeOverride ?? selectedRow?.edge.type ?? 'shared_theme';
+
+  function patchSelected(patch: RelationshipDraftPatch) {
+    if (!selectedRow) return;
+    onPatchDraft(selectedRow.id, patch);
+  }
+
+  return (
+    <section className="portal-relationships" aria-label="Relationship review">
+      <div className="portal-readiness__intro portal-relationships__intro">
+        <div>
+          <p className="eyebrow">Relationships</p>
+          <h3>Review connection evidence</h3>
+          <p>Inferred links stay possible until staff approves or documents them.</p>
+        </div>
+        <div className="portal-relationship-actions">
+          <button disabled={!runnerAvailable || approvedDraftCount === 0} type="button" onClick={onSaveApproved}>Save Approved Links</button>
+          <button disabled={draftCount === 0} type="button" onClick={onExportDrafts}>Export Review JSON</button>
+          <button disabled={draftCount === 0} type="button" onClick={onClearAll}>Clear Drafts</button>
+        </div>
+      </div>
+
+      <div className="portal-lenses__summary">
+        <MetricCard label="Connection Edges" value={rows.length} detail={`${visibleRows.length} shown`} />
+        <MetricCard label="Inferred" value={inferredCount} detail="possible until reviewed" />
+        <MetricCard label="Approved" value={approvedCount} detail={`${hiddenCount} hidden`} />
+        <MetricCard label="Local Drafts" value={draftCount} detail={`${approvedDraftCount} ready / ${approvedRecordCount} total / ${storageState.message}`} />
+      </div>
+
+      <div className="portal-relationship-layout">
+        <aside className="portal-relationship-queue" aria-label="Relationship queue">
+          <div className="review-controls portal-controls">
+            <label className="field field--search">
+              <span>Search</span>
+              <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Person, target, reason, type, note" type="search" />
+            </label>
+            <label className="field">
+              <span>Queue</span>
+              <select value={queue} onChange={(event) => onQueueChange(event.target.value as RelationshipQueueMode)}>
+                {queueOptions.map((option) => (
+                  <option key={option.mode} value={option.mode}>{option.label} ({option.count})</option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="portal-relationship-queue__list" aria-label="Relationship rows">
+            {visibleRows.map((row) => (
+              <button
+                className={selectedRow?.id === row.id ? 'portal-relationship-row portal-relationship-row--active' : 'portal-relationship-row'}
+                key={row.id}
+                type="button"
+                onClick={() => onSelectRow(row.id)}
+              >
+                <span>
+                  <strong>{row.sourceNode.label} -&gt; {row.targetNode.label}</strong>
+                  {row.draft && <em>Edited</em>}
+                </span>
+                <small>{relationshipProvenanceLabel(row.effectiveProvenance)} / {relationshipTypeLabel(row.effectiveType)} / {relationshipSourceLabel(row.edge.source)}</small>
+                <span>{row.effectiveLabel}</span>
+              </button>
+            ))}
+            {visibleRows.length === 0 && <div className="portal-empty-state">No relationships match this queue.</div>}
+          </div>
+        </aside>
+
+        <section className="portal-relationship-editor" aria-label="Selected relationship">
+          {selectedRow ? (
+            <>
+              <div className="portal-relationship-editor__hero">
+                <RelationshipNodeCard node={selectedRow.sourceNode} label="Source" />
+                <div className="portal-relationship-editor__link">
+                  <span className={`portal-relationship-provenance portal-relationship-provenance--${selectedRow.effectiveProvenance}`}>
+                    {relationshipProvenanceLabel(selectedRow.effectiveProvenance)}
+                  </span>
+                  <strong>{relationshipTypeLabel(selectedRow.effectiveType)}</strong>
+                  <p>{selectedRow.effectiveLabel}</p>
+                </div>
+                <RelationshipNodeCard node={selectedRow.targetNode} label="Target" />
+              </div>
+
+              <div className="portal-relationship-warning">
+                {selectedRow.edge.provenance === 'inferred'
+                  ? 'This relationship is inferred from prepared metadata and should remain possible until staff approves it.'
+                  : 'This relationship already comes from curated or documented data; staff can still annotate it.'}
+              </div>
+
+              <div className="portal-quick-actions">
+                <button type="button" onClick={() => patchSelected({ reviewStatus: 'approved', provenanceOverride: 'curated', displayLabel: selectedRow.effectiveLabel, referenceNote: selectedRow.effectiveNote })}>Approve As Curated</button>
+                <button type="button" onClick={() => patchSelected({ reviewStatus: 'needs-research' })}>Needs Research</button>
+                <button type="button" onClick={() => patchSelected({ reviewStatus: 'hidden' })}>Hide Link</button>
+                <button disabled={!selectedDraft} type="button" onClick={() => onClearDraft(selectedRow.id)}>Clear Draft</button>
+              </div>
+
+              <div className="portal-form-grid">
+                <fieldset className="portal-fieldset">
+                  <legend>Review Decision</legend>
+                  <label className="field">
+                    <span>Status</span>
+                    <select value={selectedDraft?.reviewStatus ?? ''} onChange={(event) => patchSelected({ reviewStatus: relationshipStatusValue(event.target.value) })}>
+                      <option value="">Unreviewed</option>
+                      <option value="approved">Approved</option>
+                      <option value="needs-research">Needs research</option>
+                      <option value="hidden">Hidden</option>
+                    </select>
+                  </label>
+                  <label className="field">
+                    <span>Provenance</span>
+                    <select value={selectedProvenance} onChange={(event) => patchSelected({ provenanceOverride: event.target.value as RelationshipProvenance })}>
+                      <option value="inferred">Inferred</option>
+                      <option value="curated">Curated</option>
+                      <option value="documented">Documented</option>
+                    </select>
+                  </label>
+                  <label className="field">
+                    <span>Relationship type</span>
+                    <select value={selectedType} onChange={(event) => patchSelected({ typeOverride: event.target.value as RelationshipType })}>
+                      {relationshipTypeOptions.map((type) => (
+                        <option key={type} value={type}>{relationshipTypeLabel(type)}</option>
+                      ))}
+                    </select>
+                  </label>
+                </fieldset>
+
+                <fieldset className="portal-fieldset portal-fieldset--wide">
+                  <legend>Visitor Label</legend>
+                  <label className="field">
+                    <span>Display label</span>
+                    <input value={selectedDraft?.displayLabel ?? selectedRow.edge.label} onChange={(event) => patchSelected({ displayLabel: event.target.value })} />
+                  </label>
+                  <label className="field">
+                    <span>Reference note</span>
+                    <textarea value={selectedDraft?.referenceNote ?? selectedRow.edge.referenceNote ?? ''} onChange={(event) => patchSelected({ referenceNote: event.target.value })} rows={3} />
+                  </label>
+                  <label className="field">
+                    <span>Curator note</span>
+                    <textarea value={selectedDraft?.curatorNote ?? ''} onChange={(event) => patchSelected({ curatorNote: event.target.value })} rows={3} />
+                  </label>
+                </fieldset>
+              </div>
+            </>
+          ) : (
+            <div className="portal-empty-state">No relationship selected.</div>
+          )}
+        </section>
+      </div>
+    </section>
+  );
+}
+
+function RelationshipNodeCard({ node, label }: { node: ConnectionNode; label: string }) {
+  return (
+    <div className="portal-relationship-node">
+      {node.inductee ? (
+        <FallbackImage
+          alt={node.inductee.imageAltText}
+          className="portal-relationship-node__image"
+          fallbackClassName="portal-relationship-node__fallback"
+          fallbackLabel={initials(node.inductee.name)}
+          src={node.inductee.primaryImageUrl}
+        />
+      ) : (
+        <span className="portal-relationship-node__entity">{entityInitials(node.label)}</span>
+      )}
+      <span>{label} / {nodeKindLabel(node.kind)}</span>
+      <strong>{node.label}</strong>
+      {node.inductee && <small>{node.inductee.classYear ? `Class of ${node.inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(node.inductee)}</small>}
+    </div>
   );
 }
 
@@ -1423,6 +1969,17 @@ function usePortalRunner(): RunnerState {
     }
   }
 
+  async function saveRelationships(records: RelationshipRecord[]) {
+    try {
+      const payload = await postRunner<{ records: RelationshipRecord[] }>('/api/relationships', { records }, token);
+      await refresh();
+      return payload.records ?? [];
+    } catch (errorValue) {
+      setError(errorValue instanceof Error ? errorValue.message : 'Could not save relationship JSON.');
+      return null;
+    }
+  }
+
   useEffect(() => {
     void refresh();
   }, []);
@@ -1434,7 +1991,7 @@ function usePortalRunner(): RunnerState {
     return () => window.clearInterval(interval);
   }, [activeJob?.id, activeJob?.status, token]);
 
-  return { available, checking, error, token, scripts, jobs, activeJob, setToken, refresh, runScript, applyDecisions, saveStoryLenses };
+  return { available, checking, error, token, scripts, jobs, activeJob, setToken, refresh, runScript, applyDecisions, saveStoryLenses, saveRelationships };
 }
 
 function fetchJson<T>(url: string): Promise<T> {
@@ -1739,14 +2296,19 @@ function normalizeStoryLens(input: unknown): StoryLensConfig | null {
     description: cleanPortalString(lens.description),
     terms: cleanPortalList(lens.terms),
     themes: cleanPortalList(lens.themes),
+    pinnedPersonIds: cleanPortalList(lens.pinnedPersonIds),
+    excludedPersonIds: cleanPortalList(lens.excludedPersonIds),
+    curatorNotes: cleanPortalList(lens.curatorNotes),
+    reviewStatus: lens.reviewStatus === 'reviewed' || lens.reviewStatus === 'approved' ? lens.reviewStatus : 'draft',
     maxPortraits: typeof lens.maxPortraits === 'number' && Number.isFinite(lens.maxPortraits) ? Math.round(lens.maxPortraits) : 48,
     enabled: lens.enabled !== false,
   };
 }
 
-function getStoryLensDraftIssues(document: StoryLensDocument): DraftIssue[] {
+function getStoryLensDraftIssues(document: StoryLensDocument, inductees: Inductee[] = []): DraftIssue[] {
   const issues: DraftIssue[] = [];
   const ids = new Set<string>();
+  const validPersonIds = new Set(inductees.map((inductee) => inductee.id));
   const add = (message: string, severity: DraftIssue['severity'] = 'warning') => {
     issues.push({ id: 'story-lenses', name: 'Story Lenses', message, severity });
   };
@@ -1766,10 +2328,231 @@ function getStoryLensDraftIssues(document: StoryLensDocument): DraftIssue[] {
     if (lens.terms.length < 3 && lens.themes.length === 0) add(`${label}: add more matching signals for reliable results.`);
     if (lens.prompt.length > 42) add(`${label}: prompt may be too long for the museum button.`);
     if (lens.description.length > 180) add(`${label}: description may be too long for the wall focus panel.`);
+    if (lens.reviewStatus !== 'approved') add(`${label}: review status is ${lens.reviewStatus ?? 'draft'}.`);
+    for (const personId of lens.pinnedPersonIds ?? []) {
+      if (validPersonIds.size > 0 && !validPersonIds.has(personId)) add(`${label}: pinned person id ${personId} is not in the current inductee data.`, 'error');
+    }
+    for (const personId of lens.excludedPersonIds ?? []) {
+      if (validPersonIds.size > 0 && !validPersonIds.has(personId)) add(`${label}: hidden person id ${personId} is not in the current inductee data.`, 'error');
+    }
+    const excludedIds = new Set(lens.excludedPersonIds ?? []);
+    for (const personId of lens.pinnedPersonIds ?? []) {
+      if (excludedIds.has(personId)) add(`${label}: ${personId} cannot be both pinned and hidden.`, 'error');
+    }
   });
 
   if (document.lenses.filter((lens) => lens.enabled !== false).length === 0) add('At least one Story Lens should be enabled.', 'error');
   return issues;
+}
+
+function materializeApprovedRelationshipRecords(rows: RelationshipReviewRow[], existingRecords: RelationshipRecord[]) {
+  const records = new Map<string, RelationshipRecord>();
+  existingRecords.forEach((record) => records.set(relationshipRecordKey(record), record));
+
+  rows.forEach((row) => {
+    if (row.draft?.reviewStatus !== 'approved') return;
+    const record = relationshipRowToRecord(row);
+    if (record) records.set(relationshipRecordKey(record), record);
+  });
+
+  return Array.from(records.values()).sort((a, b) => (
+    a.sourcePersonId.localeCompare(b.sourcePersonId) ||
+    (a.targetEntityType ?? '').localeCompare(b.targetEntityType ?? '') ||
+    a.targetEntityId.localeCompare(b.targetEntityId) ||
+    a.type.localeCompare(b.type) ||
+    a.displayLabel.localeCompare(b.displayLabel)
+  ));
+}
+
+function relationshipRowToRecord(row: RelationshipReviewRow): RelationshipRecord | null {
+  if (row.sourceNode.kind !== 'person' || !row.sourceNode.inductee) return null;
+  if (row.targetNode.kind === 'person' && !row.targetNode.inductee) return null;
+
+  const targetIsPerson = row.targetNode.kind === 'person';
+  const referenceNote = [row.effectiveNote, row.draft?.curatorNote]
+    .map((value) => cleanPortalString(value))
+    .filter(Boolean)
+    .join(' ');
+  const record: RelationshipRecord = {
+    sourcePersonId: row.sourceNode.inductee.id,
+    targetEntityId: targetIsPerson && row.targetNode.inductee ? row.targetNode.inductee.id : row.targetNode.entityId,
+    targetEntityType: row.targetNode.kind,
+    type: row.effectiveType,
+    displayLabel: cleanPortalString(row.effectiveLabel) || relationshipTypeLabel(row.effectiveType),
+    provenance: row.effectiveProvenance === 'inferred' ? 'curated' : row.effectiveProvenance,
+  };
+
+  if (!targetIsPerson) record.targetDisplayName = row.targetNode.label;
+  if (referenceNote) record.referenceNote = referenceNote;
+  return record;
+}
+
+function relationshipRecordKey(record: RelationshipRecord) {
+  return [
+    record.sourcePersonId,
+    record.targetEntityType ?? '',
+    record.targetEntityId,
+    record.type,
+    record.displayLabel,
+    record.provenance,
+  ].join('|');
+}
+
+function buildRelationshipReviewRows(inductees: Inductee[], relationships: RelationshipRecord[], drafts: RelationshipDraftMap): RelationshipReviewRow[] {
+  const graph = buildConnectionGraph(inductees, relationships);
+  const uniqueEdges = new Map<string, ConnectionEdge>();
+
+  graph.adjacency.forEach((edges) => {
+    edges.forEach((edge) => uniqueEdges.set(edge.id, edge));
+  });
+
+  return Array.from(uniqueEdges.values())
+    .map<RelationshipReviewRow | null>((edge) => {
+      const fromNode = graph.nodes.get(edge.from);
+      const toNode = graph.nodes.get(edge.to);
+      if (!fromNode || !toNode) return null;
+
+      const sourceNode = fromNode.kind === 'person' ? fromNode : toNode.kind === 'person' ? toNode : fromNode;
+      const targetNode = sourceNode.id === fromNode.id ? toNode : fromNode;
+      const draft = drafts[edge.id];
+      const effectiveLabel = cleanPortalString(draft?.displayLabel) || edge.label;
+      const effectiveNote = cleanPortalString(draft?.referenceNote) || edge.referenceNote || '';
+      const effectiveProvenance = draft?.provenanceOverride ?? edge.provenance;
+      const effectiveType = draft?.typeOverride ?? edge.type;
+      const reviewStatus: RelationshipReviewRow['reviewStatus'] = draft?.reviewStatus ?? (edge.provenance === 'inferred' ? 'unreviewed' : 'approved');
+      const searchText = [
+        sourceNode.label,
+        targetNode.label,
+        effectiveLabel,
+        effectiveNote,
+        effectiveProvenance,
+        relationshipProvenanceLabel(effectiveProvenance),
+        effectiveType,
+        relationshipTypeLabel(effectiveType),
+        edge.source,
+        relationshipSourceLabel(edge.source),
+        sourceNode.kind,
+        targetNode.kind,
+        nodeKindLabel(sourceNode.kind),
+        nodeKindLabel(targetNode.kind),
+        reviewStatus,
+      ].join(' ').toLowerCase();
+
+      return {
+        id: edge.id,
+        edge,
+        sourceNode,
+        targetNode,
+        draft,
+        effectiveLabel,
+        effectiveNote,
+        effectiveProvenance,
+        effectiveType,
+        reviewStatus,
+        searchText,
+      };
+    })
+    .filter((row): row is RelationshipReviewRow => Boolean(row));
+}
+
+function buildRelationshipQueueOptions(rows: RelationshipReviewRow[]): Array<{ mode: RelationshipQueueMode; label: string; count: number }> {
+  const count = (mode: RelationshipQueueMode) => rows.filter((row) => matchesRelationshipQueue(row, mode)).length;
+  return [
+    { mode: 'needs-review', label: 'Needs Review', count: count('needs-review') },
+    { mode: 'inferred', label: 'Inferred', count: count('inferred') },
+    { mode: 'curated', label: 'Curated', count: count('curated') },
+    { mode: 'documented', label: 'Documented', count: count('documented') },
+    { mode: 'people', label: 'Person Links', count: count('people') },
+    { mode: 'entities', label: 'Entity Links', count: count('entities') },
+    { mode: 'approved', label: 'Approved', count: count('approved') },
+    { mode: 'hidden', label: 'Hidden', count: count('hidden') },
+    { mode: 'all', label: 'All Links', count: rows.length },
+  ];
+}
+
+function matchesRelationshipQueue(row: RelationshipReviewRow, queue: RelationshipQueueMode) {
+  if (queue === 'all') return true;
+  if (queue === 'needs-review') return row.reviewStatus === 'unreviewed' || row.reviewStatus === 'needs-research';
+  if (queue === 'inferred') return row.effectiveProvenance === 'inferred';
+  if (queue === 'curated') return row.effectiveProvenance === 'curated';
+  if (queue === 'documented') return row.effectiveProvenance === 'documented';
+  if (queue === 'people') return row.sourceNode.kind === 'person' && row.targetNode.kind === 'person';
+  if (queue === 'entities') return row.targetNode.kind !== 'person';
+  if (queue === 'approved') return row.reviewStatus === 'approved';
+  if (queue === 'hidden') return row.reviewStatus === 'hidden';
+  return true;
+}
+
+function relationshipPriorityRank(row: RelationshipReviewRow) {
+  if (row.reviewStatus === 'hidden') return 8;
+  if (row.reviewStatus === 'needs-research') return 0;
+  if (row.reviewStatus === 'unreviewed' && row.effectiveProvenance === 'inferred') return 1;
+  if (row.edge.source === 'relatedIds') return 2;
+  if (row.effectiveProvenance === 'inferred') return 3;
+  if (row.effectiveProvenance === 'documented') return 4;
+  if (row.effectiveProvenance === 'curated') return 5;
+  return 6;
+}
+
+function relationshipTypeLabel(type: RelationshipType) {
+  const labels: Record<RelationshipType, string> = {
+    inducted_by: 'Inducted by',
+    same_class: 'Same class',
+    shared_theme: 'Shared theme',
+    shared_organization: 'Shared organization',
+    shared_community: 'Shared community',
+    civic_collaboration: 'Civic collaboration',
+    mentor: 'Mentor',
+    colleague: 'Colleague',
+    family: 'Family',
+    related_place: 'Related place',
+    related_event: 'Related event',
+  };
+  return labels[type];
+}
+
+function relationshipProvenanceLabel(provenance: RelationshipProvenance) {
+  const labels: Record<RelationshipProvenance, string> = {
+    documented: 'Documented',
+    curated: 'Curated',
+    inferred: 'Inferred',
+  };
+  return labels[provenance];
+}
+
+function relationshipSourceLabel(source: ConnectionEdge['source']) {
+  const labels: Record<ConnectionEdge['source'], string> = {
+    relationship: 'Explicit relationship',
+    metadata: 'Prepared metadata',
+    relatedIds: 'Legacy suggestion',
+  };
+  return labels[source];
+}
+
+function nodeKindLabel(kind: ConnectionNode['kind']) {
+  const labels: Record<ConnectionNode['kind'], string> = {
+    person: 'Person',
+    organization: 'Organization',
+    place: 'Place',
+    community: 'Community',
+    event: 'Event',
+    theme: 'Theme',
+    media: 'Media',
+  };
+  return labels[kind];
+}
+
+function entityInitials(label: string) {
+  return label
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
+function relationshipStatusValue(value: string) {
+  return relationshipReviewStatusValues.has(value as RelationshipReviewStatus) ? value as RelationshipReviewStatus : undefined;
 }
 
 function hasId(values: string[] | undefined, id: string) {
@@ -1980,6 +2763,66 @@ function persistDrafts(drafts: DraftMap) {
   }
 }
 
+function loadStoredRelationshipDrafts(): RelationshipDraftMap {
+  try {
+    const raw = window.localStorage.getItem(relationshipDraftStorageKey);
+    if (!raw) return {};
+    return normalizeRelationshipDraftPayload(JSON.parse(raw));
+  } catch {
+    return {};
+  }
+}
+
+function persistRelationshipDrafts(drafts: RelationshipDraftMap) {
+  const count = Object.keys(drafts).length;
+
+  try {
+    if (count === 0) {
+      window.localStorage.removeItem(relationshipDraftStorageKey);
+      return { ok: true, message: 'No relationship drafts' };
+    }
+
+    window.localStorage.setItem(relationshipDraftStorageKey, JSON.stringify(drafts));
+    const savedAt = new Date().toISOString();
+    return { ok: true, message: `Saved ${count} relationship draft${count === 1 ? '' : 's'} at ${formatClock(savedAt)}`, savedAt };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : 'Could not save relationship review drafts.',
+    };
+  }
+}
+
+function normalizeRelationshipDraftPayload(payload: unknown): RelationshipDraftMap {
+  const source = getDraftRecordSource(payload);
+  if (!source) return {};
+
+  return Object.fromEntries(
+    Object.entries(source)
+      .filter(([, value]) => value && typeof value === 'object' && !Array.isArray(value))
+      .map(([id, value]) => {
+        const draft = value as Partial<RelationshipDraft>;
+        const normalized: RelationshipDraft = {
+          id,
+          updatedAt: typeof draft.updatedAt === 'string' ? draft.updatedAt : new Date().toISOString(),
+        };
+        const reviewStatus = relationshipStatusValue(cleanPortalString(draft.reviewStatus));
+        if (reviewStatus) normalized.reviewStatus = reviewStatus;
+        if (relationshipProvenanceValues.has(draft.provenanceOverride as RelationshipProvenance)) {
+          normalized.provenanceOverride = draft.provenanceOverride as RelationshipProvenance;
+        }
+        if (relationshipTypeValues.has(draft.typeOverride as RelationshipType)) {
+          normalized.typeOverride = draft.typeOverride as RelationshipType;
+        }
+        if (cleanPortalString(draft.displayLabel)) normalized.displayLabel = cleanPortalString(draft.displayLabel);
+        if (cleanPortalString(draft.referenceNote)) normalized.referenceNote = cleanPortalString(draft.referenceNote);
+        if (cleanPortalString(draft.curatorNote)) normalized.curatorNote = cleanPortalString(draft.curatorNote);
+        return [id, normalized];
+      })
+      .filter(([, draft]) => isMeaningfulRelationshipDraft(draft as RelationshipDraft)),
+  );
+}
+
 function normalizeDraftPayload(payload: unknown, inductees: Inductee[] = []): DraftMap {
   const source = getDraftRecordSource(payload);
   if (!source) throw new Error('Draft JSON must contain a drafts or records object.');
@@ -2013,6 +2856,14 @@ function isMeaningfulDraft(draft: ReviewDraft) {
   });
 }
 
+function isMeaningfulRelationshipDraft(draft: RelationshipDraft) {
+  return Object.entries(draft).some(([key, value]) => {
+    if (key === 'id' || key === 'updatedAt' || value === undefined || value === null) return false;
+    if (typeof value === 'string') return value.trim().length > 0;
+    return true;
+  });
+}
+
 function downloadJson(payload: unknown, filename: string) {
   const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: 'application/json;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -2041,6 +2892,14 @@ function parseListInput(value: string) {
 
 function joinList(values: string[]) {
   return values.join('\n');
+}
+
+function addListValue(values: string[], value: string) {
+  return values.includes(value) ? values : [...values, value];
+}
+
+function removeListValue(values: string[], value: string) {
+  return values.filter((item) => item !== value);
 }
 
 function cleanPortalString(value: unknown) {
