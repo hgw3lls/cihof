@@ -89,6 +89,21 @@ Runner job logs are local, ignored by git, and kept in:
 
 Each log is a JSON file containing the job label, status, steps, output, timestamps, and the portal-visible log path. The runner keeps the newest 80 job logs by default.
 
+## Status Panel
+
+The Staff Portal runner panel shows:
+
+- repo root
+- current branch
+- latest commit
+- upstream sync state
+- dirty working tree state
+- recent uncommitted changes
+- last successful validation job
+- last successful build job
+
+The validation/build status is based on persisted runner job logs, so it survives runner restarts as long as `.portal/jobs/` is preserved.
+
 ## Environment Overrides
 
 ```sh
