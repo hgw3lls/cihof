@@ -30,6 +30,7 @@ export type Inductee = {
   themeTagsSource: string;
   countryTags: string[];
   countryTagsSource: string;
+  countryTagsNote: string;
   communityTags: string[];
   sortName: string;
   imageAltText: string;
@@ -306,6 +307,7 @@ export type RuntimeMediaRecord = {
   classYear?: number | null;
   countryTags?: string[];
   countryTagsSource?: string;
+  countryTagsNote?: string;
   region?: string;
   approvalStatus?: string;
   reviewPriority?: string;

@@ -253,7 +253,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
             <div className="review-row__chips">
               <Chip label={inductee.storySummarySource === 'curated' ? 'summary approved' : 'summary draft'} tone={inductee.storySummarySource === 'curated' ? 'ok' : 'warn'} />
               <Chip label={inductee.themeTagsSource === 'curated' ? 'themes approved' : 'theme candidates'} tone={inductee.themeTagsSource === 'curated' ? 'ok' : 'warn'} />
-              <Chip label={inductee.countryTagsSource === 'curated' ? 'countries approved' : `${inductee.countryTags.length} country candidates`} tone={inductee.countryTagsSource === 'curated' ? 'ok' : 'warn'} />
+              <Chip label={inductee.countryTagsSource === 'curated' ? 'countries approved' : `${inductee.countryTags.length} ${inductee.countryTagsSource} countries`} tone={inductee.countryTagsSource === 'curated' ? 'ok' : 'warn'} />
               {inductee.communityTags.length > 0 && <Chip label={`${inductee.communityTags.length} communities`} tone="ok" />}
             </div>
             <div className="review-row__chips">
@@ -399,6 +399,7 @@ function downloadReviewQueue(inductees: Inductee[], curation: CurationReport | n
     'class_year',
     'country_tags',
     'country_source',
+    'country_note',
     'region',
     'profile_url',
     'approval_status',
@@ -468,6 +469,7 @@ function downloadReviewQueue(inductees: Inductee[], curation: CurationReport | n
       inductee.classYear ?? '',
       inductee.countryTags.join('; '),
       inductee.countryTagsSource,
+      inductee.countryTagsNote,
       inductee.region,
       inductee.profileUrl,
       inductee.approvalStatus,

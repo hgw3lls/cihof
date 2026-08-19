@@ -97,11 +97,23 @@
   ],
   "countries": [
     {
-      "country": "Ireland",
-      "count": 7
+      "country": "United States",
+      "count": 18
     },
     {
       "country": "India",
+      "count": 13
+    },
+    {
+      "country": "Ireland",
+      "count": 11
+    },
+    {
+      "country": "Italy",
+      "count": 8
+    },
+    {
+      "country": "Poland",
       "count": 6
     },
     {
@@ -109,19 +121,39 @@
       "count": 6
     },
     {
-      "country": "Italy",
-      "count": 5
-    },
-    {
-      "country": "Poland",
-      "count": 4
-    },
-    {
-      "country": "Austria",
-      "count": 2
+      "country": "Slovenia",
+      "count": 6
     },
     {
       "country": "China",
+      "count": 4
+    },
+    {
+      "country": "Lebanon",
+      "count": 4
+    },
+    {
+      "country": "Hungary",
+      "count": 3
+    },
+    {
+      "country": "Romania",
+      "count": 3
+    },
+    {
+      "country": "Serbia",
+      "count": 3
+    },
+    {
+      "country": "Ukraine",
+      "count": 3
+    },
+    {
+      "country": "Vietnam",
+      "count": 3
+    },
+    {
+      "country": "Austria",
       "count": 2
     },
     {
@@ -129,31 +161,19 @@
       "count": 2
     },
     {
+      "country": "Czech Republic",
+      "count": 2
+    },
+    {
+      "country": "Egypt",
+      "count": 2
+    },
+    {
+      "country": "Ethiopia",
+      "count": 2
+    },
+    {
       "country": "Germany",
-      "count": 2
-    },
-    {
-      "country": "Hungary",
-      "count": 2
-    },
-    {
-      "country": "Lebanon",
-      "count": 2
-    },
-    {
-      "country": "Romania",
-      "count": 2
-    },
-    {
-      "country": "Slovenia",
-      "count": 2
-    },
-    {
-      "country": "Ukraine",
-      "count": 2
-    },
-    {
-      "country": "Vietnam",
       "count": 2
     },
     {
@@ -165,11 +185,7 @@
       "count": 1
     },
     {
-      "country": "Czech Republic",
-      "count": 1
-    },
-    {
-      "country": "Egypt",
+      "country": "Colombia",
       "count": 1
     },
     {
@@ -177,11 +193,19 @@
       "count": 1
     },
     {
-      "country": "Ethiopia",
+      "country": "Greece",
       "count": 1
     },
     {
       "country": "Japan",
+      "count": 1
+    },
+    {
+      "country": "Latvia",
+      "count": 1
+    },
+    {
+      "country": "Lithuania",
       "count": 1
     },
     {
@@ -193,15 +217,23 @@
       "count": 1
     },
     {
+      "country": "Norway",
+      "count": 1
+    },
+    {
       "country": "Russia",
       "count": 1
     },
     {
-      "country": "Serbia",
+      "country": "South Korea",
       "count": 1
     },
     {
-      "country": "South Korea",
+      "country": "Syria",
+      "count": 1
+    },
+    {
+      "country": "Taiwan",
       "count": 1
     },
     {
@@ -353,64 +385,7 @@
   "content": {
     "shortBio": [],
     "withoutThemeTags": [],
-    "withoutCountryTags": [
-      "alex-machaskee-2010",
-      "dr-dieu-thuc-do-2010",
-      "irene-morrow-2010",
-      "jeanette-grasselli-brown-2010",
-      "leo-weidenthal-2010",
-      "margaret-w-wong-2010",
-      "senator-george-voinovich-2010",
-      "albert-b-ratner-2011",
-      "lucretia-stoica-2011",
-      "ralph-j-perk-2011",
-      "reverend-dr-otis-moss-jr-2011",
-      "tony-petkovsek-2011",
-      "anthony-yen-yan-yuan-tai-2012",
-      "dr-jaya-shah-2012",
-      "fr-jim-o-donnell-2012",
-      "hon-mary-rose-oakar-2012",
-      "ken-kovach-2012",
-      "milton-maltz-2012",
-      "bishop-a-edward-pevec-2013",
-      "dr-maria-pujana-2013",
-      "josef-holzer-2013",
-      "nacy-panzica-2013",
-      "samuel-h-miller-2013",
-      "jim-foster-2014",
-      "joseph-p-meissner-2014",
-      "monte-ahuja-2014",
-      "thomas-j-scanlon-2014",
-      "dick-pogue-2015",
-      "dick-russ-2015",
-      "carolyn-balogh-2016-2016",
-      "jack-kahl-2016",
-      "khalid-samad-2016-2016",
-      "mona-alag-2017",
-      "wael-khoury-2017",
-      "abby-mina-2018",
-      "atul-mehta-2018",
-      "ralph-perk-jr-2018",
-      "ray-pianka-2018",
-      "akram-boutros-2019",
-      "ingrida-bublys-2019",
-      "marilyn-madigan-2019",
-      "richard-fleischman-2019",
-      "sree-sreenath-2019",
-      "valarie-mccall-2020",
-      "anda-cook-2022",
-      "carl-robson-2022",
-      "michael-d-polensek-2023",
-      "sudarshan-sathe-2023",
-      "ambassador-edward-f-crawford-2024",
-      "dr-eugene-jordan-2024",
-      "johnny-k-wu-2024",
-      "david-gilbert-2025",
-      "mayor-frank-jackson-2025",
-      "raj-aggarwal-2025",
-      "andy-chakalis-2026",
-      "catherine-jorgensen-mccutcheon-2026"
-    ]
+    "withoutCountryTags": []
   },
   "curation": {
     "approvalStatus": [
@@ -436,6 +411,7 @@
     "approvedSummaries": 0,
     "approvedThemeTags": 0,
     "approvedCountryTags": 0,
+    "inferredCountryTags": 56,
     "approvedCommunityTags": 0,
     "featured": [],
     "featuredCandidates": [

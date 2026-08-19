@@ -85,6 +85,7 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
     checkString(record, inductee.id, 'name', errors);
     checkStringArray(record, inductee.id, 'countryTags', errors);
     checkString(record, inductee.id, 'countryTagsSource', errors);
+    checkString(record, inductee.id, 'countryTagsNote', errors);
     checkString(record, inductee.id, 'region', errors);
     checkNullableNumber(record, inductee.id, 'classYear', errors);
     checkString(record, inductee.id, 'approvalStatus', errors);
