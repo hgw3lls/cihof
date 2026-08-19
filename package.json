@@ -19,6 +19,7 @@
     "build:portal": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=portal vite build",
     "import:2026": "node scripts/import-2026-live-data.js",
     "portal:server": "node scripts/portal-runner.js",
+    "test:kiosk": "playwright test",
     "dev": "npm run prepare:data && vite",
     "dev:portal": "npm run prepare:data && vite --open /portal.html",
     "build": "npm run prepare:data && tsc -b && vite build",
@@ -34,5 +35,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
 }
