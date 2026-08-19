@@ -14,10 +14,18 @@ test.describe('museum kiosk smoke', () => {
     expect(health.kioskMode).toBe(true);
     expect(health.selectedPersonId).toBe('');
     expect(health.relationshipsCount).toBeGreaterThanOrEqual(0);
+    expect(health.buildInfo.buildTarget).toBe('kiosk');
+    expect(health.buildInfo.gitCommitShort).toMatch(/^[a-f0-9]{7,12}$|^unknown$/);
+
+    const buildInfo = await page.request.get('data/build-info.json');
+    expect(buildInfo.ok()).toBe(true);
+    const buildInfoJson = await buildInfo.json() as KioskHealthForTest['buildInfo'];
+    expect(buildInfoJson.buildTarget).toBe('kiosk');
+    expect(buildInfoJson.gitCommitShort).toBe(health.buildInfo.gitCommitShort);
   });
 
   test('locks document scroll while allowing the museum stage to scroll', async ({ page }) => {
-    await page.goto('./?kiosk=1');
+    await page.goto('./');
     await expect(page.locator('button.portrait-tile').first()).toBeVisible();
 
     const lockState = await page.evaluate(() => {
@@ -122,6 +130,10 @@ async function readKioskHealth(page: Page) {
 }
 
 type KioskHealthForTest = {
+  buildInfo: {
+    buildTarget: string;
+    gitCommitShort: string;
+  };
   currentView: string;
   kioskMode: boolean;
   attractActive: boolean;

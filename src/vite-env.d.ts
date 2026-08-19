@@ -9,3 +9,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare const __CIHOF_BUILD_INFO__: import('./app/buildInfo').BuildInfo;
