@@ -38,11 +38,12 @@ export function useInductees(): DataState {
 export function useDataFacets(inductees: Inductee[]) {
   return useMemo(() => {
     const regions = Array.from(new Set(inductees.map((item) => item.region))).sort((a, b) => a.localeCompare(b));
+    const countries = Array.from(new Set(inductees.flatMap((item) => item.countryTags))).sort((a, b) => a.localeCompare(b));
     const years = Array.from(
       new Set(inductees.map((item) => item.classYear).filter((year): year is number => typeof year === 'number')),
     ).sort((a, b) => a - b);
     const themes = Array.from(new Set(inductees.flatMap((item) => item.themeTags))).sort((a, b) => a.localeCompare(b));
 
-    return { regions, years, themes };
+    return { regions, countries, years, themes };
   }, [inductees]);
 }

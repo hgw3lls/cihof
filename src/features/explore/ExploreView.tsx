@@ -2,12 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ExploreState, Inductee, MediaFilter, SortMode } from '../../data/types';
 import { allValue } from '../../data/filtering';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 
 type ExploreViewProps = {
   inductees: Inductee[];
   filtered: Inductee[];
   facets: {
     regions: string[];
+    countries: string[];
     years: number[];
     themes: string[];
   };
@@ -110,9 +112,21 @@ export function ExploreView({
               <input
                 value={state.query}
                 onChange={(event) => onStateChange({ query: event.target.value })}
-                placeholder="Name, region, year, story, or inducer"
+                placeholder="Name, country, community, year, story, or inducer"
                 type="search"
               />
+            </label>
+
+            <label className="field">
+              <span>Country</span>
+              <select value={state.country} onChange={(event) => onStateChange({ country: event.target.value })}>
+                <option value={allValue}>All countries</option>
+                {facets.countries.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </label>
 
             <label className="field">
@@ -145,6 +159,7 @@ export function ExploreView({
                 <option value="year-asc">Year, oldest first</option>
                 <option value="year-desc">Year, newest first</option>
                 <option value="name-asc">Name</option>
+                <option value="country-asc">Country</option>
                 <option value="region-asc">Region</option>
                 <option value="physical-wall">Physical wall order</option>
               </select>
@@ -227,7 +242,7 @@ function PortraitTile({
   wallDebug: boolean;
   onSelect: (inductee: Inductee) => void;
 }) {
-  const communityLabel = getCommunityLabel(inductee);
+  const placeLabel = countryCommunityOrRegionLabel(inductee);
   const className = [
     'portrait-tile',
     selected ? 'portrait-tile--selected' : '',
@@ -255,7 +270,7 @@ function PortraitTile({
       <span className="portrait-tile__plaque">
         <strong>{inductee.name}</strong>
         <span className="portrait-tile__year">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</span>
-        {communityLabel && <span className="portrait-tile__community">{communityLabel}</span>}
+        {placeLabel && <span className="portrait-tile__community">{placeLabel}</span>}
       </span>
     </button>
   );
@@ -321,7 +336,7 @@ function ActiveFilters({
       <button
         className="portrait-wall__reset-filters"
         type="button"
-        onClick={() => onStateChange({ query: '', region: allValue, year: allValue, theme: allValue, media: 'all' })}
+        onClick={() => onStateChange({ query: '', region: allValue, country: allValue, year: allValue, theme: allValue, media: 'all' })}
       >
         Reset filters
       </button>
@@ -332,6 +347,7 @@ function ActiveFilters({
 function getActiveFilters(state: ExploreState, onStateChange: (state: Partial<ExploreState>) => void) {
   return [
     state.query ? { key: 'query', label: `Search: ${state.query}`, reset: () => onStateChange({ query: '' }) } : null,
+    state.country !== allValue ? { key: 'country', label: `Country: ${state.country}`, reset: () => onStateChange({ country: allValue }) } : null,
     state.region !== allValue ? { key: 'region', label: `Region: ${state.region}`, reset: () => onStateChange({ region: allValue }) } : null,
     state.year !== allValue ? { key: 'year', label: `Year: ${state.year}`, reset: () => onStateChange({ year: allValue }) } : null,
     state.theme !== allValue ? { key: 'theme', label: `Theme: ${state.theme}`, reset: () => onStateChange({ theme: allValue }) } : null,
@@ -342,6 +358,7 @@ function getActiveFilters(state: ExploreState, onStateChange: (state: Partial<Ex
 function hasActiveFilters(state: ExploreState) {
   return Boolean(
     state.query ||
+    state.country !== allValue ||
     state.region !== allValue ||
     state.year !== allValue ||
     state.theme !== allValue ||
@@ -353,10 +370,6 @@ function mediaLabel(media: MediaFilter) {
   if (media === 'with-video') return 'Media: with video';
   if (media === 'with-gallery') return 'Media: image gallery';
   return 'Media: all';
-}
-
-function getCommunityLabel(inductee: Inductee) {
-  return inductee.communityTags.find(Boolean) ?? '';
 }
 
 function hasWallMetadata(inductee: Inductee) {
@@ -392,7 +405,11 @@ function pickDifferentInductee(pool: Inductee[], current: Inductee | null, offse
 
 function differenceScore(current: Inductee, candidate: Inductee) {
   let score = 0;
-  score += current.region && candidate.region && current.region !== candidate.region ? 36 : -12;
+  const sharedCountries = overlapCount(current.countryTags, candidate.countryTags);
+  if (sharedCountries === 0) score += current.countryTags.length > 0 || candidate.countryTags.length > 0 ? 42 : 0;
+  else score -= sharedCountries * 14;
+
+  score += current.region && candidate.region && current.region !== candidate.region ? 28 : -8;
 
   const sharedCommunities = overlapCount(current.communityTags, candidate.communityTags);
   if (sharedCommunities === 0) score += current.communityTags.length > 0 || candidate.communityTags.length > 0 ? 28 : 8;

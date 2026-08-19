@@ -231,6 +231,27 @@ function addMetadataRelationships(
     });
   }
 
+  inductee.countryTags.forEach((country) => {
+    const countryNode = entityNode({
+      entityId: `country-${country}`,
+      kind: 'place',
+      label: country,
+    });
+    const provenance: RelationshipProvenance = inductee.countryTagsSource === 'curated' ? 'curated' : 'inferred';
+    addNode(graph, countryNode);
+    addEdge(graph, {
+      from: source.id,
+      to: countryNode.id,
+      type: 'related_place',
+      label: `Country: ${country}`,
+      provenance,
+      referenceNote: provenance === 'curated'
+        ? 'Country in reviewed metadata.'
+        : 'Generated country metadata from source text; needs curatorial review.',
+      source: 'metadata',
+    });
+  });
+
   inductee.communityTags.forEach((community) => {
     const communityNode = entityNode({ entityId: `community-${community}`, kind: 'community', label: community });
     addNode(graph, communityNode);

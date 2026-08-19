@@ -61,6 +61,7 @@ export function buildEntityModel(inductees, curatedModel = loadCuratedEntityMode
 
     addClassYearEntityAndRelationship(inductee, addEntity, addRelationship, addedEntityIds);
     addThemeEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
+    addCountryPlaceEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addCommunityEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addMediaEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addInductedByRelationship(inductee, peopleByName, addEntity, addRelationship, addedEntityIds);
@@ -312,6 +313,45 @@ function addCommunityEntitiesAndRelationships(inductee, addEntity, addRelationsh
   });
 }
 
+function addCountryPlaceEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds) {
+  inductee.countryTags.forEach((country) => {
+    const id = countryPlaceEntityId(country);
+    const confidence = inductee.countryTagsSource === 'curated' ? 'curated' : 'inferred';
+    if (!addedEntityIds.has(id)) {
+      addEntity({
+        id,
+        displayName: country,
+        type: 'Place',
+        shortDescription: 'Country or heritage place label used for more specific browsing than broad region metadata.',
+        location: { displayName: country, region: inductee.region },
+        provenance: provenance({
+          confidence,
+          sourceField: 'countryTags',
+          note: confidence === 'curated'
+            ? 'Generated from curator-approved country metadata.'
+            : 'Generated from country and nationality references in source text; needs curatorial review.',
+        }),
+        attributes: {
+          placeKind: 'country',
+          legacyRegion: inductee.region,
+        },
+      });
+    }
+
+    addRelationship(entityRelationship({
+      sourceEntityId: personEntityId(inductee.id),
+      targetEntityId: id,
+      type: 'associated_with_place',
+      displayLabel: `Country: ${country}`,
+      shortDescription: `${inductee.name} is associated with ${country}.`,
+      confidence,
+      sourceField: 'countryTags',
+      sourceRecordId: inductee.id,
+      note: confidence === 'curated' ? 'Approved country metadata.' : 'Generated country metadata; needs curatorial review.',
+    }));
+  });
+}
+
 function addMediaEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds) {
   const primaryImageUrl = inductee.primaryImageUrl;
   if (primaryImageUrl) {
@@ -498,7 +538,9 @@ function personEntity(inductee) {
     dateRange: inductee.classYear
       ? { start: String(inductee.classYear), end: String(inductee.classYear), label: `Class of ${inductee.classYear}` }
       : undefined,
-    location: inductee.region ? { displayName: inductee.region, region: inductee.region } : undefined,
+    location: inductee.countryTags[0]
+      ? { displayName: inductee.countryTags[0], region: inductee.region }
+      : inductee.region ? { displayName: inductee.region, region: inductee.region } : undefined,
     provenance: provenance({
       confidence: inductee.approvalStatus === 'approved' ? 'documented' : 'curated',
       sourceRecordId: inductee.id,
@@ -509,6 +551,8 @@ function personEntity(inductee) {
       classYear: inductee.classYear,
       decade: inductee.decade,
       region: inductee.region,
+      countryTags: inductee.countryTags,
+      countryTagsSource: inductee.countryTagsSource,
       profileUrl: inductee.profileUrl,
       inductedBy: inductee.inductedBy,
       approvalStatus: inductee.approvalStatus,
@@ -664,6 +708,10 @@ function themeEntityId(theme) {
 
 function communityEntityId(community) {
   return `community:${slugify(community)}`;
+}
+
+function countryPlaceEntityId(country) {
+  return `place:country:${slugify(country)}`;
 }
 
 function classEventEntityId(year) {

@@ -7,8 +7,8 @@
     "curatedSource": "data/cihof_curated_entities.json"
   },
   "totals": {
-    "entities": 494,
-    "relationships": 1837,
+    "entities": 522,
+    "relationships": 1898,
     "curatedEntities": 0,
     "curatedRelationships": 0
   },
@@ -20,6 +20,10 @@
     {
       "type": "Person",
       "count": 177
+    },
+    {
+      "type": "Place",
+      "count": 28
     },
     {
       "type": "Event",
@@ -50,12 +54,16 @@
     {
       "type": "inducted_in_class",
       "count": 111
+    },
+    {
+      "type": "associated_with_place",
+      "count": 61
     }
   ],
   "provenance": [
     {
       "confidence": "inferred",
-      "count": 1480
+      "count": 1569
     },
     {
       "confidence": "curated",

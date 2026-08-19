@@ -48,6 +48,8 @@ function buildAssetRecord(inductee) {
     id: inductee.id,
     name: inductee.name,
     classYear: inductee.classYear,
+    countryTags: inductee.countryTags,
+    countryTagsSource: inductee.countryTagsSource,
     region: inductee.region,
     approvalStatus: inductee.approvalStatus,
     reviewPriority: inductee.reviewPriority,

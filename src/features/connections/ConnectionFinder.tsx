@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { countryOrRegionLabel } from '../../data/inducteeLabels';
 import {
   buildConnectionGraph,
   connectedPeopleForNode,
@@ -252,7 +253,7 @@ function PersonConnectionPicker({
         <input
           value={query}
           type="search"
-          placeholder="Name, year, region, community, story"
+          placeholder="Name, year, country, region, community, story"
           onChange={(event) => onQueryChange(event.target.value)}
         />
       </label>
@@ -269,7 +270,7 @@ function PersonConnectionPicker({
             />
             <span>
               <strong>{inductee.name}</strong>
-              <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'} / {inductee.region}</small>
+              <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(inductee)}</small>
             </span>
           </button>
         ))}

@@ -29,7 +29,9 @@ export function loadInductees(options = {}) {
     const hasVideo = youtubeVideoIds.length > 0 || localVideoPaths.length > 0;
     const hasGallery = imageUrls.length > 1 || localImagePaths.length > 1;
     const bioText = record.bio_text.trim().replace(/\s+/g, ' ');
-    const themeTags = extractThemeTags([name, region, record.inducted_by, bioText].filter(Boolean).join(' '));
+    const metadataText = [name, region, record.inducted_by, bioText].filter(Boolean).join(' ');
+    const themeTags = extractThemeTags(metadataText);
+    const countryTags = extractCountryTags(metadataText);
     const storySummary = summarizeText(bioText);
     const storyHighlights = extractHighlights(bioText);
 
@@ -55,6 +57,8 @@ export function loadInductees(options = {}) {
       storyHighlights,
       themeTags,
       themeTagsSource: 'generated',
+      countryTags,
+      countryTagsSource: countryTags.length > 0 ? 'generated' : 'none',
       communityTags: [],
       sortName: buildSortName(name),
       imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null),
@@ -73,7 +77,7 @@ export function loadInductees(options = {}) {
       wallLabel: '',
       wallCoordinates: null,
       physicalPortraitPresent: false,
-      searchText: [name, classYear, region, record.inducted_by, bioText, storySummary, ...themeTags].filter(Boolean).join(' ').toLowerCase(),
+      searchText: [name, classYear, region, record.inducted_by, bioText, storySummary, ...themeTags, ...countryTags].filter(Boolean).join(' ').toLowerCase(),
     };
   });
 
@@ -184,6 +188,8 @@ export function validateCuratedMetadata(metadata, expectedIds = []) {
     checkString(record, id, 'approvedSummary', errors);
     checkStringArray(record, id, 'themeTagCandidates', errors);
     checkStringArray(record, id, 'approvedThemeTags', errors);
+    checkStringArray(record, id, 'countryTagCandidates', errors);
+    checkStringArray(record, id, 'approvedCountryTags', errors);
     checkStringArray(record, id, 'communityTagCandidates', errors);
     checkStringArray(record, id, 'approvedCommunityTags', errors);
     checkBoolean(record, id, 'featured', errors);
@@ -304,6 +310,12 @@ export function buildCurationReport(inductees, curatedMetadata, validation) {
       approved: inductees.filter((item) => item.themeTagsSource === 'curated').length,
       candidateOnly: inductees.filter((item) => item.themeTagsSource !== 'curated').map((item) => item.id),
     },
+    countries: {
+      detected: inductees.filter((item) => item.countryTags.length > 0).length,
+      approved: inductees.filter((item) => item.countryTagsSource === 'curated').length,
+      generatedOnly: inductees.filter((item) => item.countryTags.length > 0 && item.countryTagsSource !== 'curated').map((item) => item.id),
+      missing: inductees.filter((item) => item.countryTags.length === 0).map((item) => item.id),
+    },
     communities: {
       approved: inductees.filter((item) => item.communityTags.length > 0).length,
       candidateOnly: records.filter((record) => toStringArray(record.communityTagCandidates).length > 0 && toStringArray(record.approvedCommunityTags).length === 0).map((record) => record.id),
@@ -363,6 +375,7 @@ export function buildReport(inductees) {
     })),
     decades: countBy(inductees.map((item) => item.decade).filter(Boolean), 'decade'),
     themes: countBy(inductees.flatMap((item) => item.themeTags), 'theme'),
+    countries: countBy(inductees.flatMap((item) => item.countryTags), 'country'),
     communities: countBy(inductees.flatMap((item) => item.communityTags), 'community'),
     years: Array.from(new Set(years)).sort((a, b) => a - b).map((year) => ({
       year,
@@ -388,12 +401,14 @@ export function buildReport(inductees) {
     content: {
       shortBio: inductees.filter((item) => item.bioText.length < 320).map((item) => item.id),
       withoutThemeTags: inductees.filter((item) => item.themeTags.length === 0).map((item) => item.id),
+      withoutCountryTags: inductees.filter((item) => item.countryTags.length === 0).map((item) => item.id),
     },
     curation: {
       approvalStatus: countBy(inductees.map((item) => item.approvalStatus), 'status'),
       reviewPriority: countBy(inductees.map((item) => item.reviewPriority), 'priority'),
       approvedSummaries: inductees.filter((item) => item.storySummarySource === 'curated').length,
       approvedThemeTags: inductees.filter((item) => item.themeTagsSource === 'curated').length,
+      approvedCountryTags: inductees.filter((item) => item.countryTagsSource === 'curated').length,
       approvedCommunityTags: inductees.filter((item) => item.communityTags.length > 0).length,
       featured: inductees.filter((item) => item.featured).map((item) => item.id),
       featuredCandidates: inductees.filter((item) => item.featuredCandidate).map((item) => item.id),
@@ -490,9 +505,11 @@ function applyCuratedMetadata(inductee, curated) {
   const sortName = cleanString(curated.sortName) || buildSortName(name);
   const approvedSummary = cleanString(curated.approvedSummary);
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
+  const approvedCountryTags = toStringArray(curated.approvedCountryTags);
   const approvedCommunityTags = toStringArray(curated.approvedCommunityTags);
   const storySummary = approvedSummary || inductee.storySummary;
   const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
+  const countryTags = approvedCountryTags.length > 0 ? approvedCountryTags : inductee.countryTags;
   const communityTags = approvedCommunityTags;
   const imageAltText = cleanString(curated.image?.primaryAltText) || defaultImageAltText(name, inductee.classYear);
   const mediaReviewStatus = cleanString(curated.video?.reviewStatus) || inductee.mediaReviewStatus;
@@ -507,6 +524,8 @@ function applyCuratedMetadata(inductee, curated) {
     storySummarySource: approvedSummary ? 'curated' : 'generated',
     themeTags,
     themeTagsSource: approvedThemeTags.length > 0 ? 'curated' : 'generated',
+    countryTags,
+    countryTagsSource: approvedCountryTags.length > 0 ? 'curated' : inductee.countryTagsSource,
     communityTags,
     imageAltText,
     approvalStatus: cleanString(curated.approvalStatus) || inductee.approvalStatus,
@@ -517,7 +536,7 @@ function applyCuratedMetadata(inductee, curated) {
     mediaReviewStatus,
     imageRightsStatus,
     videoRightsStatus,
-    searchText: [name, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, ...themeTags, ...communityTags]
+    searchText: [name, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, ...themeTags, ...countryTags, ...communityTags]
       .filter(Boolean)
       .join(' ')
       .toLowerCase(),
@@ -845,6 +864,149 @@ function extractThemeTags(text) {
     .map((item) => item.tag);
 
   return tags.length > 0 ? tags.slice(0, 5) : ['Community Leadership'];
+}
+
+const countryRules = [
+  { country: 'Albania', keywords: ['albania', 'albanian'] },
+  { country: 'Armenia', keywords: ['armenia', 'armenian'] },
+  { country: 'Austria', keywords: ['austria', 'austrian'] },
+  { country: 'Belarus', keywords: ['belarus', 'belarusian'] },
+  { country: 'Bosnia and Herzegovina', keywords: ['bosnia', 'bosnian', 'herzegovina'] },
+  { country: 'Brazil', keywords: ['brazil', 'brazilian'] },
+  { country: 'Bulgaria', keywords: ['bulgaria', 'bulgarian'] },
+  { country: 'Canada', keywords: ['canada', 'canadian'] },
+  { country: 'Chile', keywords: ['chile', 'chilean'] },
+  { country: 'China', keywords: ['china', 'chinese'] },
+  { country: 'Colombia', keywords: ['colombia', 'colombian'] },
+  { country: 'Croatia', keywords: ['croatia', 'croatian'] },
+  { country: 'Cuba', keywords: ['cuba', 'cuban'] },
+  { country: 'Czech Republic', keywords: ['czech republic', 'czechia', 'czech'] },
+  { country: 'Dominican Republic', keywords: ['dominican republic', 'dominican'] },
+  { country: 'Egypt', keywords: ['egypt', 'egyptian'] },
+  { country: 'El Salvador', keywords: ['el salvador', 'salvadoran'] },
+  { country: 'Eritrea', keywords: ['eritrea', 'eritrean'] },
+  { country: 'Estonia', keywords: ['estonia', 'estonian'] },
+  { country: 'Ethiopia', keywords: ['ethiopia', 'ethiopian'] },
+  { country: 'Finland', keywords: ['finland', 'finnish'] },
+  { country: 'France', keywords: ['france', 'french'] },
+  { country: 'Georgia', keywords: ['republic of georgia', 'georgian republic'] },
+  { country: 'Germany', keywords: ['germany', 'german'] },
+  { country: 'Ghana', keywords: ['ghana', 'ghanaian'] },
+  { country: 'Greece', keywords: ['greece', 'greek'] },
+  { country: 'Guatemala', keywords: ['guatemala', 'guatemalan'] },
+  { country: 'Haiti', keywords: ['haiti', 'haitian'] },
+  { country: 'Honduras', keywords: ['honduras', 'honduran'] },
+  { country: 'Hungary', keywords: ['hungary', 'hungarian'] },
+  { country: 'India', keywords: ['india', 'asian indian', 'indian american'] },
+  { country: 'Iran', keywords: ['iran', 'iranian', 'persia', 'persian'] },
+  { country: 'Iraq', keywords: ['iraq', 'iraqi'] },
+  { country: 'Ireland', keywords: ['ireland', 'irish'] },
+  { country: 'Israel', keywords: ['israel', 'israeli'] },
+  { country: 'Italy', keywords: ['italy', 'italian'] },
+  { country: 'Japan', keywords: ['japan', 'japanese'] },
+  { country: 'Jordan', keywords: ['jordan', 'jordanian'] },
+  { country: 'Kenya', keywords: ['kenya', 'kenyan'] },
+  { country: 'Lebanon', keywords: ['lebanon', 'lebanese'] },
+  { country: 'Lithuania', keywords: ['lithuania', 'lithuanian'] },
+  { country: 'Mexico', keywords: ['mexico', 'mexican'] },
+  { country: 'Morocco', keywords: ['morocco', 'moroccan'] },
+  { country: 'Netherlands', keywords: ['netherlands', 'dutch'] },
+  { country: 'Nigeria', keywords: ['nigeria', 'nigerian'] },
+  { country: 'North Macedonia', keywords: ['north macedonia', 'macedonia', 'macedonian'] },
+  { country: 'Norway', keywords: ['norway', 'norwegian'] },
+  { country: 'Pakistan', keywords: ['pakistan', 'pakistani'] },
+  { country: 'Palestine', keywords: ['palestine', 'palestinian'] },
+  { country: 'Peru', keywords: ['peru', 'peruvian'] },
+  { country: 'Philippines', keywords: ['philippines', 'philippine', 'filipino', 'filipina'] },
+  { country: 'Poland', keywords: ['poland', 'polish'] },
+  { country: 'Portugal', keywords: ['portugal', 'portuguese'] },
+  { country: 'Puerto Rico', keywords: ['puerto rico', 'puerto rican'] },
+  { country: 'Romania', keywords: ['romania', 'romanian'] },
+  { country: 'Russia', keywords: ['russia', 'russian'] },
+  { country: 'Serbia', keywords: ['serbia', 'serbian'] },
+  { country: 'Slovakia', keywords: ['slovakia', 'slovak'] },
+  { country: 'Slovenia', keywords: ['slovenia', 'slovenian'] },
+  { country: 'South Africa', keywords: ['south africa', 'south african'] },
+  { country: 'South Korea', keywords: ['south korea', 'korea', 'korean'] },
+  { country: 'Spain', keywords: ['spain', 'spanish'] },
+  { country: 'Sri Lanka', keywords: ['sri lanka', 'sri lankan'] },
+  { country: 'Sudan', keywords: ['sudan', 'sudanese'] },
+  { country: 'Sweden', keywords: ['sweden', 'swedish'] },
+  { country: 'Switzerland', keywords: ['switzerland', 'swiss'] },
+  { country: 'Syria', keywords: ['syria', 'syrian'] },
+  { country: 'Taiwan', keywords: ['taiwan', 'taiwanese', 'taipei'] },
+  { country: 'Thailand', keywords: ['thailand', 'thai'] },
+  { country: 'Turkey', keywords: ['turkey', 'turkish'] },
+  { country: 'Ukraine', keywords: ['ukraine', 'ukrainian'] },
+  { country: 'United Kingdom', keywords: ['united kingdom', 'british', 'england', 'scotland', 'scottish', 'wales', 'welsh'] },
+  { country: 'Vietnam', keywords: ['vietnam', 'vietnamese'] },
+];
+
+export function extractCountryTags(text) {
+  const lower = text.toLowerCase().replace(/\s+/g, ' ');
+  const countryTags = countryRules
+    .map((rule) => ({
+      country: rule.country,
+      evidence: rule.keywords
+        .map((keyword) => countryEvidence(lower, keyword))
+        .sort((a, b) => b.score - a.score)[0] ?? { score: 0, direct: false },
+    }))
+    .filter((item) => item.evidence.score >= 4);
+
+  const directCountryTags = countryTags.filter((item) => item.evidence.direct);
+  const selectedCountryTags = directCountryTags.length > 0 ? directCountryTags : countryTags;
+
+  return Array.from(
+    new Set(
+      selectedCountryTags
+        .sort((a, b) => b.evidence.score - a.evidence.score || a.country.localeCompare(b.country))
+        .map((item) => item.country),
+    ),
+  ).slice(0, 3);
+}
+
+function countryEvidence(text, keyword) {
+  if (!containsKeyword(text, keyword)) return { score: 0, direct: false };
+
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const country = `(?:${escaped})`;
+  const strongOriginBefore = new RegExp(
+    `\\b(born|native|immigrated|emigrated|migrated|came|arrived|fled|escaped|resettled|deported)\\b[^.]{0,90}\\b${country}\\b`,
+    'i',
+  );
+  const strongOriginAfter = new RegExp(
+    `\\b${country}\\b[^.]{0,90}\\b(born|native|immigrant|emigrant|descent|nationality)\\b`,
+    'i',
+  );
+  const familyOrigin = new RegExp(
+    `\\b(parents|father|mother|family|families|grandparents|ancestors)\\b[^.]{0,120}\\bfrom\\b\\s+(?:(?:the|a|an)\\s+)?(?:(?:village|city|town|region|province|country)\\s+of\\s+)?(?:[^.]{0,35}\\bin\\s+)?\\b${country}\\b`,
+    'i',
+  );
+  const communityEvidence = new RegExp(
+    `\\b${country}\\b[^.]{0,70}\\b(american|association|community|communities|culture|cultural|descent|diaspora|heritage|immigrant|immigrants|nationality|society|tradition|traditions)\\b`,
+    'i',
+  );
+  const communityMatch = text.match(communityEvidence);
+  const communitySnippet = communityMatch?.index === undefined ? '' : text.slice(communityMatch.index, communityMatch.index + 120);
+  const keywordIndex = text.search(new RegExp(`\\b${country}\\b`, 'i'));
+
+  let score = 1;
+  let direct = false;
+  if (strongOriginBefore.test(text)) score = Math.max(score, 8);
+  if (familyOrigin.test(text)) score = Math.max(score, 8);
+  if (strongOriginBefore.test(text) || familyOrigin.test(text)) direct = true;
+  if (strongOriginAfter.test(text)) {
+    score = Math.max(score, 6);
+    direct = true;
+  }
+  if (keywordIndex >= 0 && keywordIndex <= 1200 && communityMatch && !isEventOrProgramContext(communitySnippet)) {
+    score = Math.max(score, 5);
+  }
+  return { score, direct };
+}
+
+function isEventOrProgramContext(snippet) {
+  return /\b(award|awards|church|churches|day|days|event|events|exhibition|fellowship|garden|gardens|month|program|programs|tour|trade|trip)\b/i.test(snippet);
 }
 
 function themeScore(text, keywords) {

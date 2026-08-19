@@ -32,7 +32,7 @@ writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document,
 writeFileSync(physicalWallOutputPath, `${JSON.stringify(physicalWallMetadata, null, 2)}\n`);
 
 console.log(
-  `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions. ` +
+  `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions and ${report.countries.length} countries. ` +
     `${report.media.withPrimaryImage} have primary images, ${report.media.withVideo} have videos.`,
 );
 console.log(

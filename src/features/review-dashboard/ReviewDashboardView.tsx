@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { countryOrRegionLabel } from '../../data/inducteeLabels';
 import type { Inductee } from '../../data/types';
 
 type CountEntry = {
@@ -22,6 +23,12 @@ type CurationReport = {
   themes?: {
     approved?: number;
     candidateOnly?: string[];
+  };
+  countries?: {
+    detected?: number;
+    approved?: number;
+    generatedOnly?: string[];
+    missing?: string[];
   };
   communities?: {
     approved?: number;
@@ -189,7 +196,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       <div className="review-controls controls" aria-label="Review filters">
         <label className="field field--search">
           <span>Search</span>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, id, region, year, story, tag" type="search" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, id, country, region, year, story, tag" type="search" />
         </label>
         <label className="field">
           <span>Queue</span>
@@ -235,7 +242,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
             <div className="review-row__profile">
               <strong>{inductee.name}</strong>
               <span>{inductee.id}</span>
-              <small>{inductee.classYear ?? 'Year unknown'} / {inductee.region}</small>
+              <small>{inductee.classYear ?? 'Year unknown'} / {countryOrRegionLabel(inductee)}</small>
             </div>
             <div className="review-row__chips">
               <Chip label={inductee.approvalStatus} tone={inductee.approvalStatus === 'approved' ? 'ok' : 'warn'} />
@@ -246,6 +253,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
             <div className="review-row__chips">
               <Chip label={inductee.storySummarySource === 'curated' ? 'summary approved' : 'summary draft'} tone={inductee.storySummarySource === 'curated' ? 'ok' : 'warn'} />
               <Chip label={inductee.themeTagsSource === 'curated' ? 'themes approved' : 'theme candidates'} tone={inductee.themeTagsSource === 'curated' ? 'ok' : 'warn'} />
+              <Chip label={inductee.countryTagsSource === 'curated' ? 'countries approved' : `${inductee.countryTags.length} country candidates`} tone={inductee.countryTagsSource === 'curated' ? 'ok' : 'warn'} />
               {inductee.communityTags.length > 0 && <Chip label={`${inductee.communityTags.length} communities`} tone="ok" />}
             </div>
             <div className="review-row__chips">
@@ -351,6 +359,7 @@ function getReviewNeeds(inductee: Inductee, curation: CurationReport | null, med
   if (inductee.approvalStatus !== 'approved') needs.push('Approve profile metadata');
   if (inductee.storySummarySource !== 'curated') needs.push('Approve or rewrite story summary');
   if (inductee.themeTagsSource !== 'curated') needs.push('Approve theme tags');
+  if (inductee.countryTagsSource !== 'curated') needs.push('Approve country tags');
   if (inductee.featuredCandidate && !inductee.featured) needs.push('Featured story decision');
   if (inductee.imageRightsStatus !== 'approved' || hasId(curation?.media?.imageRightsReviewNeeded, inductee.id) || hasId(media?.summary?.imageRightsNeedsReview, inductee.id)) {
     needs.push('Approve primary image rights');
@@ -388,6 +397,8 @@ function downloadReviewQueue(inductees: Inductee[], curation: CurationReport | n
     'id',
     'name',
     'class_year',
+    'country_tags',
+    'country_source',
     'region',
     'profile_url',
     'approval_status',
@@ -455,6 +466,8 @@ function downloadReviewQueue(inductees: Inductee[], curation: CurationReport | n
       inductee.id,
       inductee.name,
       inductee.classYear ?? '',
+      inductee.countryTags.join('; '),
+      inductee.countryTagsSource,
       inductee.region,
       inductee.profileUrl,
       inductee.approvalStatus,
