@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { journeys, type Journey } from '../../data/journeys';
+import { countryOrRegionLabel } from '../../data/inducteeLabels';
 import type { Inductee } from '../../data/types';
 
 type JourneyViewProps = {
@@ -16,7 +17,7 @@ type ResolvedPerson = {
 
 type JourneyStats = {
   yearRange: string;
-  regionCount: number;
+  placeCount: number;
   videoCount: number;
 };
 
@@ -97,7 +98,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
           <div className="journey-active-header__meta">
             <span>{step + 1} of {activeJourney.people.length}</span>
             <span>{activeJourney.stats.yearRange}</span>
-            <span>{pluralize(activeJourney.stats.regionCount, 'region')}</span>
+            <span>{pluralize(activeJourney.stats.placeCount, 'place')}</span>
           </div>
         </header>
 
@@ -130,7 +131,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
           <div className="journey-focus__story">
             <div className="journey-focus__topline">
               <span>{formatYear(activeStep.inductee.classYear)}</span>
-              <span>{activeStep.inductee.region}</span>
+              <span>{countryOrRegionLabel(activeStep.inductee)}</span>
               {activeStep.inductee.hasVideo && <span>Watch / Listen</span>}
             </div>
             <h3>{activeStep.inductee.name}</h3>
@@ -296,11 +297,11 @@ function resolveJourneys(inductees: Inductee[]): ResolvedJourney[] {
 
 function getJourneyStats(people: ResolvedPerson[]): JourneyStats {
   const years = people.map(({ inductee }) => inductee.classYear).filter(isNumber);
-  const regions = new Set(people.map(({ inductee }) => inductee.region).filter(Boolean));
+  const places = new Set(people.map(({ inductee }) => countryOrRegionLabel(inductee)).filter(Boolean));
 
   return {
     yearRange: formatYearRange(years),
-    regionCount: regions.size,
+    placeCount: places.size,
     videoCount: people.filter(({ inductee }) => inductee.hasVideo).length,
   };
 }

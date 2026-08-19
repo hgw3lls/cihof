@@ -17,6 +17,7 @@ import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '..
 const defaultExploreState: ExploreState = {
   query: '',
   region: allValue,
+  country: allValue,
   year: allValue,
   theme: allValue,
   media: 'all',
@@ -89,6 +90,7 @@ export function App() {
     if (viewMode !== 'all-people') params.set('view', viewMode);
     if (exploreState.query) params.set('q', exploreState.query);
     if (exploreState.region !== allValue) params.set('region', exploreState.region);
+    if (exploreState.country !== allValue) params.set('country', exploreState.country);
     if (viewMode !== 'time' && exploreState.year !== allValue) params.set('year', exploreState.year);
     if (viewMode === 'time' && timelineYear) params.set('timeYear', timelineYear);
     if (exploreState.theme !== allValue) params.set('theme', exploreState.theme);
@@ -428,12 +430,13 @@ function readExploreState(): ExploreState {
   const media = readParam('media') as MediaFilter;
   const view = readParam('view');
   const isTimelineRoute = view === 'time' || view === 'timeline';
-  const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'region-asc', 'physical-wall'].includes(sort) ? sort : 'year-asc';
+  const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'country-asc', 'region-asc', 'physical-wall'].includes(sort) ? sort : 'year-asc';
   const mediaMode: MediaFilter = ['with-video', 'with-gallery'].includes(media) ? media : 'all';
 
   return {
     query: readParam('q'),
     region: readParam('region') || allValue,
+    country: readParam('country') || allValue,
     year: isTimelineRoute ? allValue : readParam('year') || allValue,
     theme: readParam('theme') || allValue,
     media: mediaMode,

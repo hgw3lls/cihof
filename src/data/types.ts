@@ -28,6 +28,8 @@ export type Inductee = {
   storyHighlights: string[];
   themeTags: string[];
   themeTagsSource: string;
+  countryTags: string[];
+  countryTagsSource: string;
   communityTags: string[];
   sortName: string;
   imageAltText: string;
@@ -49,7 +51,7 @@ export type Inductee = {
   searchText: string;
 };
 
-export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'region-asc' | 'physical-wall';
+export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'country-asc' | 'region-asc' | 'physical-wall';
 export type MediaFilter = 'all' | 'with-video' | 'with-gallery';
 export type ViewMode = 'all-people' | 'time' | 'places' | 'journeys' | 'search' | 'review';
 export type RelationshipType =
@@ -302,6 +304,8 @@ export type RuntimeMediaRecord = {
   id: string;
   name?: string;
   classYear?: number | null;
+  countryTags?: string[];
+  countryTagsSource?: string;
   region?: string;
   approvalStatus?: string;
   reviewPriority?: string;
@@ -318,6 +322,7 @@ export type RuntimeMediaRecord = {
 export type ExploreState = {
   query: string;
   region: string;
+  country: string;
   year: string;
   theme: string;
   media: MediaFilter;

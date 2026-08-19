@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { countryOrRegionLabel } from '../../data/inducteeLabels';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
 import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType } from '../../data/types';
@@ -108,6 +109,7 @@ export function InducteeDetail({
   if (!inductee) return null;
 
   const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
+  const primaryCountryLabel = countryOrRegionLabel(inductee);
   const communityLabel = inductee.communityTags[0] ?? '';
   const themeTags = inductee.themeTags.slice(0, 4);
   const summary = inductee.storySummary || summarizeSentences(inductee.bioText, 2, 310);
@@ -162,7 +164,7 @@ export function InducteeDetail({
               <p className="museum-kicker">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</p>
               <h2 className="detail__name">{inductee.name}</h2>
               <div className="detail__facts">
-                <span>{inductee.region}</span>
+                {primaryCountryLabel && <span>{primaryCountryLabel}</span>}
                 {communityLabel && <span>{communityLabel}</span>}
                 {inductee.inductedBy && <span>Inducted by {inductee.inductedBy}</span>}
               </div>
@@ -438,6 +440,9 @@ function inferFallbackConnection(active: Inductee, related: Inductee): { type: R
   const sharedCommunity = active.communityTags.find((tag) => related.communityTags.includes(tag));
   if (sharedCommunity) return { type: 'shared_community', displayLabel: `Same community: ${sharedCommunity}` };
 
+  const sharedCountry = active.countryTags.find((tag) => related.countryTags.includes(tag));
+  if (sharedCountry) return { type: 'related_place', displayLabel: `Same country: ${sharedCountry}` };
+
   const organization = sharedOrganizations(active, related)[0];
   if (organization) return { type: 'shared_organization', displayLabel: `Shared organization: ${organization}` };
 
@@ -492,7 +497,11 @@ function pickDifferentInductee(allInductees: Inductee[], current: Inductee) {
 
 function differenceScore(current: Inductee, candidate: Inductee) {
   let score = 0;
-  score += current.region !== candidate.region ? 36 : -10;
+  const sharedCountries = overlapCount(current.countryTags, candidate.countryTags);
+  if (sharedCountries === 0) score += current.countryTags.length > 0 || candidate.countryTags.length > 0 ? 42 : 0;
+  else score -= sharedCountries * 14;
+
+  score += current.region !== candidate.region ? 28 : -8;
   score += overlapCount(current.communityTags, candidate.communityTags) === 0 ? 28 : -10;
   score += overlapCount(current.themeTags, candidate.themeTags) === 0 ? 22 : -8;
   if (typeof current.classYear === 'number' && typeof candidate.classYear === 'number') {

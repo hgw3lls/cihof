@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
+import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 import type { ExploreState, Inductee, PlaceRecord } from '../../data/types';
 import { usePlaces } from '../../data/usePlaces';
 
@@ -8,6 +9,7 @@ type SearchViewProps = {
   inductees: Inductee[];
   facets: {
     regions: string[];
+    countries: string[];
     years: number[];
     themes: string[];
   };
@@ -20,7 +22,7 @@ type SearchViewProps = {
   onFindConnection: () => void;
 };
 
-type SearchMode = 'name' | 'community' | 'organization' | 'place' | 'theme' | 'year' | 'profession' | 'story';
+type SearchMode = 'name' | 'country' | 'community' | 'organization' | 'place' | 'theme' | 'year' | 'profession' | 'story';
 
 type SearchResult = {
   inductee: Inductee;
@@ -31,6 +33,7 @@ type SearchResult = {
 type SearchFilters = {
   query: string;
   mode: SearchMode;
+  country: string;
   community: string;
   organization: string;
   place: PlaceRecord | null;
@@ -42,6 +45,7 @@ type SearchFilters = {
 
 const modes: Array<{ mode: SearchMode; label: string }> = [
   { mode: 'name', label: 'Name' },
+  { mode: 'country', label: 'Country' },
   { mode: 'community', label: 'Community' },
   { mode: 'organization', label: 'Organization' },
   { mode: 'place', label: 'Place' },
@@ -102,6 +106,7 @@ export function SearchView({
   const [selectedProfession, setSelectedProfession] = useState('');
   const [selectedPromptId, setSelectedPromptId] = useState('');
 
+  const countryOptions = useMemo(() => rankedCountries(inductees, facets.countries).slice(0, 24), [facets.countries, inductees]);
   const communityOptions = useMemo(() => topValues(inductees.flatMap((item) => item.communityTags), 18), [inductees]);
   const themeOptions = useMemo(() => rankedThemes(inductees, facets.themes).slice(0, 20), [facets.themes, inductees]);
   const organizationOptions = useMemo(() => topOrganizations(inductees, places).slice(0, 18), [inductees, places]);
@@ -111,6 +116,7 @@ export function SearchView({
   const filters: SearchFilters = {
     query: state.query.trim(),
     mode,
+    country: state.country,
     community: selectedCommunity,
     organization: selectedOrganization,
     place: selectedPlace,
@@ -123,7 +129,7 @@ export function SearchView({
   const activeFilterCount = countActiveFilters(filters);
   const results = useMemo(
     () => searchInductees(inductees, places, filters).slice(0, 42),
-    [filters.query, filters.mode, filters.community, filters.organization, filters.place, filters.theme, filters.year, filters.profession, filters.promptId, inductees, places],
+    [filters.query, filters.mode, filters.country, filters.community, filters.organization, filters.place, filters.theme, filters.year, filters.profession, filters.promptId, inductees, places],
   );
 
   function updateQuery(query: string) {
@@ -137,7 +143,7 @@ export function SearchView({
     setSelectedPlaceId('');
     setSelectedProfession('');
     setSelectedPromptId('');
-    onStateChange({ query: '', theme: allValue, year: allValue });
+    onStateChange({ query: '', country: allValue, theme: allValue, year: allValue });
   }
 
   function appendKey(key: string) {
@@ -219,6 +225,7 @@ export function SearchView({
 
           <QuickSelectors
             communityOptions={communityOptions}
+            countryOptions={countryOptions}
             mode={mode}
             organizationOptions={organizationOptions}
             placeOptions={placeOptions}
@@ -290,6 +297,7 @@ function OnScreenKeyboard({
 
 function QuickSelectors({
   communityOptions,
+  countryOptions,
   mode,
   organizationOptions,
   placeOptions,
@@ -307,6 +315,7 @@ function QuickSelectors({
   onStateChange,
 }: {
   communityOptions: string[];
+  countryOptions: string[];
   mode: SearchMode;
   organizationOptions: string[];
   placeOptions: PlaceRecord[];
@@ -323,6 +332,19 @@ function QuickSelectors({
   onProfession: (profession: string) => void;
   onStateChange: (state: Partial<ExploreState>) => void;
 }) {
+  if (mode === 'country') {
+    return (
+      <SelectorGroup label="Country">
+        <button className={state.country === allValue ? 'touch-chip touch-chip--active' : 'touch-chip'} type="button" onClick={() => onStateChange({ country: allValue })}>All Countries</button>
+        {countryOptions.map((country) => (
+          <button className={state.country === country ? 'touch-chip touch-chip--active' : 'touch-chip'} key={country} type="button" onClick={() => onStateChange({ country })}>
+            {country}
+          </button>
+        ))}
+      </SelectorGroup>
+    );
+  }
+
   if (mode === 'year') {
     return (
       <SelectorGroup label="Year">
@@ -427,7 +449,7 @@ function SearchResultRow({
   onSelect: (inductee: Inductee) => void;
 }) {
   const { inductee, reasons } = result;
-  const communityLabel = inductee.communityTags[0] ?? '';
+  const placeLabel = countryCommunityOrRegionLabel(inductee);
 
   return (
     <button
@@ -449,7 +471,7 @@ function SearchResultRow({
         <span className="touch-result__name">{inductee.name}</span>
         <span className="touch-result__meta">
           {inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}
-          {communityLabel && ` / ${communityLabel}`}
+          {placeLabel && ` / ${placeLabel}`}
         </span>
         <span className="touch-result__summary">{inductee.storySummary || summarize(inductee.bioText)}</span>
         <span className="touch-result__reasons">
@@ -479,6 +501,12 @@ function searchInductees(inductees: Inductee[], places: PlaceRecord[], filters: 
         if (!matchedQuery) return null;
         reasons.push(queryReason(filters.mode));
         score += 40;
+      }
+
+      if (filters.country !== allValue) {
+        if (!inductee.countryTags.includes(filters.country)) return null;
+        reasons.push(`Country: ${filters.country}`);
+        score += 38;
       }
 
       if (filters.community) {
@@ -542,6 +570,7 @@ function searchInductees(inductees: Inductee[], places: PlaceRecord[], filters: 
 
 function matchQuery(inductee: Inductee, searchable: string, mode: SearchMode, terms: string[]) {
   if (mode === 'name') return terms.every((term) => inductee.name.toLowerCase().includes(term));
+  if (mode === 'country') return terms.every((term) => inductee.countryTags.some((tag) => tag.toLowerCase().includes(term)) || searchable.includes(term));
   if (mode === 'community') return terms.every((term) => inductee.communityTags.some((tag) => tag.toLowerCase().includes(term)) || searchable.includes(term));
   if (mode === 'year') return terms.every((term) => String(inductee.classYear ?? '').includes(term));
   if (mode === 'theme') return terms.every((term) => inductee.themeTags.some((tag) => tag.toLowerCase().includes(term)) || searchable.includes(term));
@@ -567,6 +596,7 @@ function buildSearchableText(inductee: Inductee, places: PlaceRecord[]) {
     inductee.storySummary,
     ...inductee.storyHighlights,
     ...inductee.themeTags,
+    ...inductee.countryTags,
     ...inductee.communityTags,
     ...relatedPlaceTerms,
     inductee.classYear ? String(inductee.classYear) : '',
@@ -577,6 +607,7 @@ function buildSearchableText(inductee: Inductee, places: PlaceRecord[]) {
 function queryReason(mode: SearchMode) {
   const labels: Record<SearchMode, string> = {
     name: 'Name match',
+    country: 'Country match',
     community: 'Community match',
     organization: 'Organization match',
     place: 'Place match',
@@ -596,6 +627,7 @@ function inputLabel(mode: SearchMode) {
 function inputPlaceholder(mode: SearchMode) {
   const placeholders: Record<SearchMode, string> = {
     name: 'Tap letters or type a name',
+    country: 'Tap a country or type one',
     community: 'Tap a community or type one',
     organization: 'Tap or type an organization',
     place: 'Tap or type a Cleveland place',
@@ -625,6 +657,12 @@ function rankedThemes(inductees: Inductee[], themes: string[]) {
   return [...themes].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || a.localeCompare(b));
 }
 
+function rankedCountries(inductees: Inductee[], countries: string[]) {
+  const counts = new Map<string, number>();
+  inductees.flatMap((item) => item.countryTags).forEach((country) => counts.set(country, (counts.get(country) ?? 0) + 1));
+  return [...countries].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || a.localeCompare(b));
+}
+
 function topOrganizations(inductees: Inductee[], places: PlaceRecord[]) {
   return topValues([
     ...places.flatMap((place) => place.related.organizations ?? []),
@@ -642,6 +680,7 @@ function extractOrganizations(text: string) {
 function countActiveFilters(filters: SearchFilters) {
   return [
     filters.query,
+    filters.country !== allValue ? filters.country : '',
     filters.community,
     filters.organization,
     filters.place?.id,

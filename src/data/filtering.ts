@@ -9,6 +9,7 @@ export function filterInductees(inductees: Inductee[], state: ExploreState) {
     .filter((item) => {
       const matchesSearch = !search || item.searchText.includes(search);
       const matchesRegion = state.region === allValue || item.region === state.region;
+      const matchesCountry = state.country === allValue || item.countryTags.includes(state.country);
       const matchesYear = state.year === allValue || item.classYear === Number(state.year);
       const matchesTheme = state.theme === allValue || item.themeTags.includes(state.theme);
       const matchesMedia =
@@ -16,7 +17,7 @@ export function filterInductees(inductees: Inductee[], state: ExploreState) {
         (state.media === 'with-video' && item.hasVideo) ||
         (state.media === 'with-gallery' && item.hasGallery);
 
-      return matchesSearch && matchesRegion && matchesYear && matchesTheme && matchesMedia;
+      return matchesSearch && matchesRegion && matchesCountry && matchesYear && matchesTheme && matchesMedia;
     })
     .sort((a, b) => sortInductees(a, b, state.sortMode));
 }
@@ -24,6 +25,7 @@ export function filterInductees(inductees: Inductee[], state: ExploreState) {
 export function sortInductees(a: Inductee, b: Inductee, sortMode: SortMode) {
   if (sortMode === 'physical-wall') return comparePhysicalWallPosition(a, b);
   if (sortMode === 'name-asc') return a.name.localeCompare(b.name);
+  if (sortMode === 'country-asc') return countrySortLabel(a).localeCompare(countrySortLabel(b)) || a.name.localeCompare(b.name);
   if (sortMode === 'region-asc') return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
 
   const yearA = a.classYear ?? 9999;
@@ -31,6 +33,10 @@ export function sortInductees(a: Inductee, b: Inductee, sortMode: SortMode) {
 
   if (sortMode === 'year-desc') return yearB - yearA || a.name.localeCompare(b.name);
   return yearA - yearB || a.name.localeCompare(b.name);
+}
+
+function countrySortLabel(inductee: Inductee) {
+  return inductee.countryTags[0] || inductee.region || 'zzzz';
 }
 
 function comparePhysicalWallPosition(a: Inductee, b: Inductee) {

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
+import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 import type { Inductee } from '../../data/types';
 
 type TimelineViewProps = {
@@ -478,6 +479,8 @@ function aggregateThemes(inductees: Inductee[]): DistributionItem[] {
 }
 
 function preferredPlaceDistribution(inductees: Inductee[]) {
+  const countries = aggregateStrings(inductees.flatMap((inductee) => inductee.countryTags));
+  if (countries.length > 0) return { title: 'Country Distribution', items: countries };
   const communities = aggregateStrings(inductees.flatMap((inductee) => inductee.communityTags));
   if (communities.length > 0) return { title: 'Community Distribution', items: communities };
   return { title: 'Region Distribution', items: aggregateStrings(inductees.map((inductee) => inductee.region)) };
@@ -496,7 +499,7 @@ function aggregateStrings(values: string[]): DistributionItem[] {
 }
 
 function displayCommunity(inductee: Inductee) {
-  return inductee.communityTags[0] || inductee.region || 'Community pending';
+  return countryCommunityOrRegionLabel(inductee) || 'Country pending';
 }
 
 function clamp(value: number, min: number, max: number) {

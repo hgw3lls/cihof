@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { countryOrRegionLabel } from '../../data/inducteeLabels';
 import { journeys } from '../../data/journeys';
 import type { Inductee, PlaceRecord, RelationshipRecord } from '../../data/types';
 import { usePlaces } from '../../data/usePlaces';
@@ -144,7 +145,7 @@ function FeaturedPersonPanel({ inductee, onSelect }: { inductee: Inductee; onSel
         <div className="attract-panel__facts">
           <span>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</span>
           {inductee.communityTags[0] && <span>{inductee.communityTags[0]}</span>}
-          <span>{inductee.region}</span>
+          <span>{countryOrRegionLabel(inductee)}</span>
         </div>
         <p>{inductee.storySummary || summarize(inductee.bioText)}</p>
       </div>

@@ -8273,6 +8273,8 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/",
         "inductedBy": "Pierre Bejjani",
         "approvalStatus": "draft",
@@ -8352,7 +8354,7 @@
         "label": "Class of 2026"
       },
       "location": {
-        "displayName": "Africa",
+        "displayName": "Ethiopia",
         "region": "Africa"
       },
       "provenance": {
@@ -8367,6 +8369,10 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "Africa",
+        "countryTags": [
+          "Ethiopia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/aklilu-demessie/",
         "inductedBy": "Dr. Menna Demessie, Ph.D.",
         "approvalStatus": "draft",
@@ -8450,6 +8456,8 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/akram-boutros/",
         "inductedBy": "Armond Budish",
         "approvalStatus": "draft",
@@ -8521,6 +8529,8 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/albert-b-ratner-2011/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -8590,6 +8600,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/alex-machaskee-2010/",
         "inductedBy": "Dick Russ",
         "approvalStatus": "draft",
@@ -8707,6 +8719,8 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/ambassador-edward-f-crawford/",
         "inductedBy": "Amb Byrne Nason",
         "approvalStatus": "draft",
@@ -8790,6 +8804,8 @@
         "classYear": 2022,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/anda-cook/",
         "inductedBy": "Dagmar Celeste",
         "approvalStatus": "draft",
@@ -8901,6 +8917,8 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/andy-chakalis/",
         "inductedBy": "Lou Frangos",
         "approvalStatus": "draft",
@@ -8962,7 +8980,7 @@
         "label": "Class of 2026"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Austria",
         "region": "Europe"
       },
       "provenance": {
@@ -8977,6 +8995,11 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Austria",
+          "Ukraine"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/andy-fedynsky/",
         "inductedBy": "George E. Jaskiw, M.D.",
         "approvalStatus": "draft",
@@ -9082,6 +9105,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/anthony-yen-2012/",
         "inductedBy": "Wong, Margaret",
         "approvalStatus": "draft",
@@ -9191,7 +9216,7 @@
         "label": "Class of 2016"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Netherlands",
         "region": "Europe"
       },
       "provenance": {
@@ -9206,6 +9231,10 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Netherlands"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/arnie-de-la-porte-2016/",
         "inductedBy": "Peter de la Porte",
         "approvalStatus": "draft",
@@ -9298,6 +9327,8 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/atul-mehta/",
         "inductedBy": "Richard Buoncore",
         "approvalStatus": "draft",
@@ -9353,7 +9384,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Slovenia",
         "region": "Europe"
       },
       "provenance": {
@@ -9368,6 +9399,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Slovenia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/august-pust-2010/",
         "inductedBy": "Jure Žmauc Consul General of Slovenia",
         "approvalStatus": "draft",
@@ -9453,7 +9488,7 @@
         "label": "Class of 2017"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Italy",
         "region": "Europe"
       },
       "provenance": {
@@ -9468,6 +9503,10 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Italy"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/",
         "inductedBy": "Gabriella and Joseph Rosalina",
         "approvalStatus": "draft",
@@ -9565,7 +9604,7 @@
         "label": "Class of 2020"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Armenia",
         "region": "Europe"
       },
       "provenance": {
@@ -9580,6 +9619,11 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Armenia",
+          "Romania"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
         "inductedBy": "Paul Burik",
         "approvalStatus": "draft",
@@ -9645,7 +9689,7 @@
         "label": "Class of 2025"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Japan",
         "region": "Asia"
       },
       "provenance": {
@@ -9660,6 +9704,10 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "Japan"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/beverly-kerecman/",
         "inductedBy": "Lisa Wong",
         "approvalStatus": "draft",
@@ -9726,7 +9774,7 @@
         "label": "Class of 2017"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Germany",
         "region": "Europe"
       },
       "provenance": {
@@ -9741,6 +9789,11 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Germany",
+          "Poland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
         "inductedBy": "August Pust",
         "approvalStatus": "draft",
@@ -9812,6 +9865,8 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/bishop-a-edward-pevec-2013/",
         "inductedBy": "Jure Zmauc Consul General of Slovenia",
         "approvalStatus": "draft",
@@ -9889,7 +9944,7 @@
         "label": "Class of 2015"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Italy",
         "region": "Europe"
       },
       "provenance": {
@@ -9904,6 +9959,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Italy"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/bishop-anthony-pilla-2015/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -9987,7 +10046,7 @@
         "label": "Class of 2025"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Austria",
         "region": "Europe"
       },
       "provenance": {
@@ -10002,6 +10061,11 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Austria",
+          "Croatia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/branka-malinar/",
         "inductedBy": "Tom Turkaly",
         "approvalStatus": "draft",
@@ -10085,6 +10149,8 @@
         "classYear": 2022,
         "decade": "2020s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/carl-robson/",
         "inductedBy": "Aklilu Demessie",
         "approvalStatus": "draft",
@@ -10191,6 +10257,8 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/",
         "inductedBy": "Maria Pujana",
         "approvalStatus": "draft",
@@ -10267,6 +10335,8 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/catherine-jorgensen-mccutcheon/",
         "inductedBy": "Karin McCutcheon",
         "approvalStatus": "draft",
@@ -10434,6 +10504,8 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "North America",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/david-gilbert/",
         "inductedBy": "Joe Cimperman",
         "approvalStatus": "draft",
@@ -10527,6 +10599,8 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-pogue-2015/",
         "inductedBy": "Sanjiv Kapur",
         "approvalStatus": "draft",
@@ -10622,6 +10696,8 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dick-russ-2015/",
         "inductedBy": "Loree Vick",
         "approvalStatus": "draft",
@@ -10690,7 +10766,7 @@
         "label": "Class of 2024"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Albania",
         "region": "Europe"
       },
       "provenance": {
@@ -10705,6 +10781,10 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Albania"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/dona-brady/",
         "inductedBy": "Mike Polensek",
         "approvalStatus": "draft",
@@ -10761,7 +10841,7 @@
         "label": "Class of 2014"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "China",
         "region": "Asia"
       },
       "provenance": {
@@ -10776,6 +10856,10 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "China"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/donna-hom-2014/",
         "inductedBy": "George Hwang",
         "approvalStatus": "draft",
@@ -10894,6 +10978,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dr-dieu-thuc-do-2010/",
         "inductedBy": "Lt. Colonel Joe Meisner",
         "approvalStatus": "draft",
@@ -10977,6 +11063,8 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/dr-eugene-jordan/",
         "inductedBy": "Rev Otis Moss Jr.",
         "approvalStatus": "draft",
@@ -11045,6 +11133,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/",
         "inductedBy": "Ratanjit Sondhe",
         "approvalStatus": "draft",
@@ -11130,6 +11220,8 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "South America",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/maria-pujana-2013/",
         "inductedBy": "Len Komoroski",
         "approvalStatus": "draft",
@@ -11249,7 +11341,7 @@
         "label": "Class of 2024"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Estonia",
         "region": "Europe"
       },
       "provenance": {
@@ -11264,6 +11356,10 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Estonia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/",
         "inductedBy": "Amb Kristjan Prikk",
         "approvalStatus": "draft",
@@ -11319,7 +11415,7 @@
         "label": "Class of 2014"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Hungary",
         "region": "Europe"
       },
       "provenance": {
@@ -11334,6 +11430,10 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Hungary"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ernie-mihaly-2014/",
         "inductedBy": "Richard Fleischman",
         "approvalStatus": "draft",
@@ -11388,7 +11488,7 @@
         "label": "Class of 2014"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Poland",
         "region": "Europe"
       },
       "provenance": {
@@ -11403,6 +11503,10 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Poland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/eugene-bak-2014/",
         "inductedBy": "BenStefanski",
         "approvalStatus": "draft",
@@ -11507,7 +11611,7 @@
         "label": "Class of 2016"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Poland",
         "region": "Europe"
       },
       "provenance": {
@@ -11522,6 +11626,10 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Poland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/eugenia-stolarczyk-2016/",
         "inductedBy": "Urszula Gacek Polish General Consul",
         "approvalStatus": "draft",
@@ -11610,6 +11718,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/fr-jim-odonnell-2012/",
         "inductedBy": "Jack Kahl",
         "approvalStatus": "draft",
@@ -11725,7 +11835,7 @@
         "label": "Class of 2023"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Serbia",
         "region": "Europe"
       },
       "provenance": {
@@ -11740,6 +11850,10 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Serbia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/georgine-welo/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -11796,7 +11910,7 @@
         "label": "Class of 2011"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -11811,6 +11925,10 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/gerald-m-quinn-2011/",
         "inductedBy": "Tom Scanlon",
         "approvalStatus": "draft",
@@ -11880,7 +11998,7 @@
         "label": "Class of 2011"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Vietnam",
         "region": "Asia"
       },
       "provenance": {
@@ -11895,6 +12013,10 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "Vietnam"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/giahoa-ryan-2011/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -11951,7 +12073,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Poland",
         "region": "Europe"
       },
       "provenance": {
@@ -11966,6 +12088,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Poland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/helen-karpinski-2010/",
         "inductedBy": "John Borkowski",
         "approvalStatus": "draft",
@@ -12037,6 +12163,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/rep-mary-rose-oakar-2012/",
         "inductedBy": "Dr. Wael Khoury",
         "approvalStatus": "draft",
@@ -12117,7 +12245,7 @@
         "label": "Class of 2015"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -12132,6 +12260,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/honorable-jose-a-villanueva-2015/",
         "inductedBy": "José Feliciano",
         "approvalStatus": "draft",
@@ -12215,6 +12347,8 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ingrida-bublys/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -12285,6 +12419,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/irene-morrow-2010/",
         "inductedBy": "Valerie Schwonek",
         "approvalStatus": "draft",
@@ -12338,7 +12474,7 @@
         "label": "Class of 2013"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -12353,6 +12489,10 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/john-jack-coyne-2013",
         "inductedBy": "Aidan Cronin Consul General of Ireland",
         "approvalStatus": "draft",
@@ -12459,6 +12599,8 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jack-kahl-2016/",
         "inductedBy": "Dan Coughlin",
         "approvalStatus": "draft",
@@ -12564,6 +12706,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jeanette-grasselli-brown-2010/",
         "inductedBy": "Edith Lauer",
         "approvalStatus": "draft",
@@ -12631,7 +12775,7 @@
         "label": "Class of 2017"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Italy",
         "region": "Europe"
       },
       "provenance": {
@@ -12646,6 +12790,11 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Italy",
+          "Romania"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jim-craciun/",
         "inductedBy": "Matt Zone",
         "approvalStatus": "draft",
@@ -12715,6 +12864,8 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jim-foster-2014/",
         "inductedBy": "Dick Pogue",
         "approvalStatus": "draft",
@@ -12800,7 +12951,7 @@
         "label": "Class of 2020"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Slovenia",
         "region": "Europe"
       },
       "provenance": {
@@ -12815,6 +12966,10 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Slovenia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joe-valencic/",
         "inductedBy": "Mike Polensek",
         "approvalStatus": "draft",
@@ -12932,6 +13087,8 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -12988,7 +13145,7 @@
         "label": "Class of 2012"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -13003,6 +13160,10 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jose-feliciano-2012/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -13074,6 +13235,8 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joseph-holzer-2013/",
         "inductedBy": "Margot Maurer",
         "approvalStatus": "draft",
@@ -13142,6 +13305,8 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joseph-p-meissner-2014",
         "inductedBy": "Jason Lin",
         "approvalStatus": "draft",
@@ -13210,7 +13375,7 @@
         "label": "Class of 2023"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Italy",
         "region": "Europe"
       },
       "provenance": {
@@ -13225,6 +13390,10 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Italy"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joyce-mariani/",
         "inductedBy": "Basil Russo",
         "approvalStatus": "draft",
@@ -13344,6 +13513,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ken-kovach-2012/",
         "inductedBy": "Dick Russ",
         "approvalStatus": "draft",
@@ -13468,6 +13639,8 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/khalid-samad-2016/",
         "inductedBy": "Blaine Griffin",
         "approvalStatus": "draft",
@@ -13564,7 +13737,7 @@
         "label": "Class of 2026"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Vietnam",
         "region": "Asia"
       },
       "provenance": {
@@ -13579,6 +13752,10 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "Vietnam"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/",
         "inductedBy": "Former Mayor Frank G. Jackson; remarks by Valarie McCall and Matt Zone",
         "approvalStatus": "draft",
@@ -13666,6 +13843,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/leo-weidenthal-2010/",
         "inductedBy": "Paul Burik",
         "approvalStatus": "draft",
@@ -13736,7 +13915,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -13751,6 +13930,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lonnie-mccauley-2010/",
         "inductedBy": "Pat Dowd",
         "approvalStatus": "draft",
@@ -13870,6 +14053,8 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lucretia-stoica-2011/",
         "inductedBy": "Ken Kovach",
         "approvalStatus": "draft",
@@ -13932,7 +14117,7 @@
         "label": "Class of 2026"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -13947,6 +14132,10 @@
         "classYear": 2026,
         "decade": "2020s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lucy-torres/",
         "inductedBy": "Blaine Griffin",
         "approvalStatus": "draft",
@@ -14003,7 +14192,7 @@
         "label": "Class of 2011"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -14018,6 +14207,10 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/luis-martinez-2011/",
         "inductedBy": "Andres Gonzalez",
         "approvalStatus": "draft",
@@ -14071,7 +14264,7 @@
         "label": "Class of 2014"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "United Kingdom",
         "region": "Europe"
       },
       "provenance": {
@@ -14086,6 +14279,10 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "United Kingdom"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-callander-2014",
         "inductedBy": "Kona Gant",
         "approvalStatus": "draft",
@@ -14151,7 +14348,7 @@
         "label": "Class of 2020"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -14166,6 +14363,10 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-lynch/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -14235,6 +14436,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-w-wong-2010/",
         "inductedBy": "Rose Wong",
         "approvalStatus": "draft",
@@ -14335,6 +14538,8 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/marilyn-madigan/",
         "inductedBy": "John O'Brien Jr.",
         "approvalStatus": "draft",
@@ -14432,7 +14637,7 @@
         "label": "Class of 2020"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "China",
         "region": "Asia"
       },
       "provenance": {
@@ -14447,6 +14652,10 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "China"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/may-chen/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -14527,6 +14736,8 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mayor-frank-jackson/",
         "inductedBy": "Valarie McCall",
         "approvalStatus": "draft",
@@ -14659,6 +14870,8 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/michael-d-polensek/",
         "inductedBy": "Joe Cimperman",
         "approvalStatus": "draft",
@@ -14764,6 +14977,8 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/milton-maltz-2012/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -14856,7 +15071,7 @@
         "label": "Class of 2016"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -14871,6 +15086,10 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mohan-bafna-2016/",
         "inductedBy": "Suresh Bafna",
         "approvalStatus": "draft",
@@ -14952,6 +15171,8 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mona-alag/",
         "inductedBy": "Sudarshan Sathe",
         "approvalStatus": "draft",
@@ -15022,6 +15243,8 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/monte-ahuja-2014/",
         "inductedBy": "Thomas Zenty",
         "approvalStatus": "draft",
@@ -15091,6 +15314,8 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/nacy-panzica-2013/",
         "inductedBy": "Angie Spitalieri",
         "approvalStatus": "draft",
@@ -15143,7 +15368,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -15158,6 +15383,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/",
         "inductedBy": "Mona Alag",
         "approvalStatus": "draft",
@@ -15214,7 +15443,7 @@
         "label": "Class of 2023"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -15229,6 +15458,10 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/pat-dowd/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -15295,7 +15528,7 @@
         "label": "Class of 2019"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Czech Republic",
         "region": "Europe"
       },
       "provenance": {
@@ -15310,6 +15543,10 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Czech Republic"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paul-burik/",
         "inductedBy": "Chris Ronayne",
         "approvalStatus": "draft",
@@ -15363,7 +15600,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Italy",
         "region": "Europe"
       },
       "provenance": {
@@ -15378,6 +15615,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Italy"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paul-sciria-2010/",
         "inductedBy": "Umberto Fedeli",
         "approvalStatus": "draft",
@@ -15463,7 +15704,7 @@
         "label": "Class of 2023"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Lebanon",
         "region": "Asia"
       },
       "provenance": {
@@ -15478,6 +15719,10 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "Lebanon"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/pierre-bejjani/",
         "inductedBy": "Mayor Tony Biasiotta",
         "approvalStatus": "draft",
@@ -15561,6 +15806,8 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/raj-aggarwal/",
         "inductedBy": "Stuart Muszynski",
         "approvalStatus": "draft",
@@ -15649,6 +15896,8 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/",
         "inductedBy": "Justice Terrence O'Donnell",
         "approvalStatus": "draft",
@@ -15743,6 +15992,8 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/",
         "inductedBy": "Mary Rose Oakar",
         "approvalStatus": "draft",
@@ -15823,7 +16074,7 @@
         "label": "Class of 2020"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -15838,6 +16089,10 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
         "inductedBy": "Sudarshan Sathe",
         "approvalStatus": "draft",
@@ -15894,7 +16149,7 @@
         "label": "Class of 2013"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -15909,6 +16164,10 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ratanjit-sondhe-2013",
         "inductedBy": "Ken Lanci",
         "approvalStatus": "draft",
@@ -15991,6 +16250,8 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ray-pianka/",
         "inductedBy": "Anthony Brancatelli",
         "approvalStatus": "draft",
@@ -16047,7 +16308,7 @@
         "label": "Class of 2016"
       },
       "location": {
-        "displayName": "Africa",
+        "displayName": "Egypt",
         "region": "Africa"
       },
       "provenance": {
@@ -16062,6 +16323,10 @@
         "classYear": 2016,
         "decade": "2010s",
         "region": "Africa",
+        "countryTags": [
+          "Egypt"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/rev-mikhail-mikhail/",
         "inductedBy": "Mayor Richard Dell’Aquila",
         "approvalStatus": "draft",
@@ -16133,6 +16398,8 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Africa",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/reverend-dr-otis-moss-jr-2011/",
         "inductedBy": "Congressman Louis Stokes",
         "approvalStatus": "draft",
@@ -16213,7 +16480,7 @@
         "label": "Class of 2015"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Lebanon",
         "region": "Asia"
       },
       "provenance": {
@@ -16228,6 +16495,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "Lebanon"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-ganim-2015/",
         "inductedBy": "Pierre Bejjani",
         "approvalStatus": "draft",
@@ -16327,6 +16598,8 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-fleischman/",
         "inductedBy": "Ernie Mihaly",
         "approvalStatus": "draft",
@@ -16379,7 +16652,7 @@
         "label": "Class of 2010"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Germany",
         "region": "Europe"
       },
       "provenance": {
@@ -16394,6 +16667,10 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Germany"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/robert-j-haas-2010/",
         "inductedBy": "Dr. Joe Wendel",
         "approvalStatus": "draft",
@@ -16479,7 +16756,7 @@
         "label": "Class of 2017"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "South Korea",
         "region": "Asia"
       },
       "provenance": {
@@ -16494,6 +16771,10 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "South Korea"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sam-kim/",
         "inductedBy": "Ki Kim",
         "approvalStatus": "draft",
@@ -16579,6 +16860,8 @@
         "classYear": 2013,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sam-miller-2013/",
         "inductedBy": "Dr. Andrew P. Roth",
         "approvalStatus": "draft",
@@ -16666,6 +16949,8 @@
         "classYear": 2010,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/senator-george-voinovich-2010/",
         "inductedBy": "Ingrida Bublys",
         "approvalStatus": "draft",
@@ -16744,7 +17029,7 @@
         "label": "Class of 2018"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -16759,6 +17044,10 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/sheila-murphy-crawford/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -16839,7 +17128,7 @@
         "label": "Class of 2015"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -16854,6 +17143,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/shiv-k-aggarwal-2015/",
         "inductedBy": "Michael Shreshta",
         "approvalStatus": "draft",
@@ -16933,7 +17226,7 @@
         "label": "Class of 2018"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -16948,6 +17241,10 @@
         "classYear": 2018,
         "decade": "2010s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-south-america/sister-alicia-alvarado/",
         "inductedBy": "Jose Feliciano",
         "approvalStatus": "draft",
@@ -17030,6 +17327,8 @@
         "classYear": 2019,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sree-sreenath/",
         "inductedBy": "Ramesh Shah",
         "approvalStatus": "draft",
@@ -17110,7 +17409,7 @@
         "label": "Class of 2015"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ireland",
         "region": "Europe"
       },
       "provenance": {
@@ -17125,6 +17424,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Ireland"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/steve-mulloy-2015/",
         "inductedBy": "Mayor Jane Campbell",
         "approvalStatus": "draft",
@@ -17224,6 +17527,8 @@
         "classYear": 2023,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sudarshan-sathe/",
         "inductedBy": "Baiju Shah",
         "approvalStatus": "draft",
@@ -17308,7 +17613,7 @@
         "label": "Class of 2025"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "Russia",
         "region": "Asia"
       },
       "provenance": {
@@ -17323,6 +17628,10 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "Asia",
+        "countryTags": [
+          "Russia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/svetlana-stolyarova/",
         "inductedBy": "Dr. Anton Komar",
         "approvalStatus": "draft",
@@ -17391,7 +17700,7 @@
         "label": "Class of 2022"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Ukraine",
         "region": "Europe"
       },
       "provenance": {
@@ -17406,6 +17715,10 @@
         "classYear": 2022,
         "decade": "2020s",
         "region": "Europe",
+        "countryTags": [
+          "Ukraine"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/taras-szmagala/",
         "inductedBy": "Andrew Fedynsky",
         "approvalStatus": "draft",
@@ -17491,6 +17804,8 @@
         "classYear": 2014,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/thomas-j-scanlon-2014/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -17612,6 +17927,8 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/tony-petkovsek-2011/",
         "inductedBy": "Terry Stewart",
         "approvalStatus": "draft",
@@ -17728,6 +18045,8 @@
         "classYear": 2020,
         "decade": "2020s",
         "region": "North America",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/valarie-mccall/",
         "inductedBy": "Albert Ratner",
         "approvalStatus": "draft",
@@ -17813,7 +18132,7 @@
         "label": "Class of 2024"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Hungary",
         "region": "North America"
       },
       "provenance": {
@@ -17828,6 +18147,11 @@
         "classYear": 2024,
         "decade": "2020s",
         "region": "North America",
+        "countryTags": [
+          "Hungary",
+          "Mexico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/veronica-dahlberg/",
         "inductedBy": "Jasmin Santana",
         "approvalStatus": "draft",
@@ -17896,7 +18220,7 @@
         "label": "Class of 2022"
       },
       "location": {
-        "displayName": "North America",
+        "displayName": "Puerto Rico",
         "region": "North America"
       },
       "provenance": {
@@ -17911,6 +18235,10 @@
         "classYear": 2022,
         "decade": "2020s",
         "region": "North America",
+        "countryTags": [
+          "Puerto Rico"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/victor-ruiz/",
         "inductedBy": "Dr. Alex Johnson",
         "approvalStatus": "draft",
@@ -17963,7 +18291,7 @@
         "label": "Class of 2011"
       },
       "location": {
-        "displayName": "Asia",
+        "displayName": "India",
         "region": "Asia"
       },
       "provenance": {
@@ -17978,6 +18306,10 @@
         "classYear": 2011,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [
+          "India"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/vijaya-l-emani-2011/",
         "inductedBy": "Raj Pillai",
         "approvalStatus": "draft",
@@ -18032,7 +18364,7 @@
         "label": "Class of 2012"
       },
       "location": {
-        "displayName": "Europe",
+        "displayName": "Croatia",
         "region": "Europe"
       },
       "provenance": {
@@ -18047,6 +18379,10 @@
         "classYear": 2012,
         "decade": "2010s",
         "region": "Europe",
+        "countryTags": [
+          "Croatia"
+        ],
+        "countryTagsSource": "generated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/vladimir-rus-2012/",
         "inductedBy": "Councilman Joe Cimperman",
         "approvalStatus": "draft",
@@ -18130,6 +18466,8 @@
         "classYear": 2017,
         "decade": "2010s",
         "region": "Asia",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/wael-khoury/",
         "inductedBy": "Dr. Nizar Zein",
         "approvalStatus": "draft",
@@ -18164,6 +18502,594 @@
           "wallCoordinates": null,
           "physicalPortraitPresent": false
         }
+      }
+    },
+    {
+      "id": "place:country:albania",
+      "displayName": "Albania",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Albania",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:armenia",
+      "displayName": "Armenia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Armenia",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:austria",
+      "displayName": "Austria",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Austria",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:china",
+      "displayName": "China",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "China",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:croatia",
+      "displayName": "Croatia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Croatia",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:czech-republic",
+      "displayName": "Czech Republic",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Czech Republic",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:egypt",
+      "displayName": "Egypt",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Egypt",
+        "region": "Africa"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Africa"
+      }
+    },
+    {
+      "id": "place:country:estonia",
+      "displayName": "Estonia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Estonia",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:ethiopia",
+      "displayName": "Ethiopia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Ethiopia",
+        "region": "Africa"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Africa"
+      }
+    },
+    {
+      "id": "place:country:germany",
+      "displayName": "Germany",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Germany",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:hungary",
+      "displayName": "Hungary",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Hungary",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:india",
+      "displayName": "India",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "India",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:ireland",
+      "displayName": "Ireland",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Ireland",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:italy",
+      "displayName": "Italy",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Italy",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:japan",
+      "displayName": "Japan",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Japan",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:lebanon",
+      "displayName": "Lebanon",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Lebanon",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:mexico",
+      "displayName": "Mexico",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Mexico",
+        "region": "North America"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "North America"
+      }
+    },
+    {
+      "id": "place:country:netherlands",
+      "displayName": "Netherlands",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Netherlands",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:poland",
+      "displayName": "Poland",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Poland",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:puerto-rico",
+      "displayName": "Puerto Rico",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Puerto Rico",
+        "region": "North America"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "North America"
+      }
+    },
+    {
+      "id": "place:country:romania",
+      "displayName": "Romania",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Romania",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:russia",
+      "displayName": "Russia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Russia",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:serbia",
+      "displayName": "Serbia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Serbia",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:slovenia",
+      "displayName": "Slovenia",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Slovenia",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:south-korea",
+      "displayName": "South Korea",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "South Korea",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "place:country:ukraine",
+      "displayName": "Ukraine",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Ukraine",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:united-kingdom",
+      "displayName": "United Kingdom",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "United Kingdom",
+        "region": "Europe"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
+      "id": "place:country:vietnam",
+      "displayName": "Vietnam",
+      "type": "Place",
+      "shortDescription": "Country or heritage place label used for more specific browsing than broad region metadata.",
+      "location": {
+        "displayName": "Vietnam",
+        "region": "Asia"
+      },
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "inferred",
+        "sourceField": "countryTags",
+        "note": "Generated from country and nationality references in source text; needs curatorial review."
+      },
+      "attributes": {
+        "placeKind": "country",
+        "legacyRegion": "Asia"
       }
     },
     {
