@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
-import type { ExploreState, Inductee } from '../../data/types';
+import type { Inductee } from '../../data/types';
 
 type TimelineViewProps = {
   inductees: Inductee[];
   loading: boolean;
   error: string;
-  state: ExploreState;
-  onStateChange: (state: Partial<ExploreState>) => void;
+  selectedYear: string;
+  onYearChange: (year: string) => void;
   onSelect: (inductee: Inductee) => void;
 };
 
@@ -22,7 +22,7 @@ type DistributionItem = {
   count: number;
 };
 
-export function TimelineView({ inductees, loading, error, state, onStateChange, onSelect }: TimelineViewProps) {
+export function TimelineView({ inductees, loading, error, selectedYear: selectedYearParam, onYearChange, onSelect }: TimelineViewProps) {
   const railRef = useRef<HTMLDivElement>(null);
   const yearRefs = useRef(new Map<number, HTMLButtonElement>());
   const scrollFrame = useRef<number | null>(null);
@@ -63,12 +63,12 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
       return;
     }
 
-    const requestedYear = parseRequestedYear(state.year, yearRange);
+    const requestedYear = parseRequestedYear(selectedYearParam, yearRange);
     const nextYear = requestedYear ?? yearRange.max;
     setActiveYear(nextYear);
     activeYearRef.current = nextYear;
     window.requestAnimationFrame(() => scrollToYear(nextYear, 'auto'));
-  }, [state.year, yearRange]);
+  }, [selectedYearParam, yearRange]);
 
   useEffect(() => {
     return () => {
@@ -82,10 +82,10 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
       const clampedYear = clamp(year, yearRange.min, yearRange.max);
       activeYearRef.current = clampedYear;
       setActiveYear(clampedYear);
-      if (state.year !== String(clampedYear)) onStateChange({ year: String(clampedYear) });
+      if (selectedYearParam !== String(clampedYear)) onYearChange(String(clampedYear));
       scrollToYear(clampedYear, behavior);
     },
-    [onStateChange, state.year, yearRange],
+    [onYearChange, selectedYearParam, yearRange],
   );
 
   const updateCenteredYear = useCallback(() => {
@@ -108,8 +108,8 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
     if (closestYear === null || closestYear === activeYearRef.current) return;
     activeYearRef.current = closestYear;
     setActiveYear(closestYear);
-    if (state.year !== String(closestYear)) onStateChange({ year: String(closestYear) });
-  }, [onStateChange, state.year]);
+    if (selectedYearParam !== String(closestYear)) onYearChange(String(closestYear));
+  }, [onYearChange, selectedYearParam]);
 
   function setYearRef(year: number, node: HTMLButtonElement | null) {
     if (node) yearRefs.current.set(year, node);
@@ -126,7 +126,7 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
 
   function handleRailPointerDown(event: PointerEvent<HTMLDivElement>) {
     const rail = railRef.current;
-    if (!rail || event.pointerType === 'touch' || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    if (!rail || (event.pointerType === 'mouse' && event.button !== 0)) return;
     dragRef.current = {
       active: true,
       pointerId: event.pointerId,
@@ -259,7 +259,11 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
           return (
             <button
               aria-current={isActive ? 'true' : undefined}
-              className={isActive ? 'timeline-year timeline-year--active' : 'timeline-year'}
+              className={[
+                'timeline-year',
+                isActive ? 'timeline-year--active' : '',
+                count === 0 ? 'timeline-year--empty' : '',
+              ].filter(Boolean).join(' ')}
               key={year}
               ref={(node) => setYearRef(year, node)}
               type="button"
@@ -307,7 +311,9 @@ export function TimelineView({ inductees, loading, error, state, onStateChange, 
             ))}
           </div>
         ) : (
-          <div className="timeline-class__empty">No inductee records are assigned to this class year yet.</div>
+          <div className="timeline-class__empty">
+            No class is documented for {selectedYear}. Use the year rail or previous and next controls to keep moving.
+          </div>
         )}
 
         <div className="timeline-class__distribution" aria-label="Selected class distribution">

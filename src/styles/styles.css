@@ -1816,6 +1816,13 @@ select:focus,
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.28);
 }
 
+.timeline-year--empty {
+  border-style: dashed;
+  background: rgba(17, 16, 14, 0.54);
+  color: rgba(243, 234, 214, 0.58);
+  box-shadow: none;
+}
+
 .timeline-year span {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.72rem;
@@ -1836,6 +1843,11 @@ select:focus,
   background: var(--bone);
   color: var(--ink);
   box-shadow: 0 0 0 4px var(--accent), 8px 8px 0 rgba(0, 0, 0, 0.42);
+}
+
+.timeline-year--active.timeline-year--empty {
+  background: rgba(243, 234, 214, 0.14);
+  color: var(--paper);
 }
 
 .timeline-year--active span {

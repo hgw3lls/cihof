@@ -40,6 +40,7 @@ export function App() {
   const facets = useDataFacets(inductees);
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode());
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
+  const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
@@ -88,7 +89,8 @@ export function App() {
     if (viewMode !== 'all-people') params.set('view', viewMode);
     if (exploreState.query) params.set('q', exploreState.query);
     if (exploreState.region !== allValue) params.set('region', exploreState.region);
-    if (exploreState.year !== allValue) params.set('year', exploreState.year);
+    if (viewMode !== 'time' && exploreState.year !== allValue) params.set('year', exploreState.year);
+    if (viewMode === 'time' && timelineYear) params.set('timeYear', timelineYear);
     if (exploreState.theme !== allValue) params.set('theme', exploreState.theme);
     if (exploreState.media !== defaultExploreState.media) params.set('media', exploreState.media);
     if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
@@ -100,7 +102,7 @@ export function App() {
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [exploreState, kioskMode, reviewModeEnabled, selectedId, viewMode, wallDebugEnabled]);
+  }, [exploreState, kioskMode, reviewModeEnabled, selectedId, timelineYear, viewMode, wallDebugEnabled]);
 
   useEffect(() => {
     if (!kioskMode || viewMode === 'review') return;
@@ -165,6 +167,7 @@ export function App() {
     stopActiveMedia();
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setExploreState({ ...defaultExploreState });
+    setTimelineYear('');
     setSelectedId('');
     setLastSeenId('');
     setViewMode('all-people');
@@ -286,8 +289,8 @@ export function App() {
             inductees={inductees}
             loading={loading}
             error={error}
-            state={exploreState}
-            onStateChange={updateExploreState}
+            selectedYear={timelineYear}
+            onYearChange={setTimelineYear}
             onSelect={selectInductee}
           />
         )}
@@ -423,17 +426,25 @@ function readViewMode(): ViewMode {
 function readExploreState(): ExploreState {
   const sort = readParam('sort') as SortMode;
   const media = readParam('media') as MediaFilter;
+  const view = readParam('view');
+  const isTimelineRoute = view === 'time' || view === 'timeline';
   const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'region-asc', 'physical-wall'].includes(sort) ? sort : 'year-asc';
   const mediaMode: MediaFilter = ['with-video', 'with-gallery'].includes(media) ? media : 'all';
 
   return {
     query: readParam('q'),
     region: readParam('region') || allValue,
-    year: readParam('year') || allValue,
+    year: isTimelineRoute ? allValue : readParam('year') || allValue,
     theme: readParam('theme') || allValue,
     media: mediaMode,
     sortMode,
   };
+}
+
+function readTimelineYear() {
+  const view = readParam('view');
+  if (view !== 'time' && view !== 'timeline') return '';
+  return readParam('timeYear') || readParam('year');
 }
 
 function stopActiveMedia() {
