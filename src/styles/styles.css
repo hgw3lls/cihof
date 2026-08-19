@@ -7924,6 +7924,7 @@ textarea:focus,
 
 .portal-runner__header span,
 .portal-runner__error,
+.portal-runner-meta,
 .portal-runner-script span,
 .portal-runner-script em,
 .portal-runner-job__summary,
@@ -7961,6 +7962,21 @@ textarea:focus,
   color: var(--ink);
   padding: 10px;
   font-size: 0.72rem;
+}
+
+.portal-runner-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.portal-runner-meta span {
+  border: 2px solid rgba(23, 21, 19, 0.28);
+  background: rgba(23, 21, 19, 0.04);
+  color: var(--muted);
+  padding: 6px 8px;
+  font-size: 0.68rem;
 }
 
 .portal-runner__scripts {
