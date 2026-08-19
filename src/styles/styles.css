@@ -212,6 +212,80 @@ button {
   outline-offset: 2px;
 }
 
+.kiosk-error-screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 72px);
+  background:
+    linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(194, 161, 90, 0.05) 1px, transparent 1px),
+    #11100e;
+  background-size: 42px 42px;
+  color: var(--paper);
+}
+
+.kiosk-error-screen__panel {
+  width: min(1100px, 100%);
+  border-block: 1px solid rgba(194, 161, 90, 0.64);
+  padding: clamp(32px, 5vw, 82px) clamp(20px, 4vw, 64px);
+  text-align: center;
+}
+
+.kiosk-error-screen h1 {
+  max-width: 980px;
+  margin: 0 auto;
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3rem, 7vw, 8.8rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.kiosk-error-screen p:not(.museum-kicker) {
+  max-width: 760px;
+  margin: 22px auto 0;
+  color: rgba(243, 234, 214, 0.82);
+  font-size: clamp(1.05rem, 1.45vw, 1.48rem);
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.kiosk-error-screen__actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: clamp(24px, 3vw, 42px);
+}
+
+.kiosk-error-screen__actions button {
+  min-height: 70px;
+  min-width: min(100%, 260px);
+  border: 1px solid rgba(194, 161, 90, 0.78);
+  border-radius: 0;
+  background: rgba(243, 234, 214, 0.08);
+  color: var(--paper);
+  padding: 0 24px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.84rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.kiosk-error-screen__actions button:first-child {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.kiosk-error-screen__actions button:focus-visible {
+  outline: 3px solid var(--bone);
+  outline-offset: 3px;
+}
+
 .portrait-wall {
   min-height: calc(100dvh - 190px);
   display: grid;

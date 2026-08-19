@@ -15,3 +15,7 @@ public/data/data-audit.local.json
 
 # Local staff portal runner scratch files
 .portal/
+
+# Local Playwright artifacts
+test-results/
+playwright-report/

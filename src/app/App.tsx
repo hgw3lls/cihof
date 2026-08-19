@@ -12,6 +12,7 @@ import { PlacesView } from '../features/places/PlacesView';
 import { SearchView } from '../features/search/SearchView';
 import { TimelineView } from '../features/timeline/TimelineView';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
+import { recordKioskHealth, recordKioskInteraction, recordKioskReset, startKioskHeartbeat } from './kioskHealth';
 import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '../data/types';
 
 const defaultExploreState: ExploreState = {
@@ -24,8 +25,8 @@ const defaultExploreState: ExploreState = {
   sortMode: 'year-asc',
 };
 
-const kioskIdleMs = 120_000;
-const kioskResetWarningMs = 12_000;
+const kioskIdleMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_IDLE_MS, 120_000);
+const kioskResetWarningMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_RESET_WARNING_MS, 12_000);
 const contentProtectionActive = import.meta.env.PROD;
 const showKioskToggleInProduction = import.meta.env.VITE_CIHOF_SHOW_KIOSK_TOGGLE === '1';
 const primaryNavItems: Array<{ mode: ViewMode; label: string }> = [
@@ -49,7 +50,7 @@ type AppProps = {
 export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   const staffPortalEnabled = Boolean(ReviewDashboard);
   const { inductees, loading, error } = useInductees();
-  const { relationships } = useRelationships();
+  const { relationships, loading: relationshipsLoading, error: relationshipsError } = useRelationships();
   const facets = useDataFacets(inductees);
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(staffPortalEnabled, defaultView));
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
@@ -98,6 +99,35 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   const previousInductee = selectedIndex > 0 ? filtered[selectedIndex - 1] : filtered[filtered.length - 1];
   const nextInductee = selectedIndex >= 0 ? filtered[(selectedIndex + 1) % filtered.length] : null;
 
+  useEffect(() => startKioskHeartbeat(), []);
+
+  useEffect(() => {
+    recordKioskHealth({
+      currentView: viewMode,
+      kioskMode,
+      attractActive,
+      selectedPersonId: selectedId,
+      peopleCount: inductees.length,
+      relationshipsCount: relationships.length,
+      dataStatus: loading || relationshipsLoading ? 'loading' : error || relationshipsError ? 'error' : 'ready',
+      dataError: [error, relationshipsError].filter(Boolean).join(' / '),
+    });
+  }, [attractActive, error, inductees.length, kioskMode, loading, relationships.length, relationshipsError, relationshipsLoading, selectedId, viewMode]);
+
+  useEffect(() => {
+    const recordPointer = () => recordKioskInteraction('pointer');
+    const recordKeyboard = () => recordKioskInteraction('keyboard');
+    window.addEventListener('pointerdown', recordPointer, { passive: true });
+    window.addEventListener('touchstart', recordPointer, { passive: true });
+    window.addEventListener('keydown', recordKeyboard);
+
+    return () => {
+      window.removeEventListener('pointerdown', recordPointer);
+      window.removeEventListener('touchstart', recordPointer);
+      window.removeEventListener('keydown', recordKeyboard);
+    };
+  }, []);
+
   useEffect(() => {
     const params = new URLSearchParams();
     if (viewMode !== 'all-people') params.set('view', viewMode);
@@ -131,7 +161,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     }, warningDelay);
     const showAttract = () => {
       setIdleWarningActive(false);
-      resetExperience();
+      resetExperience('idle');
       setAttractActive(true);
     };
     let timeout = window.setTimeout(showAttract, kioskIdleMs);
@@ -168,10 +198,12 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }, [filtered.length, inductees]);
 
   function updateExploreState(nextState: Partial<ExploreState>) {
+    recordKioskInteraction('filter');
     setExploreState((current) => ({ ...current, ...nextState }));
   }
 
   function selectInductee(inductee: Inductee) {
+    recordKioskInteraction('select-person');
     stopActiveMedia();
     onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
     setAttractActive(false);
@@ -181,7 +213,8 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setSelectedId(inductee.id);
   }
 
-  function resetExperience() {
+  function resetExperience(reason = 'manual') {
+    recordKioskReset(reason);
     stopActiveMedia();
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setExploreState({ ...defaultExploreState });
@@ -197,6 +230,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }
 
   function closeDetail() {
+    recordKioskInteraction('close-detail');
     stopActiveMedia();
     setSelectedId('');
     setIdleWarningActive(false);
@@ -206,6 +240,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }
 
   function returnHome() {
+    recordKioskInteraction('home');
     stopActiveMedia();
     setAttractActive(false);
     setIdleWarningActive(false);
@@ -219,6 +254,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }
 
   function openConnectionFinder(seed?: Inductee) {
+    recordKioskInteraction('open-connection-finder');
     stopActiveMedia();
     setAttractActive(false);
     setIdleWarningActive(false);
@@ -228,23 +264,34 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }
 
   function closeConnectionFinder() {
+    recordKioskInteraction('close-connection-finder');
     setConnectionOpen(false);
     setConnectionSeedId('');
   }
 
   function selectFromConnection(inductee: Inductee) {
+    recordKioskInteraction('select-connection-person');
     setConnectionOpen(false);
     selectInductee(inductee);
   }
 
   function startFromAttract() {
     setAttractActive(false);
-    resetExperience();
+    resetExperience('attract-start');
   }
 
   function continueExploring() {
+    recordKioskInteraction('continue-exploring');
     setIdleWarningActive(false);
     setAttractActive(false);
+  }
+
+  function changeView(mode: ViewMode) {
+    recordKioskInteraction(`nav:${mode}`);
+    stopActiveMedia();
+    setAttractActive(false);
+    setIdleWarningActive(false);
+    setViewMode(mode);
   }
 
   return (
@@ -262,11 +309,18 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
         </div>
         <div className="museum-utilities">
           {kioskToggleVisible && (
-            <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
+            <button
+              className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'}
+              type="button"
+              onClick={() => {
+                recordKioskInteraction('toggle-kiosk');
+                setKioskMode((value) => !value);
+              }}
+            >
               Kiosk {kioskMode ? 'On' : 'Off'}
             </button>
           )}
-          <button className="home-button" type="button" onClick={resetExperience}>
+          <button className="home-button" type="button" onClick={() => resetExperience('manual')}>
             Reset
           </button>
         </div>
@@ -330,7 +384,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
               className={viewMode === item.mode ? 'museum-nav-item museum-nav-item--active' : 'museum-nav-item'}
               key={item.mode}
               type="button"
-              onClick={() => setViewMode(item.mode)}
+              onClick={() => changeView(item.mode)}
             >
               {item.label}
             </button>
@@ -367,7 +421,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
         wallDebug={wallDebugEnabled}
         onClose={closeDetail}
         onHome={returnHome}
-        onReset={resetExperience}
+        onReset={() => resetExperience('detail')}
         onSelect={selectInductee}
         onFindConnection={openConnectionFinder}
       />
@@ -468,6 +522,11 @@ function readTimelineYear() {
   const view = readParam('view');
   if (view !== 'time' && view !== 'timeline') return '';
   return readParam('timeYear') || readParam('year');
+}
+
+function readPositiveEnvNumber(value: string | undefined, fallback: number) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 function stopActiveMedia() {
