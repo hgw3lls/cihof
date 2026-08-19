@@ -264,12 +264,28 @@ type RunnerJob = {
     finishedAt?: string;
     exitCode?: number | null;
   }>;
+  logPath?: string;
+  persistedAt?: string;
+};
+type RunnerHealth = {
+  ok: boolean;
+  name?: string;
+  repoRoot?: string;
+  scripts?: number;
+  activeJobs?: number;
+  externalOrigins?: string[];
+  tokenRequired?: boolean;
+  tokenSource?: string;
+  jobLogDir?: string;
+  maxPersistedJobs?: number;
+  runnerStartedAt?: string;
 };
 type RunnerState = {
   available: boolean;
   checking: boolean;
   error: string;
   token: string;
+  health: RunnerHealth | null;
   scripts: RunnerScript[];
   jobs: RunnerJob[];
   activeJob: RunnerJob | null;
@@ -299,6 +315,7 @@ type ReviewDashboardViewProps = {
 
 const draftStorageKey = 'cihof.portal.reviewDrafts.v1';
 const relationshipDraftStorageKey = 'cihof.portal.relationshipDrafts.v1';
+const runnerTokenStorageKey = 'cihof.portal.runnerToken.v1';
 const relationshipTypeOptions: RelationshipType[] = [
   'inducted_by',
   'same_class',
@@ -1774,6 +1791,12 @@ function ExportPanel({
 
 function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRunScript: (script: RunnerScript) => void }) {
   const latestJob = runner.activeJob ?? runner.jobs[0] ?? null;
+  const jobLogDir = runner.health?.jobLogDir ?? '.portal/jobs';
+  const tokenLabel = runner.health?.tokenRequired === false
+    ? 'Token not required'
+    : runner.health?.tokenSource === 'environment'
+      ? 'Token from environment'
+      : 'Token required';
 
   return (
     <section className={runner.available ? 'portal-runner portal-runner--online' : 'portal-runner'} aria-label="Local script runner">
@@ -1781,12 +1804,19 @@ function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRun
         <div>
           <p className="eyebrow">Local Runner</p>
           <h4>{runner.available ? 'Connected to localhost runner' : 'Runner not connected'}</h4>
-          <span>{runner.available ? 'Portal can run whitelisted repo scripts on this machine.' : 'Start it with npm run portal:server, then refresh this panel.'}</span>
+          <span>{runner.available ? `Portal can run whitelisted scripts. Logs persist to ${jobLogDir}.` : 'Start it with npm run portal:server, paste the printed token, then reconnect.'}</span>
         </div>
         <button type="button" onClick={() => void runner.refresh()}>{runner.checking ? 'Checking' : 'Refresh'}</button>
       </div>
 
       {runner.error && <div className="portal-runner__error">{runner.error}</div>}
+
+      <div className="portal-runner-meta" aria-label="Runner status details">
+        <span>{tokenLabel}</span>
+        <span>Logs: {jobLogDir}</span>
+        <span>Active jobs: {runner.health?.activeJobs ?? 0}</span>
+        <span>Retains: {runner.health?.maxPersistedJobs ?? 80}</span>
+      </div>
 
       <div className="portal-runner-access portal-runner-access--embedded">
         <label className="field">
@@ -1796,7 +1826,7 @@ function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRun
             type="password"
             value={runner.token}
             onChange={(event) => runner.setToken(event.target.value)}
-            placeholder="Only needed from approved external portal origins"
+            placeholder="Paste token printed by npm run portal:server"
           />
         </label>
         <button type="button" onClick={() => void runner.refresh()}>{runner.checking ? 'Checking' : 'Reconnect'}</button>
@@ -1826,6 +1856,7 @@ function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRun
             <strong>{latestJob.label}</strong>
             <span className={`portal-runner-job__status portal-runner-job__status--${latestJob.status}`}>{latestJob.status}</span>
             {latestJob.currentStep && <span>{latestJob.currentStep}</span>}
+            {latestJob.logPath && <span>Log: {latestJob.logPath}</span>}
           </div>
           {latestJob.steps && latestJob.steps.length > 0 && (
             <div className="portal-runner-steps">
@@ -1908,26 +1939,35 @@ function usePortalRunner(): RunnerState {
   const [available, setAvailable] = useState(false);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState('');
-  const [token, setToken] = useState('');
+  const [token, setTokenValue] = useState(() => readSessionValue(runnerTokenStorageKey));
+  const [health, setHealth] = useState<RunnerHealth | null>(null);
   const [scripts, setScripts] = useState<RunnerScript[]>([]);
   const [jobs, setJobs] = useState<RunnerJob[]>([]);
 
   const activeJob = jobs.find((job) => job.status === 'running' || job.status === 'queued') ?? null;
 
+  function setToken(nextToken: string) {
+    const cleanedToken = nextToken.trim();
+    setTokenValue(cleanedToken);
+    writeSessionValue(runnerTokenStorageKey, cleanedToken);
+  }
+
   async function refresh() {
     setChecking(true);
     try {
       const [health, scriptPayload, jobPayload] = await Promise.all([
-        fetchRunner<{ ok: boolean }>('/api/health', token),
+        fetchRunner<RunnerHealth>('/api/health', token),
         fetchRunner<{ scripts: RunnerScript[] }>('/api/scripts', token),
         fetchRunner<{ jobs: RunnerJob[] }>('/api/jobs', token),
       ]);
       setAvailable(Boolean(health.ok));
+      setHealth(health);
       setScripts(scriptPayload.scripts ?? []);
       setJobs(jobPayload.jobs ?? []);
       setError('');
     } catch (errorValue) {
       setAvailable(false);
+      setHealth(null);
       setScripts([]);
       setJobs([]);
       setError(errorValue instanceof Error ? errorValue.message : 'Local portal runner is not available.');
@@ -1991,7 +2031,7 @@ function usePortalRunner(): RunnerState {
     return () => window.clearInterval(interval);
   }, [activeJob?.id, activeJob?.status, token]);
 
-  return { available, checking, error, token, scripts, jobs, activeJob, setToken, refresh, runScript, applyDecisions, saveStoryLenses, saveRelationships };
+  return { available, checking, error, token, health, scripts, jobs, activeJob, setToken, refresh, runScript, applyDecisions, saveStoryLenses, saveRelationships };
 }
 
 function fetchJson<T>(url: string): Promise<T> {
@@ -2001,33 +2041,54 @@ function fetchJson<T>(url: string): Promise<T> {
   });
 }
 
-function fetchRunner<T>(path: string, token = ''): Promise<T> {
-  return fetch(`${portalRunnerBaseUrl}${path}`, {
+async function fetchRunner<T>(path: string, token = ''): Promise<T> {
+  const response = await fetch(`${portalRunnerBaseUrl}${path}`, {
     cache: 'no-store',
     headers: runnerHeaders(token),
-  }).then((response) => {
-    if (!response.ok) throw new Error(`Portal runner ${path} failed with ${response.status}`);
-    return response.json() as Promise<T>;
   });
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({})) as { error?: string };
+    throw new Error(payload.error || `Portal runner ${path} failed with ${response.status}`);
+  }
+  return response.json() as Promise<T>;
 }
 
-function postRunner<T>(path: string, body: unknown, token = ''): Promise<T> {
-  return fetch(`${portalRunnerBaseUrl}${path}`, {
+async function postRunner<T>(path: string, body: unknown, token = ''): Promise<T> {
+  const response = await fetch(`${portalRunnerBaseUrl}${path}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json', ...runnerHeaders(token) },
     body: JSON.stringify(body),
-  }).then((response) => {
-    if (!response.ok) {
-      return response.json().catch(() => ({})).then((payload: { error?: string }) => {
-        throw new Error(payload.error || `Portal runner ${path} failed with ${response.status}`);
-      });
-    }
-    return response.json() as Promise<T>;
   });
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({})) as { error?: string };
+    throw new Error(payload.error || `Portal runner ${path} failed with ${response.status}`);
+  }
+  return response.json() as Promise<T>;
 }
 
 function runnerHeaders(token: string): HeadersInit {
-  return token ? { 'x-cihof-portal-token': token } : {};
+  const cleanedToken = token.trim();
+  return cleanedToken ? { 'x-cihof-portal-token': cleanedToken } : {};
+}
+
+function readSessionValue(key: string) {
+  try {
+    return window.sessionStorage.getItem(key) ?? '';
+  } catch {
+    return '';
+  }
+}
+
+function writeSessionValue(key: string, value: string) {
+  try {
+    if (value) {
+      window.sessionStorage.setItem(key, value);
+    } else {
+      window.sessionStorage.removeItem(key);
+    }
+  } catch {
+    // Session storage can be unavailable in some locked-down kiosk browser modes.
+  }
 }
 
 function buildDashboardSummary(inductees: Inductee[], curation: CurationReport | null, media: MediaReport | null, drafts: DraftMap) {

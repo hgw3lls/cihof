@@ -171,6 +171,14 @@ http://127.0.0.1:5173/portal.html
 
 The public visitor entry is `index.html`. It does not import or expose the staff review dashboard in production builds.
 
+To run repo scripts from the staff portal, start the local runner:
+
+```sh
+npm run portal:server
+```
+
+The runner prints a one-time token by default. Paste it into the portal's Runner token field. Job output is saved locally under `.portal/jobs/`.
+
 Build the visitor app and staff portal separately:
 
 ```sh

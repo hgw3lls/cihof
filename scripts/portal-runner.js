@@ -1,6 +1,7 @@
 import { createServer } from 'node:http';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { randomBytes, timingSafeEqual } from 'node:crypto';
+import { dirname, relative, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 import { dedupeRelationshipRecords, normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
 
@@ -8,6 +9,7 @@ const host = process.env.CIHOF_PORTAL_HOST || '127.0.0.1';
 const port = Number(process.env.CIHOF_PORTAL_PORT || 5174);
 const repoRoot = resolve('.');
 const decisionsDir = resolve('.portal/decisions');
+const jobsDir = resolve('.portal/jobs');
 const relationshipsSourcePath = resolve('data/cihof_relationships.json');
 const relationshipsPublicPath = resolve('public/data/relationships.json');
 const storyLensesSourcePath = resolve('data/cihof_story_lenses.json');
@@ -20,9 +22,15 @@ const allowedExternalOrigins = new Set(
     .map((origin) => origin.trim())
     .filter(Boolean),
 );
-const portalToken = String(process.env.CIHOF_PORTAL_TOKEN || '');
+const configuredPortalToken = String(process.env.CIHOF_PORTAL_TOKEN || '').trim();
+const tokenDisabledForLocalDev = process.env.CIHOF_PORTAL_REQUIRE_TOKEN === '0';
+const portalTokenRequired = !tokenDisabledForLocalDev || allowedExternalOrigins.size > 0 || host !== '127.0.0.1';
+const portalToken = configuredPortalToken || (portalTokenRequired ? randomBytes(24).toString('base64url') : '');
+const portalTokenSource = configuredPortalToken ? 'environment' : portalTokenRequired ? 'generated' : 'disabled';
 const jobs = new Map();
 const maxBodyBytes = 12 * 1024 * 1024;
+const maxPersistedJobs = Number(process.env.CIHOF_PORTAL_MAX_JOB_LOGS || 80);
+const runnerStartedAt = new Date().toISOString();
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 const scripts = [
@@ -118,6 +126,7 @@ const scripts = [
 ];
 
 const scriptById = new Map(scripts.map((script) => [script.id, script]));
+hydratePersistedJobs();
 
 const server = createServer(async (request, response) => {
   setCorsHeaders(request, response);
@@ -134,7 +143,11 @@ const server = createServer(async (request, response) => {
     }
 
     if (!isAuthorizedRequest(request)) {
-      sendJson(response, 401, { error: 'Portal runner token is required for configured external origins.' });
+      sendJson(response, 401, {
+        error: 'Portal runner token is required. Copy the token printed by npm run portal:server into the Staff Portal runner token field.',
+        tokenRequired: portalTokenRequired,
+        tokenSource: portalTokenSource,
+      });
       return;
     }
 
@@ -148,7 +161,11 @@ const server = createServer(async (request, response) => {
         scripts: scripts.length,
         activeJobs: Array.from(jobs.values()).filter((job) => job.status === 'running').length,
         externalOrigins: Array.from(allowedExternalOrigins),
-        tokenRequiredForExternalOrigins: true,
+        tokenRequired: portalTokenRequired,
+        tokenSource: portalTokenSource,
+        jobLogDir: relative(repoRoot, jobsDir),
+        maxPersistedJobs,
+        runnerStartedAt,
       });
       return;
     }
@@ -291,7 +308,14 @@ const server = createServer(async (request, response) => {
 server.listen(port, host, () => {
   console.log(`CIHOF portal runner listening at http://${host}:${port}`);
   console.log(`External portal origins: ${allowedExternalOrigins.size > 0 ? Array.from(allowedExternalOrigins).join(', ') : 'none'}.`);
-  console.log('Configured external origins require CIHOF_PORTAL_TOKEN and the matching portal token header.');
+  if (portalTokenRequired && portalTokenSource === 'generated') {
+    console.log(`Portal runner token: ${portalToken}`);
+  } else if (portalTokenRequired) {
+    console.log('Portal runner token required. Using CIHOF_PORTAL_TOKEN from the environment.');
+  } else {
+    console.log('Portal runner token disabled for local development by CIHOF_PORTAL_REQUIRE_TOKEN=0.');
+  }
+  console.log(`Persistent job logs: ${relative(repoRoot, jobsDir)}`);
   console.log('Use the Staff Portal runner controls to execute whitelisted scripts.');
 });
 
@@ -486,30 +510,37 @@ function createJob(label, steps, meta = {}) {
     currentStep: '',
     steps: steps.map((step) => ({ ...step, status: 'queued', startedAt: '', finishedAt: '', exitCode: null })),
     meta,
+    logPath: relative(repoRoot, jobLogPath(id)),
+    persistedAt: '',
   };
   jobs.set(id, job);
   trimJobs();
+  persistJob(job);
   return job;
 }
 
 async function runJob(job) {
   job.status = 'running';
   job.startedAt = new Date().toISOString();
+  persistJob(job);
 
   for (const step of job.steps) {
     job.currentStep = step.label;
     step.status = 'running';
     step.startedAt = new Date().toISOString();
+    persistJob(job);
     appendOutput(job, `\n> ${step.label}\n$ npm ${step.command.join(' ')}\n`);
     const exitCode = await runNpmCommand(step.command, (chunk) => appendOutput(job, chunk));
     step.exitCode = exitCode;
     step.finishedAt = new Date().toISOString();
     step.status = exitCode === 0 ? 'success' : 'failed';
+    persistJob(job);
     if (exitCode !== 0) {
       job.status = 'failed';
       job.exitCode = exitCode;
       job.finishedAt = new Date().toISOString();
       appendOutput(job, `\nStep failed with exit code ${exitCode}.\n`);
+      persistJob(job);
       return;
     }
   }
@@ -519,13 +550,17 @@ async function runJob(job) {
   job.currentStep = '';
   job.finishedAt = new Date().toISOString();
   appendOutput(job, '\nJob completed successfully.\n');
+  persistJob(job);
 }
 
 function runNpmCommand(args, onOutput) {
   return new Promise((resolvePromise) => {
+    const childEnv = { ...process.env };
+    delete childEnv.CIHOF_PORTAL_TOKEN;
+
     const child = spawn(npmCommand, args, {
       cwd: repoRoot,
-      env: process.env,
+      env: childEnv,
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
@@ -540,8 +575,112 @@ function runNpmCommand(args, onOutput) {
 }
 
 function appendOutput(job, chunk) {
-  job.output += chunk;
+  job.output += redactSecrets(chunk);
   if (job.output.length > 80_000) job.output = job.output.slice(-80_000);
+  persistJob(job);
+}
+
+function hydratePersistedJobs() {
+  mkdirSync(jobsDir, { recursive: true });
+  const files = safeJobFiles()
+    .sort((a, b) => a.mtimeMs - b.mtimeMs)
+    .slice(-40);
+
+  files.forEach((file) => {
+    try {
+      const job = normalizePersistedJob(JSON.parse(readFileSync(file.path, 'utf8')));
+      if (!job) return;
+      jobs.set(job.id, job);
+    } catch (error) {
+      console.warn(`Skipping unreadable portal job log ${file.path}: ${error instanceof Error ? error.message : error}`);
+    }
+  });
+}
+
+function normalizePersistedJob(job) {
+  if (!job || typeof job !== 'object' || Array.isArray(job) || typeof job.id !== 'string') return null;
+  const status = ['queued', 'running', 'success', 'failed'].includes(job.status) ? job.status : 'failed';
+  const recoveredJob = {
+    id: job.id,
+    label: typeof job.label === 'string' ? job.label : 'Portal Job',
+    status,
+    startedAt: typeof job.startedAt === 'string' ? job.startedAt : '',
+    finishedAt: typeof job.finishedAt === 'string' ? job.finishedAt : '',
+    exitCode: Number.isFinite(job.exitCode) ? job.exitCode : null,
+    output: typeof job.output === 'string' ? redactSecrets(job.output).slice(-80_000) : '',
+    currentStep: typeof job.currentStep === 'string' ? job.currentStep : '',
+    steps: Array.isArray(job.steps) ? job.steps.map(normalizePersistedStep).filter(Boolean) : [],
+    meta: job.meta && typeof job.meta === 'object' && !Array.isArray(job.meta) ? job.meta : {},
+    logPath: relative(repoRoot, jobLogPath(job.id)),
+    persistedAt: typeof job.persistedAt === 'string' ? job.persistedAt : '',
+  };
+
+  if (recoveredJob.status === 'running' || recoveredJob.status === 'queued') {
+    recoveredJob.status = 'failed';
+    recoveredJob.exitCode = 1;
+    recoveredJob.currentStep = '';
+    recoveredJob.finishedAt = runnerStartedAt;
+    recoveredJob.output = `${recoveredJob.output}\nRunner restarted before this job finished.\n`.slice(-80_000);
+    persistJob(recoveredJob);
+  }
+
+  return recoveredJob;
+}
+
+function normalizePersistedStep(step) {
+  if (!step || typeof step !== 'object' || Array.isArray(step)) return null;
+  return {
+    label: typeof step.label === 'string' ? step.label : 'Step',
+    status: ['queued', 'running', 'success', 'failed'].includes(step.status) ? step.status : 'failed',
+    startedAt: typeof step.startedAt === 'string' ? step.startedAt : '',
+    finishedAt: typeof step.finishedAt === 'string' ? step.finishedAt : '',
+    exitCode: Number.isFinite(step.exitCode) ? step.exitCode : null,
+  };
+}
+
+function persistJob(job) {
+  try {
+    mkdirSync(jobsDir, { recursive: true });
+    job.logPath = relative(repoRoot, jobLogPath(job.id));
+    job.persistedAt = new Date().toISOString();
+    writeFileSync(jobLogPath(job.id), `${JSON.stringify(toPublicJob(job), null, 2)}\n`);
+    trimPersistedJobFiles();
+  } catch (error) {
+    console.warn(`Could not persist portal job ${job.id}: ${error instanceof Error ? error.message : error}`);
+  }
+}
+
+function trimPersistedJobFiles() {
+  if (!Number.isFinite(maxPersistedJobs) || maxPersistedJobs < 1) return;
+  const files = safeJobFiles().sort((a, b) => a.mtimeMs - b.mtimeMs);
+  files.slice(0, Math.max(0, files.length - maxPersistedJobs)).forEach((file) => {
+    try {
+      unlinkSync(file.path);
+    } catch (error) {
+      console.warn(`Could not remove old portal job log ${file.path}: ${error instanceof Error ? error.message : error}`);
+    }
+  });
+}
+
+function safeJobFiles() {
+  if (!existsSync(jobsDir)) return [];
+  return readdirSync(jobsDir)
+    .filter((name) => /^[a-z0-9-]+\.json$/i.test(name))
+    .map((name) => {
+      const path = resolve(jobsDir, name);
+      const stats = statSync(path);
+      return { path, mtimeMs: stats.mtimeMs };
+    })
+    .filter((file) => file.path.startsWith(jobsDir));
+}
+
+function jobLogPath(id) {
+  return resolve(jobsDir, `${String(id).replace(/[^a-z0-9-]/gi, '-')}.json`);
+}
+
+function redactSecrets(value) {
+  if (!portalToken) return value;
+  return String(value).split(portalToken).join('[redacted portal token]');
 }
 
 function trimJobs() {
@@ -580,14 +719,23 @@ function isAllowedOrigin(origin) {
 }
 
 function isAuthorizedRequest(request) {
-  const origin = request.headers.origin;
-  if (!origin || isLocalPortalOrigin(origin)) return true;
-  if (!allowedExternalOrigins.has(origin) || !portalToken) return false;
-  return request.headers['x-cihof-portal-token'] === portalToken;
+  if (!portalTokenRequired) return true;
+  if (!portalToken) return false;
+  const suppliedToken = Array.isArray(request.headers['x-cihof-portal-token'])
+    ? request.headers['x-cihof-portal-token'][0]
+    : request.headers['x-cihof-portal-token'];
+  return tokenMatches(String(suppliedToken || ''));
 }
 
 function isLocalPortalOrigin(origin) {
   return /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origin);
+}
+
+function tokenMatches(value) {
+  const supplied = Buffer.from(value);
+  const expected = Buffer.from(portalToken);
+  if (supplied.length !== expected.length) return false;
+  return timingSafeEqual(supplied, expected);
 }
 
 function sendJson(response, status, payload) {
@@ -616,9 +764,11 @@ function toPublicJob(job) {
     startedAt: job.startedAt,
     finishedAt: job.finishedAt,
     exitCode: job.exitCode,
-    output: job.output,
+    output: redactSecrets(job.output),
     currentStep: job.currentStep,
     steps: job.steps.map(({ command, ...step }) => step),
     meta: job.meta,
+    logPath: job.logPath,
+    persistedAt: job.persistedAt,
   };
 }

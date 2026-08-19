@@ -119,6 +119,7 @@ Related commits:
 - Added runner controls for data prep, curation report, media validation, entity validation, kiosk validation, data audit, build, kiosk build, metadata scaffold regeneration, media manifest regeneration, media localization, and 2026 import.
 - Added direct dry-run/apply flow for portal draft decisions.
 - Split the visitor app and staff portal into separate HTML/build entry points so the public kiosk build does not import the review dashboard.
+- Added default local runner token enforcement and persistent `.portal/jobs/` job logs.
 - Added documentation for running the portal and runner locally.
 - Added `.portal/` to `.gitignore` for local runner scratch files.
 
@@ -140,8 +141,8 @@ Related commit:
 
 ## Risks To Address Before Permanent Installation
 
-1. Staff portal and public kiosk now have separate entry/build targets, but the local runner still needs stronger staff authentication and persistent logs.
-2. The local portal runner uses localhost/origin limits but does not yet require a per-session token or admin authentication.
+1. Staff portal and public kiosk now have separate entry/build targets, and the local runner now requires a portal token by default.
+2. The local portal runner still needs fuller admin authentication if it will be used beyond a trusted staff machine.
 3. GitHub Pages deployment currently builds the site but should become stricter before museum release.
 4. No automated Playwright kiosk regression suite exists yet.
 5. No service worker/offline app-shell cache exists yet.
@@ -170,9 +171,9 @@ Priority: highest.
 
 Priority: high.
 
-- Add `CIHOF_PORTAL_TOKEN` or generated per-session token for the local runner.
-- Require the portal UI to send the runner token with every request.
-- Add persistent job logs under a local ignored directory.
+- Keep `CIHOF_PORTAL_TOKEN` or generated per-session token enforcement in place for the local runner.
+- Keep the portal UI sending the runner token with every request.
+- Keep persistent job logs under a local ignored directory.
 - Add a runner status panel that shows active repo root, branch, latest commit, dirty state, and last successful validation.
 - Add a safer two-step apply flow:
   - dry run
