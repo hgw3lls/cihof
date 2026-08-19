@@ -120,6 +120,7 @@ Related commits:
 - Added direct dry-run/apply flow for portal draft decisions.
 - Split the visitor app and staff portal into separate HTML/build entry points so the public kiosk build does not import the review dashboard.
 - Added default local runner token enforcement and persistent `.portal/jobs/` job logs.
+- Added runner status details for repo root, branch, commit, dirty state, upstream sync, and last successful validation/build.
 - Added documentation for running the portal and runner locally.
 - Added `.portal/` to `.gitignore` for local runner scratch files.
 
@@ -174,7 +175,7 @@ Priority: high.
 - Keep `CIHOF_PORTAL_TOKEN` or generated per-session token enforcement in place for the local runner.
 - Keep the portal UI sending the runner token with every request.
 - Keep persistent job logs under a local ignored directory.
-- Add a runner status panel that shows active repo root, branch, latest commit, dirty state, and last successful validation.
+- Keep the runner status panel showing active repo root, branch, latest commit, dirty state, upstream sync, and last successful validation/build.
 - Add a safer two-step apply flow:
   - dry run
   - review diff summary

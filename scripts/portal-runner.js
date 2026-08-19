@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { dirname, relative, resolve } from 'node:path';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { dedupeRelationshipRecords, normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
 
 const host = process.env.CIHOF_PORTAL_HOST || '127.0.0.1';
@@ -126,6 +126,8 @@ const scripts = [
 ];
 
 const scriptById = new Map(scripts.map((script) => [script.id, script]));
+const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk']);
+const buildScriptIds = new Set(['build', 'build:kiosk']);
 hydratePersistedJobs();
 
 const server = createServer(async (request, response) => {
@@ -166,6 +168,9 @@ const server = createServer(async (request, response) => {
         jobLogDir: relative(repoRoot, jobsDir),
         maxPersistedJobs,
         runnerStartedAt,
+        git: readGitStatus(),
+        lastSuccessfulValidation: findLastSuccessfulJob(validationScriptIds),
+        lastSuccessfulBuild: findLastSuccessfulJob(buildScriptIds),
       });
       return;
     }
@@ -690,6 +695,115 @@ function trimJobs() {
     .sort((a, b) => String(a.startedAt || '').localeCompare(String(b.startedAt || '')))
     .slice(0, values.length - 40)
     .forEach((job) => jobs.delete(job.id));
+}
+
+function readGitStatus() {
+  const rootResult = runGit(['rev-parse', '--show-toplevel']);
+  if (!rootResult.ok) {
+    return {
+      available: false,
+      root: repoRoot,
+      dirty: false,
+      changedFiles: 0,
+      error: rootResult.error || 'Not a git repository.',
+    };
+  }
+
+  const branchResult = runGit(['branch', '--show-current']);
+  const fallbackBranchResult = branchResult.stdout ? branchResult : runGit(['rev-parse', '--abbrev-ref', 'HEAD']);
+  const commitResult = runGit(['rev-parse', '--short', 'HEAD']);
+  const fullCommitResult = runGit(['rev-parse', 'HEAD']);
+  const subjectResult = runGit(['log', '-1', '--pretty=%s']);
+  const dateResult = runGit(['log', '-1', '--format=%cI']);
+  const upstreamResult = runGit(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']);
+  const statusResult = runGit(['status', '--porcelain']);
+  const statusLines = statusResult.ok && statusResult.stdout
+    ? statusResult.stdout.split(/\r?\n/).map((line) => line.trimEnd()).filter(Boolean)
+    : [];
+  const aheadBehind = upstreamResult.ok && upstreamResult.stdout
+    ? readAheadBehind(upstreamResult.stdout)
+    : { ahead: null, behind: null };
+
+  return {
+    available: true,
+    root: rootResult.stdout || repoRoot,
+    branch: fallbackBranchResult.stdout || '',
+    upstream: upstreamResult.ok ? upstreamResult.stdout : '',
+    commit: commitResult.stdout || '',
+    fullCommit: fullCommitResult.stdout || '',
+    commitSubject: subjectResult.stdout || '',
+    commitDate: dateResult.stdout || '',
+    dirty: statusLines.length > 0,
+    changedFiles: statusLines.length,
+    ahead: aheadBehind.ahead,
+    behind: aheadBehind.behind,
+    changes: statusLines.slice(0, 12).map(parseGitStatusLine),
+  };
+}
+
+function readAheadBehind(upstream) {
+  const result = runGit(['rev-list', '--left-right', '--count', `${upstream}...HEAD`]);
+  if (!result.ok || !result.stdout) return { ahead: null, behind: null };
+  const [behind, ahead] = result.stdout.split(/\s+/).map((value) => Number(value));
+  return {
+    ahead: Number.isFinite(ahead) ? ahead : null,
+    behind: Number.isFinite(behind) ? behind : null,
+  };
+}
+
+function parseGitStatusLine(line) {
+  return {
+    status: line.slice(0, 2).trim() || 'changed',
+    path: line.slice(3).trim(),
+  };
+}
+
+function runGit(args) {
+  try {
+    return {
+      ok: true,
+      stdout: execFileSync('git', args, {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      }).trimEnd(),
+      error: '',
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      stdout: '',
+      error: gitErrorMessage(error),
+    };
+  }
+}
+
+function gitErrorMessage(error) {
+  if (error && typeof error === 'object' && 'stderr' in error && error.stderr) {
+    return String(error.stderr).trim();
+  }
+  return error instanceof Error ? error.message : 'Git command failed.';
+}
+
+function findLastSuccessfulJob(scriptIds) {
+  const matching = Array.from(jobs.values())
+    .filter((job) => job.status === 'success' && scriptIds.has(job.meta?.scriptId))
+    .sort((a, b) => String(b.finishedAt || b.startedAt || '').localeCompare(String(a.finishedAt || a.startedAt || '')));
+  return matching[0] ? summarizeJob(matching[0]) : null;
+}
+
+function summarizeJob(job) {
+  return {
+    id: job.id,
+    label: job.label,
+    status: job.status,
+    startedAt: job.startedAt,
+    finishedAt: job.finishedAt,
+    exitCode: job.exitCode,
+    scriptId: typeof job.meta?.scriptId === 'string' ? job.meta.scriptId : '',
+    logPath: job.logPath,
+    persistedAt: job.persistedAt,
+  };
 }
 
 async function readJsonBody(request) {

@@ -267,6 +267,36 @@ type RunnerJob = {
   logPath?: string;
   persistedAt?: string;
 };
+type RunnerJobSummary = {
+  id: string;
+  label: string;
+  status: 'success';
+  startedAt?: string;
+  finishedAt?: string;
+  exitCode?: number | null;
+  scriptId?: string;
+  logPath?: string;
+  persistedAt?: string;
+};
+type RunnerGitStatus = {
+  available: boolean;
+  root?: string;
+  branch?: string;
+  upstream?: string;
+  commit?: string;
+  fullCommit?: string;
+  commitSubject?: string;
+  commitDate?: string;
+  dirty?: boolean;
+  changedFiles?: number;
+  ahead?: number | null;
+  behind?: number | null;
+  changes?: Array<{
+    status: string;
+    path: string;
+  }>;
+  error?: string;
+};
 type RunnerHealth = {
   ok: boolean;
   name?: string;
@@ -279,6 +309,9 @@ type RunnerHealth = {
   jobLogDir?: string;
   maxPersistedJobs?: number;
   runnerStartedAt?: string;
+  git?: RunnerGitStatus;
+  lastSuccessfulValidation?: RunnerJobSummary | null;
+  lastSuccessfulBuild?: RunnerJobSummary | null;
 };
 type RunnerState = {
   available: boolean;
@@ -1792,11 +1825,17 @@ function ExportPanel({
 function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRunScript: (script: RunnerScript) => void }) {
   const latestJob = runner.activeJob ?? runner.jobs[0] ?? null;
   const jobLogDir = runner.health?.jobLogDir ?? '.portal/jobs';
+  const git = runner.health?.git;
   const tokenLabel = runner.health?.tokenRequired === false
     ? 'Token not required'
     : runner.health?.tokenSource === 'environment'
       ? 'Token from environment'
       : 'Token required';
+  const dirtyLabel = git?.available
+    ? git.dirty
+      ? `Dirty: ${git.changedFiles ?? 0} files`
+      : 'Clean'
+    : 'Git unavailable';
 
   return (
     <section className={runner.available ? 'portal-runner portal-runner--online' : 'portal-runner'} aria-label="Local script runner">
@@ -1816,7 +1855,43 @@ function PortalRunnerPanel({ runner, onRunScript }: { runner: RunnerState; onRun
         <span>Logs: {jobLogDir}</span>
         <span>Active jobs: {runner.health?.activeJobs ?? 0}</span>
         <span>Retains: {runner.health?.maxPersistedJobs ?? 80}</span>
+        <span className={git?.dirty ? 'portal-runner-meta__warning' : ''}>{dirtyLabel}</span>
       </div>
+
+      <div className="portal-runner-repo" aria-label="Repository status">
+        <div>
+          <span>Repo Root</span>
+          <strong>{formatRepoPath(runner.health?.repoRoot ?? git?.root)}</strong>
+        </div>
+        <div>
+          <span>Branch</span>
+          <strong>{git?.available ? git.branch || 'Detached' : git?.error || 'Unavailable'}</strong>
+        </div>
+        <div>
+          <span>Latest Commit</span>
+          <strong>{formatGitCommit(git)}</strong>
+        </div>
+        <div>
+          <span>Remote State</span>
+          <strong>{formatAheadBehind(git)}</strong>
+        </div>
+        <div>
+          <span>Last Validation</span>
+          <strong>{formatRunnerJobSummary(runner.health?.lastSuccessfulValidation)}</strong>
+        </div>
+        <div>
+          <span>Last Build</span>
+          <strong>{formatRunnerJobSummary(runner.health?.lastSuccessfulBuild)}</strong>
+        </div>
+      </div>
+
+      {git?.dirty && git.changes && git.changes.length > 0 && (
+        <div className="portal-runner-changes" aria-label="Uncommitted changes">
+          {git.changes.map((change) => (
+            <span key={`${change.status}-${change.path}`}>{change.status} {change.path}</span>
+          ))}
+        </div>
+      )}
 
       <div className="portal-runner-access portal-runner-access--embedded">
         <label className="field">
@@ -3049,6 +3124,34 @@ function formatDate(value?: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return 'Unavailable';
   return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function formatRepoPath(value?: string) {
+  if (!value) return 'Unavailable';
+  const parts = value.split('/').filter(Boolean);
+  if (parts.length <= 3) return value;
+  return `.../${parts.slice(-3).join('/')}`;
+}
+
+function formatGitCommit(git?: RunnerGitStatus) {
+  if (!git?.available) return git?.error || 'Unavailable';
+  if (!git.commit) return 'No commit';
+  return git.commitSubject ? `${git.commit} ${git.commitSubject}` : git.commit;
+}
+
+function formatAheadBehind(git?: RunnerGitStatus) {
+  if (!git?.available) return 'Unavailable';
+  if (!git.upstream) return 'No upstream';
+  const ahead = typeof git.ahead === 'number' ? git.ahead : 0;
+  const behind = typeof git.behind === 'number' ? git.behind : 0;
+  if (ahead === 0 && behind === 0) return `Synced with ${git.upstream}`;
+  return `${ahead} ahead, ${behind} behind ${git.upstream}`;
+}
+
+function formatRunnerJobSummary(job?: RunnerJobSummary | null) {
+  if (!job) return 'No success yet';
+  const date = formatDate(job.finishedAt || job.startedAt);
+  return `${job.label} - ${date}`;
 }
 
 function formatClock(value?: string) {

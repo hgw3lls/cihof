@@ -7979,6 +7979,59 @@ textarea:focus,
   font-size: 0.68rem;
 }
 
+.portal-runner-meta span.portal-runner-meta__warning {
+  border-color: var(--accent);
+  background: rgba(180, 92, 38, 0.18);
+  color: var(--ink);
+}
+
+.portal-runner-repo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.portal-runner-repo div {
+  min-height: 76px;
+  border: 2px solid rgba(23, 21, 19, 0.26);
+  background: rgba(255, 247, 230, 0.5);
+  padding: 10px;
+}
+
+.portal-runner-repo span,
+.portal-runner-changes span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.portal-runner-repo strong {
+  display: block;
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.portal-runner-changes {
+  display: grid;
+  gap: 5px;
+  border: 2px solid var(--accent);
+  background: rgba(180, 92, 38, 0.12);
+  padding: 10px;
+}
+
+.portal-runner-changes span {
+  margin: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
 .portal-runner__scripts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -8082,6 +8135,7 @@ textarea:focus,
   .portal-action-strip,
   .portal-lenses__summary,
   .portal-export-summary,
+  .portal-runner-repo,
   .portal-runner__scripts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -8144,6 +8198,7 @@ textarea:focus,
   .portal-lens-card__grid,
   .portal-runner-access,
   .portal-export-summary,
+  .portal-runner-repo,
   .portal-runner__scripts,
   .portal-tabs {
     grid-template-columns: 1fr;
