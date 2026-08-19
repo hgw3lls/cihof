@@ -179,6 +179,8 @@ npm run portal:server
 
 The runner prints a one-time token by default. Paste it into the portal's Runner token field. Job output is saved locally under `.portal/jobs/`.
 
+Portal applies are gated: run the dry run first, review the Apply Gate summary, then use Apply Validated Edits. Real apply is blocked if the current edits differ from the dry run or if the repo already has uncommitted changes.
+
 Build the visitor app and staff portal separately:
 
 ```sh

@@ -263,9 +263,52 @@ type RunnerJob = {
     startedAt?: string;
     finishedAt?: string;
     exitCode?: number | null;
+    output?: string;
   }>;
   logPath?: string;
   persistedAt?: string;
+  meta?: RunnerJobMeta;
+};
+type RunnerApplySummary = {
+  rowsRead?: number;
+  targetRows?: number;
+  targets?: string[];
+  curationFieldInputs?: number;
+  mediaFieldInputs?: number;
+  curationFieldCounts?: Record<string, number>;
+  mediaFieldCounts?: Record<string, number>;
+  warnings?: string[];
+  affectedRecords?: Array<{
+    id: string;
+    name?: string;
+    classYear?: string;
+    curationFields?: string[];
+    mediaFields?: string[];
+    fieldInputs?: number;
+  }>;
+  dryRunResults?: Array<{
+    label: string;
+    status: RunnerJob['status'];
+    rowsRead?: number | null;
+    recordsChanged?: number | null;
+    warnings?: number;
+    errors?: number;
+    changedRecords?: Array<{
+      id: string;
+      fields: string[];
+    }>;
+  }>;
+  pipeline?: string[];
+};
+type RunnerJobMeta = {
+  kind?: string;
+  scriptId?: string;
+  decisionPath?: string;
+  dryRun?: boolean;
+  targets?: string[];
+  csvHash?: string;
+  previewJobId?: string;
+  applySummary?: RunnerApplySummary;
 };
 type RunnerJobSummary = {
   id: string;
@@ -325,7 +368,7 @@ type RunnerState = {
   setToken: (token: string) => void;
   refresh: () => Promise<void>;
   runScript: (scriptId: string) => Promise<RunnerJob | null>;
-  applyDecisions: (csv: string, dryRun: boolean) => Promise<RunnerJob | null>;
+  applyDecisions: (csv: string, options: { dryRun: boolean; previewJobId?: string; previewHash?: string }) => Promise<RunnerJob | null>;
   saveStoryLenses: (document: StoryLensDocument) => Promise<StoryLensDocument | null>;
   saveRelationships: (records: RelationshipRecord[]) => Promise<RelationshipRecord[] | null>;
 };
@@ -389,6 +432,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const [drafts, setDrafts] = useState<DraftMap>(() => loadStoredDrafts());
   const [relationshipDrafts, setRelationshipDrafts] = useState<RelationshipDraftMap>(() => loadStoredRelationshipDrafts());
   const [portalNotice, setPortalNotice] = useState('');
+  const [applyPreviewJobId, setApplyPreviewJobId] = useState('');
+  const [applyPreviewCsv, setApplyPreviewCsv] = useState('');
   const [storageState, setStorageState] = useState<DraftStorageResult>({ ok: true, message: 'No local drafts' });
   const [relationshipStorageState, setRelationshipStorageState] = useState<DraftStorageResult>({ ok: true, message: 'No relationship drafts' });
   const importInputRef = useRef<HTMLInputElement | null>(null);
@@ -443,9 +488,25 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const selectedNeeds = selected ? getReviewNeeds(selected, reports.curation, reports.media, selectedDraft) : [];
   const selectedDraftIssues = selected ? getDraftIssues(selected, selectedDraft, reports.manifest?.assets?.[selected.id]) : [];
   const editedRows = useMemo(() => inductees.filter((item) => Boolean(drafts[item.id])), [drafts, inductees]);
+  const decisionCsv = useMemo(
+    () => editedRows.length > 0 ? buildReviewCsv(editedRows, reports.curation, reports.media, reports.manifest, drafts) : '',
+    [drafts, editedRows, reports.curation, reports.manifest, reports.media],
+  );
   const draftIssues = useMemo(() => {
     return editedRows.flatMap((inductee) => getDraftIssues(inductee, drafts[inductee.id], reports.manifest?.assets?.[inductee.id]));
   }, [drafts, editedRows, reports.manifest]);
+  const applyPreviewJob = useMemo(
+    () => runner.jobs.find((job) => job.id === applyPreviewJobId) ?? (runner.activeJob?.id === applyPreviewJobId ? runner.activeJob : null),
+    [applyPreviewJobId, runner.activeJob, runner.jobs],
+  );
+  const applyPreviewFresh = Boolean(
+    applyPreviewJob
+    && applyPreviewJob.status === 'success'
+    && applyPreviewJob.meta?.dryRun
+    && applyPreviewJob.meta?.csvHash
+    && applyPreviewCsv
+    && applyPreviewCsv === decisionCsv,
+  );
   const storyLensCount = storyLensState.draft?.lenses.length ?? storyLensState.document?.lenses.length ?? 0;
 
   useEffect(() => {
@@ -649,11 +710,24 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       return;
     }
 
-    if (!dryRun && !window.confirm(`Apply ${editedRows.length} portal draft records to repo data files and regenerate reports?`)) return;
+    const csv = decisionCsv;
+    if (!dryRun && !applyPreviewFresh) {
+      window.alert('Run a successful dry run for the current portal edits before applying them to the repo.');
+      return;
+    }
 
-    const csv = buildReviewCsv(editedRows, reports.curation, reports.media, reports.manifest, drafts);
-    const job = await runner.applyDecisions(csv, dryRun);
+    if (!dryRun && !window.confirm(`Apply ${editedRows.length} portal draft records, regenerate runtime data, validate reports/entities, and build the public app?`)) return;
+
+    const job = await runner.applyDecisions(csv, {
+      dryRun,
+      previewJobId: dryRun ? undefined : applyPreviewJob?.id,
+      previewHash: dryRun ? undefined : applyPreviewJob?.meta?.csvHash,
+    });
     if (job) {
+      if (dryRun) {
+        setApplyPreviewJobId(job.id);
+        setApplyPreviewCsv(csv);
+      }
       setPortalNotice(`${dryRun ? 'Started dry run for' : 'Started applying'} ${editedRows.length} portal draft records.`);
       setTab('exports');
     }
@@ -842,6 +916,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           runner={runner}
           drafts={drafts}
           draftIssues={draftIssues}
+          applyPreviewJob={applyPreviewJob}
+          applyPreviewFresh={applyPreviewFresh}
           importInputRef={importInputRef}
           onClearDrafts={clearAllDrafts}
           onExportDraftJson={exportDraftJson}
@@ -1738,6 +1814,8 @@ function ExportPanel({
   runner,
   drafts,
   draftIssues,
+  applyPreviewJob,
+  applyPreviewFresh,
   importInputRef,
   onClearDrafts,
   onExportDraftJson,
@@ -1753,6 +1831,8 @@ function ExportPanel({
   runner: RunnerState;
   drafts: DraftMap;
   draftIssues: DraftIssue[];
+  applyPreviewJob: RunnerJob | null;
+  applyPreviewFresh: boolean;
   importInputRef: MutableRefObject<HTMLInputElement | null>;
   onClearDrafts: () => void;
   onExportDraftJson: () => void;
@@ -1771,8 +1851,8 @@ function ExportPanel({
       </div>
 
       <div className="portal-export-actions">
-        <button disabled={!runner.available || draftCount === 0} type="button" onClick={() => onApplyDrafts(true)}>Dry Run Portal Edits</button>
-        <button disabled={!runner.available || draftCount === 0 || draftIssues.some((issue) => issue.severity === 'error')} type="button" onClick={() => onApplyDrafts(false)}>Apply Portal Edits</button>
+        <button disabled={!runner.available || draftCount === 0 || runner.activeJob?.status === 'running'} type="button" onClick={() => onApplyDrafts(true)}>1. Dry Run Portal Edits</button>
+        <button disabled={!runner.available || draftCount === 0 || !applyPreviewFresh || draftIssues.some((issue) => issue.severity === 'error') || runner.activeJob?.status === 'running'} type="button" onClick={() => onApplyDrafts(false)}>2. Apply Validated Edits</button>
         <button disabled={draftCount === 0} type="button" onClick={onExportDecisionCsv}>Export Edited Decisions CSV</button>
         <button disabled={draftCount === 0} type="button" onClick={onExportDraftJson}>Export Draft JSON</button>
         <button type="button" onClick={onExportVisibleCsv}>Export Current Queue CSV</button>
@@ -1787,6 +1867,13 @@ function ExportPanel({
         <MetricCard label="Curation Errors" value={reports.curation?.validation?.errors?.length ?? 0} detail={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} />
         <MetricCard label="Media Errors" value={reports.media?.validation?.errors?.length ?? 0} detail={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} />
       </div>
+
+      <ApplyPreviewPanel
+        draftCount={draftCount}
+        blockingIssueCount={draftIssues.filter((issue) => issue.severity === 'error').length}
+        previewFresh={applyPreviewFresh}
+        previewJob={applyPreviewJob}
+      />
 
       <PortalRunnerPanel runner={runner} onRunScript={onRunScript} />
 
@@ -1803,10 +1890,10 @@ function ExportPanel({
       )}
 
       <div className="portal-command-box">
-        <strong>Apply flow</strong>
-        <code>npm run curate:apply -- --input=/path/to/cihof-portal-decisions-YYYY-MM-DD.csv --dry-run</code>
-        <code>npm run media:apply -- --input=/path/to/cihof-portal-decisions-YYYY-MM-DD.csv --dry-run</code>
-        <code>npm run build</code>
+        <strong>Runner apply sequence</strong>
+        <code>1. Dry Run Portal Edits</code>
+        <code>2. Review Apply Gate summary and runner job output</code>
+        <code>3. Apply Validated Edits: apply, prepare data, validate reports/entities, build public app</code>
       </div>
 
       <div className="portal-draft-list">
@@ -1817,6 +1904,101 @@ function ExportPanel({
           </div>
         ))}
         {editedRows.length === 0 && <div className="portal-empty-state">No local edits yet.</div>}
+      </div>
+    </section>
+  );
+}
+
+function ApplyPreviewPanel({
+  draftCount,
+  blockingIssueCount,
+  previewFresh,
+  previewJob,
+}: {
+  draftCount: number;
+  blockingIssueCount: number;
+  previewFresh: boolean;
+  previewJob: RunnerJob | null;
+}) {
+  const summary = previewJob?.meta?.applySummary;
+  const dryRunResults = summary?.dryRunResults ?? [];
+  const recordsChanged = dryRunResults.reduce((sum, result) => sum + (result.recordsChanged ?? 0), 0);
+
+  return (
+    <section className={previewFresh ? 'portal-apply-preview portal-apply-preview--ready' : 'portal-apply-preview'} aria-label="Portal apply preview">
+      <div className="portal-apply-preview__header">
+        <div>
+          <p className="eyebrow">Apply Gate</p>
+          <h4>{previewFresh ? 'Dry run complete for current edits' : 'Dry run required before apply'}</h4>
+          <span>
+            {draftCount === 0
+              ? 'Create or import draft edits before applying.'
+              : previewJob
+                ? `Preview job ${previewJob.status}${previewJob.logPath ? ` / ${previewJob.logPath}` : ''}`
+                : 'Run the dry run to generate a reviewable impact summary.'}
+          </span>
+        </div>
+        <strong>{previewFresh ? 'READY' : 'LOCKED'}</strong>
+      </div>
+
+      <div className="portal-apply-preview__grid">
+        <div>
+          <span>Rows</span>
+          <strong>{summary?.targetRows ?? draftCount}</strong>
+        </div>
+        <div>
+          <span>Curation Inputs</span>
+          <strong>{summary?.curationFieldInputs ?? 0}</strong>
+        </div>
+        <div>
+          <span>Media Inputs</span>
+          <strong>{summary?.mediaFieldInputs ?? 0}</strong>
+        </div>
+        <div>
+          <span>Would Change</span>
+          <strong>{recordsChanged || 'Run dry run'}</strong>
+        </div>
+        <div>
+          <span>Blocking Issues</span>
+          <strong>{blockingIssueCount}</strong>
+        </div>
+        <div>
+          <span>Targets</span>
+          <strong>{summary?.targets?.join(' + ') || 'curation + media'}</strong>
+        </div>
+      </div>
+
+      {dryRunResults.length > 0 && (
+        <div className="portal-apply-preview__results">
+          {dryRunResults.map((result) => (
+            <div key={result.label}>
+              <strong>{result.label}</strong>
+              <span>{result.recordsChanged ?? 0} records / {result.rowsRead ?? 0} rows / {result.status}</span>
+              {(result.errors ?? 0) > 0 && <em>{result.errors} errors</em>}
+              {(result.warnings ?? 0) > 0 && <em>{result.warnings} warnings</em>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {summary?.affectedRecords && summary.affectedRecords.length > 0 && (
+        <div className="portal-apply-preview__records" aria-label="Affected records preview">
+          {summary.affectedRecords.slice(0, 10).map((record) => (
+            <span key={record.id}>
+              <strong>{record.name || record.id}</strong>
+              {(record.curationFields?.length ?? 0) > 0 && ` curation: ${record.curationFields?.slice(0, 4).join(', ')}`}
+              {(record.mediaFields?.length ?? 0) > 0 && ` media: ${record.mediaFields?.slice(0, 4).join(', ')}`}
+            </span>
+          ))}
+          {summary.affectedRecords.length > 10 && <span>+{summary.affectedRecords.length - 10} more records in this preview</span>}
+        </div>
+      )}
+
+      <div className="portal-apply-preview__pipeline">
+        <strong>Apply pipeline</strong>
+        {(summary?.pipeline ?? ['Apply decisions', 'Prepare data', 'Curation report', 'Media validate', 'Validate entities', 'Build public site']).map((step) => (
+          <span key={step}>{step}</span>
+        ))}
       </div>
     </section>
   );
@@ -2062,9 +2244,9 @@ function usePortalRunner(): RunnerState {
     }
   }
 
-  async function applyDecisions(csv: string, dryRun: boolean) {
+  async function applyDecisions(csv: string, options: { dryRun: boolean; previewJobId?: string; previewHash?: string }) {
     try {
-      const payload = await postRunner<{ job: RunnerJob }>('/api/apply-decisions', { csv, dryRun, targets: ['curation', 'media'] }, token);
+      const payload = await postRunner<{ job: RunnerJob }>('/api/apply-decisions', { csv, ...options, targets: ['curation', 'media'] }, token);
       await refresh();
       return payload.job;
     } catch (errorValue) {
