@@ -20,6 +20,8 @@
   --gold-soft: rgba(194, 161, 90, 0.38);
   --hard-shadow: 7px 7px 0 rgba(0, 0, 0, 0.34);
   --soft-shadow: 3px 3px 0 rgba(0, 0, 0, 0.28);
+  --cihof-vw: 100vw;
+  --cihof-vh: 100dvh;
 }
 
 * {
@@ -27,13 +29,20 @@
 }
 
 html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 
 body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
     linear-gradient(180deg, rgba(194, 161, 90, 0.05) 1px, transparent 1px),
@@ -42,7 +51,28 @@ body {
   background-size: 48px 48px, 48px 48px, 100% 100%;
 }
 
+html.cihof-viewport-locked,
+body.cihof-viewport-locked {
+  width: var(--cihof-vw, 100vw);
+  height: var(--cihof-vh, 100dvh);
+  max-width: var(--cihof-vw, 100vw);
+  max-height: var(--cihof-vh, 100dvh);
+  overflow: hidden;
+}
+
+body.cihof-viewport-locked {
+  position: fixed;
+  inset: 0;
+}
+
 body.drawer-open {
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
   overflow: hidden;
 }
 
@@ -59,15 +89,23 @@ button {
 
 .app-shell {
   width: min(1840px, calc(100% - 32px));
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
   margin: 0 auto;
   padding: 20px 0 48px;
+  overflow: hidden;
 }
 
 .museum-shell {
   width: 100%;
-  min-height: 100dvh;
+  height: var(--cihof-vh, 100dvh);
+  min-height: 0;
+  max-height: var(--cihof-vh, 100dvh);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   margin: 0;
   padding: clamp(14px, 1.7vw, 30px) clamp(14px, 2vw, 34px) calc(92px + clamp(14px, 1.7vw, 30px));
+  overflow: hidden;
   color: var(--paper);
 }
 
@@ -158,12 +196,17 @@ button {
 }
 
 .museum-stage {
-  min-height: calc(100dvh - 184px);
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding-top: clamp(10px, 1.3vw, 22px);
+  scrollbar-gutter: stable;
 }
 
 .museum-stage--all-people {
-  min-height: calc(100dvh - 164px);
+  min-height: 0;
   padding-top: 8px;
 }
 
@@ -213,9 +256,12 @@ button {
 }
 
 .kiosk-error-screen {
-  min-height: 100dvh;
+  height: var(--cihof-vh, 100dvh);
+  min-height: 0;
   display: grid;
   place-items: center;
+  overflow: auto;
+  overscroll-behavior: contain;
   padding: clamp(20px, 4vw, 72px);
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
@@ -287,7 +333,7 @@ button {
 }
 
 .portrait-wall {
-  min-height: calc(100dvh - 190px);
+  min-height: 100%;
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   gap: clamp(10px, 1.1vw, 18px);
@@ -820,7 +866,7 @@ button {
 }
 
 .touch-search {
-  min-height: calc(100dvh - 190px);
+  min-height: 100%;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: clamp(12px, 1.25vw, 22px);
@@ -1680,8 +1726,10 @@ textarea:focus,
 }
 
 .detail__panel {
-  height: 100vh;
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
   overflow: auto;
+  overscroll-behavior: contain;
   border-left: 6px solid var(--ink);
   background: var(--paper);
   color: var(--ink);
@@ -1949,6 +1997,7 @@ textarea:focus,
 }
 
 .timeline {
+  min-height: 100%;
   display: grid;
   gap: 18px;
   padding-top: 8px;
@@ -1956,7 +2005,7 @@ textarea:focus,
 }
 
 .timeline--status {
-  min-height: calc(100dvh - 176px);
+  min-height: 100%;
   place-items: center;
 }
 
@@ -3062,12 +3111,12 @@ textarea:focus,
 }
 
 .museum-stage--places {
-  min-height: calc(100dvh - 164px);
+  min-height: 0;
   padding-top: 8px;
 }
 
 .places-view {
-  min-height: calc(100dvh - 176px);
+  min-height: 100%;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: clamp(10px, 1.1vw, 18px);
@@ -3075,7 +3124,7 @@ textarea:focus,
 }
 
 .places-view--loading {
-  min-height: calc(100dvh - 176px);
+  min-height: 100%;
   place-items: center;
 }
 
@@ -3176,7 +3225,7 @@ textarea:focus,
 }
 
 .places-view__layout {
-  min-height: min(820px, calc(100dvh - 292px));
+  min-height: min(820px, calc(var(--cihof-vh, 100dvh) - 292px));
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(386px, 0.55fr);
   gap: clamp(14px, 1.3vw, 22px);
@@ -3358,7 +3407,7 @@ textarea:focus,
 
 .place-panel {
   min-width: 0;
-  max-height: min(820px, calc(100dvh - 292px));
+  max-height: min(820px, calc(var(--cihof-vh, 100dvh) - 292px));
   display: grid;
   align-content: start;
   gap: 16px;
@@ -3748,8 +3797,11 @@ textarea:focus,
   position: fixed;
   inset: 0;
   z-index: 65;
+  width: var(--cihof-vw, 100vw);
+  height: var(--cihof-vh, 100dvh);
   display: grid;
   place-items: center;
+  overflow: hidden;
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
     linear-gradient(180deg, rgba(194, 161, 90, 0.05) 1px, transparent 1px),
@@ -3791,6 +3843,8 @@ textarea:focus,
   position: fixed;
   inset: 0;
   z-index: 40;
+  width: var(--cihof-vw, 100vw);
+  height: var(--cihof-vh, 100dvh);
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
@@ -3845,12 +3899,12 @@ textarea:focus,
   position: relative;
   z-index: 2;
   width: 100%;
-  min-height: 100dvh;
+  min-height: var(--cihof-vh, 100dvh);
   display: grid;
 }
 
 .attract-panel {
-  min-height: 100dvh;
+  min-height: var(--cihof-vh, 100dvh);
   display: grid;
   gap: clamp(16px, 2vw, 34px);
   padding: clamp(22px, 3vw, 58px);
@@ -3996,7 +4050,7 @@ textarea:focus,
 .attract-featured-person__image,
 .attract-featured-person__fallback {
   width: 100%;
-  height: min(78dvh, 780px);
+  height: min(calc(var(--cihof-vh, 100dvh) * 0.78), 780px);
   display: block;
   border: 6px solid #0d0c0a;
   outline: 1px solid rgba(194, 161, 90, 0.72);
@@ -4022,7 +4076,7 @@ textarea:focus,
 .attract-place__map {
   position: relative;
   width: 100%;
-  min-height: min(68dvh, 660px);
+  min-height: min(calc(var(--cihof-vh, 100dvh) * 0.68), 660px);
   border: 1px solid rgba(194, 161, 90, 0.5);
   background:
     linear-gradient(30deg, transparent 24%, rgba(194, 161, 90, 0.12) 25% 27%, transparent 28%),
@@ -4222,8 +4276,12 @@ textarea:focus,
 
 .detail--museum {
   z-index: 50;
+  width: var(--cihof-vw, 100vw);
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
   display: block;
   overflow: auto;
+  overscroll-behavior: contain;
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
     linear-gradient(180deg, rgba(194, 161, 90, 0.05) 1px, transparent 1px),
@@ -4233,7 +4291,7 @@ textarea:focus,
 }
 
 .detail__surface {
-  min-height: 100dvh;
+  min-height: var(--cihof-vh, 100dvh);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto auto;
   gap: clamp(12px, 1.4vw, 22px);
@@ -4273,7 +4331,7 @@ textarea:focus,
 }
 
 .detail__stage {
-  min-height: min(720px, calc(100dvh - 188px));
+  min-height: min(720px, calc(var(--cihof-vh, 100dvh) - 188px));
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.75fr);
   gap: clamp(18px, 2vw, 34px);
@@ -4300,7 +4358,7 @@ textarea:focus,
 .detail__portraitImage,
 .detail__portrait .detail__heroFallback {
   width: 100%;
-  height: min(72dvh, 740px);
+  height: min(calc(var(--cihof-vh, 100dvh) * 0.72), 740px);
   min-height: 560px;
   display: block;
   object-fit: cover;
@@ -5183,7 +5241,7 @@ textarea:focus,
 
   .detail__portraitImage,
   .detail__portrait .detail__heroFallback {
-    height: min(58dvh, 620px);
+    height: min(calc(var(--cihof-vh, 100dvh) * 0.58), 620px);
     min-height: 420px;
   }
 
@@ -5359,7 +5417,7 @@ textarea:focus,
 .lightbox__image,
 .lightbox__fallback {
   width: 100%;
-  max-height: 78vh;
+  max-height: calc(var(--cihof-vh, 100dvh) * 0.78);
   border: 4px solid var(--bone);
   border-radius: 0;
   object-fit: contain;
@@ -5368,7 +5426,7 @@ textarea:focus,
 }
 
 .lightbox__fallback {
-  min-height: 52vh;
+  min-height: calc(var(--cihof-vh, 100dvh) * 0.52);
   display: grid;
   place-items: center;
   color: var(--paper);
@@ -5404,6 +5462,7 @@ textarea:focus,
 }
 
 .journey {
+  min-height: 100%;
   display: grid;
   gap: clamp(14px, 1.3vw, 22px);
   padding-top: 8px;
@@ -5675,7 +5734,7 @@ textarea:focus,
 }
 
 .journey-focus__media {
-  min-height: min(650px, calc(100dvh - 300px));
+  min-height: min(650px, calc(var(--cihof-vh, 100dvh) - 300px));
   border: 1px solid rgba(194, 161, 90, 0.42);
   background: #0f0e0c;
   overflow: hidden;
@@ -5967,10 +6026,14 @@ textarea:focus,
   position: fixed;
   inset: 0;
   z-index: 80;
+  width: var(--cihof-vw, 100vw);
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: clamp(10px, 1vw, 16px);
   overflow: auto;
+  overscroll-behavior: contain;
   background:
     linear-gradient(90deg, rgba(194, 161, 90, 0.055) 1px, transparent 1px),
     linear-gradient(180deg, rgba(194, 161, 90, 0.05) 1px, transparent 1px),
@@ -6584,7 +6647,7 @@ textarea:focus,
 }
 
 .connection-empty {
-  min-height: min(620px, 68dvh);
+  min-height: min(620px, calc(var(--cihof-vh, 100dvh) * 0.68));
   display: grid;
   align-content: center;
   justify-items: start;
@@ -7120,7 +7183,7 @@ textarea:focus,
 .portal-queue {
   position: sticky;
   top: 14px;
-  max-height: calc(100dvh - 120px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 120px);
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: 12px;
@@ -7633,7 +7696,7 @@ textarea:focus,
 .portal-relationship-queue {
   position: sticky;
   top: 14px;
-  max-height: calc(100dvh - 120px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 120px);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 12px;
