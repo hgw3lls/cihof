@@ -13,6 +13,7 @@ import { SearchView } from '../features/search/SearchView';
 import { TimelineView } from '../features/timeline/TimelineView';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import { recordKioskHealth, recordKioskInteraction, recordKioskReset, startKioskHeartbeat } from './kioskHealth';
+import { useViewportLock } from './useViewportLock';
 import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '../data/types';
 
 const defaultExploreState: ExploreState = {
@@ -48,6 +49,8 @@ type AppProps = {
 };
 
 export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
+  useViewportLock();
+
   const staffPortalEnabled = Boolean(ReviewDashboard);
   const { inductees, loading, error } = useInductees();
   const { relationships, loading: relationshipsLoading, error: relationshipsError } = useRelationships();
@@ -63,6 +66,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   const [connectionOpen, setConnectionOpen] = useState(false);
   const [connectionSeedId, setConnectionSeedId] = useState('');
   const [connectionReturnId, setConnectionReturnId] = useState('');
+  const stageRef = useRef<HTMLElement | null>(null);
   const scrollPositionRef = useRef({ left: 0, top: 0 });
   const reviewModeEnabled = staffPortalEnabled && viewMode === 'review';
   const wallDebugEnabled = staffPortalEnabled && (readParam('wallDebug') === '1' || readParam('debugWall') === '1');
@@ -202,13 +206,31 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setExploreState((current) => ({ ...current, ...nextState }));
   }
 
+  function readStageScrollPosition() {
+    const stage = stageRef.current;
+    return stage ? { left: stage.scrollLeft, top: stage.scrollTop } : { left: window.scrollX, top: window.scrollY };
+  }
+
+  function scrollStageTo(position: { left: number; top: number }) {
+    const stage = stageRef.current;
+    if (stage) {
+      stage.scrollTo({ left: position.left, top: position.top, behavior: 'auto' });
+    }
+    window.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+  }
+
+  function resetStageScroll() {
+    scrollStageTo({ left: 0, top: 0 });
+    window.requestAnimationFrame(() => scrollStageTo({ left: 0, top: 0 }));
+  }
+
   function selectInductee(inductee: Inductee) {
     recordKioskInteraction('select-person');
     stopActiveMedia();
     onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
     setAttractActive(false);
     setIdleWarningActive(false);
-    scrollPositionRef.current = { left: window.scrollX, top: window.scrollY };
+    scrollPositionRef.current = readStageScrollPosition();
     setLastSeenId(inductee.id);
     setSelectedId(inductee.id);
   }
@@ -227,6 +249,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setConnectionOpen(false);
     setConnectionSeedId('');
     setConnectionReturnId('');
+    resetStageScroll();
   }
 
   function closeDetail() {
@@ -235,7 +258,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setSelectedId('');
     setIdleWarningActive(false);
     window.requestAnimationFrame(() => {
-      window.scrollTo({ left: scrollPositionRef.current.left, top: scrollPositionRef.current.top, behavior: 'auto' });
+      scrollStageTo(scrollPositionRef.current);
     });
   }
 
@@ -249,7 +272,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setConnectionSeedId('');
     setViewMode('all-people');
     window.requestAnimationFrame(() => {
-      window.scrollTo({ left: scrollPositionRef.current.left, top: scrollPositionRef.current.top, behavior: 'auto' });
+      scrollStageTo(scrollPositionRef.current);
     });
   }
 
@@ -292,6 +315,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setAttractActive(false);
     setIdleWarningActive(false);
     setViewMode(mode);
+    window.requestAnimationFrame(() => resetStageScroll());
   }
 
   return (
@@ -326,7 +350,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
         </div>
       </header>
 
-      <section className={stageClassName}>
+      <section className={stageClassName} ref={stageRef}>
         {viewMode === 'all-people' && (
           <ExploreView
             inductees={inductees}

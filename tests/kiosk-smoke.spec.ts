@@ -16,6 +16,40 @@ test.describe('museum kiosk smoke', () => {
     expect(health.relationshipsCount).toBeGreaterThanOrEqual(0);
   });
 
+  test('locks document scroll while allowing the museum stage to scroll', async ({ page }) => {
+    await page.goto('./?kiosk=1');
+    await expect(page.locator('button.portrait-tile').first()).toBeVisible();
+
+    const lockState = await page.evaluate(() => {
+      const stage = document.querySelector<HTMLElement>('.museum-stage');
+      const bodyStyle = window.getComputedStyle(document.body);
+      const rootStyle = window.getComputedStyle(document.documentElement);
+      const stageStyle = stage ? window.getComputedStyle(stage) : null;
+
+      window.scrollTo({ left: 0, top: 500, behavior: 'auto' });
+      stage?.scrollTo({ left: 0, top: 500, behavior: 'auto' });
+
+      return {
+        bodyOverflow: bodyStyle.overflow,
+        rootOverflow: rootStyle.overflow,
+        stageOverflowY: stageStyle?.overflowY ?? '',
+        stageScrollTop: stage?.scrollTop ?? 0,
+        viewportHeight: document.documentElement.style.getPropertyValue('--cihof-vh'),
+        windowScrollY: window.scrollY,
+      };
+    });
+
+    expect(lockState.bodyOverflow).toBe('hidden');
+    expect(lockState.rootOverflow).toBe('hidden');
+    expect(lockState.stageOverflowY).toMatch(/auto|scroll/);
+    expect(lockState.viewportHeight).toMatch(/px$/);
+    expect(lockState.windowScrollY).toBe(0);
+    expect(lockState.stageScrollTop).toBeGreaterThan(0);
+
+    await page.getByRole('button', { name: 'Reset' }).click();
+    await expect.poll(() => page.evaluate(() => document.querySelector<HTMLElement>('.museum-stage')?.scrollTop ?? -1)).toBe(0);
+  });
+
   test('keeps bottom navigation usable across primary views', async ({ page }) => {
     await page.goto('./');
 
