@@ -25,6 +25,21 @@ type ExploreViewProps = {
   onFindConnection: () => void;
 };
 
+type StoryLens = {
+  id: string;
+  label: string;
+  prompt: string;
+  description: string;
+  terms: string[];
+  themes: string[];
+};
+
+type LensMatch = {
+  inductee: Inductee;
+  score: number;
+  reasons: string[];
+};
+
 export function ExploreView({
   inductees,
   filtered,
@@ -42,9 +57,20 @@ export function ExploreView({
 }: ExploreViewProps) {
   const [toolsOpen, setToolsOpen] = useState(() => toolsDefaultOpen || hasActiveFilters(state));
   const [discoveryOffset, setDiscoveryOffset] = useState(0);
+  const [activeLensId, setActiveLensId] = useState('');
   const visibleThemes = facets.themes.slice(0, 14);
   const activeFilterCount = getActiveFilters(state, onStateChange).length;
-  const discoveryPool = filtered.length > 1 ? filtered : inductees;
+  const activeLens = storyLenses.find((lens) => lens.id === activeLensId) ?? null;
+  const lensMatches = useMemo(
+    () => activeLens ? rankLensMatches(filtered, activeLens) : [],
+    [activeLens, filtered],
+  );
+  const lensMatchById = useMemo(
+    () => new Map(lensMatches.map((match) => [match.inductee.id, match])),
+    [lensMatches],
+  );
+  const wallPeople = activeLens ? lensMatches.map((match) => match.inductee) : filtered;
+  const discoveryPool = wallPeople.length > 1 ? wallPeople : filtered.length > 1 ? filtered : inductees;
   const discoveryTarget = useMemo(
     () => pickDifferentInductee(discoveryPool, currentInductee, discoveryOffset),
     [currentInductee, discoveryOffset, discoveryPool],
@@ -72,7 +98,7 @@ export function ExploreView({
           <div className="portrait-wall__count" aria-live="polite">
             {loading && 'Loading'}
             {error && 'Data error'}
-            {!loading && !error && `${filtered.length} of ${inductees.length} portraits`}
+            {!loading && !error && `${wallPeople.length} of ${inductees.length} portraits`}
           </div>
 
           <button
@@ -103,6 +129,14 @@ export function ExploreView({
           </button>
         </div>
       </div>
+
+      <StoryLensControls
+        activeLens={activeLens}
+        lensMatches={lensMatches}
+        onClearLens={() => setActiveLensId('')}
+        onSelectLens={(lensId) => setActiveLensId((current) => current === lensId ? '' : lensId)}
+        onSelectPerson={onSelect}
+      />
 
       {toolsOpen && (
         <div className="portrait-wall__tools" id="all-people-tools" aria-label="Search and filters">
@@ -210,11 +244,16 @@ export function ExploreView({
       <div className={state.sortMode === 'physical-wall' ? 'portrait-wall__grid portrait-wall__grid--physical' : 'portrait-wall__grid'} aria-label="Portraits">
         {loading && <PortraitPlaceholders />}
         {!loading && error && <div className="portrait-wall__empty">Data error: {error}</div>}
-        {!loading && !error && filtered.length === 0 && <div className="portrait-wall__empty">No portraits match the current filters.</div>}
-        {!loading && !error && filtered.map((inductee) => (
+        {!loading && !error && wallPeople.length === 0 && (
+          <div className="portrait-wall__empty">
+            {activeLens ? 'No portraits match this story lens and the current filters.' : 'No portraits match the current filters.'}
+          </div>
+        )}
+        {!loading && !error && wallPeople.map((inductee) => (
           <PortraitTile
             inductee={inductee}
             key={inductee.id}
+            lensMatch={lensMatchById.get(inductee.id)}
             selected={selectedId === inductee.id}
             wallDebug={wallDebug}
             onSelect={onSelect}
@@ -231,13 +270,140 @@ const mediaOptions: Array<{ value: MediaFilter; label: string }> = [
   { value: 'with-gallery', label: 'Image gallery' },
 ];
 
+const maxLensPortraits = 48;
+
+const storyLenses: StoryLens[] = [
+  {
+    id: 'built-cleveland',
+    label: 'Built Cleveland',
+    prompt: 'Who Built Cleveland?',
+    description: 'Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.',
+    terms: ['founder', 'founded', 'business', 'company', 'entrepreneur', 'institution', 'developer', 'board', 'foundation', 'philanthropy'],
+    themes: ['business', 'entrepreneurship', 'civic leadership', 'philanthropy'],
+  },
+  {
+    id: 'helped-arrive',
+    label: 'Helped New Arrivals',
+    prompt: 'Who Helped People Arrive?',
+    description: 'People connected to immigration, resettlement, welcome work, citizenship, and services for new Clevelanders.',
+    terms: ['immigrant', 'immigration', 'refugee', 'resettlement', 'new arrival', 'citizenship', 'english', 'liaison', 'welcoming', 'arrival'],
+    themes: ['immigrant advocacy', 'social service'],
+  },
+  {
+    id: 'kept-cultures',
+    label: 'Kept Cultures Alive',
+    prompt: 'Who Kept Cultures Alive?',
+    description: 'Artists, organizers, educators, and cultural stewards who carried traditions forward.',
+    terms: ['culture', 'cultural', 'heritage', 'language', 'festival', 'garden', 'tradition', 'folk', 'dance', 'music', 'arts'],
+    themes: ['arts and culture', 'heritage'],
+  },
+  {
+    id: 'changed-city',
+    label: 'Changed The City',
+    prompt: 'Who Changed The City?',
+    description: 'Public servants, advocates, organizers, and leaders whose work changed civic life.',
+    terms: ['justice', 'rights', 'advocate', 'advocacy', 'campaign', 'council', 'mayor', 'public service', 'reform', 'commission'],
+    themes: ['civic leadership', 'justice', 'advocacy', 'public service'],
+  },
+  {
+    id: 'made-art',
+    label: 'Made Art',
+    prompt: 'Who Made Art?',
+    description: 'Artists, musicians, writers, performers, and storytellers across Cleveland communities.',
+    terms: ['art', 'artist', 'music', 'musician', 'orchestra', 'opera', 'theater', 'theatre', 'dance', 'writer', 'poet', 'film', 'media'],
+    themes: ['arts and culture', 'media', 'storytelling'],
+  },
+  {
+    id: 'cared-for-city',
+    label: 'Cared For Cleveland',
+    prompt: 'Who Cared For Cleveland?',
+    description: 'Doctors, nurses, health leaders, social-service organizers, and people whose work centered care.',
+    terms: ['doctor', 'physician', 'hospital', 'clinic', 'health', 'medicine', 'medical', 'nurse', 'patient'],
+    themes: ['medicine and health', 'social service', 'public safety'],
+  },
+];
+
+function StoryLensControls({
+  activeLens,
+  lensMatches,
+  onClearLens,
+  onSelectLens,
+  onSelectPerson,
+}: {
+  activeLens: StoryLens | null;
+  lensMatches: LensMatch[];
+  onClearLens: () => void;
+  onSelectLens: (lensId: string) => void;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  const featuredMatches = lensMatches.slice(0, 5);
+  const themeSummary = topLensThemes(lensMatches);
+
+  return (
+    <section className="story-lenses" aria-label="Story lenses">
+      <div className="story-lenses__header">
+        <p className="museum-kicker">Story Lenses</p>
+        <div className="story-lenses__rail">
+          {storyLenses.map((lens) => (
+            <button
+              aria-pressed={activeLens?.id === lens.id}
+              className={activeLens?.id === lens.id ? 'story-lens-button story-lens-button--active' : 'story-lens-button'}
+              key={lens.id}
+              type="button"
+              onClick={() => onSelectLens(lens.id)}
+            >
+              <span>{lens.prompt}</span>
+              <strong>{lens.label}</strong>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {activeLens && (
+        <div className="story-lens-focus">
+          <div className="story-lens-focus__copy">
+            <p className="museum-kicker">Now Showing</p>
+            <h3>{activeLens.prompt}</h3>
+            <p>{activeLens.description}</p>
+          </div>
+          <div className="story-lens-focus__meta" aria-live="polite">
+            <span>{lensMatches.length} portraits</span>
+            {themeSummary && <span>{themeSummary}</span>}
+          </div>
+          {featuredMatches.length > 0 && (
+            <div className="story-lens-focus__portraits" aria-label={`${activeLens.label} featured portraits`}>
+              {featuredMatches.map((match) => (
+                <button key={match.inductee.id} type="button" onClick={() => onSelectPerson(match.inductee)}>
+                  <FallbackImage
+                    alt={match.inductee.imageAltText}
+                    className="story-lens-focus__image"
+                    fallbackClassName="story-lens-focus__fallback"
+                    fallbackLabel={initials(match.inductee.name)}
+                    src={match.inductee.primaryImageUrl}
+                  />
+                  <span>{match.inductee.name}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          <button className="story-lens-focus__clear" type="button" onClick={onClearLens}>
+            Clear Lens
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function PortraitTile({
   inductee,
+  lensMatch,
   selected,
   wallDebug,
   onSelect,
 }: {
   inductee: Inductee;
+  lensMatch?: LensMatch;
   selected: boolean;
   wallDebug: boolean;
   onSelect: (inductee: Inductee) => void;
@@ -247,6 +413,7 @@ function PortraitTile({
     'portrait-tile',
     selected ? 'portrait-tile--selected' : '',
     inductee.featured || inductee.featuredCandidate ? 'portrait-tile--featured' : '',
+    lensMatch ? 'portrait-tile--lens-match' : '',
     hasWallMetadata(inductee) ? 'portrait-tile--wall-mapped' : '',
   ].filter(Boolean).join(' ');
 
@@ -271,6 +438,7 @@ function PortraitTile({
         <strong>{inductee.name}</strong>
         <span className="portrait-tile__year">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</span>
         {placeLabel && <span className="portrait-tile__community">{placeLabel}</span>}
+        {lensMatch?.reasons[0] && <span className="portrait-tile__lens-reason">{lensMatch.reasons[0]}</span>}
       </span>
     </button>
   );
@@ -385,6 +553,81 @@ function hasWallMetadata(inductee: Inductee) {
 
 function formatCoordinate(value: number) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function rankLensMatches(inductees: Inductee[], lens: StoryLens): LensMatch[] {
+  return inductees
+    .map((inductee) => scoreLensMatch(inductee, lens))
+    .filter((match) => match.score >= 12)
+    .sort((a, b) => b.score - a.score || discoveryDefaultSort(a.inductee, b.inductee) || a.inductee.name.localeCompare(b.inductee.name))
+    .slice(0, maxLensPortraits);
+}
+
+function scoreLensMatch(inductee: Inductee, lens: StoryLens): LensMatch {
+  const text = [
+    inductee.name,
+    inductee.inductedBy,
+    inductee.bioText,
+    inductee.storySummary,
+    inductee.storyHighlights.join(' '),
+    inductee.themeTags.join(' '),
+    inductee.communityTags.join(' '),
+    inductee.countryTags.join(' '),
+    inductee.searchText,
+  ].join(' ').toLowerCase();
+  const normalizedThemes = inductee.themeTags.map((theme) => theme.toLowerCase());
+  const reasons: string[] = [];
+  let score = 0;
+  let themeHits = 0;
+  let termHits = 0;
+
+  for (const themeTerm of lens.themes) {
+    const matchedTheme = normalizedThemes.find((theme) => theme.includes(themeTerm));
+    if (matchedTheme) {
+      themeHits += 1;
+      score += 28;
+      const originalTheme = inductee.themeTags[normalizedThemes.indexOf(matchedTheme)];
+      if (originalTheme && !reasons.includes(originalTheme)) reasons.push(originalTheme);
+    }
+  }
+
+  for (const term of lens.terms) {
+    if (text.includes(term.toLowerCase())) {
+      termHits += 1;
+      score += term.length > 8 ? 8 : 5;
+    }
+  }
+
+  if (themeHits === 0 && termHits < 2) score = 0;
+  if (inductee.featured) score += 5;
+  if (inductee.featuredCandidate) score += 3;
+  if (inductee.hasVideo) score += 1;
+
+  if (score > 0 && reasons.length === 0) {
+    const label = countryCommunityOrRegionLabel(inductee);
+    reasons.push(label ? `Story match: ${label}` : 'Story match');
+  }
+
+  return {
+    inductee,
+    score,
+    reasons: reasons.slice(0, 2),
+  };
+}
+
+function topLensThemes(matches: LensMatch[]) {
+  const counts = new Map<string, number>();
+  for (const match of matches) {
+    for (const theme of match.inductee.themeTags) {
+      counts.set(theme, (counts.get(theme) ?? 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 2)
+    .map(([theme]) => theme)
+    .join(' / ');
 }
 
 function pickDifferentInductee(pool: Inductee[], current: Inductee | null, offset: number) {
