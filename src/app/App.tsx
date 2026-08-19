@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactElement } from 'react';
 import { allValue, filterInductees } from '../data/filtering';
 import { useDataFacets, useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
@@ -8,7 +9,6 @@ import { ExploreView } from '../features/explore/ExploreView';
 import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
 import { JourneyView } from '../features/journeys/JourneyView';
 import { PlacesView } from '../features/places/PlacesView';
-import { ReviewDashboardView } from '../features/review-dashboard/ReviewDashboardView';
 import { SearchView } from '../features/search/SearchView';
 import { TimelineView } from '../features/timeline/TimelineView';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
@@ -27,6 +27,7 @@ const defaultExploreState: ExploreState = {
 const kioskIdleMs = 120_000;
 const kioskResetWarningMs = 12_000;
 const contentProtectionActive = import.meta.env.PROD;
+const showKioskToggleInProduction = import.meta.env.VITE_CIHOF_SHOW_KIOSK_TOGGLE === '1';
 const primaryNavItems: Array<{ mode: ViewMode; label: string }> = [
   { mode: 'all-people', label: 'All People' },
   { mode: 'time', label: 'Time' },
@@ -35,11 +36,22 @@ const primaryNavItems: Array<{ mode: ViewMode; label: string }> = [
   { mode: 'search', label: 'Search' },
 ];
 
-export function App() {
+type ReviewDashboardProps = {
+  inductees: Inductee[];
+  onSelect: (inductee: Inductee) => void;
+};
+
+type AppProps = {
+  defaultView?: ViewMode;
+  ReviewDashboard?: (props: ReviewDashboardProps) => ReactElement;
+};
+
+export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
+  const staffPortalEnabled = Boolean(ReviewDashboard);
   const { inductees, loading, error } = useInductees();
   const { relationships } = useRelationships();
   const facets = useDataFacets(inductees);
-  const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode());
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(staffPortalEnabled, defaultView));
   const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
   const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
@@ -51,8 +63,9 @@ export function App() {
   const [connectionSeedId, setConnectionSeedId] = useState('');
   const [connectionReturnId, setConnectionReturnId] = useState('');
   const scrollPositionRef = useRef({ left: 0, top: 0 });
-  const reviewModeEnabled = readParam('review') === '1';
-  const wallDebugEnabled = readParam('wallDebug') === '1' || readParam('debugWall') === '1';
+  const reviewModeEnabled = staffPortalEnabled && viewMode === 'review';
+  const wallDebugEnabled = staffPortalEnabled && (readParam('wallDebug') === '1' || readParam('debugWall') === '1');
+  const kioskToggleVisible = staffPortalEnabled || !contentProtectionActive || showKioskToggleInProduction;
   const shellClassName = [
     'app-shell',
     'museum-shell',
@@ -98,7 +111,10 @@ export function App() {
     if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
     if (selectedId) params.set('person', selectedId);
     if (kioskMode) params.set('kiosk', '1');
-    if (reviewModeEnabled) params.set('review', '1');
+    if (reviewModeEnabled) {
+      params.set('view', 'review');
+      params.set('review', '1');
+    }
     if (wallDebugEnabled) params.set('wallDebug', '1');
 
     const query = params.toString();
@@ -245,9 +261,11 @@ export function App() {
           {wallDebugEnabled && <span>Wall Debug</span>}
         </div>
         <div className="museum-utilities">
-          <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
-            Kiosk {kioskMode ? 'On' : 'Off'}
-          </button>
+          {kioskToggleVisible && (
+            <button className={kioskMode ? 'kiosk-button kiosk-button--active' : 'kiosk-button'} type="button" onClick={() => setKioskMode((value) => !value)}>
+              Kiosk {kioskMode ? 'On' : 'Off'}
+            </button>
+          )}
           <button className="home-button" type="button" onClick={resetExperience}>
             Reset
           </button>
@@ -301,7 +319,7 @@ export function App() {
 
         {viewMode === 'journeys' && <JourneyView inductees={inductees} onSelect={selectInductee} />}
 
-        {viewMode === 'review' && reviewModeEnabled && <ReviewDashboardView inductees={inductees} onSelect={selectInductee} />}
+        {reviewModeEnabled && ReviewDashboard && <ReviewDashboard inductees={inductees} onSelect={selectInductee} />}
       </section>
 
       {viewMode !== 'review' && (
@@ -415,14 +433,16 @@ function readParam(name: string) {
   return new URLSearchParams(window.location.search).get(name) ?? '';
 }
 
-function readViewMode(): ViewMode {
+function readViewMode(allowReview: boolean, defaultView: ViewMode): ViewMode {
   const view = readParam('view');
-  if (view === 'review' && readParam('review') === '1') return view;
+  if (allowReview && defaultView === 'review' && !view) return 'review';
+  if (allowReview && view === 'review' && readParam('review') === '1') return view;
+  if (view === 'all-people' || view === 'people') return 'all-people';
   if (view === 'time' || view === 'timeline') return 'time';
   if (view === 'places' || view === 'region-map') return 'places';
   if (view === 'journeys') return 'journeys';
   if (view === 'search' || view === 'explore') return 'search';
-  return 'all-people';
+  return defaultView === 'review' && !allowReview ? 'all-people' : defaultView;
 }
 
 function readExploreState(): ExploreState {
