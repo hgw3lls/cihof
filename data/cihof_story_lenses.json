@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-19T00:00:00.000Z",
+  "source": {
+    "name": "CIHOF story lenses",
+    "note": "Curator-editable interpretive prompts for arranging the All People portrait wall."
+  },
+  "lenses": [
+    {
+      "id": "built-cleveland",
+      "label": "Built Cleveland",
+      "prompt": "Who Built Cleveland?",
+      "description": "Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.",
+      "terms": [
+        "founder",
+        "founded",
+        "business",
+        "company",
+        "entrepreneur",
+        "institution",
+        "developer",
+        "board",
+        "foundation",
+        "philanthropy"
+      ],
+      "themes": [
+        "business",
+        "entrepreneurship",
+        "civic leadership",
+        "philanthropy"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    },
+    {
+      "id": "helped-arrive",
+      "label": "Helped New Arrivals",
+      "prompt": "Who Helped People Arrive?",
+      "description": "People connected to immigration, resettlement, welcome work, citizenship, and services for new Clevelanders.",
+      "terms": [
+        "immigrant",
+        "immigration",
+        "refugee",
+        "resettlement",
+        "new arrival",
+        "citizenship",
+        "english",
+        "liaison",
+        "welcoming",
+        "arrival"
+      ],
+      "themes": [
+        "immigrant advocacy",
+        "social service"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    },
+    {
+      "id": "kept-cultures",
+      "label": "Kept Cultures Alive",
+      "prompt": "Who Kept Cultures Alive?",
+      "description": "Artists, organizers, educators, and cultural stewards who carried traditions forward.",
+      "terms": [
+        "culture",
+        "cultural",
+        "heritage",
+        "language",
+        "festival",
+        "garden",
+        "tradition",
+        "folk",
+        "dance",
+        "music",
+        "arts"
+      ],
+      "themes": [
+        "arts and culture",
+        "heritage"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    },
+    {
+      "id": "changed-city",
+      "label": "Changed The City",
+      "prompt": "Who Changed The City?",
+      "description": "Public servants, advocates, organizers, and leaders whose work changed civic life.",
+      "terms": [
+        "justice",
+        "rights",
+        "advocate",
+        "advocacy",
+        "campaign",
+        "council",
+        "mayor",
+        "public service",
+        "reform",
+        "commission"
+      ],
+      "themes": [
+        "civic leadership",
+        "justice",
+        "advocacy",
+        "public service"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    },
+    {
+      "id": "made-art",
+      "label": "Made Art",
+      "prompt": "Who Made Art?",
+      "description": "Artists, musicians, writers, performers, and storytellers across Cleveland communities.",
+      "terms": [
+        "art",
+        "artist",
+        "music",
+        "musician",
+        "orchestra",
+        "opera",
+        "theater",
+        "theatre",
+        "dance",
+        "writer",
+        "poet",
+        "film",
+        "media"
+      ],
+      "themes": [
+        "arts and culture",
+        "media",
+        "storytelling"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    },
+    {
+      "id": "cared-for-city",
+      "label": "Cared For Cleveland",
+      "prompt": "Who Cared For Cleveland?",
+      "description": "Doctors, nurses, health leaders, social-service organizers, and people whose work centered care.",
+      "terms": [
+        "doctor",
+        "physician",
+        "hospital",
+        "clinic",
+        "health",
+        "medicine",
+        "medical",
+        "nurse",
+        "patient"
+      ],
+      "themes": [
+        "medicine and health",
+        "social service",
+        "public safety"
+      ],
+      "maxPortraits": 48,
+      "enabled": true
+    }
+  ]
+}

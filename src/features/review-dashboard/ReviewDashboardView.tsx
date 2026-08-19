@@ -1,6 +1,6 @@
 import { ChangeEvent, MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
-import type { Inductee } from '../../data/types';
+import type { Inductee, StoryLensConfig, StoryLensDocument } from '../../data/types';
 
 type CountEntry = {
   [key: string]: string | number;
@@ -147,7 +147,7 @@ type QueueMode =
   | 'video-captions'
   | 'accessibility'
   | 'featured';
-type PortalTab = 'workbench' | 'readiness' | 'exports';
+type PortalTab = 'workbench' | 'lenses' | 'readiness' | 'exports';
 
 type ReviewDraft = {
   id: string;
@@ -233,6 +233,18 @@ type RunnerState = {
   refresh: () => Promise<void>;
   runScript: (scriptId: string) => Promise<RunnerJob | null>;
   applyDecisions: (csv: string, dryRun: boolean) => Promise<RunnerJob | null>;
+  saveStoryLenses: (document: StoryLensDocument) => Promise<StoryLensDocument | null>;
+};
+
+type StoryLensEditorState = {
+  document: StoryLensDocument | null;
+  draft: StoryLensDocument | null;
+  loading: boolean;
+  error: string;
+  isDirty: boolean;
+  setDraft: (document: StoryLensDocument) => void;
+  refresh: () => Promise<void>;
+  acceptSavedDocument: (document: StoryLensDocument) => void;
 };
 
 type ReviewDashboardViewProps = {
@@ -246,12 +258,14 @@ const reportUrls = {
   curation: `${import.meta.env.BASE_URL}data/curation-report.json`,
   media: `${import.meta.env.BASE_URL}data/media-report.json`,
   manifest: `${import.meta.env.BASE_URL}data/media-manifest.json`,
+  storyLenses: `${import.meta.env.BASE_URL}data/story-lenses.json`,
 };
 const portalRunnerBaseUrl = 'http://127.0.0.1:5174';
 
 export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardViewProps) {
   const reports = useReviewReports();
   const runner = usePortalRunner();
+  const storyLensState = useStoryLensDocument();
   const [query, setQuery] = useState('');
   const [queue, setQueue] = useState<QueueMode>('high');
   const [tab, setTab] = useState<PortalTab>('workbench');
@@ -289,6 +303,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const draftIssues = useMemo(() => {
     return editedRows.flatMap((inductee) => getDraftIssues(inductee, drafts[inductee.id], reports.manifest?.assets?.[inductee.id]));
   }, [drafts, editedRows, reports.manifest]);
+  const storyLensCount = storyLensState.draft?.lenses.length ?? storyLensState.document?.lenses.length ?? 0;
 
   useEffect(() => {
     setStorageState(persistDrafts(drafts));
@@ -430,11 +445,13 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           <StatusPill label="Curation" value={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} tone={(reports.curation?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'ok'} />
           <StatusPill label="Media" value={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} tone={(reports.media?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'warn'} />
           <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
+          <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
           <StatusPill label="Kiosk Ready" value={summary.kioskReady ? 'Yes' : 'No'} tone={summary.kioskReady ? 'ok' : 'bad'} />
         </div>
       </div>
 
       {reports.error && <div className="review-dashboard__alert">Report load error: {reports.error}</div>}
+      {storyLensState.error && <div className="review-dashboard__alert">Story lens load warning: {storyLensState.error}</div>}
       {reports.loading && <div className="review-dashboard__alert">Loading review reports...</div>}
       {!storageState.ok && <div className="review-dashboard__alert">Draft save warning: {storageState.message}</div>}
       {portalNotice && (
@@ -446,6 +463,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
 
       <div className="portal-tabs" aria-label="Portal sections">
         <button className={tab === 'workbench' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('workbench')}>Workbench</button>
+        <button className={tab === 'lenses' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('lenses')}>Story Lenses {storyLensState.isDirty ? '*' : ''}</button>
         <button className={tab === 'readiness' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('readiness')}>Readiness</button>
         <button className={tab === 'exports' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('exports')}>Exports {draftCount > 0 ? `(${draftCount})` : ''}</button>
       </div>
@@ -540,6 +558,14 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         </div>
       )}
 
+      {tab === 'lenses' && (
+        <StoryLensEditor
+          runner={runner}
+          state={storyLensState}
+          onNotice={setPortalNotice}
+        />
+      )}
+
       {tab === 'readiness' && (
         <ReadinessPanel
           drafts={drafts}
@@ -572,6 +598,198 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           onExportVisibleCsv={() => downloadReviewQueue(visibleRows, reports.curation, reports.media, reports.manifest, drafts, queue)}
         />
       )}
+    </section>
+  );
+}
+
+function StoryLensEditor({
+  state,
+  runner,
+  onNotice,
+}: {
+  state: StoryLensEditorState;
+  runner: RunnerState;
+  onNotice: (message: string) => void;
+}) {
+  const draft = state.draft ?? emptyStoryLensDocument();
+  const issues = getStoryLensDraftIssues(draft);
+  const blockingIssues = issues.filter((issue) => issue.severity === 'error');
+
+  function patchLens(index: number, patch: Partial<StoryLensConfig>) {
+    state.setDraft(normalizeStoryLensDocument({
+      ...draft,
+      lenses: draft.lenses.map((lens, lensIndex) => lensIndex === index ? { ...lens, ...patch } : lens),
+    }));
+  }
+
+  function addLens() {
+    state.setDraft(normalizeStoryLensDocument({
+      ...draft,
+      lenses: [
+        ...draft.lenses,
+        {
+          id: uniqueLensId(draft.lenses, 'new-story-lens'),
+          label: 'New Story Lens',
+          prompt: 'Who Should Visitors Meet?',
+          description: 'Curator-written prompt description for this interpretive grouping.',
+          terms: ['community'],
+          themes: [],
+          maxPortraits: 36,
+          enabled: false,
+        },
+      ],
+    }));
+  }
+
+  function duplicateLens(index: number) {
+    const source = draft.lenses[index];
+    if (!source) return;
+    state.setDraft(normalizeStoryLensDocument({
+      ...draft,
+      lenses: [
+        ...draft.lenses.slice(0, index + 1),
+        {
+          ...source,
+          id: uniqueLensId(draft.lenses, `${source.id}-copy`),
+          label: `${source.label} Copy`,
+          enabled: false,
+        },
+        ...draft.lenses.slice(index + 1),
+      ],
+    }));
+  }
+
+  function removeLens(index: number) {
+    const lens = draft.lenses[index];
+    if (!lens) return;
+    if (!window.confirm(`Remove "${lens.label}" from the Story Lens draft?`)) return;
+    state.setDraft(normalizeStoryLensDocument({
+      ...draft,
+      lenses: draft.lenses.filter((_, lensIndex) => lensIndex !== index),
+    }));
+  }
+
+  function moveLens(index: number, direction: -1 | 1) {
+    const nextIndex = index + direction;
+    if (nextIndex < 0 || nextIndex >= draft.lenses.length) return;
+    const lenses = [...draft.lenses];
+    const [lens] = lenses.splice(index, 1);
+    lenses.splice(nextIndex, 0, lens);
+    state.setDraft({ ...draft, lenses });
+  }
+
+  async function saveStoryLenses() {
+    if (!runner.available) {
+      window.alert('Start the local portal runner first: npm run portal:server');
+      return;
+    }
+    if (blockingIssues.length > 0) {
+      window.alert(`Fix ${blockingIssues.length} Story Lens issue${blockingIssues.length === 1 ? '' : 's'} before saving.`);
+      return;
+    }
+    if (!window.confirm(`Save ${draft.lenses.length} Story Lens records to the repo and runtime data?`)) return;
+    const savedDocument = await runner.saveStoryLenses(draft);
+    if (savedDocument) {
+      state.acceptSavedDocument(savedDocument);
+      onNotice(`Saved ${savedDocument.lenses.length} Story Lens records.`);
+    }
+  }
+
+  function exportStoryLenses() {
+    downloadJson(draft, `cihof-story-lenses-${dateStamp()}.json`);
+    onNotice(`Exported ${draft.lenses.length} Story Lens records as JSON.`);
+  }
+
+  return (
+    <section className="portal-lenses" aria-label="Story Lens editor">
+      <div className="portal-readiness__intro portal-lenses__intro">
+        <div>
+          <p className="eyebrow">Story Lenses</p>
+          <h3>Curate the portrait wall questions</h3>
+          <p>These records control the large interpretive prompts on All People.</p>
+        </div>
+        <div className="portal-lenses__actions">
+          <button type="button" onClick={addLens}>Add Lens</button>
+          <button disabled={!state.isDirty} type="button" onClick={() => state.setDraft(state.document ?? emptyStoryLensDocument())}>Reset Draft</button>
+          <button type="button" onClick={() => void state.refresh()}>{state.loading ? 'Loading' : 'Reload JSON'}</button>
+          <button type="button" onClick={exportStoryLenses}>Export JSON</button>
+          <button disabled={!runner.available || !state.isDirty || blockingIssues.length > 0} type="button" onClick={() => void saveStoryLenses()}>Save To Repo</button>
+        </div>
+      </div>
+
+      {issues.length > 0 && (
+        <div className="portal-validation" aria-label="Story Lens validation">
+          <strong>Story Lens validation</strong>
+          {issues.map((issue) => (
+            <span className={`portal-validation__item portal-validation__item--${issue.severity}`} key={issue.message}>
+              {issue.message}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="portal-lenses__summary">
+        <MetricCard label="Lens Records" value={draft.lenses.length} detail={`${draft.lenses.filter((lens) => lens.enabled !== false).length} enabled`} />
+        <MetricCard label="Terms" value={draft.lenses.reduce((count, lens) => count + lens.terms.length, 0)} detail="keyword signals" />
+        <MetricCard label="Themes" value={draft.lenses.reduce((count, lens) => count + lens.themes.length, 0)} detail="metadata signals" />
+        <MetricCard label="Warnings" value={issues.length} detail={`${blockingIssues.length} blocking`} />
+      </div>
+
+      <div className="portal-lens-list" aria-label="Editable Story Lenses">
+        {draft.lenses.map((lens, index) => (
+          <article className={lens.enabled === false ? 'portal-lens-card portal-lens-card--disabled' : 'portal-lens-card'} key={`${lens.id}-${index}`}>
+            <header className="portal-lens-card__header">
+              <div>
+                <span>Lens {index + 1}</span>
+                <strong>{lens.prompt || 'Untitled lens'}</strong>
+              </div>
+              <label className="portal-check portal-check--compact">
+                <input checked={lens.enabled !== false} onChange={(event) => patchLens(index, { enabled: event.target.checked })} type="checkbox" />
+                <span>Enabled</span>
+              </label>
+            </header>
+
+            <div className="portal-lens-card__grid">
+              <label className="field">
+                <span>ID</span>
+                <input value={lens.id} onChange={(event) => patchLens(index, { id: slugifyLensId(event.target.value) })} />
+              </label>
+              <label className="field">
+                <span>Short label</span>
+                <input value={lens.label} onChange={(event) => patchLens(index, { label: event.target.value })} />
+              </label>
+              <label className="field">
+                <span>Max portraits</span>
+                <input min="12" max="96" type="number" value={lens.maxPortraits ?? 48} onChange={(event) => patchLens(index, { maxPortraits: Number(event.target.value) })} />
+              </label>
+              <label className="field portal-lens-card__wide">
+                <span>Prompt</span>
+                <input value={lens.prompt} onChange={(event) => patchLens(index, { prompt: event.target.value })} />
+              </label>
+              <label className="field portal-lens-card__wide">
+                <span>Description</span>
+                <textarea value={lens.description} onChange={(event) => patchLens(index, { description: event.target.value })} rows={3} />
+              </label>
+              <label className="field">
+                <span>Keyword terms</span>
+                <textarea value={joinList(lens.terms)} onChange={(event) => patchLens(index, { terms: parseListInput(event.target.value) })} rows={7} />
+              </label>
+              <label className="field">
+                <span>Theme signals</span>
+                <textarea value={joinList(lens.themes)} onChange={(event) => patchLens(index, { themes: parseListInput(event.target.value) })} rows={7} />
+              </label>
+            </div>
+
+            <footer className="portal-lens-card__actions">
+              <button disabled={index === 0} type="button" onClick={() => moveLens(index, -1)}>Move Up</button>
+              <button disabled={index === draft.lenses.length - 1} type="button" onClick={() => moveLens(index, 1)}>Move Down</button>
+              <button type="button" onClick={() => duplicateLens(index)}>Duplicate</button>
+              <button type="button" onClick={() => removeLens(index)}>Remove</button>
+            </footer>
+          </article>
+        ))}
+        {draft.lenses.length === 0 && <div className="portal-empty-state">No Story Lenses are defined.</div>}
+      </div>
     </section>
   );
 }
@@ -1069,6 +1287,45 @@ function useReviewReports(): ReportState {
   return state;
 }
 
+function useStoryLensDocument(): StoryLensEditorState {
+  const [document, setDocument] = useState<StoryLensDocument | null>(null);
+  const [draft, setDraft] = useState<StoryLensDocument | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const isDirty = useMemo(() => JSON.stringify(document) !== JSON.stringify(draft), [document, draft]);
+
+  async function refresh() {
+    setLoading(true);
+    try {
+      const payload = await fetchJson<StoryLensDocument>(reportUrls.storyLenses);
+      const normalized = normalizeStoryLensDocument(payload);
+      setDocument(normalized);
+      setDraft(normalized);
+      setError('');
+    } catch (errorValue) {
+      const fallback = emptyStoryLensDocument();
+      setDocument(fallback);
+      setDraft(fallback);
+      setError(errorValue instanceof Error ? errorValue.message : 'Could not load Story Lens JSON.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function acceptSavedDocument(savedDocument: StoryLensDocument) {
+    const normalized = normalizeStoryLensDocument(savedDocument);
+    setDocument(normalized);
+    setDraft(normalized);
+    setError('');
+  }
+
+  useEffect(() => {
+    void refresh();
+  }, []);
+
+  return { document, draft, loading, error, isDirty, setDraft, refresh, acceptSavedDocument };
+}
+
 function usePortalRunner(): RunnerState {
   const [available, setAvailable] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -1122,6 +1379,17 @@ function usePortalRunner(): RunnerState {
     }
   }
 
+  async function saveStoryLenses(document: StoryLensDocument) {
+    try {
+      const payload = await postRunner<{ document: StoryLensDocument }>('/api/story-lenses', { document });
+      await refresh();
+      return normalizeStoryLensDocument(payload.document);
+    } catch (errorValue) {
+      setError(errorValue instanceof Error ? errorValue.message : 'Could not save Story Lens JSON.');
+      return null;
+    }
+  }
+
   useEffect(() => {
     void refresh();
   }, []);
@@ -1133,7 +1401,7 @@ function usePortalRunner(): RunnerState {
     return () => window.clearInterval(interval);
   }, [activeJob?.id, activeJob?.status]);
 
-  return { available, checking, error, scripts, jobs, activeJob, refresh, runScript, applyDecisions };
+  return { available, checking, error, scripts, jobs, activeJob, refresh, runScript, applyDecisions, saveStoryLenses };
 }
 
 function fetchJson<T>(url: string): Promise<T> {
@@ -1390,6 +1658,78 @@ function getReviewNeeds(inductee: Inductee, curation: CurationReport | null, med
   if (!accessibilityApproved && hasId(curation?.accessibility?.imageDescriptionReviewNeeded, inductee.id)) needs.push('Image description review');
 
   return Array.from(new Set(needs));
+}
+
+function emptyStoryLensDocument(): StoryLensDocument {
+  return {
+    schemaVersion: 1,
+    source: {
+      name: 'CIHOF story lenses',
+      note: 'Curator-editable interpretive prompts for arranging the All People portrait wall.',
+    },
+    lenses: [],
+  };
+}
+
+function normalizeStoryLensDocument(input: unknown): StoryLensDocument {
+  const source = input && typeof input === 'object' && !Array.isArray(input) ? input as Partial<StoryLensDocument> : {};
+  const sourceInfo = source.source && typeof source.source === 'object'
+    ? {
+        name: typeof source.source.name === 'string' ? source.source.name.trim() : 'CIHOF story lenses',
+        note: typeof source.source.note === 'string' ? source.source.note.trim() : '',
+      }
+    : emptyStoryLensDocument().source;
+  const lenses = Array.isArray(source.lenses) ? source.lenses.map(normalizeStoryLens).filter((lens): lens is StoryLensConfig => Boolean(lens)) : [];
+
+  return {
+    schemaVersion: typeof source.schemaVersion === 'number' ? source.schemaVersion : 1,
+    updatedAt: typeof source.updatedAt === 'string' ? source.updatedAt : '',
+    source: sourceInfo,
+    lenses,
+  };
+}
+
+function normalizeStoryLens(input: unknown): StoryLensConfig | null {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return null;
+  const lens = input as Partial<StoryLensConfig>;
+  return {
+    id: slugifyLensId(lens.id ?? ''),
+    label: cleanPortalString(lens.label),
+    prompt: cleanPortalString(lens.prompt),
+    description: cleanPortalString(lens.description),
+    terms: cleanPortalList(lens.terms),
+    themes: cleanPortalList(lens.themes),
+    maxPortraits: typeof lens.maxPortraits === 'number' && Number.isFinite(lens.maxPortraits) ? Math.round(lens.maxPortraits) : 48,
+    enabled: lens.enabled !== false,
+  };
+}
+
+function getStoryLensDraftIssues(document: StoryLensDocument): DraftIssue[] {
+  const issues: DraftIssue[] = [];
+  const ids = new Set<string>();
+  const add = (message: string, severity: DraftIssue['severity'] = 'warning') => {
+    issues.push({ id: 'story-lenses', name: 'Story Lenses', message, severity });
+  };
+
+  document.lenses.forEach((lens, index) => {
+    const label = lens.label || lens.id || `Lens ${index + 1}`;
+    if (!lens.id) add(`${label}: ID is required.`, 'error');
+    if (lens.id && ids.has(lens.id)) add(`${label}: ID duplicates another lens.`, 'error');
+    ids.add(lens.id);
+    if (!lens.label) add(`${label}: short label is required.`, 'error');
+    if (!lens.prompt) add(`${label}: prompt is required.`, 'error');
+    if (!lens.description) add(`${label}: description is required.`, 'error');
+    if (lens.terms.length + lens.themes.length === 0) add(`${label}: add at least one keyword term or theme signal.`, 'error');
+    if (!Number.isFinite(lens.maxPortraits) || (lens.maxPortraits ?? 0) < 12 || (lens.maxPortraits ?? 0) > 96) {
+      add(`${label}: max portraits must be from 12 to 96.`, 'error');
+    }
+    if (lens.terms.length < 3 && lens.themes.length === 0) add(`${label}: add more matching signals for reliable results.`);
+    if (lens.prompt.length > 42) add(`${label}: prompt may be too long for the museum button.`);
+    if (lens.description.length > 180) add(`${label}: description may be too long for the wall focus panel.`);
+  });
+
+  if (document.lenses.filter((lens) => lens.enabled !== false).length === 0) add('At least one Story Lens should be enabled.', 'error');
+  return issues;
 }
 
 function hasId(values: string[] | undefined, id: string) {
@@ -1661,6 +2001,32 @@ function parseListInput(value: string) {
 
 function joinList(values: string[]) {
   return values.join('\n');
+}
+
+function cleanPortalString(value: unknown) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function cleanPortalList(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(new Set(value.map((item) => cleanPortalString(item)).filter(Boolean)));
+}
+
+function slugifyLensId(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function uniqueLensId(lenses: StoryLensConfig[], baseId: string) {
+  const normalizedBase = slugifyLensId(baseId) || 'story-lens';
+  const ids = new Set(lenses.map((lens) => lens.id));
+  if (!ids.has(normalizedBase)) return normalizedBase;
+  let index = 2;
+  while (ids.has(`${normalizedBase}-${index}`)) index += 1;
+  return `${normalizedBase}-${index}`;
 }
 
 function priorityRank(priority: string) {
