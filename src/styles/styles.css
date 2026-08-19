@@ -1706,6 +1706,7 @@ select:focus,
 }
 
 .timeline__range span,
+.timeline__range button,
 .timeline-class__summary span {
   min-height: 38px;
   display: inline-flex;
@@ -1718,6 +1719,17 @@ select:focus,
   font-size: 0.78rem;
   font-weight: 950;
   text-transform: uppercase;
+}
+
+.timeline__range button {
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.timeline-range-button--active {
+  border-color: var(--accent) !important;
+  background: var(--accent) !important;
+  color: var(--ink) !important;
 }
 
 .timeline__controls {
@@ -1769,15 +1781,17 @@ select:focus,
 }
 
 .timeline-year-rail {
+  --timeline-year-width: 128px;
+  --timeline-rail-edge: max(24px, calc((100% - var(--timeline-year-width)) / 2));
   position: relative;
   display: flex;
   gap: 14px;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  scroll-padding-inline: calc((100% - 156px) / 2);
+  scroll-padding-inline: var(--timeline-rail-edge);
   scroll-snap-type: x mandatory;
   touch-action: pan-x;
-  padding: 24px calc((100% - 156px) / 2) 30px;
+  padding: 24px var(--timeline-rail-edge) 30px;
   scrollbar-width: thin;
   cursor: grab;
 }
@@ -1789,8 +1803,8 @@ select:focus,
 .timeline-year-rail::before {
   content: "";
   position: absolute;
-  right: calc((100% - 156px) / 2);
-  left: calc((100% - 156px) / 2);
+  right: var(--timeline-rail-edge);
+  left: var(--timeline-rail-edge);
   top: 72px;
   height: 5px;
   background: rgba(194, 161, 90, 0.72);
@@ -2194,14 +2208,15 @@ select:focus,
   }
 
   .timeline-year-rail {
-    scroll-padding-inline: 24px;
-    padding-right: 24px;
-    padding-left: 24px;
+    --timeline-year-width: 116px;
+    scroll-padding-inline: var(--timeline-rail-edge);
+    padding-right: var(--timeline-rail-edge);
+    padding-left: var(--timeline-rail-edge);
   }
 
   .timeline-year-rail::before {
-    right: 24px;
-    left: 24px;
+    right: var(--timeline-rail-edge);
+    left: var(--timeline-rail-edge);
   }
 
   .timeline-year {
