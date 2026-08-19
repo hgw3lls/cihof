@@ -29,6 +29,10 @@
         "civic leadership",
         "philanthropy"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     },
@@ -53,6 +57,10 @@
         "immigrant advocacy",
         "social service"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     },
@@ -78,6 +86,10 @@
         "arts and culture",
         "heritage"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     },
@@ -104,6 +116,10 @@
         "advocacy",
         "public service"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     },
@@ -132,6 +148,10 @@
         "media",
         "storytelling"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     },
@@ -156,6 +176,10 @@
         "social service",
         "public safety"
       ],
+      "pinnedPersonIds": [],
+      "excludedPersonIds": [],
+      "curatorNotes": [],
+      "reviewStatus": "draft",
       "maxPortraits": 48,
       "enabled": true
     }

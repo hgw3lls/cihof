@@ -2,12 +2,15 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { buildReport, loadInductees, loadPhysicalWallMetadata } from './data-utils.js';
 import { buildEntityModel, loadCuratedEntityModel } from './entity-model.js';
+import { normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
 
 const outputPath = resolve('public/data/inductees.json');
 const reportPath = resolve('public/data/data-report.json');
 const entitiesPath = resolve('public/data/entities.json');
 const entityRelationshipsPath = resolve('public/data/entity-relationships.json');
 const entityReportPath = resolve('public/data/entity-model-report.json');
+const relationshipsSourcePath = resolve('data/cihof_relationships.json');
+const relationshipsOutputPath = resolve('public/data/relationships.json');
 const storySectionsSourcePath = resolve('data/cihof_story_sections.json');
 const storySectionsOutputPath = resolve('public/data/story-sections.json');
 const storyLensesSourcePath = resolve('data/cihof_story_lenses.json');
@@ -19,6 +22,7 @@ const physicalWallOutputPath = resolve('public/data/physical-wall-positions.json
 const inductees = loadInductees();
 const report = buildReport(inductees);
 const entityModel = buildEntityModel(inductees, loadCuratedEntityModel());
+const relationshipMetadata = loadRelationshipMetadata(inductees);
 const storySections = loadStorySections(inductees);
 const storyLenses = loadStoryLenses();
 const mediaManifest = loadRuntimeMediaManifest();
@@ -30,6 +34,7 @@ writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 writeFileSync(entitiesPath, `${JSON.stringify(entityModel.entityDocument, null, 2)}\n`);
 writeFileSync(entityRelationshipsPath, `${JSON.stringify(entityModel.relationshipDocument, null, 2)}\n`);
 writeFileSync(entityReportPath, `${JSON.stringify(entityModel.report, null, 2)}\n`);
+writeFileSync(relationshipsOutputPath, `${JSON.stringify(relationshipMetadata.records, null, 2)}\n`);
 writeFileSync(storySectionsOutputPath, `${JSON.stringify(storySections.document, null, 2)}\n`);
 writeFileSync(storyLensesOutputPath, `${JSON.stringify(storyLenses.document, null, 2)}\n`);
 writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document, null, 2)}\n`);
@@ -43,6 +48,7 @@ console.log(
   `Prepared ${entityModel.entityDocument.entities.length} entities and ` +
     `${entityModel.relationshipDocument.relationships.length} entity relationships.`,
 );
+console.log(`Prepared ${relationshipMetadata.recordCount} explicit relationship records.`);
 console.log(`Prepared ${storySections.recordCount} curated story section records.`);
 console.log(`Prepared ${storyLenses.recordCount} story lens records.`);
 console.log(`Prepared ${mediaManifest.recordCount} runtime media manifest records.`);
@@ -53,11 +59,27 @@ if (report.missing.primaryImage.length > 0) {
 if (entityModel.validation.errors.length > 0) {
   throw new Error(`Entity model validation failed:\n${entityModel.validation.errors.map((error) => `- ${error}`).join('\n')}`);
 }
+if (relationshipMetadata.validation.errors.length > 0) {
+  throw new Error(`Relationship metadata validation failed:\n${relationshipMetadata.validation.errors.map((error) => `- ${error}`).join('\n')}`);
+}
 if (storySections.validation.errors.length > 0) {
   throw new Error(`Story section validation failed:\n${storySections.validation.errors.map((error) => `- ${error}`).join('\n')}`);
 }
 if (storyLenses.validation.errors.length > 0) {
   throw new Error(`Story lens validation failed:\n${storyLenses.validation.errors.map((error) => `- ${error}`).join('\n')}`);
+}
+
+function loadRelationshipMetadata(inductees) {
+  if (!existsSync(relationshipsSourcePath)) {
+    return { records: [], recordCount: 0, validation: { errors: [], warnings: [] } };
+  }
+
+  const records = normalizeRelationshipRecords(JSON.parse(readFileSync(relationshipsSourcePath, 'utf8')));
+  return {
+    records,
+    recordCount: records.length,
+    validation: validateRelationshipRecords(records, new Set(inductees.map((inductee) => inductee.id))),
+  };
 }
 
 function loadStorySections(inductees) {
@@ -151,7 +173,7 @@ function loadStoryLenses() {
   }
 
   const document = JSON.parse(readFileSync(storyLensesSourcePath, 'utf8'));
-  const validation = validateStoryLenses(document);
+  const validation = validateStoryLenses(document, new Set(inductees.map((inductee) => inductee.id)));
   return {
     document,
     recordCount: Array.isArray(document.lenses) ? document.lenses.length : 0,
@@ -159,7 +181,7 @@ function loadStoryLenses() {
   };
 }
 
-function validateStoryLenses(document) {
+function validateStoryLenses(document, inducteeIds) {
   const errors = [];
   const warnings = [];
   const ids = new Set();
@@ -192,6 +214,27 @@ function validateStoryLenses(document) {
     if (Array.isArray(lens.themes)) lens.themes.forEach((theme, themeIndex) => requireStoryString(theme, `${label}.themes[${themeIndex}]`, errors));
     if (Array.isArray(lens.terms) && Array.isArray(lens.themes) && lens.terms.length + lens.themes.length === 0) {
       errors.push(`${label} must contain at least one term or theme.`);
+    }
+    ['pinnedPersonIds', 'excludedPersonIds', 'curatorNotes'].forEach((field) => {
+      if (lens[field] !== undefined && !Array.isArray(lens[field])) errors.push(`${label}.${field} must be an array when present.`);
+      if (Array.isArray(lens[field])) {
+        lens[field].forEach((value, valueIndex) => requireStoryString(value, `${label}.${field}[${valueIndex}]`, errors));
+      }
+    });
+    ['pinnedPersonIds', 'excludedPersonIds'].forEach((field) => {
+      if (!Array.isArray(lens[field])) return;
+      lens[field].forEach((id) => {
+        if (typeof id === 'string' && !inducteeIds.has(id)) errors.push(`${label}.${field} contains unknown inductee id ${id}.`);
+      });
+    });
+    if (Array.isArray(lens.pinnedPersonIds) && Array.isArray(lens.excludedPersonIds)) {
+      const excludedIds = new Set(lens.excludedPersonIds);
+      lens.pinnedPersonIds.forEach((id) => {
+        if (excludedIds.has(id)) errors.push(`${label}: ${id} cannot be both pinned and excluded.`);
+      });
+    }
+    if (lens.reviewStatus !== undefined && !['draft', 'reviewed', 'approved'].includes(lens.reviewStatus)) {
+      errors.push(`${label}.reviewStatus must be draft, reviewed, or approved when present.`);
     }
     if (lens.maxPortraits !== undefined && (!Number.isFinite(lens.maxPortraits) || lens.maxPortraits < 12 || lens.maxPortraits > 96)) {
       errors.push(`${label}.maxPortraits must be a number from 12 to 96.`);
