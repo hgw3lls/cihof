@@ -50,6 +50,7 @@ function buildAssetRecord(inductee) {
     classYear: inductee.classYear,
     countryTags: inductee.countryTags,
     countryTagsSource: inductee.countryTagsSource,
+    countryTagsNote: inductee.countryTagsNote,
     region: inductee.region,
     approvalStatus: inductee.approvalStatus,
     reviewPriority: inductee.reviewPriority,

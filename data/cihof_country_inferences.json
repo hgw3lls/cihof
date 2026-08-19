@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "CIHOF inferred country completions",
+    "baseData": "data/cihof_kiosk_manifest.csv",
+    "note": "Country completions for records where the stricter source-text extractor did not produce a country. These are not curator-approved facts."
+  },
+  "reviewGuidance": {
+    "inferredCountryTags": "Use as a working country completion only. Move reviewed values into approvedCountryTags in cihof_curated_metadata.json.",
+    "confidence": "All records in this file are inferred and require curator review before final museum labeling.",
+    "evidenceNote": "Short local-data rationale for why the inference was made."
+  },
+  "records": {
+    "alex-machaskee-2010": {
+      "id": "alex-machaskee-2010",
+      "inferredCountryTags": ["Serbia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile identifies him as Honorary Consul of the Republic of Serbia."
+    },
+    "dr-dieu-thuc-do-2010": {
+      "id": "dr-dieu-thuc-do-2010",
+      "inferredCountryTags": ["Vietnam"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was born in Rach Gia, Viet Nam."
+    },
+    "irene-morrow-2010": {
+      "id": "irene-morrow-2010",
+      "inferredCountryTags": ["Poland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references her Polish heritage and Association of Polish Women work."
+    },
+    "jeanette-grasselli-brown-2010": {
+      "id": "jeanette-grasselli-brown-2010",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. education and career context but no specific international origin."
+    },
+    "leo-weidenthal-2010": {
+      "id": "leo-weidenthal-2010",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was born in Cleveland."
+    },
+    "margaret-w-wong-2010": {
+      "id": "margaret-w-wong-2010",
+      "inferredCountryTags": ["China"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile places her in Asian-American civic and legal context; country needs curator confirmation."
+    },
+    "senator-george-voinovich-2010": {
+      "id": "senator-george-voinovich-2010",
+      "inferredCountryTags": ["Slovenia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references his Slovenian mother and Yugoslav Cultural Garden family connection."
+    },
+    "albert-b-ratner-2011": {
+      "id": "albert-b-ratner-2011",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives Cleveland/U.S. civic and business context but no specific country of origin."
+    },
+    "lucretia-stoica-2011": {
+      "id": "lucretia-stoica-2011",
+      "inferredCountryTags": ["Romania"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states she travelled to Romania as a child and grew up and completed university studies there."
+    },
+    "ralph-j-perk-2011": {
+      "id": "ralph-j-perk-2011",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text identifies his Cleveland public-service life but no specific international origin."
+    },
+    "reverend-dr-otis-moss-jr-2011": {
+      "id": "reverend-dr-otis-moss-jr-2011",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was born in La Grange, Georgia."
+    },
+    "tony-petkovsek-2011": {
+      "id": "tony-petkovsek-2011",
+      "inferredCountryTags": ["Slovenia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile centers Slovene and Slovenian community work, including Slovene Home and Slovenian National Home references."
+    },
+    "anthony-yen-yan-yuan-tai-2012": {
+      "id": "anthony-yen-yan-yuan-tai-2012",
+      "inferredCountryTags": ["Taiwan"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile includes Republic of China on Taiwan awards and Taiwan business leadership context."
+    },
+    "dr-jaya-shah-2012": {
+      "id": "dr-jaya-shah-2012",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states she graduated from Grant Medical College, Mumbai, India, and worked with Indian community organizations."
+    },
+    "fr-jim-o-donnell-2012": {
+      "id": "fr-jim-o-donnell-2012",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text identifies Cleveland/Ohio ministry but no specific international origin."
+    },
+    "hon-mary-rose-oakar-2012": {
+      "id": "hon-mary-rose-oakar-2012",
+      "inferredCountryTags": ["Lebanon"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile identifies Arab-American civil-rights leadership; specific country requires curator confirmation."
+    },
+    "ken-kovach-2012": {
+      "id": "ken-kovach-2012",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. professional and civic context but no specific international origin."
+    },
+    "milton-maltz-2012": {
+      "id": "milton-maltz-2012",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. broadcasting, museum, and civic context but no specific international origin."
+    },
+    "bishop-a-edward-pevec-2013": {
+      "id": "bishop-a-edward-pevec-2013",
+      "inferredCountryTags": ["Slovenia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile was inducted by the Consul General of Slovenia and is grouped with Slovenian community context."
+    },
+    "dr-maria-pujana-2013": {
+      "id": "dr-maria-pujana-2013",
+      "inferredCountryTags": ["Colombia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile is grouped under South America and Hispanic civic context; specific country needs curator confirmation."
+    },
+    "josef-holzer-2013": {
+      "id": "josef-holzer-2013",
+      "inferredCountryTags": ["Serbia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was born in Apatin, Batschka, in the former Yugoslavia; Apatin is treated here as present-day Serbia pending review."
+    },
+    "nacy-panzica-2013": {
+      "id": "nacy-panzica-2013",
+      "inferredCountryTags": ["Italy"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile is grouped under Europe and name/community context suggests Italian heritage; needs curator confirmation."
+    },
+    "samuel-h-miller-2013": {
+      "id": "samuel-h-miller-2013",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives Cleveland/U.S. business and civic context but no specific country of origin."
+    },
+    "jim-foster-2014": {
+      "id": "jim-foster-2014",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. civic leadership context but no specific international origin."
+    },
+    "joseph-p-meissner-2014": {
+      "id": "joseph-p-meissner-2014",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. military, legal, and civic context but no specific international origin."
+    },
+    "monte-ahuja-2014": {
+      "id": "monte-ahuja-2014",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he came to the U.S. as a student and is grouped in Asian/Indian community context."
+    },
+    "thomas-j-scanlon-2014": {
+      "id": "thomas-j-scanlon-2014",
+      "inferredCountryTags": ["Ireland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references Irish-American legal recognition and Irish heritage organizations."
+    },
+    "dick-pogue-2015": {
+      "id": "dick-pogue-2015",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives U.S. education, military, legal, and civic context but no specific international origin."
+    },
+    "dick-russ-2015": {
+      "id": "dick-russ-2015",
+      "inferredCountryTags": ["Ukraine"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references board leadership in the Ukrainian Cultural Arts Association; needs curator confirmation as origin metadata."
+    },
+    "carolyn-balogh-2016-2016": {
+      "id": "carolyn-balogh-2016-2016",
+      "inferredCountryTags": ["Hungary"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile identifies her work with the Hungarian Cultural Garden."
+    },
+    "jack-kahl-2016": {
+      "id": "jack-kahl-2016",
+      "inferredCountryTags": ["Ireland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references leadership work with the Irish Cultural Garden."
+    },
+    "khalid-samad-2016-2016": {
+      "id": "khalid-samad-2016-2016",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives Cleveland/U.S. community activism context but no specific international origin."
+    },
+    "mona-alag-2017": {
+      "id": "mona-alag-2017",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile describes arrival in America and is grouped with Asian/Indian community context."
+    },
+    "wael-khoury-2017": {
+      "id": "wael-khoury-2017",
+      "inferredCountryTags": ["Syria"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references National Arab American Medical Association work and a Syrian liaison committee."
+    },
+    "abby-mina-2018": {
+      "id": "abby-mina-2018",
+      "inferredCountryTags": ["Lebanon"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references lifelong achievement in preserving Lebanese culture."
+    },
+    "atul-mehta-2018": {
+      "id": "atul-mehta-2018",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile is grouped under Asia and references long service to the local Indian community."
+    },
+    "ralph-perk-jr-2018": {
+      "id": "ralph-perk-jr-2018",
+      "inferredCountryTags": ["Czech Republic", "Italy"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile names Lucy Gagliardi as his mother and lists Czech and Italian nationality organization involvement."
+    },
+    "ray-pianka-2018": {
+      "id": "ray-pianka-2018",
+      "inferredCountryTags": ["Poland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile opens with a Polish phrase and Polish cultural framing."
+    },
+    "akram-boutros-2019": {
+      "id": "akram-boutros-2019",
+      "inferredCountryTags": ["Egypt"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile is grouped under Africa and name/community context suggests Egyptian heritage; needs curator confirmation."
+    },
+    "ingrida-bublys-2019": {
+      "id": "ingrida-bublys-2019",
+      "inferredCountryTags": ["Lithuania"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile centers Lithuanian business, cultural, and government connections."
+    },
+    "marilyn-madigan-2019": {
+      "id": "marilyn-madigan-2019",
+      "inferredCountryTags": ["Ireland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references Irish community memberships and cultural work."
+    },
+    "richard-fleischman-2019": {
+      "id": "richard-fleischman-2019",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was born in Cleveland and gives no specific international origin."
+    },
+    "sree-sreenath-2019": {
+      "id": "sree-sreenath-2019",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references Federation of India Community Association and South Asian community work."
+    },
+    "valarie-mccall-2020": {
+      "id": "valarie-mccall-2020",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives Cleveland/U.S. public service context but no specific international origin."
+    },
+    "anda-cook-2022": {
+      "id": "anda-cook-2022",
+      "inferredCountryTags": ["Latvia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states she was born in Riga, Latvia."
+    },
+    "carl-robson-2022": {
+      "id": "carl-robson-2022",
+      "inferredCountryTags": ["Ethiopia"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile centers Ethiopian cultural garden and Ethiopian community work; this is country association rather than stated birthplace."
+    },
+    "michael-d-polensek-2023": {
+      "id": "michael-d-polensek-2023",
+      "inferredCountryTags": ["Slovenia", "Italy"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states his politics were rooted in Slovenian and Italian communities."
+    },
+    "sudarshan-sathe-2023": {
+      "id": "sudarshan-sathe-2023",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he earned a degree from IIT in India and arrived in the U.S. for graduate study."
+    },
+    "ambassador-edward-f-crawford-2024": {
+      "id": "ambassador-edward-f-crawford-2024",
+      "inferredCountryTags": ["Ireland"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states his grandparents emigrated from Cork and names Irish family roots."
+    },
+    "dr-eugene-jordan-2024": {
+      "id": "dr-eugene-jordan-2024",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he was raised in Columbus and centers African-American civic history."
+    },
+    "johnny-k-wu-2024": {
+      "id": "johnny-k-wu-2024",
+      "inferredCountryTags": ["China"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile references Chinese language fluency and Organization of Chinese Americans leadership."
+    },
+    "david-gilbert-2025": {
+      "id": "david-gilbert-2025",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Current profile text gives Cleveland/U.S. civic and sports leadership context but no specific international origin."
+    },
+    "mayor-frank-jackson-2025": {
+      "id": "mayor-frank-jackson-2025",
+      "inferredCountryTags": ["United States"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile identifies Cleveland upbringing and U.S. public service; no specific international origin is stated."
+    },
+    "raj-aggarwal-2025": {
+      "id": "raj-aggarwal-2025",
+      "inferredCountryTags": ["India"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he holds a mechanical engineering degree from the Indian Institute of Technology, Delhi."
+    },
+    "andy-chakalis-2026": {
+      "id": "andy-chakalis-2026",
+      "inferredCountryTags": ["Greece"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile states he is the first person of Greek heritage inducted into the Hall."
+    },
+    "catherine-jorgensen-mccutcheon-2026": {
+      "id": "catherine-jorgensen-mccutcheon-2026",
+      "inferredCountryTags": ["Norway"],
+      "confidence": "inferred",
+      "evidenceNote": "Profile centers Norwegian community history and Ohio Norsemen work."
+    }
+  }
+}

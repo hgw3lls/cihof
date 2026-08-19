@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 
 export const sourcePath = resolve('data/cihof_kiosk_manifest.csv');
 export const curatedMetadataPath = resolve('data/cihof_curated_metadata.json');
+export const countryInferencePath = resolve('data/cihof_country_inferences.json');
 export const mediaManifestPath = resolve('data/media_manifest.json');
 export const physicalWallMetadataPath = resolve('data/physical_wall_positions.json');
 
@@ -59,6 +60,7 @@ export function loadInductees(options = {}) {
       themeTagsSource: 'generated',
       countryTags,
       countryTagsSource: countryTags.length > 0 ? 'generated' : 'none',
+      countryTagsNote: countryTags.length > 0 ? 'Detected from origin or heritage phrases in the source profile text.' : '',
       communityTags: [],
       sortName: buildSortName(name),
       imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null),
@@ -90,6 +92,15 @@ export function loadInductees(options = {}) {
     records = records.map((inductee) => applyCuratedMetadata(inductee, curatedMetadata.inductees?.[inductee.id]));
   }
 
+  if (options.includeCountryInferences !== false) {
+    const countryInferences = loadCountryInferences();
+    const validation = validateCountryInferences(countryInferences, records.map((item) => item.id));
+    if (validation.errors.length > 0) {
+      throw new Error(`Country inference validation failed:\n${validation.errors.map((error) => `- ${error}`).join('\n')}`);
+    }
+    records = records.map((inductee) => applyCountryInference(inductee, countryInferences.records?.[inductee.id]));
+  }
+
   if (options.includeMedia !== false) {
     const mediaManifest = loadMediaManifest();
     records = records.map((inductee) => applyMediaManifest(inductee, mediaManifest.assets?.[inductee.id]));
@@ -109,6 +120,21 @@ export function loadInductees(options = {}) {
     const yearB = b.classYear ?? 9999;
     return yearA - yearB || a.name.localeCompare(b.name);
   });
+}
+
+export function loadCountryInferences(options = {}) {
+  const optional = options.optional !== false;
+  if (!existsSync(countryInferencePath)) {
+    if (optional) return { schemaVersion: 1, source: {}, reviewGuidance: {}, records: {} };
+    throw new Error(`Missing country inference file: ${countryInferencePath}`);
+  }
+
+  try {
+    const metadata = JSON.parse(readFileSync(countryInferencePath, 'utf8'));
+    return metadata && typeof metadata === 'object' ? metadata : { schemaVersion: 1, source: {}, reviewGuidance: {}, records: {} };
+  } catch (error) {
+    throw new Error(`Could not read country inferences: ${error.message}`);
+  }
 }
 
 export function loadCuratedMetadata(options = {}) {
@@ -190,6 +216,7 @@ export function validateCuratedMetadata(metadata, expectedIds = []) {
     checkStringArray(record, id, 'approvedThemeTags', errors);
     checkStringArray(record, id, 'countryTagCandidates', errors);
     checkStringArray(record, id, 'approvedCountryTags', errors);
+    checkString(record, id, 'countryNotes', errors);
     checkStringArray(record, id, 'communityTagCandidates', errors);
     checkStringArray(record, id, 'approvedCommunityTags', errors);
     checkBoolean(record, id, 'featured', errors);
@@ -236,6 +263,43 @@ export function validateCuratedMetadata(metadata, expectedIds = []) {
 
   expectedIds.forEach((id) => {
     if (!records[id]) warnings.push(`No curated metadata record for inductee id: ${id}`);
+  });
+
+  return { errors, warnings };
+}
+
+export function validateCountryInferences(metadata, expectedIds = []) {
+  const errors = [];
+  const warnings = [];
+  const records = metadata?.records;
+  const expectedIdSet = new Set(expectedIds);
+
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return { errors: ['Country inference metadata must be a JSON object.'], warnings };
+  }
+
+  if (typeof metadata.schemaVersion !== 'number') warnings.push('Missing numeric schemaVersion.');
+  if (!records || typeof records !== 'object' || Array.isArray(records)) {
+    errors.push('Country inference metadata must contain a records object.');
+    return { errors, warnings };
+  }
+
+  Object.entries(records).forEach(([id, record]) => {
+    if (!expectedIdSet.has(id)) warnings.push(`Country inference metadata contains unknown inductee id: ${id}`);
+    if (!record || typeof record !== 'object' || Array.isArray(record)) {
+      errors.push(`${id}: country inference record must be an object.`);
+      return;
+    }
+
+    if (record.id && record.id !== id) errors.push(`${id}: record id does not match object key.`);
+    checkStringArray(record, id, 'inferredCountryTags', errors);
+    checkString(record, id, 'confidence', errors);
+    checkString(record, id, 'evidenceNote', errors);
+    if (record.confidence !== undefined && record.confidence !== 'inferred') errors.push(`${id}: confidence must be "inferred".`);
+  });
+
+  expectedIds.forEach((id) => {
+    if (!records[id]) warnings.push(`No inferred country completion record for inductee id: ${id}`);
   });
 
   return { errors, warnings };
@@ -313,8 +377,10 @@ export function buildCurationReport(inductees, curatedMetadata, validation) {
     countries: {
       detected: inductees.filter((item) => item.countryTags.length > 0).length,
       approved: inductees.filter((item) => item.countryTagsSource === 'curated').length,
+      inferred: inductees.filter((item) => item.countryTagsSource === 'inferred').length,
       generatedOnly: inductees.filter((item) => item.countryTags.length > 0 && item.countryTagsSource !== 'curated').map((item) => item.id),
       missing: inductees.filter((item) => item.countryTags.length === 0).map((item) => item.id),
+      sources: countBy(inductees.map((item) => item.countryTagsSource || 'none'), 'source'),
     },
     communities: {
       approved: inductees.filter((item) => item.communityTags.length > 0).length,
@@ -409,6 +475,7 @@ export function buildReport(inductees) {
       approvedSummaries: inductees.filter((item) => item.storySummarySource === 'curated').length,
       approvedThemeTags: inductees.filter((item) => item.themeTagsSource === 'curated').length,
       approvedCountryTags: inductees.filter((item) => item.countryTagsSource === 'curated').length,
+      inferredCountryTags: inductees.filter((item) => item.countryTagsSource === 'inferred').length,
       approvedCommunityTags: inductees.filter((item) => item.communityTags.length > 0).length,
       featured: inductees.filter((item) => item.featured).map((item) => item.id),
       featuredCandidates: inductees.filter((item) => item.featuredCandidate).map((item) => item.id),
@@ -506,6 +573,7 @@ function applyCuratedMetadata(inductee, curated) {
   const approvedSummary = cleanString(curated.approvedSummary);
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
   const approvedCountryTags = toStringArray(curated.approvedCountryTags);
+  const countryNotes = cleanString(curated.countryNotes);
   const approvedCommunityTags = toStringArray(curated.approvedCommunityTags);
   const storySummary = approvedSummary || inductee.storySummary;
   const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
@@ -526,6 +594,7 @@ function applyCuratedMetadata(inductee, curated) {
     themeTagsSource: approvedThemeTags.length > 0 ? 'curated' : 'generated',
     countryTags,
     countryTagsSource: approvedCountryTags.length > 0 ? 'curated' : inductee.countryTagsSource,
+    countryTagsNote: approvedCountryTags.length > 0 ? countryNotes || 'Curator-approved country metadata.' : inductee.countryTagsNote,
     communityTags,
     imageAltText,
     approvalStatus: cleanString(curated.approvalStatus) || inductee.approvalStatus,
@@ -540,6 +609,23 @@ function applyCuratedMetadata(inductee, curated) {
       .filter(Boolean)
       .join(' ')
       .toLowerCase(),
+  };
+}
+
+function applyCountryInference(inductee, countryRecord) {
+  if (!countryRecord || inductee.countryTags.length > 0) return inductee;
+
+  const countryTags = toStringArray(countryRecord.inferredCountryTags);
+  if (countryTags.length === 0) return inductee;
+
+  const countryTagsNote = cleanString(countryRecord.evidenceNote) || 'Inferred country completion from current profile data; needs curatorial review.';
+
+  return {
+    ...inductee,
+    countryTags,
+    countryTagsSource: 'inferred',
+    countryTagsNote,
+    searchText: [inductee.searchText, ...countryTags, countryTagsNote].filter(Boolean).join(' ').toLowerCase(),
   };
 }
 
