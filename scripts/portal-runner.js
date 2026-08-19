@@ -1,12 +1,14 @@
 import { createServer } from 'node:http';
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const host = process.env.CIHOF_PORTAL_HOST || '127.0.0.1';
 const port = Number(process.env.CIHOF_PORTAL_PORT || 5174);
 const repoRoot = resolve('.');
 const decisionsDir = resolve('.portal/decisions');
+const storyLensesSourcePath = resolve('data/cihof_story_lenses.json');
+const storyLensesPublicPath = resolve('public/data/story-lenses.json');
 const jobs = new Map();
 const maxBodyBytes = 12 * 1024 * 1024;
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -142,6 +144,12 @@ const server = createServer(async (request, response) => {
       return;
     }
 
+    if (request.method === 'GET' && url.pathname === '/api/story-lenses') {
+      const document = readStoryLensDocument();
+      sendJson(response, 200, { document, validation: validateStoryLensDocument(document) });
+      return;
+    }
+
     if (request.method === 'GET' && url.pathname.startsWith('/api/jobs/')) {
       const id = decodeURIComponent(url.pathname.replace('/api/jobs/', ''));
       const job = jobs.get(id);
@@ -165,6 +173,28 @@ const server = createServer(async (request, response) => {
       const job = createJob(script.label, [{ label: script.label, command: script.command }], { kind: 'script', scriptId });
       runJob(job);
       sendJson(response, 202, { job: toPublicJob(job) });
+      return;
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/story-lenses') {
+      const body = await readJsonBody(request);
+      const document = normalizeStoryLensDocument(body.document ?? body);
+      const validation = validateStoryLensDocument(document);
+      if (validation.errors.length > 0) {
+        sendJson(response, 400, { error: 'Story lens validation failed.', validation });
+        return;
+      }
+
+      const savedDocument = {
+        ...document,
+        schemaVersion: typeof document.schemaVersion === 'number' ? document.schemaVersion : 1,
+        updatedAt: new Date().toISOString(),
+      };
+      mkdirSync(dirname(storyLensesSourcePath), { recursive: true });
+      mkdirSync(dirname(storyLensesPublicPath), { recursive: true });
+      writeFileSync(storyLensesSourcePath, `${JSON.stringify(savedDocument, null, 2)}\n`);
+      writeFileSync(storyLensesPublicPath, `${JSON.stringify(savedDocument, null, 2)}\n`);
+      sendJson(response, 200, { ok: true, document: savedDocument, validation: validateStoryLensDocument(savedDocument) });
       return;
     }
 
@@ -220,6 +250,123 @@ server.listen(port, host, () => {
   console.log(`CIHOF portal runner listening at http://${host}:${port}`);
   console.log('Only localhost origins are allowed. Use the Staff Portal runner controls to execute whitelisted scripts.');
 });
+
+function readStoryLensDocument() {
+  const fallback = {
+    schemaVersion: 1,
+    source: {
+      name: 'CIHOF story lenses',
+      note: 'No story lens source file was found yet.',
+    },
+    lenses: [],
+  };
+  const path = existsSync(storyLensesSourcePath)
+    ? storyLensesSourcePath
+    : existsSync(storyLensesPublicPath)
+      ? storyLensesPublicPath
+      : '';
+
+  if (!path) return fallback;
+  return normalizeStoryLensDocument(JSON.parse(readFileSync(path, 'utf8')));
+}
+
+function normalizeStoryLensDocument(input) {
+  const document = input && typeof input === 'object' && !Array.isArray(input) ? input : {};
+  const source = document.source && typeof document.source === 'object' && !Array.isArray(document.source)
+    ? {
+        name: typeof document.source.name === 'string' ? document.source.name.trim() : 'CIHOF story lenses',
+        note: typeof document.source.note === 'string' ? document.source.note.trim() : '',
+      }
+    : {
+        name: 'CIHOF story lenses',
+        note: 'Curator-editable interpretive prompts for arranging the All People portrait wall.',
+      };
+  const lenses = Array.isArray(document.lenses)
+    ? document.lenses.map(normalizeStoryLens).filter(Boolean)
+    : [];
+
+  return {
+    schemaVersion: typeof document.schemaVersion === 'number' ? document.schemaVersion : 1,
+    updatedAt: typeof document.updatedAt === 'string' ? document.updatedAt : '',
+    source,
+    lenses,
+  };
+}
+
+function normalizeStoryLens(lens) {
+  if (!lens || typeof lens !== 'object' || Array.isArray(lens)) return null;
+  return {
+    id: cleanStoryString(lens.id),
+    label: cleanStoryString(lens.label),
+    prompt: cleanStoryString(lens.prompt),
+    description: cleanStoryString(lens.description),
+    terms: cleanStoryList(lens.terms),
+    themes: cleanStoryList(lens.themes),
+    maxPortraits: Number.isFinite(lens.maxPortraits) ? Math.round(lens.maxPortraits) : 48,
+    enabled: lens.enabled !== false,
+  };
+}
+
+function validateStoryLensDocument(document) {
+  const errors = [];
+  const warnings = [];
+  const ids = new Set();
+
+  if (!document || typeof document !== 'object' || Array.isArray(document)) {
+    return { errors: ['Story lens document must be an object.'], warnings };
+  }
+  if (typeof document.schemaVersion !== 'number') warnings.push('Missing numeric schemaVersion.');
+  if (!Array.isArray(document.lenses)) {
+    errors.push('Story lens document must contain a lenses array.');
+    return { errors, warnings };
+  }
+
+  document.lenses.forEach((lens, index) => {
+    const label = `lenses[${index}]`;
+    if (!lens || typeof lens !== 'object' || Array.isArray(lens)) {
+      errors.push(`${label} must be an object.`);
+      return;
+    }
+    ['id', 'label', 'prompt', 'description'].forEach((field) => {
+      if (typeof lens[field] !== 'string' || lens[field].trim().length === 0) errors.push(`${label}.${field} is required.`);
+    });
+    if (typeof lens.id === 'string') {
+      if (ids.has(lens.id)) errors.push(`${label}.id duplicates ${lens.id}.`);
+      ids.add(lens.id);
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(lens.id)) warnings.push(`${label}.id should be lowercase kebab-case.`);
+    }
+    if (!Array.isArray(lens.terms)) errors.push(`${label}.terms must be an array.`);
+    if (!Array.isArray(lens.themes)) errors.push(`${label}.themes must be an array.`);
+    if (Array.isArray(lens.terms)) {
+      lens.terms.forEach((term, termIndex) => {
+        if (typeof term !== 'string' || term.trim().length === 0) errors.push(`${label}.terms[${termIndex}] is required.`);
+      });
+    }
+    if (Array.isArray(lens.themes)) {
+      lens.themes.forEach((theme, themeIndex) => {
+        if (typeof theme !== 'string' || theme.trim().length === 0) errors.push(`${label}.themes[${themeIndex}] is required.`);
+      });
+    }
+    if (Array.isArray(lens.terms) && Array.isArray(lens.themes) && lens.terms.length + lens.themes.length === 0) {
+      errors.push(`${label} must contain at least one term or theme.`);
+    }
+    if (!Number.isFinite(lens.maxPortraits) || lens.maxPortraits < 12 || lens.maxPortraits > 96) {
+      errors.push(`${label}.maxPortraits must be a number from 12 to 96.`);
+    }
+    if (typeof lens.enabled !== 'boolean') errors.push(`${label}.enabled must be a boolean.`);
+  });
+
+  return { errors, warnings };
+}
+
+function cleanStoryString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function cleanStoryList(value) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(new Set(value.map((item) => cleanStoryString(item)).filter(Boolean)));
+}
 
 function createJob(label, steps, meta = {}) {
   const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;

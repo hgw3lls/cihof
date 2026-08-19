@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { ExploreState, Inductee, MediaFilter, SortMode } from '../../data/types';
+import type { ExploreState, Inductee, MediaFilter, SortMode, StoryLensConfig } from '../../data/types';
 import { allValue } from '../../data/filtering';
+import { useStoryLenses } from '../../data/storyLenses';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 
@@ -23,15 +24,6 @@ type ExploreViewProps = {
   onStateChange: (state: Partial<ExploreState>) => void;
   onSelect: (inductee: Inductee) => void;
   onFindConnection: () => void;
-};
-
-type StoryLens = {
-  id: string;
-  label: string;
-  prompt: string;
-  description: string;
-  terms: string[];
-  themes: string[];
 };
 
 type LensMatch = {
@@ -58,6 +50,11 @@ export function ExploreView({
   const [toolsOpen, setToolsOpen] = useState(() => toolsDefaultOpen || hasActiveFilters(state));
   const [discoveryOffset, setDiscoveryOffset] = useState(0);
   const [activeLensId, setActiveLensId] = useState('');
+  const storyLensState = useStoryLenses();
+  const storyLenses = useMemo(
+    () => storyLensState.lenses.filter((lens) => lens.enabled !== false),
+    [storyLensState.lenses],
+  );
   const visibleThemes = facets.themes.slice(0, 14);
   const activeFilterCount = getActiveFilters(state, onStateChange).length;
   const activeLens = storyLenses.find((lens) => lens.id === activeLensId) ?? null;
@@ -79,6 +76,10 @@ export function ExploreView({
   useEffect(() => {
     if (toolsDefaultOpen || hasActiveFilters(state)) setToolsOpen(true);
   }, [state, toolsDefaultOpen]);
+
+  useEffect(() => {
+    if (activeLensId && !storyLenses.some((lens) => lens.id === activeLensId)) setActiveLensId('');
+  }, [activeLensId, storyLenses]);
 
   function handleDiscover() {
     if (!discoveryTarget) return;
@@ -132,6 +133,7 @@ export function ExploreView({
 
       <StoryLensControls
         activeLens={activeLens}
+        lenses={storyLenses}
         lensMatches={lensMatches}
         onClearLens={() => setActiveLensId('')}
         onSelectLens={(lensId) => setActiveLensId((current) => current === lensId ? '' : lensId)}
@@ -270,67 +272,16 @@ const mediaOptions: Array<{ value: MediaFilter; label: string }> = [
   { value: 'with-gallery', label: 'Image gallery' },
 ];
 
-const maxLensPortraits = 48;
-
-const storyLenses: StoryLens[] = [
-  {
-    id: 'built-cleveland',
-    label: 'Built Cleveland',
-    prompt: 'Who Built Cleveland?',
-    description: 'Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.',
-    terms: ['founder', 'founded', 'business', 'company', 'entrepreneur', 'institution', 'developer', 'board', 'foundation', 'philanthropy'],
-    themes: ['business', 'entrepreneurship', 'civic leadership', 'philanthropy'],
-  },
-  {
-    id: 'helped-arrive',
-    label: 'Helped New Arrivals',
-    prompt: 'Who Helped People Arrive?',
-    description: 'People connected to immigration, resettlement, welcome work, citizenship, and services for new Clevelanders.',
-    terms: ['immigrant', 'immigration', 'refugee', 'resettlement', 'new arrival', 'citizenship', 'english', 'liaison', 'welcoming', 'arrival'],
-    themes: ['immigrant advocacy', 'social service'],
-  },
-  {
-    id: 'kept-cultures',
-    label: 'Kept Cultures Alive',
-    prompt: 'Who Kept Cultures Alive?',
-    description: 'Artists, organizers, educators, and cultural stewards who carried traditions forward.',
-    terms: ['culture', 'cultural', 'heritage', 'language', 'festival', 'garden', 'tradition', 'folk', 'dance', 'music', 'arts'],
-    themes: ['arts and culture', 'heritage'],
-  },
-  {
-    id: 'changed-city',
-    label: 'Changed The City',
-    prompt: 'Who Changed The City?',
-    description: 'Public servants, advocates, organizers, and leaders whose work changed civic life.',
-    terms: ['justice', 'rights', 'advocate', 'advocacy', 'campaign', 'council', 'mayor', 'public service', 'reform', 'commission'],
-    themes: ['civic leadership', 'justice', 'advocacy', 'public service'],
-  },
-  {
-    id: 'made-art',
-    label: 'Made Art',
-    prompt: 'Who Made Art?',
-    description: 'Artists, musicians, writers, performers, and storytellers across Cleveland communities.',
-    terms: ['art', 'artist', 'music', 'musician', 'orchestra', 'opera', 'theater', 'theatre', 'dance', 'writer', 'poet', 'film', 'media'],
-    themes: ['arts and culture', 'media', 'storytelling'],
-  },
-  {
-    id: 'cared-for-city',
-    label: 'Cared For Cleveland',
-    prompt: 'Who Cared For Cleveland?',
-    description: 'Doctors, nurses, health leaders, social-service organizers, and people whose work centered care.',
-    terms: ['doctor', 'physician', 'hospital', 'clinic', 'health', 'medicine', 'medical', 'nurse', 'patient'],
-    themes: ['medicine and health', 'social service', 'public safety'],
-  },
-];
-
 function StoryLensControls({
   activeLens,
+  lenses,
   lensMatches,
   onClearLens,
   onSelectLens,
   onSelectPerson,
 }: {
-  activeLens: StoryLens | null;
+  activeLens: StoryLensConfig | null;
+  lenses: StoryLensConfig[];
   lensMatches: LensMatch[];
   onClearLens: () => void;
   onSelectLens: (lensId: string) => void;
@@ -339,12 +290,14 @@ function StoryLensControls({
   const featuredMatches = lensMatches.slice(0, 5);
   const themeSummary = topLensThemes(lensMatches);
 
+  if (lenses.length === 0) return null;
+
   return (
     <section className="story-lenses" aria-label="Story lenses">
       <div className="story-lenses__header">
         <p className="museum-kicker">Story Lenses</p>
         <div className="story-lenses__rail">
-          {storyLenses.map((lens) => (
+          {lenses.map((lens) => (
             <button
               aria-pressed={activeLens?.id === lens.id}
               className={activeLens?.id === lens.id ? 'story-lens-button story-lens-button--active' : 'story-lens-button'}
@@ -555,15 +508,17 @@ function formatCoordinate(value: number) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
-function rankLensMatches(inductees: Inductee[], lens: StoryLens): LensMatch[] {
+const defaultMaxLensPortraits = 48;
+
+function rankLensMatches(inductees: Inductee[], lens: StoryLensConfig): LensMatch[] {
   return inductees
     .map((inductee) => scoreLensMatch(inductee, lens))
     .filter((match) => match.score >= 12)
     .sort((a, b) => b.score - a.score || discoveryDefaultSort(a.inductee, b.inductee) || a.inductee.name.localeCompare(b.inductee.name))
-    .slice(0, maxLensPortraits);
+    .slice(0, lens.maxPortraits ?? defaultMaxLensPortraits);
 }
 
-function scoreLensMatch(inductee: Inductee, lens: StoryLens): LensMatch {
+function scoreLensMatch(inductee: Inductee, lens: StoryLensConfig): LensMatch {
   const text = [
     inductee.name,
     inductee.inductedBy,

@@ -224,6 +224,27 @@ export type StorySectionRecord = {
   beats: StoryBeat[];
 };
 
+export type StoryLensConfig = {
+  id: string;
+  label: string;
+  prompt: string;
+  description: string;
+  terms: string[];
+  themes: string[];
+  maxPortraits?: number;
+  enabled?: boolean;
+};
+
+export type StoryLensDocument = {
+  schemaVersion: number;
+  updatedAt?: string;
+  source?: {
+    name?: string;
+    note?: string;
+  };
+  lenses: StoryLensConfig[];
+};
+
 export type MediaAssetProvenance = {
   source?: string;
   confidence?: RelationshipProvenance;

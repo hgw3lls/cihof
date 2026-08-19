@@ -6930,6 +6930,8 @@ textarea:focus,
 
 .portal-tab:focus-visible,
 .portal-export-actions button:focus-visible,
+.portal-lenses__actions button:focus-visible,
+.portal-lens-card__actions button:focus-visible,
 .portal-quick-actions button:focus-visible,
 .portal-editor__actions button:focus-visible,
 .portal-readiness-card button:focus-visible,
@@ -6941,6 +6943,8 @@ textarea:focus,
 }
 
 .portal-export-actions button:disabled,
+.portal-lenses__actions button:disabled,
+.portal-lens-card__actions button:disabled,
 .portal-editor__actions button:disabled {
   cursor: not-allowed;
   opacity: 0.48;
@@ -7020,6 +7024,7 @@ textarea:focus,
 .portal-queue,
 .portal-editor-shell,
 .portal-readiness,
+.portal-lenses,
 .portal-exports {
   border: 3px solid var(--ink);
   background: var(--paper);
@@ -7289,10 +7294,118 @@ textarea:focus,
 }
 
 .portal-readiness,
+.portal-lenses,
 .portal-exports {
   display: grid;
   gap: 16px;
   padding: 16px;
+}
+
+.portal-lenses__intro {
+  align-items: start;
+}
+
+.portal-lenses__actions,
+.portal-lens-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.portal-lenses__actions button,
+.portal-lens-card__actions button {
+  min-height: 48px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--bone);
+  color: var(--ink);
+  padding: 0 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.portal-lenses__actions button:last-child {
+  background: var(--accent);
+}
+
+.portal-lenses__summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.portal-lens-list {
+  display: grid;
+  gap: 12px;
+}
+
+.portal-lens-card {
+  display: grid;
+  gap: 14px;
+  border: 3px solid var(--ink);
+  background: var(--bone);
+  padding: 14px;
+}
+
+.portal-lens-card--disabled {
+  border-style: dashed;
+  opacity: 0.72;
+}
+
+.portal-lens-card__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 2px solid rgba(23, 21, 19, 0.22);
+  padding-bottom: 12px;
+}
+
+.portal-lens-card__header div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.portal-lens-card__header span,
+.portal-lens-card__actions button {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.portal-lens-card__header span {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.portal-lens-card__header strong {
+  min-width: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 2.4vw, 3rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.portal-check--compact {
+  min-width: 160px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-self: start;
+}
+
+.portal-lens-card__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 0.6fr;
+  gap: 12px;
+}
+
+.portal-lens-card__wide {
+  grid-column: 1 / -1;
 }
 
 .portal-readiness__grid {
@@ -7578,9 +7691,14 @@ textarea:focus,
   }
 
   .portal-action-strip,
+  .portal-lenses__summary,
   .portal-export-summary,
   .portal-runner__scripts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .portal-lens-card__grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .portal-layout {
@@ -7622,6 +7740,8 @@ textarea:focus,
   .portal-form-grid,
   .portal-readiness__grid,
   .portal-action-strip,
+  .portal-lenses__summary,
+  .portal-lens-card__grid,
   .portal-export-summary,
   .portal-runner__scripts,
   .portal-tabs {
@@ -7639,6 +7759,7 @@ textarea:focus,
 
   .portal-editor__hero,
   .portal-readiness__intro,
+  .portal-lens-card__header,
   .portal-draft-list div,
   .portal-runner__header,
   .portal-notice {
@@ -7648,12 +7769,16 @@ textarea:focus,
 
   .portal-editor__actions,
   .portal-quick-actions,
+  .portal-lenses__actions,
+  .portal-lens-card__actions,
   .portal-export-actions {
     width: 100%;
   }
 
   .portal-editor__actions button,
   .portal-quick-actions button,
+  .portal-lenses__actions button,
+  .portal-lens-card__actions button,
   .portal-export-actions button {
     flex: 1 1 190px;
   }
