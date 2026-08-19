@@ -16,6 +16,7 @@
     "validate:kiosk": "npm run curate:report && npm run media:validate -- --strict",
     "build:kiosk": "npm run prepare:data && npm run validate:kiosk && tsc -b && vite build",
     "import:2026": "node scripts/import-2026-live-data.js",
+    "portal:server": "node scripts/portal-runner.js",
     "dev": "npm run prepare:data && vite",
     "build": "npm run prepare:data && tsc -b && vite build",
     "preview": "vite preview",

@@ -11,3 +11,6 @@ dist/
 
 # Local generated audit output
 public/data/data-audit.local.json
+
+# Local staff portal runner scratch files
+.portal/
