@@ -73,6 +73,83 @@ That writes ignored local diagnostics to:
 public/data/data-audit.local.json
 ```
 
+Create a draft curator-owned metadata file with:
+
+```sh
+npm run curate:metadata
+```
+
+That writes:
+
+```text
+data/cihof_curated_metadata.json
+```
+
+The generated metadata is a review scaffold. It includes draft summaries, theme tag candidates, community tag candidates, featured candidates, alt-text starters, journey suggestions, and media/accessibility review placeholders. Human-approved fields are left blank until curator review. The script will not overwrite an existing metadata file unless run with `-- --force`.
+
+Validate curated metadata and create a curator review report with:
+
+```sh
+npm run curate:report
+```
+
+That writes:
+
+```text
+public/data/curation-report.json
+```
+
+The report groups approval status, review priorities, featured candidates, caption/transcript needs, media rights review, and accessibility review tasks.
+
+Create a draft media manifest with:
+
+```sh
+npm run media:manifest
+```
+
+That writes:
+
+```text
+data/media_manifest.json
+```
+
+Validate the media manifest and create an installation-readiness report with:
+
+```sh
+npm run media:validate
+```
+
+That writes:
+
+```text
+public/data/media-report.json
+```
+
+Stage local media from the manifest with:
+
+```sh
+npm run media:localize -- --dry-run --download-images --limit=5
+npm run media:localize -- --download-images --primary-only
+npm run media:localize -- --download-images
+npm run media:localize -- --copy-videos --video-source-root=/path/to/approved/videos
+```
+
+That updates `data/media_manifest.json` with local `filePath`, `runtimePath`, checksums, and image dimensions where available, and writes:
+
+```text
+public/data/media-localization-report.json
+```
+
+The localization script does not mark assets approved for kiosk use. Rights, caption, transcript, and `approvedForKiosk` fields stay human-owned.
+
+For permanent installation readiness, run:
+
+```sh
+npm run validate:kiosk
+```
+
+The strict kiosk validation is expected to fail until local image/video files, rights approvals, poster images, captions, and transcripts are added to `data/media_manifest.json`.
+
 ## Run
 
 ```sh
@@ -85,6 +162,32 @@ Kiosk mode can be enabled in the UI or with:
 ```text
 ?kiosk=1
 ```
+
+Staff review mode can be opened with:
+
+```text
+?review=1&view=review
+```
+
+The staff dashboard can export the current review queue as CSV. After curators edit the approval columns, apply the decisions with a dry run first:
+
+```sh
+npm run curate:apply -- --input=/path/to/edited-review-queue.csv --dry-run
+npm run curate:apply -- --input=/path/to/edited-review-queue.csv
+npm run curate:report
+```
+
+The importer updates `data/cihof_curated_metadata.json`, writes a timestamped backup by default, and validates the curated metadata before saving.
+
+For media approvals from the same dashboard export, use:
+
+```sh
+npm run media:apply -- --input=/path/to/edited-review-queue.csv --dry-run
+npm run media:apply -- --input=/path/to/edited-review-queue.csv
+npm run media:validate
+```
+
+The media importer updates `data/media_manifest.json` and blocks kiosk approval when required files, runtime paths, rights, captions, transcripts, or posters are missing. Use a blank `video_index` to approve status fields across all videos, or a 1-based `video_index` when editing file/path fields for a specific video.
 
 ## Build
 

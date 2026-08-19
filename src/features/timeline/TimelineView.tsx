@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
-import { allValue, sortInductees } from '../../data/filtering';
-import type { ExploreState, Inductee, SortMode } from '../../data/types';
+import { allValue } from '../../data/filtering';
+import type { ExploreState, Inductee } from '../../data/types';
 
 type TimelineViewProps = {
   inductees: Inductee[];
-  facets: {
-    regions: string[];
-  };
   loading: boolean;
   error: string;
   state: ExploreState;
@@ -20,80 +17,58 @@ type YearGroup = {
   inductees: Inductee[];
 };
 
-export function TimelineView({ inductees, facets, loading, error, state, onStateChange, onSelect }: TimelineViewProps) {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef(new Map<string, HTMLButtonElement>());
+type DistributionItem = {
+  label: string;
+  count: number;
+};
+
+export function TimelineView({ inductees, loading, error, state, onStateChange, onSelect }: TimelineViewProps) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const yearRefs = useRef(new Map<number, HTMLButtonElement>());
   const scrollFrame = useRef<number | null>(null);
-  const centeredIdRef = useRef('');
-  const [centeredId, setCenteredId] = useState('');
-  const [jumpYear, setJumpYear] = useState(() => state.year || allValue);
+  const activeYearRef = useRef<number | null>(null);
+  const dragRef = useRef({ active: false, pointerId: 0, startX: 0, scrollLeft: 0, moved: false });
+  const suppressYearClickRef = useRef(false);
+  const [activeYear, setActiveYear] = useState<number | null>(null);
 
-  const timelineBase = useMemo(() => filterTimelineBase(inductees, state), [inductees, state.query, state.region]);
-  const yearGroups = useMemo(() => buildYearGroups(timelineBase), [timelineBase]);
-  const timelineItems = useMemo(() => sortTimelineItems(timelineBase, state.sortMode), [state.sortMode, timelineBase]);
-  const centeredInductee = useMemo(
-    () => timelineItems.find((item) => item.id === centeredId) ?? timelineItems[0] ?? null,
-    [centeredId, timelineItems],
+  const yearGroups = useMemo(() => buildYearGroups(inductees), [inductees]);
+  const yearRange = useMemo(() => getYearRange(yearGroups), [yearGroups]);
+  const allYears = useMemo(() => buildAllYears(yearRange), [yearRange]);
+  const classMap = useMemo(() => new Map(yearGroups.map((group) => [group.year, group.inductees])), [yearGroups]);
+  const decadeJumps = useMemo(() => buildDecadeJumps(allYears), [allYears]);
+  const selectedYear = activeYear ?? yearRange?.max ?? null;
+  const activeYearIndex = selectedYear === null ? -1 : allYears.indexOf(selectedYear);
+  const selectedClass = useMemo(
+    () => (selectedYear === null ? [] : classMap.get(selectedYear) ?? []),
+    [classMap, selectedYear],
   );
-  const centeredIndex = centeredInductee ? timelineItems.findIndex((item) => item.id === centeredInductee.id) : -1;
-  const regionCounts = useMemo(() => aggregateRegions(timelineItems), [timelineItems]);
-  const yearRange = useMemo(() => getYearRange(timelineItems), [timelineItems]);
-  const yearSelectValue = yearGroups.some((group) => String(group.year) === jumpYear) ? jumpYear : allValue;
+  const classThemes = useMemo(() => aggregateThemes(selectedClass).slice(0, 5), [selectedClass]);
+  const classPlaces = useMemo(() => {
+    const distribution = preferredPlaceDistribution(selectedClass);
+    return { ...distribution, items: distribution.items.slice(0, 5) };
+  }, [selectedClass]);
+  const earliestYear = yearRange?.min ?? null;
+  const latestYear = yearRange?.max ?? null;
+  const earliestClass = earliestYear === null ? [] : classMap.get(earliestYear) ?? [];
+  const latestClass = latestYear === null ? [] : classMap.get(latestYear) ?? [];
 
   useEffect(() => {
-    centeredIdRef.current = centeredId;
-  }, [centeredId]);
+    activeYearRef.current = activeYear;
+  }, [activeYear]);
 
   useEffect(() => {
-    setJumpYear(state.year || allValue);
-  }, [state.year]);
-
-  const updateCenteredItem = useCallback(() => {
-    const carousel = carouselRef.current;
-    if (!carousel || cardRefs.current.size === 0) return;
-
-    const viewportCenter = carousel.scrollLeft + carousel.clientWidth / 2;
-    let nextId = '';
-    let closestDistance = Number.POSITIVE_INFINITY;
-
-    cardRefs.current.forEach((node, id) => {
-      const cardCenter = node.offsetLeft + node.offsetWidth / 2;
-      const distance = Math.abs(cardCenter - viewportCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        nextId = id;
-      }
-    });
-
-    if (nextId) setCenteredId(nextId);
-  }, []);
-
-  const centerItem = useCallback((id: string, behavior: ScrollBehavior = 'smooth') => {
-    const node = cardRefs.current.get(id);
-    if (!node) return;
-    node.scrollIntoView({ behavior, block: 'nearest', inline: 'center' });
-    setCenteredId(id);
-  }, []);
-
-  useEffect(() => {
-    if (timelineItems.length === 0) {
-      setCenteredId('');
+    if (!yearRange) {
+      setActiveYear(null);
+      activeYearRef.current = null;
       return;
     }
 
-    const requestedYear = Number(jumpYear);
-    const target =
-      jumpYear !== allValue && !Number.isNaN(requestedYear)
-        ? timelineItems.find((item) => item.classYear === requestedYear)
-        : null;
-    const currentStillVisible = timelineItems.some((item) => item.id === centeredIdRef.current);
-    const nextItem = target ?? (currentStillVisible ? null : timelineItems[0]);
-
-    if (!nextItem) return;
-
-    const animationFrame = window.requestAnimationFrame(() => centerItem(nextItem.id, 'auto'));
-    return () => window.cancelAnimationFrame(animationFrame);
-  }, [centerItem, jumpYear, timelineItems]);
+    const requestedYear = parseRequestedYear(state.year, yearRange);
+    const nextYear = requestedYear ?? yearRange.max;
+    setActiveYear(nextYear);
+    activeYearRef.current = nextYear;
+    window.requestAnimationFrame(() => scrollToYear(nextYear, 'auto'));
+  }, [state.year, yearRange]);
 
   useEffect(() => {
     return () => {
@@ -101,205 +76,329 @@ export function TimelineView({ inductees, facets, loading, error, state, onState
     };
   }, []);
 
-  function setCardRef(id: string, node: HTMLButtonElement | null) {
-    if (node) cardRefs.current.set(id, node);
-    else cardRefs.current.delete(id);
+  const commitYear = useCallback(
+    (year: number, behavior: ScrollBehavior = 'smooth') => {
+      if (!yearRange) return;
+      const clampedYear = clamp(year, yearRange.min, yearRange.max);
+      activeYearRef.current = clampedYear;
+      setActiveYear(clampedYear);
+      if (state.year !== String(clampedYear)) onStateChange({ year: String(clampedYear) });
+      scrollToYear(clampedYear, behavior);
+    },
+    [onStateChange, state.year, yearRange],
+  );
+
+  const updateCenteredYear = useCallback(() => {
+    const rail = railRef.current;
+    if (!rail || yearRefs.current.size === 0) return;
+
+    const railCenter = rail.scrollLeft + rail.clientWidth / 2;
+    let closestYear: number | null = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    yearRefs.current.forEach((node, year) => {
+      const center = node.offsetLeft + node.offsetWidth / 2;
+      const distance = Math.abs(center - railCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestYear = year;
+      }
+    });
+
+    if (closestYear === null || closestYear === activeYearRef.current) return;
+    activeYearRef.current = closestYear;
+    setActiveYear(closestYear);
+    if (state.year !== String(closestYear)) onStateChange({ year: String(closestYear) });
+  }, [onStateChange, state.year]);
+
+  function setYearRef(year: number, node: HTMLButtonElement | null) {
+    if (node) yearRefs.current.set(year, node);
+    else yearRefs.current.delete(year);
   }
 
-  function handleCarouselScroll() {
+  function handleRailScroll() {
     if (scrollFrame.current) return;
     scrollFrame.current = window.requestAnimationFrame(() => {
       scrollFrame.current = null;
-      updateCenteredItem();
+      updateCenteredYear();
     });
   }
 
-  function jumpToYear(value: string) {
-    setJumpYear(value);
-    const target = value === allValue ? timelineItems[0] : timelineItems.find((item) => item.classYear === Number(value));
-    if (target) centerItem(target.id);
+  function handleRailPointerDown(event: PointerEvent<HTMLDivElement>) {
+    const rail = railRef.current;
+    if (!rail || event.pointerType === 'touch' || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    dragRef.current = {
+      active: true,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      scrollLeft: rail.scrollLeft,
+      moved: false,
+    };
+    rail.setPointerCapture(event.pointerId);
+    rail.classList.add('timeline-year-rail--dragging');
   }
 
-  function stepCarousel(direction: -1 | 1) {
-    if (timelineItems.length === 0) return;
-    const currentIndex = centeredIndex >= 0 ? centeredIndex : 0;
-    const nextIndex = Math.min(Math.max(currentIndex + direction, 0), timelineItems.length - 1);
-    centerItem(timelineItems[nextIndex].id);
+  function handleRailPointerMove(event: PointerEvent<HTMLDivElement>) {
+    const rail = railRef.current;
+    const drag = dragRef.current;
+    if (!rail || !drag.active || drag.pointerId !== event.pointerId) return;
+    const delta = event.clientX - drag.startX;
+    if (Math.abs(delta) > 4) drag.moved = true;
+    rail.scrollLeft = drag.scrollLeft - delta;
+    if (drag.moved) event.preventDefault();
   }
 
-  const activeYear = centeredInductee?.classYear ?? null;
-  const activeYearPosition = activeYear !== null && yearRange ? getYearPosition(activeYear, yearRange) : 0;
+  function handleRailPointerEnd(event: PointerEvent<HTMLDivElement>) {
+    const rail = railRef.current;
+    const drag = dragRef.current;
+    if (!rail || !drag.active || drag.pointerId !== event.pointerId) return;
+    if (rail.hasPointerCapture(event.pointerId)) rail.releasePointerCapture(event.pointerId);
+    rail.classList.remove('timeline-year-rail--dragging');
+    if (drag.moved) {
+      suppressYearClickRef.current = true;
+      window.setTimeout(() => {
+        suppressYearClickRef.current = false;
+      }, 0);
+    }
+    dragRef.current = { active: false, pointerId: 0, startX: 0, scrollLeft: 0, moved: false };
+  }
+
+  function handleYearClick(year: number) {
+    if (suppressYearClickRef.current) return;
+    commitYear(year);
+  }
+
+  if (loading) {
+    return (
+      <section className="timeline timeline--status" aria-label="Timeline">
+        <div className="timeline-status">Loading classes</div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="timeline timeline--status" aria-label="Timeline">
+        <div className="timeline-status">Timeline could not be loaded: {error}</div>
+      </section>
+    );
+  }
+
+  if (!yearRange || selectedYear === null) {
+    return (
+      <section className="timeline timeline--status" aria-label="Timeline">
+        <div className="timeline-status">No class years have been curated yet.</div>
+      </section>
+    );
+  }
 
   return (
     <section className="timeline" aria-label="Timeline">
-      <div className="timeline__controls controls" aria-label="Timeline filters">
-        <label className="field field--search">
-          <span>Search</span>
-          <input
-            value={state.query}
-            onChange={(event) => onStateChange({ query: event.target.value })}
-            placeholder="Name, region, year, story, or inducer"
-            type="search"
-          />
-        </label>
+      <header className="timeline__header">
+        <div className="timeline__activeYear" aria-live="polite">
+          <p>Class Year</p>
+          <h2>{selectedYear}</h2>
+        </div>
+        <div className="timeline__range" aria-label="Timeline range">
+          <span>{yearRange.min} first class</span>
+          <span>{yearRange.max} current class</span>
+          <span>{inductees.length} people</span>
+        </div>
+      </header>
 
-        <label className="field">
-          <span>Region</span>
-          <select value={state.region} onChange={(event) => onStateChange({ region: event.target.value })}>
-            <option value={allValue}>All regions</option>
-            {facets.regions.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
+      <div className="timeline__controls" aria-label="Timeline controls">
+        <button
+          className="timeline-step"
+          type="button"
+          onClick={() => commitYear(selectedYear - 1)}
+          disabled={activeYearIndex <= 0}
+          aria-label="Previous year"
+        >
+          Previous Year
+        </button>
 
-        <label className="field">
-          <span>Jump</span>
-          <select value={yearSelectValue} onChange={(event) => jumpToYear(event.target.value)}>
-            <option value={allValue}>All years</option>
-            {yearGroups.map((group) => (
-              <option key={group.year} value={group.year}>
-                {group.year}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="field">
-          <span>Order</span>
-          <select value={state.sortMode} onChange={(event) => onStateChange({ sortMode: event.target.value as SortMode })}>
-            <option value="year-asc">Year, oldest first</option>
-            <option value="year-desc">Year, newest first</option>
-            <option value="name-asc">Name</option>
-            <option value="region-asc">Region</option>
-          </select>
-        </label>
-      </div>
-
-      <div className="result-line" aria-live="polite">
-        {loading && 'Loading inductees...'}
-        {error && `Data error: ${error}`}
-        {!loading && !error && `${timelineItems.length} inductees in carousel`}
-      </div>
-
-      {!loading && !error && timelineItems.length > 0 && (
-        <>
-          <div className="timeline__rail" aria-label="Class years">
-            <button className="year-chip" type="button" onClick={() => jumpToYear(allValue)}>
-              <span>All</span>
-              <small>{timelineItems.length}</small>
+        <div className="timeline-decade-jumps" aria-label="Decade jumps">
+          {decadeJumps.map((jump) => (
+            <button
+              aria-pressed={selectedYear >= jump.start && selectedYear <= jump.end}
+              className={selectedYear >= jump.start && selectedYear <= jump.end ? 'timeline-decade timeline-decade--active' : 'timeline-decade'}
+              key={jump.label}
+              type="button"
+              onClick={() => commitYear(jump.targetYear)}
+            >
+              {jump.label}
             </button>
-            {yearGroups.map((group) => (
-              <button
-                className={activeYear === group.year ? 'year-chip year-chip--active' : 'year-chip'}
-                key={group.year}
-                type="button"
-                onClick={() => jumpToYear(String(group.year))}
-              >
-                <span>{group.year}</span>
-                <small>{group.inductees.length}</small>
+          ))}
+        </div>
+
+        <button
+          className="timeline-step"
+          type="button"
+          onClick={() => commitYear(selectedYear + 1)}
+          disabled={activeYearIndex === -1 || activeYearIndex >= allYears.length - 1}
+          aria-label="Next year"
+        >
+          Next Year
+        </button>
+      </div>
+
+      <div
+        className="timeline-year-rail"
+        ref={railRef}
+        onScroll={handleRailScroll}
+        onPointerDown={handleRailPointerDown}
+        onPointerMove={handleRailPointerMove}
+        onPointerUp={handleRailPointerEnd}
+        onPointerCancel={handleRailPointerEnd}
+        aria-label={`Class years from ${yearRange.min} through ${yearRange.max}`}
+      >
+        {allYears.map((year) => {
+          const group = classMap.get(year);
+          const count = group?.length ?? 0;
+          const isActive = selectedYear === year;
+          return (
+            <button
+              aria-current={isActive ? 'true' : undefined}
+              className={isActive ? 'timeline-year timeline-year--active' : 'timeline-year'}
+              key={year}
+              ref={(node) => setYearRef(year, node)}
+              type="button"
+              onClick={() => handleYearClick(year)}
+            >
+              <span>{year}</span>
+              <small>{count > 0 ? `${count} people` : 'No class'}</small>
+            </button>
+          );
+        })}
+      </div>
+
+      <section className="timeline-class" aria-labelledby="timeline-class-heading">
+        <div className="timeline-class__header">
+          <div>
+            <p>Selected Class</p>
+            <h3 id="timeline-class-heading">{selectedYear}</h3>
+          </div>
+          <div className="timeline-class__summary">
+            <span>{selectedClass.length} portraits</span>
+            {classThemes.slice(0, 2).map((item) => (
+              <span key={item.label}>{item.label}</span>
+            ))}
+          </div>
+        </div>
+
+        {selectedClass.length > 0 ? (
+          <div className="timeline-class__portraits" key={selectedYear}>
+            {selectedClass.map((inductee) => (
+              <button className="timeline-class-card" key={inductee.id} type="button" onClick={() => onSelect(inductee)}>
+                <span className="timeline-class-card__media">
+                  <FallbackImage
+                    alt={inductee.imageAltText || inductee.name}
+                    className="timeline-class-card__image"
+                    fallbackClassName="timeline-class-card__fallback"
+                    fallbackLabel={initials(inductee.name)}
+                    src={inductee.primaryImageUrl}
+                  />
+                </span>
+                <span className="timeline-class-card__body">
+                  <strong>{inductee.name}</strong>
+                  <small>{displayCommunity(inductee)}</small>
+                </span>
               </button>
             ))}
           </div>
+        ) : (
+          <div className="timeline-class__empty">No inductee records are assigned to this class year yet.</div>
+        )}
 
-          <div className="timeline__stage">
-            <div className="timeline-carousel-shell">
-              <button
-                className="timeline-arrow"
-                type="button"
-                onClick={() => stepCarousel(-1)}
-                disabled={centeredIndex <= 0}
-                aria-label="Previous inductee"
-              >
-                Prev
-              </button>
-              <div className="timeline-carousel" ref={carouselRef} onScroll={handleCarouselScroll} aria-label="Inductee carousel">
-                {timelineItems.map((inductee) => {
-                  const isCentered = centeredInductee?.id === inductee.id;
-                  return (
-                    <button
-                      className={isCentered ? 'timeline-card timeline-card--active' : 'timeline-card'}
-                      key={inductee.id}
-                      type="button"
-                      ref={(node) => setCardRef(inductee.id, node)}
-                      onFocus={() => centerItem(inductee.id)}
-                      onClick={() => onSelect(inductee)}
-                    >
-                      <span className="timeline-card__media">
-                        <FallbackImage
-                          className="timeline-card__image"
-                          fallbackClassName="timeline-card__fallback"
-                          fallbackLabel={initials(inductee.name)}
-                          src={inductee.primaryImageUrl}
-                        />
-                        <span className="timeline-card__year">{inductee.classYear ?? 'Year unknown'}</span>
-                      </span>
-                      <span className="timeline-card__body">
-                        <small>{inductee.region}</small>
-                        <strong>{inductee.name}</strong>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              <button
-                className="timeline-arrow"
-                type="button"
-                onClick={() => stepCarousel(1)}
-                disabled={centeredIndex === -1 || centeredIndex >= timelineItems.length - 1}
-                aria-label="Next inductee"
-              >
-                Next
-              </button>
-            </div>
+        <div className="timeline-class__distribution" aria-label="Selected class distribution">
+          <DistributionList title="Themes" items={classThemes} />
+          <DistributionList title={classPlaces.title} items={classPlaces.items} />
+        </div>
+      </section>
 
-            {centeredInductee && (
-              <aside className="timeline-insight" aria-live="polite">
-                <div>
-                  <p className="eyebrow">Centered Inductee</p>
-                  <h2>{centeredInductee.name}</h2>
-                </div>
-                <div className="timeline-insight__meta">
-                  <span>{centeredInductee.classYear ?? 'Year unknown'}</span>
-                  <span>{centeredInductee.region}</span>
-                  {centeredInductee.hasVideo && <span>Video</span>}
-                </div>
-                <div className="timeline-insight__scale" aria-hidden="true">
-                  <span style={{ left: `${activeYearPosition}%` }} />
-                </div>
-                <p>{summarize(centeredInductee.bioText)}</p>
-                <div className="timeline__counts" aria-label="Visible region counts">
-                  {regionCounts.slice(0, 4).map((item) => (
-                    <span key={item.region}>
-                      {item.region}: {item.count}
-                    </span>
-                  ))}
-                </div>
-                <button className="timeline-insight__action" type="button" onClick={() => onSelect(centeredInductee)}>
-                  Open Story
-                </button>
-              </aside>
-            )}
+      {earliestYear !== null && latestYear !== null && (
+        <section className="timeline-compare" aria-labelledby="timeline-compare-heading">
+          <div className="timeline-compare__header">
+            <p>Then / Now</p>
+            <h3 id="timeline-compare-heading">First Class and Current Class</h3>
           </div>
-        </>
+          <div className="timeline-compare__grid">
+            <ComparisonClass label="Then" year={earliestYear} inductees={earliestClass} onSelect={onSelect} />
+            <ComparisonClass label="Now" year={latestYear} inductees={latestClass} onSelect={onSelect} />
+          </div>
+        </section>
       )}
     </section>
   );
+
+  function scrollToYear(year: number, behavior: ScrollBehavior) {
+    const node = yearRefs.current.get(year);
+    if (!node) return;
+    node.scrollIntoView({ behavior, block: 'nearest', inline: 'center' });
+  }
 }
 
-function filterTimelineBase(inductees: Inductee[], state: ExploreState) {
-  const search = state.query.trim().toLowerCase();
-  return inductees.filter((item) => {
-    const matchesSearch = !search || item.searchText.includes(search);
-    const matchesRegion = state.region === allValue || item.region === state.region;
-    return matchesSearch && matchesRegion;
-  });
+function ComparisonClass({
+  label,
+  year,
+  inductees,
+  onSelect,
+}: {
+  label: string;
+  year: number;
+  inductees: Inductee[];
+  onSelect: (inductee: Inductee) => void;
+}) {
+  const themes = aggregateThemes(inductees).slice(0, 4);
+  const placeDistribution = preferredPlaceDistribution(inductees);
+
+  return (
+    <article className="timeline-compare-class">
+      <header>
+        <span>{label}</span>
+        <strong>{year}</strong>
+        <small>{inductees.length} portraits</small>
+      </header>
+      <div className="timeline-compare-class__portraits">
+        {inductees.slice(0, 8).map((inductee) => (
+          <button key={inductee.id} type="button" onClick={() => onSelect(inductee)} aria-label={`Open ${inductee.name}`}>
+            <FallbackImage
+              alt={inductee.imageAltText || inductee.name}
+              className="timeline-compare-class__image"
+              fallbackClassName="timeline-compare-class__fallback"
+              fallbackLabel={initials(inductee.name)}
+              src={inductee.primaryImageUrl}
+            />
+          </button>
+        ))}
+      </div>
+      <DistributionList title="Theme Distribution" items={themes} />
+      <DistributionList title={placeDistribution.title} items={placeDistribution.items.slice(0, 4)} />
+    </article>
+  );
 }
 
-function sortTimelineItems(inductees: Inductee[], sortMode: SortMode) {
-  return [...inductees].sort((a, b) => sortInductees(a, b, sortMode));
+function DistributionList({ title, items }: { title: string; items: DistributionItem[] }) {
+  const max = Math.max(...items.map((item) => item.count), 1);
+
+  return (
+    <div className="timeline-distribution">
+      <h4>{title}</h4>
+      {items.length > 0 ? (
+        <div className="timeline-distribution__items">
+          {items.map((item) => (
+            <div className="timeline-distribution__item" key={item.label}>
+              <span>{item.label}</span>
+              <strong>{item.count}</strong>
+              <i style={{ width: `${Math.max(12, (item.count / max) * 100)}%` }} aria-hidden="true" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No distribution data yet.</p>
+      )}
+    </div>
+  );
 }
 
 function buildYearGroups(inductees: Inductee[]): YearGroup[] {
@@ -318,26 +417,65 @@ function buildYearGroups(inductees: Inductee[]): YearGroup[] {
     }));
 }
 
-function aggregateRegions(inductees: Inductee[]) {
+function getYearRange(groups: YearGroup[]) {
+  if (groups.length === 0) return null;
+  return { min: groups[0].year, max: groups[groups.length - 1].year };
+}
+
+function buildAllYears(range: { min: number; max: number } | null) {
+  if (!range) return [];
+  return Array.from({ length: range.max - range.min + 1 }, (_, index) => range.min + index);
+}
+
+function buildDecadeJumps(years: number[]) {
+  const decades = new Map<number, number>();
+  years.forEach((year) => {
+    const decade = Math.floor(year / 10) * 10;
+    if (!decades.has(decade)) decades.set(decade, year);
+  });
+
+  return Array.from(decades.entries()).map(([decade, targetYear]) => ({
+    label: `${decade}s`,
+    start: decade,
+    end: decade + 9,
+    targetYear,
+  }));
+}
+
+function parseRequestedYear(value: string, range: { min: number; max: number }) {
+  if (!value || value === allValue) return null;
+  const year = Number(value);
+  if (!Number.isInteger(year)) return null;
+  if (year < range.min || year > range.max) return null;
+  return year;
+}
+
+function aggregateThemes(inductees: Inductee[]): DistributionItem[] {
+  return aggregateStrings(inductees.flatMap((inductee) => inductee.themeTags));
+}
+
+function preferredPlaceDistribution(inductees: Inductee[]) {
+  const communities = aggregateStrings(inductees.flatMap((inductee) => inductee.communityTags));
+  if (communities.length > 0) return { title: 'Community Distribution', items: communities };
+  return { title: 'Region Distribution', items: aggregateStrings(inductees.map((inductee) => inductee.region)) };
+}
+
+function aggregateStrings(values: string[]): DistributionItem[] {
   const counts = new Map<string, number>();
-  inductees.forEach((item) => counts.set(item.region, (counts.get(item.region) ?? 0) + 1));
+  values
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .forEach((value) => counts.set(value, (counts.get(value) ?? 0) + 1));
+
   return Array.from(counts.entries())
-    .map(([region, count]) => ({ region, count }))
-    .sort((a, b) => b.count - a.count || a.region.localeCompare(b.region));
+    .map(([label, count]) => ({ label, count }))
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
-function getYearRange(inductees: Inductee[]) {
-  const years = inductees.map((item) => item.classYear).filter((year): year is number => typeof year === 'number');
-  if (years.length === 0) return null;
-  return { min: Math.min(...years), max: Math.max(...years) };
+function displayCommunity(inductee: Inductee) {
+  return inductee.communityTags[0] || inductee.region || 'Community pending';
 }
 
-function getYearPosition(year: number, range: { min: number; max: number }) {
-  if (range.max === range.min) return 50;
-  return ((year - range.min) / (range.max - range.min)) * 100;
-}
-
-function summarize(text: string) {
-  if (text.length <= 260) return text;
-  return `${text.slice(0, 260).trim()}...`;
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }

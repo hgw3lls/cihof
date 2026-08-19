@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "CIHOF story sections",
+    "updatedAt": "2026-08-18",
+    "note": "Human-editable narrative beats layered over the imported inductee records. Records may be added incrementally by inductee id."
+  },
+  "records": {
+    "mayor-frank-jackson-2025": {
+      "inducteeId": "mayor-frank-jackson-2025",
+      "provenance": "curated",
+      "updatedAt": "2026-08-18",
+      "curatorNotes": [
+        "Starter section set based on the imported CIHOF biography."
+      ],
+      "beats": [
+        {
+          "id": "early-cleveland",
+          "type": "early_life",
+          "headline": "Central and Kinsman shaped the beginning",
+          "body": "Frank Jackson grew up in Cleveland's Central and Kinsman neighborhoods. His route moved through Max S. Hayes High School, military service during the Vietnam War, Cuyahoga Community College, and Cleveland State University, where he studied urban affairs, history, and law.",
+          "place": "Central and Kinsman",
+          "organization": "Max S. Hayes High School",
+          "timelineMarker": "Early life and education",
+          "provenance": "curated"
+        },
+        {
+          "id": "public-service",
+          "type": "work",
+          "headline": "Public service became a city career",
+          "body": "After law school and the Ohio bar, Jackson began legal work as an assistant city prosecutor. In 1989, he won a Cleveland City Council seat for Ward 5, where his work focused on neighborhood stabilization and public investment.",
+          "place": "Cleveland City Hall",
+          "organization": "Cleveland City Council",
+          "timelineMarker": "1989",
+          "provenance": "curated"
+        },
+        {
+          "id": "leadership",
+          "type": "leadership",
+          "headline": "Leadership moved from ward to city",
+          "body": "Jackson's Ward 5 work helped lead to his election as Council President in 2001. In 2006, he became Cleveland's 56th mayor and eventually served four full terms, making him the longest-serving mayor in the city's history.",
+          "place": "Cleveland City Hall",
+          "organization": "City of Cleveland",
+          "timelineMarker": "2001-2022",
+          "provenance": "curated"
+        },
+        {
+          "id": "city-of-many-communities",
+          "type": "building_community",
+          "headline": "City Hall became a place of recognition",
+          "body": "His biography connects his mayoralty to ethnic heritage celebrations in the City Hall Rotunda. Italian, Lebanese, Hispanic, Black, Asian Pacific, Polish, Jewish, Chinese, Irish, Puerto Rican, Russian, and many other communities are named as part of that civic recognition.",
+          "quote": "one people, one community",
+          "place": "City Hall Rotunda",
+          "organization": "City of Cleveland",
+          "relatedPersonId": "valarie-mccall-2020",
+          "provenance": "curated"
+        },
+        {
+          "id": "legacy",
+          "type": "legacy",
+          "headline": "The legacy is a broader civic welcome",
+          "body": "Jackson's story ends with a Cleveland that used public ceremony, sister-city relationships, and neighborhood leadership to recognize international communities. His induction links city government to the Cleveland International Hall of Fame's larger memory work.",
+          "place": "Cleveland City Hall",
+          "organization": "Cleveland International Hall of Fame",
+          "timelineMarker": "Class of 2025",
+          "provenance": "curated"
+        }
+      ]
+    },
+    "le-nguyen-2026": {
+      "inducteeId": "le-nguyen-2026",
+      "provenance": "curated",
+      "updatedAt": "2026-08-18",
+      "curatorNotes": [
+        "Starter section set based on the imported CIHOF biography."
+      ],
+      "beats": [
+        {
+          "id": "war-and-departure",
+          "type": "early_life",
+          "headline": "War made departure part of the story",
+          "body": "Le Nguyen was born in Can Tho, Vietnam, one of eight siblings. As a teenager he witnessed war spread through the country and served in the South Vietnamese Air Force. In April 1975, he survived the bombing at Tan Son Nhut airport.",
+          "place": "Can Tho, Vietnam",
+          "timelineMarker": "1975",
+          "provenance": "curated"
+        },
+        {
+          "id": "arrival",
+          "type": "arrival",
+          "headline": "A new country, then Cleveland",
+          "body": "After leaving Vietnam with family members, Nguyen resettled first in Muskegon, Michigan. He studied electronics and technology, then moved to Cleveland in 1980, drawn by the possibility of opportunity near Lake Erie.",
+          "place": "Cleveland",
+          "timelineMarker": "1980",
+          "provenance": "curated"
+        },
+        {
+          "id": "resettlement-work",
+          "type": "work",
+          "headline": "Resettlement became public service",
+          "body": "Within a year, Nguyen was hired to assist Vietnamese refugees resettling in Cleveland. His work earned trust in city leadership, and he became a steady mediator through several mayoral administrations.",
+          "organization": "City of Cleveland",
+          "relatedPersonId": "mayor-frank-jackson-2025",
+          "timelineMarker": "1981-2012",
+          "provenance": "curated"
+        },
+        {
+          "id": "community-building",
+          "type": "building_community",
+          "headline": "Families found practical help and cultural ground",
+          "body": "Nguyen helped more than 125 displaced families with housing, food assistance, permanent residency, and citizenship. Alongside volunteers, he also helped bring Moon Festival and Lunar New Year celebrations to Cleveland.",
+          "place": "Detroit Avenue and West 65th Street",
+          "organization": "Vietnamese Community of Greater Cleveland",
+          "provenance": "curated"
+        },
+        {
+          "id": "legacy",
+          "type": "legacy",
+          "headline": "Quiet strength became a civic bridge",
+          "body": "Nguyen's legacy is measured in families, neighborhoods, and city relationships. His biography frames him as a connector who made Cleveland more welcoming through steady service, mediation, and cultural bridge-building.",
+          "organization": "Vietnamese Community of Greater Cleveland",
+          "timelineMarker": "Class of 2026",
+          "provenance": "curated"
+        }
+      ]
+    },
+    "svetlana-stolyarova-2025": {
+      "inducteeId": "svetlana-stolyarova-2025",
+      "provenance": "curated",
+      "updatedAt": "2026-08-18",
+      "curatorNotes": [
+        "Starter section set based on the imported CIHOF biography."
+      ],
+      "beats": [
+        {
+          "id": "early-formation",
+          "type": "early_life",
+          "headline": "Music, philosophy, and civic change shaped her path",
+          "body": "Svetlana Stolyarova was born in the USSR in 1962. Her biography describes a lifelong passion for music, philosophy, and civic engagement, including democratic reform work during perestroika before her later community leadership in Cleveland.",
+          "place": "USSR",
+          "timelineMarker": "1962",
+          "provenance": "curated"
+        },
+        {
+          "id": "arrival-cleveland",
+          "type": "arrival",
+          "headline": "Cleveland became a place to build across cultures",
+          "body": "After immigrating to the United States in 1999, Stolyarova became active in Russian-speaking and Greater Cleveland communities. Her work as a broker, consultant, and organizer helped create cross-cultural ties.",
+          "place": "Greater Cleveland",
+          "timelineMarker": "1999",
+          "provenance": "curated"
+        },
+        {
+          "id": "russian-garden",
+          "type": "building_community",
+          "headline": "The Russian Cultural Garden became permanent memory",
+          "body": "In 2011, Stolyarova co-founded the Russian Cultural Garden. The garden was designed, built, and dedicated in 2018, and her biography also notes her role in bringing a bust of Yuri Gagarin to the garden in 2019.",
+          "place": "Cleveland Cultural Gardens",
+          "organization": "Russian Cultural Garden",
+          "timelineMarker": "2011-2019",
+          "provenance": "curated"
+        },
+        {
+          "id": "federation-leadership",
+          "type": "leadership",
+          "headline": "Garden work expanded into citywide cultural leadership",
+          "body": "Stolyarova served as the Russian garden's first president and a delegate to the Cleveland Cultural Gardens Federation. She was twice elected federation vice president, working on funding, partnerships, and the public presence of eastern European culture.",
+          "organization": "Cleveland Cultural Gardens Federation",
+          "provenance": "curated"
+        },
+        {
+          "id": "festival-legacy",
+          "type": "legacy",
+          "headline": "Festivals turned heritage into shared celebration",
+          "body": "Her later work includes founding the Maslenitsa pancake festival and co-founding the Stars of Summer international competition and festival. The legacy presented in her biography is cultural heritage made visible through gardens, music, and public celebration.",
+          "organization": "Stars of Summer International Piano, Vocal, and Dance Competition and Festival",
+          "timelineMarker": "Class of 2025",
+          "provenance": "curated"
+        }
+      ]
+    }
+  }
+}

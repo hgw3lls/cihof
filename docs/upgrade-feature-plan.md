@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Upgrade the current CIHOF Explorer from a solid rebuild into a richer museum-grade kiosk and web experience. The next phase should use the existing 105 inductee records more intelligently, make discovery feel more guided and tactile, and harden the app for unattended large-screen use.
+Upgrade the current CIHOF Explorer from a solid rebuild into a richer museum-grade kiosk and web experience. The next phase should use the existing 111 inductee records more intelligently, make discovery feel more guided and tactile, and harden the app for unattended large-screen use.
 
 This plan builds on the current app, which already includes Explore, Timeline, Regions, Journeys, a detail drawer, URL state, kiosk mode, and attract mode.
 
@@ -11,9 +11,9 @@ This plan builds on the current app, which already includes Explore, Timeline, R
 - Data source: `data/cihof_kiosk_manifest.csv`
 - Runtime data: `public/data/inductees.json`
 - Data report: `public/data/data-report.json`
-- Current collection: 105 inductees from 2010-2025
-- Region distribution: Europe 60, Asia 29, North America 8, Africa 7, South America 1
-- Media coverage: 105 primary images, 105 image galleries, 58 video records
+- Current collection: 111 inductees from 2010-2026
+- Region distribution: Europe 63, Asia 30, North America 9, Africa 8, South America 1
+- Media coverage: 111 primary images, 111 image galleries, 64 video records
 - Known gap: 47 inductees have no linked video
 
 ## Product Goals

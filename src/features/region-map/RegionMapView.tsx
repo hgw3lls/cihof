@@ -263,6 +263,7 @@ export function RegionMapView({ inductees, selectedRegion, onRegionChange, onSel
                     >
                       <span className="region-card__media">
                         <FallbackImage
+                          alt={inductee.imageAltText}
                           className="region-card__image"
                           fallbackClassName="region-card__fallback"
                           fallbackLabel={initials(inductee.name)}

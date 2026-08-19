@@ -22,6 +22,7 @@ export function filterInductees(inductees: Inductee[], state: ExploreState) {
 }
 
 export function sortInductees(a: Inductee, b: Inductee, sortMode: SortMode) {
+  if (sortMode === 'physical-wall') return comparePhysicalWallPosition(a, b);
   if (sortMode === 'name-asc') return a.name.localeCompare(b.name);
   if (sortMode === 'region-asc') return a.region.localeCompare(b.region) || a.name.localeCompare(b.name);
 
@@ -30,4 +31,23 @@ export function sortInductees(a: Inductee, b: Inductee, sortMode: SortMode) {
 
   if (sortMode === 'year-desc') return yearB - yearA || a.name.localeCompare(b.name);
   return yearA - yearB || a.name.localeCompare(b.name);
+}
+
+function comparePhysicalWallPosition(a: Inductee, b: Inductee) {
+  return (
+    physicalWallRank(a) - physicalWallRank(b) ||
+    a.physicalPanel.localeCompare(b.physicalPanel) ||
+    (a.physicalRow ?? 9999) - (b.physicalRow ?? 9999) ||
+    (a.physicalColumn ?? 9999) - (b.physicalColumn ?? 9999) ||
+    a.wallLabel.localeCompare(b.wallLabel) ||
+    (a.classYear ?? 9999) - (b.classYear ?? 9999) ||
+    a.name.localeCompare(b.name)
+  );
+}
+
+function physicalWallRank(inductee: Inductee) {
+  if (inductee.physicalPortraitPresent && inductee.physicalRow && inductee.physicalColumn) return 0;
+  if (inductee.physicalRow && inductee.physicalColumn) return 1;
+  if (inductee.physicalPortraitPresent || inductee.physicalPanel || inductee.wallLabel || inductee.wallCoordinates) return 2;
+  return 3;
 }
