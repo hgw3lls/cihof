@@ -1,10 +1,12 @@
 import type { ViewMode } from '../data/types';
+import { buildInfo, type BuildInfo } from './buildInfo';
 
 export type KioskDataStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 export type KioskHealthSnapshot = {
   schemaVersion: 1;
   appName: 'CIHOF Portrait Wall';
+  buildInfo: BuildInfo;
   baseUrl: string;
   buildMode: string;
   bootedAt: string;
@@ -48,6 +50,7 @@ export function initializeKioskHealth() {
   healthSnapshot = {
     schemaVersion: 1,
     appName: 'CIHOF Portrait Wall',
+    buildInfo,
     baseUrl: import.meta.env.BASE_URL,
     buildMode: import.meta.env.MODE,
     bootedAt: now,
