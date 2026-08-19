@@ -83,7 +83,7 @@ export function TimelineView({ inductees, loading, error, selectedYear: selected
       activeYearRef.current = clampedYear;
       setActiveYear(clampedYear);
       if (selectedYearParam !== String(clampedYear)) onYearChange(String(clampedYear));
-      scrollToYear(clampedYear, behavior);
+      window.requestAnimationFrame(() => scrollToYear(clampedYear, behavior));
     },
     [onYearChange, selectedYearParam, yearRange],
   );
@@ -200,8 +200,22 @@ export function TimelineView({ inductees, loading, error, selectedYear: selected
           <h2>{selectedYear}</h2>
         </div>
         <div className="timeline__range" aria-label="Timeline range">
-          <span>{yearRange.min} first class</span>
-          <span>{yearRange.max} current class</span>
+          <button
+            className={selectedYear === yearRange.min ? 'timeline-range-button timeline-range-button--active' : 'timeline-range-button'}
+            type="button"
+            aria-pressed={selectedYear === yearRange.min}
+            onClick={() => commitYear(yearRange.min)}
+          >
+            {yearRange.min} first class
+          </button>
+          <button
+            className={selectedYear === yearRange.max ? 'timeline-range-button timeline-range-button--active' : 'timeline-range-button'}
+            type="button"
+            aria-pressed={selectedYear === yearRange.max}
+            onClick={() => commitYear(yearRange.max)}
+          >
+            {yearRange.max} current class
+          </button>
           <span>{inductees.length} people</span>
         </div>
       </header>
@@ -338,9 +352,12 @@ export function TimelineView({ inductees, loading, error, selectedYear: selected
   );
 
   function scrollToYear(year: number, behavior: ScrollBehavior) {
+    const rail = railRef.current;
     const node = yearRefs.current.get(year);
-    if (!node) return;
-    node.scrollIntoView({ behavior, block: 'nearest', inline: 'center' });
+    if (!rail || !node) return;
+    const targetLeft = node.offsetLeft - (rail.clientWidth - node.offsetWidth) / 2;
+    const maxScroll = Math.max(rail.scrollWidth - rail.clientWidth, 0);
+    rail.scrollTo({ left: clamp(targetLeft, 0, maxScroll), behavior });
   }
 }
 
