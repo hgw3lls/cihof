@@ -41,6 +41,7 @@ export function ConnectionFinder({
   const [query, setQuery] = useState('');
   const [revealedEdgeCount, setRevealedEdgeCount] = useState(0);
   const [activeNodeId, setActiveNodeId] = useState('');
+  const [theaterRun, setTheaterRun] = useState(0);
 
   const path = useMemo(
     () => personA && personB ? findConnectionPath(graph, personA.id, personB.id, maxConnectionEdges) : null,
@@ -57,6 +58,7 @@ export function ConnectionFinder({
     setQuery('');
     setActiveNodeId('');
     setRevealedEdgeCount(0);
+    setTheaterRun(0);
   }, [open, seedPerson]);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ export function ConnectionFinder({
     }, 620);
 
     return () => window.clearInterval(interval);
-  }, [path, stage]);
+  }, [path, stage, theaterRun]);
 
   if (!open) return null;
 
@@ -134,6 +136,11 @@ export function ConnectionFinder({
     }
 
     setActiveNodeId((current) => current === node.id ? '' : node.id);
+  }
+
+  function replayPath() {
+    setActiveNodeId('');
+    setTheaterRun((value) => value + 1);
   }
 
   const selectedTitle = personA && personB ? `${personA.name} to ${personB.name}` : 'Six Degrees of Cleveland';
@@ -187,6 +194,7 @@ export function ConnectionFinder({
             onChangePersonB={changePersonB}
             onNodeTap={handleNodeTap}
             onOpenPerson={openPerson}
+            onReplay={replayPath}
           />
         )}
       </main>
@@ -291,6 +299,7 @@ function ConnectionResult({
   onChangePersonB,
   onNodeTap,
   onOpenPerson,
+  onReplay,
 }: {
   activeNode: ConnectionNode | null;
   activeNodePeople: Inductee[];
@@ -302,6 +311,7 @@ function ConnectionResult({
   onChangePersonB: () => void;
   onNodeTap: (node: ConnectionNode) => void;
   onOpenPerson: (inductee: Inductee) => void;
+  onReplay: () => void;
 }) {
   if (!path) {
     return (
@@ -322,6 +332,19 @@ function ConnectionResult({
     );
   }
 
+  const currentNode = path.nodes[Math.min(revealedEdgeCount, path.nodes.length - 1)];
+  const currentEdge = path.edges[Math.max(0, Math.min(revealedEdgeCount - 1, path.edges.length - 1))];
+  const completed = revealedEdgeCount >= path.edges.length;
+  const provenanceSummary = connectionProvenanceSummary(path);
+  const nodeSummary = connectionNodeSummary(path);
+  const theaterLine = completed
+    ? `${personA.name} and ${personB.name} are connected through ${nodeSummary}.`
+    : currentEdge
+      ? currentEdge.provenance === 'inferred'
+        ? `Possible link: ${currentEdge.label}`
+        : currentEdge.label
+      : `Starting with ${personA.name}.`;
+
   return (
     <section className="connection-result" aria-label="Connection path">
       <div className="connection-result__summary">
@@ -332,8 +355,33 @@ function ConnectionResult({
         <div className="connection-result__actions">
           <button type="button" onClick={onChangePersonA}>Change Person A</button>
           <button type="button" onClick={onChangePersonB}>Change Person B</button>
+          <button type="button" onClick={onReplay}>Replay Path</button>
           <button type="button" onClick={() => onOpenPerson(personA)}>Open {personA.name}</button>
         </div>
+      </div>
+
+      <div className="connection-theater" aria-live="polite">
+        <TheaterPortrait inductee={personA} label="Start" onOpenPerson={onOpenPerson} />
+        <div className="connection-theater__center">
+          <div className="connection-theater__meter" aria-label="Path reveal progress">
+            {path.edges.map((edge, index) => (
+              <span
+                className={index < revealedEdgeCount ? `connection-theater__dot connection-theater__dot--${edge.provenance} connection-theater__dot--active` : `connection-theater__dot connection-theater__dot--${edge.provenance}`}
+                key={`${edge.from}-${edge.to}-${index}`}
+              />
+            ))}
+          </div>
+          <div className="connection-theater__copy">
+            <p className="museum-kicker">{completed ? 'Connection Found' : `Step ${Math.min(revealedEdgeCount + 1, path.nodes.length)} of ${path.nodes.length}`}</p>
+            <h3>{completed ? 'A Cleveland Path' : currentNode.label}</h3>
+            <p>{theaterLine}</p>
+            <div className="connection-theater__stats">
+              <span>{path.nodes.length} nodes</span>
+              <span>{provenanceSummary}</span>
+            </div>
+          </div>
+        </div>
+        <TheaterPortrait inductee={personB} label="End" onOpenPerson={onOpenPerson} />
       </div>
 
       <div className="connection-result__stage">
@@ -345,7 +393,7 @@ function ConnectionResult({
             const showEdge = edge && index < revealedEdgeCount;
 
             return (
-              <div className="connection-path__pair" key={`${node.id}-${index}`}>
+              <div className={index === revealedEdgeCount ? 'connection-path__pair connection-path__pair--active' : 'connection-path__pair'} key={`${node.id}-${index}`}>
                 <ConnectionNodeButton node={node} position={index} total={path.nodes.length} onNodeTap={onNodeTap} />
                 {showEdge && <ConnectionEdgeLabel edge={edge} />}
               </div>
@@ -413,6 +461,31 @@ function ConnectionNodeButton({
         <strong>{node.label}</strong>
         <small>{role}</small>
       </span>
+    </button>
+  );
+}
+
+function TheaterPortrait({
+  inductee,
+  label,
+  onOpenPerson,
+}: {
+  inductee: Inductee;
+  label: string;
+  onOpenPerson: (inductee: Inductee) => void;
+}) {
+  return (
+    <button className="connection-theater__portrait" type="button" onClick={() => onOpenPerson(inductee)}>
+      <FallbackImage
+        alt={inductee.imageAltText}
+        className="connection-theater__image"
+        fallbackClassName="connection-theater__fallback"
+        fallbackLabel={initials(inductee.name)}
+        src={inductee.primaryImageUrl}
+      />
+      <span>{label}</span>
+      <strong>{inductee.name}</strong>
+      <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</small>
     </button>
   );
 }
@@ -485,6 +558,31 @@ function nodeKindLabel(kind: ConnectionNode['kind']) {
     media: 'Media',
   };
   return labels[kind];
+}
+
+function connectionProvenanceSummary(path: ConnectionPath) {
+  const counts = path.edges.reduce<Record<RelationshipProvenance, number>>((summary, edge) => {
+    summary[edge.provenance] += 1;
+    return summary;
+  }, { documented: 0, curated: 0, inferred: 0 });
+  const parts = [
+    counts.documented > 0 ? `${counts.documented} documented` : '',
+    counts.curated > 0 ? `${counts.curated} curated` : '',
+    counts.inferred > 0 ? `${counts.inferred} possible` : '',
+  ].filter(Boolean);
+
+  return parts.join(' / ') || 'No edge labels';
+}
+
+function connectionNodeSummary(path: ConnectionPath) {
+  const kinds = path.nodes
+    .slice(1, -1)
+    .map((node) => nodeKindLabel(node.kind).toLowerCase())
+    .filter((kind, index, items) => items.indexOf(kind) === index);
+
+  if (kinds.length === 0) return 'one direct relationship';
+  if (kinds.length === 1) return `shared ${kinds[0]} records`;
+  return `${kinds.slice(0, -1).join(', ')} and ${kinds[kinds.length - 1]} records`;
 }
 
 function entityInitials(label: string) {
