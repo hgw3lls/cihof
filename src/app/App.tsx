@@ -30,12 +30,12 @@ const kioskIdleMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_IDLE_
 const kioskResetWarningMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_RESET_WARNING_MS, 12_000);
 const contentProtectionActive = import.meta.env.PROD;
 const showKioskToggleInProduction = import.meta.env.VITE_CIHOF_SHOW_KIOSK_TOGGLE === '1';
-const primaryNavItems: Array<{ mode: ViewMode; label: string }> = [
-  { mode: 'all-people', label: 'All People' },
-  { mode: 'time', label: 'Time' },
-  { mode: 'places', label: 'Places' },
-  { mode: 'journeys', label: 'Journeys' },
-  { mode: 'search', label: 'Search' },
+const primaryNavItems: Array<{ mode: ViewMode; label: string; icon: string }> = [
+  { mode: 'all-people', label: 'All People', icon: 'people' },
+  { mode: 'time', label: 'Time', icon: 'time' },
+  { mode: 'places', label: 'Places', icon: 'places' },
+  { mode: 'journeys', label: 'Journeys', icon: 'journeys' },
+  { mode: 'search', label: 'Search', icon: 'search' },
 ];
 
 type ReviewDashboardProps = {
@@ -323,7 +323,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
       <header className="museum-rail" aria-label="Collection status">
         <div className="museum-brand">
           <span>CIHOF</span>
-          <strong>Portrait Wall</strong>
+          <strong>Western Reserve Historical Society</strong>
         </div>
         <div className="museum-status" aria-label="Collection summary">
           <span>{stats.total} people</span>
@@ -410,7 +410,8 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
               type="button"
               onClick={() => changeView(item.mode)}
             >
-              {item.label}
+              <span className={`museum-nav-icon museum-nav-icon--${item.icon}`} aria-hidden="true" />
+              <span>{item.label}</span>
             </button>
           ))}
         </nav>
