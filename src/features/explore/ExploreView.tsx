@@ -42,6 +42,7 @@ export function ExploreView({
   onFindConnection,
 }: ExploreViewProps) {
   const [toolsOpen, setToolsOpen] = useState(() => toolsDefaultOpen || hasActiveFilters(state));
+  const [lensesOpen, setLensesOpen] = useState(false);
   const [discoveryOffset, setDiscoveryOffset] = useState(0);
   const [activeLensId, setActiveLensId] = useState('');
   const storyLensState = useStoryLenses();
@@ -75,6 +76,10 @@ export function ExploreView({
     if (activeLensId && !storyLenses.some((lens) => lens.id === activeLensId)) setActiveLensId('');
   }, [activeLensId, storyLenses]);
 
+  useEffect(() => {
+    if (activeLensId) setLensesOpen(true);
+  }, [activeLensId]);
+
   function handleDiscover() {
     if (!discoveryTarget) return;
     setDiscoveryOffset((value) => value + 1);
@@ -83,178 +88,201 @@ export function ExploreView({
 
   return (
     <section className="explore portrait-wall" aria-label="All people portrait wall">
-      <div className="portrait-wall__mast">
-        <div>
-          <p className="museum-kicker">Cleveland International Hall of Fame</p>
-          <h2>All People</h2>
-        </div>
-
-        <div className="portrait-wall__actions">
-          <div className="portrait-wall__count" aria-live="polite">
-            {loading && 'Loading'}
-            {error && 'Data error'}
-            {!loading && !error && `${wallPeople.length} of ${inductees.length} portraits`}
-          </div>
-
-          <button
-            className="portrait-wall__connection-button"
-            type="button"
-            onClick={onFindConnection}
-          >
-            Find A Connection
-          </button>
-
-          <button
-            className="portrait-wall__tool-button"
-            type="button"
-            aria-expanded={toolsOpen}
-            aria-controls="all-people-tools"
-            onClick={() => setToolsOpen((value) => !value)}
-          >
-            Search & Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-          </button>
-
-          <button
-            className="portrait-wall__discovery-button"
-            type="button"
-            disabled={!discoveryTarget || loading}
-            onClick={handleDiscover}
-          >
-            Show Me Someone Different
-          </button>
-        </div>
-      </div>
-
-      <StoryLensControls
-        activeLens={activeLens}
-        lenses={storyLenses}
-        lensMatches={lensMatches}
-        onClearLens={() => setActiveLensId('')}
-        onSelectLens={(lensId) => setActiveLensId((current) => current === lensId ? '' : lensId)}
-        onSelectPerson={onSelect}
-      />
-
-      {toolsOpen && (
-        <div className="portrait-wall__tools" id="all-people-tools" aria-label="Search and filters">
-          <div className="controls" aria-label="Search and filters">
-            <label className="field field--search">
-              <span>Search</span>
-              <input
-                value={state.query}
-                onChange={(event) => onStateChange({ query: event.target.value })}
-                placeholder="Name, country, community, year, story, or inducer"
-                type="search"
-              />
-            </label>
-
-            <label className="field">
-              <span>Country</span>
-              <select value={state.country} onChange={(event) => onStateChange({ country: event.target.value })}>
-                <option value={allValue}>All countries</option>
-                {facets.countries.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Region</span>
-              <select value={state.region} onChange={(event) => onStateChange({ region: event.target.value })}>
-                <option value={allValue}>All regions</option>
-                {facets.regions.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Year</span>
-              <select value={state.year} onChange={(event) => onStateChange({ year: event.target.value })}>
-                <option value={allValue}>All years</option>
-                {facets.years.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Sort</span>
-              <select value={state.sortMode} onChange={(event) => onStateChange({ sortMode: event.target.value as SortMode })}>
-                <option value="year-asc">Year, oldest first</option>
-                <option value="year-desc">Year, newest first</option>
-                <option value="name-asc">Name</option>
-                <option value="country-asc">Country</option>
-                <option value="region-asc">Region</option>
-                <option value="physical-wall">Physical wall order</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="discovery-tools" aria-label="Discovery filters">
-            <div className="media-toggle" aria-label="Media quick filters">
-              {mediaOptions.map((option) => (
-                <button
-                  className={state.media === option.value ? 'filter-pill filter-pill--active' : 'filter-pill'}
-                  key={option.value}
-                  type="button"
-                  onClick={() => onStateChange({ media: option.value })}
-                >
-                  {option.label}
-                </button>
-              ))}
+      <div className="portrait-wall__surface portrait-wall__surface--portraits-only">
+        <div className="portrait-wall__gallery portrait-wall__gallery--full">
+          <div className="portrait-wall__wall-bar">
+            <div className="portrait-wall__wall-title">
+              <p className="museum-kicker">Western Reserve Historical Society / Cleveland History Center</p>
+              <h2>CIHOF Portrait Wall</h2>
+              <span>Touch a portrait to begin.</span>
             </div>
 
-            {visibleThemes.length > 0 && (
-              <div className="theme-chips" aria-label="Theme filters">
-                <button
-                  className={state.theme === allValue ? 'theme-chip theme-chip--active' : 'theme-chip'}
-                  type="button"
-                  onClick={() => onStateChange({ theme: allValue })}
-                >
-                  All themes
-                </button>
-                {visibleThemes.map((theme) => (
-                  <button
-                    className={state.theme === theme ? 'theme-chip theme-chip--active' : 'theme-chip'}
-                    key={theme}
-                    type="button"
-                    onClick={() => onStateChange({ theme })}
-                  >
-                    {theme}
-                  </button>
-                ))}
+            <div className="portrait-wall__actions portrait-wall__actions--inline">
+              <div className="portrait-wall__count" aria-live="polite">
+                {loading && 'Loading'}
+                {error && 'Data error'}
+                {!loading && !error && `${wallPeople.length} / ${inductees.length} portraits`}
               </div>
-            )}
+
+              <button
+                className="portrait-wall__connection-button"
+                type="button"
+                onClick={onFindConnection}
+              >
+                Find A Connection
+              </button>
+
+              <button
+                className="portrait-wall__discovery-button"
+                type="button"
+                disabled={!discoveryTarget || loading}
+                onClick={handleDiscover}
+              >
+                Show Me Someone Different
+              </button>
+
+              {storyLenses.length > 0 && (
+                <button
+                  className={activeLens ? 'portrait-wall__lens-button portrait-wall__lens-button--active' : 'portrait-wall__lens-button'}
+                  type="button"
+                  aria-expanded={lensesOpen}
+                  aria-controls="all-people-lenses"
+                  onClick={() => setLensesOpen((value) => !value)}
+                >
+                  Curated Questions
+                </button>
+              )}
+
+              <button
+                className="portrait-wall__tool-button"
+                type="button"
+                aria-expanded={toolsOpen}
+                aria-controls="all-people-tools"
+                onClick={() => setToolsOpen((value) => !value)}
+              >
+                Search & Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+              </button>
+            </div>
+          </div>
+
+          {toolsOpen && (
+            <div className="portrait-wall__tools" id="all-people-tools" aria-label="Search and filters">
+              <div className="controls" aria-label="Search and filters">
+                <label className="field field--search">
+                  <span>Search</span>
+                  <input
+                    value={state.query}
+                    onChange={(event) => onStateChange({ query: event.target.value })}
+                    placeholder="Name, country, community, year, story, or inducer"
+                    type="search"
+                  />
+                </label>
+
+                <label className="field">
+                  <span>Country</span>
+                  <select value={state.country} onChange={(event) => onStateChange({ country: event.target.value })}>
+                    <option value={allValue}>All countries</option>
+                    {facets.countries.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Region</span>
+                  <select value={state.region} onChange={(event) => onStateChange({ region: event.target.value })}>
+                    <option value={allValue}>All regions</option>
+                    {facets.regions.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Year</span>
+                  <select value={state.year} onChange={(event) => onStateChange({ year: event.target.value })}>
+                    <option value={allValue}>All years</option>
+                    {facets.years.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Sort</span>
+                  <select value={state.sortMode} onChange={(event) => onStateChange({ sortMode: event.target.value as SortMode })}>
+                    <option value="year-asc">Year, oldest first</option>
+                    <option value="year-desc">Year, newest first</option>
+                    <option value="name-asc">Name</option>
+                    <option value="country-asc">Country</option>
+                    <option value="region-asc">Region</option>
+                    <option value="physical-wall">Physical wall order</option>
+                  </select>
+                </label>
+              </div>
+
+              <div className="discovery-tools" aria-label="Discovery filters">
+                <div className="media-toggle" aria-label="Media quick filters">
+                  {mediaOptions.map((option) => (
+                    <button
+                      className={state.media === option.value ? 'filter-pill filter-pill--active' : 'filter-pill'}
+                      key={option.value}
+                      type="button"
+                      onClick={() => onStateChange({ media: option.value })}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+
+                {visibleThemes.length > 0 && (
+                  <div className="theme-chips" aria-label="Theme filters">
+                    <button
+                      className={state.theme === allValue ? 'theme-chip theme-chip--active' : 'theme-chip'}
+                      type="button"
+                      onClick={() => onStateChange({ theme: allValue })}
+                    >
+                      All themes
+                    </button>
+                    {visibleThemes.map((theme) => (
+                      <button
+                        className={state.theme === theme ? 'theme-chip theme-chip--active' : 'theme-chip'}
+                        key={theme}
+                        type="button"
+                        onClick={() => onStateChange({ theme })}
+                      >
+                        {theme}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {lensesOpen && (
+            <div className="portrait-wall__lens-dock" id="all-people-lenses">
+              <StoryLensControls
+                activeLens={activeLens}
+                lenses={storyLenses}
+                lensMatches={lensMatches}
+                onClearLens={() => setActiveLensId('')}
+                onSelectLens={(lensId) => setActiveLensId((current) => current === lensId ? '' : lensId)}
+                onSelectPerson={onSelect}
+              />
+            </div>
+          )}
+
+          <ActiveFilters state={state} onStateChange={onStateChange} />
+
+          <div className="portrait-wall__grid-wrap">
+            <div className={state.sortMode === 'physical-wall' ? 'portrait-wall__grid portrait-wall__grid--physical' : 'portrait-wall__grid'} aria-label="Portraits">
+              {loading && <PortraitPlaceholders />}
+              {!loading && error && <div className="portrait-wall__empty">Data error: {error}</div>}
+              {!loading && !error && wallPeople.length === 0 && (
+                <div className="portrait-wall__empty">
+                  {activeLens ? 'No portraits match this story lens and the current filters.' : 'No portraits match the current filters.'}
+                </div>
+              )}
+              {!loading && !error && wallPeople.map((inductee) => (
+                <PortraitTile
+                  inductee={inductee}
+                  key={inductee.id}
+                  lensMatch={lensMatchById.get(inductee.id)}
+                  selected={selectedId === inductee.id}
+                  wallDebug={wallDebug}
+                  onSelect={onSelect}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      )}
-
-      <ActiveFilters state={state} onStateChange={onStateChange} />
-
-      <div className={state.sortMode === 'physical-wall' ? 'portrait-wall__grid portrait-wall__grid--physical' : 'portrait-wall__grid'} aria-label="Portraits">
-        {loading && <PortraitPlaceholders />}
-        {!loading && error && <div className="portrait-wall__empty">Data error: {error}</div>}
-        {!loading && !error && wallPeople.length === 0 && (
-          <div className="portrait-wall__empty">
-            {activeLens ? 'No portraits match this story lens and the current filters.' : 'No portraits match the current filters.'}
-          </div>
-        )}
-        {!loading && !error && wallPeople.map((inductee) => (
-          <PortraitTile
-            inductee={inductee}
-            key={inductee.id}
-            lensMatch={lensMatchById.get(inductee.id)}
-            selected={selectedId === inductee.id}
-            wallDebug={wallDebug}
-            onSelect={onSelect}
-          />
-        ))}
       </div>
     </section>
   );
@@ -366,6 +394,7 @@ function PortraitTile({
 
   return (
     <button
+      aria-label={`${inductee.name}. ${inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}${placeLabel ? `. ${placeLabel}` : ''}. Open profile.`}
       aria-current={selected ? 'true' : undefined}
       className={className}
       type="button"

@@ -45,7 +45,9 @@ export function InducteeDetail({
 }: InducteeDetailProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeAction, setActiveAction] = useState<DetailAction>('overview');
+  const [movementCue, setMovementCue] = useState('');
   const detailRef = useRef<HTMLElement | null>(null);
+  const actionStageRef = useRef<HTMLElement | null>(null);
   const { records: storySectionRecords } = useStorySections();
   const storySectionMap = useStorySectionMap(storySectionRecords);
   const { records: mediaRecords } = useMediaManifest();
@@ -106,6 +108,12 @@ export function InducteeDetail({
     detailRef.current?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [inductee?.id]);
 
+  useEffect(() => {
+    if (!movementCue) return undefined;
+    const timeout = window.setTimeout(() => setMovementCue(''), 2400);
+    return () => window.clearTimeout(timeout);
+  }, [movementCue]);
+
   if (!inductee) return null;
 
   const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
@@ -116,6 +124,7 @@ export function InducteeDetail({
   const connectionSummary = summarizeConnections(related);
 
   function selectPerson(person: Inductee) {
+    if (person.id !== inductee?.id) setMovementCue(`Moving through the wall: ${inductee?.name ?? 'Selected portrait'} to ${person.name}`);
     stopDetailMedia();
     onSelect(person);
   }
@@ -123,6 +132,12 @@ export function InducteeDetail({
   function setAction(action: DetailAction) {
     if (action !== 'media') stopDetailMedia();
     setActiveAction(action);
+    if (action === 'overview') return;
+    window.requestAnimationFrame(() => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      actionStageRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      actionStageRef.current?.focus({ preventScroll: true });
+    });
   }
 
   function stopDetailMedia() {
@@ -146,6 +161,8 @@ export function InducteeDetail({
           <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
           <button type="button" onClick={onReset}>Reset</button>
         </header>
+
+        {movementCue && <div className="detail__movementCue" role="status">{movementCue}</div>}
 
         <div className="detail__stage">
           <section className="detail__identity" aria-label={`${inductee.name} profile`}>
@@ -219,7 +236,12 @@ export function InducteeDetail({
           </aside>
         </div>
 
-        <section className="detail__actionStage" aria-label="Selected action">
+        <section
+          className={`detail__actionStage detail__actionStage--${activeAction}`}
+          aria-label="Selected action"
+          ref={actionStageRef}
+          tabIndex={-1}
+        >
           {activeAction === 'overview' && (
             <article className="detail__overviewPanel">
               <p className="museum-kicker">At A Glance</p>
@@ -282,13 +304,13 @@ export function InducteeDetail({
         </section>
 
         <nav className="detail__actionRail" aria-label="Person actions">
-          <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('story')}>
+          <button type="button" aria-pressed={activeAction === 'story'} className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('story')}>
             Their Story
           </button>
-          <button type="button" className={activeAction === 'media' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('media')}>
+          <button type="button" aria-pressed={activeAction === 'media'} className={activeAction === 'media' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('media')}>
             Watch / Listen
           </button>
-          <button type="button" className={activeAction === 'photos' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('photos')}>
+          <button type="button" aria-pressed={activeAction === 'photos'} className={activeAction === 'photos' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('photos')}>
             See Photos
           </button>
           <button type="button" className="detail__actionButton detail__actionButton--accent" disabled={!differentInductee} onClick={() => differentInductee && selectPerson(differentInductee)}>

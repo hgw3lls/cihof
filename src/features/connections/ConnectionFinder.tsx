@@ -42,6 +42,7 @@ export function ConnectionFinder({
   const [revealedEdgeCount, setRevealedEdgeCount] = useState(0);
   const [activeNodeId, setActiveNodeId] = useState('');
   const [theaterRun, setTheaterRun] = useState(0);
+  const [autoReveal, setAutoReveal] = useState(true);
 
   const path = useMemo(
     () => personA && personB ? findConnectionPath(graph, personA.id, personB.id, maxConnectionEdges) : null,
@@ -59,6 +60,7 @@ export function ConnectionFinder({
     setActiveNodeId('');
     setRevealedEdgeCount(0);
     setTheaterRun(0);
+    setAutoReveal(true);
   }, [open, seedPerson]);
 
   useEffect(() => {
@@ -75,19 +77,28 @@ export function ConnectionFinder({
   useEffect(() => {
     if (stage !== 'result' || !path) {
       setRevealedEdgeCount(0);
+      setAutoReveal(true);
       return undefined;
     }
 
     setRevealedEdgeCount(0);
-    let nextStep = 0;
+    setAutoReveal(true);
+    return undefined;
+  }, [path, stage, theaterRun]);
+
+  useEffect(() => {
+    if (stage !== 'result' || !path || !autoReveal) return undefined;
+
     const interval = window.setInterval(() => {
-      nextStep += 1;
-      setRevealedEdgeCount(nextStep);
-      if (nextStep >= path.edges.length) window.clearInterval(interval);
+      setRevealedEdgeCount((current) => {
+        const nextStep = Math.min(current + 1, path.edges.length);
+        if (nextStep >= path.edges.length) window.clearInterval(interval);
+        return nextStep;
+      });
     }, 620);
 
     return () => window.clearInterval(interval);
-  }, [path, stage, theaterRun]);
+  }, [autoReveal, path, stage, theaterRun]);
 
   if (!open) return null;
 
@@ -140,7 +151,23 @@ export function ConnectionFinder({
 
   function replayPath() {
     setActiveNodeId('');
+    setAutoReveal(true);
     setTheaterRun((value) => value + 1);
+  }
+
+  function revealPreviousStep() {
+    setAutoReveal(false);
+    setRevealedEdgeCount((current) => Math.max(current - 1, 0));
+  }
+
+  function revealNextStep() {
+    setAutoReveal(false);
+    setRevealedEdgeCount((current) => Math.min(current + 1, path?.edges.length ?? 0));
+  }
+
+  function revealFullPath() {
+    setAutoReveal(false);
+    setRevealedEdgeCount(path?.edges.length ?? 0);
   }
 
   const selectedTitle = personA && personB ? `${personA.name} to ${personB.name}` : 'Six Degrees of Cleveland';
@@ -192,9 +219,12 @@ export function ConnectionFinder({
             revealedEdgeCount={revealedEdgeCount}
             onChangePersonA={changePersonA}
             onChangePersonB={changePersonB}
+            onNextStep={revealNextStep}
             onNodeTap={handleNodeTap}
             onOpenPerson={openPerson}
+            onPreviousStep={revealPreviousStep}
             onReplay={replayPath}
+            onShowFullPath={revealFullPath}
           />
         )}
       </main>
@@ -297,9 +327,12 @@ function ConnectionResult({
   revealedEdgeCount,
   onChangePersonA,
   onChangePersonB,
+  onNextStep,
   onNodeTap,
   onOpenPerson,
+  onPreviousStep,
   onReplay,
+  onShowFullPath,
 }: {
   activeNode: ConnectionNode | null;
   activeNodePeople: Inductee[];
@@ -309,9 +342,12 @@ function ConnectionResult({
   revealedEdgeCount: number;
   onChangePersonA: () => void;
   onChangePersonB: () => void;
+  onNextStep: () => void;
   onNodeTap: (node: ConnectionNode) => void;
   onOpenPerson: (inductee: Inductee) => void;
+  onPreviousStep: () => void;
   onReplay: () => void;
+  onShowFullPath: () => void;
 }) {
   if (!path) {
     return (
@@ -356,6 +392,9 @@ function ConnectionResult({
           <button type="button" onClick={onChangePersonA}>Change Person A</button>
           <button type="button" onClick={onChangePersonB}>Change Person B</button>
           <button type="button" onClick={onReplay}>Replay Path</button>
+          <button type="button" disabled={revealedEdgeCount === 0} onClick={onPreviousStep}>Previous Step</button>
+          <button type="button" disabled={completed} onClick={onNextStep}>Next Step</button>
+          <button type="button" disabled={completed} onClick={onShowFullPath}>Show Full Path</button>
           <button type="button" onClick={() => onOpenPerson(personA)}>Open {personA.name}</button>
         </div>
       </div>
