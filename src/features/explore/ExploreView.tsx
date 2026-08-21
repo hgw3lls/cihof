@@ -91,6 +91,7 @@ export function ExploreView({
       <div className="portrait-wall__surface portrait-wall__surface--home">
         <aside className="portrait-wall__identity-panel" aria-label="Exhibit introduction">
           <div className="portrait-wall__identity-copy">
+            <p className="portrait-wall__institution">Western Reserve Historical Society</p>
             <h1>CIHOF</h1>
             <p className="portrait-wall__identity-subtitle">Cleveland International Hall of Fame</p>
             <span className="portrait-wall__identity-rule" aria-hidden="true" />
