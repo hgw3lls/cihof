@@ -10378,24 +10378,24 @@ textarea:focus,
 
 /* Mockup-aligned flat exhibit identity pass. Visitor-facing only. */
 :root {
-  --mockup-paper: #eee1c2;
-  --mockup-paper-2: #dcc89c;
+  --mockup-paper: #f0e4c8;
+  --mockup-paper-2: #d9c79e;
   --mockup-ink: #0e0f0d;
   --mockup-frame: #090a09;
-  --mockup-rust: #d73d1f;
-  --mockup-gold: #c89427;
-  --mockup-olive: #79864a;
-  --mockup-teal: #2f7465;
-  --mockup-blue: #245f9f;
-  --mockup-purple: #5a3f89;
-  --mockup-magenta: #b32665;
-  --mockup-orange: #bc5f15;
+  --mockup-rust: #c93a22;
+  --mockup-gold: #ba8d2f;
+  --mockup-olive: #68784a;
+  --mockup-teal: #2e665b;
+  --mockup-blue: #245783;
+  --mockup-purple: #514072;
+  --mockup-magenta: #9e2d5a;
+  --mockup-orange: #a9541e;
   --mockup-line: rgba(14, 15, 13, 0.46);
   --mockup-paper-texture:
-    radial-gradient(circle at 18% 20%, rgba(14, 15, 13, 0.13) 0 1px, transparent 1px),
-    radial-gradient(circle at 68% 72%, rgba(14, 15, 13, 0.08) 0 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 15, 13, 0.055) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(14, 15, 13, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 18% 20%, rgba(14, 15, 13, 0.08) 0 1px, transparent 1px),
+    radial-gradient(circle at 68% 72%, rgba(14, 15, 13, 0.055) 0 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 15, 13, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(14, 15, 13, 0.035) 1px, transparent 1px),
     var(--mockup-paper);
 }
 
@@ -10408,7 +10408,7 @@ body {
 .museum-shell:not(.museum-shell--staff) {
   position: relative;
   grid-template-rows: minmax(0, 1fr);
-  padding: 30px 38px 140px;
+  padding: 34px 42px 136px;
   background:
     linear-gradient(90deg, rgba(238, 225, 194, 0.035) 1px, transparent 1px),
     linear-gradient(180deg, rgba(238, 225, 194, 0.03) 1px, transparent 1px),
@@ -10421,7 +10421,7 @@ body {
   position: fixed;
   inset: 18px;
   z-index: 1;
-  border: 16px solid var(--mockup-frame);
+  border: 14px solid var(--mockup-frame);
   box-shadow:
     inset 0 0 0 2px rgba(238, 225, 194, 0.16),
     0 0 0 2px rgba(238, 225, 194, 0.2),
@@ -10431,8 +10431,8 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .museum-rail {
   position: fixed;
-  top: 34px;
-  right: 56px;
+  top: 42px;
+  right: 62px;
   left: auto;
   z-index: 45;
   min-height: 0;
@@ -10456,13 +10456,16 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
 .museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
-  min-height: 42px;
+  min-height: 46px;
   border: 2px solid rgba(238, 225, 194, 0.78);
-  background: rgba(14, 15, 13, 0.82);
+  background: rgba(14, 15, 13, 0.76);
   color: var(--mockup-paper);
   padding: 0 14px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
-  font-size: 0.9rem;
+  box-shadow: none;
+  font-family: var(--font-label);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button--active,
@@ -10480,34 +10483,34 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .museum-bottom-nav {
   --nav-accent: var(--mockup-rust);
-  bottom: 30px;
+  bottom: 34px;
   z-index: 42;
   width: calc(100% - 76px);
   max-width: none;
-  min-height: 104px;
+  min-height: 98px;
   border: 3px solid var(--mockup-ink);
   background:
-    radial-gradient(circle at 20% 18%, rgba(14, 15, 13, 0.12) 0 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 15, 13, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 20% 18%, rgba(14, 15, 13, 0.055) 0 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 15, 13, 0.04) 1px, transparent 1px),
     var(--mockup-paper);
   background-size: 5px 5px, 34px 34px, auto;
   box-shadow:
-    0 0 0 11px var(--mockup-frame),
+    0 0 0 9px var(--mockup-frame),
     0 16px 36px rgba(0, 0, 0, 0.56);
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-nav-item {
   --nav-accent: var(--mockup-rust);
-  min-height: 98px;
-  grid-template-columns: 64px minmax(0, auto);
-  gap: 18px;
-  border-right: 2px solid rgba(14, 15, 13, 0.5);
+  min-height: 92px;
+  grid-template-columns: 56px minmax(0, auto);
+  gap: 16px;
+  border-right: 2px solid rgba(14, 15, 13, 0.34);
   background: transparent;
   color: var(--mockup-ink);
   padding: 0 24px;
-  font-family: var(--font-display);
-  font-size: 1.42rem;
-  font-weight: 950;
+  font-family: var(--font-label);
+  font-size: 1.58rem;
+  font-weight: 900;
   letter-spacing: 0;
   line-height: 0.9;
 }
@@ -10533,8 +10536,8 @@ body {
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-nav-icon {
-  width: 58px;
-  height: 58px;
+  width: 52px;
+  height: 52px;
   color: var(--nav-accent);
 }
 
@@ -10543,7 +10546,7 @@ body {
     linear-gradient(180deg, rgba(14, 15, 13, 0.06), rgba(14, 15, 13, 0)),
     var(--mockup-paper);
   color: var(--mockup-ink);
-  box-shadow: inset 0 -9px 0 var(--nav-accent);
+  box-shadow: inset 0 -8px 0 var(--nav-accent);
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall {
@@ -10552,45 +10555,56 @@ body {
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
-  min-height: calc(var(--cihof-vh, 100dvh) - 188px);
-  grid-template-columns: minmax(420px, 0.55fr) minmax(0, 1fr);
+  min-height: calc(var(--cihof-vh, 100dvh) - 184px);
+  grid-template-columns: minmax(450px, 0.52fr) minmax(0, 1fr);
   border: 3px solid var(--mockup-ink);
   background: var(--mockup-paper);
   color: var(--mockup-ink);
   box-shadow:
-    0 0 0 12px var(--mockup-frame),
+    0 0 0 10px var(--mockup-frame),
     0 20px 48px rgba(0, 0, 0, 0.42);
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
   min-width: 0;
-  height: calc(var(--cihof-vh, 100dvh) - 188px);
-  max-height: calc(var(--cihof-vh, 100dvh) - 188px);
+  height: calc(var(--cihof-vh, 100dvh) - 184px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 184px);
   display: grid;
   grid-template-rows: auto auto;
   align-content: space-between;
   align-self: start;
-  gap: 22px;
+  gap: 24px;
   position: sticky;
   top: 0;
   border-right: 3px solid var(--mockup-ink);
   background: var(--mockup-paper-texture);
   background-size: 5px 5px, 7px 7px, 34px 34px, 34px 34px, auto;
-  padding: 44px 54px 34px;
+  padding: 38px 56px 36px;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy {
   align-self: start;
   display: grid;
   justify-items: start;
-  gap: 15px;
+  gap: 14px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__institution {
+  margin: 0;
+  color: rgba(14, 15, 13, 0.62);
+  font-family: var(--font-label);
+  font-size: 0.96rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
   margin: 0;
   color: var(--mockup-ink);
   font-family: var(--font-block);
-  font-size: 8.7rem;
+  font-size: 8.05rem;
   font-weight: 950;
   letter-spacing: 0;
   line-height: 0.82;
@@ -10598,12 +10612,12 @@ body {
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-subtitle {
-  max-width: 14ch;
+  max-width: 16ch;
   margin: 0;
   color: var(--mockup-ink);
   font-family: var(--font-label);
-  font-size: 1.32rem;
-  font-weight: 950;
+  font-size: 1.24rem;
+  font-weight: 850;
   letter-spacing: 0;
   line-height: 1.05;
   text-transform: uppercase;
@@ -10619,7 +10633,7 @@ body {
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy strong {
   color: var(--mockup-ink);
   font-family: var(--font-display);
-  font-size: 2.42rem;
+  font-size: 2.28rem;
   font-weight: 950;
   letter-spacing: 0;
   line-height: 1.05;
@@ -10631,8 +10645,8 @@ body {
   margin: 0;
   color: var(--mockup-ink);
   font-family: var(--font-label);
-  font-size: 1.05rem;
-  font-weight: 850;
+  font-size: 1.02rem;
+  font-weight: 750;
   letter-spacing: 0;
   line-height: 1.42;
   text-transform: uppercase;
@@ -10640,23 +10654,23 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-actions {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__start-button {
-  min-height: 76px;
+  min-height: 88px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 42px;
   align-items: center;
   gap: 20px;
-  border: 2px solid var(--mockup-ink);
+  border: 0;
   border-radius: 0;
   background: var(--mockup-ink);
   color: var(--mockup-paper);
-  padding: 12px 18px;
+  padding: 16px 20px;
   font-family: var(--font-label);
-  font-size: 1.12rem;
-  font-weight: 950;
+  font-size: 1.22rem;
+  font-weight: 900;
   letter-spacing: 0;
   line-height: 1.28;
   text-align: left;
@@ -10677,7 +10691,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: stretch;
-  gap: 7px;
+  gap: 8px;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked > * {
@@ -10694,12 +10708,13 @@ body {
 .museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button,
 .museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button,
 .museum-shell:not(.museum-shell--staff) .portrait-wall__active-filters button {
-  min-height: 40px;
-  border: 2px solid var(--mockup-ink);
+  min-height: 46px;
+  border: 2px solid rgba(14, 15, 13, 0.88);
   background: var(--mockup-paper);
   color: var(--mockup-ink);
   box-shadow: none;
-  font-size: 0.78rem;
+  font-size: 0.96rem;
+  font-weight: 850;
   letter-spacing: 0;
 }
 
@@ -10728,7 +10743,7 @@ body {
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__gallery--mockup::after {
-  opacity: 0.14;
+  opacity: 0.08;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__tools,
@@ -10742,13 +10757,13 @@ body {
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
-  --portrait-cell-min: 160px;
+  --portrait-cell-min: 170px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--portrait-cell-min), 1fr));
-  gap: 3px;
+  gap: 2px;
   align-content: start;
   background: var(--mockup-ink);
-  padding: 3px;
+  padding: 2px;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile {
@@ -10756,7 +10771,7 @@ body {
   position: relative;
   display: block;
   aspect-ratio: 4 / 5;
-  min-height: 214px;
+  min-height: 226px;
   overflow: hidden;
   background: var(--tile-tone);
   color: var(--cream);
@@ -10800,11 +10815,11 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile__frame::after {
   background-image:
-    radial-gradient(circle at 25% 25%, rgba(14, 15, 13, 0.3) 0 1px, transparent 1px),
-    linear-gradient(180deg, transparent 45%, rgba(14, 15, 13, 0.68));
-  background-size: 5px 5px, auto;
+    radial-gradient(circle at 25% 25%, rgba(14, 15, 13, 0.18) 0 1px, transparent 1px),
+    linear-gradient(180deg, transparent 40%, rgba(14, 15, 13, 0.58));
+  background-size: 6px 6px, auto;
   mix-blend-mode: multiply;
-  opacity: 0.72;
+  opacity: 0.64;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile__image,
@@ -10816,7 +10831,7 @@ body {
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile__image {
   object-fit: cover;
-  filter: grayscale(1) contrast(1.42) brightness(0.96);
+  filter: grayscale(1) contrast(1.24) brightness(1.03);
   mix-blend-mode: multiply;
 }
 
@@ -10840,19 +10855,19 @@ body {
   display: grid;
   gap: 3px;
   border: 0;
-  background: linear-gradient(180deg, transparent, rgba(14, 15, 13, 0.82) 20%, rgba(14, 15, 13, 0.94));
+  background: linear-gradient(180deg, transparent, rgba(14, 15, 13, 0.72) 22%, rgba(14, 15, 13, 0.92));
   color: var(--cream);
-  padding: 42px 16px 13px;
+  padding: 50px 17px 15px;
   text-align: left;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile__plaque strong {
   color: var(--cream);
-  font-family: var(--font-display);
-  font-size: 1.34rem;
-  font-weight: 950;
+  font-family: var(--font-label);
+  font-size: 1.28rem;
+  font-weight: 900;
   letter-spacing: 0;
-  line-height: 0.94;
+  line-height: 0.96;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-tile__year,
@@ -10860,7 +10875,8 @@ body {
 .museum-shell:not(.museum-shell--staff) .portrait-tile__lens-reason {
   color: rgba(238, 225, 194, 0.82);
   font-family: var(--font-label);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
+  font-weight: 800;
   letter-spacing: 0;
 }
 
@@ -10988,6 +11004,37 @@ body {
 .museum-shell:not(.museum-shell--staff) .detail__portraitImage {
   filter: none;
   mix-blend-mode: normal;
+}
+
+@media (max-width: 1500px) {
+  .museum-shell:not(.museum-shell--staff) {
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+    grid-template-columns: minmax(390px, 0.46fr) minmax(0, 1fr);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+    padding: 34px 38px 28px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+    font-size: 6.35rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy strong {
+    font-size: 1.92rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
+    --portrait-cell-min: 156px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-tile {
+    min-height: 214px;
+  }
 }
 
 @media (max-width: 1320px) {
