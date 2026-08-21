@@ -10375,3 +10375,715 @@ textarea:focus,
     animation: none;
   }
 }
+
+/* Mockup-aligned flat exhibit identity pass. Visitor-facing only. */
+:root {
+  --mockup-paper: #eee1c2;
+  --mockup-paper-2: #dcc89c;
+  --mockup-ink: #0e0f0d;
+  --mockup-frame: #090a09;
+  --mockup-rust: #d73d1f;
+  --mockup-gold: #c89427;
+  --mockup-olive: #79864a;
+  --mockup-teal: #2f7465;
+  --mockup-blue: #245f9f;
+  --mockup-purple: #5a3f89;
+  --mockup-magenta: #b32665;
+  --mockup-orange: #bc5f15;
+  --mockup-line: rgba(14, 15, 13, 0.46);
+  --mockup-paper-texture:
+    radial-gradient(circle at 18% 20%, rgba(14, 15, 13, 0.13) 0 1px, transparent 1px),
+    radial-gradient(circle at 68% 72%, rgba(14, 15, 13, 0.08) 0 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 15, 13, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(14, 15, 13, 0.045) 1px, transparent 1px),
+    var(--mockup-paper);
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% 0, rgba(238, 225, 194, 0.08), transparent 34rem),
+    linear-gradient(180deg, #20211f 0%, #0c0d0c 100%);
+}
+
+.museum-shell:not(.museum-shell--staff) {
+  position: relative;
+  grid-template-rows: minmax(0, 1fr);
+  padding: 30px 38px 140px;
+  background:
+    linear-gradient(90deg, rgba(238, 225, 194, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(238, 225, 194, 0.03) 1px, transparent 1px),
+    #151614;
+  background-size: 32px 32px;
+}
+
+.museum-shell:not(.museum-shell--staff)::before {
+  content: "";
+  position: fixed;
+  inset: 18px;
+  z-index: 1;
+  border: 16px solid var(--mockup-frame);
+  box-shadow:
+    inset 0 0 0 2px rgba(238, 225, 194, 0.16),
+    0 0 0 2px rgba(238, 225, 194, 0.2),
+    0 24px 60px rgba(0, 0, 0, 0.62);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-rail {
+  position: fixed;
+  top: 34px;
+  right: 56px;
+  left: auto;
+  z-index: 45;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand,
+.museum-shell:not(.museum-shell--staff) .museum-status {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities {
+  justify-content: flex-end;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  min-height: 42px;
+  border: 2px solid rgba(238, 225, 194, 0.78);
+  background: rgba(14, 15, 13, 0.82);
+  color: var(--mockup-paper);
+  padding: 0 14px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button--active,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button:active {
+  background: var(--mockup-rust);
+  color: var(--cream);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-stage {
+  position: relative;
+  z-index: 2;
+  grid-row: 1 / -1;
+  padding-top: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav {
+  --nav-accent: var(--mockup-rust);
+  bottom: 30px;
+  z-index: 42;
+  width: calc(100% - 76px);
+  max-width: none;
+  min-height: 104px;
+  border: 3px solid var(--mockup-ink);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(14, 15, 13, 0.12) 0 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 15, 13, 0.07) 1px, transparent 1px),
+    var(--mockup-paper);
+  background-size: 5px 5px, 34px 34px, auto;
+  box-shadow:
+    0 0 0 11px var(--mockup-frame),
+    0 16px 36px rgba(0, 0, 0, 0.56);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item {
+  --nav-accent: var(--mockup-rust);
+  min-height: 98px;
+  grid-template-columns: 64px minmax(0, auto);
+  gap: 18px;
+  border-right: 2px solid rgba(14, 15, 13, 0.5);
+  background: transparent;
+  color: var(--mockup-ink);
+  padding: 0 24px;
+  font-family: var(--font-display);
+  font-size: 1.42rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:nth-child(1) {
+  --nav-accent: var(--mockup-rust);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:nth-child(2) {
+  --nav-accent: var(--mockup-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:nth-child(3) {
+  --nav-accent: var(--mockup-teal);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:nth-child(4) {
+  --nav-accent: var(--mockup-magenta);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:nth-child(5) {
+  --nav-accent: var(--mockup-blue);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-icon {
+  width: 58px;
+  height: 58px;
+  color: var(--nav-accent);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active {
+  background:
+    linear-gradient(180deg, rgba(14, 15, 13, 0.06), rgba(14, 15, 13, 0)),
+    var(--mockup-paper);
+  color: var(--mockup-ink);
+  box-shadow: inset 0 -9px 0 var(--nav-accent);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall {
+  min-height: 100%;
+  display: block;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+  min-height: calc(var(--cihof-vh, 100dvh) - 188px);
+  grid-template-columns: minmax(420px, 0.55fr) minmax(0, 1fr);
+  border: 3px solid var(--mockup-ink);
+  background: var(--mockup-paper);
+  color: var(--mockup-ink);
+  box-shadow:
+    0 0 0 12px var(--mockup-frame),
+    0 20px 48px rgba(0, 0, 0, 0.42);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+  min-width: 0;
+  height: calc(var(--cihof-vh, 100dvh) - 188px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 188px);
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: space-between;
+  align-self: start;
+  gap: 22px;
+  position: sticky;
+  top: 0;
+  border-right: 3px solid var(--mockup-ink);
+  background: var(--mockup-paper-texture);
+  background-size: 5px 5px, 7px 7px, 34px 34px, 34px 34px, auto;
+  padding: 44px 54px 34px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy {
+  align-self: start;
+  display: grid;
+  justify-items: start;
+  gap: 15px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+  margin: 0;
+  color: var(--mockup-ink);
+  font-family: var(--font-block);
+  font-size: 7.4rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-subtitle {
+  max-width: 14ch;
+  margin: 0;
+  color: var(--mockup-ink);
+  font-family: var(--font-label);
+  font-size: 1.1rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-rule {
+  width: 54px;
+  height: 4px;
+  display: block;
+  background: var(--mockup-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy strong {
+  color: var(--mockup-ink);
+  font-family: var(--font-display);
+  font-size: 1.94rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy p:last-child {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--mockup-ink);
+  font-family: var(--font-label);
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0.03em;
+  line-height: 1.42;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 20px;
+  border: 2px solid var(--mockup-ink);
+  border-radius: 0;
+  background: var(--mockup-ink);
+  color: var(--mockup-paper);
+  padding: 12px 18px;
+  font-family: var(--font-label);
+  font-size: 0.94rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  line-height: 1.28;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button strong {
+  color: var(--mockup-paper);
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 950;
+  line-height: 1;
+  text-align: right;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: stretch;
+  gap: 7px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked > * {
+  width: 100%;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked .portrait-wall__count {
+  grid-column: 1 / -1;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__count,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__connection-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__active-filters button {
+  min-height: 40px;
+  border: 2px solid var(--mockup-ink);
+  background: var(--mockup-paper);
+  color: var(--mockup-ink);
+  box-shadow: none;
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__connection-button {
+  background: rgba(47, 116, 101, 0.18);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button--active {
+  background: var(--mockup-rust);
+  color: var(--cream);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__gallery--mockup {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, auto);
+  align-content: start;
+  gap: 0;
+  background: var(--mockup-paper);
+  padding: 0;
+  overflow: visible;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__gallery--mockup::after {
+  opacity: 0.14;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tools,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-dock,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__active-filters {
+  margin: 12px 12px 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__grid-wrap {
+  min-height: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
+  --portrait-cell-min: 160px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--portrait-cell-min), 1fr));
+  gap: 3px;
+  align-content: start;
+  background: var(--mockup-ink);
+  padding: 3px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile {
+  --tile-tone: var(--mockup-teal);
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  min-height: 214px;
+  overflow: hidden;
+  background: var(--tile-tone);
+  color: var(--cream);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 1) {
+  --tile-tone: var(--mockup-orange);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 2) {
+  --tile-tone: var(--mockup-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 3) {
+  --tile-tone: var(--mockup-magenta);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 4) {
+  --tile-tone: var(--mockup-teal);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 5) {
+  --tile-tone: var(--mockup-purple);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n + 6) {
+  --tile-tone: var(--mockup-blue);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile:nth-of-type(7n) {
+  --tile-tone: var(--mockup-olive);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__frame {
+  height: 100%;
+  display: block;
+  border: 0;
+  background: var(--tile-tone);
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__frame::after {
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(14, 15, 13, 0.3) 0 1px, transparent 1px),
+    linear-gradient(180deg, transparent 45%, rgba(14, 15, 13, 0.68));
+  background-size: 5px 5px, auto;
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__image,
+.museum-shell:not(.museum-shell--staff) .portrait-tile__fallback {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__image {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.42) brightness(0.96);
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__fallback {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(14, 15, 13, 0.16) 25%, transparent 25% 50%, rgba(14, 15, 13, 0.16) 50% 75%, transparent 75%),
+    var(--tile-tone);
+  background-size: 18px 18px;
+  color: rgba(14, 15, 13, 0.78);
+  font-family: var(--font-block);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__plaque {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  min-height: 0;
+  display: grid;
+  gap: 3px;
+  border: 0;
+  background: linear-gradient(180deg, transparent, rgba(14, 15, 13, 0.82) 20%, rgba(14, 15, 13, 0.94));
+  color: var(--cream);
+  padding: 42px 16px 13px;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__plaque strong {
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.94;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__year,
+.museum-shell:not(.museum-shell--staff) .portrait-tile__community,
+.museum-shell:not(.museum-shell--staff) .portrait-tile__lens-reason {
+  color: rgba(238, 225, 194, 0.82);
+  font-family: var(--font-label);
+  font-size: 0.56rem;
+  letter-spacing: 0.04em;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__community {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile--selected .portrait-tile__frame,
+.museum-shell:not(.museum-shell--staff) .portrait-tile--selected.portrait-tile--lens-match .portrait-tile__frame {
+  outline: 6px solid var(--mockup-rust);
+  outline-offset: -10px;
+  box-shadow: inset 0 0 0 4px var(--mockup-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(.touch-search, .timeline, .places-view, .journey) {
+  border: 3px solid var(--mockup-ink);
+  background: var(--mockup-paper-texture);
+  background-size: 5px 5px, 7px 7px, 34px 34px, 34px 34px, auto;
+  box-shadow:
+    0 0 0 12px var(--mockup-frame),
+    0 20px 48px rgba(0, 0, 0, 0.42);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-search__mast,
+  .timeline__header,
+  .places-view__header,
+  .journey__header,
+  .journey-active-header,
+  .connection-finder__header,
+  .detail__topbar,
+  .media-experience__header,
+  .story-mode__header
+) {
+  border-color: var(--mockup-ink);
+  background:
+    radial-gradient(circle at 22% 16%, rgba(238, 225, 194, 0.13) 0 1px, transparent 1px),
+    var(--mockup-ink);
+  background-size: 5px 5px, auto;
+  color: var(--mockup-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 1) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 1) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 1),
+  .journey-card:nth-child(7n + 1) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 1) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 1) .attract-portrait__frame
+) {
+  background: var(--mockup-orange);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 2) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 2) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 2),
+  .journey-card:nth-child(7n + 2) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 2) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 2) .attract-portrait__frame
+) {
+  background: var(--mockup-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 3) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 3) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 3),
+  .journey-card:nth-child(7n + 3) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 3) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 3) .attract-portrait__frame
+) {
+  background: var(--mockup-magenta);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 4) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 4) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 4),
+  .journey-card:nth-child(7n + 4) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 4) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 4) .attract-portrait__frame
+) {
+  background: var(--mockup-teal);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 5) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 5) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 5),
+  .journey-card:nth-child(7n + 5) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 5) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 5) .attract-portrait__frame
+) {
+  background: var(--mockup-purple);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n + 6) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n + 6) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n + 6),
+  .journey-card:nth-child(7n + 6) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n + 6) .detail__relatedImage,
+  .attract-portrait:nth-child(7n + 6) .attract-portrait__frame
+) {
+  background: var(--mockup-blue);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-result:nth-child(7n) .touch-result__portrait,
+  .timeline-class-card:nth-child(7n) .timeline-class-card__media,
+  .timeline-compare-class__portraits button:nth-child(7n),
+  .journey-card:nth-child(7n) .journey-card__portraits,
+  .detail__relatedCard:nth-child(7n) .detail__relatedImage,
+  .attract-portrait:nth-child(7n) .attract-portrait__frame
+) {
+  background: var(--mockup-olive);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--museum {
+  background: var(--mockup-paper-texture);
+  background-size: 5px 5px, 7px 7px, 34px 34px, 34px 34px, auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail__portraitImage {
+  filter: none;
+  mix-blend-mode: normal;
+}
+
+@media (max-width: 1320px) {
+  .museum-shell:not(.museum-shell--staff) {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+    grid-template-columns: minmax(380px, 0.52fr) minmax(0, 1fr);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+    padding: 36px 34px 32px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+    font-size: 5.8rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy strong {
+    font-size: 1.86rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-item {
+    grid-template-columns: 50px minmax(0, auto);
+    gap: 12px;
+    padding: 0 12px;
+    font-size: 1.12rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .museum-shell:not(.museum-shell--staff) {
+    padding: 18px 16px 118px;
+  }
+
+  .museum-shell:not(.museum-shell--staff)::before {
+    inset: 8px;
+    border-width: 9px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-rail {
+    top: 18px;
+    right: 24px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+    grid-template-columns: 1fr;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+    border-right: 0;
+    border-bottom: 3px solid var(--mockup-ink);
+    grid-template-columns: 1fr;
+    padding: 30px 26px 24px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+    font-size: 4.2rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy {
+    gap: 12px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
+    --portrait-cell-min: 132px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-tile {
+    min-height: 176px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-bottom-nav {
+    bottom: 16px;
+    width: calc(100% - 32px);
+    min-height: 82px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-item {
+    min-height: 78px;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 7px 4px;
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-icon {
+    width: 34px;
+    height: 34px;
+    justify-self: center;
+  }
+}
