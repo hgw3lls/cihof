@@ -88,16 +88,29 @@ export function ExploreView({
 
   return (
     <section className="explore portrait-wall" aria-label="All people portrait wall">
-      <div className="portrait-wall__surface portrait-wall__surface--portraits-only">
-        <div className="portrait-wall__gallery portrait-wall__gallery--full">
-          <div className="portrait-wall__wall-bar">
-            <div className="portrait-wall__wall-title">
-              <p className="museum-kicker">Western Reserve Historical Society / Cleveland History Center</p>
-              <h2>CIHOF Portrait Wall</h2>
-              <span>Touch a portrait to begin.</span>
-            </div>
+      <div className="portrait-wall__surface portrait-wall__surface--home">
+        <aside className="portrait-wall__identity-panel" aria-label="Exhibit introduction">
+          <div className="portrait-wall__identity-copy">
+            <h1>CIHOF</h1>
+            <p className="portrait-wall__identity-subtitle">Cleveland International Hall of Fame</p>
+            <span className="portrait-wall__identity-rule" aria-hidden="true" />
+            <strong>Our City.<br />Our Stories.<br />Our Legacy.</strong>
+            <span className="portrait-wall__identity-rule" aria-hidden="true" />
+            <p>Discover the people who connect Cleveland to the world.</p>
+          </div>
 
-            <div className="portrait-wall__actions portrait-wall__actions--inline">
+          <div className="portrait-wall__identity-actions">
+            <button
+              className="portrait-wall__start-button"
+              type="button"
+              disabled={!discoveryTarget || loading}
+              onClick={handleDiscover}
+            >
+              <span>Touch Anywhere<br />To Explore</span>
+              <strong aria-hidden="true">&rarr;</strong>
+            </button>
+
+            <div className="portrait-wall__actions portrait-wall__actions--stacked">
               <div className="portrait-wall__count" aria-live="polite">
                 {loading && 'Loading'}
                 {error && 'Data error'}
@@ -144,7 +157,9 @@ export function ExploreView({
               </button>
             </div>
           </div>
+        </aside>
 
+        <div className="portrait-wall__gallery portrait-wall__gallery--mockup">
           {toolsOpen && (
             <div className="portrait-wall__tools" id="all-people-tools" aria-label="Search and filters">
               <div className="controls" aria-label="Search and filters">
