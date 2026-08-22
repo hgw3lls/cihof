@@ -89,6 +89,12 @@ export function ExploreView({
   return (
     <section className="explore portrait-wall" aria-label="All people portrait wall">
       <div className="portrait-wall__surface portrait-wall__surface--home">
+        <svg className="portrait-wall__linework" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+          <path className="portrait-wall__linework-path portrait-wall__linework-path--primary" d="M334 54 C414 40 468 66 530 50 C592 38 628 48 654 68 C684 88 748 74 806 66 C860 58 898 72 942 64" />
+          <path className="portrait-wall__linework-path portrait-wall__linework-path--secondary" d="M352 430 C428 408 490 440 548 418 C596 400 626 426 666 454 C704 480 768 462 828 468" />
+          <circle className="portrait-wall__linework-node" cx="654" cy="68" r="8" />
+          <circle className="portrait-wall__linework-node" cx="942" cy="64" r="8" />
+        </svg>
         <aside className="portrait-wall__identity-panel" aria-label="Exhibit introduction">
           <div className="portrait-wall__identity-copy">
             <p className="portrait-wall__institution">Western Reserve Historical Society</p>

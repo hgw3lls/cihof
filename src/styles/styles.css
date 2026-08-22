@@ -11135,3 +11135,458 @@ body {
     justify-self: center;
   }
 }
+
+/* Gallery-line identity pass. Intentional linework over fake handmade texture. */
+:root {
+  --gallery-paper: #f3e8d0;
+  --gallery-paper-cool: #e7dfcb;
+  --gallery-ink: #10110f;
+  --gallery-charcoal: #121311;
+  --gallery-line: rgba(16, 17, 15, 0.38);
+  --gallery-line-soft: rgba(16, 17, 15, 0.16);
+  --gallery-rust: #c84028;
+  --gallery-gold: #b68a31;
+  --gallery-blue: #2c5d7b;
+  --gallery-green: #346d62;
+}
+
+body {
+  background: #11120f;
+}
+
+.museum-shell:not(.museum-shell--staff) {
+  padding: 28px 34px 126px;
+  background: #11120f;
+}
+
+.museum-shell:not(.museum-shell--staff)::before {
+  inset: 15px;
+  border: 10px solid #090a08;
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 232, 208, 0.18),
+    0 18px 48px rgba(0, 0, 0, 0.56);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(var(--cihof-vh, 100dvh) - 168px);
+  grid-template-columns: minmax(430px, 0.48fr) minmax(0, 1fr);
+  border: 1px solid rgba(243, 232, 208, 0.24);
+  background: var(--gallery-paper);
+  box-shadow: 0 0 0 7px #090a08;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home::before,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home::after {
+  content: "";
+  position: absolute;
+  z-index: 7;
+  pointer-events: none;
+  background: var(--gallery-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home::before {
+  top: 18px;
+  right: 18px;
+  left: 18px;
+  height: 1px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home::after {
+  top: 18px;
+  bottom: 18px;
+  left: 22px;
+  width: 1px;
+  opacity: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 8;
+  width: 100%;
+  height: calc(var(--cihof-vh, 100dvh) - 168px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 168px);
+  opacity: 0.96;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-path {
+  fill: none;
+  stroke: rgba(16, 17, 15, 0.28);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-path--primary {
+  stroke: rgba(200, 64, 40, 0.84);
+  stroke-width: 3.4;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-path--secondary {
+  stroke: rgba(16, 17, 15, 0.28);
+  stroke-width: 1.8;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-path--gold {
+  stroke: rgba(182, 138, 49, 0.66);
+  stroke-width: 2;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-node {
+  fill: var(--gallery-paper);
+  stroke: var(--gallery-rust);
+  stroke-width: 2.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__linework-node--gold {
+  stroke: var(--gallery-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+  z-index: 9;
+  height: calc(var(--cihof-vh, 100dvh) - 168px);
+  max-height: calc(var(--cihof-vh, 100dvh) - 168px);
+  border-right: 1px solid var(--gallery-line);
+  background:
+    linear-gradient(90deg, transparent 0 calc(100% - 26px), rgba(16, 17, 15, 0.08) calc(100% - 26px) calc(100% - 25px), transparent calc(100% - 25px)),
+    var(--gallery-paper);
+  padding: 42px 54px 34px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__institution {
+  color: rgba(16, 17, 15, 0.56);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+  font-size: 8.65rem;
+  letter-spacing: -0.01em;
+  line-height: 0.78;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-subtitle {
+  max-width: 13ch;
+  color: rgba(16, 17, 15, 0.9);
+  font-size: 1.22rem;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-rule {
+  width: 74px;
+  height: 2px;
+  background: var(--gallery-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy strong {
+  font-family: var(--font-display);
+  font-size: 2.18rem;
+  font-weight: 400;
+  line-height: 0.98;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy p:last-child {
+  max-width: 20ch;
+  color: rgba(16, 17, 15, 0.74);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__identity-actions {
+  gap: 14px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button {
+  position: relative;
+  min-height: 88px;
+  border: 1px solid var(--gallery-ink);
+  background: var(--gallery-charcoal);
+  color: var(--gallery-paper);
+  padding: 16px 22px;
+  font-size: 1.18rem;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 232, 208, 0.16),
+    inset 0 -7px 0 rgba(182, 138, 49, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  left: 18px;
+  height: 1px;
+  background: rgba(243, 232, 208, 0.28);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  left: 18px;
+  height: 1px;
+  background: rgba(243, 232, 208, 0.18);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__start-button strong {
+  color: var(--gallery-paper);
+  font-family: var(--font-label);
+  font-size: 2.65rem;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--gallery-line);
+  border-left: 0;
+  padding-top: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__actions--stacked > * {
+  border-top: 0;
+  border-left: 0;
+  width: 100%;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__count,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__connection-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__active-filters button {
+  min-height: 52px;
+  justify-content: flex-start;
+  border: 0;
+  border-bottom: 1px solid var(--gallery-line-soft);
+  background: transparent;
+  color: var(--gallery-ink);
+  padding: 0 4px 0 28px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  box-shadow: none;
+  position: relative;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button::before,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__connection-button::before,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button::before,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  transform: translateY(-50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__count {
+  min-height: 34px;
+  padding-left: 0;
+  color: rgba(16, 17, 15, 0.52);
+  font-size: 0.82rem;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__connection-button {
+  color: var(--gallery-green);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__discovery-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button,
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button--active {
+  background: transparent;
+  color: var(--gallery-rust);
+  box-shadow: inset 0 -3px 0 rgba(200, 64, 40, 0.3);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__tool-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button[aria-expanded="true"],
+.museum-shell:not(.museum-shell--staff) .portrait-wall__lens-button--active {
+  background: rgba(200, 64, 40, 0.08);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__gallery--mockup {
+  z-index: 4;
+  background: var(--gallery-charcoal);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__gallery--mockup::after {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
+  --portrait-cell-min: 178px;
+  gap: 1px;
+  background: rgba(243, 232, 208, 0.18);
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile {
+  min-height: 232px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__frame::after {
+  background-image:
+    linear-gradient(180deg, transparent 34%, rgba(18, 19, 17, 0.2) 58%, rgba(18, 19, 17, 0.8));
+  background-size: auto;
+  opacity: 0.78;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__frame::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 3;
+  border-top: 1px solid rgba(243, 232, 208, 0.22);
+  border-left: 1px solid rgba(243, 232, 208, 0.18);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__image {
+  filter: grayscale(1) contrast(1.16) brightness(1.04);
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__plaque {
+  background: linear-gradient(180deg, transparent, rgba(18, 19, 17, 0.76) 22%, rgba(18, 19, 17, 0.94));
+  padding: 54px 18px 16px;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__plaque strong {
+  max-width: 13ch;
+  font-family: var(--font-label);
+  font-size: 1.28rem;
+  font-weight: 800;
+  line-height: 0.96;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-tile__year,
+.museum-shell:not(.museum-shell--staff) .portrait-tile__community,
+.museum-shell:not(.museum-shell--staff) .portrait-tile__lens-reason {
+  color: rgba(243, 232, 208, 0.74);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav {
+  bottom: 28px;
+  width: calc(100% - 68px);
+  min-height: 92px;
+  border: 0;
+  border-top: 1px solid rgba(16, 17, 15, 0.86);
+  background:
+    linear-gradient(90deg, rgba(16, 17, 15, 0.08), transparent 22%, transparent 78%, rgba(16, 17, 15, 0.05)),
+    var(--gallery-paper);
+  box-shadow: 0 0 0 7px #090a08;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  left: 16px;
+  height: 1px;
+  background: rgba(16, 17, 15, 0.2);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item {
+  min-height: 92px;
+  grid-template-columns: 48px minmax(0, auto);
+  gap: 14px;
+  border-right: 1px solid rgba(16, 17, 15, 0.22);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active {
+  background: transparent;
+  box-shadow: inset 0 -7px 0 var(--nav-accent);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  border: 1px solid rgba(243, 232, 208, 0.64);
+  background: rgba(18, 19, 17, 0.62);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(.touch-search, .timeline, .places-view, .journey) {
+  border: 1px solid rgba(243, 232, 208, 0.24);
+  background:
+    linear-gradient(90deg, transparent 0 calc(100% - 26px), rgba(16, 17, 15, 0.08) calc(100% - 26px) calc(100% - 25px), transparent calc(100% - 25px)),
+    var(--gallery-paper);
+  box-shadow: 0 0 0 7px #090a08;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .touch-search__mast,
+  .timeline__header,
+  .places-view__header,
+  .journey__header,
+  .journey-active-header,
+  .connection-finder__header,
+  .detail__topbar,
+  .media-experience__header,
+  .story-mode__header
+) {
+  border-color: rgba(243, 232, 208, 0.2);
+  background: var(--gallery-charcoal);
+  color: var(--gallery-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(.touch-search, .timeline, .places-view, .journey) :is(button, .touch-result, .journey-card, .timeline-class-card) {
+  border-radius: 0;
+}
+
+@media (max-width: 1500px) {
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__surface--home {
+    grid-template-columns: minmax(395px, 0.44fr) minmax(0, 1fr);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+    padding: 36px 38px 30px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-copy h1 {
+    font-size: 6.05rem;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__grid {
+    --portrait-cell-min: 158px;
+  }
+}
+
+@media (max-width: 900px) {
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__linework {
+    display: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .portrait-wall__identity-panel {
+    height: auto;
+    max-height: none;
+    position: relative;
+  }
+}
