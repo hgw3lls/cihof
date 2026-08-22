@@ -30,12 +30,12 @@ const kioskIdleMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_IDLE_
 const kioskResetWarningMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_RESET_WARNING_MS, 12_000);
 const contentProtectionActive = import.meta.env.PROD;
 const showKioskToggleInProduction = import.meta.env.VITE_CIHOF_SHOW_KIOSK_TOGGLE === '1';
-const primaryNavItems: Array<{ mode: ViewMode; label: string; icon: string }> = [
-  { mode: 'all-people', label: 'All People', icon: 'people' },
-  { mode: 'time', label: 'Time', icon: 'time' },
-  { mode: 'places', label: 'Places', icon: 'places' },
-  { mode: 'journeys', label: 'Journeys', icon: 'journeys' },
-  { mode: 'search', label: 'Search', icon: 'search' },
+const primaryNavItems: Array<{ mode: ViewMode; label: string; icon: string; risoIcon: string }> = [
+  { mode: 'all-people', label: 'All People', icon: 'people', risoIcon: 'community' },
+  { mode: 'time', label: 'Time', icon: 'time', risoIcon: 'clock' },
+  { mode: 'places', label: 'Places', icon: 'places', risoIcon: 'map-pin' },
+  { mode: 'journeys', label: 'Journeys', icon: 'journeys', risoIcon: 'route-path' },
+  { mode: 'search', label: 'Search', icon: 'search', risoIcon: 'search' },
 ];
 
 type ReviewDashboardProps = {
@@ -410,7 +410,14 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
               type="button"
               onClick={() => changeView(item.mode)}
             >
-              <span className={`museum-nav-icon museum-nav-icon--${item.icon}`} aria-hidden="true" />
+              <span className={`museum-nav-icon museum-nav-icon--${item.icon} museum-nav-icon--riso`} aria-hidden="true">
+                <img
+                  alt=""
+                  className="museum-nav-icon__image"
+                  draggable={false}
+                  src={`${import.meta.env.BASE_URL}risograph-icons/${item.risoIcon}.png`}
+                />
+              </span>
               <span>{item.label}</span>
             </button>
           ))}
