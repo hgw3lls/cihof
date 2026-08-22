@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee, StoryBeat, StoryBeatType, StorySectionRecord } from '../../data/types';
 
 type StoryModeProps = {
@@ -113,7 +114,7 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
             fallbackClassName="story-mode__fallback"
             fallbackLabel={initials(inductee.name)}
             loading="eager"
-            src={activeBeat.imageUrl || gallery[step % Math.max(gallery.length, 1)] || inductee.primaryImageUrl}
+            src={activeBeat.imageUrl || gallery[step % Math.max(gallery.length, 1)] || portraitImageUrl(inductee, 'profile')}
           />
         </div>
 
@@ -165,7 +166,7 @@ function resolveStoryBeats(inductee: Inductee, allInductees: Inductee[], gallery
   if (storyRecord?.beats.length) {
     return storyRecord.beats.map((beat, index) => ({
       ...beat,
-      imageUrl: beat.imageUrl || gallery[index % Math.max(gallery.length, 1)] || inductee.primaryImageUrl,
+      imageUrl: beat.imageUrl || gallery[index % Math.max(gallery.length, 1)] || portraitImageUrl(inductee, 'profile'),
       imageAltText: beat.imageAltText || `${inductee.name}: ${beat.headline}`,
       provenance: beat.provenance ?? storyRecord.provenance,
     }));
@@ -185,7 +186,7 @@ function generateStoryBeats(inductee: Inductee, allInductees: Inductee[], galler
       type: 'legacy',
       headline: 'Legacy',
       body: inductee.storySummary || `${inductee.name} is part of the Cleveland International Hall of Fame collection.`,
-      imageUrl: inductee.primaryImageUrl,
+      imageUrl: portraitImageUrl(inductee, 'profile'),
       imageAltText: inductee.imageAltText,
       timelineMarker: formatYear(inductee.classYear),
       provenance: 'inferred',
@@ -202,7 +203,7 @@ function generateStoryBeats(inductee: Inductee, allInductees: Inductee[], galler
       type,
       headline: generatedHeadline(type, index, chunks.length),
       body,
-      imageUrl: gallery[index % Math.max(gallery.length, 1)] || inductee.primaryImageUrl,
+      imageUrl: gallery[index % Math.max(gallery.length, 1)] || portraitImageUrl(inductee, 'profile'),
       imageAltText: `${inductee.name}: ${generatedHeadline(type, index, chunks.length)}`,
       quote: index === 0 ? quote : undefined,
       place: extractPlace(body),

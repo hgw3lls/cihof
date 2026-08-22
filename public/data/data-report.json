@@ -368,21 +368,21 @@
   },
   "media": {
     "withPrimaryImage": 111,
-    "withGalleryImages": 17,
+    "withGalleryImages": 65,
     "withVideo": 64,
     "withoutVideo": 47,
     "completeness": [
       {
+        "score": "3",
+        "count": 64
+      },
+      {
         "score": "1",
-        "count": 47
+        "count": 46
       },
       {
         "score": "2",
-        "count": 47
-      },
-      {
-        "score": "3",
-        "count": 17
+        "count": 1
       }
     ]
   },

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
+import { portraitImageUrl } from '../../data/portraitImages';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
 import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType } from '../../data/types';
@@ -25,6 +26,11 @@ type InducteeDetailProps = {
 type RelatedItem = {
   inductee: Inductee;
   relationship: RelationshipRecord;
+};
+
+type DetailFact = {
+  label: string;
+  value: string;
 };
 
 type DetailAction = 'overview' | 'story' | 'media' | 'photos';
@@ -67,10 +73,12 @@ export function InducteeDetail({
   const gallery = useMemo(() => {
     if (!inductee) return [];
     const manifestImages = [
+      portraitImageUrl(inductee, 'profile'),
+      portraitImageUrl(inductee, 'source'),
       mediaRecord?.images?.primary?.runtimePath,
       ...(mediaRecord?.images?.gallery ?? []).map((image) => image.runtimePath),
     ].filter((url): url is string => Boolean(url));
-    return Array.from(new Set([inductee.primaryImageUrl, ...manifestImages, ...inductee.imageUrls].filter(Boolean))).slice(0, 12);
+    return Array.from(new Set([...manifestImages, ...inductee.imageUrls].filter(Boolean))).slice(0, 12);
   }, [inductee, mediaRecord]);
   const storyRecord = inductee ? storySectionMap.get(inductee.id) : undefined;
 
@@ -122,6 +130,37 @@ export function InducteeDetail({
   const themeTags = inductee.themeTags.slice(0, 4);
   const summary = inductee.storySummary || summarizeSentences(inductee.bioText, 2, 310);
   const connectionSummary = summarizeConnections(related);
+  const biography = cleanDetailBiography(inductee.bioText) || summary;
+  const overviewHighlights = (inductee.storyHighlights.length > 0 ? inductee.storyHighlights : [summary]).slice(0, 3);
+  const localVideoCount = mediaRecord?.videos?.filter((video) => Boolean(video.runtimePath)).length ?? inductee.localVideoPaths.length;
+  const audioCount = (mediaRecord?.audio?.length ?? 0) + (mediaRecord?.oralHistories?.length ?? 0);
+  const youtubeCount = Array.from(
+    new Set([
+      ...(mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId).filter((id): id is string => Boolean(id)),
+      ...inductee.youtubeVideoIds,
+    ]),
+  ).length;
+  const mediaLabel = [
+    gallery.length > 0 ? `${gallery.length} image${gallery.length === 1 ? '' : 's'}` : '',
+    localVideoCount > 0 ? `${localVideoCount} local video${localVideoCount === 1 ? '' : 's'}` : '',
+    audioCount > 0 ? `${audioCount} audio/oral history item${audioCount === 1 ? '' : 's'}` : '',
+    youtubeCount > 0 ? `${youtubeCount} YouTube fallback${youtubeCount === 1 ? '' : 's'}` : '',
+  ].filter(Boolean).join(' / ') || 'No linked media yet';
+  const locationLabel = inductee.countryTags.length > 0
+    ? inductee.countryTags.join(' / ')
+    : inductee.region && inductee.region !== 'Unknown Region'
+      ? inductee.region
+      : '';
+  const detailFacts: DetailFact[] = [
+    { label: 'Class', value: inductee.classYear ? String(inductee.classYear) : 'Year unknown' },
+    locationLabel ? { label: inductee.countryTags.length > 0 ? 'Country / Heritage' : 'Broad Region', value: locationLabel } : null,
+    inductee.communityTags.length > 0 ? { label: 'Community', value: inductee.communityTags.slice(0, 4).join(' / ') } : null,
+    inductee.inductedBy ? { label: 'Inducted By', value: inductee.inductedBy } : null,
+    inductee.themeTags.length > 0 ? { label: 'Themes', value: inductee.themeTags.slice(0, 6).join(' / ') } : null,
+    { label: 'Media', value: mediaLabel },
+    inductee.profileUrl ? { label: 'Source', value: kioskMode ? 'Original profile hidden in kiosk mode' : 'Original CIHOF profile available' } : null,
+  ].filter((fact): fact is DetailFact => Boolean(fact));
+  const sourceNote = buildSourceNote(inductee);
 
   function selectPerson(person: Inductee) {
     if (person.id !== inductee?.id) setMovementCue(`Moving through the wall: ${inductee?.name ?? 'Selected portrait'} to ${person.name}`);
@@ -173,7 +212,7 @@ export function InducteeDetail({
                 fallbackClassName="detail__heroFallback"
                 fallbackLabel={initials(inductee.name)}
                 loading="eager"
-                src={inductee.primaryImageUrl}
+                src={portraitImageUrl(inductee, 'profile')}
               />
             </div>
 
@@ -216,7 +255,7 @@ export function InducteeDetail({
                     className="detail__relatedImage"
                     fallbackClassName="detail__relatedFallback"
                     fallbackLabel={initials(item.inductee.name)}
-                    src={item.inductee.primaryImageUrl}
+                    src={portraitImageUrl(item.inductee, 'thumbnail')}
                   />
                   <span className="detail__relatedBody">
                     <strong>{item.inductee.name}</strong>
@@ -246,10 +285,78 @@ export function InducteeDetail({
             <article className="detail__overviewPanel">
               <p className="museum-kicker">At A Glance</p>
               <div className="detail__overviewGrid">
-                {(inductee.storyHighlights.length > 0 ? inductee.storyHighlights : [summary]).slice(0, 3).map((highlight, index) => (
+                {overviewHighlights.map((highlight, index) => (
                   <span key={`${highlight}-${index}`}>{highlight}</span>
                 ))}
               </div>
+
+              <section className="detail__recordPanel" aria-label={`${inductee.name} collection record`}>
+                <div className="detail__recordHeader">
+                  <div>
+                    <p className="museum-kicker">Collection Record</p>
+                    <h3>Biography + Details</h3>
+                  </div>
+                  <div className="detail__recordActions" aria-label="Record shortcuts">
+                    <button type="button" onClick={() => setAction('story')}>Their Story</button>
+                    <button type="button" onClick={() => setAction('media')}>Media</button>
+                    <button type="button" onClick={() => setAction('photos')}>Photos</button>
+                  </div>
+                </div>
+
+                <div className="detail__recordGrid">
+                  <section className="detail__bioBlock" aria-label="Biography record">
+                    <h4>Biography</h4>
+                    <p className="detail__bioText">{biography}</p>
+                  </section>
+
+                  <aside className="detail__recordMeta" aria-label="Profile details">
+                    {detailFacts.map((fact) => (
+                      <div className="detail__recordFact" key={fact.label}>
+                        <span>{fact.label}</span>
+                        <strong>{fact.value}</strong>
+                      </div>
+                    ))}
+                    {sourceNote && <p className="detail__recordNote">{sourceNote}</p>}
+                    {inductee.profileUrl && !kioskMode && (
+                      <a className="source-link" href={inductee.profileUrl} target="_blank" rel="noreferrer">
+                        Original profile
+                      </a>
+                    )}
+                    {inductee.profileUrl && kioskMode && <span className="source-link source-link--disabled">Original profile hidden in kiosk mode</span>}
+                  </aside>
+                </div>
+
+                {related.length > 0 && (
+                  <section className="detail__recordRelated" aria-label="Related people in this record">
+                    <div className="detail__recordRelatedHeader">
+                      <p className="museum-kicker">Related People</p>
+                      <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
+                    </div>
+                    <div className="detail__miniRelated">
+                      {related.slice(0, 4).map((item, index) => (
+                        <button
+                          className={`detail__miniRelatedCard detail__miniRelatedCard--${item.relationship.provenance}`}
+                          key={`${item.inductee.id}-${item.relationship.type}-${index}`}
+                          type="button"
+                          onClick={() => selectPerson(item.inductee)}
+                        >
+                          <FallbackImage
+                            alt={item.inductee.imageAltText}
+                            className="detail__miniRelatedImage"
+                            fallbackClassName="detail__miniRelatedFallback"
+                            fallbackLabel={initials(item.inductee.name)}
+                            src={portraitImageUrl(item.inductee, 'thumbnail')}
+                          />
+                          <span>
+                            <strong>{item.inductee.name}</strong>
+                            <small>{item.relationship.displayLabel}</small>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </section>
             </article>
           )}
 
@@ -262,17 +369,6 @@ export function InducteeDetail({
               onExit={() => setAction('overview')}
               onSelectPerson={selectPerson}
             />
-          )}
-
-          {activeAction === 'overview' && (
-            <article className="detail__sourcePanel">
-              {inductee.profileUrl && !kioskMode && (
-                <a className="source-link" href={inductee.profileUrl} target="_blank" rel="noreferrer">
-                  Original profile
-                </a>
-              )}
-              {inductee.profileUrl && kioskMode && <span className="source-link source-link--disabled">Original profile hidden in kiosk mode</span>}
-            </article>
           )}
 
           {activeAction === 'media' && (
@@ -558,6 +654,21 @@ function overlapCount(a: string[], b: string[]) {
   if (a.length === 0 || b.length === 0) return 0;
   const bSet = new Set(b);
   return a.filter((item) => bSet.has(item)).length;
+}
+
+function cleanDetailBiography(text: string) {
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+function buildSourceNote(inductee: Inductee) {
+  const notes: string[] = [];
+  if (inductee.countryTags.length > 0 && inductee.countryTagsSource && inductee.countryTagsSource !== 'curated') {
+    notes.push('Country / heritage labels are awaiting curatorial review and should not be treated as documented facts yet.');
+  }
+  if (inductee.themeTags.length > 0 && inductee.themeTagsSource && inductee.themeTagsSource !== 'curated') {
+    notes.push('Theme labels are awaiting curatorial review.');
+  }
+  return notes.join(' ');
 }
 
 function summarizeSentences(text: string, sentenceCount: number, maxLength: number) {
