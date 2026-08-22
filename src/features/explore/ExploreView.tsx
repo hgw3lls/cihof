@@ -4,6 +4,7 @@ import { allValue } from '../../data/filtering';
 import { rankStoryLensMatches, useStoryLenses, type StoryLensMatch } from '../../data/storyLenses';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
+import { portraitImageUrl } from '../../data/portraitImages';
 
 type ExploreViewProps = {
   inductees: Inductee[];
@@ -370,7 +371,7 @@ function StoryLensControls({
                     className="story-lens-focus__image"
                     fallbackClassName="story-lens-focus__fallback"
                     fallbackLabel={initials(match.inductee.name)}
-                    src={match.inductee.primaryImageUrl}
+                    src={portraitImageUrl(match.inductee, 'thumbnail')}
                   />
                   <span>{match.inductee.name}</span>
                 </button>
@@ -422,7 +423,7 @@ function PortraitTile({
           className="portrait-tile__image"
           fallbackClassName="portrait-tile__fallback"
           fallbackLabel={initials(inductee.name)}
-          src={inductee.primaryImageUrl}
+          src={portraitImageUrl(inductee, 'wall')}
         />
         {wallDebug && <WallDebugOverlay inductee={inductee} />}
       </span>

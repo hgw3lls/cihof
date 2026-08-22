@@ -67,18 +67,35 @@ function normalizeMediaRecord(id: string, value: unknown): RuntimeMediaRecord | 
 
 function normalizeImages(value: unknown): RuntimeMediaRecord['images'] {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
-  const images = value as { primary?: unknown; gallery?: unknown };
+  const images = value as { primary?: unknown; gallery?: unknown; portraits?: unknown; portraitQuality?: unknown };
   const primary = normalizeImage(images.primary);
 
   return {
     primary,
     gallery: normalizeAssetArray<RuntimeImageAsset>(images.gallery),
+    portraits: normalizePortraits(images.portraits),
+    portraitQuality: normalizePlainObject<NonNullable<RuntimeMediaRecord['images']>['portraitQuality']>(images.portraitQuality),
   };
 }
 
 function normalizeImage(value: unknown) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return value as RuntimeImageAsset;
+}
+
+function normalizePortraits(value: unknown) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const portraits = value as { wall?: unknown; profile?: unknown; thumbnail?: unknown };
+  return {
+    wall: normalizeImage(portraits.wall),
+    profile: normalizeImage(portraits.profile),
+    thumbnail: normalizeImage(portraits.thumbnail),
+  };
+}
+
+function normalizePlainObject<T>(value: unknown): T | undefined {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  return value as T;
 }
 
 function normalizeAssetArray<T>(value: unknown): T[] {

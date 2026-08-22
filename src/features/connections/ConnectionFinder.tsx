@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
+import { portraitImageUrl } from '../../data/portraitImages';
 import {
   buildConnectionGraph,
   connectedPeopleForNode,
@@ -304,7 +305,7 @@ function PersonConnectionPicker({
               className="connection-person__image"
               fallbackClassName="connection-person__fallback"
               fallbackLabel={initials(inductee.name)}
-              src={inductee.primaryImageUrl}
+              src={portraitImageUrl(inductee, 'thumbnail')}
             />
             <span>
               <strong>{inductee.name}</strong>
@@ -452,7 +453,7 @@ function ConnectionResult({
                     className="connection-node-panel__image"
                     fallbackClassName="connection-node-panel__fallback"
                     fallbackLabel={initials(inductee.name)}
-                    src={inductee.primaryImageUrl}
+                    src={portraitImageUrl(inductee, 'thumbnail')}
                   />
                   <span>
                     <strong>{inductee.name}</strong>
@@ -491,7 +492,7 @@ function ConnectionNodeButton({
           className="connection-node__image"
           fallbackClassName="connection-node__fallback"
           fallbackLabel={initials(node.inductee.name)}
-          src={node.inductee.primaryImageUrl}
+          src={portraitImageUrl(node.inductee, 'thumbnail')}
         />
       ) : (
         <span className="connection-node__entity">{entityInitials(node.label)}</span>
@@ -520,7 +521,7 @@ function TheaterPortrait({
         className="connection-theater__image"
         fallbackClassName="connection-theater__fallback"
         fallbackLabel={initials(inductee.name)}
-        src={inductee.primaryImageUrl}
+        src={portraitImageUrl(inductee, 'wall')}
       />
       <span>{label}</span>
       <strong>{inductee.name}</strong>
@@ -550,7 +551,7 @@ function PersonPill({ inductee, onOpenPerson }: { inductee: Inductee; onOpenPers
         className="connection-person-pill__image"
         fallbackClassName="connection-person-pill__fallback"
         fallbackLabel={initials(inductee.name)}
-        src={inductee.primaryImageUrl}
+        src={portraitImageUrl(inductee, 'thumbnail')}
       />
       <span>
         <strong>{inductee.name}</strong>

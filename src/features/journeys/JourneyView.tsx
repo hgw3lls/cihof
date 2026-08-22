@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { journeys, type Journey } from '../../data/journeys';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
+import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee } from '../../data/types';
 
 type JourneyViewProps = {
@@ -124,7 +125,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
               className="journey-focus__image"
               fallbackClassName="journey-focus__fallback"
               fallbackLabel={initials(activeStep.inductee.name)}
-              src={activeStep.inductee.primaryImageUrl}
+              src={portraitImageUrl(activeStep.inductee, 'profile')}
             />
           </div>
 
@@ -181,7 +182,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
                 className="journey-step__image"
                 fallbackClassName="journey-step__fallback"
                 fallbackLabel={initials(inductee.name)}
-                src={inductee.primaryImageUrl}
+                src={portraitImageUrl(inductee, 'thumbnail')}
               />
               <span>{index + 1}</span>
               <strong>{inductee.name}</strong>
@@ -225,7 +226,7 @@ export function JourneyView({ inductees, onSelect }: JourneyViewProps) {
                     fallbackClassName="journey-card__fallback"
                     fallbackLabel={initials(inductee.name)}
                     key={inductee.id}
-                    src={inductee.primaryImageUrl}
+                    src={portraitImageUrl(inductee, 'thumbnail')}
                   />
                 ))}
               </span>

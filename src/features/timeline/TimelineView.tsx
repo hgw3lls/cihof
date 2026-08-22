@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } 
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
 import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
+import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee } from '../../data/types';
 
 type TimelineViewProps = {
@@ -315,7 +316,7 @@ export function TimelineView({ inductees, loading, error, selectedYear: selected
                     className="timeline-class-card__image"
                     fallbackClassName="timeline-class-card__fallback"
                     fallbackLabel={initials(inductee.name)}
-                    src={inductee.primaryImageUrl}
+                    src={portraitImageUrl(inductee, 'wall')}
                   />
                 </span>
                 <span className="timeline-class-card__body">
@@ -391,7 +392,7 @@ function ComparisonClass({
               className="timeline-compare-class__image"
               fallbackClassName="timeline-compare-class__fallback"
               fallbackLabel={initials(inductee.name)}
-              src={inductee.primaryImageUrl}
+              src={portraitImageUrl(inductee, 'thumbnail')}
             />
           </button>
         ))}

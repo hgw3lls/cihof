@@ -15,6 +15,10 @@ export type Inductee = {
   profileUrl: string;
   inductedBy: string;
   primaryImageUrl: string;
+  portraitWallImageUrl: string;
+  portraitProfileImageUrl: string;
+  portraitThumbnailImageUrl: string;
+  portraitSourceImageUrl: string;
   imageUrls: string[];
   videoUrls: string[];
   youtubeVideoIds: string[];
@@ -323,7 +327,36 @@ export type RuntimeImageAsset = {
   approvedForKiosk?: boolean;
   title?: string;
   description?: string;
+  role?: string;
+  generated?: boolean;
+  generatorVersion?: number;
+  sourceAssetRuntimePath?: string;
+  sourceAssetChecksumSha256?: string;
+  displayTreatment?: string;
+  fitMode?: string;
   provenance?: MediaAssetProvenance;
+};
+
+export type RuntimePortraitSet = {
+  wall?: RuntimeImageAsset | null;
+  profile?: RuntimeImageAsset | null;
+  thumbnail?: RuntimeImageAsset | null;
+};
+
+export type RuntimePortraitQuality = {
+  generator?: string;
+  generatorVersion?: number;
+  crop?: string;
+  sourceFilePath?: string;
+  sourceRuntimePath?: string;
+  sourceWidth?: number;
+  sourceHeight?: number;
+  aspectRatio?: number;
+  fitMode?: string;
+  qualityLabel?: string;
+  reviewFlags?: string[];
+  reviewRecommendation?: string;
+  notes?: string[];
 };
 
 export type RuntimeMediaRecord = {
@@ -339,6 +372,8 @@ export type RuntimeMediaRecord = {
   images?: {
     primary?: RuntimeImageAsset | null;
     gallery?: RuntimeImageAsset[];
+    portraits?: RuntimePortraitSet;
+    portraitQuality?: RuntimePortraitQuality;
   };
   videos?: RuntimeVideoAsset[];
   audio?: RuntimeAudioAsset[];

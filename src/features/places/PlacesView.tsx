@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee, PlaceRecord, PlaceType } from '../../data/types';
 import { usePlaces, usePlaceTypes } from '../../data/usePlaces';
 
@@ -170,7 +171,7 @@ export function PlacesView({ inductees, onSelect }: PlacesViewProps) {
                         className="place-person__image"
                         fallbackClassName="place-person__fallback"
                         fallbackLabel={initials(person.name)}
-                        src={person.primaryImageUrl}
+                        src={portraitImageUrl(person, 'thumbnail')}
                       />
                     </span>
                     <span className="place-person__name">{person.name}</span>

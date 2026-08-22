@@ -125,6 +125,27 @@ const scripts = [
     destructive: true,
   },
   {
+    id: 'portraits:prepare',
+    label: 'Prepare Portrait Crops',
+    description: 'Generate normalized wall, profile, and thumbnail portrait derivatives from localized primary images, then regenerate runtime data.',
+    command: ['run', 'portraits:prepare'],
+    mutates: true,
+  },
+  {
+    id: 'portraits:report',
+    label: 'Portrait Crop Report',
+    description: 'Report portrait derivative readiness without writing files.',
+    command: ['run', 'portraits:report'],
+    mutates: false,
+  },
+  {
+    id: 'portraits:audit',
+    label: 'Portrait Source Audit',
+    description: 'Generate the staff audit page and CSV showing native source resolution, crop treatment, and review flags for every primary portrait.',
+    command: ['run', 'portraits:audit'],
+    mutates: true,
+  },
+  {
     id: 'import:2026',
     label: 'Import 2026 Data',
     description: 'Import the 2026 live data source. Use only when intentionally refreshing source coverage.',
@@ -425,7 +446,7 @@ const server = createServer(async (request, response) => {
       }
       if (!dryRun) {
         steps.push(
-          { label: 'Prepare Data', command: ['run', 'prepare:data'] },
+          { label: 'Prepare Portrait Crops', command: ['run', 'portraits:prepare'] },
           { label: 'Curation Report', command: ['run', 'curate:report'] },
           { label: 'Media Validate', command: ['run', 'media:validate'] },
           { label: 'Validate Entities', command: ['run', 'validate:entities'] },

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue, sortInductees } from '../../data/filtering';
+import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee, SortMode } from '../../data/types';
 
 type RegionMapViewProps = {
@@ -267,7 +268,7 @@ export function RegionMapView({ inductees, selectedRegion, onRegionChange, onSel
                           className="region-card__image"
                           fallbackClassName="region-card__fallback"
                           fallbackLabel={initials(inductee.name)}
-                          src={inductee.primaryImageUrl}
+                          src={portraitImageUrl(inductee, 'wall')}
                         />
                         <span className="region-card__region">{inductee.region}</span>
                       </span>
