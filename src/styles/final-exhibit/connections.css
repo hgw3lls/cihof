@@ -279,6 +279,9 @@
   color: rgba(21, 19, 15, 0.76);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.16em;
 }
 
@@ -287,7 +290,9 @@
   color: var(--exhibit-ink);
   font-family: var(--font-exhibit-display);
   font-size: clamp(6.2rem, 8.4vw, 13.4rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
   line-height: 0.78;
 }
 
@@ -348,7 +353,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.62rem, 0.7vw, 0.9rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.12em;
   line-height: 1.05;
 }
@@ -371,8 +378,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .human-network__center strong {
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(1.8rem, 2.45vw, 4rem);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 800;
 }
 
 .museum-shell:not(.museum-shell--staff) .human-network__node {
@@ -399,8 +409,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .human-network__node strong {
-  font-family: var(--font-exhibit-label);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(1.08rem, 1.22vw, 1.72rem);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 750;
   letter-spacing: 0.02em;
 }
 
@@ -459,7 +472,9 @@
   overflow: hidden;
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.58rem, 0.64vw, 0.78rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.1em;
   line-height: 1;
   text-overflow: ellipsis;
@@ -484,6 +499,9 @@
   max-width: 18ch;
   font-family: var(--font-exhibit-label);
   font-size: clamp(1.25rem, 1.6vw, 2.25rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 650;
   letter-spacing: 0.08em;
 }
 

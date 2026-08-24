@@ -2,7 +2,7 @@
   color: #f3ead6;
   background: #171513;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    "Mona Sans VF", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   --ink: #171513;
@@ -5847,7 +5847,7 @@ textarea:focus,
 .media-empty span {
   max-width: 520px;
   color: rgba(243, 234, 214, 0.68);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Mona Sans VF", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 1rem;
   font-weight: 650;
   line-height: 1.35;
@@ -9797,9 +9797,9 @@ textarea:focus,
 
 /* Flat risograph exhibit identity pass. Built for the existing kiosk components. */
 :root {
-  --font-display: "Anton", "Barlow Condensed", "Arial Narrow", "Helvetica Neue Condensed", "Helvetica Neue", Arial, sans-serif;
-  --font-block: "Archivo Black", "Anton", "Arial Black", "Helvetica Neue", Arial, sans-serif;
-  --font-label: "Barlow Condensed", "Arial Narrow", "Helvetica Neue Condensed", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "League Gothic Exhibit", "Mona Sans VF", "Arial Narrow", "Helvetica Neue Condensed", "Helvetica Neue", Arial, sans-serif;
+  --font-block: "Mona Sans VF", "Arial Narrow", "Helvetica Neue Condensed", "Helvetica Neue", Arial, sans-serif;
+  --font-label: "Mona Sans VF", "Arial Narrow", "Helvetica Neue Condensed", "Helvetica Neue", Arial, sans-serif;
   --riso-ink: #111316;
   --riso-ink-2: #1b2020;
   --riso-paper: #eee2c7;

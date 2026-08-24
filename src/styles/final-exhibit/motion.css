@@ -61,8 +61,10 @@
 .shared-portrait-handoff__fallback {
   background: #181713;
   color: var(--exhibit-paper);
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(1.5rem, 4vw, 4.8rem);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-display);
   font-weight: 800;
 }
 

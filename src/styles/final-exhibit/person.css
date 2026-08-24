@@ -30,6 +30,17 @@
 
 .museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton small {
   color: rgba(21, 19, 15, 0.5);
+  font-family: var(--font-exhibit-notation);
+  font-stretch: var(--type-width-notation);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton span {
+  font-family: var(--font-exhibit-nav);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
 }
 
 .museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton--active small {
@@ -249,9 +260,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .detail--visitor .detail__name {
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(5.8rem, 8.8vw, 13.2rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 800;
   letter-spacing: 0;
   line-height: 0.79;
 }
@@ -260,6 +273,9 @@
 .museum-shell:not(.museum-shell--staff) .detail--visitor .person-focus__context,
 .museum-shell:not(.museum-shell--staff) .detail--visitor .person-focus__why h3 {
   font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.12em;
 }
 
@@ -289,7 +305,11 @@
 .museum-shell:not(.museum-shell--staff) .detail--visitor .detail__summary {
   max-width: min(620px, 42vw);
   color: rgba(21, 19, 15, 0.78);
+  font-family: var(--font-exhibit-body);
   font-size: clamp(1.18rem, 1.42vw, 1.92rem);
+  font-stretch: var(--type-width-body);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 450;
   line-height: 1.38;
 }
 
@@ -325,7 +345,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.72rem, 0.86vw, 1.08rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.14em;
   line-height: 1;
   text-transform: uppercase;
@@ -390,7 +412,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .detail--visitor:not(.detail--action-overview) .detail__name {
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-name);
 }
 
 @media (max-width: 1180px) {
