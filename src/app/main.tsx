@@ -9,6 +9,7 @@ import '@fontsource/barlow-condensed/900.css';
 import { App } from './App';
 import { ErrorBoundary } from './ErrorBoundary';
 import '../styles/styles.css';
+import '../styles/final-exhibit/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

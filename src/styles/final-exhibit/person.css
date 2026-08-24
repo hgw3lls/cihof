@@ -1,0 +1,197 @@
+/* Person, story, media, related people, and QR final visitor layer. */
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__surface,
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__scene {
+  gap: clamp(16px, 1.8vw, 34px);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionStage {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton {
+  min-height: clamp(96px, 10vh, 138px);
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.3);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.72);
+  padding: clamp(14px, 1.4vw, 24px) 0 0;
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton--active,
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton--accent {
+  border-color: var(--exhibit-route);
+  background: transparent;
+  color: var(--exhibit-ink);
+  box-shadow: inset 0 -7px 0 var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton small {
+  color: rgba(21, 19, 15, 0.5);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton--active small {
+  color: rgba(21, 19, 15, 0.68);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor,
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .detail__stage,
+  .detail__identity,
+  .detail__name,
+  .person-focus__why h3,
+  .story-mode__beat,
+  .media-stage__body,
+  .media-playlist__item,
+  .media-gallery,
+  .media-empty,
+  .media-transcript,
+  .person-watch-empty,
+  .detail__relatedCard
+) {
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .person-focus__context,
+  .detail__summary,
+  .story-mode__copy > p,
+  .media-stage__body p,
+  .media-empty span,
+  .media-transcript p,
+  .media-playlist__notice
+) {
+  color: rgba(21, 19, 15, 0.74);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .story-mode__status span,
+  .story-mode__marker span,
+  .story-mode__meta span,
+  .media-experience__summary span,
+  .media-gallery__header span,
+  .media-transcript span,
+  .person-connections__header span,
+  .detail__relationshipMeta span
+) {
+  color: var(--exhibit-muted);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .person-focus__lens,
+.museum-shell:not(.museum-shell--staff) .detail--visitor .media-experience__summary,
+.museum-shell:not(.museum-shell--staff) .detail--visitor .story-mode__status span:nth-child(2) {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .story-mode__beat,
+  .media-stage__body,
+  .media-playlist__item,
+  .media-playlist__notice,
+  .media-gallery,
+  .media-empty,
+  .media-transcript,
+  .person-watch-empty,
+  .detail__relatedCard
+) {
+  border: 0;
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .story-mode__status span,
+  .story-mode__marker span,
+  .story-mode__meta span,
+  .media-experience__summary span,
+  .media-gallery__header span,
+  .media-transcript span,
+  .person-connections__header span,
+  .detail__relationshipMeta span
+) {
+  border: 0;
+  border-left: 3px solid var(--exhibit-route);
+  background: transparent;
+  padding-left: 10px;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor :is(
+  .story-mode__exit,
+  .story-mode__nav button,
+  .media-youtube button,
+  .media-controls button,
+  .qr-continuation__close
+) {
+  min-height: 72px;
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.28);
+  background: transparent;
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .story-mode__nav {
+  border-top: 1px solid var(--exhibit-line-soft);
+  padding-top: clamp(12px, 1vw, 18px);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .story-mode__dot {
+  min-width: 64px;
+  min-height: 64px;
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.28);
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .story-mode__dot--active {
+  border-top-color: var(--person-gold);
+  background: linear-gradient(180deg, transparent 0 72%, var(--person-gold) 72% 100%);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__relatedGrid {
+  gap: clamp(14px, 1.4vw, 24px);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__relatedCard {
+  min-height: clamp(290px, 32vh, 450px);
+  border-top: 3px solid rgba(21, 19, 15, 0.22);
+  padding-top: clamp(8px, 0.7vw, 12px);
+}
+
+.museum-shell:not(.museum-shell--staff) .qr-continuation__code {
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .detail__scene {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .detail__actionStage {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode {
+  height: 100%;
+  min-height: 0;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode__beat {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode__media,
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode__image,
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode__fallback {
+  height: 100%;
+  min-height: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .story-mode__copy {
+  min-height: 0;
+  overflow: auto;
+}
