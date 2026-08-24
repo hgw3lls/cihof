@@ -6,6 +6,7 @@ export type ExperienceTransition = 'forward' | 'back' | 'switch' | 'reset';
 export type ExperienceNavItem = {
   mode: VisitorExperienceMode;
   label: string;
+  sublabel: string;
   ariaLabel: string;
   icon: string;
   risoIcon: string;
@@ -22,14 +23,16 @@ export const visitorExperienceOrder: VisitorExperienceMode[] = [
 export const visitorExperienceNavItems: ExperienceNavItem[] = [
   {
     mode: 'living-hall',
-    label: 'All People',
+    label: 'People',
+    sublabel: 'All People',
     ariaLabel: 'Switch to Living Hall',
     icon: 'people',
     risoIcon: 'community',
   },
   {
     mode: 'world',
-    label: 'World',
+    label: 'Routes',
+    sublabel: 'Places & Connections',
     ariaLabel: 'Switch to World',
     icon: 'world',
     risoIcon: 'map-pin',
@@ -37,6 +40,7 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
   {
     mode: 'time',
     label: 'Time',
+    sublabel: 'Years & Classes',
     ariaLabel: 'Switch to Time',
     icon: 'time',
     risoIcon: 'clock',

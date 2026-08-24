@@ -132,6 +132,28 @@
   touch-action: manipulation;
 }
 
+.museum-shell:not(.museum-shell--staff) .experience-dock__label {
+  display: grid;
+  gap: 0.12em;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label > span {
+  display: block;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label small {
+  display: block;
+  overflow: visible;
+  color: rgba(21, 19, 15, 0.58);
+  font-size: clamp(0.64rem, 0.74vw, 0.92rem);
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-overflow: clip;
+  white-space: normal;
+}
+
 .museum-shell:not(.museum-shell--staff) .museum-nav-item::before {
   content: "";
   width: 100%;
@@ -155,6 +177,10 @@
   background: transparent;
   color: var(--exhibit-ink);
   box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active .experience-dock__label small {
+  color: rgba(21, 19, 15, 0.68);
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-nav-item--active::before {
