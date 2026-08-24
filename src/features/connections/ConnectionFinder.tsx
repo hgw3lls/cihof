@@ -10,6 +10,7 @@ type ConnectionFinderProps = {
   seedPerson: Inductee | null;
   returnPerson: Inductee | null;
   closeLabel?: string;
+  presentation?: 'dialog' | 'scene';
   onClose: () => void;
   onSelectPerson: (inductee: Inductee) => void;
 };
@@ -58,6 +59,7 @@ export function ConnectionFinder({
   seedPerson,
   returnPerson,
   closeLabel = 'Living Hall',
+  presentation = 'dialog',
   onClose,
   onSelectPerson,
 }: ConnectionFinderProps) {
@@ -145,7 +147,12 @@ export function ConnectionFinder({
 
   if (!activePerson) {
     return (
-      <section className="connection-finder human-network" role="dialog" aria-modal="true" aria-label="Connections">
+      <section
+        className={`connection-finder human-network human-network--${presentation}`}
+        role={presentation === 'dialog' ? 'dialog' : 'region'}
+        aria-modal={presentation === 'dialog' ? 'true' : undefined}
+        aria-label="Connections"
+      >
         <div className="human-network__empty">
           <p className="museum-kicker">Connections</p>
           <h2>NO PEOPLE LOADED</h2>
@@ -157,9 +164,13 @@ export function ConnectionFinder({
 
   return (
     <section
-      className={followingThread ? 'connection-finder human-network human-network--threading' : 'connection-finder human-network'}
-      role="dialog"
-      aria-modal="true"
+      className={[
+        'connection-finder human-network',
+        `human-network--${presentation}`,
+        followingThread ? 'human-network--threading' : '',
+      ].filter(Boolean).join(' ')}
+      role={presentation === 'dialog' ? 'dialog' : 'region'}
+      aria-modal={presentation === 'dialog' ? 'true' : undefined}
       aria-label={`${activePerson.name} connections`}
     >
       <header className="human-network__header">
@@ -315,12 +326,15 @@ export function ConnectionFinder({
         </div>
         <div className="human-network__footerActions">
           {hiddenThreadCount > 0 && (
-            <button type="button" onClick={() => setRevealedCount((count) => Math.min(count + revealIncrement, maxThreadCount))}>
+            <button
+              className="human-network__revealButton"
+              type="button"
+              onClick={() => setRevealedCount((count) => Math.min(count + revealIncrement, maxThreadCount))}
+            >
               Reveal More Threads
             </button>
           )}
-          <button type="button" onClick={openActiveProfile}>Selected Profile</button>
-          <button type="button" onClick={onClose}>{closeLabel}</button>
+          <button className="human-network__profileButton" type="button" onClick={openActiveProfile}>Selected Profile</button>
         </div>
       </footer>
     </section>

@@ -111,14 +111,14 @@ export function InducteeDetail({
       if (event.key === 'ArrowRight' && nextInductee) selectPerson(nextInductee);
     };
 
-    document.body.classList.add('drawer-open');
+    if (staffMode) document.body.classList.add('drawer-open');
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
-      document.body.classList.remove('drawer-open');
+      if (staffMode) document.body.classList.remove('drawer-open');
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [activeAction, gallery.length, inductee, lightboxIndex, nextInductee, onClose, onSelect, previousInductee]);
+  }, [activeAction, gallery.length, inductee, lightboxIndex, nextInductee, onClose, onSelect, previousInductee, staffMode]);
 
   useEffect(() => {
     setLightboxIndex(null);

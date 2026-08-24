@@ -1,0 +1,178 @@
+/* World and Time final visitor layer. */
+.museum-shell:not(.museum-shell--staff) .world-lens__summary,
+.museum-shell:not(.museum-shell--staff) .time-lens__metrics {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(.world-lens__status, .world-lens__empty, .time-lens__status) {
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.28);
+  background: rgba(243, 234, 214, 0.62);
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(.world-lens, .timeline.time-lens),
+.museum-shell:not(.museum-shell--staff) :is(
+  .world-lens__header h2,
+  .world-lens__story h3,
+  .world-person,
+  .world-person strong,
+  .time-lens__header h2,
+  .time-lens__yearReadout strong,
+  .time-class-focus__copy h3,
+  .time-build-person,
+  .time-build-person span,
+  .time-class-focus__people button,
+  .time-class-focus__people strong
+) {
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .world-lens__header p:last-child,
+  .world-person em,
+  .world-lens__story p,
+  .world-lens__storyPeople button,
+  .time-year-stack header,
+  .time-class-focus__copy span,
+  .time-class-focus__empty,
+  .time-lens__scrubber span
+) {
+  color: var(--exhibit-muted);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__summary span,
+.museum-shell:not(.museum-shell--staff) .world-lens__storyMeta span,
+.museum-shell:not(.museum-shell--staff) .time-lens__metrics span,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__themes span {
+  min-height: auto;
+  border: 0;
+  border-left: 3px solid var(--exhibit-route);
+  background: transparent;
+  padding: 2px 0 2px 10px;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map,
+.museum-shell:not(.museum-shell--staff) .world-lens__story,
+.museum-shell:not(.museum-shell--staff) .time-build,
+.museum-shell:not(.museum-shell--staff) .time-class-focus {
+  border: 0;
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__story {
+  border-left: 3px solid rgba(21, 19, 15, 0.18);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-country {
+  min-width: 108px;
+  min-height: 66px;
+  border: 0;
+  border-left: 3px solid var(--exhibit-route-quiet);
+  background: rgba(243, 234, 214, 0.48);
+  color: var(--exhibit-muted);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-region,
+.museum-shell:not(.museum-shell--staff) .world-map__cleveland {
+  border: 0;
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-region {
+  border-top: 3px solid rgba(21, 19, 15, 0.26);
+  background: rgba(243, 234, 214, 0.48);
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__cleveland {
+  background: var(--exhibit-paper-highlight);
+  color: var(--exhibit-ink);
+  box-shadow: inset 0 -7px 0 var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__storyPeople button,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__people button {
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.2);
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .world-person__image,
+  .world-person__fallback,
+  .time-build-person__image,
+  .time-build-person__fallback,
+  .time-class-focus__image,
+  .time-class-focus__fallback
+) {
+  border-color: rgba(21, 19, 15, 0.22);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__controls,
+.museum-shell:not(.museum-shell--staff) .time-lens__controls,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__actions {
+  border-top: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__control,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__actions button,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__actions span,
+.museum-shell:not(.museum-shell--staff) .time-lens__controls > button {
+  min-height: var(--exhibit-touch-large);
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.26);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.68);
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__control--active,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__actions button[aria-pressed="true"] {
+  border-color: var(--exhibit-route);
+  background: transparent;
+  color: var(--exhibit-ink);
+  box-shadow: inset 0 -7px 0 var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .world-lens__control--active *,
+  .time-class-focus__actions button[aria-pressed="true"] *
+) {
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack {
+  --time-portrait-size: clamp(54px, 3.6vw, 66px);
+  min-width: clamp(56px, 3.8vw, 70px);
+  max-width: clamp(82px, 5.8vw, 112px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active {
+  --time-portrait-size: clamp(76px, 5.6vw, 94px);
+  flex-basis: clamp(220px, 16vw, 310px);
+  max-width: clamp(240px, 18vw, 340px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build-person__image,
+.museum-shell:not(.museum-shell--staff) .time-build-person__fallback {
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.18);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active .time-build-person__image,
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active .time-build-person__fallback {
+  border-top-color: var(--time-gold);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active header {
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build__baseline {
+  background: linear-gradient(90deg, var(--exhibit-route) 0 var(--time-progress), rgba(21, 19, 15, 0.18) var(--time-progress) 100%);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build__baseline::after {
+  background: var(--exhibit-paper-highlight);
+}

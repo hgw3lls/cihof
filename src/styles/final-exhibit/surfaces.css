@@ -1,0 +1,60 @@
+/* Shared visitor surfaces and image treatment across the five current modes. */
+.museum-shell:not(.museum-shell--staff) :is(
+  .living-hall,
+  .detail--visitor,
+  .connection-finder.human-network,
+  .world-lens,
+  .timeline.time-lens
+) {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  box-shadow: none;
+  color: var(--exhibit-ink);
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.045) 1px, transparent 1px),
+    linear-gradient(115deg, var(--exhibit-field) 0 44%, var(--exhibit-field-3) 44% 72%, var(--exhibit-field-2) 72% 100%);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .living-portrait__imageWrap,
+  .latest-class-sequence__portrait,
+  .latest-class-sequence__fallback,
+  .latest-class-sequence__gridImage,
+  .latest-class-sequence__gridFallback,
+  .world-person__image,
+  .world-person__fallback,
+  .human-network__centerImage,
+  .human-network__centerFallback,
+  .human-network__nodeImage,
+  .human-network__nodeFallback,
+  .time-build-person__image,
+  .time-build-person__fallback,
+  .detail__portrait,
+  .detail__relatedImage,
+  .detail__relatedFallback,
+  .media-stage__screen,
+  .story-mode__media
+) {
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .living-hall,
+  .detail--visitor,
+  .connection-finder.human-network,
+  .world-lens,
+  .timeline.time-lens
+)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 9.5%, var(--exhibit-line-soft) 9.5% calc(9.5% + 1px), transparent calc(9.5% + 1px)),
+    linear-gradient(180deg, transparent 0 18%, var(--exhibit-line-soft) 18% calc(18% + 1px), transparent calc(18% + 1px));
+  opacity: 0.52;
+}

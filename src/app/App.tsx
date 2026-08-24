@@ -582,7 +582,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
       data-animation-intensity={installationConfig.animationIntensity}
       data-debug-mode={installationConfig.debug.enabled ? 'true' : 'false'}
     >
-      <header className="museum-rail" aria-label="Collection status">
+      <header className="museum-rail" aria-label="Installation identity and controls">
         <div className="museum-brand">
           <span>CIHOF</span>
           <strong>{activeExperienceLabel}</strong>
@@ -623,6 +623,45 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
               attractActive={attractActive}
               onEngage={continueExploring}
               onSelect={selectInductee}
+            />
+          </ExperienceScene>
+        )}
+
+        {viewMode === 'person' && !reviewModeEnabled && (
+          <ExperienceScene mode="person" transition={experienceTransition}>
+            <InducteeDetail
+              inductee={!attractActive ? selected : null}
+              allInductees={inductees}
+              relationships={relationships}
+              kioskMode={kioskMode}
+              qrEnabled={installationConfig.features.qrContinuation}
+              soundEnabled={installationConfig.features.sound}
+              initialAction={personInitialAction}
+              nextInductee={nextInductee}
+              previousInductee={previousInductee}
+              staffMode={false}
+              wallDebug={wallDebugEnabled}
+              onClose={closeDetail}
+              onHome={returnHome}
+              onReset={() => resetExperience('detail')}
+              onSelect={selectInductee}
+              onFindConnection={openConnectionFinder}
+            />
+          </ExperienceScene>
+        )}
+
+        {viewMode === 'connections' && !reviewModeEnabled && (
+          <ExperienceScene mode="connections" transition={experienceTransition}>
+            <ConnectionFinder
+              open={connectionOpen && !attractActive}
+              inductees={inductees}
+              relationships={relationships}
+              seedPerson={connectionSeed}
+              returnPerson={connectionReturn}
+              closeLabel="Living Hall"
+              presentation="scene"
+              onClose={closeConnectionFinder}
+              onSelectPerson={selectFromConnection}
             />
           </ExperienceScene>
         )}
@@ -698,35 +737,26 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
         </section>
       )}
 
-      <InducteeDetail
-        inductee={(viewMode === 'person' || reviewModeEnabled) && !attractActive ? selected : null}
-        allInductees={inductees}
-        relationships={relationships}
-        kioskMode={kioskMode}
-        qrEnabled={installationConfig.features.qrContinuation}
-        soundEnabled={installationConfig.features.sound}
-        initialAction={personInitialAction}
-        nextInductee={nextInductee}
-        previousInductee={previousInductee}
-        staffMode={reviewModeEnabled}
-        wallDebug={wallDebugEnabled}
-        onClose={closeDetail}
-        onHome={returnHome}
-        onReset={() => resetExperience('detail')}
-        onSelect={selectInductee}
-        onFindConnection={openConnectionFinder}
-      />
-
-      <ConnectionFinder
-        open={connectionOpen}
-        inductees={inductees}
-        relationships={relationships}
-        seedPerson={connectionSeed}
-        returnPerson={connectionReturn}
-        closeLabel="Living Hall"
-        onClose={closeConnectionFinder}
-        onSelectPerson={selectFromConnection}
-      />
+      {reviewModeEnabled && (
+        <InducteeDetail
+          inductee={!attractActive ? selected : null}
+          allInductees={inductees}
+          relationships={relationships}
+          kioskMode={kioskMode}
+          qrEnabled={installationConfig.features.qrContinuation}
+          soundEnabled={installationConfig.features.sound}
+          initialAction={personInitialAction}
+          nextInductee={nextInductee}
+          previousInductee={previousInductee}
+          staffMode={reviewModeEnabled}
+          wallDebug={wallDebugEnabled}
+          onClose={closeDetail}
+          onHome={returnHome}
+          onReset={() => resetExperience('detail')}
+          onSelect={selectInductee}
+          onFindConnection={openConnectionFinder}
+        />
+      )}
       {transitionLocked && <div className="transition-input-guard" aria-hidden="true" />}
       {sharedPortrait && <SharedPortraitHandoffView handoff={sharedPortrait} />}
     </main>

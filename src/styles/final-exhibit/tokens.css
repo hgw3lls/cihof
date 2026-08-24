@@ -1,0 +1,148 @@
+/* Canonical final-exhibit tokens for the five active visitor modes. */
+.museum-shell:not(.museum-shell--staff) {
+  --exhibit-field: #d8c49a;
+  --exhibit-field-2: #cbb487;
+  --exhibit-field-3: #e2d0a8;
+  --exhibit-paper: #f3ead6;
+  --exhibit-paper-highlight: #fff8e8;
+  --exhibit-ink: #15130f;
+  --exhibit-ink-2: #272119;
+  --exhibit-muted: rgba(21, 19, 15, 0.62);
+  --exhibit-dim: rgba(21, 19, 15, 0.42);
+  --exhibit-line: rgba(21, 19, 15, 0.24);
+  --exhibit-line-soft: rgba(21, 19, 15, 0.13);
+  --exhibit-route: #b74a24;
+  --exhibit-route-quiet: rgba(183, 74, 36, 0.42);
+  --exhibit-sage: #77824d;
+  --exhibit-ochre: #a77b30;
+  --exhibit-gold: var(--exhibit-route);
+  --exhibit-red: var(--exhibit-route);
+  --exhibit-blue: var(--exhibit-sage);
+  --exhibit-stage-grid: 48px 48px;
+  --exhibit-rule: 2px solid rgba(21, 19, 15, 0.26);
+  --exhibit-rule-strong: 3px solid rgba(21, 19, 15, 0.68);
+  --exhibit-touch: 74px;
+  --exhibit-touch-large: 82px;
+  --exhibit-touch-hero: 96px;
+  --exhibit-space-page-x: clamp(20px, 2.6vw, 54px);
+  --exhibit-space-page-y: clamp(18px, 2vw, 38px);
+  --exhibit-space-dock: clamp(18px, 2.1vw, 40px);
+  --experience-dock-height: clamp(82px, 7.2vh, 112px);
+  --experience-dock-gap: clamp(12px, 1.5vw, 24px);
+  --font-exhibit-display: Georgia, "Times New Roman", serif;
+  --font-exhibit-label: var(--font-label, ui-sans-serif);
+  --font-exhibit-body: var(--font-body, ui-sans-serif);
+  --living-hall-ink: var(--exhibit-paper);
+  --living-hall-paper: var(--exhibit-ink);
+  --person-ink: var(--exhibit-paper);
+  --person-paper: var(--exhibit-ink);
+  --person-line: var(--exhibit-line);
+  --person-gold: var(--exhibit-route);
+  --person-red: var(--exhibit-route);
+  --network-ink: var(--exhibit-paper);
+  --network-paper: var(--exhibit-ink);
+  --network-line: var(--exhibit-line);
+  --network-gold: var(--exhibit-route);
+  --network-blue: var(--exhibit-sage);
+  --world-ink: var(--exhibit-paper);
+  --world-paper: var(--exhibit-ink);
+  --world-gold: var(--exhibit-route);
+  --world-rust: var(--exhibit-route);
+  --world-blue: var(--exhibit-sage);
+  --world-line: var(--exhibit-line);
+  --time-ink: var(--exhibit-paper);
+  --time-paper: var(--exhibit-ink);
+  --time-gold: var(--exhibit-route);
+  --time-red: var(--exhibit-route);
+  --time-teal: var(--exhibit-sage);
+  --time-line: var(--exhibit-line);
+  --time-muted: var(--exhibit-muted);
+}
+
+.museum-shell:not(.museum-shell--staff).experience-shell--living-hall,
+.museum-shell:not(.museum-shell--staff).experience-shell--person,
+.museum-shell:not(.museum-shell--staff).experience-shell--connections,
+.museum-shell:not(.museum-shell--staff).experience-shell--world,
+.museum-shell:not(.museum-shell--staff).experience-shell--time,
+.museum-shell:not(.museum-shell--staff) .timeline.time-lens {
+  --living-hall-ink: var(--exhibit-paper);
+  --living-hall-paper: var(--exhibit-ink);
+  --person-ink: var(--exhibit-paper);
+  --person-paper: var(--exhibit-ink);
+  --person-line: var(--exhibit-line);
+  --person-gold: var(--exhibit-route);
+  --person-red: var(--exhibit-route);
+  --network-ink: var(--exhibit-paper);
+  --network-paper: var(--exhibit-ink);
+  --network-line: var(--exhibit-line);
+  --network-gold: var(--exhibit-route);
+  --network-blue: var(--exhibit-sage);
+  --world-ink: var(--exhibit-paper);
+  --world-paper: var(--exhibit-ink);
+  --world-gold: var(--exhibit-route);
+  --world-rust: var(--exhibit-route);
+  --world-blue: var(--exhibit-sage);
+  --world-line: var(--exhibit-line);
+  --time-ink: var(--exhibit-paper);
+  --time-paper: var(--exhibit-ink);
+  --time-gold: var(--exhibit-route);
+  --time-red: var(--exhibit-route);
+  --time-teal: var(--exhibit-sage);
+  --time-line: var(--exhibit-line);
+  --time-muted: var(--exhibit-muted);
+}
+
+.museum-shell:not(.museum-shell--staff):is(.experience-shell--person, .experience-shell--connections) {
+  --experience-dock-height: clamp(58px, 5.2vh, 78px);
+  --experience-dock-gap: clamp(8px, 1vw, 16px);
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .exhibit-type--monument,
+  .exhibit-type--year
+) {
+  font-family: var(--font-exhibit-display);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .exhibit-type--label {
+  font-family: var(--font-exhibit-label);
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .exhibit-type--notation {
+  color: var(--exhibit-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.66rem, 0.74vw, 0.92rem);
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .exhibit-type--body {
+  font-family: var(--font-exhibit-body);
+  font-weight: 650;
+  line-height: 1.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .exhibit-type--route {
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .exhibit-type--touch {
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
