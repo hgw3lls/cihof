@@ -247,7 +247,10 @@ export function TimelineView({
         </aside>
       </div>
 
-      <div className="time-lens__controls" aria-label={`Select a year from ${yearRange.min} through ${yearRange.max}`}>
+      <div
+        className={classVideoPeople.length > 0 ? 'time-lens__controls time-lens__controls--with-media' : 'time-lens__controls'}
+        aria-label={`Select a year from ${yearRange.min} through ${yearRange.max}`}
+      >
         <button type="button" onClick={() => commitYear(yearRange.min)} aria-label={`Jump to ${yearRange.min}`}>
           {yearRange.min}
         </button>
@@ -271,6 +274,11 @@ export function TimelineView({
         <button type="button" onClick={() => commitYear(yearRange.max)} aria-label={`Jump to ${yearRange.max}`}>
           {yearRange.max}
         </button>
+        {classVideoPeople.length > 0 && (
+          <button className="time-lens__mediaAction" type="button" onClick={openClassMedia}>
+            Open Class Media
+          </button>
+        )}
       </div>
     </section>
   );

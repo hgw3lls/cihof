@@ -44,10 +44,10 @@ type ConceptThread = {
   score: number;
 };
 
-const initialThreadCount = 6;
+const initialThreadCount = 5;
 const initialConceptThreadCount = 4;
 const revealIncrement = 4;
-const maxThreadCount = 10;
+const maxThreadCount = 8;
 const maxConceptThreadChoices = 4;
 const centerPoint = { x: 50, y: 45 };
 const orbitAngles = [-160, -125, -50, 0, 50, 125, -88, -25, 82, 158];
@@ -176,8 +176,12 @@ export function ConnectionFinder({
       <header className="human-network__header">
         <div>
           <p className="museum-kicker">{followingThread ? 'Following A Thread' : 'Connections'}</p>
-          <h2>{activePerson.name}</h2>
-          <p className="human-network__thesis">The Hall is a system of people who made a city.</p>
+          <h2>{followingThread ? activeConceptThread?.lens.label ?? 'Follow A Thread' : 'Connections'}</h2>
+          <p className="human-network__thesis">
+            {followingThread
+              ? 'A temporary path through people, work, communities, and civic memory.'
+              : 'Explore relationships that shape our city.'}
+          </p>
         </div>
         <div className="human-network__headerActions">
           <button type="button" onClick={openActiveProfile}>Profile</button>
@@ -213,6 +217,17 @@ export function ConnectionFinder({
             />
           ))}
         </svg>
+
+        {visibleThreads.map((thread) => (
+          <div
+            className={`human-network__label human-network__label--${thread.reasons[0]?.provenance ?? 'curated'}`}
+            key={`label-${activePerson.id}-${activeThreadId || 'direct'}-${thread.person.id}`}
+            style={positionStyle(thread.labelX, thread.labelY)}
+          >
+            <span>{followingThread ? 'FOLLOW THIS THREAD' : 'WHY CONNECTED'}</span>
+            <strong>{followingThread ? activeConceptThread?.lens.label.toUpperCase() ?? 'THIS THREAD' : relationshipLineLabel(thread.reasons[0], activePerson.name)}</strong>
+          </div>
+        ))}
 
         <button
           className="human-network__center"
@@ -274,6 +289,30 @@ export function ConnectionFinder({
             <h3>{activePerson.name}</h3>
             <span>This portrait needs documented relationship data before it can enter the human network.</span>
           </section>
+        )}
+
+        {followingThread && threadTrail.length > 1 && (
+          <div className="human-network__journey" aria-label="Thread journey">
+            {threadTrail.slice(-5).map((person, index, people) => (
+              <button
+                aria-current={person.id === activePerson.id ? 'true' : undefined}
+                className="human-network__journeyStep"
+                key={`journey-${person.id}-${index}`}
+                style={journeyStyle(index, people.length)}
+                type="button"
+                onClick={() => focusPerson(person)}
+              >
+                <FallbackImage
+                  alt={person.imageAltText}
+                  className="human-network__journeyImage"
+                  fallbackClassName="human-network__journeyFallback"
+                  fallbackLabel={initials(person.name)}
+                  src={person.primaryImageUrl}
+                />
+                <span>{person.id === activePerson.id ? 'YOU ARE HERE' : person.name}</span>
+              </button>
+            ))}
+          </div>
         )}
       </main>
 
@@ -550,8 +589,8 @@ function positionThreads(threads: NetworkThread[]): PositionedThread[] {
       ...thread,
       x,
       y,
-      labelX: centerPoint.x + (x - centerPoint.x) * 0.55,
-      labelY: centerPoint.y + (y - centerPoint.y) * 0.55,
+      labelX: centerPoint.x + (x - centerPoint.x) * 0.42,
+      labelY: centerPoint.y + (y - centerPoint.y) * 0.42,
     };
   });
 }
@@ -632,11 +671,29 @@ function relationshipSupportLabel(reason: NetworkReason, activeName: string) {
   return support.toLowerCase().startsWith(type.toLowerCase()) ? support : `${type} / ${support}`;
 }
 
+function relationshipLineLabel(reason: NetworkReason | undefined, activeName: string) {
+  if (!reason) return 'Documented connection';
+  const label = nodeReasonLabel(reason, activeName);
+  if (reason.type === 'same_class') return 'SAME CLASS';
+  if (reason.type === 'shared_theme') return label.replace(/^Shared field:\s*/i, '').toUpperCase();
+  if (reason.type === 'shared_community') return 'SHARED COMMUNITY';
+  if (reason.type === 'shared_organization') return 'SHARED ORGANIZATION';
+  if (reason.type === 'civic_collaboration') return 'CIVIC WORK';
+  if (reason.type === 'inducted_by') return label.toUpperCase();
+  if (reason.type === 'related_place') return label.replace(/^Shared place:\s*/i, '').toUpperCase();
+  return label.toUpperCase();
+}
+
 function positionStyle(x: number, y: number) {
   return {
     '--network-x': `${x}%`,
     '--network-y': `${y}%`,
   } as CSSProperties;
+}
+
+function journeyStyle(index: number, total: number) {
+  const progress = total <= 1 ? 0 : index / (total - 1);
+  return positionStyle(12 + progress * 28, 82 - Math.sin(progress * Math.PI) * 8);
 }
 
 function clamp(value: number, min: number, max: number) {
