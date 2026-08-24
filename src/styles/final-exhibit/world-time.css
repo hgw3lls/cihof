@@ -196,6 +196,9 @@
   color: rgba(21, 19, 15, 0.76);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.16em;
 }
 
@@ -204,7 +207,9 @@
   color: var(--exhibit-ink);
   font-family: var(--font-exhibit-display);
   font-size: clamp(7rem, 10.6vw, 16.4rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
   letter-spacing: 0;
   line-height: 0.78;
 }
@@ -214,6 +219,9 @@
   color: rgba(21, 19, 15, 0.76);
   font-family: var(--font-exhibit-label);
   font-size: clamp(1.15rem, 1.28vw, 1.72rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.14em;
   line-height: 1.08;
   text-transform: uppercase;
@@ -271,7 +279,9 @@
 .museum-shell:not(.museum-shell--staff) .world-map__cleveland span {
   font-family: var(--font-exhibit-display);
   font-size: clamp(2.8rem, 4.35vw, 6.8rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
   letter-spacing: 0;
 }
 
@@ -279,6 +289,9 @@
   color: rgba(21, 19, 15, 0.68);
   font-family: var(--font-exhibit-notation);
   font-size: clamp(0.82rem, 0.92vw, 1.12rem);
+  font-stretch: var(--type-width-notation);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
   letter-spacing: 0.12em;
 }
 
@@ -308,6 +321,9 @@
   color: var(--exhibit-ink);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.86rem, 0.98vw, 1.24rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-align: left;
 }
@@ -340,8 +356,11 @@
 
 .museum-shell:not(.museum-shell--staff) .world-person strong {
   color: var(--exhibit-ink);
-  font-family: var(--font-exhibit-label);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(1rem, 1.1vw, 1.46rem);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 750;
   letter-spacing: 0.02em;
 }
 
@@ -368,13 +387,20 @@
 
 .museum-shell:not(.museum-shell--staff) .world-lens__story h3 {
   color: var(--exhibit-ink);
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-name);
   font-size: clamp(2rem, 3vw, 4.8rem);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 800;
 }
 
 .museum-shell:not(.museum-shell--staff) .world-lens__story p:not(.museum-kicker) {
   color: rgba(21, 19, 15, 0.76);
+  font-family: var(--font-exhibit-body);
   font-size: clamp(1rem, 1.06vw, 1.22rem);
+  font-stretch: var(--type-width-body);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 450;
 }
 
 .museum-shell:not(.museum-shell--staff) .world-lens__storyMeta,
@@ -403,6 +429,9 @@
   color: rgba(21, 19, 15, 0.76);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.16em;
 }
 
@@ -420,6 +449,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(1rem, 1.12vw, 1.42rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.16em;
 }
 
@@ -427,7 +459,9 @@
   color: var(--exhibit-ink);
   font-family: var(--font-exhibit-display);
   font-size: clamp(7.4rem, 12vw, 18rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
   letter-spacing: 0;
   line-height: 0.78;
 }
@@ -461,6 +495,9 @@
 .museum-shell:not(.museum-shell--staff) .time-year-stack header {
   border-top: 2px solid rgba(21, 19, 15, 0.18);
   font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.12em;
 }
 
@@ -485,7 +522,10 @@
 
 .museum-shell:not(.museum-shell--staff) .time-build-person span {
   color: var(--exhibit-ink);
-  font-family: var(--font-exhibit-label);
+  font-family: var(--font-exhibit-name);
+  font-stretch: var(--type-width-name);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 750;
   letter-spacing: 0.02em;
 }
 
@@ -507,8 +547,11 @@
 .museum-shell:not(.museum-shell--staff) .time-lens__controls > button {
   border-top-width: 0;
   color: var(--exhibit-ink);
-  font-family: var(--font-exhibit-display);
+  font-family: var(--font-exhibit-nav);
   font-size: clamp(1.9rem, 2.7vw, 4.1rem);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
 }
 
 .museum-shell:not(.museum-shell--staff) .time-lens__controls > .time-lens__mediaAction {
@@ -516,6 +559,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(1.04rem, 1.16vw, 1.42rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.12em;
 }
 
@@ -523,6 +569,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.84rem, 0.96vw, 1.12rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }

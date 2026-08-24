@@ -99,7 +99,9 @@
   color: currentColor;
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.68rem, 0.78vw, 1rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1;
   text-transform: uppercase;

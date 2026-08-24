@@ -82,9 +82,11 @@
   position: absolute;
   max-width: 18ch;
   color: rgba(21, 19, 15, 0.24);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-family: var(--font-exhibit-notation);
   font-size: clamp(0.6rem, 0.68vw, 0.82rem);
-  font-weight: 800;
+  font-stretch: var(--type-width-notation);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.18;
   text-transform: uppercase;
@@ -120,7 +122,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(1.65rem, 2.2vw, 3.2rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 0.92;
   text-transform: uppercase;
@@ -140,9 +144,11 @@
   max-width: 11.5ch;
   margin: 0;
   color: var(--exhibit-ink);
-  font-family: var(--font-exhibit-label);
+  font-family: var(--font-exhibit-display);
   font-size: clamp(3.1rem, 4.25vw, 6.1rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
   letter-spacing: 0;
   line-height: 0.86;
   text-shadow: none;
@@ -156,7 +162,9 @@
   color: rgba(21, 19, 15, 0.58);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.94rem, 1vw, 1.18rem);
-  font-weight: 900;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.08;
   text-transform: uppercase;
@@ -170,9 +178,11 @@
   display: grid;
   gap: 0.28em;
   color: rgba(21, 19, 15, 0.62);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-family: var(--font-exhibit-notation);
   font-size: clamp(0.92rem, 1.05vw, 1.32rem);
-  font-weight: 850;
+  font-stretch: var(--type-width-notation);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 1.04;
   pointer-events: none;
@@ -189,7 +199,9 @@
   color: var(--exhibit-route);
   font-family: var(--font-exhibit-label);
   font-size: clamp(1.75rem, 2.45vw, 3.8rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 650;
   letter-spacing: 0.02em;
   line-height: 0.88;
   pointer-events: none;
@@ -280,6 +292,9 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel strong {
   font-family: var(--font-exhibit-label);
   font-size: clamp(1rem, 1.3vw, 2rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel small {

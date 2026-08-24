@@ -33,7 +33,9 @@
   color: rgba(21, 19, 15, 0.56);
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.72rem, 0.72vw, 0.92rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.16em;
   line-height: 1;
   text-transform: uppercase;
@@ -77,7 +79,9 @@
   box-shadow: none;
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.72rem, 0.8vw, 0.94rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -122,9 +126,11 @@
   color: rgba(21, 19, 15, 0.62);
   padding: 0 0 clamp(8px, 0.7vw, 12px);
   box-shadow: none;
-  font-family: var(--font-exhibit-label);
+  font-family: var(--font-exhibit-nav);
   font-size: clamp(1.18rem, 1.75vw, 2.35rem);
-  font-weight: 950;
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 0.9;
   text-align: left;
@@ -146,7 +152,9 @@
   overflow: visible;
   color: rgba(21, 19, 15, 0.58);
   font-size: clamp(0.64rem, 0.74vw, 0.92rem);
-  font-weight: 850;
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1;
   text-transform: uppercase;
