@@ -2,7 +2,6 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { allValue } from '../../data/filtering';
 import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
-import { portraitImageUrl } from '../../data/portraitImages';
 import type { ExploreState, Inductee, PlaceRecord } from '../../data/types';
 import { usePlaces } from '../../data/usePlaces';
 
@@ -465,7 +464,7 @@ function SearchResultRow({
           className="touch-result__image"
           fallbackClassName="touch-result__fallback"
           fallbackLabel={initials(inductee.name)}
-          src={portraitImageUrl(inductee, 'thumbnail')}
+          src={inductee.primaryImageUrl}
         />
       </span>
       <span className="touch-result__body">

@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { runtimeLogger } from '../app/runtimeLogger';
+import { readCachedJson, writeCachedJson } from './localDataCache';
 import type { RelationshipProvenance, StorySectionRecord } from './types';
 
 type StorySectionsState = {
@@ -8,6 +10,7 @@ type StorySectionsState = {
 };
 
 const storySectionsUrl = `${import.meta.env.BASE_URL}data/story-sections.json`;
+const cacheKey = 'story-sections';
 const provenanceValues = new Set<RelationshipProvenance>(['documented', 'curated', 'inferred']);
 
 export function useStorySections(): StorySectionsState {
@@ -15,21 +18,31 @@ export function useStorySections(): StorySectionsState {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
-    fetch(storySectionsUrl)
+    fetch(storySectionsUrl, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Story sections request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
       })
       .then((payload) => {
+        writeCachedJson(cacheKey, payload);
         if (!cancelled) setState({ records: parseStorySections(payload), loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (!cancelled) setState({ records: [], loading: false, error: error.message });
+        if (controller.signal.aborted || cancelled) return;
+        const cached = readCachedJson(cacheKey);
+        if (cached) {
+          runtimeLogger.warn('Using cached story sections after load failure.', { error: error.message });
+          setState({ records: parseStorySections(cached), loading: false, error: '' });
+          return;
+        }
+        setState({ records: [], loading: false, error: error.message });
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 

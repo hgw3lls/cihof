@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
-import { countryOrRegionLabel } from '../../data/inducteeLabels';
-import { portraitImageUrl } from '../../data/portraitImages';
+import { QRCodePanel } from '../../components/QRCodePanel';
+import { stopMediaElement } from '../../app/mediaControl';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
-import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType } from '../../data/types';
+import type {
+  Inductee,
+  RelationshipProvenance,
+  RelationshipRecord,
+  RelationshipType,
+  RuntimeAudioAsset,
+  RuntimeMediaRecord,
+  RuntimeVideoAsset,
+} from '../../data/types';
 import { MediaExperience } from './MediaExperience';
 import { StoryMode } from './StoryMode';
 
@@ -13,8 +21,12 @@ type InducteeDetailProps = {
   allInductees: Inductee[];
   relationships: RelationshipRecord[];
   kioskMode: boolean;
+  qrEnabled: boolean;
+  soundEnabled: boolean;
+  initialAction?: DetailAction;
   previousInductee: Inductee | null;
   nextInductee: Inductee | null;
+  staffMode?: boolean;
   wallDebug?: boolean;
   onClose: () => void;
   onHome: () => void;
@@ -28,20 +40,25 @@ type RelatedItem = {
   relationship: RelationshipRecord;
 };
 
-type DetailFact = {
-  label: string;
-  value: string;
-};
+export type DetailAction = 'overview' | 'story' | 'watch' | 'connections' | 'continue';
 
-type DetailAction = 'overview' | 'story' | 'media' | 'photos';
+type WatchAvailability = {
+  playable: boolean;
+  status: string;
+  message: string;
+};
 
 export function InducteeDetail({
   inductee,
   allInductees,
   relationships,
   kioskMode,
+  qrEnabled,
+  soundEnabled,
+  initialAction = 'overview',
   previousInductee,
   nextInductee,
+  staffMode = false,
   wallDebug = false,
   onClose,
   onHome,
@@ -51,9 +68,9 @@ export function InducteeDetail({
 }: InducteeDetailProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeAction, setActiveAction] = useState<DetailAction>('overview');
-  const [movementCue, setMovementCue] = useState('');
   const detailRef = useRef<HTMLElement | null>(null);
   const actionStageRef = useRef<HTMLElement | null>(null);
+  const actionFocusFrameRef = useRef<number | null>(null);
   const { records: storySectionRecords } = useStorySections();
   const storySectionMap = useStorySectionMap(storySectionRecords);
   const { records: mediaRecords } = useMediaManifest();
@@ -64,21 +81,14 @@ export function InducteeDetail({
     return buildRelated(inductee, allInductees, relationships);
   }, [allInductees, inductee, relationships]);
 
-  const differentInductee = useMemo(() => {
-    if (!inductee) return null;
-    return pickDifferentInductee(allInductees, inductee);
-  }, [allInductees, inductee]);
-
   const mediaRecord = inductee ? mediaRecordMap.get(inductee.id) : undefined;
   const gallery = useMemo(() => {
     if (!inductee) return [];
     const manifestImages = [
-      portraitImageUrl(inductee, 'profile'),
-      portraitImageUrl(inductee, 'source'),
       mediaRecord?.images?.primary?.runtimePath,
       ...(mediaRecord?.images?.gallery ?? []).map((image) => image.runtimePath),
     ].filter((url): url is string => Boolean(url));
-    return Array.from(new Set([...manifestImages, ...inductee.imageUrls].filter(Boolean))).slice(0, 12);
+    return Array.from(new Set([inductee.primaryImageUrl, ...manifestImages, ...inductee.imageUrls].filter(Boolean))).slice(0, 12);
   }, [inductee, mediaRecord]);
   const storyRecord = inductee ? storySectionMap.get(inductee.id) : undefined;
 
@@ -92,7 +102,7 @@ export function InducteeDetail({
         if (event.key === 'ArrowRight') setLightboxIndex((current) => cycleImage(current, gallery.length, 1));
         return;
       }
-      if (activeAction === 'story') {
+      if (activeAction !== 'overview') {
         if (event.key === 'Escape') setActiveAction('overview');
         return;
       }
@@ -112,78 +122,48 @@ export function InducteeDetail({
 
   useEffect(() => {
     setLightboxIndex(null);
-    setActiveAction('overview');
+    setActiveAction(initialAction);
     detailRef.current?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [inductee?.id]);
+  }, [inductee?.id, initialAction]);
 
   useEffect(() => {
-    if (!movementCue) return undefined;
-    const timeout = window.setTimeout(() => setMovementCue(''), 2400);
-    return () => window.clearTimeout(timeout);
-  }, [movementCue]);
+    return () => {
+      if (actionFocusFrameRef.current !== null) window.cancelAnimationFrame(actionFocusFrameRef.current);
+    };
+  }, []);
 
   if (!inductee) return null;
 
   const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
-  const primaryCountryLabel = countryOrRegionLabel(inductee);
-  const communityLabel = inductee.communityTags[0] ?? '';
-  const themeTags = inductee.themeTags.slice(0, 4);
-  const summary = inductee.storySummary || summarizeSentences(inductee.bioText, 2, 310);
+  const explicitContext = explicitContextLabel(inductee);
+  const summary = whySummary(inductee);
   const connectionSummary = summarizeConnections(related);
-  const biography = cleanDetailBiography(inductee.bioText) || summary;
-  const overviewHighlights = (inductee.storyHighlights.length > 0 ? inductee.storyHighlights : [summary]).slice(0, 3);
-  const localVideoCount = mediaRecord?.videos?.filter((video) => Boolean(video.runtimePath)).length ?? inductee.localVideoPaths.length;
-  const audioCount = (mediaRecord?.audio?.length ?? 0) + (mediaRecord?.oralHistories?.length ?? 0);
-  const youtubeCount = Array.from(
-    new Set([
-      ...(mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId).filter((id): id is string => Boolean(id)),
-      ...inductee.youtubeVideoIds,
-    ]),
-  ).length;
-  const mediaLabel = [
-    gallery.length > 0 ? `${gallery.length} image${gallery.length === 1 ? '' : 's'}` : '',
-    localVideoCount > 0 ? `${localVideoCount} local video${localVideoCount === 1 ? '' : 's'}` : '',
-    audioCount > 0 ? `${audioCount} audio/oral history item${audioCount === 1 ? '' : 's'}` : '',
-    youtubeCount > 0 ? `${youtubeCount} YouTube fallback${youtubeCount === 1 ? '' : 's'}` : '',
-  ].filter(Boolean).join(' / ') || 'No linked media yet';
-  const locationLabel = inductee.countryTags.length > 0
-    ? inductee.countryTags.join(' / ')
-    : inductee.region && inductee.region !== 'Unknown Region'
-      ? inductee.region
-      : '';
-  const detailFacts: DetailFact[] = [
-    { label: 'Class', value: inductee.classYear ? String(inductee.classYear) : 'Year unknown' },
-    locationLabel ? { label: inductee.countryTags.length > 0 ? 'Country / Heritage' : 'Broad Region', value: locationLabel } : null,
-    inductee.communityTags.length > 0 ? { label: 'Community', value: inductee.communityTags.slice(0, 4).join(' / ') } : null,
-    inductee.inductedBy ? { label: 'Inducted By', value: inductee.inductedBy } : null,
-    inductee.themeTags.length > 0 ? { label: 'Themes', value: inductee.themeTags.slice(0, 6).join(' / ') } : null,
-    { label: 'Media', value: mediaLabel },
-    inductee.profileUrl ? { label: 'Source', value: kioskMode ? 'Original profile hidden in kiosk mode' : 'Original CIHOF profile available' } : null,
-  ].filter((fact): fact is DetailFact => Boolean(fact));
-  const sourceNote = buildSourceNote(inductee);
+  const watchAvailability = mediaAvailability(inductee, mediaRecord, kioskMode);
+  const continuationUrl = qrEnabled ? canonicalContinuationUrl(inductee) : '';
+  const detailModeClass = staffMode ? 'detail--staff' : 'detail--visitor';
 
   function selectPerson(person: Inductee) {
-    if (person.id !== inductee?.id) setMovementCue(`Moving through the wall: ${inductee?.name ?? 'Selected portrait'} to ${person.name}`);
     stopDetailMedia();
     onSelect(person);
   }
 
   function setAction(action: DetailAction) {
-    if (action !== 'media') stopDetailMedia();
+    if (action === 'continue' && !continuationUrl) return;
+    if (action !== 'watch') stopDetailMedia();
     setActiveAction(action);
-    if (action === 'overview') return;
-    window.requestAnimationFrame(() => {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      actionStageRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
-      actionStageRef.current?.focus({ preventScroll: true });
-    });
+    if (action !== 'overview') {
+      if (actionFocusFrameRef.current !== null) window.cancelAnimationFrame(actionFocusFrameRef.current);
+      actionFocusFrameRef.current = window.requestAnimationFrame(() => {
+        actionFocusFrameRef.current = null;
+        actionStageRef.current?.focus({ preventScroll: true });
+      });
+    }
   }
 
   function stopDetailMedia() {
     detailRef.current?.querySelectorAll('video, audio').forEach((media) => {
       if (!(media instanceof HTMLMediaElement)) return;
-      media.pause();
-      media.currentTime = 0;
+      stopMediaElement(media);
     });
     detailRef.current?.querySelectorAll('iframe').forEach((frame) => {
       frame.src = frame.src;
@@ -192,226 +172,173 @@ export function InducteeDetail({
   }
 
   return (
-    <aside className="detail detail--museum" aria-label={`${inductee.name} details`} ref={detailRef}>
+    <aside className={`detail detail--museum ${detailModeClass} detail--action-${activeAction}`} aria-label={`${inductee.name} details`} ref={detailRef}>
       <section className="detail__surface">
-        <header className="detail__topbar" aria-label="Person view controls">
-          <button type="button" onClick={onClose}>Back</button>
-          <button type="button" onClick={onHome}>Home</button>
-          <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
-          <button type="button" onClick={onReset}>Reset</button>
-        </header>
+        {(staffMode || wallDebug) && (
+          <header className="detail__topbar" aria-label="Person view controls">
+            <button type="button" onClick={onClose}>Back</button>
+            <button type="button" onClick={onHome}>Home</button>
+            <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
+            <button type="button" onClick={onReset}>Reset</button>
+          </header>
+        )}
 
-        {movementCue && <div className="detail__movementCue" role="status">{movementCue}</div>}
+        <div className={`detail__scene detail__scene--${activeAction}`}>
+          <div className="detail__stage">
+            <section className="detail__identity" aria-label={`${inductee.name} profile`}>
+              <figure
+                className="detail__portrait person-focus__portrait"
+                data-transition-person={inductee.id}
+                data-transition-role="person-portrait"
+              >
+                <FallbackImage
+                  alt={inductee.imageAltText}
+                  className="detail__portraitImage"
+                  fallbackClassName="detail__heroFallback"
+                  fallbackLabel={initials(inductee.name)}
+                  loading="eager"
+                  src={inductee.primaryImageUrl}
+                />
+              </figure>
 
-        <div className="detail__stage">
-          <section className="detail__identity" aria-label={`${inductee.name} profile`}>
-            <div className="detail__portrait">
-              <FallbackImage
-                alt={inductee.imageAltText}
-                className="detail__portraitImage"
-                fallbackClassName="detail__heroFallback"
-                fallbackLabel={initials(inductee.name)}
-                loading="eager"
-                src={portraitImageUrl(inductee, 'profile')}
+              <div className="detail__identityText">
+                <p className="person-focus__lens">PERSON</p>
+                <h2 className="detail__name">{inductee.name}</h2>
+                <p className="person-focus__class">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
+                {explicitContext && <p className="person-focus__context">{explicitContext}</p>}
+                <section className="person-focus__why" aria-label="Why they are in the Hall of Fame">
+                  <h3>WHY ARE THEY HERE?</h3>
+                  <p className="detail__summary">{summary}</p>
+                </section>
+                {wallDebug && <WallDebugPanel inductee={inductee} />}
+              </div>
+            </section>
+          </div>
+
+          <section className={`detail__actionStage detail__actionStage--${activeAction}`} aria-label="Selected action" ref={actionStageRef} tabIndex={-1}>
+            {activeAction === 'story' && (
+              <StoryMode
+                allInductees={allInductees}
+                gallery={gallery}
+                inductee={inductee}
+                storyRecord={storyRecord}
+                onExit={() => setAction('overview')}
+                onSelectPerson={selectPerson}
               />
-            </div>
+            )}
 
-            <div className="detail__identityText">
-              <p className="museum-kicker">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</p>
-              <h2 className="detail__name">{inductee.name}</h2>
-              <div className="detail__facts">
-                {primaryCountryLabel && <span>{primaryCountryLabel}</span>}
-                {communityLabel && <span>{communityLabel}</span>}
-                {inductee.inductedBy && <span>Inducted by {inductee.inductedBy}</span>}
-              </div>
-              {wallDebug && <WallDebugPanel inductee={inductee} />}
-              <p className="detail__summary">{summary}</p>
-              {themeTags.length > 0 && (
-                <div className="detail__themeTags" aria-label="Story themes">
-                  {themeTags.map((theme) => (
-                    <span key={theme}>{theme}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </section>
-
-          <aside className="detail__connections" aria-label="Related inductees">
-            <div className="detail__connectionsHeader">
-              <p className="museum-kicker">Who They Connect To</p>
-              <span>{connectionSummary}</span>
-            </div>
-            <div className="detail__relatedGrid">
-              {related.map((item, index) => (
-                <button
-                  aria-label={`${item.inductee.name}. ${item.relationship.displayLabel}. ${provenanceLabel(item.relationship.provenance)}.`}
-                  className={`detail__relatedCard detail__relatedCard--${item.relationship.provenance}`}
-                  key={`${item.relationship.sourcePersonId}-${item.relationship.targetEntityId}-${item.relationship.type}-${index}`}
-                  type="button"
-                  onClick={() => selectPerson(item.inductee)}
-                >
-                  <FallbackImage
-                    alt={item.inductee.imageAltText}
-                    className="detail__relatedImage"
-                    fallbackClassName="detail__relatedFallback"
-                    fallbackLabel={initials(item.inductee.name)}
-                    src={portraitImageUrl(item.inductee, 'thumbnail')}
-                  />
-                  <span className="detail__relatedBody">
-                    <strong>{item.inductee.name}</strong>
-                    <small className="detail__relationshipLabel">{item.relationship.displayLabel}</small>
-                    <span className="detail__relationshipMeta" aria-label="Relationship reason metadata">
-                      <span>{relationshipTypeLabel(item.relationship.type)}</span>
-                      <span className={`detail__relationshipProvenance detail__relationshipProvenance--${item.relationship.provenance}`}>
-                        {provenanceLabel(item.relationship.provenance)}
-                      </span>
-                    </span>
-                    {item.relationship.referenceNote && <em className="detail__relationshipNote">{item.relationship.referenceNote}</em>}
-                  </span>
-                </button>
-              ))}
-              {related.length === 0 && <div className="detail__relatedEmpty">No relationship metadata is available for this inductee yet.</div>}
-            </div>
-          </aside>
-        </div>
-
-        <section
-          className={`detail__actionStage detail__actionStage--${activeAction}`}
-          aria-label="Selected action"
-          ref={actionStageRef}
-          tabIndex={-1}
-        >
-          {activeAction === 'overview' && (
-            <article className="detail__overviewPanel">
-              <p className="museum-kicker">At A Glance</p>
-              <div className="detail__overviewGrid">
-                {overviewHighlights.map((highlight, index) => (
-                  <span key={`${highlight}-${index}`}>{highlight}</span>
-                ))}
-              </div>
-
-              <section className="detail__recordPanel" aria-label={`${inductee.name} collection record`}>
-                <div className="detail__recordHeader">
+            {activeAction === 'watch' && (
+              watchAvailability.playable ? (
+                <MediaExperience
+                  gallery={gallery}
+                  inductee={inductee}
+                  kioskMode={kioskMode}
+                  mediaRecord={mediaRecord}
+                  soundEnabled={soundEnabled}
+                  onOpenImage={setLightboxIndex}
+                />
+              ) : (
+                <section className="person-watch-empty" aria-label="Watch unavailable">
                   <div>
-                    <p className="museum-kicker">Collection Record</p>
-                    <h3>Biography + Details</h3>
+                    <p className="museum-kicker">Watch</p>
+                    <h3>NO APPROVED MEDIA INSTALLED</h3>
                   </div>
-                  <div className="detail__recordActions" aria-label="Record shortcuts">
-                    <button type="button" onClick={() => setAction('story')}>Their Story</button>
-                    <button type="button" onClick={() => setAction('media')}>Media</button>
-                    <button type="button" onClick={() => setAction('photos')}>Photos</button>
+                  <p>{watchAvailability.message}</p>
+                  <FallbackImage
+                    alt={inductee.imageAltText}
+                    className="person-watch-empty__image"
+                    fallbackClassName="person-watch-empty__fallback"
+                    fallbackLabel={initials(inductee.name)}
+                    src={inductee.primaryImageUrl}
+                  />
+                </section>
+              )
+            )}
+
+            {activeAction === 'connections' && (
+              <section className="person-connections" aria-label="Related inductees">
+                <header className="person-connections__header">
+                  <div>
+                    <p className="museum-kicker">Connections</p>
+                    <h3>WHO THEY CONNECT TO</h3>
                   </div>
-                </div>
-
-                <div className="detail__recordGrid">
-                  <section className="detail__bioBlock" aria-label="Biography record">
-                    <h4>Biography</h4>
-                    <p className="detail__bioText">{biography}</p>
-                  </section>
-
-                  <aside className="detail__recordMeta" aria-label="Profile details">
-                    {detailFacts.map((fact) => (
-                      <div className="detail__recordFact" key={fact.label}>
-                        <span>{fact.label}</span>
-                        <strong>{fact.value}</strong>
-                      </div>
-                    ))}
-                    {sourceNote && <p className="detail__recordNote">{sourceNote}</p>}
-                    {inductee.profileUrl && !kioskMode && (
-                      <a className="source-link" href={inductee.profileUrl} target="_blank" rel="noreferrer">
-                        Original profile
-                      </a>
-                    )}
-                    {inductee.profileUrl && kioskMode && <span className="source-link source-link--disabled">Original profile hidden in kiosk mode</span>}
-                  </aside>
-                </div>
-
-                {related.length > 0 && (
-                  <section className="detail__recordRelated" aria-label="Related people in this record">
-                    <div className="detail__recordRelatedHeader">
-                      <p className="museum-kicker">Related People</p>
-                      <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
-                    </div>
-                    <div className="detail__miniRelated">
-                      {related.slice(0, 4).map((item, index) => (
-                        <button
-                          className={`detail__miniRelatedCard detail__miniRelatedCard--${item.relationship.provenance}`}
-                          key={`${item.inductee.id}-${item.relationship.type}-${index}`}
-                          type="button"
-                          onClick={() => selectPerson(item.inductee)}
-                        >
-                          <FallbackImage
-                            alt={item.inductee.imageAltText}
-                            className="detail__miniRelatedImage"
-                            fallbackClassName="detail__miniRelatedFallback"
-                            fallbackLabel={initials(item.inductee.name)}
-                            src={portraitImageUrl(item.inductee, 'thumbnail')}
-                          />
-                          <span>
-                            <strong>{item.inductee.name}</strong>
-                            <small>{item.relationship.displayLabel}</small>
+                  <span>{connectionSummary}</span>
+                </header>
+                <div className="detail__relatedGrid">
+                  {related.map((item, index) => (
+                    <button
+                      aria-label={`${item.inductee.name}. ${item.relationship.displayLabel}. ${provenanceLabel(item.relationship.provenance)}.`}
+                      className={`detail__relatedCard detail__relatedCard--${item.relationship.provenance}`}
+                      data-transition-person={item.inductee.id}
+                      data-transition-role="person-related"
+                      key={`${item.relationship.sourcePersonId}-${item.relationship.targetEntityId}-${item.relationship.type}-${index}`}
+                      type="button"
+                      onClick={() => selectPerson(item.inductee)}
+                    >
+                      <FallbackImage
+                        alt={item.inductee.imageAltText}
+                        className="detail__relatedImage"
+                        fallbackClassName="detail__relatedFallback"
+                        fallbackLabel={initials(item.inductee.name)}
+                        src={item.inductee.primaryImageUrl}
+                      />
+                      <span className="detail__relatedBody">
+                        <strong>{item.inductee.name}</strong>
+                        <small className="detail__relationshipLabel">{item.relationship.displayLabel}</small>
+                        <span className="detail__relationshipMeta" aria-label="Relationship reason metadata">
+                          <span>{relationshipTypeLabel(item.relationship.type)}</span>
+                          <span className={`detail__relationshipProvenance detail__relationshipProvenance--${item.relationship.provenance}`}>
+                            {provenanceLabel(item.relationship.provenance)}
                           </span>
-                        </button>
-                      ))}
-                    </div>
-                  </section>
-                )}
-              </section>
-            </article>
-          )}
-
-          {activeAction === 'story' && (
-            <StoryMode
-              allInductees={allInductees}
-              gallery={gallery}
-              inductee={inductee}
-              storyRecord={storyRecord}
-              onExit={() => setAction('overview')}
-              onSelectPerson={selectPerson}
-            />
-          )}
-
-          {activeAction === 'media' && (
-            <MediaExperience
-              gallery={gallery}
-              inductee={inductee}
-              kioskMode={kioskMode}
-              mediaRecord={mediaRecord}
-              onOpenImage={setLightboxIndex}
-            />
-          )}
-
-          {activeAction === 'photos' && (
-            <section className="detail__photoPanel" aria-label="See photos">
-              <p className="museum-kicker">See Photos</p>
-              {gallery.length > 0 ? (
-                <div className="gallery-grid">
-                  {gallery.map((url, index) => (
-                    <button className="gallery-grid__button" key={url} type="button" onClick={() => setLightboxIndex(index)}>
-                      <FallbackImage alt={`${inductee.imageAltText} Image ${index + 1}.`} fallbackClassName="gallery-grid__fallback" fallbackLabel={initials(inductee.name)} src={url} />
+                        </span>
+                        {item.relationship.referenceNote && <em className="detail__relationshipNote">{item.relationship.referenceNote}</em>}
+                      </span>
                     </button>
                   ))}
+                  {related.length === 0 && <div className="detail__relatedEmpty">No relationship metadata is available for this inductee yet.</div>}
                 </div>
-              ) : (
-                <div className="video-empty">No image gallery is linked for this inductee yet.</div>
-              )}
-            </section>
-          )}
-        </section>
+              </section>
+            )}
 
-        <nav className="detail__actionRail" aria-label="Person actions">
-          <button type="button" aria-pressed={activeAction === 'story'} className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('story')}>
-            Their Story
+            {activeAction === 'continue' && continuationUrl && (
+              <QRCodePanel
+                value={continuationUrl}
+                title={inductee.name}
+                instruction="Scan with your phone to continue this story on the CIHOF website."
+                onAutoClose={() => setAction('overview')}
+                onClose={() => setAction('overview')}
+              />
+            )}
+          </section>
+        </div>
+
+        <nav className={continuationUrl ? 'detail__actionRail detail__actionRail--with-continuation' : 'detail__actionRail'} aria-label="Person actions">
+          <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('story')}>
+            <span>STORY</span>
           </button>
-          <button type="button" aria-pressed={activeAction === 'media'} className={activeAction === 'media' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('media')}>
-            Watch / Listen
+          <button
+            type="button"
+            className={activeAction === 'watch' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'}
+            onClick={() => setAction('watch')}
+          >
+            <span>WATCH</span>
+            <small>{watchAvailability.status}</small>
           </button>
-          <button type="button" aria-pressed={activeAction === 'photos'} className={activeAction === 'photos' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('photos')}>
-            See Photos
+          <button type="button" className={activeAction === 'connections' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('connections')}>
+            <span>CONNECTIONS</span>
           </button>
-          <button type="button" className="detail__actionButton detail__actionButton--accent" disabled={!differentInductee} onClick={() => differentInductee && selectPerson(differentInductee)}>
-            Show Me Someone Different
+          <button type="button" className="detail__actionButton detail__actionButton--accent" onClick={() => onFindConnection(inductee)}>
+            <span>FOLLOW A THREAD -&gt;</span>
           </button>
+          {continuationUrl && (
+            <button
+              type="button"
+              className={activeAction === 'continue' ? 'detail__actionButton detail__actionButton--active detail__actionButton--continue' : 'detail__actionButton detail__actionButton--continue'}
+              onClick={() => setAction('continue')}
+            >
+              <span>CONTINUE THIS STORY -&gt;</span>
+            </button>
+          )}
         </nav>
       </section>
 
@@ -449,6 +376,153 @@ function WallDebugPanel({ inductee }: { inductee: Inductee }) {
       <span>{inductee.physicalPortraitPresent ? 'Physical portrait present' : 'Physical portrait not marked present'}</span>
     </div>
   );
+}
+
+function explicitContextLabel(inductee: Inductee) {
+  const community = firstText(inductee.communityTags);
+  if (community) return community;
+
+  if (isExplicitSource(inductee.themeTagsSource)) {
+    const theme = firstText(inductee.themeTags);
+    if (theme) return theme;
+  }
+
+  if (isExplicitSource(inductee.countryTagsSource)) {
+    const country = firstText(inductee.countryTags);
+    if (country) return country;
+  }
+
+  if (inductee.inductedBy) return `Inducted by ${inductee.inductedBy}`;
+  return '';
+}
+
+function firstText(values: string[]) {
+  return values.find((value) => value.trim().length > 0)?.trim() ?? '';
+}
+
+function isExplicitSource(source: string) {
+  return source === 'curated' || source === 'documented';
+}
+
+function mediaAvailability(inductee: Inductee, mediaRecord: RuntimeMediaRecord | undefined, kioskMode: boolean): WatchAvailability {
+  const approvedVideos = (mediaRecord?.videos ?? []).filter(isApprovedPlayableMediaForDetail);
+  const approvedAudio = [...(mediaRecord?.oralHistories ?? []), ...(mediaRecord?.audio ?? [])].filter(isApprovedPlayableMediaForDetail);
+  const legacyLocalVideos = mediaRecord ? [] : inductee.localVideoPaths.filter(Boolean);
+  const youtubeIds = new Set([
+    ...(mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId).filter((id): id is string => Boolean(id)),
+    ...inductee.youtubeVideoIds,
+  ]);
+  const playableCount = approvedVideos.length + approvedAudio.length + legacyLocalVideos.length + (!kioskMode ? youtubeIds.size : 0);
+
+  if (playableCount > 0) {
+    return {
+      playable: true,
+      status: approvedVideos.length + legacyLocalVideos.length > 0 ? 'Footage ready' : approvedAudio.length > 0 ? 'Audio ready' : 'Stream available',
+      message: '',
+    };
+  }
+
+  if (kioskMode && youtubeIds.size > 0) {
+    return {
+      playable: false,
+      status: 'Needs local media',
+      message: 'Streaming fallback media exists for this inductee, but it is hidden in museum kiosk mode until an approved local file is installed.',
+    };
+  }
+
+  if ((mediaRecord?.videos?.length ?? 0) > 0 || inductee.hasVideo) {
+    return {
+      playable: false,
+      status: 'Awaiting approval',
+      message: 'Induction footage is referenced in the collection data, but no rights-approved local playback file is available for this installation yet.',
+    };
+  }
+
+  return {
+    playable: false,
+    status: 'No media yet',
+    message: 'No approved induction footage or oral history media is linked for this inductee yet. Their story remains available through the profile text and collection images.',
+  };
+}
+
+function canonicalContinuationUrl(inductee: Inductee) {
+  const candidate = inductee.profileUrl.trim();
+  if (!candidate) return '';
+
+  try {
+    const url = new URL(candidate);
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+    return url.href;
+  } catch {
+    return '';
+  }
+}
+
+function isApprovedPlayableMediaForDetail(asset: RuntimeVideoAsset | RuntimeAudioAsset) {
+  const captionsReady = asset.captionStatus === undefined || asset.captionStatus === 'approved' || asset.captionStatus === 'not-applicable';
+  const transcriptReady = asset.transcriptStatus === 'approved' || asset.transcriptStatus === 'not-applicable' || Boolean(asset.transcript?.text);
+  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && captionsReady && transcriptReady && asset.runtimePath);
+}
+
+function whySummary(inductee: Inductee) {
+  const preferred = cleanSummaryText(inductee.bioText || inductee.storySummary, inductee.name);
+  const fallback = cleanSummaryText(inductee.storySummary, inductee.name);
+  const source = wordCount(preferred) >= 24 ? preferred : fallback;
+  const opening = firstCompleteSentence(source);
+  const highlight = inductee.storyHighlights
+    .map((item) => cleanSummaryText(item, inductee.name))
+    .find((item) => item && !item.includes('...') && !isRepeatedSummaryPiece(item, opening));
+  return limitWords([opening, highlight].filter(Boolean).join(' ') || source, 46);
+}
+
+function cleanSummaryText(text: string, name: string) {
+  const withoutMediaTail = text.split(/Watch the video|Here is a video|See more photos|Congratulations|Back to /i)[0] || text;
+  return stripLeadingName(withoutMediaTail.replace(/\s+/g, ' ').trim(), name);
+}
+
+function stripLeadingName(text: string, name: string) {
+  const variants = [
+    name,
+    name.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(),
+  ].filter(Boolean);
+  const lower = text.toLowerCase();
+  const match = variants.find((variant) => lower.startsWith(variant.toLowerCase()));
+  return match ? text.slice(match.length).replace(/^[-:,\s]+/, '').trim() : text;
+}
+
+function limitWords(text: string, maxWords: number) {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (words.length <= maxWords) return text;
+  return `${words.slice(0, maxWords).join(' ').replace(/[,;:]+$/, '')}...`;
+}
+
+function wordCount(text: string) {
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function firstCompleteSentence(text: string) {
+  const protectedText = text
+    .replace(/\b(i\.e|e\.g|Mr|Mrs|Ms|Dr|Jr|Sr|St|Fr|Hon|Rev)\./g, (match) => match.replace(/\./g, '<dot>'))
+    .replace(/\b([A-Z])\./g, '$1<dot>');
+  const sentence = protectedText.match(/[^.!?]+[.!?]+/)?.[0] ?? text;
+  return sentence.replace(/<dot>/g, '.').trim();
+}
+
+function isRepeatedSummaryPiece(piece: string, base: string) {
+  const pieceWords = normalizedWords(piece);
+  const baseText = ` ${normalizedWords(base).join(' ')} `;
+  for (let index = 0; index <= pieceWords.length - 4; index += 1) {
+    if (baseText.includes(` ${pieceWords.slice(index, index + 4).join(' ')} `)) return true;
+  }
+  return false;
+}
+
+function normalizedWords(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
 }
 
 function formatCoordinate(value: number) {
@@ -606,29 +680,6 @@ function summarizeConnections(related: RelatedItem[]) {
   return allInferred ? `${related.length} inferred ${noun}` : `${related.length} reviewed ${noun}`;
 }
 
-function pickDifferentInductee(allInductees: Inductee[], current: Inductee) {
-  return allInductees
-    .filter((item) => item.id !== current.id)
-    .map((item) => ({ item, score: differenceScore(current, item) }))
-    .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name))[0]?.item ?? null;
-}
-
-function differenceScore(current: Inductee, candidate: Inductee) {
-  let score = 0;
-  const sharedCountries = overlapCount(current.countryTags, candidate.countryTags);
-  if (sharedCountries === 0) score += current.countryTags.length > 0 || candidate.countryTags.length > 0 ? 42 : 0;
-  else score -= sharedCountries * 14;
-
-  score += current.region !== candidate.region ? 28 : -8;
-  score += overlapCount(current.communityTags, candidate.communityTags) === 0 ? 28 : -10;
-  score += overlapCount(current.themeTags, candidate.themeTags) === 0 ? 22 : -8;
-  if (typeof current.classYear === 'number' && typeof candidate.classYear === 'number') {
-    score += Math.min(Math.abs(current.classYear - candidate.classYear) / 3, 26);
-  }
-  if (candidate.featured || candidate.featuredCandidate) score += 4;
-  return score;
-}
-
 function sharedOrganizations(active: Inductee, related: Inductee) {
   const activeOrgs = extractOrganizations(active.bioText);
   const relatedOrgs = new Set(extractOrganizations(related.bioText));
@@ -648,32 +699,4 @@ function sharedCivicThemes(active: Inductee, related: Inductee) {
     const lower = theme.toLowerCase();
     return related.themeTags.includes(theme) && civicTerms.some((term) => lower.includes(term));
   });
-}
-
-function overlapCount(a: string[], b: string[]) {
-  if (a.length === 0 || b.length === 0) return 0;
-  const bSet = new Set(b);
-  return a.filter((item) => bSet.has(item)).length;
-}
-
-function cleanDetailBiography(text: string) {
-  return text.replace(/\s+/g, ' ').trim();
-}
-
-function buildSourceNote(inductee: Inductee) {
-  const notes: string[] = [];
-  if (inductee.countryTags.length > 0 && inductee.countryTagsSource && inductee.countryTagsSource !== 'curated') {
-    notes.push('Country / heritage labels are awaiting curatorial review and should not be treated as documented facts yet.');
-  }
-  if (inductee.themeTags.length > 0 && inductee.themeTagsSource && inductee.themeTagsSource !== 'curated') {
-    notes.push('Theme labels are awaiting curatorial review.');
-  }
-  return notes.join(' ');
-}
-
-function summarizeSentences(text: string, sentenceCount: number, maxLength: number) {
-  const sentences = text.match(/[^.!?]+[.!?]+/g) ?? [];
-  const summary = sentences.slice(0, sentenceCount).join(' ').trim() || text;
-  if (summary.length <= maxLength) return summary;
-  return `${summary.slice(0, maxLength).trim()}...`;
 }

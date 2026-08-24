@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { runtimeLogger } from '../app/runtimeLogger';
+import { readCachedJson, writeCachedJson } from './localDataCache';
+import { normalizeInducteePayload } from './normalizeInductees';
 import type { Inductee } from './types';
 
 type DataState = {
@@ -8,31 +11,49 @@ type DataState = {
 };
 
 const dataUrl = `${import.meta.env.BASE_URL}data/inductees.json`;
+const cacheKey = 'inductees';
 
 export function useInductees(): DataState {
   const [state, setState] = useState<DataState>({ inductees: [], loading: true, error: '' });
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
-    fetch(dataUrl)
+    fetch(dataUrl, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
-        return response.json() as Promise<Inductee[]>;
+        return response.json() as Promise<unknown>;
       })
-      .then((inductees) => {
+      .then((payload) => {
+        const inductees = normalizeInducteePayload(payload);
+        if (inductees.length > 0) writeCachedJson(cacheKey, payload);
         if (!cancelled) setState({ inductees, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (!cancelled) setState({ inductees: [], loading: false, error: error.message });
+        if (controller.signal.aborted || cancelled) return;
+        const cached = readCachedJson(cacheKey);
+        const cachedInductees = normalizeInducteePayload(cached);
+        if (cachedInductees.length > 0) {
+          runtimeLogger.warn('Using cached inductee data after load failure.', { error: error.message });
+          setState({ inductees: cachedInductees, loading: false, error: '' });
+          return;
+        }
+        setState({ inductees: [], loading: false, error: offlineAwareError(error.message, 'Inductee data could not be loaded.') });
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 
   return state;
+}
+
+function offlineAwareError(message: string, fallback: string) {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return `${fallback} The browser is offline.`;
+  return message || fallback;
 }
 
 export function useDataFacets(inductees: Inductee[]) {

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "copy": {
+    "kicker": "World",
+    "title": "The World Arrives Here.",
+    "secondaryStatement": "Cleveland travels back out.",
+    "instruction": "Touch a region",
+    "defaultFocusTitle": "Cleveland",
+    "defaultFocusBody": "The Hall of Fame holds stories where international places, communities, journeys, and civic relationships meet in Cleveland.",
+    "activeRegionPrefix": "Region in view",
+    "activeCountryPrefix": "Place in view",
+    "peoplePrompt": "Touch a portrait",
+    "sourceDisclosure": "Geography shown here comes from structured CIHOF profile-source references. Records flagged for curator confirmation are withheld.",
+    "emptyTitle": "Awaiting Curated Geography",
+    "emptyBody": "No presentation-ready international geography records are available yet."
+  }
+}

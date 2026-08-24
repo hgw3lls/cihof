@@ -35,6 +35,8 @@ export function useViewportLock() {
 
     window.addEventListener('resize', scheduleMeasure);
     window.addEventListener('orientationchange', scheduleMeasure);
+    window.addEventListener('pageshow', scheduleMeasure);
+    document.addEventListener('visibilitychange', scheduleMeasure);
     window.visualViewport?.addEventListener('resize', scheduleMeasure);
     window.visualViewport?.addEventListener('scroll', scheduleMeasure);
 
@@ -42,6 +44,8 @@ export function useViewportLock() {
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
       window.removeEventListener('resize', scheduleMeasure);
       window.removeEventListener('orientationchange', scheduleMeasure);
+      window.removeEventListener('pageshow', scheduleMeasure);
+      document.removeEventListener('visibilitychange', scheduleMeasure);
       window.visualViewport?.removeEventListener('resize', scheduleMeasure);
       window.visualViewport?.removeEventListener('scroll', scheduleMeasure);
       root.classList.remove(viewportLockClassName);

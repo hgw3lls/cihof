@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { stopMediaElement } from '../../app/mediaControl';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import type { Inductee, RuntimeAudioAsset, RuntimeMediaRecord, RuntimeVideoAsset } from '../../data/types';
 
@@ -7,6 +8,7 @@ type MediaExperienceProps = {
   gallery: string[];
   kioskMode: boolean;
   mediaRecord?: RuntimeMediaRecord;
+  soundEnabled: boolean;
   onOpenImage: (index: number) => void;
 };
 
@@ -28,7 +30,7 @@ type MediaItem = {
   approvedForKiosk?: boolean;
 };
 
-export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, onOpenImage }: MediaExperienceProps) {
+export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, soundEnabled, onOpenImage }: MediaExperienceProps) {
   const allItems = useMemo(() => buildMediaItems(inductee, mediaRecord), [inductee, mediaRecord]);
   const playableItems = useMemo(
     () => allItems.filter((item) => !kioskMode || item.sourceType !== 'youtube'),
@@ -57,7 +59,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, onO
       </header>
 
       <div className="media-experience__layout">
-        <MediaStage item={activeItem} kioskMode={kioskMode} personName={inductee.name} />
+        <MediaStage item={activeItem} kioskMode={kioskMode} personName={inductee.name} soundEnabled={soundEnabled} />
 
         <aside className="media-playlist" aria-label="Media playlist">
           {playableItems.length > 0 ? (
@@ -112,7 +114,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, onO
   );
 }
 
-function MediaStage({ item, kioskMode, personName }: { item: MediaItem | null; kioskMode: boolean; personName: string }) {
+function MediaStage({ item, kioskMode, personName, soundEnabled }: { item: MediaItem | null; kioskMode: boolean; personName: string; soundEnabled: boolean }) {
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [broken, setBroken] = useState(false);
@@ -185,6 +187,8 @@ function MediaStage({ item, kioskMode, personName }: { item: MediaItem | null; k
         ) : item.sourceType === 'local-video' ? (
           <video
             ref={mediaRef as RefObject<HTMLVideoElement>}
+            muted={!soundEnabled}
+            playsInline
             poster={item.posterPath ? assetUrl(item.posterPath) : undefined}
             preload="metadata"
             src={item.runtimePath ? assetUrl(item.runtimePath) : undefined}
@@ -204,6 +208,7 @@ function MediaStage({ item, kioskMode, personName }: { item: MediaItem | null; k
             </div>
             <audio
               ref={mediaRef as RefObject<HTMLAudioElement>}
+              muted={!soundEnabled}
               preload="metadata"
               src={item.runtimePath ? assetUrl(item.runtimePath) : undefined}
               onEnded={() => setIsPlaying(false)}
@@ -242,6 +247,7 @@ function MediaStage({ item, kioskMode, personName }: { item: MediaItem | null; k
           <div className="media-controls" aria-label="Playback controls">
             <button type="button" onClick={isPlaying ? pause : play}>{isPlaying ? 'Pause' : 'Play'}</button>
             <button type="button" onClick={restart}>Restart</button>
+            {!soundEnabled && <span>Sound off</span>}
           </div>
         )}
       </div>
@@ -262,7 +268,8 @@ function MediaTranscript({ item }: { item: MediaItem }) {
     if (item.transcriptText || !transcriptPath) return;
 
     let cancelled = false;
-    fetch(assetUrl(transcriptPath))
+    const controller = new AbortController();
+    fetch(assetUrl(transcriptPath), { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Transcript request failed: ${response.status}`);
         return response.text();
@@ -271,11 +278,13 @@ function MediaTranscript({ item }: { item: MediaItem }) {
         if (!cancelled) setLoadedTranscript(text.trim());
       })
       .catch(() => {
+        if (controller.signal.aborted) return;
         if (!cancelled) setLoadError('Transcript file is listed but could not be loaded.');
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [item.id, item.transcriptText, transcriptPath]);
 
@@ -429,9 +438,7 @@ function youtubeToItem(youtubeVideoId: string, video: RuntimeVideoAsset, index: 
 }
 
 function stopElement(media: HTMLVideoElement | HTMLAudioElement | null) {
-  if (!media) return;
-  media.pause();
-  media.currentTime = 0;
+  stopMediaElement(media);
 }
 
 function statusLabel(status?: string) {

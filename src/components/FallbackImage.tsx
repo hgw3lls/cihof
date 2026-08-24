@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type FallbackImageProps = {
   src: string;
@@ -19,11 +19,15 @@ export function FallbackImage({
 }: FallbackImageProps) {
   const [failed, setFailed] = useState(false);
 
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
   if (!src || failed) {
     return <span className={fallbackClassName}>{fallbackLabel}</span>;
   }
 
-  return <img className={className} src={assetSrc(src)} alt={alt} loading={loading} onError={() => setFailed(true)} />;
+  return <img className={className} src={assetSrc(src)} alt={alt} loading={loading} decoding="async" draggable={false} onError={() => setFailed(true)} />;
 }
 
 export function initials(name: string) {

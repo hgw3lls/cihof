@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { runtimeLogger } from '../app/runtimeLogger';
+import { readCachedJson, writeCachedJson } from './localDataCache';
 import { countryCommunityOrRegionLabel } from './inducteeLabels';
 import type { Inductee, StoryLensConfig, StoryLensDocument } from './types';
 
@@ -15,6 +17,8 @@ export type StoryLensMatch = {
 };
 
 const defaultMaxLensPortraits = 48;
+const storyLensUrl = `${import.meta.env.BASE_URL}data/story-lenses.json`;
+const storyLensCacheKey = 'story-lenses';
 
 export const defaultStoryLenses: StoryLensConfig[] = [
   {
@@ -129,22 +133,33 @@ export function useStoryLenses(): StoryLensState {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
-    fetch(`${import.meta.env.BASE_URL}data/story-lenses.json`, { cache: 'no-store' })
+    fetch(storyLensUrl, { cache: 'no-store', signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Story lens request failed: ${response.status}`);
-        return response.json() as Promise<StoryLensDocument>;
+        return response.json() as Promise<unknown>;
       })
       .then((payload) => {
+        writeCachedJson(storyLensCacheKey, payload);
         const lenses = normalizeStoryLenses(payload);
         if (!cancelled) setState({ lenses: lenses.length > 0 ? lenses : defaultStoryLenses, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (!cancelled) setState({ lenses: defaultStoryLenses, loading: false, error: error.message });
+        if (controller.signal.aborted || cancelled) return;
+        const cached = readCachedJson(storyLensCacheKey);
+        const cachedLenses = normalizeStoryLenses(cached);
+        if (cachedLenses.length > 0) {
+          runtimeLogger.warn('Using cached story lenses after load failure.', { error: error.message });
+          setState({ lenses: cachedLenses, loading: false, error: '' });
+          return;
+        }
+        setState({ lenses: defaultStoryLenses, loading: false, error: error.message });
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 
