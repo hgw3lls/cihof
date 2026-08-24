@@ -69,22 +69,28 @@ type WorldModel = {
   people: Inductee[];
 };
 
+type WorldPortraitAnchor = {
+  person: Inductee;
+  x: number;
+  y: number;
+};
+
 type ActiveFocus =
   | { kind: 'all'; key: ''; label: string; x: number; y: number; people: Inductee[]; countries: CountryNode[] }
   | { kind: 'region'; key: string; label: string; x: number; y: number; people: Inductee[]; countries: CountryNode[] }
   | { kind: 'country'; key: string; label: string; x: number; y: number; people: Inductee[]; countries: CountryNode[]; country: CountryNode };
 
-const clevelandPoint = { x: 24, y: 40 };
+const clevelandPoint = { x: 50, y: 52 };
 const maxPortraitsInField = 6;
 const maxVisibleCountries = 8;
 const internationalCountryExclusions = new Set(['United States']);
 const presentationReadySourceNotes = /Profile states|Profile identifies|Profile references|Profile centers|Profile describes|Profile names|born in|immigrated|emigrated|came to|arrived|Honorary Consul|first person of/i;
 const withheldSourceNotes = /needs curator confirmation|requires curator confirmation|pending review|suggests|no specific international origin|no specific country|born in Cleveland|born in La Grange|raised in Columbus/i;
 const fallbackCopy: WorldLensCopy = {
-  kicker: 'World',
-  title: 'The World Arrives Here.',
-  secondaryStatement: 'Cleveland travels back out.',
-  instruction: 'Touch a region',
+  kicker: 'Routes',
+  title: 'Routes',
+  secondaryStatement: 'Many paths meet in Cleveland.',
+  instruction: 'Touch a place',
   defaultFocusTitle: 'Cleveland',
   defaultFocusBody: 'The Hall of Fame holds stories where international places, communities, journeys, and civic relationships meet in Cleveland.',
   activeRegionPrefix: 'Region in view',
@@ -137,14 +143,14 @@ const countryLayout: Record<string, { x: number; y: number }> = {
   Vietnam: { x: 73, y: 55 },
 };
 const portraitOffsets = [
-  { x: -16, y: -22 },
-  { x: 23, y: -20 },
-  { x: -18, y: 18 },
-  { x: 28, y: 17 },
-  { x: 4, y: 33 },
-  { x: 38, y: -2 },
-  { x: -32, y: -4 },
-  { x: 14, y: -34 },
+  { x: -7, y: -14 },
+  { x: 8, y: -13 },
+  { x: -8, y: 12 },
+  { x: 10, y: 11 },
+  { x: 0, y: 15 },
+  { x: 12, y: -2 },
+  { x: -12, y: -2 },
+  { x: 6, y: -16 },
 ];
 
 export function WorldLensView({
@@ -165,9 +171,9 @@ export function WorldLensView({
     () => visibleCountryNodes(model, activeFocus),
     [activeFocus, model],
   );
-  const portraitPeople = useMemo(
-    () => activeFocus.people.slice(0, maxPortraitsInField),
-    [activeFocus.people],
+  const portraitAnchors = useMemo(
+    () => buildPortraitAnchors(activeFocus, visibleCountries),
+    [activeFocus, visibleCountries],
   );
 
   useEffect(() => {
@@ -272,13 +278,13 @@ export function WorldLensView({
             </button>
           ))}
 
-          {portraitPeople.map((person, index) => (
+          {portraitAnchors.map(({ person, x, y }, index) => (
             <button
               className="world-person"
               data-transition-person={person.id}
               data-transition-role="world-portrait"
               key={`${activeFocus.key || 'world'}-${person.id}`}
-              style={portraitStyle(activeFocus.x, activeFocus.y, index)}
+              style={portraitStyle(x, y, index)}
               type="button"
               onClick={() => onSelect(person)}
             >
@@ -518,9 +524,40 @@ function resolveActiveFocus(model: WorldModel, focusKey: string, defaultLabel: s
 }
 
 function visibleCountryNodes(model: WorldModel, activeFocus: ActiveFocus) {
-  if (activeFocus.kind === 'country') return activeFocus.countries;
-  if (activeFocus.kind === 'region') return activeFocus.countries.slice(0, maxVisibleCountries);
-  return model.countries.slice(0, maxVisibleCountries);
+  const source = activeFocus.kind === 'country'
+    ? activeFocus.countries
+    : activeFocus.kind === 'region'
+      ? activeFocus.countries.slice(0, maxVisibleCountries)
+      : model.countries.slice(0, maxVisibleCountries);
+
+  return source.map((country, index) => ({
+    ...country,
+    ...routeSlot(index, source.length, country.region),
+  }));
+}
+
+function buildPortraitAnchors(activeFocus: ActiveFocus, visibleCountries: CountryNode[]): WorldPortraitAnchor[] {
+  if (activeFocus.kind === 'all') {
+    const seen = new Set<string>();
+    const anchors: WorldPortraitAnchor[] = [];
+    visibleCountries.forEach((country) => {
+      const person = country.people.find((candidate) => !seen.has(candidate.id));
+      if (person && anchors.length < maxPortraitsInField) {
+        seen.add(person.id);
+        anchors.push({ person, x: country.x, y: country.y });
+      }
+    });
+    return anchors;
+  }
+
+  const focusPoint = activeFocus.kind === 'country' && visibleCountries[0]
+    ? visibleCountries[0]
+    : activeFocus;
+  return activeFocus.people.slice(0, maxPortraitsInField).map((person) => ({
+    person,
+    x: focusPoint.x,
+    y: focusPoint.y,
+  }));
 }
 
 function focusNarrative(activeFocus: ActiveFocus, copy: WorldLensCopy) {
@@ -579,6 +616,21 @@ function fallbackRegionPoint(region: string) {
     y: 24 + (Math.floor(seed / 64) % 48),
   };
 }
+
+function routeSlot(index: number, total: number, region: string) {
+  return routeSlotsGeneral[index % routeSlotsGeneral.length];
+}
+
+const routeSlotsGeneral = [
+  { x: 35, y: 24 },
+  { x: 63, y: 22 },
+  { x: 80, y: 39 },
+  { x: 76, y: 64 },
+  { x: 56, y: 76 },
+  { x: 31, y: 68 },
+  { x: 23, y: 45 },
+  { x: 45, y: 17 },
+];
 
 function pointStyle(x: number, y: number) {
   return {

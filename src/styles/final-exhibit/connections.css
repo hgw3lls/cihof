@@ -253,3 +253,277 @@
     max-width: none;
   }
 }
+
+/* Signature CONNECTIONS drawing: portraits, route lines, sparse controls. */
+.museum-shell:not(.museum-shell--staff) .connection-finder.human-network {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(8px, 0.9vw, 16px);
+  padding:
+    clamp(18px, 2vw, 40px)
+    clamp(22px, 3vw, 62px)
+    calc(var(--experience-dock-height) + clamp(16px, 2vh, 32px));
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__header {
+  min-height: clamp(106px, 15vh, 176px);
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  border: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__header .museum-kicker {
+  color: rgba(21, 19, 15, 0.76);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  letter-spacing: 0.16em;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__header h2 {
+  max-width: 10ch;
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(6.2rem, 8.4vw, 13.4rem);
+  font-weight: 900;
+  line-height: 0.78;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__header h2 {
+  max-width: 13ch;
+  color: var(--exhibit-route);
+  font-size: clamp(4.4rem, 6.4vw, 10.2rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__thesis {
+  max-width: 24ch;
+  color: var(--exhibit-route);
+  font-size: clamp(1.15rem, 1.28vw, 1.72rem);
+  letter-spacing: 0.12em;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__trail {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__field {
+  min-height: 0;
+  margin-top: clamp(-40px, -4vh, -18px);
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.022) 1px, transparent 1px);
+  background-size: 66px 66px;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__line {
+  stroke: rgba(183, 74, 36, 0.48);
+  stroke-width: 0.22;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__line--curated {
+  stroke: rgba(21, 19, 15, 0.26);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__line--documented,
+.museum-shell:not(.museum-shell--staff) .human-network__line--thread {
+  stroke: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__label {
+  z-index: 3;
+  width: clamp(88px, 7vw, 132px);
+  border: 0;
+  border-top: 2px solid rgba(183, 74, 36, 0.68);
+  background: transparent;
+  padding: clamp(6px, 0.6vw, 10px) 0 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__label span {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__label strong {
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.62rem, 0.7vw, 0.9rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.05;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__center {
+  width: clamp(220px, 17vw, 330px);
+  gap: clamp(8px, 0.8vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__center > span {
+  position: static;
+  border-left: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__center small,
+.museum-shell:not(.museum-shell--staff) .human-network__center strong {
+  text-align: center;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__center strong {
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(1.8rem, 2.45vw, 4rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__node {
+  width: clamp(118px, 8.8vw, 174px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__centerImage,
+.museum-shell:not(.museum-shell--staff) .human-network__centerFallback,
+.museum-shell:not(.museum-shell--staff) .human-network__nodeImage,
+.museum-shell:not(.museum-shell--staff) .human-network__nodeFallback {
+  border: 0;
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__centerImage,
+.museum-shell:not(.museum-shell--staff) .human-network__nodeImage {
+  filter: grayscale(1) contrast(1.1) brightness(0.96);
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__node > span {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__node strong {
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1.08rem, 1.22vw, 1.72rem);
+  letter-spacing: 0.02em;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__node small,
+.museum-shell:not(.museum-shell--staff) .human-network__node i,
+.museum-shell:not(.museum-shell--staff) .human-network__node em {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__node em {
+  display: block;
+  max-width: 15ch;
+  color: var(--exhibit-route);
+  font-size: clamp(0.58rem, 0.66vw, 0.82rem);
+  letter-spacing: 0.12em;
+  white-space: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__journey {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__journeyStep {
+  position: absolute;
+  left: var(--network-x);
+  top: var(--network-y);
+  width: clamp(58px, 4.4vw, 86px);
+  display: grid;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--exhibit-muted);
+  padding: 0;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__journeyStep[aria-current="true"] {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__journeyImage,
+.museum-shell:not(.museum-shell--staff) .human-network__journeyFallback {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__journeyStep span {
+  overflow: hidden;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.58rem, 0.64vw, 0.78rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__threadChooser {
+  min-height: clamp(58px, 6vh, 84px);
+  grid-template-columns: minmax(190px, 0.24fr) minmax(0, 1fr);
+  border-top: 2px solid rgba(21, 19, 15, 0.2);
+  padding-top: clamp(8px, 0.8vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__threadIntro small,
+.museum-shell:not(.museum-shell--staff) .human-network__threadButton span,
+.museum-shell:not(.museum-shell--staff) .human-network__threadButton small {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__threadIntro strong {
+  max-width: 18ch;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1.25rem, 1.6vw, 2.25rem);
+  letter-spacing: 0.08em;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__threadRail {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.2vw, 22px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__threadButton,
+.museum-shell:not(.museum-shell--staff) .human-network__threadReset {
+  min-height: clamp(54px, 5.4vh, 74px);
+  border-top-width: 2px;
+  padding: clamp(10px, 1vw, 16px) 0 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__threadButton:not(.human-network__threadButton--active) {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__threadRail {
+  grid-template-columns: minmax(0, 0.32fr) auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__footer {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__footer > div:first-child {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__footerActions {
+  display: flex;
+  justify-content: flex-start;
+  gap: clamp(12px, 1.2vw, 22px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network__footerActions button {
+  min-width: clamp(160px, 12vw, 230px);
+  min-height: clamp(58px, 5.8vh, 80px);
+  border-top-width: 2px;
+  padding: 8px 0 0;
+}

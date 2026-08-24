@@ -176,3 +176,390 @@
 .museum-shell:not(.museum-shell--staff) .time-build__baseline::after {
   background: var(--exhibit-paper-highlight);
 }
+
+/* ROUTES: Cleveland-centered geographic field, not a conventional map interface. */
+.museum-shell:not(.museum-shell--staff) .world-lens {
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(8px, 0.8vw, 14px);
+  padding: clamp(18px, 2vw, 40px) clamp(22px, 3vw, 62px) clamp(10px, 1.2vw, 20px);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__header {
+  min-height: clamp(126px, 18vh, 224px);
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
+  align-items: start;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__kicker {
+  color: rgba(21, 19, 15, 0.76);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  letter-spacing: 0.16em;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__header h2 {
+  max-width: 7ch;
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(7rem, 10.6vw, 16.4rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.78;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__header p:last-child {
+  max-width: 24ch;
+  color: rgba(21, 19, 15, 0.76);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1.15rem, 1.28vw, 1.72rem);
+  letter-spacing: 0.14em;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__field {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: clamp(-74px, -8vh, -24px);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map {
+  min-height: 100%;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.022) 1px, transparent 1px);
+  background-size: 66px 66px;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__svg {
+  opacity: 0.18;
+  transform: scale(1.08);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__continent {
+  fill: transparent;
+  stroke: rgba(21, 19, 15, 0.14);
+  stroke-width: 1.2;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__latitude,
+.museum-shell:not(.museum-shell--staff) .world-map__longitude {
+  stroke: rgba(21, 19, 15, 0.1);
+  stroke-dasharray: 1 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__trajectory {
+  stroke: rgba(183, 74, 36, 0.46);
+  stroke-width: 0.22;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__trajectory--active {
+  stroke: var(--exhibit-route);
+  stroke-width: 0.36;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__cleveland {
+  min-width: clamp(190px, 15vw, 300px);
+  min-height: clamp(86px, 8.6vh, 132px);
+  background: transparent;
+  color: var(--exhibit-ink);
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__cleveland span {
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(2.8rem, 4.35vw, 6.8rem);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-map__cleveland strong {
+  color: rgba(21, 19, 15, 0.68);
+  font-family: var(--font-exhibit-notation);
+  font-size: clamp(0.82rem, 0.92vw, 1.12rem);
+  letter-spacing: 0.12em;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-region,
+.museum-shell:not(.museum-shell--staff) .world-country {
+  min-width: clamp(98px, 7.4vw, 146px);
+  min-height: clamp(52px, 4.9vh, 72px);
+  justify-items: start;
+  border: 0;
+  border-top: 2px solid rgba(183, 74, 36, 0.64);
+  background: transparent;
+  color: var(--exhibit-ink);
+  padding: clamp(8px, 0.8vw, 12px) 0 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--all .world-country {
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--all .world-region {
+  opacity: 0.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-region span,
+.museum-shell:not(.museum-shell--staff) .world-country span {
+  max-width: 12ch;
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.86rem, 0.98vw, 1.24rem);
+  letter-spacing: 0.12em;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-region strong,
+.museum-shell:not(.museum-shell--staff) .world-country strong {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-country--active,
+.museum-shell:not(.museum-shell--staff) .world-region--active {
+  color: var(--exhibit-route);
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person {
+  width: clamp(98px, 7.3vw, 142px);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person__image {
+  filter: grayscale(1) contrast(1.1) brightness(0.96);
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person__image,
+.museum-shell:not(.museum-shell--staff) .world-person__fallback {
+  border: 0;
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person strong {
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1rem, 1.1vw, 1.46rem);
+  letter-spacing: 0.02em;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person small {
+  color: rgba(21, 19, 15, 0.64);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-person em {
+  color: var(--exhibit-route);
+  white-space: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__story {
+  position: absolute;
+  left: 0;
+  bottom: clamp(16px, 2vh, 34px);
+  z-index: 12;
+  width: min(360px, 24vw);
+  border: 0;
+  border-top: 2px solid rgba(21, 19, 15, 0.28);
+  background: transparent;
+  padding: clamp(10px, 1vw, 16px) 0 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__story h3 {
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(2rem, 3vw, 4.8rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__story p:not(.museum-kicker) {
+  color: rgba(21, 19, 15, 0.76);
+  font-size: clamp(1rem, 1.06vw, 1.22rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens__storyMeta,
+.museum-shell:not(.museum-shell--staff) .world-lens__storyPeople,
+.museum-shell:not(.museum-shell--staff) .world-lens__story footer,
+.museum-shell:not(.museum-shell--staff) .world-lens__controls {
+  display: none;
+}
+
+/* TIME: accumulation field and archival register without dashboard panels. */
+.museum-shell:not(.museum-shell--staff) .timeline.time-lens {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(8px, 0.8vw, 14px);
+  padding: clamp(18px, 2vw, 40px) clamp(22px, 3vw, 62px) clamp(10px, 1.2vw, 20px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__header {
+  min-height: clamp(128px, 18vh, 232px);
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
+  align-items: start;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__header p {
+  color: rgba(21, 19, 15, 0.76);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.86rem, 0.95vw, 1.18rem);
+  letter-spacing: 0.16em;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__header h2 {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__yearReadout {
+  justify-items: start;
+  border-left: 0;
+  padding-left: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__yearReadout span {
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1rem, 1.12vw, 1.42rem);
+  letter-spacing: 0.16em;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__yearReadout strong {
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(7.4rem, 12vw, 18rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.78;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__field {
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: clamp(-70px, -7vh, -24px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build {
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.022) 1px, transparent 1px);
+  background-size: 66px 66px;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build__wall {
+  padding: clamp(42px, 5vh, 76px) clamp(10px, 1vw, 18px) clamp(92px, 11vh, 148px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack {
+  opacity: 0.32;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active {
+  --time-portrait-size: clamp(92px, 7.6vw, 136px);
+  flex-basis: clamp(360px, 28vw, 560px);
+  max-width: clamp(380px, 30vw, 610px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack header {
+  border-top: 2px solid rgba(21, 19, 15, 0.18);
+  font-family: var(--font-exhibit-label);
+  letter-spacing: 0.12em;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active header {
+  border-top-color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build-person__image {
+  filter: grayscale(1) contrast(1.08) brightness(0.96);
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-year-stack--active .time-build-person__image {
+  filter: grayscale(0.72) contrast(1.08) brightness(0.98);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build-person__image,
+.museum-shell:not(.museum-shell--staff) .time-build-person__fallback {
+  border: 0;
+  background: transparent;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-build-person span {
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-label);
+  letter-spacing: 0.02em;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-class-focus,
+.museum-shell:not(.museum-shell--staff) .time-class-focus__actions {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__controls {
+  min-height: clamp(98px, 10vh, 140px);
+  border-top: 2px solid rgba(21, 19, 15, 0.22);
+  padding-top: clamp(12px, 1.2vw, 20px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__controls--with-media {
+  grid-template-columns: minmax(96px, 132px) minmax(0, 1fr) minmax(96px, 132px) minmax(150px, 0.18fr);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__controls > button {
+  border-top-width: 0;
+  color: var(--exhibit-ink);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(1.9rem, 2.7vw, 4.1rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__controls > .time-lens__mediaAction {
+  border-top: 2px solid var(--exhibit-route);
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1.04rem, 1.16vw, 1.42rem);
+  letter-spacing: 0.12em;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__scrubber span {
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.84rem, 0.96vw, 1.12rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__range::-webkit-slider-runnable-track {
+  height: 14px;
+  border: 0;
+  background:
+    linear-gradient(90deg, var(--exhibit-route) 0 var(--time-progress), rgba(21, 19, 15, 0.22) var(--time-progress) 100%);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__range::-webkit-slider-thumb {
+  width: clamp(64px, 5vw, 92px);
+  height: clamp(64px, 5vw, 92px);
+  margin-top: clamp(-39px, -2.9vw, -25px);
+  border: 3px solid var(--exhibit-ink);
+  border-radius: 999px;
+  background: var(--exhibit-paper-highlight);
+  box-shadow: inset 0 0 0 9px var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__range::-moz-range-track {
+  height: 14px;
+  border: 0;
+  background: rgba(21, 19, 15, 0.22);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__range::-moz-range-progress {
+  height: 14px;
+  background: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens__range::-moz-range-thumb {
+  width: clamp(64px, 5vw, 92px);
+  height: clamp(64px, 5vw, 92px);
+  border: 3px solid var(--exhibit-ink);
+  border-radius: 999px;
+  background: var(--exhibit-paper-highlight);
+  box-shadow: inset 0 0 0 9px var(--exhibit-route);
+}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { QRCodePanel } from '../../components/QRCodePanel';
+import { RouteLine } from '../../components/RouteLine';
 import { stopMediaElement } from '../../app/mediaControl';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
@@ -212,6 +213,13 @@ export function InducteeDetail({
                 </section>
                 {wallDebug && <WallDebugPanel inductee={inductee} />}
               </div>
+
+              <div className="detail__traceLayer" aria-hidden="true">
+                <RouteLine className="detail__trace detail__trace--portrait" path="kink" tone="route" start="dot" end="dot" />
+                <RouteLine className="detail__trace detail__trace--context" path="horizontal" tone="quiet" end="none" />
+                <span className="detail__traceNote detail__traceNote--class">{inductee.classYear ? `Class ${inductee.classYear}` : 'Class pending'}</span>
+                {explicitContext && <span className="detail__traceNote detail__traceNote--context">{explicitContext}</span>}
+              </div>
             </section>
           </div>
 
@@ -312,19 +320,23 @@ export function InducteeDetail({
           </section>
         </div>
 
-        <nav className={continuationUrl ? 'detail__actionRail detail__actionRail--with-continuation' : 'detail__actionRail'} aria-label="Person actions">
-          <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('story')}>
+        <nav className={[
+          'detail__actionRail',
+          continuationUrl ? 'detail__actionRail--with-continuation' : '',
+          watchAvailability.playable ? 'detail__actionRail--has-watch' : 'detail__actionRail--no-watch',
+        ].filter(Boolean).join(' ')} aria-label="Person actions">
+          <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--story detail__actionButton--active' : 'detail__actionButton detail__actionButton--story'} onClick={() => setAction('story')}>
             <span>STORY</span>
           </button>
           <button
             type="button"
-            className={activeAction === 'watch' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'}
+            className={activeAction === 'watch' ? 'detail__actionButton detail__actionButton--watch detail__actionButton--active' : 'detail__actionButton detail__actionButton--watch'}
             onClick={() => setAction('watch')}
           >
             <span>WATCH</span>
             <small>{watchAvailability.status}</small>
           </button>
-          <button type="button" className={activeAction === 'connections' ? 'detail__actionButton detail__actionButton--active' : 'detail__actionButton'} onClick={() => setAction('connections')}>
+          <button type="button" className={activeAction === 'connections' ? 'detail__actionButton detail__actionButton--connections detail__actionButton--active' : 'detail__actionButton detail__actionButton--connections'} onClick={() => setAction('connections')}>
             <span>CONNECTIONS</span>
           </button>
           <button type="button" className="detail__actionButton detail__actionButton--accent" onClick={() => onFindConnection(inductee)}>
