@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
 import { recordKioskError, recordKioskReset } from './kioskHealth';
+import { stopAllMedia } from './mediaControl';
 
 type ErrorBoundaryProps = {
   children: ReactNode;
@@ -63,13 +64,5 @@ function reloadScreen() {
 }
 
 function stopMedia() {
-  document.querySelectorAll('video, audio').forEach((media) => {
-    if (!(media instanceof HTMLMediaElement)) return;
-    media.pause();
-    media.currentTime = 0;
-  });
-  document.querySelectorAll('iframe').forEach((frame) => {
-    frame.src = frame.src;
-  });
-  window.dispatchEvent(new Event('cihof:stop-media'));
+  stopAllMedia();
 }

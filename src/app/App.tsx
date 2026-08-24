@@ -1,42 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ReactElement } from 'react';
-import { allValue, filterInductees } from '../data/filtering';
-import { useDataFacets, useInductees } from '../data/useInductees';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import { FallbackImage, initials } from '../components/FallbackImage';
+import { installationConfig } from '../config/installationConfig';
+import { useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
-import { AttractView } from '../features/attract/AttractView';
 import { ConnectionFinder } from '../features/connections/ConnectionFinder';
-import { ExploreView } from '../features/explore/ExploreView';
-import { InducteeDetail } from '../features/inductee-detail/InducteeDetail';
-import { JourneyView } from '../features/journeys/JourneyView';
-import { PlacesView } from '../features/places/PlacesView';
-import { SearchView } from '../features/search/SearchView';
+import { InducteeDetail, type DetailAction } from '../features/inductee-detail/InducteeDetail';
+import { LivingHallView } from '../features/living-hall/LivingHallView';
 import { TimelineView } from '../features/timeline/TimelineView';
+import { WorldLensView } from '../features/world/WorldLensView';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
+import {
+  isVisitorExperienceMode,
+  normalizeViewMode,
+  visitorExperienceNavItems,
+  visitorExperienceOrder,
+  type ExperienceTransition,
+  type VisitorExperienceMode,
+} from './experienceNavigation';
 import { recordKioskHealth, recordKioskInteraction, recordKioskReset, startKioskHeartbeat } from './kioskHealth';
+import { stopAllMedia } from './mediaControl';
 import { useViewportLock } from './useViewportLock';
-import type { ExploreState, Inductee, MediaFilter, SortMode, ViewMode } from '../data/types';
+import type { Inductee, ViewMode } from '../data/types';
 
-const defaultExploreState: ExploreState = {
-  query: '',
-  region: allValue,
-  country: allValue,
-  year: allValue,
-  theme: allValue,
-  media: 'all',
-  sortMode: 'year-asc',
-};
-
-const kioskIdleMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_IDLE_MS, 120_000);
-const kioskResetWarningMs = readPositiveEnvNumber(import.meta.env.VITE_CIHOF_KIOSK_RESET_WARNING_MS, 12_000);
-const contentProtectionActive = import.meta.env.PROD;
-const showKioskToggleInProduction = import.meta.env.VITE_CIHOF_SHOW_KIOSK_TOGGLE === '1';
-const primaryNavItems: Array<{ mode: ViewMode; label: string; icon: string; risoIcon: string }> = [
-  { mode: 'all-people', label: 'All People', icon: 'people', risoIcon: 'community' },
-  { mode: 'time', label: 'Time', icon: 'time', risoIcon: 'clock' },
-  { mode: 'places', label: 'Places', icon: 'places', risoIcon: 'map-pin' },
-  { mode: 'journeys', label: 'Journeys', icon: 'journeys', risoIcon: 'route-path' },
-  { mode: 'search', label: 'Search', icon: 'search', risoIcon: 'search' },
-];
+const contentProtectionActive = installationConfig.features.kioskGuards;
+const showKioskToggleInProduction = installationConfig.debug.showKioskToggleInProduction;
+const sharedPortraitDurationMs = installationConfig.transitions.sharedPortraitMs;
+const transitionInputGuardMs = installationConfig.transitions.inputGuardMs;
 
 type ReviewDashboardProps = {
   inductees: Inductee[];
@@ -48,38 +38,81 @@ type AppProps = {
   ReviewDashboard?: (props: ReviewDashboardProps) => ReactElement;
 };
 
-export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
+type TransitionRect = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
+type SharedPortraitKind =
+  | 'to-person'
+  | 'person-to-connections'
+  | 'connections-to-person'
+  | 'person-to-living-hall'
+  | 'person-to-world'
+  | 'person-to-time'
+  | 'lens-to-person';
+
+type PendingSharedPortrait = {
+  person: Inductee;
+  from: TransitionRect;
+  targetView: ViewMode;
+  kind: SharedPortraitKind;
+};
+
+type SharedPortraitHandoff = PendingSharedPortrait & {
+  key: string;
+  to: TransitionRect;
+};
+
+export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) {
   useViewportLock();
 
   const staffPortalEnabled = Boolean(ReviewDashboard);
   const { inductees, loading, error } = useInductees();
   const { relationships, loading: relationshipsLoading, error: relationshipsError } = useRelationships();
-  const facets = useDataFacets(inductees);
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(staffPortalEnabled, defaultView));
-  const [exploreState, setExploreState] = useState<ExploreState>(() => readExploreState());
+  const [experienceTransition, setExperienceTransition] = useState<ExperienceTransition>('switch');
   const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [selectedId, setSelectedId] = useState<string>(() => readParam('person'));
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
+  const [personInitialAction, setPersonInitialAction] = useState<DetailAction>('overview');
+  const [worldFocusKey, setWorldFocusKey] = useState<string>(() => readInitialWorldFocus());
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
   const [attractActive, setAttractActive] = useState(false);
   const [idleWarningActive, setIdleWarningActive] = useState(false);
-  const [connectionOpen, setConnectionOpen] = useState(false);
-  const [connectionSeedId, setConnectionSeedId] = useState('');
-  const [connectionReturnId, setConnectionReturnId] = useState('');
+  const [connectionSeedId, setConnectionSeedId] = useState(() => readInitialConnectionPersonId());
+  const [connectionReturnId, setConnectionReturnId] = useState(() => readInitialConnectionPersonId());
+  const [personReturnView, setPersonReturnView] = useState<VisitorExperienceMode>('living-hall');
+  const [sharedPortrait, setSharedPortrait] = useState<SharedPortraitHandoff | null>(null);
+  const [transitionLocked, setTransitionLocked] = useState(false);
+  const [networkOnline, setNetworkOnline] = useState(() => typeof navigator === 'undefined' ? true : navigator.onLine);
   const stageRef = useRef<HTMLElement | null>(null);
   const scrollPositionRef = useRef({ left: 0, top: 0 });
+  const pendingSharedPortraitRef = useRef<PendingSharedPortrait | null>(null);
+  const transitionLockUntilRef = useRef(0);
+  const transitionLockTimeoutRef = useRef<number | null>(null);
+  const sharedPortraitTimeoutRef = useRef<number | null>(null);
+  const animationFramesRef = useRef<number[]>([]);
   const reviewModeEnabled = staffPortalEnabled && viewMode === 'review';
-  const wallDebugEnabled = staffPortalEnabled && (readParam('wallDebug') === '1' || readParam('debugWall') === '1');
+  const connectionOpen = viewMode === 'connections' && !reviewModeEnabled;
+  const wallDebugEnabled = staffPortalEnabled && (installationConfig.debug.enabled || readParam('wallDebug') === '1' || readParam('debugWall') === '1');
   const kioskToggleVisible = staffPortalEnabled || !contentProtectionActive || showKioskToggleInProduction;
   const shellClassName = [
     'app-shell',
     'museum-shell',
+    'experience-shell',
+    `experience-shell--${viewMode}`,
+    `experience-shell--transition-${experienceTransition}`,
     kioskMode ? 'app-shell--kiosk' : '',
     wallDebugEnabled ? 'app-shell--wall-debug' : '',
     viewMode === 'review' ? 'museum-shell--staff' : '',
     contentProtectionActive ? 'app-shell--protected' : '',
+    sharedPortrait ? 'experience-shell--handoff-active' : '',
+    transitionLocked ? 'experience-shell--transition-locked' : '',
   ].filter(Boolean).join(' ');
-  const stageClassName = ['museum-stage', `museum-stage--${viewMode}`].join(' ');
+  const stageClassName = ['museum-stage', 'experience-stage', `museum-stage--${viewMode}`, `experience-stage--${viewMode}`].join(' ');
 
   const selected = useMemo(
     () => inductees.find((item) => item.id === selectedId) ?? null,
@@ -98,12 +131,69 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     [connectionReturnId, inductees],
   );
 
-  const filtered = useMemo(() => filterInductees(inductees, exploreState), [exploreState, inductees]);
-  const selectedIndex = selected ? filtered.findIndex((item) => item.id === selected.id) : -1;
-  const previousInductee = selectedIndex > 0 ? filtered[selectedIndex - 1] : filtered[filtered.length - 1];
-  const nextInductee = selectedIndex >= 0 ? filtered[(selectedIndex + 1) % filtered.length] : null;
+  useEffect(() => {
+    if (viewMode !== 'person' || loading) return;
+    if (selected) return;
 
-  useEffect(() => startKioskHeartbeat(), []);
+    if (!selectedId && lastSeen) {
+      setSelectedId(lastSeen.id);
+      setPersonInitialAction('overview');
+      return;
+    }
+
+    setSelectedId('');
+    setPersonInitialAction('overview');
+    setExperienceMode('living-hall', 'back');
+  }, [lastSeen, loading, selected, selectedId, viewMode]);
+
+  const selectedIndex = selected ? inductees.findIndex((item) => item.id === selected.id) : -1;
+  const previousInductee = selectedIndex > 0
+    ? inductees[selectedIndex - 1]
+    : inductees.length > 0
+      ? inductees[inductees.length - 1]
+      : null;
+  const nextInductee = selectedIndex >= 0 && inductees.length > 0 ? inductees[(selectedIndex + 1) % inductees.length] : null;
+
+  useEffect(() => startKioskHeartbeat(installationConfig.health.heartbeatMs), []);
+
+  useEffect(() => {
+    return () => {
+      if (transitionLockTimeoutRef.current !== null) window.clearTimeout(transitionLockTimeoutRef.current);
+      if (sharedPortraitTimeoutRef.current !== null) window.clearTimeout(sharedPortraitTimeoutRef.current);
+      animationFramesRef.current.forEach((frame) => window.cancelAnimationFrame(frame));
+      animationFramesRef.current = [];
+    };
+  }, []);
+
+  useEffect(() => {
+    const pending = pendingSharedPortraitRef.current;
+    if (!pending || pending.targetView !== viewMode) return undefined;
+
+    if (prefersReducedMotion()) {
+      pendingSharedPortraitRef.current = null;
+      return undefined;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = findTransitionRect(pending.person.id, preferredTransitionRoleForView(viewMode));
+      pendingSharedPortraitRef.current = null;
+      if (!target) return;
+
+      setSharedPortrait({
+        ...pending,
+        key: `${pending.kind}-${pending.person.id}-${Date.now()}`,
+        to: target,
+      });
+
+      if (sharedPortraitTimeoutRef.current !== null) window.clearTimeout(sharedPortraitTimeoutRef.current);
+      sharedPortraitTimeoutRef.current = window.setTimeout(() => {
+        setSharedPortrait(null);
+        sharedPortraitTimeoutRef.current = null;
+      }, sharedPortraitDurationMs);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [connectionReturnId, connectionSeedId, selectedId, timelineYear, viewMode, worldFocusKey]);
 
   useEffect(() => {
     recordKioskHealth({
@@ -115,8 +205,9 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
       relationshipsCount: relationships.length,
       dataStatus: loading || relationshipsLoading ? 'loading' : error || relationshipsError ? 'error' : 'ready',
       dataError: [error, relationshipsError].filter(Boolean).join(' / '),
+      networkOnline,
     });
-  }, [attractActive, error, inductees.length, kioskMode, loading, relationships.length, relationshipsError, relationshipsLoading, selectedId, viewMode]);
+  }, [attractActive, error, inductees.length, kioskMode, loading, networkOnline, relationships.length, relationshipsError, relationshipsLoading, selectedId, viewMode]);
 
   useEffect(() => {
     const recordPointer = () => recordKioskInteraction('pointer');
@@ -133,16 +224,28 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
   }, []);
 
   useEffect(() => {
+    function updateNetworkStatus() {
+      setNetworkOnline(navigator.onLine);
+      recordKioskHealth({
+        networkOnline: navigator.onLine,
+        lastNetworkChangeAt: new Date().toISOString(),
+      });
+    }
+
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+
+    return () => {
+      window.removeEventListener('online', updateNetworkStatus);
+      window.removeEventListener('offline', updateNetworkStatus);
+    };
+  }, []);
+
+  useEffect(() => {
     const params = new URLSearchParams();
-    if (viewMode !== 'all-people') params.set('view', viewMode);
-    if (exploreState.query) params.set('q', exploreState.query);
-    if (exploreState.region !== allValue) params.set('region', exploreState.region);
-    if (exploreState.country !== allValue) params.set('country', exploreState.country);
-    if (viewMode !== 'time' && exploreState.year !== allValue) params.set('year', exploreState.year);
+    if (viewMode !== 'living-hall') params.set('view', viewMode);
     if (viewMode === 'time' && timelineYear) params.set('timeYear', timelineYear);
-    if (exploreState.theme !== allValue) params.set('theme', exploreState.theme);
-    if (exploreState.media !== defaultExploreState.media) params.set('media', exploreState.media);
-    if (exploreState.sortMode !== defaultExploreState.sortMode) params.set('sort', exploreState.sortMode);
+    if (viewMode === 'world' && worldFocusKey) params.set('world', worldFocusKey);
     if (selectedId) params.set('person', selectedId);
     if (kioskMode) params.set('kiosk', '1');
     if (reviewModeEnabled) {
@@ -154,12 +257,12 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [exploreState, kioskMode, reviewModeEnabled, selectedId, timelineYear, viewMode, wallDebugEnabled]);
+  }, [kioskMode, reviewModeEnabled, selectedId, timelineYear, viewMode, wallDebugEnabled, worldFocusKey]);
 
   useEffect(() => {
     if (!kioskMode || viewMode === 'review') return;
 
-    const warningDelay = Math.max(kioskIdleMs - kioskResetWarningMs, 0);
+    const warningDelay = Math.max(installationConfig.idle.timeoutMs - installationConfig.idle.warningMs, 0);
     let warningTimeout = window.setTimeout(() => {
       setIdleWarningActive(true);
     }, warningDelay);
@@ -168,7 +271,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
       resetExperience('idle');
       setAttractActive(true);
     };
-    let timeout = window.setTimeout(showAttract, kioskIdleMs);
+    let timeout = window.setTimeout(showAttract, installationConfig.idle.timeoutMs);
     const resetTimer = () => {
       if (attractActive) return;
       setIdleWarningActive(false);
@@ -177,7 +280,7 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
       warningTimeout = window.setTimeout(() => {
         setIdleWarningActive(true);
       }, warningDelay);
-      timeout = window.setTimeout(showAttract, kioskIdleMs);
+      timeout = window.setTimeout(showAttract, installationConfig.idle.timeoutMs);
     };
 
     window.addEventListener('pointerdown', resetTimer);
@@ -193,18 +296,31 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     };
   }, [attractActive, kioskMode, viewMode]);
 
+  useEffect(() => {
+    if (!attractActive || viewMode !== 'living-hall') return undefined;
+
+    function leaveAttract() {
+      recordKioskInteraction('attract-touch');
+      setIdleWarningActive(false);
+      setAttractActive(false);
+    }
+
+    window.addEventListener('pointerdown', leaveAttract, { capture: true });
+    window.addEventListener('touchstart', leaveAttract, { capture: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', leaveAttract, { capture: true });
+      window.removeEventListener('touchstart', leaveAttract, { capture: true });
+    };
+  }, [attractActive, viewMode]);
+
   useContentProtection(viewMode !== 'review');
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
     const withVideo = inductees.filter((item) => item.hasVideo).length;
-    return { total: inductees.length, filtered: filtered.length, withImages, withVideo };
-  }, [filtered.length, inductees]);
-
-  function updateExploreState(nextState: Partial<ExploreState>) {
-    recordKioskInteraction('filter');
-    setExploreState((current) => ({ ...current, ...nextState }));
-  }
+    return { total: inductees.length, withImages, withVideo };
+  }, [inductees]);
 
   function readStageScrollPosition() {
     const stage = stageRef.current;
@@ -221,86 +337,187 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
 
   function resetStageScroll() {
     scrollStageTo({ left: 0, top: 0 });
-    window.requestAnimationFrame(() => scrollStageTo({ left: 0, top: 0 }));
+    scheduleAnimationFrame(() => scrollStageTo({ left: 0, top: 0 }));
   }
 
-  function selectInductee(inductee: Inductee) {
-    recordKioskInteraction('select-person');
+  function scheduleAnimationFrame(callback: () => void) {
+    const frame = window.requestAnimationFrame(() => {
+      animationFramesRef.current = animationFramesRef.current.filter((item) => item !== frame);
+      callback();
+    });
+    animationFramesRef.current.push(frame);
+    return frame;
+  }
+
+  function setExperienceMode(mode: ViewMode, transition: ExperienceTransition) {
+    setExperienceTransition(transition);
+    setViewMode(mode);
+  }
+
+  function beginInteractionTransition(durationMs = transitionInputGuardMs) {
+    if (reviewModeEnabled) return true;
+    const now = window.performance.now();
+    if (transitionLockUntilRef.current > now) return false;
+
+    const guardMs = prefersReducedMotion() ? 90 : durationMs;
+    transitionLockUntilRef.current = now + guardMs;
+    setTransitionLocked(true);
+
+    if (transitionLockTimeoutRef.current !== null) window.clearTimeout(transitionLockTimeoutRef.current);
+    transitionLockTimeoutRef.current = window.setTimeout(() => {
+      transitionLockUntilRef.current = 0;
+      transitionLockTimeoutRef.current = null;
+      setTransitionLocked(false);
+    }, guardMs);
+
+    return true;
+  }
+
+  function prepareSharedPortraitTransition(person: Inductee | null | undefined, targetView: ViewMode, kind: SharedPortraitKind) {
+    if (!person || reviewModeEnabled || prefersReducedMotion()) {
+      pendingSharedPortraitRef.current = null;
+      return;
+    }
+
+    const from = findTransitionRect(person.id);
+    if (!from) {
+      pendingSharedPortraitRef.current = null;
+      return;
+    }
+
+    pendingSharedPortraitRef.current = { person, from, targetView, kind };
+  }
+
+  function selectInductee(inductee: Inductee, source = 'select-person', initialAction: DetailAction = 'overview') {
+    if (!beginInteractionTransition()) return;
+    recordKioskInteraction(source);
     stopActiveMedia();
+    const returnView = isVisitorExperienceMode(viewMode) && viewMode !== 'person' ? viewMode : personReturnView;
+    setPersonReturnView(returnView === 'person' ? 'living-hall' : returnView);
+    prepareSharedPortraitTransition(
+      inductee,
+      'person',
+      viewMode === 'connections' ? 'connections-to-person' : viewMode === 'living-hall' ? 'to-person' : 'lens-to-person',
+    );
     onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
     setAttractActive(false);
     setIdleWarningActive(false);
     scrollPositionRef.current = readStageScrollPosition();
     setLastSeenId(inductee.id);
     setSelectedId(inductee.id);
+    setPersonInitialAction(initialAction);
+    setConnectionSeedId('');
+    setConnectionReturnId('');
+    if (reviewModeEnabled) return;
+    setExperienceMode('person', 'forward');
+  }
+
+  function openInducteeMedia(inductee: Inductee) {
+    selectInductee(inductee, 'open-class-media', 'watch');
   }
 
   function resetExperience(reason = 'manual') {
+    if (reason !== 'idle' && !beginInteractionTransition()) return;
     recordKioskReset(reason);
     stopActiveMedia();
+    if (reason !== 'idle') prepareSharedPortraitTransition(selected ?? lastSeen ?? connectionSeed ?? connectionReturn, 'living-hall', 'person-to-living-hall');
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    setExploreState({ ...defaultExploreState });
     setTimelineYear('');
     setSelectedId('');
     setLastSeenId('');
-    setViewMode('all-people');
+    setPersonInitialAction('overview');
+    setExperienceMode('living-hall', 'reset');
     setAttractActive(false);
     setIdleWarningActive(false);
-    setConnectionOpen(false);
     setConnectionSeedId('');
     setConnectionReturnId('');
+    setWorldFocusKey('');
     resetStageScroll();
   }
 
   function closeDetail() {
+    if (!beginInteractionTransition()) return;
     recordKioskInteraction('close-detail');
     stopActiveMedia();
+    const returnView = personReturnView === 'person' ? 'living-hall' : personReturnView;
+    const returnPerson = selected ?? lastSeen;
+    const transitionKind: SharedPortraitKind = returnView === 'connections'
+      ? 'person-to-connections'
+      : returnView === 'world'
+        ? 'person-to-world'
+        : returnView === 'time'
+          ? 'person-to-time'
+          : 'person-to-living-hall';
+    prepareSharedPortraitTransition(returnPerson, returnView, transitionKind);
     setSelectedId('');
+    setPersonInitialAction('overview');
     setIdleWarningActive(false);
-    window.requestAnimationFrame(() => {
-      scrollStageTo(scrollPositionRef.current);
+    if (reviewModeEnabled) return;
+    if (returnView === 'connections') {
+      const returnId = returnPerson?.id || connectionReturnId || lastSeenId;
+      setConnectionSeedId(returnId);
+      setConnectionReturnId(returnId);
+    } else {
+      setConnectionSeedId('');
+      setConnectionReturnId('');
+    }
+    setExperienceMode(returnView, 'back');
+    scheduleAnimationFrame(() => {
+      if (returnView === 'living-hall') {
+        scrollStageTo(scrollPositionRef.current);
+      } else {
+        resetStageScroll();
+      }
     });
   }
 
   function returnHome() {
+    if (!beginInteractionTransition()) return;
     recordKioskInteraction('home');
     stopActiveMedia();
+    prepareSharedPortraitTransition(selected ?? lastSeen ?? connectionSeed ?? connectionReturn, 'living-hall', 'person-to-living-hall');
     setAttractActive(false);
     setIdleWarningActive(false);
     setSelectedId('');
-    setConnectionOpen(false);
+    setPersonInitialAction('overview');
     setConnectionSeedId('');
-    setViewMode('all-people');
-    window.requestAnimationFrame(() => {
+    setConnectionReturnId('');
+    setExperienceMode('living-hall', 'back');
+    scheduleAnimationFrame(() => {
       scrollStageTo(scrollPositionRef.current);
     });
   }
 
-  function openConnectionFinder(seed?: Inductee) {
-    recordKioskInteraction('open-connection-finder');
+  function openConnectionFinder(seed?: Inductee, source = 'open-connection-finder', transition: ExperienceTransition = 'forward', skipGuard = false) {
+    if (!skipGuard && !beginInteractionTransition()) return;
+    recordKioskInteraction(source);
     stopActiveMedia();
     setAttractActive(false);
     setIdleWarningActive(false);
-    setConnectionSeedId(seed?.id ?? '');
+    const seedId = seed?.id || selectedId || lastSeenId;
+    const seedPerson = seed ?? selected ?? lastSeen ?? null;
+    prepareSharedPortraitTransition(seedPerson, 'connections', 'person-to-connections');
+    setConnectionSeedId(seedId);
     setConnectionReturnId(selectedId || seed?.id || lastSeenId);
-    setConnectionOpen(true);
+    setSelectedId('');
+    setPersonInitialAction('overview');
+    setExperienceMode('connections', transition);
   }
 
   function closeConnectionFinder() {
+    if (!beginInteractionTransition()) return;
     recordKioskInteraction('close-connection-finder');
-    setConnectionOpen(false);
+    prepareSharedPortraitTransition(connectionSeed ?? connectionReturn ?? lastSeen, 'living-hall', 'person-to-living-hall');
     setConnectionSeedId('');
+    setConnectionReturnId('');
+    setSelectedId('');
+    setPersonInitialAction('overview');
+    setExperienceMode('living-hall', 'back');
+    scheduleAnimationFrame(() => resetStageScroll());
   }
 
   function selectFromConnection(inductee: Inductee) {
-    recordKioskInteraction('select-connection-person');
-    setConnectionOpen(false);
-    selectInductee(inductee);
-  }
-
-  function startFromAttract() {
-    setAttractActive(false);
-    resetExperience('attract-start');
+    selectInductee(inductee, 'select-connection-person');
   }
 
   function continueExploring() {
@@ -309,25 +526,71 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
     setAttractActive(false);
   }
 
-  function changeView(mode: ViewMode) {
+  function changeView(mode: VisitorExperienceMode) {
+    if (!beginInteractionTransition()) return;
     recordKioskInteraction(`nav:${mode}`);
+    const transition = experienceTransitionFor(viewMode, mode);
+    if (mode === 'person') {
+      const personId = selectedId || lastSeenId;
+      const person = inductees.find((item) => item.id === personId);
+      if (!person) return;
+      stopActiveMedia();
+      const returnView = isVisitorExperienceMode(viewMode) && viewMode !== 'person' ? viewMode : 'living-hall';
+      setPersonReturnView(returnView);
+      prepareSharedPortraitTransition(person, 'person', viewMode === 'connections' ? 'connections-to-person' : 'lens-to-person');
+      setAttractActive(false);
+      setIdleWarningActive(false);
+      setConnectionSeedId('');
+      setConnectionReturnId('');
+      setSelectedId(person.id);
+      setLastSeenId(person.id);
+      setPersonInitialAction('overview');
+      setExperienceMode('person', transition);
+      return;
+    }
+
+    if (mode === 'connections') {
+      openConnectionFinder(selected ?? lastSeen ?? undefined, 'nav:connections', transition, true);
+      return;
+    }
+
     stopActiveMedia();
+    const referencePerson = selected ?? lastSeen ?? connectionSeed ?? connectionReturn;
+    if (mode === 'living-hall') prepareSharedPortraitTransition(referencePerson, 'living-hall', 'person-to-living-hall');
+    if (mode === 'world') prepareSharedPortraitTransition(referencePerson, 'world', 'person-to-world');
+    if (mode === 'time') prepareSharedPortraitTransition(referencePerson, 'time', 'person-to-time');
     setAttractActive(false);
     setIdleWarningActive(false);
-    setViewMode(mode);
-    window.requestAnimationFrame(() => resetStageScroll());
+    setSelectedId('');
+    setPersonInitialAction('overview');
+    setConnectionSeedId('');
+    setConnectionReturnId('');
+    setExperienceMode(mode, transition);
+    scheduleAnimationFrame(() => resetStageScroll());
   }
 
+  const activeExperienceLabel = isVisitorExperienceMode(viewMode)
+    ? viewMode === 'living-hall'
+      ? 'Living Hall'
+      : visitorExperienceNavItems.find((item) => item.mode === viewMode)?.label ?? 'Living Hall'
+    : 'Staff Portal';
+
   return (
-    <main className={shellClassName}>
+    <main
+      className={shellClassName}
+      aria-busy={transitionLocked ? 'true' : undefined}
+      data-animation-intensity={installationConfig.animationIntensity}
+      data-debug-mode={installationConfig.debug.enabled ? 'true' : 'false'}
+    >
       <header className="museum-rail" aria-label="Collection status">
         <div className="museum-brand">
           <span>CIHOF</span>
-          <strong>Western Reserve Historical Society</strong>
+          <strong>{activeExperienceLabel}</strong>
         </div>
         <div className="museum-status" aria-label="Collection summary">
           <span>{stats.total} people</span>
           <span>{stats.withVideo} videos</span>
+          {!networkOnline && <span>Offline</span>}
           {kioskMode && <span>Kiosk</span>}
           {wallDebugEnabled && <span>Wall Debug</span>}
         </div>
@@ -351,61 +614,59 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
       </header>
 
       <section className={stageClassName} ref={stageRef}>
-        {viewMode === 'all-people' && (
-          <ExploreView
-            inductees={inductees}
-            filtered={filtered}
-            facets={facets}
-            loading={loading}
-            error={error}
-            state={exploreState}
-            selectedId={selectedId}
-            currentInductee={selected ?? lastSeen}
-            wallDebug={wallDebugEnabled}
-            onStateChange={updateExploreState}
-            onSelect={selectInductee}
-            onFindConnection={() => openConnectionFinder()}
-          />
-        )}
-
-        {viewMode === 'search' && (
-          <SearchView
-            inductees={inductees}
-            facets={facets}
-            loading={loading}
-            error={error}
-            state={exploreState}
-            selectedId={selectedId}
-            onStateChange={updateExploreState}
-            onSelect={selectInductee}
-            onFindConnection={() => openConnectionFinder()}
-          />
+        {viewMode === 'living-hall' && (
+          <ExperienceScene mode="living-hall" transition={experienceTransition}>
+            <LivingHallView
+              inductees={inductees}
+              loading={loading}
+              error={error}
+              attractActive={attractActive}
+              onEngage={continueExploring}
+              onSelect={selectInductee}
+            />
+          </ExperienceScene>
         )}
 
         {viewMode === 'time' && (
-          <TimelineView
-            inductees={inductees}
-            loading={loading}
-            error={error}
-            selectedYear={timelineYear}
-            onYearChange={setTimelineYear}
-            onSelect={selectInductee}
-          />
+          <ExperienceScene mode="time" transition={experienceTransition}>
+            <TimelineView
+              inductees={inductees}
+              loading={loading}
+              error={error}
+              selectedYear={timelineYear}
+              onYearChange={setTimelineYear}
+              onOpenMedia={openInducteeMedia}
+              onSelect={selectInductee}
+            />
+          </ExperienceScene>
         )}
 
-        {viewMode === 'places' && <PlacesView inductees={inductees} onSelect={selectInductee} />}
-
-        {viewMode === 'journeys' && <JourneyView inductees={inductees} onSelect={selectInductee} />}
+        {viewMode === 'world' && (
+          <ExperienceScene mode="world" transition={experienceTransition}>
+            <WorldLensView
+              inductees={inductees}
+              loading={loading}
+              error={error}
+              activeFocusKey={worldFocusKey}
+              onFocusChange={setWorldFocusKey}
+              onSelect={selectInductee}
+            />
+          </ExperienceScene>
+        )}
 
         {reviewModeEnabled && ReviewDashboard && <ReviewDashboard inductees={inductees} onSelect={selectInductee} />}
       </section>
 
-      {viewMode !== 'review' && (
-        <nav className="museum-bottom-nav" aria-label="Museum navigation">
-          {primaryNavItems.map((item) => (
+      {viewMode !== 'review' && !attractActive && (
+        <div className="museum-bottom-nav experience-dock" role="toolbar" aria-label="Experience lenses">
+          {visitorExperienceNavItems.map((item) => {
+            const active = viewMode === item.mode;
+
+            return (
             <button
-              aria-current={viewMode === item.mode ? 'page' : undefined}
-              className={viewMode === item.mode ? 'museum-nav-item museum-nav-item--active' : 'museum-nav-item'}
+              aria-label={item.ariaLabel}
+              aria-pressed={active}
+              className={active ? 'museum-nav-item museum-nav-item--active experience-dock__item' : 'museum-nav-item experience-dock__item'}
               key={item.mode}
               type="button"
               onClick={() => changeView(item.mode)}
@@ -418,10 +679,13 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
                   src={`${import.meta.env.BASE_URL}risograph-icons/${item.risoIcon}.png`}
                 />
               </span>
-              <span>{item.label}</span>
+              <span className="experience-dock__label">
+                <span>{item.label}</span>
+              </span>
             </button>
-          ))}
-        </nav>
+            );
+          })}
+        </div>
       )}
 
       {kioskMode && idleWarningActive && !attractActive && (
@@ -434,22 +698,17 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
         </section>
       )}
 
-      {kioskMode && attractActive && (
-        <AttractView
-          inductees={inductees}
-          relationships={relationships}
-          onStart={startFromAttract}
-          onSelect={selectInductee}
-        />
-      )}
-
       <InducteeDetail
-        inductee={attractActive ? null : selected}
+        inductee={(viewMode === 'person' || reviewModeEnabled) && !attractActive ? selected : null}
         allInductees={inductees}
         relationships={relationships}
         kioskMode={kioskMode}
+        qrEnabled={installationConfig.features.qrContinuation}
+        soundEnabled={installationConfig.features.sound}
+        initialAction={personInitialAction}
         nextInductee={nextInductee}
         previousInductee={previousInductee}
+        staffMode={reviewModeEnabled}
         wallDebug={wallDebugEnabled}
         onClose={closeDetail}
         onHome={returnHome}
@@ -464,10 +723,62 @@ export function App({ defaultView = 'all-people', ReviewDashboard }: AppProps) {
         relationships={relationships}
         seedPerson={connectionSeed}
         returnPerson={connectionReturn}
+        closeLabel="Living Hall"
         onClose={closeConnectionFinder}
         onSelectPerson={selectFromConnection}
       />
+      {transitionLocked && <div className="transition-input-guard" aria-hidden="true" />}
+      {sharedPortrait && <SharedPortraitHandoffView handoff={sharedPortrait} />}
     </main>
+  );
+}
+
+function SharedPortraitHandoffView({ handoff }: { handoff: SharedPortraitHandoff }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`shared-portrait-handoff shared-portrait-handoff--${handoff.kind}`}
+      key={handoff.key}
+      style={sharedPortraitStyle(handoff)}
+    >
+      <FallbackImage
+        alt=""
+        className="shared-portrait-handoff__image"
+        fallbackClassName="shared-portrait-handoff__fallback"
+        fallbackLabel={initials(handoff.person.name)}
+        loading="eager"
+        src={handoff.person.primaryImageUrl}
+      />
+    </div>
+  );
+}
+
+function sharedPortraitStyle(handoff: SharedPortraitHandoff) {
+  return {
+    '--handoff-from-x': `${handoff.from.left}px`,
+    '--handoff-from-y': `${handoff.from.top}px`,
+    '--handoff-from-w': `${handoff.from.width}px`,
+    '--handoff-from-h': `${handoff.from.height}px`,
+    '--handoff-to-x': `${handoff.to.left}px`,
+    '--handoff-to-y': `${handoff.to.top}px`,
+    '--handoff-to-w': `${handoff.to.width}px`,
+    '--handoff-to-h': `${handoff.to.height}px`,
+  } as CSSProperties;
+}
+
+function ExperienceScene({
+  children,
+  mode,
+  transition,
+}: {
+  children: ReactNode;
+  mode: VisitorExperienceMode;
+  transition: ExperienceTransition;
+}) {
+  return (
+    <div className={`experience-scene experience-scene--${mode} experience-scene--transition-${transition}`}>
+      {children}
+    </div>
   );
 }
 
@@ -481,6 +792,11 @@ function useContentProtection(active: boolean) {
 
     function blockEvent(event: Event) {
       if (shouldAllowCopyTarget(event.target)) return;
+      event.preventDefault();
+    }
+
+    function blockZoomWheel(event: WheelEvent) {
+      if (!event.ctrlKey && !event.metaKey) return;
       event.preventDefault();
     }
 
@@ -502,6 +818,10 @@ function useContentProtection(active: boolean) {
     document.addEventListener('cut', blockEvent);
     document.addEventListener('dragstart', blockEvent);
     document.addEventListener('selectstart', blockEvent);
+    document.addEventListener('gesturestart', blockEvent);
+    document.addEventListener('gesturechange', blockEvent);
+    document.addEventListener('gestureend', blockEvent);
+    document.addEventListener('wheel', blockZoomWheel, { passive: false });
     document.addEventListener('keydown', blockShortcut, { capture: true });
 
     return () => {
@@ -510,6 +830,10 @@ function useContentProtection(active: boolean) {
       document.removeEventListener('cut', blockEvent);
       document.removeEventListener('dragstart', blockEvent);
       document.removeEventListener('selectstart', blockEvent);
+      document.removeEventListener('gesturestart', blockEvent);
+      document.removeEventListener('gesturechange', blockEvent);
+      document.removeEventListener('gestureend', blockEvent);
+      document.removeEventListener('wheel', blockZoomWheel);
       document.removeEventListener('keydown', blockShortcut, { capture: true });
     };
   }, [active]);
@@ -522,32 +846,92 @@ function readParam(name: string) {
 function readViewMode(allowReview: boolean, defaultView: ViewMode): ViewMode {
   const view = readParam('view');
   if (allowReview && defaultView === 'review' && !view) return 'review';
-  if (allowReview && view === 'review' && readParam('review') === '1') return view;
-  if (view === 'all-people' || view === 'people') return 'all-people';
-  if (view === 'time' || view === 'timeline') return 'time';
-  if (view === 'places' || view === 'region-map') return 'places';
-  if (view === 'journeys') return 'journeys';
-  if (view === 'search' || view === 'explore') return 'search';
-  return defaultView === 'review' && !allowReview ? 'all-people' : defaultView;
+  if (allowReview && view === 'review' && readParam('review') === '1') return 'review';
+
+  const normalizedView = normalizeViewMode(view, false);
+  if (normalizedView) return normalizedView;
+  if (readParam('person')) return 'person';
+
+  return defaultView === 'review' && !allowReview ? 'living-hall' : defaultView;
 }
 
-function readExploreState(): ExploreState {
-  const sort = readParam('sort') as SortMode;
-  const media = readParam('media') as MediaFilter;
-  const view = readParam('view');
-  const isTimelineRoute = view === 'time' || view === 'timeline';
-  const sortMode: SortMode = ['year-asc', 'year-desc', 'name-asc', 'country-asc', 'region-asc', 'physical-wall'].includes(sort) ? sort : 'year-asc';
-  const mediaMode: MediaFilter = ['with-video', 'with-gallery'].includes(media) ? media : 'all';
+function experienceTransitionFor(current: ViewMode, next: VisitorExperienceMode): ExperienceTransition {
+  if (!isVisitorExperienceMode(current) || current === next) return 'switch';
+  const currentIndex = visitorExperienceOrder.indexOf(current);
+  const nextIndex = visitorExperienceOrder.indexOf(next);
+  if (currentIndex === -1 || nextIndex === -1) return 'switch';
+  return nextIndex > currentIndex ? 'forward' : 'back';
+}
 
-  return {
-    query: readParam('q'),
-    region: readParam('region') || allValue,
-    country: readParam('country') || allValue,
-    year: isTimelineRoute ? allValue : readParam('year') || allValue,
-    theme: readParam('theme') || allValue,
-    media: mediaMode,
-    sortMode,
-  };
+function preferredTransitionRoleForView(view: ViewMode) {
+  if (view === 'person') return 'person-portrait';
+  if (view === 'connections') return 'connections-center';
+  if (view === 'world') return 'world-portrait';
+  if (view === 'time') return 'time-portrait';
+  if (view === 'living-hall') return 'living-portrait';
+  return 'portrait';
+}
+
+function findTransitionRect(personId: string, preferredRole?: string): TransitionRect | null {
+  if (!personId || typeof document === 'undefined') return null;
+
+  const escapedId = escapeCssAttributeValue(personId);
+  const selectors = [
+    preferredRole ? `[data-transition-person="${escapedId}"][data-transition-role="${preferredRole}"]` : '',
+    `[data-transition-person="${escapedId}"][data-transition-role="portrait"]`,
+    `[data-transition-person="${escapedId}"]`,
+  ].filter(Boolean);
+
+  for (const selector of selectors) {
+    const rect = bestVisibleRect(Array.from(document.querySelectorAll<HTMLElement>(selector)));
+    if (rect) return rect;
+  }
+
+  return null;
+}
+
+function bestVisibleRect(elements: HTMLElement[]) {
+  let best: TransitionRect | null = null;
+  let bestArea = 0;
+
+  elements.forEach((element) => {
+    const rect = element.getBoundingClientRect();
+    if (!isVisibleRect(rect)) return;
+    const area = rect.width * rect.height;
+    if (area <= bestArea) return;
+    bestArea = area;
+    best = {
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height,
+    };
+  });
+
+  return best;
+}
+
+function isVisibleRect(rect: DOMRect) {
+  const width = Math.round(rect.width);
+  const height = Math.round(rect.height);
+  return width >= 12
+    && height >= 12
+    && rect.bottom > 0
+    && rect.right > 0
+    && rect.left < window.innerWidth
+    && rect.top < window.innerHeight;
+}
+
+function escapeCssAttributeValue(value: string) {
+  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') return CSS.escape(value);
+  return value.replace(/["\\]/g, '\\$&');
+}
+
+function prefersReducedMotion() {
+  if (installationConfig.animationIntensity !== 'standard') return true;
+  return typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function readTimelineYear() {
@@ -556,19 +940,16 @@ function readTimelineYear() {
   return readParam('timeYear') || readParam('year');
 }
 
-function readPositiveEnvNumber(value: string | undefined, fallback: number) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+function readInitialConnectionPersonId() {
+  const normalizedView = normalizeViewMode(readParam('view'), false);
+  return normalizedView === 'connections' ? readParam('person') : '';
+}
+
+function readInitialWorldFocus() {
+  const normalizedView = normalizeViewMode(readParam('view'), false);
+  return normalizedView === 'world' ? readParam('world') : '';
 }
 
 function stopActiveMedia() {
-  document.querySelectorAll('video, audio').forEach((media) => {
-    if (!(media instanceof HTMLMediaElement)) return;
-    media.pause();
-    media.currentTime = 0;
-  });
-  document.querySelectorAll('iframe').forEach((frame) => {
-    frame.src = frame.src;
-  });
-  window.dispatchEvent(new Event('cihof:stop-media'));
+  stopAllMedia();
 }

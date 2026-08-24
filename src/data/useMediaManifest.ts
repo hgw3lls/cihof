@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { runtimeLogger } from '../app/runtimeLogger';
+import { readCachedJson, writeCachedJson } from './localDataCache';
 import type { RuntimeAudioAsset, RuntimeImageAsset, RuntimeMediaRecord, RuntimeVideoAsset } from './types';
 
 type MediaManifestState = {
@@ -8,28 +10,39 @@ type MediaManifestState = {
 };
 
 const mediaManifestUrl = `${import.meta.env.BASE_URL}data/media-manifest.json`;
+const cacheKey = 'media-manifest';
 
 export function useMediaManifest(): MediaManifestState {
   const [state, setState] = useState<MediaManifestState>({ records: [], loading: true, error: '' });
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
-    fetch(mediaManifestUrl)
+    fetch(mediaManifestUrl, { signal: controller.signal })
       .then((response) => {
         if (response.status === 404) return { assets: {} } as unknown;
         if (!response.ok) throw new Error(`Media manifest request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
       })
       .then((payload) => {
+        writeCachedJson(cacheKey, payload);
         if (!cancelled) setState({ records: parseMediaManifest(payload), loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (!cancelled) setState({ records: [], loading: false, error: error.message });
+        if (controller.signal.aborted || cancelled) return;
+        const cached = readCachedJson(cacheKey);
+        if (cached) {
+          runtimeLogger.warn('Using cached media manifest after load failure.', { error: error.message });
+          setState({ records: parseMediaManifest(cached), loading: false, error: '' });
+          return;
+        }
+        setState({ records: [], loading: false, error: offlineAwareError(error.message, 'Media manifest could not be loaded.') });
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 
@@ -67,35 +80,18 @@ function normalizeMediaRecord(id: string, value: unknown): RuntimeMediaRecord | 
 
 function normalizeImages(value: unknown): RuntimeMediaRecord['images'] {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
-  const images = value as { primary?: unknown; gallery?: unknown; portraits?: unknown; portraitQuality?: unknown };
+  const images = value as { primary?: unknown; gallery?: unknown };
   const primary = normalizeImage(images.primary);
 
   return {
     primary,
     gallery: normalizeAssetArray<RuntimeImageAsset>(images.gallery),
-    portraits: normalizePortraits(images.portraits),
-    portraitQuality: normalizePlainObject<NonNullable<RuntimeMediaRecord['images']>['portraitQuality']>(images.portraitQuality),
   };
 }
 
 function normalizeImage(value: unknown) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return value as RuntimeImageAsset;
-}
-
-function normalizePortraits(value: unknown) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
-  const portraits = value as { wall?: unknown; profile?: unknown; thumbnail?: unknown };
-  return {
-    wall: normalizeImage(portraits.wall),
-    profile: normalizeImage(portraits.profile),
-    thumbnail: normalizeImage(portraits.thumbnail),
-  };
-}
-
-function normalizePlainObject<T>(value: unknown): T | undefined {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
-  return value as T;
 }
 
 function normalizeAssetArray<T>(value: unknown): T[] {
@@ -105,4 +101,9 @@ function normalizeAssetArray<T>(value: unknown): T[] {
 
 function stringOrUndefined(value: unknown) {
   return typeof value === 'string' && value ? value : undefined;
+}
+
+function offlineAwareError(message: string, fallback: string) {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return `${fallback} The browser is offline.`;
+  return message || fallback;
 }

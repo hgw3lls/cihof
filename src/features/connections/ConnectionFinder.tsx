@@ -1,16 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
-import { countryOrRegionLabel } from '../../data/inducteeLabels';
-import { portraitImageUrl } from '../../data/portraitImages';
-import {
-  buildConnectionGraph,
-  connectedPeopleForNode,
-  findConnectionPath,
-  type ConnectionEdge,
-  type ConnectionNode,
-  type ConnectionPath,
-} from '../../data/connectionGraph';
-import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType } from '../../data/types';
+import { rankStoryLensMatches, useStoryLenses, type StoryLensMatch } from '../../data/storyLenses';
+import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType, StoryLensConfig } from '../../data/types';
 
 type ConnectionFinderProps = {
   open: boolean;
@@ -18,13 +9,47 @@ type ConnectionFinderProps = {
   relationships: RelationshipRecord[];
   seedPerson: Inductee | null;
   returnPerson: Inductee | null;
+  closeLabel?: string;
   onClose: () => void;
   onSelectPerson: (inductee: Inductee) => void;
 };
 
-type ConnectionStage = 'select-a' | 'select-b' | 'result';
+type NetworkReason = {
+  type: RelationshipType;
+  label: string;
+  detail: string;
+  provenance: RelationshipProvenance;
+  score: number;
+};
 
-const maxConnectionEdges = 6;
+type NetworkThread = {
+  person: Inductee;
+  reasons: NetworkReason[];
+  score: number;
+};
+
+type PositionedThread = NetworkThread & {
+  x: number;
+  y: number;
+  labelX: number;
+  labelY: number;
+};
+
+type ConceptThread = {
+  lens: StoryLensConfig;
+  activeMatch: StoryLensMatch;
+  matches: StoryLensMatch[];
+  people: StoryLensMatch[];
+  score: number;
+};
+
+const initialThreadCount = 6;
+const initialConceptThreadCount = 4;
+const revealIncrement = 4;
+const maxThreadCount = 10;
+const maxConceptThreadChoices = 4;
+const centerPoint = { x: 50, y: 45 };
+const orbitAngles = [-160, -125, -50, 0, 50, 125, -88, -25, 82, 158];
 
 export function ConnectionFinder({
   open,
@@ -32,37 +57,58 @@ export function ConnectionFinder({
   relationships,
   seedPerson,
   returnPerson,
+  closeLabel = 'Living Hall',
   onClose,
   onSelectPerson,
 }: ConnectionFinderProps) {
-  const graph = useMemo(() => buildConnectionGraph(inductees, relationships), [inductees, relationships]);
-  const [stage, setStage] = useState<ConnectionStage>('select-a');
-  const [personA, setPersonA] = useState<Inductee | null>(null);
-  const [personB, setPersonB] = useState<Inductee | null>(null);
-  const [query, setQuery] = useState('');
-  const [revealedEdgeCount, setRevealedEdgeCount] = useState(0);
-  const [activeNodeId, setActiveNodeId] = useState('');
-  const [theaterRun, setTheaterRun] = useState(0);
-  const [autoReveal, setAutoReveal] = useState(true);
-
-  const path = useMemo(
-    () => personA && personB ? findConnectionPath(graph, personA.id, personB.id, maxConnectionEdges) : null,
-    [graph, personA, personB],
+  const { lenses: storyLenses } = useStoryLenses();
+  const peopleById = useMemo(() => new Map(inductees.map((item) => [item.id, item])), [inductees]);
+  const defaultPerson = useMemo(
+    () => seedPerson ?? returnPerson ?? mostConnectedPerson(inductees, relationships) ?? inductees[0] ?? null,
+    [inductees, relationships, returnPerson, seedPerson],
   );
-  const activeNode = activeNodeId ? graph.nodes.get(activeNodeId) ?? null : null;
-  const activeNodePeople = activeNode ? connectedPeopleForNode(graph, activeNode.id) : [];
+  const [activePersonId, setActivePersonId] = useState('');
+  const [activeThreadId, setActiveThreadId] = useState('');
+  const [revealedCount, setRevealedCount] = useState(initialThreadCount);
+  const [threadTrail, setThreadTrail] = useState<Inductee[]>([]);
+
+  const activePerson = activePersonId ? peopleById.get(activePersonId) ?? defaultPerson : defaultPerson;
+  const directThreads = useMemo(
+    () => activePerson ? buildHumanNetwork(activePerson, inductees, relationships) : [],
+    [activePerson, inductees, relationships],
+  );
+  const allConceptThreads = useMemo(
+    () => activePerson ? buildConceptThreads(activePerson, inductees, storyLenses) : [],
+    [activePerson, inductees, storyLenses],
+  );
+  const activeConceptThread = useMemo(
+    () => activeThreadId ? allConceptThreads.find((thread) => thread.lens.id === activeThreadId) ?? null : null,
+    [activeThreadId, allConceptThreads],
+  );
+  const conceptThreads = useMemo(
+    () => selectConceptThreadChoices(allConceptThreads, activeThreadId),
+    [activeThreadId, allConceptThreads],
+  );
+  const allThreads = useMemo(
+    () => activePerson && activeConceptThread
+      ? buildConceptNetwork(activePerson, activeConceptThread, directThreads)
+      : directThreads,
+    [activeConceptThread, activePerson, directThreads],
+  );
+  const visibleThreads = useMemo(
+    () => positionThreads(allThreads.slice(0, Math.min(revealedCount, maxThreadCount))),
+    [allThreads, revealedCount],
+  );
+  const hiddenThreadCount = Math.max(0, Math.min(allThreads.length, maxThreadCount) - visibleThreads.length);
+  const followingThread = Boolean(activeConceptThread);
 
   useEffect(() => {
-    if (!open) return;
-    setPersonA(seedPerson);
-    setPersonB(null);
-    setStage(seedPerson ? 'select-b' : 'select-a');
-    setQuery('');
-    setActiveNodeId('');
-    setRevealedEdgeCount(0);
-    setTheaterRun(0);
-    setAutoReveal(true);
-  }, [open, seedPerson]);
+    if (!open || !defaultPerson) return;
+    setActivePersonId(defaultPerson.id);
+    setActiveThreadId('');
+    setRevealedCount(initialThreadCount);
+    setThreadTrail([defaultPerson]);
+  }, [defaultPerson, open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -75,561 +121,510 @@ export function ConnectionFinder({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose, open]);
 
-  useEffect(() => {
-    if (stage !== 'result' || !path) {
-      setRevealedEdgeCount(0);
-      setAutoReveal(true);
-      return undefined;
-    }
-
-    setRevealedEdgeCount(0);
-    setAutoReveal(true);
-    return undefined;
-  }, [path, stage, theaterRun]);
-
-  useEffect(() => {
-    if (stage !== 'result' || !path || !autoReveal) return undefined;
-
-    const interval = window.setInterval(() => {
-      setRevealedEdgeCount((current) => {
-        const nextStep = Math.min(current + 1, path.edges.length);
-        if (nextStep >= path.edges.length) window.clearInterval(interval);
-        return nextStep;
-      });
-    }, 620);
-
-    return () => window.clearInterval(interval);
-  }, [autoReveal, path, stage, theaterRun]);
-
   if (!open) return null;
 
-  function choosePerson(inductee: Inductee) {
-    if (stage === 'select-a') {
-      setPersonA(inductee);
-      setPersonB(null);
-      setStage('select-b');
-      setQuery('');
-      setActiveNodeId('');
-      return;
-    }
-
-    if (stage === 'select-b') {
-      setPersonB(inductee);
-      setStage('result');
-      setQuery('');
-      setActiveNodeId('');
-    }
+  function focusPerson(inductee: Inductee) {
+    setActivePersonId(inductee.id);
+    setRevealedCount(activeThreadId ? initialConceptThreadCount : initialThreadCount);
+    setThreadTrail((current) => appendTrail(current, inductee));
   }
 
-  function changePersonA() {
-    setPersonA(null);
-    setPersonB(null);
-    setStage('select-a');
-    setQuery('');
-    setActiveNodeId('');
+  function followConceptThread(threadId: string) {
+    setActiveThreadId(threadId);
+    setRevealedCount(initialConceptThreadCount);
   }
 
-  function changePersonB() {
-    setPersonB(null);
-    setStage('select-b');
-    setQuery('');
-    setActiveNodeId('');
+  function returnToDirectLinks() {
+    setActiveThreadId('');
+    setRevealedCount(initialThreadCount);
   }
 
-  function openPerson(inductee: Inductee) {
-    onSelectPerson(inductee);
-    onClose();
+  function openActiveProfile() {
+    if (activePerson) onSelectPerson(activePerson);
   }
 
-  function handleNodeTap(node: ConnectionNode) {
-    if (node.inductee) {
-      openPerson(node.inductee);
-      return;
-    }
-
-    setActiveNodeId((current) => current === node.id ? '' : node.id);
-  }
-
-  function replayPath() {
-    setActiveNodeId('');
-    setAutoReveal(true);
-    setTheaterRun((value) => value + 1);
-  }
-
-  function revealPreviousStep() {
-    setAutoReveal(false);
-    setRevealedEdgeCount((current) => Math.max(current - 1, 0));
-  }
-
-  function revealNextStep() {
-    setAutoReveal(false);
-    setRevealedEdgeCount((current) => Math.min(current + 1, path?.edges.length ?? 0));
-  }
-
-  function revealFullPath() {
-    setAutoReveal(false);
-    setRevealedEdgeCount(path?.edges.length ?? 0);
-  }
-
-  const selectedTitle = personA && personB ? `${personA.name} to ${personB.name}` : 'Six Degrees of Cleveland';
-
-  return (
-    <section className="connection-finder" role="dialog" aria-modal="true" aria-label="Six Degrees of Cleveland">
-      <header className="connection-finder__header">
-        <div>
-          <p className="museum-kicker">Six Degrees of Cleveland</p>
-          <h2>{selectedTitle}</h2>
-        </div>
-        <div className="connection-finder__controls">
-          {returnPerson && (
-            <button type="button" onClick={() => openPerson(returnPerson)}>
-              Return to {returnPerson.name}
-            </button>
-          )}
-          <button type="button" onClick={onClose}>Back to Wall</button>
-        </div>
-      </header>
-
-      <div className="connection-finder__progress" aria-label="Connection steps">
-        <span className={stage === 'select-a' ? 'connection-finder__step connection-finder__step--active' : 'connection-finder__step'}>Person A</span>
-        <span className={stage === 'select-b' ? 'connection-finder__step connection-finder__step--active' : 'connection-finder__step'}>Person B</span>
-        <span className={stage === 'result' ? 'connection-finder__step connection-finder__step--active' : 'connection-finder__step'}>Connection</span>
-      </div>
-
-      <main className="connection-finder__body">
-        {stage !== 'result' && (
-          <PersonConnectionPicker
-            excludedId={stage === 'select-b' ? personA?.id ?? '' : ''}
-            inductees={inductees}
-            label={stage === 'select-a' ? 'Select Person A' : 'Select Person B'}
-            query={query}
-            selectedPerson={stage === 'select-b' ? personA : null}
-            onChangePersonA={changePersonA}
-            onQueryChange={setQuery}
-            onSelect={choosePerson}
-          />
-        )}
-
-        {stage === 'result' && personA && personB && (
-          <ConnectionResult
-            activeNode={activeNode}
-            activeNodePeople={activeNodePeople}
-            path={path}
-            personA={personA}
-            personB={personB}
-            revealedEdgeCount={revealedEdgeCount}
-            onChangePersonA={changePersonA}
-            onChangePersonB={changePersonB}
-            onNextStep={revealNextStep}
-            onNodeTap={handleNodeTap}
-            onOpenPerson={openPerson}
-            onPreviousStep={revealPreviousStep}
-            onReplay={replayPath}
-            onShowFullPath={revealFullPath}
-          />
-        )}
-      </main>
-    </section>
-  );
-}
-
-function PersonConnectionPicker({
-  inductees,
-  excludedId,
-  label,
-  query,
-  selectedPerson,
-  onChangePersonA,
-  onQueryChange,
-  onSelect,
-}: {
-  inductees: Inductee[];
-  excludedId: string;
-  label: string;
-  query: string;
-  selectedPerson: Inductee | null;
-  onChangePersonA: () => void;
-  onQueryChange: (query: string) => void;
-  onSelect: (inductee: Inductee) => void;
-}) {
-  const results = useMemo(() => {
-    const search = query.trim().toLowerCase();
-    return inductees
-      .filter((item) => item.id !== excludedId)
-      .filter((item) => {
-        if (!search) return item.featured || item.featuredCandidate || item.classYear !== null;
-        return item.searchText.includes(search) || item.name.toLowerCase().includes(search);
-      })
-      .sort((a, b) => {
-        if (!search) {
-          const featuredA = a.featured || a.featuredCandidate ? 0 : 1;
-          const featuredB = b.featured || b.featuredCandidate ? 0 : 1;
-          if (featuredA !== featuredB) return featuredA - featuredB;
-        }
-        return a.name.localeCompare(b.name);
-      })
-      .slice(0, search ? 30 : 24);
-  }, [excludedId, inductees, query]);
-
-  return (
-    <section className="connection-picker" aria-label={label}>
-      <div className="connection-picker__lead">
-        <div>
-          <p className="museum-kicker">{label}</p>
-          <h3>{selectedPerson ? 'Choose the second portrait' : 'Choose the first portrait'}</h3>
-        </div>
-        {selectedPerson && (
-          <div className="connection-picker__selected">
-            <span>Person A</span>
-            <strong>{selectedPerson.name}</strong>
-            <button type="button" onClick={onChangePersonA}>Change</button>
-          </div>
-        )}
-      </div>
-
-      <label className="connection-picker__search">
-        <span>Search</span>
-        <input
-          value={query}
-          type="search"
-          placeholder="Name, year, country, region, community, story"
-          onChange={(event) => onQueryChange(event.target.value)}
-        />
-      </label>
-
-      <div className="connection-picker__grid" aria-label="People">
-        {results.map((inductee) => (
-          <button className="connection-person" key={inductee.id} type="button" onClick={() => onSelect(inductee)}>
-            <FallbackImage
-              alt={inductee.imageAltText}
-              className="connection-person__image"
-              fallbackClassName="connection-person__fallback"
-              fallbackLabel={initials(inductee.name)}
-              src={portraitImageUrl(inductee, 'thumbnail')}
-            />
-            <span>
-              <strong>{inductee.name}</strong>
-              <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(inductee)}</small>
-            </span>
-          </button>
-        ))}
-        {results.length === 0 && <div className="connection-picker__empty">No portraits match that search.</div>}
-      </div>
-    </section>
-  );
-}
-
-function ConnectionResult({
-  activeNode,
-  activeNodePeople,
-  path,
-  personA,
-  personB,
-  revealedEdgeCount,
-  onChangePersonA,
-  onChangePersonB,
-  onNextStep,
-  onNodeTap,
-  onOpenPerson,
-  onPreviousStep,
-  onReplay,
-  onShowFullPath,
-}: {
-  activeNode: ConnectionNode | null;
-  activeNodePeople: Inductee[];
-  path: ConnectionPath | null;
-  personA: Inductee;
-  personB: Inductee;
-  revealedEdgeCount: number;
-  onChangePersonA: () => void;
-  onChangePersonB: () => void;
-  onNextStep: () => void;
-  onNodeTap: (node: ConnectionNode) => void;
-  onOpenPerson: (inductee: Inductee) => void;
-  onPreviousStep: () => void;
-  onReplay: () => void;
-  onShowFullPath: () => void;
-}) {
-  if (!path) {
+  if (!activePerson) {
     return (
-      <section className="connection-result connection-result--empty" aria-label="No documented connection">
-        <div className="connection-empty">
-          <p className="museum-kicker">Connection</p>
-          <h3>WE HAVEN'T DOCUMENTED THE CONNECTION YET</h3>
-          <div className="connection-empty__people">
-            <PersonPill inductee={personA} onOpenPerson={onOpenPerson} />
-            <PersonPill inductee={personB} onOpenPerson={onOpenPerson} />
-          </div>
-          <div className="connection-result__actions">
-            <button type="button" onClick={onChangePersonA}>Change Person A</button>
-            <button type="button" onClick={onChangePersonB}>Change Person B</button>
-          </div>
+      <section className="connection-finder human-network" role="dialog" aria-modal="true" aria-label="Connections">
+        <div className="human-network__empty">
+          <p className="museum-kicker">Connections</p>
+          <h2>NO PEOPLE LOADED</h2>
+          <button type="button" onClick={onClose}>{closeLabel}</button>
         </div>
       </section>
     );
   }
 
-  const currentNode = path.nodes[Math.min(revealedEdgeCount, path.nodes.length - 1)];
-  const currentEdge = path.edges[Math.max(0, Math.min(revealedEdgeCount - 1, path.edges.length - 1))];
-  const completed = revealedEdgeCount >= path.edges.length;
-  const provenanceSummary = connectionProvenanceSummary(path);
-  const nodeSummary = connectionNodeSummary(path);
-  const theaterLine = completed
-    ? `${personA.name} and ${personB.name} are connected through ${nodeSummary}.`
-    : currentEdge
-      ? currentEdge.provenance === 'inferred'
-        ? `Possible link: ${currentEdge.label}`
-        : currentEdge.label
-      : `Starting with ${personA.name}.`;
-
   return (
-    <section className="connection-result" aria-label="Connection path">
-      <div className="connection-result__summary">
+    <section
+      className={followingThread ? 'connection-finder human-network human-network--threading' : 'connection-finder human-network'}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${activePerson.name} connections`}
+    >
+      <header className="human-network__header">
         <div>
-          <p className="museum-kicker">Connection</p>
-          <h3>{path.edges.length} {path.edges.length === 1 ? 'step' : 'steps'}</h3>
+          <p className="museum-kicker">{followingThread ? 'Following A Thread' : 'Connections'}</p>
+          <h2>{activePerson.name}</h2>
+          <p className="human-network__thesis">The Hall is a system of people who made a city.</p>
         </div>
-        <div className="connection-result__actions">
-          <button type="button" onClick={onChangePersonA}>Change Person A</button>
-          <button type="button" onClick={onChangePersonB}>Change Person B</button>
-          <button type="button" onClick={onReplay}>Replay Path</button>
-          <button type="button" disabled={revealedEdgeCount === 0} onClick={onPreviousStep}>Previous Step</button>
-          <button type="button" disabled={completed} onClick={onNextStep}>Next Step</button>
-          <button type="button" disabled={completed} onClick={onShowFullPath}>Show Full Path</button>
-          <button type="button" onClick={() => onOpenPerson(personA)}>Open {personA.name}</button>
+        <div className="human-network__headerActions">
+          <button type="button" onClick={openActiveProfile}>Profile</button>
+          <button type="button" onClick={onClose}>{closeLabel}</button>
         </div>
+      </header>
+
+      <div className="human-network__trail" aria-label="Thread path">
+        <span>{followingThread ? 'Following' : 'Path'}</span>
+        {threadTrail.slice(-5).map((person, index, people) => (
+          <button
+            aria-current={person.id === activePerson.id ? 'true' : undefined}
+            key={`${person.id}-${index}`}
+            type="button"
+            onClick={() => focusPerson(person)}
+          >
+            {person.name}
+            {index < people.length - 1 && <em aria-hidden="true">/</em>}
+          </button>
+        ))}
       </div>
 
-      <div className="connection-theater" aria-live="polite">
-        <TheaterPortrait inductee={personA} label="Start" onOpenPerson={onOpenPerson} />
-        <div className="connection-theater__center">
-          <div className="connection-theater__meter" aria-label="Path reveal progress">
-            {path.edges.map((edge, index) => (
-              <span
-                className={index < revealedEdgeCount ? `connection-theater__dot connection-theater__dot--${edge.provenance} connection-theater__dot--active` : `connection-theater__dot connection-theater__dot--${edge.provenance}`}
-                key={`${edge.from}-${edge.to}-${index}`}
-              />
-            ))}
-          </div>
-          <div className="connection-theater__copy">
-            <p className="museum-kicker">{completed ? 'Connection Found' : `Step ${Math.min(revealedEdgeCount + 1, path.nodes.length)} of ${path.nodes.length}`}</p>
-            <h3>{completed ? 'A Cleveland Path' : currentNode.label}</h3>
-            <p>{theaterLine}</p>
-            <div className="connection-theater__stats">
-              <span>{path.nodes.length} nodes</span>
-              <span>{provenanceSummary}</span>
-            </div>
-          </div>
-        </div>
-        <TheaterPortrait inductee={personB} label="End" onOpenPerson={onOpenPerson} />
-      </div>
+      <main className="human-network__field" aria-label={`${activePerson.name} relationship network`}>
+        <svg className="human-network__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {visibleThreads.map((thread) => (
+            <line
+              className={`human-network__line human-network__line--${thread.reasons[0]?.provenance ?? 'curated'}${followingThread ? ' human-network__line--thread' : ''}`}
+              key={`${activePerson.id}-${activeThreadId || 'direct'}-${thread.person.id}-${thread.reasons[0]?.label ?? 'connection'}`}
+              x1={centerPoint.x}
+              y1={centerPoint.y}
+              x2={thread.x}
+              y2={thread.y}
+            />
+          ))}
+        </svg>
 
-      <div className="connection-result__stage">
-        <div className="connection-path" aria-live="polite">
-          {path.nodes.map((node, index) => {
-            const visible = index <= revealedEdgeCount;
-            if (!visible) return null;
-            const edge = path.edges[index];
-            const showEdge = edge && index < revealedEdgeCount;
+        <button
+          className="human-network__center"
+          data-transition-person={activePerson.id}
+          data-transition-role="connections-center"
+          style={positionStyle(centerPoint.x, centerPoint.y)}
+          type="button"
+          onClick={openActiveProfile}
+        >
+          <FallbackImage
+            alt={activePerson.imageAltText}
+            className="human-network__centerImage"
+            fallbackClassName="human-network__centerFallback"
+            fallbackLabel={initials(activePerson.name)}
+            loading="eager"
+            src={activePerson.primaryImageUrl}
+          />
+          <span>
+            <small>{activePerson.classYear ? `Class of ${activePerson.classYear}` : 'Class year unknown'}</small>
+            <strong>{activePerson.name}</strong>
+          </span>
+        </button>
 
-            return (
-              <div className={index === revealedEdgeCount ? 'connection-path__pair connection-path__pair--active' : 'connection-path__pair'} key={`${node.id}-${index}`}>
-                <ConnectionNodeButton node={node} position={index} total={path.nodes.length} onNodeTap={onNodeTap} />
-                {showEdge && <ConnectionEdgeLabel edge={edge} />}
-              </div>
-            );
-          })}
-        </div>
+        {visibleThreads.map((thread, index) => (
+          <button
+            aria-label={`${thread.person.name}. ${thread.reasons.map((reason) => reason.label).join('. ')}`}
+            className="human-network__node"
+            data-transition-person={thread.person.id}
+            data-transition-role="connections-node"
+            key={`${activeThreadId || 'direct'}-${thread.person.id}`}
+            style={positionStyle(thread.x, thread.y)}
+            type="button"
+            onClick={() => focusPerson(thread.person)}
+          >
+            <FallbackImage
+              alt={thread.person.imageAltText}
+              className="human-network__nodeImage"
+              fallbackClassName="human-network__nodeFallback"
+              fallbackLabel={initials(thread.person.name)}
+              loading={index < 4 ? 'eager' : undefined}
+              src={thread.person.primaryImageUrl}
+            />
+            <span>
+              <strong>{thread.person.name}</strong>
+              <small>{thread.person.classYear ? `Class of ${thread.person.classYear}` : 'Class year unknown'}</small>
+              <em>{followingThread ? 'ANOTHER PERSON IN THIS STORY ->' : 'WHY CONNECTED'}</em>
+              <i>
+                {followingThread
+                  ? nodeReasonLabel(thread.reasons[0], activePerson.name)
+                  : relationshipSupportLabel(thread.reasons[0], activePerson.name)}
+              </i>
+            </span>
+          </button>
+        ))}
 
-        {activeNode && !activeNode.inductee && (
-          <aside className="connection-node-panel" aria-label={`${activeNode.label} connections`}>
-            <p className="museum-kicker">{nodeKindLabel(activeNode.kind)}</p>
-            <h3>{activeNode.label}</h3>
-            <div className="connection-node-panel__people">
-              {activeNodePeople.map((inductee) => (
-                <button key={inductee.id} type="button" onClick={() => onOpenPerson(inductee)}>
-                  <FallbackImage
-                    alt={inductee.imageAltText}
-                    className="connection-node-panel__image"
-                    fallbackClassName="connection-node-panel__fallback"
-                    fallbackLabel={initials(inductee.name)}
-                    src={portraitImageUrl(inductee, 'thumbnail')}
-                  />
-                  <span>
-                    <strong>{inductee.name}</strong>
-                    <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</small>
-                  </span>
-                </button>
-              ))}
-              {activeNodePeople.length === 0 && <span className="connection-node-panel__empty">No people are attached to this node yet.</span>}
-            </div>
-          </aside>
+        {visibleThreads.length === 0 && (
+          <section className="human-network__noThreads">
+            <p className="museum-kicker">No Strong Threads Yet</p>
+            <h3>{activePerson.name}</h3>
+            <span>This portrait needs documented relationship data before it can enter the human network.</span>
+          </section>
         )}
-      </div>
+      </main>
+
+      {conceptThreads.length > 0 && (
+        <section className="human-network__threadChooser" aria-label="Follow a thread">
+          <div className="human-network__threadIntro">
+            <span>{followingThread ? 'Following This Thread' : 'FOLLOW A THREAD ->'}</span>
+            <strong>{activeConceptThread?.lens.label ?? 'Move through the Hall by story'}</strong>
+            <small>
+              {activeConceptThread
+                ? 'The portraits reorganize around this idea as you move from person to person.'
+                : 'Choose one supported thread. The portraits reorganize around that idea.'}
+            </small>
+          </div>
+          <div className="human-network__threadRail">
+            {conceptThreads.map((thread) => (
+              <button
+                aria-pressed={activeThreadId === thread.lens.id}
+                className={activeThreadId === thread.lens.id ? 'human-network__threadButton human-network__threadButton--active' : 'human-network__threadButton'}
+                key={thread.lens.id}
+                type="button"
+                onClick={() => followConceptThread(thread.lens.id)}
+              >
+                <span>{thread.lens.prompt}</span>
+                <strong>{thread.lens.label}</strong>
+                <small>{thread.people.length + 1} portraits</small>
+              </button>
+            ))}
+            {followingThread && (
+              <button className="human-network__threadReset" type="button" onClick={returnToDirectLinks}>
+                Direct Links
+              </button>
+            )}
+          </div>
+        </section>
+      )}
+
+      <footer className="human-network__footer">
+        <div>
+          <span>
+            {followingThread
+              ? `${activeConceptThread?.lens.label ?? 'Story'} / ${allThreads.length} ${allThreads.length === 1 ? 'portrait' : 'portraits'}`
+              : `${allThreads.length} strong ${allThreads.length === 1 ? 'thread' : 'threads'}`}
+          </span>
+          <span>
+            {followingThread
+              ? 'Story threads use CIHOF story lens data; direct ties remain documented or structured.'
+              : 'Only documented, curated, or structured CIHOF links are shown.'}
+          </span>
+        </div>
+        <div className="human-network__footerActions">
+          {hiddenThreadCount > 0 && (
+            <button type="button" onClick={() => setRevealedCount((count) => Math.min(count + revealIncrement, maxThreadCount))}>
+              Reveal More Threads
+            </button>
+          )}
+          <button type="button" onClick={openActiveProfile}>Selected Profile</button>
+          <button type="button" onClick={onClose}>{closeLabel}</button>
+        </div>
+      </footer>
     </section>
   );
 }
 
-function ConnectionNodeButton({
-  node,
-  position,
-  total,
-  onNodeTap,
-}: {
-  node: ConnectionNode;
-  position: number;
-  total: number;
-  onNodeTap: (node: ConnectionNode) => void;
-}) {
-  const role = position === 0 ? 'Start' : position === total - 1 ? 'End' : nodeKindLabel(node.kind);
+function buildConceptThreads(active: Inductee, inductees: Inductee[], lenses: StoryLensConfig[]): ConceptThread[] {
+  return lenses
+    .filter((lens) => lens.enabled !== false)
+    .map((lens) => {
+      const matches = rankStoryLensMatches(inductees, lens);
+      const activeMatch = matches.find((match) => match.inductee.id === active.id);
+      if (!activeMatch) return null;
+      const people = matches.filter((match) => match.inductee.id !== active.id);
+      if (people.length === 0) return null;
 
-  return (
-    <button className={`connection-node connection-node--${node.kind}`} type="button" onClick={() => onNodeTap(node)}>
-      <span className="connection-node__marker">{position + 1}</span>
-      {node.inductee ? (
-        <FallbackImage
-          alt={node.inductee.imageAltText}
-          className="connection-node__image"
-          fallbackClassName="connection-node__fallback"
-          fallbackLabel={initials(node.inductee.name)}
-          src={portraitImageUrl(node.inductee, 'thumbnail')}
-        />
-      ) : (
-        <span className="connection-node__entity">{entityInitials(node.label)}</span>
-      )}
-      <span className="connection-node__label">
-        <strong>{node.label}</strong>
-        <small>{role}</small>
-      </span>
-    </button>
-  );
+      return {
+        lens,
+        activeMatch,
+        matches,
+        people,
+        score: activeMatch.score + Math.min(people.length, 24),
+      };
+    })
+    .filter((thread): thread is ConceptThread => Boolean(thread))
+    .sort((a, b) => b.score - a.score || a.lens.label.localeCompare(b.lens.label));
 }
 
-function TheaterPortrait({
-  inductee,
-  label,
-  onOpenPerson,
-}: {
-  inductee: Inductee;
-  label: string;
-  onOpenPerson: (inductee: Inductee) => void;
-}) {
-  return (
-    <button className="connection-theater__portrait" type="button" onClick={() => onOpenPerson(inductee)}>
-      <FallbackImage
-        alt={inductee.imageAltText}
-        className="connection-theater__image"
-        fallbackClassName="connection-theater__fallback"
-        fallbackLabel={initials(inductee.name)}
-        src={portraitImageUrl(inductee, 'wall')}
-      />
-      <span>{label}</span>
-      <strong>{inductee.name}</strong>
-      <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</small>
-    </button>
-  );
+function selectConceptThreadChoices(threads: ConceptThread[], activeThreadId: string) {
+  const selected = activeThreadId ? threads.find((thread) => thread.lens.id === activeThreadId) : undefined;
+  if (!selected) return threads.slice(0, maxConceptThreadChoices);
+  return [
+    selected,
+    ...threads.filter((thread) => thread.lens.id !== selected.lens.id).slice(0, maxConceptThreadChoices - 1),
+  ];
 }
 
-function ConnectionEdgeLabel({ edge }: { edge: ConnectionEdge }) {
-  return (
-    <div className={`connection-edge connection-edge--${edge.provenance}`}>
-      <span>{edge.label}</span>
-      <small>
-        {relationshipTypeLabel(edge.type)}
-        <em>{provenanceLabel(edge.provenance)}</em>
-      </small>
-      {edge.referenceNote && <strong>{edge.referenceNote}</strong>}
-    </div>
-  );
+function buildConceptNetwork(active: Inductee, thread: ConceptThread, directThreads: NetworkThread[]): NetworkThread[] {
+  const directById = new Map(directThreads.map((item) => [item.person.id, item]));
+
+  return thread.matches
+    .filter((match) => match.inductee.id !== active.id)
+    .map((match) => {
+      const directThread = directById.get(match.inductee.id);
+      const storyReason: NetworkReason = {
+        type: 'shared_theme',
+        label: `${thread.lens.label} / ${conceptSupportLabel(match)}`,
+        detail: thread.lens.description,
+        provenance: directThread?.reasons[0]?.provenance ?? 'curated',
+        score: 92 + Math.min(match.score, 140) + (directThread ? 44 : 0),
+      };
+
+      return {
+        person: match.inductee,
+        reasons: [storyReason, ...(directThread?.reasons ?? []).slice(0, 2)],
+        score: storyReason.score + featuredScore(match.inductee),
+      };
+    })
+    .sort((a, b) => {
+      const directA = directById.has(a.person.id) ? 1 : 0;
+      const directB = directById.has(b.person.id) ? 1 : 0;
+      return directB - directA || b.score - a.score || a.person.name.localeCompare(b.person.name);
+    });
 }
 
-function PersonPill({ inductee, onOpenPerson }: { inductee: Inductee; onOpenPerson: (inductee: Inductee) => void }) {
-  return (
-    <button className="connection-person-pill" type="button" onClick={() => onOpenPerson(inductee)}>
-      <FallbackImage
-        alt={inductee.imageAltText}
-        className="connection-person-pill__image"
-        fallbackClassName="connection-person-pill__fallback"
-        fallbackLabel={initials(inductee.name)}
-        src={portraitImageUrl(inductee, 'thumbnail')}
-      />
-      <span>
-        <strong>{inductee.name}</strong>
-        <small>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Year unknown'}</small>
-      </span>
-    </button>
-  );
+function conceptSupportLabel(match: StoryLensMatch) {
+  const reason = match.reasons.find((item) => item !== 'Curator pinned') ?? match.reasons[0];
+  if (!reason) return 'CIHOF record';
+  return reason.replace(/^Story match:\s*/i, '').trim() || 'CIHOF record';
+}
+
+function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationships: RelationshipRecord[]) {
+  const peopleById = new Map(inductees.map((item) => [item.id, item]));
+  const peopleByName = new Map(inductees.map((item) => [normalizeName(item.name), item]));
+  const threads = new Map<string, NetworkThread>();
+
+  function addReason(person: Inductee | undefined, reason: NetworkReason) {
+    if (!person || person.id === active.id || reason.provenance === 'inferred') return;
+    const current = threads.get(person.id) ?? { person, reasons: [], score: 0 };
+    if (!current.reasons.some((item) => item.type === reason.type && item.label === reason.label)) {
+      current.reasons.push(reason);
+      current.score += reason.score;
+    }
+    threads.set(person.id, current);
+  }
+
+  relationships
+    .filter((relationship) => relationship.provenance !== 'inferred')
+    .forEach((relationship) => {
+      const sourcePerson = peopleById.get(relationship.sourcePersonId);
+      const targetPerson = peopleById.get(relationship.targetEntityId);
+      if (!sourcePerson) return;
+
+      if (sourcePerson.id === active.id && targetPerson) {
+        addReason(targetPerson, relationshipReason(relationship, 120));
+      } else if (targetPerson?.id === active.id) {
+        addReason(sourcePerson, relationshipReason(relationship, 120));
+      }
+    });
+
+  relationships
+    .filter((relationship) => relationship.provenance !== 'inferred' && !peopleById.has(relationship.targetEntityId))
+    .filter((relationship) => relationship.sourcePersonId === active.id)
+    .forEach((activeRelationship) => {
+      relationships
+        .filter((relationship) => relationship.provenance !== 'inferred')
+        .filter((relationship) => relationship.targetEntityId === activeRelationship.targetEntityId && relationship.sourcePersonId !== active.id)
+        .forEach((relationship) => {
+          addReason(peopleById.get(relationship.sourcePersonId), {
+            type: activeRelationship.type,
+            label: activeRelationship.displayLabel,
+            detail: activeRelationship.referenceNote || relationship.referenceNote || 'Shared documented relationship target.',
+            provenance: strongestProvenance(activeRelationship.provenance, relationship.provenance),
+            score: 86,
+          });
+        });
+    });
+
+  const activeInducer = normalizedInductedBy(active);
+  const activeInducerPerson = activeInducer ? peopleByName.get(activeInducer) : undefined;
+  addReason(activeInducerPerson, {
+    type: 'inducted_by',
+    label: `Inducted by ${activeInducerPerson?.name ?? active.inductedBy}`,
+    detail: 'Induction relationship in the CIHOF record.',
+    provenance: 'curated',
+    score: 112,
+  });
+
+  inductees.forEach((candidate) => {
+    if (candidate.id === active.id) return;
+
+    if (normalizedInductedBy(candidate) === normalizeName(active.name)) {
+      addReason(candidate, {
+        type: 'inducted_by',
+        label: `${active.name} inducted ${candidate.name}`,
+        detail: 'Induction relationship in the CIHOF record.',
+        provenance: 'curated',
+        score: 112,
+      });
+    }
+
+    if (active.classYear && candidate.classYear === active.classYear) {
+      addReason(candidate, {
+        type: 'same_class',
+        label: `Class of ${active.classYear}`,
+        detail: 'Inducted in the same CIHOF class.',
+        provenance: 'curated',
+        score: 56,
+      });
+    }
+
+    if (active.inductedBy && candidate.inductedBy && normalizedInductedBy(candidate) === activeInducer && candidate.inductedBy !== candidate.name) {
+      addReason(candidate, {
+        type: 'inducted_by',
+        label: `Shared inducer: ${active.inductedBy}`,
+        detail: 'Both records name the same inducer.',
+        provenance: 'curated',
+        score: 48,
+      });
+    }
+
+    sharedExplicitValues(active.themeTags, active.themeTagsSource, candidate.themeTags, candidate.themeTagsSource).forEach((theme) => {
+      addReason(candidate, {
+        type: 'shared_theme',
+        label: `Shared field: ${theme}`,
+        detail: 'Both records include a reviewed contribution field.',
+        provenance: 'curated',
+        score: 44,
+      });
+    });
+
+    sharedExplicitValues(active.countryTags, active.countryTagsSource, candidate.countryTags, candidate.countryTagsSource).forEach((place) => {
+      addReason(candidate, {
+        type: 'related_place',
+        label: `Shared place: ${place}`,
+        detail: 'Both records include a reviewed place association.',
+        provenance: 'curated',
+        score: 34,
+      });
+    });
+  });
+
+  return Array.from(threads.values())
+    .map((thread) => ({
+      ...thread,
+      reasons: thread.reasons.sort((a, b) => b.score - a.score || provenanceRank(a.provenance) - provenanceRank(b.provenance)).slice(0, 3),
+      score: thread.score + featuredScore(thread.person),
+    }))
+    .filter((thread) => thread.reasons.length > 0)
+    .sort((a, b) => b.score - a.score || a.person.name.localeCompare(b.person.name));
+}
+
+function relationshipReason(relationship: RelationshipRecord, score: number): NetworkReason {
+  return {
+    type: relationship.type,
+    label: relationship.displayLabel,
+    detail: relationship.referenceNote || 'Documented CIHOF relationship.',
+    provenance: relationship.provenance,
+    score,
+  };
+}
+
+function positionThreads(threads: NetworkThread[]): PositionedThread[] {
+  const radiusX = threads.length <= 6 ? 38 : 40;
+  const radiusY = threads.length <= 6 ? 27 : 29;
+
+  return threads.map((thread, index) => {
+    const angle = orbitAngles[index % orbitAngles.length] * Math.PI / 180;
+    const x = clamp(centerPoint.x + Math.cos(angle) * radiusX, 12, 88);
+    const y = clamp(centerPoint.y + Math.sin(angle) * radiusY, 16, 70);
+
+    return {
+      ...thread,
+      x,
+      y,
+      labelX: centerPoint.x + (x - centerPoint.x) * 0.55,
+      labelY: centerPoint.y + (y - centerPoint.y) * 0.55,
+    };
+  });
+}
+
+function mostConnectedPerson(inductees: Inductee[], relationships: RelationshipRecord[]) {
+  return inductees
+    .map((inductee) => ({ inductee, count: buildHumanNetwork(inductee, inductees, relationships).length }))
+    .sort((a, b) => b.count - a.count || featuredScore(b.inductee) - featuredScore(a.inductee) || a.inductee.name.localeCompare(b.inductee.name))[0]?.inductee ?? null;
+}
+
+function appendTrail(current: Inductee[], next: Inductee) {
+  if (current[current.length - 1]?.id === next.id) return current;
+  return [...current.filter((person) => person.id !== next.id), next].slice(-8);
+}
+
+function normalizedInductedBy(inductee: Inductee) {
+  return inductee.inductedBy ? normalizeName(inductee.inductedBy) : '';
+}
+
+function normalizeName(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function sharedExplicitValues(activeValues: string[], activeSource: string, candidateValues: string[], candidateSource: string) {
+  if (!isExplicitSource(activeSource) || !isExplicitSource(candidateSource)) return [];
+  const candidateSet = new Set(candidateValues);
+  return activeValues.filter((value) => candidateSet.has(value));
+}
+
+function isExplicitSource(source: string) {
+  return source === 'curated' || source === 'documented';
+}
+
+function strongestProvenance(a: RelationshipProvenance, b: RelationshipProvenance): RelationshipProvenance {
+  return provenanceRank(a) <= provenanceRank(b) ? a : b;
+}
+
+function provenanceRank(provenance: RelationshipProvenance) {
+  if (provenance === 'documented') return 0;
+  if (provenance === 'curated') return 1;
+  return 2;
+}
+
+function featuredScore(inductee: Inductee) {
+  return (inductee.featured ? 8 : 0) + (inductee.featuredCandidate ? 5 : 0) + Math.min(inductee.attractPriority, 8);
 }
 
 function relationshipTypeLabel(type: RelationshipType) {
   const labels: Record<RelationshipType, string> = {
-    inducted_by: 'Inducted by',
-    same_class: 'Same class',
-    shared_theme: 'Shared theme',
-    shared_organization: 'Shared organization',
-    shared_community: 'Shared community',
-    civic_collaboration: 'Civic collaboration',
+    inducted_by: 'Induction',
+    same_class: 'Class',
+    shared_theme: 'Field',
+    shared_organization: 'Organization',
+    shared_community: 'Community',
+    civic_collaboration: 'Civic Work',
     mentor: 'Mentor',
     colleague: 'Colleague',
     family: 'Family',
-    related_place: 'Related place',
-    related_event: 'Related event',
+    related_place: 'Place',
+    related_event: 'Event',
   };
   return labels[type];
 }
 
-function provenanceLabel(provenance: RelationshipProvenance) {
-  const labels: Record<RelationshipProvenance, string> = {
-    documented: 'Documented',
-    curated: 'Curated',
-    inferred: 'Inferred',
-  };
-  return labels[provenance];
+function nodeReasonLabel(reason: NetworkReason, activeName: string) {
+  if (reason.type === 'same_class') return reason.label || 'Same CIHOF class';
+  if (reason.label.startsWith(`${activeName} inducted `)) return 'Inducted them';
+  if (reason.label.startsWith('Shared inducer:')) return reason.label;
+  return reason.label;
 }
 
-function nodeKindLabel(kind: ConnectionNode['kind']) {
-  const labels: Record<ConnectionNode['kind'], string> = {
-    person: 'Person',
-    organization: 'Organization',
-    place: 'Place',
-    community: 'Community',
-    event: 'Event',
-    theme: 'Theme',
-    media: 'Media',
-  };
-  return labels[kind];
+function relationshipSupportLabel(reason: NetworkReason, activeName: string) {
+  const type = relationshipTypeLabel(reason.type);
+  const support = nodeReasonLabel(reason, activeName);
+  return support.toLowerCase().startsWith(type.toLowerCase()) ? support : `${type} / ${support}`;
 }
 
-function connectionProvenanceSummary(path: ConnectionPath) {
-  const counts = path.edges.reduce<Record<RelationshipProvenance, number>>((summary, edge) => {
-    summary[edge.provenance] += 1;
-    return summary;
-  }, { documented: 0, curated: 0, inferred: 0 });
-  const parts = [
-    counts.documented > 0 ? `${counts.documented} documented` : '',
-    counts.curated > 0 ? `${counts.curated} curated` : '',
-    counts.inferred > 0 ? `${counts.inferred} possible` : '',
-  ].filter(Boolean);
-
-  return parts.join(' / ') || 'No edge labels';
+function positionStyle(x: number, y: number) {
+  return {
+    '--network-x': `${x}%`,
+    '--network-y': `${y}%`,
+  } as CSSProperties;
 }
 
-function connectionNodeSummary(path: ConnectionPath) {
-  const kinds = path.nodes
-    .slice(1, -1)
-    .map((node) => nodeKindLabel(node.kind).toLowerCase())
-    .filter((kind, index, items) => items.indexOf(kind) === index);
-
-  if (kinds.length === 0) return 'one direct relationship';
-  if (kinds.length === 1) return `shared ${kinds[0]} records`;
-  return `${kinds.slice(0, -1).join(', ')} and ${kinds[kinds.length - 1]} records`;
-}
-
-function entityInitials(label: string) {
-  return label
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase() ?? '')
-    .join('');
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }

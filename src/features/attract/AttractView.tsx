@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
-import { portraitImageUrl } from '../../data/portraitImages';
 import { journeys } from '../../data/journeys';
 import type { Inductee, PlaceRecord, RelationshipRecord } from '../../data/types';
 import { usePlaces } from '../../data/usePlaces';
@@ -137,7 +136,7 @@ function FeaturedPersonPanel({ inductee, onSelect }: { inductee: Inductee; onSel
           fallbackClassName="attract-featured-person__fallback"
           fallbackLabel={initials(inductee.name)}
           loading="eager"
-          src={portraitImageUrl(inductee, 'profile')}
+          src={inductee.primaryImageUrl}
         />
       </button>
       <div className="attract-featured-person__story">
@@ -281,7 +280,7 @@ function AttractPortraitButton({
           fallbackClassName="attract-portrait__fallback"
           fallbackLabel={initials(inductee.name)}
           loading={compact ? 'lazy' : 'eager'}
-          src={portraitImageUrl(inductee, compact ? 'thumbnail' : 'wall')}
+          src={inductee.primaryImageUrl}
         />
       </span>
       <span className="attract-portrait__plaque">

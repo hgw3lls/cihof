@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { runtimeLogger } from '../app/runtimeLogger';
+import { readCachedJson, writeCachedJson } from './localDataCache';
 import type { PlaceRecord, PlaceType, RelationshipProvenance } from './types';
 
 type PlacesState = {
@@ -8,6 +10,7 @@ type PlacesState = {
 };
 
 const placesUrl = `${import.meta.env.BASE_URL}data/places.json`;
+const cacheKey = 'places';
 const placeTypes = new Set<PlaceType>([
   'neighborhood',
   'cultural_center',
@@ -27,22 +30,32 @@ export function usePlaces(): PlacesState {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
-    fetch(placesUrl)
+    fetch(placesUrl, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(`Places request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
       })
       .then((payload) => {
+        writeCachedJson(cacheKey, payload);
         const places = parsePlaces(payload);
         if (!cancelled) setState({ places, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (!cancelled) setState({ places: [], loading: false, error: error.message });
+        if (controller.signal.aborted || cancelled) return;
+        const cached = readCachedJson(cacheKey);
+        if (cached) {
+          runtimeLogger.warn('Using cached places after load failure.', { error: error.message });
+          setState({ places: parsePlaces(cached), loading: false, error: '' });
+          return;
+        }
+        setState({ places: [], loading: false, error: error.message });
       });
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 

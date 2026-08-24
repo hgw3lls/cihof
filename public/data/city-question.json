@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "enabled": true,
+  "prompt": "WHAT HOLDS A CITY TOGETHER?",
+  "resultsTitle": "WHAT CLEVELAND SAID",
+  "instruction": "Choose one word.",
+  "privacyNote": "Anonymous aggregate only.",
+  "storageKey": "cihof.city-question.responses.v1",
+  "autoCloseMs": 12000,
+  "attract": {
+    "enabled": true,
+    "initialDelayMs": 7000,
+    "loopPauseMs": 52000,
+    "holdMs": 9000
+  },
+  "options": [
+    { "id": "care", "label": "CARE" },
+    { "id": "language", "label": "LANGUAGE" },
+    { "id": "memory", "label": "MEMORY" },
+    { "id": "work", "label": "WORK" },
+    { "id": "art", "label": "ART" },
+    { "id": "food", "label": "FOOD" },
+    { "id": "service", "label": "SERVICE" },
+    { "id": "organizing", "label": "ORGANIZING" }
+  ]
+}

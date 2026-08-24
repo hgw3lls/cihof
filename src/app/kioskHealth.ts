@@ -20,6 +20,8 @@ export type KioskHealthSnapshot = {
   relationshipsCount: number;
   dataStatus: KioskDataStatus;
   dataError: string;
+  networkOnline: boolean;
+  lastNetworkChangeAt: string;
   lastInteractionAt: string;
   lastInteractionSource: string;
   lastResetAt: string;
@@ -56,7 +58,7 @@ export function initializeKioskHealth() {
     bootedAt: now,
     lastHeartbeatAt: now,
     heartbeatCount: 0,
-    currentView: 'all-people',
+    currentView: 'living-hall',
     kioskMode: false,
     attractActive: false,
     selectedPersonId: '',
@@ -64,6 +66,8 @@ export function initializeKioskHealth() {
     relationshipsCount: 0,
     dataStatus: 'idle',
     dataError: '',
+    networkOnline: typeof navigator === 'undefined' ? true : navigator.onLine,
+    lastNetworkChangeAt: '',
     lastInteractionAt: now,
     lastInteractionSource: 'boot',
     lastResetAt: '',

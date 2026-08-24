@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
-import { portraitImageUrl } from '../../data/portraitImages';
 import type { Inductee, PlaceRecord, PlaceType } from '../../data/types';
 import { usePlaces, usePlaceTypes } from '../../data/usePlaces';
 
 type PlacesViewProps = {
   inductees: Inductee[];
+  kicker?: string;
+  title?: string;
   onSelect: (inductee: Inductee) => void;
 };
 
@@ -35,7 +36,7 @@ const singularTypeLabels: Record<PlaceType, string> = {
   historic_address: 'Historic Address',
 };
 
-export function PlacesView({ inductees, onSelect }: PlacesViewProps) {
+export function PlacesView({ inductees, kicker = 'Places', title = 'Cleveland Map', onSelect }: PlacesViewProps) {
   const { places, loading, error } = usePlaces();
   const placeTypes = usePlaceTypes(places);
   const [activeType, setActiveType] = useState<PlaceType | typeof allPlaceTypes>(allPlaceTypes);
@@ -94,8 +95,8 @@ export function PlacesView({ inductees, onSelect }: PlacesViewProps) {
     <section className="places-view" aria-label="Cleveland places">
       <header className="places-view__header">
         <div>
-          <p className="places-view__kicker">Places</p>
-          <h2>Cleveland Map</h2>
+          <p className="places-view__kicker">{kicker}</p>
+          <h2>{title}</h2>
         </div>
         <div className="places-view__summary" aria-label="Places summary">
           <span>{places.length} curated places</span>
@@ -171,7 +172,7 @@ export function PlacesView({ inductees, onSelect }: PlacesViewProps) {
                         className="place-person__image"
                         fallbackClassName="place-person__fallback"
                         fallbackLabel={initials(person.name)}
-                        src={portraitImageUrl(person, 'thumbnail')}
+                        src={person.primaryImageUrl}
                       />
                     </span>
                     <span className="place-person__name">{person.name}</span>

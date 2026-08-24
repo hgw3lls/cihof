@@ -45,10 +45,6 @@ export function loadInductees(options = {}) {
       profileUrl: record.profile_url.trim(),
       inductedBy: record.inducted_by.trim(),
       primaryImageUrl,
-      portraitWallImageUrl: primaryImageUrl,
-      portraitProfileImageUrl: primaryImageUrl,
-      portraitThumbnailImageUrl: primaryImageUrl,
-      portraitSourceImageUrl: primaryImageUrl,
       imageUrls,
       videoUrls,
       youtubeVideoIds,
@@ -638,30 +634,21 @@ function applyMediaManifest(inductee, mediaRecord) {
 
   const primaryImage = mediaRecord.images?.primary;
   const galleryImages = Array.isArray(mediaRecord.images?.gallery) ? mediaRecord.images.gallery : [];
-  const portraits = mediaRecord.images?.portraits && typeof mediaRecord.images.portraits === 'object' ? mediaRecord.images.portraits : {};
   const localPrimary = usableRuntimeAsset(primaryImage);
-  const portraitWall = usableRuntimeAsset(portraits.wall);
-  const portraitProfile = usableRuntimeAsset(portraits.profile);
-  const portraitThumbnail = usableRuntimeAsset(portraits.thumbnail);
   const localGallery = galleryImages.map(usableRuntimeAsset).filter(Boolean);
   const localVideos = Array.isArray(mediaRecord.videos) ? mediaRecord.videos.map(usableRuntimeAsset).filter(Boolean) : [];
-  const displayPrimary = portraitWall || localPrimary || inductee.primaryImageUrl;
-  const sourcePrimary = localPrimary || inductee.primaryImageUrl;
-  const imageUrls = sourcePrimary
-    ? Array.from(new Set([sourcePrimary, ...localGallery].filter(Boolean)))
+  const imageUrls = localPrimary
+    ? Array.from(new Set([localPrimary, ...localGallery]))
     : Array.from(new Set([...inductee.imageUrls]));
+  const primaryImageUrl = localPrimary || inductee.primaryImageUrl;
 
   return {
     ...inductee,
-    primaryImageUrl: displayPrimary,
-    portraitWallImageUrl: portraitWall || displayPrimary,
-    portraitProfileImageUrl: portraitProfile || portraitWall || sourcePrimary,
-    portraitThumbnailImageUrl: portraitThumbnail || portraitWall || sourcePrimary,
-    portraitSourceImageUrl: sourcePrimary,
+    primaryImageUrl,
     imageUrls,
-    localImagePaths: sourcePrimary ? [sourcePrimary, ...localGallery].filter(Boolean).map((path) => path.replace(/^\/+/, '')) : inductee.localImagePaths,
+    localImagePaths: localPrimary ? [localPrimary, ...localGallery].map((path) => path.replace(/^\/+/, '')) : inductee.localImagePaths,
     localVideoPaths: localVideos.map((path) => path.replace(/^\/+/, '')),
-    hasGallery: localGallery.length > 0 || inductee.imageUrls.length > 1 || inductee.localImagePaths.length > 1,
+    hasGallery: imageUrls.length > 1 || localGallery.length > 0 || inductee.localImagePaths.length > 1,
     hasVideo: inductee.hasVideo || localVideos.length > 0,
   };
 }
