@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { RouteLine } from '../../components/RouteLine';
 import { installationConfig } from '../../config/installationConfig';
 import { useCityQuestion } from '../../data/useCityQuestion';
 import type { Inductee } from '../../data/types';
@@ -73,6 +74,8 @@ export function LivingHallView({
   const people = useMemo(() => sortInductees(inductees), [inductees]);
   const modes = useMemo(() => buildHallModes(people), [people]);
   const latestClass = useMemo(() => buildLatestClass(people), [people]);
+  const hallYears = useMemo(() => buildHallYearRange(people), [people]);
+  const hallVocabulary = useMemo(() => buildHallVocabulary(people), [people]);
   const activeMode = modes[step % Math.max(modes.length, 1)] ?? emptyMode;
   const cityQuestionTotal = useMemo(() => {
     return cityQuestion.config.options.reduce((total, option) => total + (cityQuestion.counts[option.id] ?? 0), 0);
@@ -217,15 +220,36 @@ export function LivingHallView({
       data-latest-class-year={latestClass?.year ?? ''}
       data-city-question-enabled={cityQuestion.enabled ? 'true' : 'false'}
       data-city-question-total={cityQuestionTotal}
+      data-hall-mode={activeMode.id}
       onPointerDown={() => onEngage?.()}
     >
-      <div className="living-hall__title" aria-live="polite">
-        <p>TOUCH SOMEONE</p>
-        <h2>{loading ? 'LIVING HALL' : activeMode.title}</h2>
-        {!loading && !error && <span>{activeMode.subtitle}</span>}
-        {loading && <span>Gathering portraits</span>}
-        {error && <span>Portrait data could not be loaded</span>}
+      <div className="living-hall__recordLayer" aria-hidden="true">
+        <RouteLine className="living-hall__routeLine living-hall__routeLine--north" path="kink" tone="route" end="dot" draw={attractActive} />
+        <RouteLine className="living-hall__routeLine living-hall__routeLine--east" path="kink" tone="route" end="dot" draw={attractActive} />
+        <RouteLine className="living-hall__routeLine living-hall__routeLine--south" path="horizontal" tone="route" end="dot" draw={attractActive} />
+        <RouteLine className="living-hall__routeLine living-hall__routeLine--west" path="horizontal" tone="quiet" end="none" />
+        <span className="living-hall__recordNote living-hall__recordNote--one">CARD NO. CIHOF</span>
+        <span className="living-hall__recordNote living-hall__recordNote--two">ROUTE / RECORD / PORTRAIT</span>
+        <span className="living-hall__recordNote living-hall__recordNote--three">CLEVELAND CONNECTIONS</span>
       </div>
+
+      <div className="living-hall__title" aria-live="polite">
+        <span className="living-hall__era">{hallYears}</span>
+        <h2>Cleveland International Hall of Fame</h2>
+        <span className="living-hall__mode">
+          {loading && 'Gathering portraits'}
+          {!loading && error && 'Portrait data could not be loaded'}
+          {!loading && !error && `${activeMode.title} / ${activeMode.subtitle}`}
+        </span>
+      </div>
+
+      <aside className="living-hall__vocabulary" aria-label="Collection themes represented in this grouping">
+        {hallVocabulary.map((label) => (
+          <span key={label}>{label}</span>
+        ))}
+      </aside>
+
+      <p className="living-hall__touchCue">TOUCH SOMEONE</p>
 
       <div className="living-hall__field" aria-label="Interactive inductee portraits">
         {loading && <LivingHallPlaceholders />}
@@ -474,21 +498,35 @@ function buildHallModes(inductees: Inductee[]) {
 function buildAllTogetherMode(inductees: Inductee[]): HallMode {
   const positions = new Map<string, PortraitPosition>();
   const count = inductees.length;
+  const heroIndices = contactSheetHeroSlots.map((_, slotIndex) => {
+    if (contactSheetHeroSlots.length <= 1) return 0;
+    return Math.min(count - 1, Math.round((slotIndex / (contactSheetHeroSlots.length - 1)) * (count - 1)));
+  });
+  let contactIndex = 0;
 
   inductees.forEach((inductee, index) => {
-    const ring = Math.sqrt((index + 1) / count);
-    const angle = (index * 137.508 + hashNumber(inductee.id) * 0.013) * Math.PI / 180;
-    const horizontalRadius = 42 * ring;
-    const verticalRadius = 31 * ring;
-    const size = portraitSize(inductee, index, 84, 138);
+    const heroSlotIndex = heroIndices.indexOf(index);
+    const heroSlot = heroSlotIndex >= 0 ? contactSheetHeroSlots[heroSlotIndex] : null;
+
+    if (heroSlot) {
+      positions.set(inductee.id, {
+        x: heroSlot.x,
+        y: heroSlot.y,
+        size: heroSlot.size,
+        z: 1000 + heroSlot.size,
+        delay: staggerDelay(index),
+        emphasis: true,
+      });
+      return;
+    }
+
+    const position = contactSheetPosition(contactIndex, Math.max(count - heroIndices.length, 1), inductee.id);
+    contactIndex += 1;
 
     positions.set(inductee.id, {
-      x: clamp(50 + Math.cos(angle) * horizontalRadius + wobble(inductee.id, 5, -3, 3), 7, 93),
-      y: clamp(49 + Math.sin(angle) * verticalRadius + wobble(inductee.name, 7, -3, 3), 13, 80),
-      size,
-      z: Math.round(size),
+      ...position,
       delay: staggerDelay(index),
-      emphasis: inductee.featured || inductee.featuredCandidate || index % 19 === 0,
+      emphasis: index % 31 === 0,
     });
   });
 
@@ -498,7 +536,7 @@ function buildAllTogetherMode(inductees: Inductee[]): HallMode {
     subtitle: `${inductees.length} real people. Touch a portrait to open a story.`,
     positions,
     labels: [
-      { id: 'one-cleveland', text: 'ALL INDUCTEES', detail: String(inductees.length), x: 84, y: 18 },
+      { id: 'one-cleveland', text: 'ALL INDUCTEES', detail: String(inductees.length), x: 12, y: 82 },
     ],
   };
 }
@@ -536,7 +574,7 @@ function buildTimelineMode(inductees: Inductee[]): HallMode {
 
   return {
     id: 'induction-years',
-    title: `${minYear} -> ${maxYear}`,
+    title: `${minYear} - ${maxYear}`,
     subtitle: 'Regrouped by induction class',
     positions,
     labels,
@@ -659,20 +697,90 @@ function groupByYear(inductees: Inductee[]) {
   return groups;
 }
 
+function buildHallYearRange(inductees: Inductee[]) {
+  const years = [...groupByYear(inductees).keys()].sort((a, b) => a - b);
+  const firstYear = years[0];
+  const lastYear = years[years.length - 1];
+  if (!firstYear || !lastYear) return 'CIHOF';
+  return firstYear === lastYear ? String(firstYear) : `${firstYear} - ${lastYear}`;
+}
+
+function buildHallVocabulary(inductees: Inductee[]) {
+  const counts = new Map<string, number>();
+  for (const inductee of inductees) {
+    const supportedTags = [
+      ...explicitTags(inductee.themeTags, inductee.themeTagsSource),
+      ...inductee.communityTags,
+    ];
+
+    for (const tag of supportedTags) {
+      const label = tag.trim();
+      if (!label) continue;
+      counts.set(label, (counts.get(label) ?? 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 6)
+    .map(([label]) => label.toUpperCase());
+}
+
 function explicitTags(tags: string[], source: string) {
   return explicitSources.has(source.toLowerCase()) ? tags : [];
 }
 
 function groupAnchors(count: number) {
   const preset = [
-    { x: 22, y: 28, labelY: 14, rx: 13, ry: 12 },
-    { x: 52, y: 26, labelY: 12, rx: 14, ry: 12 },
-    { x: 79, y: 34, labelY: 18, rx: 12, ry: 12 },
-    { x: 28, y: 65, labelY: 82, rx: 13, ry: 11 },
-    { x: 58, y: 65, labelY: 84, rx: 14, ry: 11 },
-    { x: 84, y: 64, labelY: 82, rx: 11, ry: 10 },
+    { x: 17, y: 26, labelY: 12, rx: 11, ry: 11 },
+    { x: 83, y: 24, labelY: 12, rx: 10, ry: 10 },
+    { x: 84, y: 55, labelY: 39, rx: 11, ry: 12 },
+    { x: 25, y: 67, labelY: 84, rx: 12, ry: 10 },
+    { x: 52, y: 70, labelY: 86, rx: 13, ry: 9 },
+    { x: 74, y: 73, labelY: 86, rx: 11, ry: 9 },
   ];
   return preset.slice(0, count);
+}
+
+const contactSheetHeroSlots = [
+  { x: 34, y: 74, size: 204 },
+  { x: 64, y: 68, size: 154 },
+  { x: 79, y: 24, size: 154 },
+  { x: 14, y: 20, size: 112 },
+  { x: 90, y: 31, size: 122 },
+  { x: 48, y: 12, size: 96 },
+  { x: 12, y: 70, size: 76 },
+  { x: 96, y: 23, size: 70 },
+];
+
+const contactSheetZones = [
+  { x0: 5, x1: 24, y0: 13, y1: 70, columns: 4, rows: 8 },
+  { x0: 72, x1: 96, y0: 9, y1: 72, columns: 5, rows: 8 },
+  { x0: 25, x1: 68, y0: 66, y1: 79, columns: 8, rows: 3 },
+  { x0: 26, x1: 67, y0: 6, y1: 20, columns: 7, rows: 2 },
+];
+
+function contactSheetPosition(index: number, total: number, seed: string): PortraitPosition {
+  const zoneIndex = index % contactSheetZones.length;
+  const zone = contactSheetZones[zoneIndex];
+  const zoneOrdinal = Math.floor(index / contactSheetZones.length);
+  const capacity = zone.columns * zone.rows;
+  const slot = zoneOrdinal % capacity;
+  const column = slot % zone.columns;
+  const row = Math.floor(slot / zone.columns);
+  const xRatio = zone.columns <= 1 ? 0.5 : column / (zone.columns - 1);
+  const yRatio = zone.rows <= 1 ? 0.5 : row / (zone.rows - 1);
+  const x = zone.x0 + (zone.x1 - zone.x0) * xRatio + wobble(seed, 17, -1.2, 1.2);
+  const y = zone.y0 + (zone.y1 - zone.y0) * yRatio + wobble(seed, 19, -1.1, 1.1);
+  const size = clamp(56 + (hashNumber(`${seed}-${index}-${total}`) % 24), 52, 82);
+
+  return {
+    x: clamp(x, 4, 96),
+    y: clamp(y, 6, 80),
+    size,
+    z: 20 + Math.round(size),
+    delay: staggerDelay(index),
+  };
 }
 
 function fallbackPosition(index: number, total: number): PortraitPosition {

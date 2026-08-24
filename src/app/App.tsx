@@ -720,6 +720,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
               </span>
               <span className="experience-dock__label">
                 <span>{item.label}</span>
+                <small>{item.sublabel}</small>
               </span>
             </button>
             );
