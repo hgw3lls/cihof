@@ -7,7 +7,7 @@ import type {
 } from './types';
 
 export type ConnectionNodeKind = RelationshipEntityType;
-export type ConnectionEdgeSource = 'relationship' | 'metadata' | 'relatedIds';
+export type ConnectionEdgeSource = 'relationship' | 'metadata' | 'relatedIds' | 'sourceCuration';
 
 export type ConnectionNode = {
   id: string;
