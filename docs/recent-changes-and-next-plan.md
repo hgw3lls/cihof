@@ -155,14 +155,20 @@ The staff/curation portal has been separated from the public visitor app. The ma
 - Public lenses: PORTRAITS, TRACES, LEGACIES.
 - Staff/curation portal: separate app.
 - Runtime people count: 111 inductees.
-- Primary image coverage: 111 profiles have primary image paths.
-- Runtime video flag: 64 profiles have video according to generated data.
+- Primary image coverage: 111 profiles have primary image paths and 0 missing primary images.
+- Duplicate ID count: 0.
+- Generic image candidate count: 0.
+- Runtime media data includes 94 video items.
+- Kiosk-ready primary images: 0.
+- Kiosk-ready videos: 0.
 - Generated entity count: 443 entities.
 - Generated entity relationship count: 1,869 relationships.
-- Explicit curated relationship records currently remain a curation area to expand.
+- Explicit curated relationship records currently remain a curation area to expand from source-derived candidates.
 - Curated story section records currently remain limited and should be expanded through portal review.
+- Curated metadata records exist for all 111 inductees, but public-approved context/HONORED FOR/Life + Work fields remain empty.
 - Runtime bundle exists and is used as the preferred public data source.
 - Hidden admin settings are browser-local kiosk settings, not canonical curation data.
+- The architecture is ahead of the approved content. The next phase should prioritize curation and media readiness over new visitor features.
 
 ## What We Should Do Next
 

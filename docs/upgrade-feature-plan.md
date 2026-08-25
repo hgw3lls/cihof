@@ -1,10 +1,24 @@
 # CIHOF Upgrade Feature Plan
 
+## Current Status Note
+
+This is a historical feature plan from before the persistent Hall architecture. The current public visitor app is not organized as Explore, Timeline, Regions, Journeys, and a detail drawer. It is one persistent Hall with `PORTRAITS`, `TRACES`, and `LEGACIES` as arrangement modes.
+
+Use `docs/current-architecture.md` and `docs/recent-changes-and-next-plan.md` for current planning. Ideas below may still be useful, but they should be translated into the persistent Hall model before implementation.
+
+Current mapping:
+
+- Smart Explore ideas belong in `PORTRAITS`.
+- Relationship, journey, region, place, and world ideas belong in `TRACES`.
+- Timeline ideas belong in `LEGACIES`.
+- Detail drawer ideas belong in anchored focused-person actions.
+- Admin/import ideas belong either in hidden visitor admin for operations or the separate staff portal for curation.
+
 ## Purpose
 
 Upgrade the current CIHOF Explorer from a solid rebuild into a richer museum-grade kiosk and web experience. The next phase should use the existing 111 inductee records more intelligently, make discovery feel more guided and tactile, and harden the app for unattended large-screen use.
 
-This plan builds on the current app, which already includes Explore, Timeline, Regions, Journeys, a detail drawer, URL state, kiosk mode, and attract mode.
+At the time this plan was written, the app included Explore, Timeline, Regions, Journeys, a detail drawer, URL state, kiosk mode, and attract mode. Those public visitor surfaces have since been replaced by the persistent Hall model.
 
 ## Current Baseline
 

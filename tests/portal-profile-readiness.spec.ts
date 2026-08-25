@@ -14,9 +14,14 @@ test.describe('portal profile readiness checklist', () => {
     await expect(checklist).toContainText('Story summary');
     await expect(checklist).toContainText('Portrait media');
 
-    await page.getByLabel('Documented context line').fill('Curator-staged context line for the focused Hall.');
-    await page.getByLabel('HONORED FOR summary').fill('Recognized for documented civic and cultural leadership in the Cleveland community.');
+    const focusedCopyStarters = page.getByRole('region', { name: 'Focused Hall copy starters' });
+    await expect(focusedCopyStarters).toBeVisible();
+    await expect(focusedCopyStarters).toContainText('Focused Hall copy starters');
+    await focusedCopyStarters.getByRole('button', { name: 'Stage Missing Focused Copy' }).click();
 
+    await expect(page.getByLabel('Documented context line')).not.toHaveValue('');
+    await expect(page.getByLabel('HONORED FOR summary')).not.toHaveValue('');
+    await expect(page.getByLabel('Life + Work overview')).not.toHaveValue('');
     await expect(checklist.locator('.portal-profile-readiness__item--drafted')).toContainText('Focused Hall copy');
   });
 });

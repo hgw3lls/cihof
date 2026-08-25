@@ -1,5 +1,24 @@
 # CIHOF Rebuild Plan
 
+## Current Status Note
+
+This is a historical rebuild plan from the pre-persistent-Hall phase. The current public visitor architecture is documented in `docs/current-architecture.md`.
+
+The shipped public model is no longer Explore Wall, Timeline, Region Map, Journeys, and Detail as separate visitor views. The current model is one persistent Hall surface with three arrangement lenses:
+
+- `PORTRAITS`
+- `TRACES`
+- `LEGACIES`
+
+Legacy concepts from this plan have been mapped into the current architecture:
+
+- Explore/search/home behavior maps into `PORTRAITS`.
+- Connections, journeys, region, routes, and world behavior map into `TRACES`.
+- Timeline behavior maps into `LEGACIES`.
+- Inductee detail is now a focused condition of a persistent portrait frame.
+
+Keep this document as historical product context only. Do not use it as the implementation source of truth for new visitor work.
+
 ## Goal
 
 Create a new interactive Cleveland International Hall of Fame experience from scratch using the existing inductee data as the foundation. The product should work well as a kiosk, a large touchscreen display, and a standard web app.

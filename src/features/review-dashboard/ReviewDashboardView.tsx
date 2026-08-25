@@ -6,6 +6,10 @@ import {
   type ConnectionNode,
 } from '../../data/connectionGraph';
 import { countryOrRegionLabel } from '../../data/inducteeLabels';
+import {
+  honoredForSummary as buildDefaultHonoredForSummary,
+  inducteeContextLabel,
+} from '../../data/inducteeNarrative';
 import { rankStoryLensMatches, type StoryLensMatch } from '../../data/storyLenses';
 import type {
   Inductee,
@@ -415,6 +419,7 @@ type QueueMode =
   | 'all'
   | 'edited'
   | 'high'
+  | 'focused-copy'
   | 'country'
   | 'summary'
   | 'themes'
@@ -442,6 +447,14 @@ type SourceCandidateRow = {
   countryCandidates?: string[];
   imageAltText?: string;
   youtubeVideoId?: string;
+};
+type FocusedCopySuggestion = {
+  documentedContextLine: string;
+  honoredForSummary: string;
+  lifeWorkSummary: string;
+  sourceNote: string;
+  sourceCount: number;
+  sourceLabels: string[];
 };
 type BulkSourceStageMode = 'primary' | 'review-note';
 type RelationshipQueueMode = 'needs-review' | 'source-leads' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
@@ -1204,6 +1217,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         <MetricCard label="Profiles" value={summary.totalProfiles} detail={`${summary.approvedProfiles} approved / ${summary.draftProfiles} draft`} />
         <MetricCard label="Open Drafts" value={draftCount} detail={`${summary.draftApprovedProfiles} profile approvals staged`} />
         <MetricCard label="Countries" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
+        <MetricCard label="Hall Copy" value={summary.focusedCopyReady} detail={`${summary.focusedCopyNeeded} profile panels need focused copy / ${summary.draftFocusedCopy} staged`} />
         <MetricCard label="Summaries" value={summary.approvedSummaries} detail={`${summary.summaryDrafts} draft / ${summary.draftApprovedSummaries} staged`} />
         <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesWallReady} wall-ready / ${summary.primaryImagesReady} cleared`} />
         <MetricCard label="Videos" value={summary.videosReady} detail={`${summary.videoItems} items / ${summary.missingCaptions} captions needed`} />
@@ -2255,6 +2269,110 @@ function sourceContextLine(row: SourceCandidateRow) {
     .slice(0, 120);
 }
 
+function buildFocusedCopySuggestion(inductee: Inductee, sourceRows: SourceCandidateRow[]): FocusedCopySuggestion | null {
+  const documentedContextLine = buildFocusedContextLineStarter(inductee, sourceRows);
+  const honoredForSummary = limitPortalWords(cleanProfileCopyText(buildDefaultHonoredForSummary(inductee), inductee.name), 52);
+  const lifeWorkSummary = limitPortalWords(cleanProfileCopyText(inductee.lifeWorkSummary || inductee.bioText || inductee.storySummary, inductee.name), 110);
+  const sourceLabels = sourceRows
+    .filter((row) => row.mode === 'profiles' || row.mode === 'stories' || row.mode === 'relationships' || row.mode === 'places' || row.mode === 'organizations')
+    .sort(compareProfileSourceRows)
+    .slice(0, 5)
+    .map((row) => `${sourceQueueLabels[row.mode]}: ${row.label}`);
+
+  if (!documentedContextLine && !honoredForSummary && !lifeWorkSummary) return null;
+
+  const sourceUrls = Array.from(new Set(sourceRows.flatMap((row) => [row.sourceUrl, row.sourcePageUrl]).map(cleanPortalString).filter(Boolean))).slice(0, 4);
+
+  return {
+    documentedContextLine,
+    honoredForSummary,
+    lifeWorkSummary,
+    sourceCount: sourceRows.length,
+    sourceLabels,
+    sourceNote: sourceNote('Focused Hall copy starter', [
+      `${sourceRows.length} linked original-site lead${sourceRows.length === 1 ? '' : 's'}`,
+      sourceUrls.join('; '),
+      'Browser-local draft only; verify and rewrite before approval.',
+    ]),
+  };
+}
+
+function buildFocusedContextLineStarter(inductee: Inductee, sourceRows: SourceCandidateRow[]) {
+  const profileSourceLinked = sourceRows.some((row) => row.mode === 'profiles' && (row.sourceUrl || row.sourcePageUrl));
+  const context = inducteeContextLabel(inductee);
+  return limitPortalCharacters(
+    [
+      inductee.classYear ? `Class of ${inductee.classYear}` : '',
+      context,
+      profileSourceLinked ? 'original CIHOF profile source linked' : '',
+    ].filter(Boolean).join(' / '),
+    120,
+  );
+}
+
+function buildFocusedCopyPatch(suggestion: FocusedCopySuggestion | null, inductee: Inductee, draft: ReviewDraft | undefined, replaceExisting: boolean): DraftPatch {
+  if (!suggestion) return {};
+  const patch: DraftPatch = {};
+  stageFocusedCopyField(patch, 'documentedContextLine', suggestion.documentedContextLine, inductee, draft, replaceExisting);
+  stageFocusedCopyField(patch, 'honoredForSummary', suggestion.honoredForSummary, inductee, draft, replaceExisting);
+  stageFocusedCopyField(patch, 'lifeWorkSummary', suggestion.lifeWorkSummary, inductee, draft, replaceExisting);
+  if (patchHasEditableField(patch)) {
+    patch.curatorNotes = addListValue(draft?.curatorNotes ?? [], suggestion.sourceNote);
+  }
+  return patch;
+}
+
+function stageFocusedCopyField(
+  patch: DraftPatch,
+  field: 'documentedContextLine' | 'honoredForSummary' | 'lifeWorkSummary',
+  nextValue: string,
+  inductee: Inductee,
+  draft: ReviewDraft | undefined,
+  replaceExisting: boolean,
+) {
+  const cleanedValue = cleanPortalString(nextValue);
+  if (!cleanedValue) return;
+  const currentValue = cleanPortalString(draft?.[field] ?? inductee[field]);
+  if (currentValue === cleanedValue) return;
+  if (!replaceExisting && currentValue) return;
+  patch[field] = cleanedValue;
+}
+
+function patchHasEditableField(patch: DraftPatch) {
+  return Boolean(patch.documentedContextLine || patch.honoredForSummary || patch.lifeWorkSummary);
+}
+
+function cleanProfileCopyText(text: string, name: string) {
+  const withoutMediaTail = text.split(/Watch the video|Here is a video|See more photos|Congratulations|Back to /i)[0] || text;
+  return stripLeadingProfileName(withoutMediaTail.replace(/\s+/g, ' ').trim(), name);
+}
+
+function stripLeadingProfileName(text: string, name: string) {
+  const variants = [
+    name,
+    name.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(),
+  ].filter(Boolean);
+  let nextText = text;
+  for (let index = 0; index < 2; index += 1) {
+    const match = variants.find((variant) => nextText.toLowerCase().startsWith(variant.toLowerCase()));
+    if (!match) break;
+    nextText = nextText.slice(match.length).replace(/^[-:,\s]+/, '').trim();
+  }
+  return nextText;
+}
+
+function limitPortalCharacters(text: string, maxLength: number) {
+  const normalized = cleanPortalString(text);
+  if (normalized.length <= maxLength) return normalized;
+  return `${normalized.slice(0, Math.max(0, maxLength - 3)).replace(/\s+\S*$/, '')}...`;
+}
+
+function limitPortalWords(text: string, maxWords: number) {
+  const words = cleanPortalString(text).split(/\s+/).filter(Boolean);
+  if (words.length <= maxWords) return words.join(' ');
+  return `${words.slice(0, maxWords).join(' ').replace(/[,;:]+$/, '')}...`;
+}
+
 function matchesSourceCandidate(row: SourceCandidateRow, search: string) {
   return [
     row.label,
@@ -3021,6 +3139,65 @@ function ProfileSourceEvidencePanel({
   );
 }
 
+function FocusedCopyStarterPanel({
+  suggestion,
+  currentPatch,
+  replacePatch,
+  onPatch,
+}: {
+  suggestion: FocusedCopySuggestion | null;
+  currentPatch: DraftPatch;
+  replacePatch: DraftPatch;
+  onPatch: (patch: DraftPatch) => void;
+}) {
+  const canStageMissing = patchHasEditableField(currentPatch);
+  const canReplace = patchHasEditableField(replacePatch);
+
+  if (!suggestion) {
+    return (
+      <div className="portal-focused-copy-starter portal-focused-copy-starter--empty">
+        <strong>Focused Hall copy starters</strong>
+        <span>No source-backed starter could be built for this profile yet.</span>
+      </div>
+    );
+  }
+
+  return (
+    <section className="portal-focused-copy-starter" aria-label="Focused Hall copy starters">
+      <div className="portal-focused-copy-starter__header">
+        <div>
+          <strong>Focused Hall copy starters</strong>
+          <span>{suggestion.sourceCount} linked source lead{suggestion.sourceCount === 1 ? '' : 's'} used as review context</span>
+        </div>
+        <div className="portal-focused-copy-starter__actions">
+          <button disabled={!canStageMissing} type="button" onClick={() => onPatch(currentPatch)}>Stage Missing Focused Copy</button>
+          <button disabled={!canReplace} type="button" onClick={() => onPatch(replacePatch)}>Replace Focused Copy</button>
+        </div>
+      </div>
+      <p>These are local starter drafts from existing CIHOF profile data and harvested source leads. Review or rewrite before approving the profile.</p>
+      <div className="portal-focused-copy-starter__grid">
+        <div>
+          <span>Context</span>
+          <strong>{suggestion.documentedContextLine || 'No starter available'}</strong>
+        </div>
+        <div>
+          <span>HONORED FOR</span>
+          <strong>{suggestion.honoredForSummary || 'No starter available'}</strong>
+        </div>
+        <div>
+          <span>Life + Work</span>
+          <strong>{suggestion.lifeWorkSummary || 'No starter available'}</strong>
+        </div>
+      </div>
+      {suggestion.sourceLabels.length > 0 && (
+        <div className="portal-focused-copy-starter__sources">
+          {suggestion.sourceLabels.map((label) => <span key={label}>{label}</span>)}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function ProfileEditor({
   inductee,
   draft,
@@ -3065,6 +3242,15 @@ function ProfileEditor({
   const videoSourceUrls = draft?.videoSourceUrls ?? (mediaRecord?.videos ?? []).map((video) => video.sourceUrl ?? '').filter(Boolean);
   const youtubeVideoIds = draft?.youtubeVideoIds ?? (mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId ?? '').filter(Boolean);
   const hasVideoReview = inductee.hasVideo || videoSourceUrls.length > 0 || youtubeVideoIds.length > 0;
+  const focusedCopySuggestion = useMemo(() => buildFocusedCopySuggestion(inductee, sourceRows), [inductee, sourceRows]);
+  const focusedCopyPatch = useMemo(
+    () => buildFocusedCopyPatch(focusedCopySuggestion, inductee, draft, false),
+    [draft, focusedCopySuggestion, inductee],
+  );
+  const focusedCopyReplacePatch = useMemo(
+    () => buildFocusedCopyPatch(focusedCopySuggestion, inductee, draft, true),
+    [draft, focusedCopySuggestion, inductee],
+  );
 
   return (
     <div className="portal-editor">
@@ -3187,6 +3373,12 @@ function ProfileEditor({
 
         <fieldset className="portal-fieldset portal-fieldset--wide">
           <legend>Focused Hall Text</legend>
+          <FocusedCopyStarterPanel
+            currentPatch={focusedCopyPatch}
+            replacePatch={focusedCopyReplacePatch}
+            suggestion={focusedCopySuggestion}
+            onPatch={onPatch}
+          />
           <label className="field">
             <span>Documented context line</span>
             <input
@@ -4015,6 +4207,8 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
   const missingCaptions = media?.summary?.missingCaptions?.length ?? 0;
   const approvedCountries = curation?.countries?.approved ?? inductees.filter((item) => item.countryTagsSource === 'curated').length;
   const inferredCountries = curation?.countries?.inferred ?? inductees.filter((item) => item.countryTagsSource === 'inferred').length;
+  const focusedCopyReady = inductees.filter(hasFocusedHallCopy).length;
+  const draftFocusedCopy = draftValues.filter(hasFocusedHallCopyDraft).length;
 
   return {
     totalProfiles,
@@ -4030,6 +4224,8 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
     themeCandidates: curation?.themes?.candidateOnly?.length ?? inductees.filter((item) => item.themeTagsSource !== 'curated').length,
     approvedCountries,
     inferredCountries,
+    focusedCopyReady,
+    focusedCopyNeeded: Math.max(0, totalProfiles - focusedCopyReady),
     countryNeedsReview: inductees.filter((item) => item.countryTagsSource !== 'curated').length,
     localPrimaryImages,
     primaryImagesWallReady,
@@ -4039,6 +4235,7 @@ function buildDashboardSummary(inductees: Inductee[], curation: CurationReport |
     missingCaptions,
     draftApprovedProfiles: draftValues.filter((draft) => draft.approveProfile || draft.approvalStatus === 'approved').length,
     draftApprovedSummaries: draftValues.filter((draft) => draft.summaryApproved || Boolean(draft.approvedSummary)).length,
+    draftFocusedCopy,
     draftApprovedCountries: draftValues.filter((draft) => draft.countryTagsApproved || (draft.approvedCountryTags?.length ?? 0) > 0).length,
     draftApprovedImages: draftValues.filter((draft) => draft.imageRightsApproved || draft.imageRightsStatus === 'approved').length,
     draftApprovedVideos: draftValues.filter((draft) => draft.videoRightsApproved || draft.captionsApproved || draft.transcriptApproved).length,
@@ -4052,6 +4249,7 @@ function buildQueueOptions(inductees: Inductee[], curation: CurationReport | nul
   const options: Array<{ mode: QueueMode; label: string }> = [
     { mode: 'high', label: 'High priority' },
     { mode: 'edited', label: 'Local draft edits' },
+    { mode: 'focused-copy', label: 'Focused Hall copy' },
     { mode: 'country', label: 'Country review' },
     { mode: 'summary', label: 'Summary drafts' },
     { mode: 'themes', label: 'Theme candidates' },
@@ -4085,6 +4283,14 @@ function buildActionItems(summary: ReturnType<typeof buildDashboardSummary>, dra
       detail: `${summary.countryNeedsReview - summary.draftApprovedCountries} country labels still need review`,
       queue: 'country',
       priority: 1,
+    });
+  }
+  if (summary.focusedCopyNeeded > summary.draftFocusedCopy) {
+    items.push({
+      label: 'Write Hall Copy',
+      detail: `${summary.focusedCopyNeeded - summary.draftFocusedCopy} focused portrait panels need concise copy`,
+      queue: 'focused-copy',
+      priority: 1.5,
     });
   }
   if (summary.summaryDrafts > summary.draftApprovedSummaries) {
@@ -4135,6 +4341,7 @@ function matchesQueue(inductee: Inductee, queue: QueueMode, curation: CurationRe
   if (queue === 'all') return true;
   if (queue === 'edited') return Boolean(drafts[inductee.id]);
   if (queue === 'high') return inductee.reviewPriority === 'high';
+  if (queue === 'focused-copy') return !hasFocusedHallCopy(inductee) || hasFocusedHallCopyDraft(drafts[inductee.id]);
   if (queue === 'country') return inductee.countryTagsSource !== 'curated' || Boolean(drafts[inductee.id]?.countryTagsApproved);
   if (queue === 'featured') return inductee.featuredCandidate && !inductee.featured;
   if (queue === 'summary') return inductee.storySummarySource !== 'curated';
@@ -4149,6 +4356,14 @@ function matchesQueue(inductee: Inductee, queue: QueueMode, curation: CurationRe
     );
   }
   return true;
+}
+
+function hasFocusedHallCopy(inductee: Inductee) {
+  return Boolean(inductee.documentedContextLine.trim() && inductee.honoredForSummary.trim());
+}
+
+function hasFocusedHallCopyDraft(draft: ReviewDraft | undefined) {
+  return Boolean(draft?.documentedContextLine?.trim() || draft?.honoredForSummary?.trim() || draft?.lifeWorkSummary?.trim());
 }
 
 function getDraftIssues(inductee: Inductee, draft: ReviewDraft | undefined, mediaRecord?: MediaManifestRecord): DraftIssue[] {
@@ -4214,8 +4429,8 @@ function buildProfileReadinessChecklist(
   );
   const accessibilityReady = Boolean(draft?.accessibilityApproved) || !accessibilityOpen;
   const accessibilityDrafted = Boolean(draft?.plainLanguageReview || draft?.sensitiveContentReview || draft?.imageDescriptionReview);
-  const contextReady = Boolean(inductee.documentedContextLine.trim() && inductee.honoredForSummary.trim());
-  const contextDrafted = Boolean(draft?.documentedContextLine?.trim() || draft?.honoredForSummary?.trim());
+  const contextReady = hasFocusedHallCopy(inductee);
+  const contextDrafted = hasFocusedHallCopyDraft(draft);
   const summaryReady = inductee.storySummarySource === 'curated' || Boolean(draft?.summaryApproved || draft?.approvedSummary?.trim());
   const metadataReady = (inductee.themeTagsSource === 'curated' || Boolean(draft?.themeTagsApproved || (draft?.approvedThemeTags?.length ?? 0) > 0))
     && (inductee.countryTagsSource === 'curated' || Boolean(draft?.countryTagsApproved || (draft?.approvedCountryTags?.length ?? 0) > 0));
@@ -4333,8 +4548,11 @@ function getReviewNeeds(inductee: Inductee, curation: CurationReport | null, med
   const captionsApproved = !inductee.hasVideo || draft?.captionsApproved || draft?.captionStatus === 'approved';
   const transcriptApproved = !inductee.hasVideo || draft?.transcriptApproved || draft?.transcriptStatus === 'approved';
   const accessibilityApproved = draft?.accessibilityApproved;
+  const focusedCopyReady = hasFocusedHallCopy(inductee);
+  const focusedCopyDrafted = hasFocusedHallCopyDraft(draft);
 
   if (!profileApproved) needs.push('Approve profile metadata');
+  if (!focusedCopyReady && !focusedCopyDrafted) needs.push('Stage focused Hall copy');
   if (!summaryApproved) needs.push('Approve or rewrite story summary');
   if (!themesApproved) needs.push('Approve theme tags');
   if (!countriesApproved) needs.push('Approve country tags');
