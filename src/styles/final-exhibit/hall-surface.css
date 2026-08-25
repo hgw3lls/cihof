@@ -100,11 +100,11 @@
   max-height: min(73vh, 760px);
   display: block;
   overflow: auto;
-  border-top: 4px solid var(--exhibit-route);
+  border-top: 3px solid var(--exhibit-route);
   background:
     linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px),
     linear-gradient(180deg, rgba(21, 19, 15, 0.03) 1px, transparent 1px),
-    rgba(243, 234, 214, 0.94);
+    linear-gradient(90deg, rgba(242, 232, 209, 0.96) 0 88%, rgba(242, 232, 209, 0.74) 88% 100%);
   background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
   color: var(--exhibit-ink);
   padding: clamp(12px, 1.1vw, 20px);

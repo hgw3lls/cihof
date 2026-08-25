@@ -1,0 +1,328 @@
+@property --frame-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 72px;
+}
+
+@property --frame-height {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 102px;
+}
+
+@property --frame-edge {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 4px;
+}
+
+@property --mat-size {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 7px;
+}
+
+@property --frame-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --frame-rotation {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --frame-accent-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --record-area-height {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 16px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait {
+  --frame-width: var(--portrait-size);
+  --frame-height: calc(var(--portrait-size) * 1.42);
+  --frame-edge: 4px;
+  --mat-size: 7px;
+  --frame-scale: 1;
+  --frame-rotation: 0deg;
+  --frame-accent-opacity: 0;
+  --record-area-height: 16px;
+  --frame-press-scale: 1;
+  width: var(--frame-width);
+  height: var(--frame-height);
+  min-width: 0;
+  min-height: 0;
+  transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
+  transform-origin: 50% 50%;
+  transition:
+    left 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    top 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    width 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    height 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    transform 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    filter 900ms ease,
+    opacity 900ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait:active {
+  --frame-press-scale: 0.985;
+  transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame,
+.museum-shell:not(.museum-shell--staff) .portrait-frame *,
+.museum-shell:not(.museum-shell--staff) .portrait-frame *::before,
+.museum-shell:not(.museum-shell--staff) .portrait-frame *::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  border: var(--frame-edge) solid #161713;
+  background: #161713;
+  color: var(--exhibit-ink);
+  contain: layout paint;
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--frame-edge) * -0.5);
+  border: 1px solid rgba(243, 234, 214, 0.5);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mat {
+  position: absolute;
+  inset: var(--frame-edge);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) var(--record-area-height);
+  gap: calc(var(--mat-size) * 0.34);
+  min-width: 0;
+  min-height: 0;
+  padding: var(--mat-size);
+  border: 1px solid rgba(21, 19, 15, 0.32);
+  background: var(--exhibit-mat);
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__imageOpening {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: max(1px, calc(var(--frame-edge) * 0.34)) solid rgba(21, 19, 15, 0.9);
+  background: #11120f;
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__imageOpening::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 2;
+  border: 1px solid rgba(243, 234, 214, 0.5);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__image,
+.museum-shell:not(.museum-shell--staff) .portrait-frame__fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__image {
+  filter: grayscale(1) contrast(1.12) brightness(0.95) sepia(0.08);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__fallback {
+  display: grid;
+  place-items: center;
+  background: #14110e;
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.78rem, 1.1vw, 1.6rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame .portrait-frame__record.living-portrait__label {
+  position: static;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  overflow: hidden;
+  border: 0;
+  border-left: 2px solid rgba(20, 19, 15, 0.42);
+  background: transparent;
+  color: var(--exhibit-ink);
+  padding: 0 0 0 max(4px, calc(var(--mat-size) * 0.52));
+  opacity: 0.78;
+  pointer-events: none;
+  text-align: left;
+  transform: none;
+  transition:
+    opacity 360ms ease,
+    border-color 360ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame .portrait-frame__record strong,
+.museum-shell:not(.museum-shell--staff) .portrait-frame .portrait-frame__record small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: currentColor;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame .portrait-frame__record strong {
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.45rem, 0.54vw, 0.74rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 720;
+  letter-spacing: 0.01em;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame .portrait-frame__record small {
+  color: rgba(20, 19, 15, 0.58);
+  font-family: var(--font-exhibit-notation);
+  font-size: clamp(0.42rem, 0.48vw, 0.62rem);
+  font-stretch: var(--type-width-notation);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 650;
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__marks {
+  position: absolute;
+  inset: calc(var(--frame-edge) * -0.85);
+  z-index: 6;
+  width: calc(100% + var(--frame-edge) * 1.7);
+  height: calc(100% + var(--frame-edge) * 1.7);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--focus-corner,
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--focus-rule {
+  opacity: var(--frame-accent-opacity);
+  stroke: var(--exhibit-route);
+  stroke-width: 2;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--focus-rule {
+  stroke-width: 1.25;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--trace-port {
+  opacity: calc(var(--frame-accent-opacity) * 0.8);
+  stroke: rgba(21, 19, 15, 0.72);
+  stroke-width: 1.4;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--legacy-baseline,
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mark--legacy-notch {
+  opacity: calc(var(--frame-accent-opacity) * 0.72);
+  stroke: rgba(183, 74, 36, 0.74);
+  stroke-width: 1.35;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--trace {
+  border-color: #191a15;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--trace .portrait-frame__mat {
+  background: #efe3c8;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--trace .portrait-frame__record {
+  opacity: 0.58;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--legacy .portrait-frame__mat {
+  background: #f2e6ce;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--legacy .portrait-frame__record {
+  border-left: 0;
+  border-bottom: 1px solid rgba(168, 75, 37, 0.42);
+  padding-left: 0;
+  text-align: center;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus .portrait-frame__mat {
+  background: #f3e7ce;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus .portrait-frame__record {
+  border-left-color: rgba(168, 75, 37, 0.88);
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus .portrait-frame__record small {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus .portrait-frame__record strong {
+  font-size: clamp(0.86rem, 0.96vw, 1.14rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus .portrait-frame__record small {
+  font-size: clamp(0.66rem, 0.72vw, 0.86rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--no-record .portrait-frame__mat {
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--wide .portrait-frame__image {
+  object-position: center;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--muted .portrait-frame {
+  opacity: 0.52;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--muted .portrait-frame__record {
+  opacity: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait {
+  min-width: 0;
+  min-height: 0;
+}

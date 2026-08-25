@@ -1,20 +1,22 @@
-/* Canonical final-exhibit tokens for the five active visitor modes. */
+/* Canonical final-exhibit tokens for the public Hall lenses and legacy staff surfaces. */
 .museum-shell:not(.museum-shell--staff) {
-  --exhibit-field: #d8c49a;
-  --exhibit-field-2: #cbb487;
-  --exhibit-field-3: #e2d0a8;
-  --exhibit-paper: #f3ead6;
-  --exhibit-paper-highlight: #fff8e8;
-  --exhibit-ink: #15130f;
-  --exhibit-ink-2: #272119;
-  --exhibit-muted: rgba(21, 19, 15, 0.62);
-  --exhibit-dim: rgba(21, 19, 15, 0.42);
-  --exhibit-line: rgba(21, 19, 15, 0.24);
-  --exhibit-line-soft: rgba(21, 19, 15, 0.13);
-  --exhibit-route: #b74a24;
-  --exhibit-route-quiet: rgba(183, 74, 36, 0.42);
-  --exhibit-sage: #77824d;
-  --exhibit-ochre: #a77b30;
+  --exhibit-field: #d7c297;
+  --exhibit-field-2: #c8ad7c;
+  --exhibit-field-3: #e2d0a6;
+  --exhibit-paper: #f2e8d1;
+  --exhibit-paper-highlight: #fff6e4;
+  --exhibit-mat: #f4e9d0;
+  --exhibit-ink: #14130f;
+  --exhibit-ink-2: #27241d;
+  --exhibit-muted: rgba(20, 19, 15, 0.64);
+  --exhibit-dim: rgba(20, 19, 15, 0.42);
+  --exhibit-line: rgba(20, 19, 15, 0.25);
+  --exhibit-line-soft: rgba(20, 19, 15, 0.12);
+  --exhibit-route: #a84b25;
+  --exhibit-route-quiet: rgba(168, 75, 37, 0.34);
+  --exhibit-sage: #6f7951;
+  --exhibit-sage-quiet: rgba(111, 121, 81, 0.18);
+  --exhibit-ochre: #9a7738;
   --exhibit-gold: var(--exhibit-route);
   --exhibit-red: var(--exhibit-route);
   --exhibit-blue: var(--exhibit-sage);

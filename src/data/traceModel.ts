@@ -331,14 +331,28 @@ export function relationshipSupportLabel(reason: NetworkReason, activeName: stri
 export function relationshipLineLabel(reason: NetworkReason | undefined, activeName: string) {
   if (!reason) return 'Documented connection';
   const label = nodeReasonLabel(reason, activeName);
-  if (reason.type === 'same_class') return 'SAME CLASS';
-  if (reason.type === 'shared_theme') return label.replace(/^Connected through:\s*/i, '').toUpperCase();
+  if (reason.type === 'same_class') return 'SHARED A CLASS';
+  if (reason.type === 'shared_theme') return traceConceptPhrase(label);
   if (reason.type === 'shared_community') return 'SHARED COMMUNITY';
   if (reason.type === 'shared_organization') return 'SHARED ORGANIZATION';
-  if (reason.type === 'civic_collaboration') return 'CIVIC WORK';
-  if (reason.type === 'inducted_by') return label.toUpperCase();
+  if (reason.type === 'civic_collaboration') return 'WORKED WITH';
+  if (reason.type === 'mentor') return 'MENTORSHIP';
+  if (reason.type === 'colleague') return 'WORKED WITH';
+  if (reason.type === 'family') return 'FAMILY RECORD';
+  if (reason.type === 'inducted_by') return label.startsWith('Inducted by ') ? 'INDUCTED BY' : 'INDUCTION LINK';
   if (reason.type === 'related_place') return label.replace(/^Connected to:\s*/i, '').toUpperCase();
   return label.toUpperCase();
+}
+
+function traceConceptPhrase(label: string) {
+  const normalized = label.replace(/^Connected through:\s*/i, '').trim().toLowerCase();
+  if (/\beducat|school|teacher|professor|university|student\b/.test(normalized)) return 'EDUCATION';
+  if (/\bculture|heritage|tradition|arts|artist|music|language\b/.test(normalized)) return 'CULTURAL PRESERVATION';
+  if (/\bcivic|public|mayor|council|government|service\b/.test(normalized)) return 'CIVIC SERVICE';
+  if (/\bcommunity|organizing|neighborhood|volunteer\b/.test(normalized)) return 'COMMUNITY ORGANIZING';
+  if (/\badvocacy|justice|rights|law\b/.test(normalized)) return 'ADVOCACY';
+  if (/\bhealth|medicine|doctor|hospital|care\b/.test(normalized)) return 'HEALTH';
+  return normalized ? normalized.toUpperCase() : 'SHARED WORK';
 }
 
 export function buildGeographyTraceModel(inductees: Inductee[]): GeographyTraceModel {

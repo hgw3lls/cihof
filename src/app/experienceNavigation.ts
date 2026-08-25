@@ -8,8 +8,6 @@ export type ExperienceNavItem = {
   label: string;
   sublabel: string;
   ariaLabel: string;
-  icon: string;
-  risoIcon: string;
 };
 
 export const hallLensOrder: HallLens[] = [
@@ -24,24 +22,18 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
     label: 'PORTRAITS',
     sublabel: 'Honored Lives',
     ariaLabel: 'Arrange Hall by portraits',
-    icon: 'people',
-    risoIcon: 'community',
   },
   {
     lens: 'traces',
     label: 'TRACES',
     sublabel: 'PLACES & CONNECTIONS',
     ariaLabel: 'Arrange Hall by documented places and connections',
-    icon: 'world',
-    risoIcon: 'map-pin',
   },
   {
     lens: 'legacies',
     label: 'LEGACIES',
     sublabel: 'CLASSES THROUGH TIME',
     ariaLabel: 'Arrange Hall by induction history',
-    icon: 'time',
-    risoIcon: 'clock',
   },
 ];
 
