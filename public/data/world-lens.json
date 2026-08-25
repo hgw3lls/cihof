@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "copy": {
-    "kicker": "Routes",
-    "title": "Routes",
-    "secondaryStatement": "Many paths meet in Cleveland.",
+    "kicker": "Traces",
+    "title": "Traces",
+    "secondaryStatement": "Documented places and relationships meet in Cleveland.",
     "instruction": "Touch a place",
     "defaultFocusTitle": "Cleveland",
-    "defaultFocusBody": "The Hall of Fame holds stories where international places, communities, journeys, and civic relationships meet in Cleveland.",
+    "defaultFocusBody": "The Hall of Fame records documented places, communities, and civic relationships connected with Cleveland.",
     "activeRegionPrefix": "Region in view",
     "activeCountryPrefix": "Place in view",
     "peoplePrompt": "Touch a portrait",
-    "sourceDisclosure": "Geography shown here comes from structured CIHOF profile-source references. Records flagged for curator confirmation are withheld.",
+    "sourceDisclosure": "Places shown here come from structured CIHOF source references. Records flagged for curator confirmation are withheld.",
     "emptyTitle": "Awaiting Curated Geography",
-    "emptyBody": "No presentation-ready international geography records are available yet."
+    "emptyBody": "No presentation-ready place records are available yet."
   }
 }

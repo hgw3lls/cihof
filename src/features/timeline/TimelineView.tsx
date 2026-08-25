@@ -9,6 +9,7 @@ type TimelineViewProps = {
   loading: boolean;
   error: string;
   selectedYear: string;
+  presentation?: 'scene' | 'hall-panel';
   onYearChange: (year: string) => void;
   onSelect: (inductee: Inductee) => void;
   onOpenMedia?: (inductee: Inductee) => void;
@@ -28,6 +29,7 @@ export function TimelineView({
   loading,
   error,
   selectedYear: selectedYearParam,
+  presentation = 'scene',
   onYearChange,
   onSelect,
   onOpenMedia,
@@ -90,47 +92,60 @@ export function TimelineView({
     if (firstVideoPerson) (onOpenMedia ?? onSelect)(firstVideoPerson);
   }
 
+  const statusClassName = presentation === 'hall-panel'
+    ? 'timeline time-lens time-lens--status time-lens--hall-panel'
+    : 'timeline time-lens time-lens--status';
+
   if (loading) {
     return (
-      <section className="timeline time-lens time-lens--status" aria-label="Time">
-        <div className="time-lens__status">Loading time lens</div>
+      <section className={statusClassName} aria-label="Hall of Fame induction classes through time">
+        <div className="time-lens__status">Loading induction classes</div>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="timeline time-lens time-lens--status" aria-label="Time">
-        <div className="time-lens__status">Time lens could not be loaded: {error}</div>
+      <section className={statusClassName} aria-label="Hall of Fame induction classes through time">
+        <div className="time-lens__status">Class data could not be loaded: {error}</div>
       </section>
     );
   }
 
   if (!yearRange || selectedYear === null) {
     return (
-      <section className="timeline time-lens time-lens--status" aria-label="Time">
+      <section className={statusClassName} aria-label="Hall of Fame induction classes through time">
         <div className="time-lens__status">No class years have been curated yet.</div>
       </section>
     );
   }
 
+  const currentYearRange = yearRange;
+  const currentSelectedYear = selectedYear;
+  const className = [
+    'timeline',
+    'time-lens',
+    classFocused ? 'time-lens--focused' : '',
+    presentation === 'hall-panel' ? 'time-lens--hall-panel' : '',
+  ].filter(Boolean).join(' ');
+
+  if (presentation === 'hall-panel') {
+    return (
+      <section className={className} style={lensStyle} aria-label="Hall of Fame induction classes through time">
+        {renderHeader()}
+
+        <aside className="time-class-focus" aria-labelledby="time-class-heading">
+          {renderClassFocus()}
+        </aside>
+
+        {renderControls()}
+      </section>
+    );
+  }
+
   return (
-    <section className={classFocused ? 'timeline time-lens time-lens--focused' : 'timeline time-lens'} style={lensStyle} aria-label="Time">
-      <header className="time-lens__header">
-        <div>
-          <p>Time</p>
-          <h2>Built Through Years</h2>
-        </div>
-        <div className="time-lens__yearReadout" aria-live="polite">
-          <span>Class Of</span>
-          <strong>{selectedYear}</strong>
-        </div>
-        <div className="time-lens__metrics" aria-label="Hall growth through selected year">
-          <span>{accumulatedPeople.length} inducted so far</span>
-          <span>{selectedClass.length > 0 ? `${selectedClass.length} in this class` : 'No documented class'}</span>
-          <span>{classVideoPeople.length > 0 ? `${classVideoPeople.length} with media` : 'Media unavailable'}</span>
-        </div>
-      </header>
+    <section className={className} style={lensStyle} aria-label="Hall of Fame induction classes through time">
+      {renderHeader()}
 
       <div className="time-lens__field">
         <section className="time-build" aria-label={`Hall of Fame growth through ${selectedYear}`}>
@@ -186,83 +201,117 @@ export function TimelineView({
         </section>
 
         <aside className="time-class-focus" aria-labelledby="time-class-heading">
-          <div className="time-class-focus__copy">
-            <p>{classFocused ? 'Focused Class' : 'Moving Through Time'}</p>
-            <h3 id="time-class-heading">{selectedYear}</h3>
-            <span>
-              {selectedClass.length > 0
-                ? `${selectedClass.length} people added to the Hall`
-                : 'No inductees are documented for this year'}
-            </span>
-          </div>
-
-          {activeClassThemes.length > 0 && (
-            <div className="time-class-focus__themes" aria-label="Class themes">
-              {activeClassThemes.map((theme) => (
-                <span key={theme.label}>{theme.label}</span>
-              ))}
-            </div>
-          )}
-
-          {selectedClass.length > 0 ? (
-            <div className="time-class-focus__people" key={selectedYear}>
-              {selectedClass.map((inductee) => (
-                <button
-                  data-transition-person={inductee.id}
-                  data-transition-role="time-portrait"
-                  key={inductee.id}
-                  type="button"
-                  onClick={() => onSelect(inductee)}
-                >
-                  <FallbackImage
-                    alt={inductee.imageAltText || inductee.name}
-                    className="time-class-focus__image"
-                    fallbackClassName="time-class-focus__fallback"
-                    fallbackLabel={initials(inductee.name)}
-                    src={inductee.primaryImageUrl}
-                  />
-                  <span>
-                    <strong>{inductee.name}</strong>
-                    <small>{displayContext(inductee)}</small>
-                  </span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="time-class-focus__empty">Move the year control to the next documented class.</div>
-          )}
-
-          <footer className="time-class-focus__actions">
-            <button type="button" onClick={() => setClassFocused(true)} aria-pressed={classFocused}>
-              {classFocused ? 'Full Class In View' : 'View Full Class'}
-            </button>
-            {classVideoPeople.length > 0 ? (
-              <button type="button" onClick={openClassMedia}>
-                Open Class Media
-              </button>
-            ) : (
-              <span>Class media unavailable</span>
-            )}
-          </footer>
+          {renderClassFocus()}
         </aside>
       </div>
 
+      {renderControls()}
+    </section>
+  );
+
+  function renderHeader() {
+    return (
+      <header className="time-lens__header">
+        <div>
+          <p>Legacies</p>
+          <h2>Classes Through Time</h2>
+        </div>
+        <div className="time-lens__yearReadout" aria-live="polite">
+          <span>Class Of</span>
+          <strong>{selectedYear}</strong>
+        </div>
+        <div className="time-lens__metrics" aria-label="Hall growth through selected year">
+          <span>{accumulatedPeople.length} inducted so far</span>
+          <span>{selectedClass.length > 0 ? `${selectedClass.length} in this class` : 'No documented class'}</span>
+          <span>{classVideoPeople.length > 0 ? `${classVideoPeople.length} with media` : 'Media unavailable'}</span>
+        </div>
+      </header>
+    );
+  }
+
+  function renderClassFocus() {
+    return (
+      <>
+        <div className="time-class-focus__copy">
+          <p>{classFocused ? 'Class In View' : 'Moving Through Classes'}</p>
+          <h3 id="time-class-heading">{selectedYear}</h3>
+          <span>
+            {selectedClass.length > 0
+              ? `${selectedClass.length} people added to the Hall`
+              : 'No inductees are documented for this year'}
+          </span>
+        </div>
+
+        {activeClassThemes.length > 0 && (
+          <div className="time-class-focus__themes" aria-label="Class themes">
+            {activeClassThemes.map((theme) => (
+              <span key={theme.label}>{theme.label}</span>
+            ))}
+          </div>
+        )}
+
+        {selectedClass.length > 0 ? (
+          <div className="time-class-focus__people" key={selectedYear}>
+            {selectedClass.map((inductee) => (
+              <button
+                data-transition-person={inductee.id}
+                data-transition-role="time-portrait"
+                key={inductee.id}
+                type="button"
+                onClick={() => onSelect(inductee)}
+              >
+                <FallbackImage
+                  alt={inductee.imageAltText || inductee.name}
+                  className="time-class-focus__image"
+                  fallbackClassName="time-class-focus__fallback"
+                  fallbackLabel={initials(inductee.name)}
+                  src={inductee.primaryImageUrl}
+                />
+                <span>
+                  <strong>{inductee.name}</strong>
+                  <small>{displayContext(inductee)}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="time-class-focus__empty">Move the class-year control to the next documented class.</div>
+        )}
+
+        <footer className="time-class-focus__actions">
+          <button type="button" onClick={() => setClassFocused(true)} aria-pressed={classFocused}>
+            {classFocused ? 'Full Class In View' : 'View Full Class'}
+          </button>
+          {classVideoPeople.length > 0 ? (
+            <button type="button" onClick={openClassMedia}>
+              Watch Induction
+            </button>
+          ) : (
+            <span>No class media installed</span>
+          )}
+        </footer>
+      </>
+    );
+  }
+
+  function renderControls() {
+    return (
       <div
         className={classVideoPeople.length > 0 ? 'time-lens__controls time-lens__controls--with-media' : 'time-lens__controls'}
-        aria-label={`Select a year from ${yearRange.min} through ${yearRange.max}`}
+        aria-label={`Select a year from ${currentYearRange.min} through ${currentYearRange.max}`}
       >
-        <button type="button" onClick={() => commitYear(yearRange.min)} aria-label={`Jump to ${yearRange.min}`}>
-          {yearRange.min}
+        <button type="button" onClick={() => commitYear(currentYearRange.min)} aria-label={`Jump to ${currentYearRange.min}`}>
+          {currentYearRange.min}
         </button>
         <label className="time-lens__scrubber">
-          <span>Hold and move through the Hall</span>
+          <span>Drag through class years</span>
           <input
             className="time-lens__range"
             type="range"
-            min={yearRange.min}
-            max={yearRange.max}
+            min={currentYearRange.min}
+            max={currentYearRange.max}
             step={1}
-            value={selectedYear}
+            value={currentSelectedYear}
             onChange={(event) => previewYear(Number(event.currentTarget.value))}
             onPointerDown={() => setClassFocused(false)}
             onPointerUp={() => commitYear()}
@@ -271,17 +320,17 @@ export function TimelineView({
             onBlur={() => commitYear()}
           />
         </label>
-        <button type="button" onClick={() => commitYear(yearRange.max)} aria-label={`Jump to ${yearRange.max}`}>
-          {yearRange.max}
+        <button type="button" onClick={() => commitYear(currentYearRange.max)} aria-label={`Jump to ${currentYearRange.max}`}>
+          {currentYearRange.max}
         </button>
         {classVideoPeople.length > 0 && (
           <button className="time-lens__mediaAction" type="button" onClick={openClassMedia}>
-            Open Class Media
+            Watch Induction
           </button>
         )}
       </div>
-    </section>
-  );
+    );
+  }
 }
 
 function buildYearGroups(inductees: Inductee[]): YearGroup[] {

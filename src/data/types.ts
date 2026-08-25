@@ -54,6 +54,8 @@ export type Inductee = {
 
 export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'country-asc' | 'region-asc' | 'physical-wall';
 export type MediaFilter = 'all' | 'with-video' | 'with-gallery';
+export type HallLens = 'portraits' | 'traces' | 'legacies';
+export type HallFocus = { personId: string } | null;
 export type ViewMode = 'living-hall' | 'person' | 'connections' | 'world' | 'time' | 'review';
 export type RelationshipType =
   | 'inducted_by'

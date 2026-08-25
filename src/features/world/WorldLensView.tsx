@@ -9,6 +9,7 @@ type WorldLensViewProps = {
   loading: boolean;
   error: string;
   activeFocusKey: string;
+  presentation?: 'scene' | 'hall-panel';
   onFocusChange: (focusKey: string) => void;
   onSelect: (inductee: Inductee) => void;
 };
@@ -87,18 +88,18 @@ const internationalCountryExclusions = new Set(['United States']);
 const presentationReadySourceNotes = /Profile states|Profile identifies|Profile references|Profile centers|Profile describes|Profile names|born in|immigrated|emigrated|came to|arrived|Honorary Consul|first person of/i;
 const withheldSourceNotes = /needs curator confirmation|requires curator confirmation|pending review|suggests|no specific international origin|no specific country|born in Cleveland|born in La Grange|raised in Columbus/i;
 const fallbackCopy: WorldLensCopy = {
-  kicker: 'Routes',
-  title: 'Routes',
-  secondaryStatement: 'Many paths meet in Cleveland.',
+  kicker: 'Traces',
+  title: 'Traces',
+  secondaryStatement: 'Documented places and relationships meet in Cleveland.',
   instruction: 'Touch a place',
   defaultFocusTitle: 'Cleveland',
-  defaultFocusBody: 'The Hall of Fame holds stories where international places, communities, journeys, and civic relationships meet in Cleveland.',
+  defaultFocusBody: 'The Hall of Fame records documented places, communities, and civic relationships connected with Cleveland.',
   activeRegionPrefix: 'Region in view',
   activeCountryPrefix: 'Place in view',
   peoplePrompt: 'Touch a portrait',
-  sourceDisclosure: 'Geography shown here comes from structured CIHOF profile-source references. Records flagged for curator confirmation are withheld.',
+  sourceDisclosure: 'Places shown here come from structured CIHOF source references. Records flagged for curator confirmation are withheld.',
   emptyTitle: 'Awaiting Curated Geography',
-  emptyBody: 'No presentation-ready international geography records are available yet.',
+  emptyBody: 'No presentation-ready place records are available yet.',
 };
 const regionLayout: Record<string, { x: number; y: number }> = {
   Africa: { x: 52, y: 61 },
@@ -158,6 +159,7 @@ export function WorldLensView({
   loading,
   error,
   activeFocusKey,
+  presentation = 'scene',
   onFocusChange,
   onSelect,
 }: WorldLensViewProps) {
@@ -181,25 +183,29 @@ export function WorldLensView({
     onFocusChange(activeFocus.key);
   }, [activeFocus.key, activeFocusKey, onFocusChange]);
 
+  const statusClassName = presentation === 'hall-panel'
+    ? 'world-lens world-lens--loading world-lens--hall-panel'
+    : 'world-lens world-lens--loading';
+
   if (loading) {
     return (
-      <section className="world-lens world-lens--loading" aria-label="World">
-        <div className="world-lens__status">Loading world relationships</div>
+      <section className={statusClassName} aria-label="Documented places and connections">
+        <div className="world-lens__status">Loading documented place connections</div>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="world-lens world-lens--loading" aria-label="World">
-        <div className="world-lens__status">World data could not be loaded: {error}</div>
+      <section className={statusClassName} aria-label="Documented places and connections">
+        <div className="world-lens__status">Place data could not be loaded: {error}</div>
       </section>
     );
   }
 
   if (model.references.length === 0) {
     return (
-      <section className="world-lens world-lens--loading" aria-label="World">
+      <section className={statusClassName} aria-label="Documented places and connections">
         <div className="world-lens__empty">
           <p className="museum-kicker">{copy.kicker}</p>
           <h2>{copy.emptyTitle}</h2>
@@ -209,26 +215,31 @@ export function WorldLensView({
     );
   }
 
+  const rootClassName = [
+    'world-lens',
+    activeFocus.kind === 'all' ? 'world-lens--all' : 'world-lens--focused',
+    presentation === 'hall-panel' ? 'world-lens--hall-panel' : '',
+  ].filter(Boolean).join(' ');
+
+  if (presentation === 'hall-panel') {
+    return (
+      <section className={rootClassName} aria-label="Cleveland documented places and connections">
+        {renderHeader()}
+        {renderStory()}
+        {renderControls()}
+      </section>
+    );
+  }
+
   return (
     <section
-      className={activeFocus.kind === 'all' ? 'world-lens world-lens--all' : 'world-lens world-lens--focused'}
-      aria-label="Cleveland international relationships"
+      className={rootClassName}
+      aria-label="Cleveland documented places and connections"
     >
-      <header className="world-lens__header">
-        <div>
-          <p className="world-lens__kicker">{copy.kicker}</p>
-          <h2>{copy.title}</h2>
-          <p>{copy.secondaryStatement}</p>
-        </div>
-        <div className="world-lens__summary" aria-label="World relationship summary">
-          <span>{model.people.length} people</span>
-          <span>{model.countries.length} places</span>
-          <span>{activeFocus.kind === 'all' ? copy.instruction : activeFocus.label}</span>
-        </div>
-      </header>
+      {renderHeader()}
 
       <main className="world-lens__field">
-        <div className="world-map" aria-label="Abstract world field centered on Cleveland">
+        <div className="world-map" aria-label="Abstract geographic field centered on Cleveland">
           <WorldMapSvg />
           <svg className="world-map__links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             {visibleCountries.map((country) => (
@@ -305,20 +316,47 @@ export function WorldLensView({
           ))}
         </div>
 
-        <aside className="world-lens__story" aria-live="polite" aria-label={`${activeFocus.label} context`}>
-          <p className="museum-kicker">
-            {activeFocus.kind === 'country'
-              ? copy.activeCountryPrefix
-              : activeFocus.kind === 'region'
-                ? copy.activeRegionPrefix
-                : copy.instruction}
-          </p>
-          <h3>{activeFocus.label}</h3>
-          <p>{focusNarrative(activeFocus, copy)}</p>
-          <div className="world-lens__storyMeta">
-            <span>{activeFocus.people.length} {activeFocus.people.length === 1 ? 'person' : 'people'}</span>
-            <span>{activeFocus.countries.length} {activeFocus.countries.length === 1 ? 'place' : 'places'}</span>
-          </div>
+        {renderStory()}
+      </main>
+
+      {renderControls()}
+    </section>
+  );
+
+  function renderHeader() {
+    return (
+      <header className="world-lens__header">
+        <div>
+          <p className="world-lens__kicker">{copy.kicker}</p>
+          <h2>{copy.title}</h2>
+          <p>{copy.secondaryStatement}</p>
+        </div>
+        <div className="world-lens__summary" aria-label="Documented place summary">
+          <span>{model.people.length} people</span>
+          <span>{model.countries.length} places</span>
+          <span>{activeFocus.kind === 'all' ? copy.instruction : activeFocus.label}</span>
+        </div>
+      </header>
+    );
+  }
+
+  function renderStory() {
+    return (
+      <aside className="world-lens__story" aria-live="polite" aria-label={`${activeFocus.label} context`}>
+        <p className="museum-kicker">
+          {activeFocus.kind === 'country'
+            ? copy.activeCountryPrefix
+            : activeFocus.kind === 'region'
+              ? copy.activeRegionPrefix
+              : copy.instruction}
+        </p>
+        <h3>{activeFocus.label}</h3>
+        <p>{focusNarrative(activeFocus, copy)}</p>
+        <div className="world-lens__storyMeta">
+          <span>{activeFocus.people.length} {activeFocus.people.length === 1 ? 'person' : 'people'}</span>
+          <span>{activeFocus.countries.length} {activeFocus.countries.length === 1 ? 'place' : 'places'}</span>
+        </div>
+        {presentation !== 'hall-panel' && (
           <div className="world-lens__storyPeople" aria-label={`${copy.peoplePrompt}: ${activeFocus.label}`}>
             {activeFocus.people.slice(0, 4).map((person) => (
               <button
@@ -339,18 +377,22 @@ export function WorldLensView({
               </button>
             ))}
           </div>
-          <footer>{copy.sourceDisclosure}</footer>
-        </aside>
-      </main>
+        )}
+        <footer>{copy.sourceDisclosure}</footer>
+      </aside>
+    );
+  }
 
-      <nav className="world-lens__controls" aria-label="World regions">
+  function renderControls() {
+    return (
+      <nav className="world-lens__controls" aria-label="Documented regions">
         <button
           aria-pressed={activeFocus.kind === 'all'}
           className={activeFocus.kind === 'all' ? 'world-lens__control world-lens__control--active' : 'world-lens__control'}
           type="button"
           onClick={() => onFocusChange('')}
         >
-          <span>All Connections</span>
+          <span>All Traces</span>
           <strong>{model.people.length}</strong>
         </button>
         {model.regions.map((region) => (
@@ -366,8 +408,8 @@ export function WorldLensView({
           </button>
         ))}
       </nav>
-    </section>
-  );
+    );
+  }
 }
 
 function useWorldLensCopy() {
@@ -563,9 +605,9 @@ function buildPortraitAnchors(activeFocus: ActiveFocus, visibleCountries: Countr
 function focusNarrative(activeFocus: ActiveFocus, copy: WorldLensCopy) {
   if (activeFocus.kind === 'all') return copy.defaultFocusBody;
   if (activeFocus.kind === 'country') {
-    return `${activeFocus.label} appears through ${activeFocus.people.length} ${activeFocus.people.length === 1 ? 'portrait' : 'portraits'} with structured CIHOF geographic references.`;
+    return `${activeFocus.label} is documented through ${activeFocus.people.length} ${activeFocus.people.length === 1 ? 'portrait' : 'portraits'} with structured CIHOF geographic references.`;
   }
-  return `${activeFocus.label} appears through ${activeFocus.people.length} ${activeFocus.people.length === 1 ? 'portrait' : 'portraits'} and ${activeFocus.countries.length} ${activeFocus.countries.length === 1 ? 'place' : 'places'} connected back to Cleveland.`;
+  return `${activeFocus.label} is held through ${activeFocus.people.length} ${activeFocus.people.length === 1 ? 'portrait' : 'portraits'} and ${activeFocus.countries.length} ${activeFocus.countries.length === 1 ? 'place' : 'places'} in relation to Cleveland.`;
 }
 
 function personPlaceLabel(person: Inductee, activeFocus: ActiveFocus) {

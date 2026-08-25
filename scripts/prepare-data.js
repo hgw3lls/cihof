@@ -162,8 +162,8 @@ function loadStoryLenses() {
   const emptyDocument = {
     schemaVersion: 1,
     source: {
-      name: 'CIHOF story lenses',
-      note: 'No story lens source file was found. Runtime will use built-in default lenses.',
+      name: 'CIHOF trace themes',
+      note: 'No trace-theme source file was found. Runtime will use built-in default trace themes.',
     },
     lenses: [],
   };

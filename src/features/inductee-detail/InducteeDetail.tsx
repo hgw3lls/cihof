@@ -3,16 +3,15 @@ import { FallbackImage, initials } from '../../components/FallbackImage';
 import { QRCodePanel } from '../../components/QRCodePanel';
 import { RouteLine } from '../../components/RouteLine';
 import { stopMediaElement } from '../../app/mediaControl';
+import { honoredForSummary, inducteeContextLabel } from '../../data/inducteeNarrative';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
+import { buildPersonGallery, canonicalContinuationUrl, mediaAvailability } from './personDetailModel';
 import type {
   Inductee,
   RelationshipProvenance,
   RelationshipRecord,
   RelationshipType,
-  RuntimeAudioAsset,
-  RuntimeMediaRecord,
-  RuntimeVideoAsset,
 } from '../../data/types';
 import { MediaExperience } from './MediaExperience';
 import { StoryMode } from './StoryMode';
@@ -42,12 +41,6 @@ type RelatedItem = {
 };
 
 export type DetailAction = 'overview' | 'story' | 'watch' | 'connections' | 'continue';
-
-type WatchAvailability = {
-  playable: boolean;
-  status: string;
-  message: string;
-};
 
 export function InducteeDetail({
   inductee,
@@ -85,11 +78,7 @@ export function InducteeDetail({
   const mediaRecord = inductee ? mediaRecordMap.get(inductee.id) : undefined;
   const gallery = useMemo(() => {
     if (!inductee) return [];
-    const manifestImages = [
-      mediaRecord?.images?.primary?.runtimePath,
-      ...(mediaRecord?.images?.gallery ?? []).map((image) => image.runtimePath),
-    ].filter((url): url is string => Boolean(url));
-    return Array.from(new Set([inductee.primaryImageUrl, ...manifestImages, ...inductee.imageUrls].filter(Boolean))).slice(0, 12);
+    return buildPersonGallery(inductee, mediaRecord);
   }, [inductee, mediaRecord]);
   const storyRecord = inductee ? storySectionMap.get(inductee.id) : undefined;
 
@@ -136,8 +125,8 @@ export function InducteeDetail({
   if (!inductee) return null;
 
   const activeLightboxUrl = lightboxIndex === null ? '' : gallery[lightboxIndex];
-  const explicitContext = explicitContextLabel(inductee);
-  const summary = whySummary(inductee);
+  const explicitContext = inducteeContextLabel(inductee);
+  const summary = honoredForSummary(inductee);
   const connectionSummary = summarizeConnections(related);
   const watchAvailability = mediaAvailability(inductee, mediaRecord, kioskMode);
   const continuationUrl = qrEnabled ? canonicalContinuationUrl(inductee) : '';
@@ -173,20 +162,20 @@ export function InducteeDetail({
   }
 
   return (
-    <aside className={`detail detail--museum ${detailModeClass} detail--action-${activeAction}`} aria-label={`${inductee.name} details`} ref={detailRef}>
+    <aside className={`detail detail--museum ${detailModeClass} detail--action-${activeAction}`} aria-label={`${inductee.name} recognition record`} ref={detailRef}>
       <section className="detail__surface">
         {(staffMode || wallDebug) && (
           <header className="detail__topbar" aria-label="Person view controls">
             <button type="button" onClick={onClose}>Back</button>
             <button type="button" onClick={onHome}>Home</button>
-            <button type="button" onClick={() => onFindConnection(inductee)}>Find A Connection</button>
+            <button type="button" onClick={() => onFindConnection(inductee)}>Find In Common</button>
             <button type="button" onClick={onReset}>Reset</button>
           </header>
         )}
 
         <div className={`detail__scene detail__scene--${activeAction}`}>
           <div className="detail__stage">
-            <section className="detail__identity" aria-label={`${inductee.name} profile`}>
+            <section className="detail__identity" aria-label={`${inductee.name} honored life`}>
               <figure
                 className="detail__portrait person-focus__portrait"
                 data-transition-person={inductee.id}
@@ -203,12 +192,12 @@ export function InducteeDetail({
               </figure>
 
               <div className="detail__identityText">
-                <p className="person-focus__lens">PERSON</p>
+                <p className="person-focus__lens">HONORED LIFE</p>
                 <h2 className="detail__name">{inductee.name}</h2>
                 <p className="person-focus__class">{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
                 {explicitContext && <p className="person-focus__context">{explicitContext}</p>}
-                <section className="person-focus__why" aria-label="Why they are in the Hall of Fame">
-                  <h3>WHY ARE THEY HERE?</h3>
+                <section className="person-focus__why" aria-label="Why this person is honored">
+                  <h3>HONORED FOR</h3>
                   <p className="detail__summary">{summary}</p>
                 </section>
                 {wallDebug && <WallDebugPanel inductee={inductee} />}
@@ -248,7 +237,7 @@ export function InducteeDetail({
               ) : (
                 <section className="person-watch-empty" aria-label="Watch unavailable">
                   <div>
-                    <p className="museum-kicker">Watch</p>
+                    <p className="museum-kicker">Watch Induction</p>
                     <h3>NO APPROVED MEDIA INSTALLED</h3>
                   </div>
                   <p>{watchAvailability.message}</p>
@@ -267,8 +256,8 @@ export function InducteeDetail({
               <section className="person-connections" aria-label="Related inductees">
                 <header className="person-connections__header">
                   <div>
-                    <p className="museum-kicker">Connections</p>
-                    <h3>WHO THEY CONNECT TO</h3>
+                    <p className="museum-kicker">In Common</p>
+                    <h3>WHAT CONNECTS THEM</h3>
                   </div>
                   <span>{connectionSummary}</span>
                 </header>
@@ -293,7 +282,7 @@ export function InducteeDetail({
                       <span className="detail__relatedBody">
                         <strong>{item.inductee.name}</strong>
                         <small className="detail__relationshipLabel">{item.relationship.displayLabel}</small>
-                        <span className="detail__relationshipMeta" aria-label="Relationship reason metadata">
+                        <span className="detail__relationshipMeta" aria-label="Relationship context">
                           <span>{relationshipTypeLabel(item.relationship.type)}</span>
                           <span className={`detail__relationshipProvenance detail__relationshipProvenance--${item.relationship.provenance}`}>
                             {provenanceLabel(item.relationship.provenance)}
@@ -303,7 +292,7 @@ export function InducteeDetail({
                       </span>
                     </button>
                   ))}
-                  {related.length === 0 && <div className="detail__relatedEmpty">No relationship metadata is available for this inductee yet.</div>}
+                  {related.length === 0 && <div className="detail__relatedEmpty">No reviewed relationship data is available for this inductee yet.</div>}
                 </div>
               </section>
             )}
@@ -312,7 +301,7 @@ export function InducteeDetail({
               <QRCodePanel
                 value={continuationUrl}
                 title={inductee.name}
-                instruction="Scan with your phone to continue this story on the CIHOF website."
+                instruction="Scan to continue on the Cleveland International Hall of Fame website."
                 onAutoClose={() => setAction('overview')}
                 onClose={() => setAction('overview')}
               />
@@ -324,23 +313,25 @@ export function InducteeDetail({
           'detail__actionRail',
           continuationUrl ? 'detail__actionRail--with-continuation' : '',
           watchAvailability.playable ? 'detail__actionRail--has-watch' : 'detail__actionRail--no-watch',
-        ].filter(Boolean).join(' ')} aria-label="Person actions">
+        ].filter(Boolean).join(' ')} aria-label="Actions for this inductee">
           <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--story detail__actionButton--active' : 'detail__actionButton detail__actionButton--story'} onClick={() => setAction('story')}>
-            <span>STORY</span>
+            <span>LIFE + WORK</span>
           </button>
-          <button
-            type="button"
-            className={activeAction === 'watch' ? 'detail__actionButton detail__actionButton--watch detail__actionButton--active' : 'detail__actionButton detail__actionButton--watch'}
-            onClick={() => setAction('watch')}
-          >
-            <span>WATCH</span>
-            <small>{watchAvailability.status}</small>
-          </button>
+          {watchAvailability.playable && (
+            <button
+              type="button"
+              className={activeAction === 'watch' ? 'detail__actionButton detail__actionButton--watch detail__actionButton--active' : 'detail__actionButton detail__actionButton--watch'}
+              onClick={() => setAction('watch')}
+            >
+              <span>WATCH INDUCTION</span>
+              <small>{watchAvailability.status}</small>
+            </button>
+          )}
           <button type="button" className={activeAction === 'connections' ? 'detail__actionButton detail__actionButton--connections detail__actionButton--active' : 'detail__actionButton detail__actionButton--connections'} onClick={() => setAction('connections')}>
-            <span>CONNECTIONS</span>
+            <span>IN COMMON</span>
           </button>
           <button type="button" className="detail__actionButton detail__actionButton--accent" onClick={() => onFindConnection(inductee)}>
-            <span>FOLLOW A THREAD -&gt;</span>
+            <span>FOLLOW THE TRACE -&gt;</span>
           </button>
           {continuationUrl && (
             <button
@@ -348,7 +339,7 @@ export function InducteeDetail({
               className={activeAction === 'continue' ? 'detail__actionButton detail__actionButton--active detail__actionButton--continue' : 'detail__actionButton detail__actionButton--continue'}
               onClick={() => setAction('continue')}
             >
-              <span>CONTINUE THIS STORY -&gt;</span>
+              <span>TAKE IT WITH YOU -&gt;</span>
             </button>
           )}
         </nav>
@@ -388,153 +379,6 @@ function WallDebugPanel({ inductee }: { inductee: Inductee }) {
       <span>{inductee.physicalPortraitPresent ? 'Physical portrait present' : 'Physical portrait not marked present'}</span>
     </div>
   );
-}
-
-function explicitContextLabel(inductee: Inductee) {
-  const community = firstText(inductee.communityTags);
-  if (community) return community;
-
-  if (isExplicitSource(inductee.themeTagsSource)) {
-    const theme = firstText(inductee.themeTags);
-    if (theme) return theme;
-  }
-
-  if (isExplicitSource(inductee.countryTagsSource)) {
-    const country = firstText(inductee.countryTags);
-    if (country) return country;
-  }
-
-  if (inductee.inductedBy) return `Inducted by ${inductee.inductedBy}`;
-  return '';
-}
-
-function firstText(values: string[]) {
-  return values.find((value) => value.trim().length > 0)?.trim() ?? '';
-}
-
-function isExplicitSource(source: string) {
-  return source === 'curated' || source === 'documented';
-}
-
-function mediaAvailability(inductee: Inductee, mediaRecord: RuntimeMediaRecord | undefined, kioskMode: boolean): WatchAvailability {
-  const approvedVideos = (mediaRecord?.videos ?? []).filter(isApprovedPlayableMediaForDetail);
-  const approvedAudio = [...(mediaRecord?.oralHistories ?? []), ...(mediaRecord?.audio ?? [])].filter(isApprovedPlayableMediaForDetail);
-  const legacyLocalVideos = mediaRecord ? [] : inductee.localVideoPaths.filter(Boolean);
-  const youtubeIds = new Set([
-    ...(mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId).filter((id): id is string => Boolean(id)),
-    ...inductee.youtubeVideoIds,
-  ]);
-  const playableCount = approvedVideos.length + approvedAudio.length + legacyLocalVideos.length + (!kioskMode ? youtubeIds.size : 0);
-
-  if (playableCount > 0) {
-    return {
-      playable: true,
-      status: approvedVideos.length + legacyLocalVideos.length > 0 ? 'Footage ready' : approvedAudio.length > 0 ? 'Audio ready' : 'Stream available',
-      message: '',
-    };
-  }
-
-  if (kioskMode && youtubeIds.size > 0) {
-    return {
-      playable: false,
-      status: 'Needs local media',
-      message: 'Streaming fallback media exists for this inductee, but it is hidden in museum kiosk mode until an approved local file is installed.',
-    };
-  }
-
-  if ((mediaRecord?.videos?.length ?? 0) > 0 || inductee.hasVideo) {
-    return {
-      playable: false,
-      status: 'Awaiting approval',
-      message: 'Induction footage is referenced in the collection data, but no rights-approved local playback file is available for this installation yet.',
-    };
-  }
-
-  return {
-    playable: false,
-    status: 'No media yet',
-    message: 'No approved induction footage or oral history media is linked for this inductee yet. Their story remains available through the profile text and collection images.',
-  };
-}
-
-function canonicalContinuationUrl(inductee: Inductee) {
-  const candidate = inductee.profileUrl.trim();
-  if (!candidate) return '';
-
-  try {
-    const url = new URL(candidate);
-    if (url.protocol !== 'https:' && url.protocol !== 'http:') return '';
-    return url.href;
-  } catch {
-    return '';
-  }
-}
-
-function isApprovedPlayableMediaForDetail(asset: RuntimeVideoAsset | RuntimeAudioAsset) {
-  const captionsReady = asset.captionStatus === undefined || asset.captionStatus === 'approved' || asset.captionStatus === 'not-applicable';
-  const transcriptReady = asset.transcriptStatus === 'approved' || asset.transcriptStatus === 'not-applicable' || Boolean(asset.transcript?.text);
-  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && captionsReady && transcriptReady && asset.runtimePath);
-}
-
-function whySummary(inductee: Inductee) {
-  const preferred = cleanSummaryText(inductee.bioText || inductee.storySummary, inductee.name);
-  const fallback = cleanSummaryText(inductee.storySummary, inductee.name);
-  const source = wordCount(preferred) >= 24 ? preferred : fallback;
-  const opening = firstCompleteSentence(source);
-  const highlight = inductee.storyHighlights
-    .map((item) => cleanSummaryText(item, inductee.name))
-    .find((item) => item && !item.includes('...') && !isRepeatedSummaryPiece(item, opening));
-  return limitWords([opening, highlight].filter(Boolean).join(' ') || source, 46);
-}
-
-function cleanSummaryText(text: string, name: string) {
-  const withoutMediaTail = text.split(/Watch the video|Here is a video|See more photos|Congratulations|Back to /i)[0] || text;
-  return stripLeadingName(withoutMediaTail.replace(/\s+/g, ' ').trim(), name);
-}
-
-function stripLeadingName(text: string, name: string) {
-  const variants = [
-    name,
-    name.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(),
-  ].filter(Boolean);
-  const lower = text.toLowerCase();
-  const match = variants.find((variant) => lower.startsWith(variant.toLowerCase()));
-  return match ? text.slice(match.length).replace(/^[-:,\s]+/, '').trim() : text;
-}
-
-function limitWords(text: string, maxWords: number) {
-  const words = text.split(/\s+/).filter(Boolean);
-  if (words.length <= maxWords) return text;
-  return `${words.slice(0, maxWords).join(' ').replace(/[,;:]+$/, '')}...`;
-}
-
-function wordCount(text: string) {
-  return text.split(/\s+/).filter(Boolean).length;
-}
-
-function firstCompleteSentence(text: string) {
-  const protectedText = text
-    .replace(/\b(i\.e|e\.g|Mr|Mrs|Ms|Dr|Jr|Sr|St|Fr|Hon|Rev)\./g, (match) => match.replace(/\./g, '<dot>'))
-    .replace(/\b([A-Z])\./g, '$1<dot>');
-  const sentence = protectedText.match(/[^.!?]+[.!?]+/)?.[0] ?? text;
-  return sentence.replace(/<dot>/g, '.').trim();
-}
-
-function isRepeatedSummaryPiece(piece: string, base: string) {
-  const pieceWords = normalizedWords(piece);
-  const baseText = ` ${normalizedWords(base).join(' ')} `;
-  for (let index = 0; index <= pieceWords.length - 4; index += 1) {
-    if (baseText.includes(` ${pieceWords.slice(index, index + 4).join(' ')} `)) return true;
-  }
-  return false;
-}
-
-function normalizedWords(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
-    .split(/\s+/)
-    .filter((word) => word.length > 2);
 }
 
 function formatCoordinate(value: number) {
@@ -629,7 +473,7 @@ function buildInferredRelationship(active: Inductee, related: Inductee): Relatio
     type: inferred.type,
     displayLabel: inferred.displayLabel,
     provenance: 'inferred',
-    referenceNote: 'Suggested from existing relatedIds and shared metadata; needs curatorial review.',
+    referenceNote: 'Suggested from existing related records; needs curatorial review.',
   };
 }
 
@@ -663,10 +507,10 @@ function relationshipTypeLabel(type: RelationshipType) {
   const labels: Record<RelationshipType, string> = {
     inducted_by: 'Inducted by',
     same_class: 'Same class',
-    shared_theme: 'Shared theme',
+    shared_theme: 'Shared field',
     shared_organization: 'Shared organization',
     shared_community: 'Shared community',
-    civic_collaboration: 'Civic collaboration',
+    civic_collaboration: 'Civic work',
     mentor: 'Mentor',
     colleague: 'Colleague',
     family: 'Family',
@@ -678,18 +522,18 @@ function relationshipTypeLabel(type: RelationshipType) {
 
 function provenanceLabel(provenance: RelationshipProvenance) {
   const labels: Record<RelationshipProvenance, string> = {
-    documented: 'Documented',
-    curated: 'Curated',
-    inferred: 'Inferred',
+    documented: 'Record',
+    curated: 'Reviewed',
+    inferred: 'Review needed',
   };
   return labels[provenance];
 }
 
 function summarizeConnections(related: RelatedItem[]) {
-  if (related.length === 0) return 'No links yet';
-  const noun = related.length === 1 ? 'link' : 'links';
+  if (related.length === 0) return 'No reviewed ties yet';
+  const noun = related.length === 1 ? 'tie' : 'ties';
   const allInferred = related.every((item) => item.relationship.provenance === 'inferred');
-  return allInferred ? `${related.length} inferred ${noun}` : `${related.length} reviewed ${noun}`;
+  return allInferred ? `${related.length} needs review ${noun}` : `${related.length} reviewed ${noun}`;
 }
 
 function sharedOrganizations(active: Inductee, related: Inductee) {

@@ -173,6 +173,15 @@
   box-shadow: none;
 }
 
+.museum-shell:not(.museum-shell--staff) .qr-continuation__copy span,
+.museum-shell:not(.museum-shell--staff) .qr-continuation__copy small {
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .qr-continuation__copy small {
+  opacity: 0.68;
+}
+
 .museum-shell:not(.museum-shell--staff) .detail--visitor.detail--action-story .detail__scene {
   grid-template-rows: minmax(0, 1fr);
 }
@@ -372,6 +381,22 @@
   align-items: end;
   max-width: min(920px, 58vw);
   margin-left: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionRail--has-watch {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionRail--has-watch.detail__actionRail--with-continuation {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionRail--no-watch {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionRail--no-watch.detail__actionRail--with-continuation {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .museum-shell:not(.museum-shell--staff) .detail--visitor .detail__actionButton {

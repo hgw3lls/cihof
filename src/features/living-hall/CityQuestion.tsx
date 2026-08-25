@@ -87,7 +87,7 @@ export function CityQuestionPrompt({ config, counts, onRecordChoice }: CityQuest
           {selectedOption && (
             <div className="city-question__ack" aria-live="polite">
               <strong>{selectedOption.label}</strong>
-              <span>Joined the anonymous field.</span>
+              <span>Added to the anonymous field.</span>
               <CityQuestionMiniField config={config} counts={counts} selectedId={selectedOption.id} />
             </div>
           )}
@@ -110,7 +110,7 @@ export function CityQuestionResults({ config, counts, reducedMotion }: CityQuest
       <div className="city-question-results__heading">
         <p>{config.prompt}</p>
         <h3>{config.resultsTitle}</h3>
-        <span>{total > 0 ? `${total} anonymous selections from this installation` : 'The field is waiting for first responses.'}</span>
+        <span>{total > 0 ? `${total} anonymous responses from this installation` : 'The field is waiting for its first response.'}</span>
       </div>
 
       <div className="city-question-results__field" aria-hidden="true">

@@ -7,6 +7,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}${ba
 export default defineConfig({
   testDir: './tests',
   timeout: 30_000,
+  workers: 1,
   expect: {
     timeout: 10_000,
   },
@@ -16,7 +17,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: `VITE_CIHOF_KIOSK_IDLE_MS=1600 VITE_CIHOF_KIOSK_RESET_WARNING_MS=500 npm run build:public && npm run preview -- --host 127.0.0.1 --port ${port}`,
+    command: `VITE_CIHOF_KIOSK_IDLE_MS=1600 VITE_CIHOF_KIOSK_RESET_WARNING_MS=500 VITE_CIHOF_QR_AUTO_CLOSE_MS=900 npm run build:public && npm run preview -- --host 127.0.0.1 --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

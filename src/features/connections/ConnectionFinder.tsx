@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { rankStoryLensMatches, useStoryLenses, type StoryLensMatch } from '../../data/storyLenses';
+import {
+  buildConceptNetwork as buildSharedConceptNetwork,
+  buildConceptThreads as buildSharedConceptThreads,
+  buildHumanNetwork as buildSharedHumanNetwork,
+  mostConnectedPerson as sharedMostConnectedPerson,
+} from '../../data/traceModel';
 import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType, StoryLensConfig } from '../../data/types';
 
 type ConnectionFinderProps = {
@@ -10,7 +16,7 @@ type ConnectionFinderProps = {
   seedPerson: Inductee | null;
   returnPerson: Inductee | null;
   closeLabel?: string;
-  presentation?: 'dialog' | 'scene';
+  presentation?: 'dialog' | 'scene' | 'hall-panel';
   onClose: () => void;
   onSelectPerson: (inductee: Inductee) => void;
 };
@@ -58,7 +64,7 @@ export function ConnectionFinder({
   relationships,
   seedPerson,
   returnPerson,
-  closeLabel = 'Living Hall',
+  closeLabel = 'Portraits',
   presentation = 'dialog',
   onClose,
   onSelectPerson,
@@ -66,7 +72,7 @@ export function ConnectionFinder({
   const { lenses: storyLenses } = useStoryLenses();
   const peopleById = useMemo(() => new Map(inductees.map((item) => [item.id, item])), [inductees]);
   const defaultPerson = useMemo(
-    () => seedPerson ?? returnPerson ?? mostConnectedPerson(inductees, relationships) ?? inductees[0] ?? null,
+    () => seedPerson ?? returnPerson ?? sharedMostConnectedPerson(inductees, relationships) ?? inductees[0] ?? null,
     [inductees, relationships, returnPerson, seedPerson],
   );
   const [activePersonId, setActivePersonId] = useState('');
@@ -76,11 +82,11 @@ export function ConnectionFinder({
 
   const activePerson = activePersonId ? peopleById.get(activePersonId) ?? defaultPerson : defaultPerson;
   const directThreads = useMemo(
-    () => activePerson ? buildHumanNetwork(activePerson, inductees, relationships) : [],
+    () => activePerson ? buildSharedHumanNetwork(activePerson, inductees, relationships) : [],
     [activePerson, inductees, relationships],
   );
   const allConceptThreads = useMemo(
-    () => activePerson ? buildConceptThreads(activePerson, inductees, storyLenses) : [],
+    () => activePerson ? buildSharedConceptThreads(activePerson, inductees, storyLenses) : [],
     [activePerson, inductees, storyLenses],
   );
   const activeConceptThread = useMemo(
@@ -93,7 +99,7 @@ export function ConnectionFinder({
   );
   const allThreads = useMemo(
     () => activePerson && activeConceptThread
-      ? buildConceptNetwork(activePerson, activeConceptThread, directThreads)
+      ? buildSharedConceptNetwork(activePerson, activeConceptThread, directThreads)
       : directThreads,
     [activeConceptThread, activePerson, directThreads],
   );
@@ -151,10 +157,10 @@ export function ConnectionFinder({
         className={`connection-finder human-network human-network--${presentation}`}
         role={presentation === 'dialog' ? 'dialog' : 'region'}
         aria-modal={presentation === 'dialog' ? 'true' : undefined}
-        aria-label="Connections"
+        aria-label="Documented relationships"
       >
         <div className="human-network__empty">
-          <p className="museum-kicker">Connections</p>
+          <p className="museum-kicker">In Common</p>
           <h2>NO PEOPLE LOADED</h2>
           <button type="button" onClick={onClose}>{closeLabel}</button>
         </div>
@@ -171,26 +177,26 @@ export function ConnectionFinder({
       ].filter(Boolean).join(' ')}
       role={presentation === 'dialog' ? 'dialog' : 'region'}
       aria-modal={presentation === 'dialog' ? 'true' : undefined}
-      aria-label={`${activePerson.name} connections`}
+      aria-label={`${activePerson.name} documented relationships`}
     >
       <header className="human-network__header">
         <div>
-          <p className="museum-kicker">{followingThread ? 'Following A Thread' : 'Connections'}</p>
-          <h2>{followingThread ? activeConceptThread?.lens.label ?? 'Follow A Thread' : 'Connections'}</h2>
+          <p className="museum-kicker">{followingThread ? 'Following The Trace' : 'In Common'}</p>
+          <h2>{followingThread ? activeConceptThread?.lens.label ?? 'Follow The Trace' : 'IN COMMON'}</h2>
           <p className="human-network__thesis">
             {followingThread
-              ? 'A temporary path through people, work, communities, and civic memory.'
-              : 'Explore relationships that shape our city.'}
+              ? 'A trace through people, work, communities, and civic memory.'
+              : 'What these lives share, and where their work intersects.'}
           </p>
         </div>
         <div className="human-network__headerActions">
-          <button type="button" onClick={openActiveProfile}>Profile</button>
+          <button type="button" onClick={openActiveProfile}>Open Portrait</button>
           <button type="button" onClick={onClose}>{closeLabel}</button>
         </div>
       </header>
 
-      <div className="human-network__trail" aria-label="Thread path">
-        <span>{followingThread ? 'Following' : 'Path'}</span>
+      <div className="human-network__trail" aria-label="Trace path">
+        <span>{followingThread ? 'Following' : 'Trace'}</span>
         {threadTrail.slice(-5).map((person, index, people) => (
           <button
             aria-current={person.id === activePerson.id ? 'true' : undefined}
@@ -204,7 +210,7 @@ export function ConnectionFinder({
         ))}
       </div>
 
-      <main className="human-network__field" aria-label={`${activePerson.name} relationship network`}>
+      <main className="human-network__field" aria-label={`${activePerson.name} documented relationships`}>
         <svg className="human-network__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           {visibleThreads.map((thread) => (
             <line
@@ -224,8 +230,8 @@ export function ConnectionFinder({
             key={`label-${activePerson.id}-${activeThreadId || 'direct'}-${thread.person.id}`}
             style={positionStyle(thread.labelX, thread.labelY)}
           >
-            <span>{followingThread ? 'FOLLOW THIS THREAD' : 'WHY CONNECTED'}</span>
-            <strong>{followingThread ? activeConceptThread?.lens.label.toUpperCase() ?? 'THIS THREAD' : relationshipLineLabel(thread.reasons[0], activePerson.name)}</strong>
+            <span>{followingThread ? 'FOLLOW THIS TRACE' : 'IN COMMON'}</span>
+            <strong>{followingThread ? activeConceptThread?.lens.label.toUpperCase() ?? 'THIS TRACE' : relationshipLineLabel(thread.reasons[0], activePerson.name)}</strong>
           </div>
         ))}
 
@@ -273,7 +279,7 @@ export function ConnectionFinder({
             <span>
               <strong>{thread.person.name}</strong>
               <small>{thread.person.classYear ? `Class of ${thread.person.classYear}` : 'Class year unknown'}</small>
-              <em>{followingThread ? 'ANOTHER PERSON IN THIS STORY ->' : 'WHY CONNECTED'}</em>
+              <em>{followingThread ? 'CONTINUE THE TRACE ->' : 'IN COMMON'}</em>
               <i>
                 {followingThread
                   ? nodeReasonLabel(thread.reasons[0], activePerson.name)
@@ -285,14 +291,14 @@ export function ConnectionFinder({
 
         {visibleThreads.length === 0 && (
           <section className="human-network__noThreads">
-            <p className="museum-kicker">No Strong Threads Yet</p>
+            <p className="museum-kicker">No Reviewed Ties Yet</p>
             <h3>{activePerson.name}</h3>
-            <span>This portrait needs documented relationship data before it can enter the human network.</span>
+            <span>This portrait needs reviewed relationship data before it can enter the shared field.</span>
           </section>
         )}
 
         {followingThread && threadTrail.length > 1 && (
-          <div className="human-network__journey" aria-label="Thread journey">
+          <div className="human-network__journey" aria-label="Trace path">
             {threadTrail.slice(-5).map((person, index, people) => (
               <button
                 aria-current={person.id === activePerson.id ? 'true' : undefined}
@@ -317,14 +323,14 @@ export function ConnectionFinder({
       </main>
 
       {conceptThreads.length > 0 && (
-        <section className="human-network__threadChooser" aria-label="Follow a thread">
+        <section className="human-network__threadChooser" aria-label="Follow the trace">
           <div className="human-network__threadIntro">
-            <span>{followingThread ? 'Following This Thread' : 'FOLLOW A THREAD ->'}</span>
-            <strong>{activeConceptThread?.lens.label ?? 'Move through the Hall by story'}</strong>
+            <span>{followingThread ? 'Following This Trace' : 'FOLLOW THE TRACE ->'}</span>
+            <strong>{activeConceptThread?.lens.label ?? 'Move through the Hall by trace'}</strong>
             <small>
               {activeConceptThread
-                ? 'The portraits reorganize around this idea as you move from person to person.'
-                : 'Choose one supported thread. The portraits reorganize around that idea.'}
+                ? 'The portraits reorganize around this idea as you move from one honored life to another.'
+                : 'Choose one supported trace. The portraits reorganize around that idea.'}
             </small>
           </div>
           <div className="human-network__threadRail">
@@ -343,7 +349,7 @@ export function ConnectionFinder({
             ))}
             {followingThread && (
               <button className="human-network__threadReset" type="button" onClick={returnToDirectLinks}>
-                Direct Links
+                Direct Ties
               </button>
             )}
           </div>
@@ -354,13 +360,13 @@ export function ConnectionFinder({
         <div>
           <span>
             {followingThread
-              ? `${activeConceptThread?.lens.label ?? 'Story'} / ${allThreads.length} ${allThreads.length === 1 ? 'portrait' : 'portraits'}`
-              : `${allThreads.length} strong ${allThreads.length === 1 ? 'thread' : 'threads'}`}
+              ? `${activeConceptThread?.lens.label ?? 'Trace'} / ${allThreads.length} ${allThreads.length === 1 ? 'portrait' : 'portraits'}`
+              : `${allThreads.length} reviewed ${allThreads.length === 1 ? 'tie' : 'ties'}`}
           </span>
           <span>
             {followingThread
-              ? 'Story threads use CIHOF story lens data; direct ties remain documented or structured.'
-              : 'Only documented, curated, or structured CIHOF links are shown.'}
+              ? 'Traces use reviewed CIHOF theme data; direct ties remain documented or structured.'
+              : 'Only documented, curated, or structured CIHOF ties are shown.'}
           </span>
         </div>
         <div className="human-network__footerActions">
@@ -370,10 +376,10 @@ export function ConnectionFinder({
               type="button"
               onClick={() => setRevealedCount((count) => Math.min(count + revealIncrement, maxThreadCount))}
             >
-              Reveal More Threads
+              Reveal More Ties
             </button>
           )}
-          <button className="human-network__profileButton" type="button" onClick={openActiveProfile}>Selected Profile</button>
+          <button className="human-network__profileButton" type="button" onClick={openActiveProfile}>Open Portrait</button>
         </div>
       </footer>
     </section>
@@ -442,7 +448,7 @@ function buildConceptNetwork(active: Inductee, thread: ConceptThread, directThre
 function conceptSupportLabel(match: StoryLensMatch) {
   const reason = match.reasons.find((item) => item !== 'Curator pinned') ?? match.reasons[0];
   if (!reason) return 'CIHOF record';
-  return reason.replace(/^Story match:\s*/i, '').trim() || 'CIHOF record';
+  return reason.replace(/^(Story|Trace) match:\s*/i, '').trim() || 'CIHOF record';
 }
 
 function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationships: RelationshipRecord[]) {
@@ -483,12 +489,12 @@ function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationship
         .filter((relationship) => relationship.targetEntityId === activeRelationship.targetEntityId && relationship.sourcePersonId !== active.id)
         .forEach((relationship) => {
           addReason(peopleById.get(relationship.sourcePersonId), {
-            type: activeRelationship.type,
-            label: activeRelationship.displayLabel,
-            detail: activeRelationship.referenceNote || relationship.referenceNote || 'Shared documented relationship target.',
-            provenance: strongestProvenance(activeRelationship.provenance, relationship.provenance),
-            score: 86,
-          });
+        type: activeRelationship.type,
+        label: activeRelationship.displayLabel,
+        detail: activeRelationship.referenceNote || relationship.referenceNote || 'Shared documented relationship.',
+        provenance: strongestProvenance(activeRelationship.provenance, relationship.provenance),
+        score: 86,
+      });
         });
     });
 
@@ -528,7 +534,7 @@ function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationship
     if (active.inductedBy && candidate.inductedBy && normalizedInductedBy(candidate) === activeInducer && candidate.inductedBy !== candidate.name) {
       addReason(candidate, {
         type: 'inducted_by',
-        label: `Shared inducer: ${active.inductedBy}`,
+        label: `Inducted by ${active.inductedBy}`,
         detail: 'Both records name the same inducer.',
         provenance: 'curated',
         score: 48,
@@ -538,7 +544,7 @@ function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationship
     sharedExplicitValues(active.themeTags, active.themeTagsSource, candidate.themeTags, candidate.themeTagsSource).forEach((theme) => {
       addReason(candidate, {
         type: 'shared_theme',
-        label: `Shared field: ${theme}`,
+        label: `Connected through: ${theme}`,
         detail: 'Both records include a reviewed contribution field.',
         provenance: 'curated',
         score: 44,
@@ -548,7 +554,7 @@ function buildHumanNetwork(active: Inductee, inductees: Inductee[], relationship
     sharedExplicitValues(active.countryTags, active.countryTagsSource, candidate.countryTags, candidate.countryTagsSource).forEach((place) => {
       addReason(candidate, {
         type: 'related_place',
-        label: `Shared place: ${place}`,
+        label: `Connected to: ${place}`,
         detail: 'Both records include a reviewed place association.',
         provenance: 'curated',
         score: 34,
@@ -661,7 +667,7 @@ function relationshipTypeLabel(type: RelationshipType) {
 function nodeReasonLabel(reason: NetworkReason, activeName: string) {
   if (reason.type === 'same_class') return reason.label || 'Same CIHOF class';
   if (reason.label.startsWith(`${activeName} inducted `)) return 'Inducted them';
-  if (reason.label.startsWith('Shared inducer:')) return reason.label;
+  if (reason.type === 'inducted_by' && reason.label.startsWith('Inducted by ')) return reason.label;
   return reason.label;
 }
 
@@ -675,12 +681,12 @@ function relationshipLineLabel(reason: NetworkReason | undefined, activeName: st
   if (!reason) return 'Documented connection';
   const label = nodeReasonLabel(reason, activeName);
   if (reason.type === 'same_class') return 'SAME CLASS';
-  if (reason.type === 'shared_theme') return label.replace(/^Shared field:\s*/i, '').toUpperCase();
+  if (reason.type === 'shared_theme') return label.replace(/^Connected through:\s*/i, '').toUpperCase();
   if (reason.type === 'shared_community') return 'SHARED COMMUNITY';
   if (reason.type === 'shared_organization') return 'SHARED ORGANIZATION';
   if (reason.type === 'civic_collaboration') return 'CIVIC WORK';
   if (reason.type === 'inducted_by') return label.toUpperCase();
-  if (reason.type === 'related_place') return label.replace(/^Shared place:\s*/i, '').toUpperCase();
+  if (reason.type === 'related_place') return label.replace(/^Connected to:\s*/i, '').toUpperCase();
   return label.toUpperCase();
 }
 

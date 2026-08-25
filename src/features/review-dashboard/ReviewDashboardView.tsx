@@ -2594,8 +2594,8 @@ function emptyStoryLensDocument(): StoryLensDocument {
   return {
     schemaVersion: 1,
     source: {
-      name: 'CIHOF story lenses',
-      note: 'Curator-editable interpretive prompts for arranging the All People portrait wall.',
+      name: 'CIHOF trace themes',
+      note: 'Curator-editable interpretive prompts for arranging portrait traces.',
     },
     lenses: [],
   };
@@ -2605,7 +2605,7 @@ function normalizeStoryLensDocument(input: unknown): StoryLensDocument {
   const source = input && typeof input === 'object' && !Array.isArray(input) ? input as Partial<StoryLensDocument> : {};
   const sourceInfo = source.source && typeof source.source === 'object'
     ? {
-        name: typeof source.source.name === 'string' ? source.source.name.trim() : 'CIHOF story lenses',
+        name: typeof source.source.name === 'string' ? source.source.name.trim() : 'CIHOF trace themes',
         note: typeof source.source.note === 'string' ? source.source.note.trim() : '',
       }
     : emptyStoryLensDocument().source;

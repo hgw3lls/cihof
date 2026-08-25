@@ -1,0 +1,263 @@
+/* Persistent visitor Hall shell. Lenses recompose this surface instead of replacing it. */
+.museum-shell:not(.museum-shell--staff) .hall-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface > .living-hall {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface--connection-open > .living-hall {
+  opacity: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--focused {
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--focused .living-portrait__imageWrap {
+  border-color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--muted {
+  opacity: 0.36;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--muted .living-portrait__label {
+  opacity: 0.18;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__lensPanel,
+.museum-shell:not(.museum-shell--staff) .hall-surface__connectionLayer,
+.museum-shell:not(.museum-shell--staff) .hall-surface__focusLayer {
+  position: absolute;
+  z-index: 24;
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__lensPanel {
+  right: clamp(24px, 3vw, 64px);
+  bottom: calc(var(--experience-dock-height) + clamp(22px, 3vh, 54px));
+  width: min(520px, 35vw);
+  max-height: min(64vh, 680px);
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__lensPanel--legacies {
+  width: min(720px, 48vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__connectionLayer {
+  inset: clamp(42px, 5vh, 82px) clamp(34px, 4vw, 86px) calc(var(--experience-dock-height) + clamp(20px, 2vh, 44px));
+  z-index: 34;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__focusLayer {
+  inset: 0;
+  z-index: 42;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__focusLayer .detail--visitor,
+.museum-shell:not(.museum-shell--staff) .hall-surface__connectionLayer .connection-finder.human-network {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__focusLayer .detail--visitor {
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.038) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.032) 1px, transparent 1px),
+    rgba(216, 196, 154, 0.9);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__connectionLayer .connection-finder.human-network {
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.038) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.032) 1px, transparent 1px),
+    rgba(216, 196, 154, 0.92);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor {
+  position: absolute;
+  left: var(--person-action-x);
+  top: var(--person-action-y);
+  z-index: 2500;
+  width: min(780px, 44vw);
+  height: auto;
+  min-height: 0;
+  max-height: min(73vh, 760px);
+  display: block;
+  overflow: auto;
+  border-top: 4px solid var(--exhibit-route);
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.03) 1px, transparent 1px),
+    rgba(243, 234, 214, 0.94);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+  color: var(--exhibit-ink);
+  padding: clamp(12px, 1.1vw, 20px);
+  transform: translateY(-50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor[data-side="left"] {
+  transform: translate(-100%, -50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-watch {
+  width: min(900px, 52vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-continue {
+  width: min(680px, 38vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel :is(.story-mode, .media-experience, .qr-continuation) {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .story-mode {
+  min-height: min(52vh, 560px);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .story-mode__exit {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .story-mode__beat {
+  min-height: 0;
+  grid-template-columns: minmax(180px, 0.42fr) minmax(0, 0.58fr);
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .story-mode__copy {
+  max-height: min(35vh, 390px);
+  overflow: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .media-experience__layout {
+  grid-template-columns: minmax(280px, 1fr) minmax(160px, 0.38fr);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .media-stage__screen {
+  min-height: min(34vh, 360px);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .qr-continuation {
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 0.42fr);
+  gap: clamp(14px, 1.4vw, 24px);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface__lensPanel :is(.world-lens--hall-panel, .time-lens--hall-panel) {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  display: grid;
+  gap: clamp(10px, 1vw, 16px);
+  overflow: visible;
+  background: transparent;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel {
+  grid-template-rows: auto auto auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__header,
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel .time-lens__header {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(8px, 0.9vw, 14px);
+  border: 0;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__header h2,
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel .time-lens__yearReadout strong {
+  font-size: clamp(3.2rem, 5.6vw, 8rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__story {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: auto;
+  border-top: 2px solid rgba(21, 19, 15, 0.28);
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__storyMeta,
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__story footer,
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__controls {
+  display: flex;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__controls {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .world-lens--hall-panel .world-lens__control {
+  min-height: clamp(58px, 6vh, 82px);
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel {
+  grid-template-rows: auto minmax(0, auto) auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel .time-class-focus,
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel .time-class-focus__actions {
+  display: grid;
+}
+
+.museum-shell:not(.museum-shell--staff) .time-lens--hall-panel .time-lens__controls {
+  min-height: clamp(80px, 8vh, 112px);
+}
+
+@media (max-width: 980px) {
+  .museum-shell:not(.museum-shell--staff) .hall-surface__lensPanel {
+    left: clamp(20px, 5vw, 42px);
+    right: clamp(20px, 5vw, 42px);
+    width: auto;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .hall-surface__connectionLayer {
+    inset: clamp(54px, 7vh, 86px) clamp(18px, 4vw, 42px) calc(var(--experience-dock-height) + 18px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor,
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor[data-side="left"],
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-watch,
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-continue {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    top: clamp(118px, 18vh, 190px);
+    bottom: calc(var(--experience-dock-height) + 124px);
+    width: auto;
+    max-height: none;
+    transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .story-mode__beat,
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .media-experience__layout,
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel .qr-continuation {
+    grid-template-columns: 1fr;
+  }
+}

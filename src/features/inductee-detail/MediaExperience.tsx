@@ -15,7 +15,7 @@ type MediaExperienceProps = {
 type MediaItem = {
   id: string;
   sourceType: 'local-video' | 'local-audio' | 'youtube';
-  category: 'Ceremony Footage' | 'Oral History' | 'Audio' | 'YouTube Fallback';
+  category: 'Induction Footage' | 'Oral History' | 'Audio' | 'Streaming Video';
   title: string;
   description: string;
   runtimePath?: string;
@@ -48,8 +48,8 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
     <section className="media-experience" aria-label={`${inductee.name} media`}>
       <header className="media-experience__header">
         <div>
-          <p className="museum-kicker">Watch / Listen</p>
-          <h3>Media</h3>
+          <p className="museum-kicker">Watch + Listen</p>
+          <h3>Recorded Material</h3>
         </div>
         <div className="media-experience__summary" aria-label="Available media summary">
           <span>{playableItems.filter((item) => item.sourceType === 'local-video').length} local video</span>
@@ -61,7 +61,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
       <div className="media-experience__layout">
         <MediaStage item={activeItem} kioskMode={kioskMode} personName={inductee.name} soundEnabled={soundEnabled} />
 
-        <aside className="media-playlist" aria-label="Media playlist">
+        <aside className="media-playlist" aria-label="Media list">
           {playableItems.length > 0 ? (
             playableItems.map((item) => (
               <button
@@ -73,23 +73,23 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
               >
                 <span>{item.category}</span>
                 <strong>{item.title}</strong>
-                <small>{item.sourceType === 'youtube' ? 'Fallback stream' : 'Local file preferred'}</small>
+                <small>{item.sourceType === 'youtube' ? 'Streaming source' : 'Installed media'}</small>
               </button>
             ))
           ) : (
-            <div className="media-empty media-empty--compact">NO VIDEO AVAILABLE YET</div>
+            <div className="media-empty media-empty--compact">NO APPROVED MEDIA AVAILABLE YET</div>
           )}
           {hiddenExternalCount > 0 && (
             <div className="media-playlist__notice">
-              YouTube fallback is hidden in kiosk mode.
+              Streaming video is hidden in kiosk mode until approved installed media is available.
             </div>
           )}
         </aside>
       </div>
 
-      <section className="media-gallery" aria-label={`${inductee.name} image gallery`}>
+      <section className="media-gallery" aria-label={`${inductee.name} collection images`}>
         <div className="media-gallery__header">
-          <p className="museum-kicker">Image Gallery</p>
+          <p className="museum-kicker">Collection Images</p>
           <span>{gallery.length > 0 ? `${gallery.length} images` : 'No images linked'}</span>
         </div>
         {gallery.length > 0 ? (
@@ -107,7 +107,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
             ))}
           </div>
         ) : (
-          <div className="media-empty media-empty--compact">NO IMAGE GALLERY AVAILABLE YET</div>
+          <div className="media-empty media-empty--compact">NO COLLECTION IMAGES AVAILABLE YET</div>
         )}
       </section>
     </section>
@@ -143,10 +143,10 @@ function MediaStage({ item, kioskMode, personName, soundEnabled }: { item: Media
 
   if (!item) {
     return (
-      <section className="media-stage media-stage--empty" aria-label="No available video">
+      <section className="media-stage media-stage--empty" aria-label="No approved media">
         <div className="media-empty">
-          <strong>NO VIDEO AVAILABLE YET</strong>
-          <span>Local video, oral history audio, or approved fallback media can be added to the media manifest.</span>
+          <strong>NO APPROVED MEDIA AVAILABLE YET</strong>
+          <span>No approved video or audio is installed for this inductee.</span>
         </div>
       </section>
     );
@@ -223,7 +223,7 @@ function MediaStage({ item, kioskMode, personName, soundEnabled }: { item: Media
           <div className="media-youtube">
             {!youtubeLoaded ? (
               <button type="button" disabled={kioskMode} onClick={() => setYoutubeLoaded(true)}>
-                Load YouTube Fallback
+                Load Streaming Video
               </button>
             ) : (
               <iframe
@@ -329,9 +329,9 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
       items.push({
         id: `local-video-${index + 1}-${runtimePath}`,
         sourceType: 'local-video',
-        category: 'Ceremony Footage',
-        title: `Ceremony Footage ${index + 1}`,
-        description: `Local ceremony footage for ${inductee.name}.`,
+        category: 'Induction Footage',
+        title: `Induction Footage ${index + 1}`,
+        description: `Installed induction footage for ${inductee.name}.`,
         runtimePath,
         captionStatus: inductee.videoRightsStatus ? 'review-needed' : undefined,
         transcriptStatus: 'needed',
@@ -368,9 +368,9 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
     items.push({
       id: `youtube-${youtubeVideoId}`,
       sourceType: 'youtube',
-      category: 'YouTube Fallback',
-      title: `Fallback Video ${index + 1}`,
-      description: `Streaming fallback for ${inductee.name}. Local media should be preferred for museum installation.`,
+      category: 'Streaming Video',
+      title: `Streaming Video ${index + 1}`,
+      description: `Streaming video for ${inductee.name}. Installed media should be preferred for museum playback.`,
       youtubeVideoId,
     });
   });
@@ -388,9 +388,9 @@ function videoToItem(video: RuntimeVideoAsset, index: number): MediaItem {
   return {
     id: `local-video-${index + 1}-${video.runtimePath}`,
     sourceType: 'local-video',
-    category: 'Ceremony Footage',
-    title: video.title || `Ceremony Footage ${index + 1}`,
-    description: video.description || 'Local ceremony footage.',
+    category: 'Induction Footage',
+    title: video.title || `Induction Footage ${index + 1}`,
+    description: video.description || 'Installed induction footage.',
     runtimePath: video.runtimePath,
     posterPath: video.posterRuntimePath,
     captionPath: video.captionRuntimePath,
@@ -427,9 +427,9 @@ function youtubeToItem(youtubeVideoId: string, video: RuntimeVideoAsset, index: 
   return {
     id: `youtube-${youtubeVideoId}`,
     sourceType: 'youtube',
-    category: 'YouTube Fallback',
-    title: video.title || `Fallback Video ${index + 1}`,
-    description: video.description || 'Streaming fallback. Local media should be preferred for museum installation.',
+    category: 'Streaming Video',
+    title: video.title || `Streaming Video ${index + 1}`,
+    description: video.description || 'Streaming video. Installed media should be preferred for museum playback.',
     youtubeVideoId,
     captionStatus: video.captionStatus,
     transcriptStatus: video.transcriptStatus,

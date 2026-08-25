@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "updatedAt": "2026-08-19T00:00:00.000Z",
   "source": {
-    "name": "CIHOF story lenses",
-    "note": "Curator-editable interpretive prompts for arranging the All People portrait wall."
+    "name": "CIHOF trace themes",
+    "note": "Curator-editable interpretive prompts for arranging portrait traces."
   },
   "lenses": [
     {
       "id": "built-cleveland",
-      "label": "Built Cleveland",
-      "prompt": "Who Built Cleveland?",
+      "label": "Civic Builders",
+      "prompt": "Public Life",
       "description": "Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.",
       "terms": [
         "founder",
@@ -38,8 +38,8 @@
     },
     {
       "id": "helped-arrive",
-      "label": "Helped New Arrivals",
-      "prompt": "Who Helped People Arrive?",
+      "label": "Newcomer Support",
+      "prompt": "Welcome Work",
       "description": "People connected to immigration, resettlement, welcome work, citizenship, and services for new Clevelanders.",
       "terms": [
         "immigrant",
@@ -66,8 +66,8 @@
     },
     {
       "id": "kept-cultures",
-      "label": "Kept Cultures Alive",
-      "prompt": "Who Kept Cultures Alive?",
+      "label": "Cultural Preservation",
+      "prompt": "Culture Carried Forward",
       "description": "Artists, organizers, educators, and cultural stewards who carried traditions forward.",
       "terms": [
         "culture",
@@ -95,8 +95,8 @@
     },
     {
       "id": "changed-city",
-      "label": "Changed The City",
-      "prompt": "Who Changed The City?",
+      "label": "Civic Life",
+      "prompt": "City Change",
       "description": "Public servants, advocates, organizers, and leaders whose work changed civic life.",
       "terms": [
         "justice",
@@ -125,8 +125,8 @@
     },
     {
       "id": "made-art",
-      "label": "Made Art",
-      "prompt": "Who Made Art?",
+      "label": "Arts",
+      "prompt": "Making Culture",
       "description": "Artists, musicians, writers, performers, and storytellers across Cleveland communities.",
       "terms": [
         "art",
@@ -157,8 +157,8 @@
     },
     {
       "id": "cared-for-city",
-      "label": "Cared For Cleveland",
-      "prompt": "Who Cared For Cleveland?",
+      "label": "Care + Health",
+      "prompt": "Care Work",
       "description": "Doctors, nurses, health leaders, social-service organizers, and people whose work centered care.",
       "terms": [
         "doctor",
