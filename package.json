@@ -30,7 +30,8 @@
     "dev:portal": "npm run prepare:data && vite --open /portal.html",
     "build": "npm run prepare:data && tsc -b && vite build",
     "preview": "vite preview",
-    "audit:data": "node scripts/audit-data.js"
+    "audit:data": "node scripts/audit-data.js",
+    "test:portal": "playwright test -c playwright.portal.config.ts"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
