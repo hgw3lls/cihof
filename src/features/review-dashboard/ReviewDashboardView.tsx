@@ -451,7 +451,13 @@ type ReviewDraft = {
   updatedAt: string;
   approvalStatus?: string;
   reviewPriority?: string;
+  displayName?: string;
+  sortName?: string;
+  pronunciation?: string;
   approvedSummary?: string;
+  documentedContextLine?: string;
+  honoredForSummary?: string;
+  lifeWorkSummary?: string;
   approvedThemeTags?: string[];
   approvedCountryTags?: string[];
   countryNotes?: string;
@@ -1961,9 +1967,31 @@ function sourceDraftPatchForRow(row: SourceCandidateRow, stageKind: SourceCandid
     return patch;
   }
 
+  if ((stageKind === 'profile-note' || stageKind === 'class-note') && !draft?.documentedContextLine && !target.documentedContextLine) {
+    return {
+      documentedContextLine: sourceContextLine(row),
+      curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
+    };
+  }
+
+  if (stageKind === 'story-note' && !draft?.lifeWorkSummary && !target.lifeWorkSummary) {
+    return {
+      lifeWorkSummary: row.detail || row.note,
+      curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
+    };
+  }
+
   return {
     curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
   };
+}
+
+function sourceContextLine(row: SourceCandidateRow) {
+  return [row.subtitle, row.detail, row.label]
+    .map(cleanPortalString)
+    .filter(Boolean)
+    .join(' / ')
+    .slice(0, 120);
 }
 
 function matchesSourceCandidate(row: SourceCandidateRow, search: string) {
@@ -2652,7 +2680,13 @@ function ProfileEditor({
   onClear: () => void;
   onOpenProfile: () => void;
 }) {
+  const displayName = draft?.displayName ?? inductee.name;
+  const sortName = draft?.sortName ?? inductee.sortName;
+  const pronunciation = draft?.pronunciation ?? inductee.pronunciation;
   const approvedSummary = draft?.approvedSummary ?? inductee.storySummary;
+  const documentedContextLine = draft?.documentedContextLine ?? inductee.documentedContextLine;
+  const honoredForText = draft?.honoredForSummary ?? inductee.honoredForSummary;
+  const lifeWorkSummary = draft?.lifeWorkSummary ?? inductee.lifeWorkSummary;
   const approvedThemeTags = draft?.approvedThemeTags ?? inductee.themeTags;
   const approvedCountryTags = draft?.approvedCountryTags ?? inductee.countryTags;
   const countryNotes = draft?.countryNotes ?? inductee.countryTagsNote;
@@ -2747,6 +2781,26 @@ function ProfileEditor({
           </label>
         </fieldset>
 
+        <fieldset className="portal-fieldset">
+          <legend>Identity</legend>
+          <label className="field">
+            <span>Display name</span>
+            <input value={displayName} onChange={(event) => onPatch({ displayName: event.target.value })} />
+          </label>
+          <label className="field">
+            <span>Sort name</span>
+            <input value={sortName} onChange={(event) => onPatch({ sortName: event.target.value })} />
+          </label>
+          <label className="field">
+            <span>Pronunciation</span>
+            <input value={pronunciation} onChange={(event) => onPatch({ pronunciation: event.target.value })} />
+          </label>
+          <label className="field">
+            <span>Source profile URL</span>
+            <input value={inductee.profileUrl} readOnly />
+          </label>
+        </fieldset>
+
         <fieldset className="portal-fieldset portal-fieldset--wide">
           <legend>Story Summary</legend>
           <label className="field">
@@ -2756,6 +2810,36 @@ function ProfileEditor({
           <label className="portal-check">
             <input checked={Boolean(draft?.summaryApproved)} onChange={(event) => onPatch({ summaryApproved: event.target.checked })} type="checkbox" />
             <span>Use this as the approved summary</span>
+          </label>
+        </fieldset>
+
+        <fieldset className="portal-fieldset portal-fieldset--wide">
+          <legend>Focused Hall Text</legend>
+          <label className="field">
+            <span>Documented context line</span>
+            <input
+              value={documentedContextLine}
+              onChange={(event) => onPatch({ documentedContextLine: event.target.value })}
+              placeholder="Concise sourced context shown beside the focused frame"
+            />
+          </label>
+          <label className="field">
+            <span>HONORED FOR summary</span>
+            <textarea
+              value={honoredForText}
+              onChange={(event) => onPatch({ honoredForSummary: event.target.value })}
+              rows={4}
+              placeholder="Short curator-written reason for honor; falls back to biography summary when blank"
+            />
+          </label>
+          <label className="field">
+            <span>Life + Work overview</span>
+            <textarea
+              value={lifeWorkSummary}
+              onChange={(event) => onPatch({ lifeWorkSummary: event.target.value })}
+              rows={5}
+              placeholder="Optional longer reading text for the anchored Life + Work panel"
+            />
           </label>
         </fieldset>
 
@@ -3694,6 +3778,11 @@ function getDraftIssues(inductee: Inductee, draft: ReviewDraft | undefined, medi
   const firstVideo = mediaRecord?.videos?.[0];
   const approvedSummary = draft.approvedSummary?.trim() ?? '';
 
+  if (draft.displayName !== undefined && draft.displayName.trim().length === 0) add('Display name cannot be empty.', 'error');
+  if (draft.documentedContextLine && draft.documentedContextLine.trim().length > 120) add('Documented context line is long for the focused Hall panel.');
+  if (draft.honoredForSummary && draft.honoredForSummary.trim().split(/\s+/).filter(Boolean).length > 58) {
+    add('HONORED FOR summary is long for the focused Hall panel.');
+  }
   if (draft.summaryApproved && approvedSummary.length < 80) add('Approved summary is very short or empty.', 'error');
   if (draft.themeTagsApproved && (draft.approvedThemeTags?.length ?? 0) === 0) add('Theme approval is checked but no approved themes are staged.', 'error');
   if (draft.countryTagsApproved && (draft.approvedCountryTags?.length ?? 0) === 0) add('Country approval is checked but no approved countries are staged.', 'error');
@@ -3722,7 +3811,13 @@ function getDraftIssues(inductee: Inductee, draft: ReviewDraft | undefined, medi
 function matchesSearch(inductee: Inductee, draft: ReviewDraft | undefined, search: string) {
   const draftText = draft
     ? [
+        draft.displayName,
+        draft.sortName,
+        draft.pronunciation,
         draft.approvedSummary,
+        draft.documentedContextLine,
+        draft.honoredForSummary,
+        draft.lifeWorkSummary,
         draft.countryNotes,
         ...(draft.approvedThemeTags ?? []),
         ...(draft.approvedCountryTags ?? []),
@@ -4104,6 +4199,9 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
   const headers = [
     'id',
     'name',
+    'display_name',
+    'sort_name',
+    'pronunciation',
     'class_year',
     'country_tags',
     'country_source',
@@ -4120,6 +4218,9 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     'attract_priority',
     'current_summary',
     'approved_summary',
+    'documented_context_line',
+    'honored_for_summary',
+    'life_work_summary',
     'summary_approved',
     'summary_source',
     'current_theme_tags',
@@ -4187,6 +4288,9 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     return [
       inductee.id,
       inductee.name,
+      draft?.displayName ?? inductee.name,
+      draft?.sortName ?? inductee.sortName,
+      draft?.pronunciation ?? inductee.pronunciation,
       inductee.classYear ?? '',
       inductee.countryTags.join('; '),
       inductee.countryTagsSource,
@@ -4203,6 +4307,9 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
       draft?.attractPriority ?? '',
       inductee.storySummary,
       draft?.approvedSummary ?? '',
+      draft?.documentedContextLine ?? inductee.documentedContextLine,
+      draft?.honoredForSummary ?? inductee.honoredForSummary,
+      draft?.lifeWorkSummary ?? inductee.lifeWorkSummary,
       toDecisionFlag(draft?.summaryApproved),
       inductee.storySummarySource,
       inductee.themeTags.join('; '),

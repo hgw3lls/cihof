@@ -55,6 +55,9 @@ export function loadInductees(options = {}) {
       bioText,
       storySummary,
       storySummarySource: 'generated',
+      documentedContextLine: '',
+      honoredForSummary: '',
+      lifeWorkSummary: '',
       storyHighlights,
       themeTags,
       themeTagsSource: 'generated',
@@ -63,6 +66,7 @@ export function loadInductees(options = {}) {
       countryTagsNote: countryTags.length > 0 ? 'Detected from origin or heritage phrases in the source profile text.' : '',
       communityTags: [],
       sortName: buildSortName(name),
+      pronunciation: '',
       imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null),
       approvalStatus: 'unreviewed',
       reviewPriority: 'standard',
@@ -212,6 +216,9 @@ export function validateCuratedMetadata(metadata, expectedIds = []) {
     checkString(record, id, 'sortName', errors);
     checkString(record, id, 'summaryDraft', errors);
     checkString(record, id, 'approvedSummary', errors);
+    checkString(record, id, 'documentedContextLine', errors);
+    checkString(record, id, 'honoredForSummary', errors);
+    checkString(record, id, 'lifeWorkSummary', errors);
     checkStringArray(record, id, 'themeTagCandidates', errors);
     checkStringArray(record, id, 'approvedThemeTags', errors);
     checkStringArray(record, id, 'countryTagCandidates', errors);
@@ -570,7 +577,11 @@ function applyCuratedMetadata(inductee, curated) {
 
   const name = cleanString(curated.displayName) || inductee.name;
   const sortName = cleanString(curated.sortName) || buildSortName(name);
+  const pronunciation = cleanString(curated.pronunciation);
   const approvedSummary = cleanString(curated.approvedSummary);
+  const documentedContextLine = cleanString(curated.documentedContextLine);
+  const honoredForSummary = cleanString(curated.honoredForSummary);
+  const lifeWorkSummary = cleanString(curated.lifeWorkSummary);
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
   const approvedCountryTags = toStringArray(curated.approvedCountryTags);
   const countryNotes = cleanString(curated.countryNotes);
@@ -588,8 +599,12 @@ function applyCuratedMetadata(inductee, curated) {
     ...inductee,
     name,
     sortName,
+    pronunciation,
     storySummary,
     storySummarySource: approvedSummary ? 'curated' : 'generated',
+    documentedContextLine,
+    honoredForSummary,
+    lifeWorkSummary,
     themeTags,
     themeTagsSource: approvedThemeTags.length > 0 ? 'curated' : 'generated',
     countryTags,
@@ -605,7 +620,7 @@ function applyCuratedMetadata(inductee, curated) {
     mediaReviewStatus,
     imageRightsStatus,
     videoRightsStatus,
-    searchText: [name, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, ...themeTags, ...countryTags, ...communityTags]
+    searchText: [name, pronunciation, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, documentedContextLine, honoredForSummary, lifeWorkSummary, ...themeTags, ...countryTags, ...communityTags]
       .filter(Boolean)
       .join(' ')
       .toLowerCase(),

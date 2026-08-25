@@ -9429,7 +9429,7 @@ textarea:focus,
 
 .admin-data-panel__nav {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -9594,8 +9594,77 @@ textarea:focus,
   min-height: 42px;
 }
 
+.admin-diagnostics {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-diagnostics__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-diagnostics__card {
+  min-width: 0;
+  border: 2px solid rgba(23, 21, 19, 0.28);
+  background: rgba(255, 247, 230, 0.56);
+  padding: 12px;
+}
+
+.admin-diagnostics__card h3 {
+  margin: 0 0 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.admin-diagnostics__card dl,
+.admin-diagnostics__card div {
+  display: grid;
+  gap: 7px;
+}
+
+.admin-diagnostics__card div {
+  grid-template-columns: minmax(130px, 0.7fr) minmax(0, 1fr);
+}
+
+.admin-diagnostics__card dt,
+.admin-diagnostics__card dd,
+.admin-diagnostics__json {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.admin-diagnostics__card dt {
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.admin-diagnostics__card dd {
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.admin-diagnostics__json {
+  max-height: 260px;
+  overflow: auto;
+  border: 2px solid rgba(23, 21, 19, 0.28);
+  background: var(--bone);
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
 @media (max-width: 1260px) {
   .admin-settings__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-diagnostics__grid {
     grid-template-columns: 1fr;
   }
 

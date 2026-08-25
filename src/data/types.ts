@@ -25,6 +25,9 @@ export type Inductee = {
   bioText: string;
   storySummary: string;
   storySummarySource: string;
+  documentedContextLine: string;
+  honoredForSummary: string;
+  lifeWorkSummary: string;
   storyHighlights: string[];
   themeTags: string[];
   themeTagsSource: string;
@@ -33,6 +36,7 @@ export type Inductee = {
   countryTagsNote: string;
   communityTags: string[];
   sortName: string;
+  pronunciation: string;
   imageAltText: string;
   approvalStatus: string;
   reviewPriority: string;
