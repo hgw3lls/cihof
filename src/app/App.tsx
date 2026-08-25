@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { FallbackImage, initials } from '../components/FallbackImage';
 import { installationConfig } from '../config/installationConfig';
 import { useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
 import { mostConnectedPerson } from '../data/traceModel';
 import { AdminDataPanel } from '../features/admin/AdminDataPanel';
 import { matchesAdminHotkey, readKioskSettings, subscribeKioskSettings, type KioskSettings } from './kioskSettings';
-import type { DetailAction } from '../features/inductee-detail/InducteeDetail';
 import { HallSurface } from '../features/hall-surface/HallSurface';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import {
@@ -28,39 +26,10 @@ import type { HallFocus, HallLens, Inductee, ViewMode } from '../data/types';
 
 const contentProtectionActive = installationConfig.features.kioskGuards;
 const showKioskToggleInProduction = installationConfig.debug.showKioskToggleInProduction;
-const sharedPortraitDurationMs = installationConfig.transitions.sharedPortraitMs;
 const transitionInputGuardMs = installationConfig.transitions.inputGuardMs;
 
 type AppProps = {
   defaultView?: ViewMode;
-};
-
-type TransitionRect = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-};
-
-type SharedPortraitKind =
-  | 'to-person'
-  | 'person-to-connections'
-  | 'connections-to-person'
-  | 'person-to-living-hall'
-  | 'person-to-world'
-  | 'person-to-time'
-  | 'lens-to-person';
-
-type PendingSharedPortrait = {
-  person: Inductee;
-  from: TransitionRect;
-  targetView: ViewMode;
-  kind: SharedPortraitKind;
-};
-
-type SharedPortraitHandoff = PendingSharedPortrait & {
-  key: string;
-  to: TransitionRect;
 };
 
 export function App({ defaultView = 'living-hall' }: AppProps) {
@@ -74,26 +43,19 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const [experienceTransition, setExperienceTransition] = useState<ExperienceTransition>('switch');
   const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
-  const [personInitialAction, setPersonInitialAction] = useState<DetailAction>('overview');
   const [worldFocusKey, setWorldFocusKey] = useState<string>(() => readInitialWorldFocus());
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
   const [attractActive, setAttractActive] = useState(false);
   const [idleWarningActive, setIdleWarningActive] = useState(false);
-  const [connectionSeedId, setConnectionSeedId] = useState(() => readInitialConnectionPersonId());
-  const [connectionReturnId, setConnectionReturnId] = useState(() => readInitialConnectionPersonId());
-  const [personReturnView, setPersonReturnView] = useState<VisitorExperienceMode>('living-hall');
-  const [sharedPortrait, setSharedPortrait] = useState<SharedPortraitHandoff | null>(null);
   const [transitionLocked, setTransitionLocked] = useState(false);
   const [networkOnline, setNetworkOnline] = useState(() => typeof navigator === 'undefined' ? true : navigator.onLine);
   const [adminDataOpen, setAdminDataOpen] = useState(() => readParam('admin') === '1');
   const [kioskSettings, setKioskSettings] = useState(() => readKioskSettings());
   const stageRef = useRef<HTMLElement | null>(null);
   const scrollPositionRef = useRef({ left: 0, top: 0 });
-  const pendingSharedPortraitRef = useRef<PendingSharedPortrait | null>(null);
   const adminTapRef = useRef({ count: 0, startedAt: 0 });
   const transitionLockUntilRef = useRef(0);
   const transitionLockTimeoutRef = useRef<number | null>(null);
-  const sharedPortraitTimeoutRef = useRef<number | null>(null);
   const animationFramesRef = useRef<number[]>([]);
   const reviewModeEnabled = false;
   const selectedId = hallFocus?.personId ?? '';
@@ -114,7 +76,6 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     wallDebugEnabled ? 'app-shell--wall-debug' : '',
     viewMode === 'review' ? 'museum-shell--staff' : '',
     contentProtectionActive ? 'app-shell--protected' : '',
-    sharedPortrait ? 'experience-shell--handoff-active' : '',
     transitionLocked ? 'experience-shell--transition-locked' : '',
   ].filter(Boolean).join(' ');
   const stageClassName = ['museum-stage', 'experience-stage', `museum-stage--${activeShellMode}`, `experience-stage--${activeShellMode}`].join(' ');
@@ -127,14 +88,6 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     () => inductees.find((item) => item.id === lastSeenId) ?? null,
     [inductees, lastSeenId],
   );
-  const connectionSeed = useMemo(
-    () => inductees.find((item) => item.id === connectionSeedId) ?? null,
-    [connectionSeedId, inductees],
-  );
-  const connectionReturn = useMemo(
-    () => inductees.find((item) => item.id === connectionReturnId) ?? null,
-    [connectionReturnId, inductees],
-  );
 
   function setSelectedId(personId: string) {
     setHallFocus(personId ? { personId } : null);
@@ -146,13 +99,11 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
 
     if (viewMode === 'person' && !selectedId && lastSeen) {
       setSelectedId(lastSeen.id);
-      setPersonInitialAction('overview');
       return;
     }
 
     if (!selectedId) return;
     setSelectedId('');
-    setPersonInitialAction('overview');
     if (viewMode === 'person') setExperienceMode('living-hall', 'back');
   }, [lastSeen, loading, selected, selectedId, viewMode]);
 
@@ -164,54 +115,15 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setLastSeenId(defaultTracePerson.id);
   }, [hallLens, inductees, lastSeen, loading, relationships, reviewModeEnabled, selectedId]);
 
-  const selectedIndex = selected ? inductees.findIndex((item) => item.id === selected.id) : -1;
-  const previousInductee = selectedIndex > 0
-    ? inductees[selectedIndex - 1]
-    : inductees.length > 0
-      ? inductees[inductees.length - 1]
-      : null;
-  const nextInductee = selectedIndex >= 0 && inductees.length > 0 ? inductees[(selectedIndex + 1) % inductees.length] : null;
-
   useEffect(() => startKioskHeartbeat(installationConfig.health.heartbeatMs), []);
 
   useEffect(() => {
     return () => {
       if (transitionLockTimeoutRef.current !== null) window.clearTimeout(transitionLockTimeoutRef.current);
-      if (sharedPortraitTimeoutRef.current !== null) window.clearTimeout(sharedPortraitTimeoutRef.current);
       animationFramesRef.current.forEach((frame) => window.cancelAnimationFrame(frame));
       animationFramesRef.current = [];
     };
   }, []);
-
-  useEffect(() => {
-    const pending = pendingSharedPortraitRef.current;
-    if (!pending || pending.targetView !== viewMode) return undefined;
-
-    if (prefersReducedMotion(kioskSettings.motion)) {
-      pendingSharedPortraitRef.current = null;
-      return undefined;
-    }
-
-    const frame = window.requestAnimationFrame(() => {
-      const target = findTransitionRect(pending.person.id, preferredTransitionRoleForView(viewMode));
-      pendingSharedPortraitRef.current = null;
-      if (!target) return;
-
-      setSharedPortrait({
-        ...pending,
-        key: `${pending.kind}-${pending.person.id}-${Date.now()}`,
-        to: target,
-      });
-
-      if (sharedPortraitTimeoutRef.current !== null) window.clearTimeout(sharedPortraitTimeoutRef.current);
-      sharedPortraitTimeoutRef.current = window.setTimeout(() => {
-        setSharedPortrait(null);
-        sharedPortraitTimeoutRef.current = null;
-      }, sharedPortraitDurationMs);
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [connectionReturnId, connectionSeedId, kioskSettings.motion, selectedId, timelineYear, viewMode, worldFocusKey]);
 
   useEffect(() => subscribeKioskSettings(setKioskSettings), []);
 
@@ -294,7 +206,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [connectionSeedId, hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, wallDebugEnabled, worldFocusKey]);
+  }, [hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, wallDebugEnabled, worldFocusKey]);
 
   useEffect(() => {
     if (!kioskMode || reviewModeEnabled || adminDataOpen) return;
@@ -412,78 +324,32 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     return true;
   }
 
-  function prepareSharedPortraitTransition(person: Inductee | null | undefined, targetView: ViewMode, kind: SharedPortraitKind) {
-    if (!person || reviewModeEnabled || prefersReducedMotion(kioskSettings.motion)) {
-      pendingSharedPortraitRef.current = null;
-      return;
-    }
-
-    const from = findTransitionRect(person.id);
-    if (!from) {
-      pendingSharedPortraitRef.current = null;
-      return;
-    }
-
-    pendingSharedPortraitRef.current = { person, from, targetView, kind };
-  }
-
-  function selectInductee(inductee: Inductee, source = 'select-person', initialAction: DetailAction = 'overview') {
+  function selectInductee(inductee: Inductee, source = 'select-person') {
     if (!beginInteractionTransition()) return;
     recordKioskInteraction(source);
     stopActiveMedia();
-    const focusWithinHall = !reviewModeEnabled && (hallLens === 'portraits' || hallLens === 'traces' || hallLens === 'legacies');
-    if (focusWithinHall) {
-      onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
-      setAttractActive(false);
-      setIdleWarningActive(false);
-      scrollPositionRef.current = readStageScrollPosition();
-      setLastSeenId(inductee.id);
-      setSelectedId(inductee.id);
-      if (hallLens === 'legacies' && inductee.classYear) setTimelineYear(String(inductee.classYear));
-      setPersonInitialAction(initialAction);
-      setConnectionSeedId('');
-      setConnectionReturnId('');
-      setExperienceMode(viewModeForHallLens(hallLens), 'switch');
-      return;
-    }
-
-    const returnView = isVisitorExperienceMode(viewMode) && viewMode !== 'person' ? viewMode : personReturnView;
-    setPersonReturnView(returnView === 'person' ? 'living-hall' : returnView);
-    prepareSharedPortraitTransition(
-      inductee,
-      'person',
-      viewMode === 'connections' ? 'connections-to-person' : viewMode === 'living-hall' ? 'to-person' : 'lens-to-person',
-    );
     onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
     setAttractActive(false);
     setIdleWarningActive(false);
     scrollPositionRef.current = readStageScrollPosition();
     setLastSeenId(inductee.id);
     setSelectedId(inductee.id);
-    setPersonInitialAction(initialAction);
-    setConnectionSeedId('');
-    setConnectionReturnId('');
-    if (reviewModeEnabled) return;
-    setExperienceMode('person', 'forward');
+    if (hallLens === 'legacies' && inductee.classYear) setTimelineYear(String(inductee.classYear));
+    if (!reviewModeEnabled) setExperienceMode(viewModeForHallLens(hallLens), 'switch');
   }
 
   function resetExperience(reason = 'manual') {
     if (reason !== 'idle' && !beginInteractionTransition()) return;
     recordKioskReset(reason);
     stopActiveMedia();
-    pendingSharedPortraitRef.current = null;
-    setSharedPortrait(null);
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setTimelineYear('');
     setSelectedId('');
     setLastSeenId('');
-    setPersonInitialAction('overview');
     setHallLens('portraits');
     setExperienceMode('living-hall', 'reset');
     setAttractActive(false);
     setIdleWarningActive(false);
-    setConnectionSeedId('');
-    setConnectionReturnId('');
     setWorldFocusKey('');
     resetStageScroll();
   }
@@ -493,105 +359,9 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     recordKioskInteraction('close-portrait-focus');
     stopActiveMedia();
     setSelectedId('');
-    setPersonInitialAction('overview');
     setIdleWarningActive(false);
-    setConnectionSeedId('');
-    setConnectionReturnId('');
     if (!reviewModeEnabled) setExperienceMode('living-hall', 'back');
     scheduleAnimationFrame(() => scrollStageTo(scrollPositionRef.current));
-  }
-
-  function closeDetail() {
-    if (!beginInteractionTransition()) return;
-    recordKioskInteraction('close-detail');
-    stopActiveMedia();
-    const returnView = personReturnView === 'person' ? 'living-hall' : personReturnView;
-    const returnPerson = selected ?? lastSeen;
-    const transitionKind: SharedPortraitKind = returnView === 'connections'
-      ? 'person-to-connections'
-      : returnView === 'world'
-        ? 'person-to-world'
-        : returnView === 'time'
-          ? 'person-to-time'
-          : 'person-to-living-hall';
-    prepareSharedPortraitTransition(returnPerson, returnView, transitionKind);
-    setSelectedId('');
-    setPersonInitialAction('overview');
-    setIdleWarningActive(false);
-    if (reviewModeEnabled) return;
-    if (returnView === 'connections') {
-      const returnId = returnPerson?.id || connectionReturnId || lastSeenId;
-      setConnectionSeedId(returnId);
-      setConnectionReturnId(returnId);
-    } else {
-      setConnectionSeedId('');
-      setConnectionReturnId('');
-    }
-    setExperienceMode(returnView, 'back');
-    scheduleAnimationFrame(() => {
-      if (returnView === 'living-hall') {
-        scrollStageTo(scrollPositionRef.current);
-      } else {
-        resetStageScroll();
-      }
-    });
-  }
-
-  function returnHome() {
-    if (!beginInteractionTransition()) return;
-    recordKioskInteraction('home');
-    stopActiveMedia();
-    pendingSharedPortraitRef.current = null;
-    setSharedPortrait(null);
-    setAttractActive(false);
-    setIdleWarningActive(false);
-    setSelectedId('');
-    setPersonInitialAction('overview');
-    setConnectionSeedId('');
-    setConnectionReturnId('');
-    setWorldFocusKey('');
-    setTimelineYear('');
-    setHallLens('portraits');
-    setExperienceMode('living-hall', 'back');
-    scheduleAnimationFrame(() => {
-      scrollStageTo(scrollPositionRef.current);
-    });
-  }
-
-  function openConnectionFinder(seed?: Inductee, source = 'open-connection-finder', transition: ExperienceTransition = 'forward', skipGuard = false) {
-    if (!skipGuard && !beginInteractionTransition()) return;
-    recordKioskInteraction(source);
-    stopActiveMedia();
-    setAttractActive(false);
-    setIdleWarningActive(false);
-    const seedId = seed?.id || selectedId || lastSeenId;
-    const seedPerson = seed ?? selected ?? lastSeen ?? null;
-    if (seedId) onPhysicalPortraitSelected(seedId, seedPerson ? physicalPortraitSelectionFromInductee(seedPerson) : undefined);
-    setSelectedId(seedId);
-    setLastSeenId(seedId);
-    setConnectionSeedId('');
-    setConnectionReturnId('');
-    setWorldFocusKey('');
-    setHallLens('traces');
-    setExperienceMode('living-hall', transition);
-  }
-
-  function closeConnectionFinder() {
-    if (!beginInteractionTransition()) return;
-    recordKioskInteraction('close-connection-finder');
-    pendingSharedPortraitRef.current = null;
-    setSharedPortrait(null);
-    setConnectionSeedId('');
-    setConnectionReturnId('');
-    setSelectedId('');
-    setPersonInitialAction('overview');
-    setHallLens('portraits');
-    setExperienceMode('living-hall', 'back');
-    scheduleAnimationFrame(() => resetStageScroll());
-  }
-
-  function selectFromConnection(inductee: Inductee) {
-    selectInductee(inductee, 'select-connection-person');
   }
 
   function continueExploring() {
@@ -633,9 +403,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     recordKioskInteraction(`nav:${lens}`);
     const transition = hallLensTransitionFor(hallLens, lens);
     stopActiveMedia();
-    const referencePerson = selected ?? lastSeen ?? connectionSeed ?? connectionReturn ?? mostConnectedPerson(inductees, relationships);
-    pendingSharedPortraitRef.current = null;
-    setSharedPortrait(null);
+    const referencePerson = selected ?? lastSeen ?? mostConnectedPerson(inductees, relationships);
     setAttractActive(false);
     setIdleWarningActive(false);
     if (lens === 'traces') {
@@ -647,13 +415,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     } else if (lens === 'legacies') {
       if (selectedId) setSelectedId(selectedId);
       if (selected?.classYear) setTimelineYear(String(selected.classYear));
-    } else {
-      if (referencePerson) setLastSeenId(referencePerson.id);
-      setSelectedId('');
     }
-    setPersonInitialAction('overview');
-    setConnectionSeedId('');
-    setConnectionReturnId('');
     setHallLens(lens);
     setExperienceMode('living-hall', transition);
     scheduleAnimationFrame(() => resetStageScroll());
@@ -768,42 +530,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
         onSettingsChange={setKioskSettings}
       />
       {transitionLocked && <div className="transition-input-guard" aria-hidden="true" />}
-      {sharedPortrait && <SharedPortraitHandoffView handoff={sharedPortrait} />}
     </main>
   );
-}
-
-function SharedPortraitHandoffView({ handoff }: { handoff: SharedPortraitHandoff }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`shared-portrait-handoff shared-portrait-handoff--${handoff.kind}`}
-      key={handoff.key}
-      style={sharedPortraitStyle(handoff)}
-    >
-      <FallbackImage
-        alt=""
-        className="shared-portrait-handoff__image"
-        fallbackClassName="shared-portrait-handoff__fallback"
-        fallbackLabel={initials(handoff.person.name)}
-        loading="eager"
-        src={handoff.person.primaryImageUrl}
-      />
-    </div>
-  );
-}
-
-function sharedPortraitStyle(handoff: SharedPortraitHandoff) {
-  return {
-    '--handoff-from-x': `${handoff.from.left}px`,
-    '--handoff-from-y': `${handoff.from.top}px`,
-    '--handoff-from-w': `${handoff.from.width}px`,
-    '--handoff-from-h': `${handoff.from.height}px`,
-    '--handoff-to-x': `${handoff.to.left}px`,
-    '--handoff-to-y': `${handoff.to.top}px`,
-    '--handoff-to-w': `${handoff.to.width}px`,
-    '--handoff-to-h': `${handoff.to.height}px`,
-  } as CSSProperties;
 }
 
 function ExperienceScene({
@@ -924,70 +652,6 @@ function hallLensTransitionFor(current: HallLens, next: HallLens): ExperienceTra
   return nextIndex > currentIndex ? 'forward' : 'back';
 }
 
-function preferredTransitionRoleForView(view: ViewMode) {
-  if (view === 'person') return 'person-portrait';
-  if (view === 'connections') return 'connections-center';
-  if (view === 'world') return 'world-portrait';
-  if (view === 'time') return 'time-portrait';
-  if (view === 'living-hall') return 'living-portrait';
-  return 'portrait';
-}
-
-function findTransitionRect(personId: string, preferredRole?: string): TransitionRect | null {
-  if (!personId || typeof document === 'undefined') return null;
-
-  const escapedId = escapeCssAttributeValue(personId);
-  const selectors = [
-    preferredRole ? `[data-transition-person="${escapedId}"][data-transition-role="${preferredRole}"]` : '',
-    `[data-transition-person="${escapedId}"][data-transition-role="portrait"]`,
-    `[data-transition-person="${escapedId}"]`,
-  ].filter(Boolean);
-
-  for (const selector of selectors) {
-    const rect = bestVisibleRect(Array.from(document.querySelectorAll<HTMLElement>(selector)));
-    if (rect) return rect;
-  }
-
-  return null;
-}
-
-function bestVisibleRect(elements: HTMLElement[]) {
-  let best: TransitionRect | null = null;
-  let bestArea = 0;
-
-  elements.forEach((element) => {
-    const rect = element.getBoundingClientRect();
-    if (!isVisibleRect(rect)) return;
-    const area = rect.width * rect.height;
-    if (area <= bestArea) return;
-    bestArea = area;
-    best = {
-      left: rect.left,
-      top: rect.top,
-      width: rect.width,
-      height: rect.height,
-    };
-  });
-
-  return best;
-}
-
-function isVisibleRect(rect: DOMRect) {
-  const width = Math.round(rect.width);
-  const height = Math.round(rect.height);
-  return width >= 12
-    && height >= 12
-    && rect.bottom > 0
-    && rect.right > 0
-    && rect.left < window.innerWidth
-    && rect.top < window.innerHeight;
-}
-
-function escapeCssAttributeValue(value: string) {
-  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') return CSS.escape(value);
-  return value.replace(/["\\]/g, '\\$&');
-}
-
 function kioskSettingsStyle(settings: KioskSettings) {
   return {
     '--kiosk-screen-scale': settings.screenScale,
@@ -1008,11 +672,6 @@ function readTimelineYear() {
   const lens = normalizeHallLens(readParam('lens'));
   if (lens !== 'legacies' && normalizedView !== 'time') return '';
   return readParam('timeYear') || readParam('year');
-}
-
-function readInitialConnectionPersonId() {
-  const normalizedView = normalizeViewMode(readParam('view'), false);
-  return normalizedView === 'connections' ? readParam('person') : '';
 }
 
 function readInitialWorldFocus() {

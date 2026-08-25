@@ -1,10 +1,7 @@
 /* Shared visitor surfaces and image treatment across the public Hall and legacy staff views. */
 .museum-shell:not(.museum-shell--staff) :is(
   .living-hall,
-  .detail--visitor,
-  .connection-finder.human-network,
-  .world-lens,
-  .timeline.time-lens
+  .detail--visitor
 ) {
   position: relative;
   isolation: isolate;
@@ -25,14 +22,6 @@
   .latest-class-sequence__fallback,
   .latest-class-sequence__gridImage,
   .latest-class-sequence__gridFallback,
-  .world-person__image,
-  .world-person__fallback,
-  .human-network__centerImage,
-  .human-network__centerFallback,
-  .human-network__nodeImage,
-  .human-network__nodeFallback,
-  .time-build-person__image,
-  .time-build-person__fallback,
   .detail__portrait,
   .detail__relatedImage,
   .detail__relatedFallback,
@@ -44,10 +33,7 @@
 
 .museum-shell:not(.museum-shell--staff) :is(
   .living-hall,
-  .detail--visitor,
-  .connection-finder.human-network,
-  .world-lens,
-  .timeline.time-lens
+  .detail--visitor
 )::after {
   content: "";
   position: absolute;
