@@ -24,16 +24,26 @@ The installation is ready when all of these are true:
 The current project already has a strong application base:
 
 - Static Vite + React + TypeScript app.
-- Explore, Timeline, Region, Journey, Attract, and Detail views.
-- URL-persisted state for view, filters, selected person, and kiosk mode.
-- Data generation from `data/cihof_kiosk_manifest.csv`.
-- Generated `public/data/inductees.json` and `public/data/data-report.json`.
+- One persistent public Hall surface with `PORTRAITS`, `TRACES`, and `LEGACIES` arrangement lenses.
+- Persistent keyed portrait frames that stay mounted across arrangement changes.
+- Focused person behavior anchored to a portrait frame instead of a full-screen public destination.
+- Anchored `LIFE + WORK`, `WATCH INDUCTION`, and `TAKE IT WITH YOU` actions.
+- TRACES arrangement for documented/curated relationships, story-lens concepts, and guarded geography references.
+- LEGACIES horizontal chronological arrangement by induction class.
+- Hidden visitor admin for operational data import/export, settings, access settings, and diagnostics.
+- Separate staff portal at `portal.html` for curation and review workflows.
+- URL-persisted Hall state for lens, focused person, timeline year, trace/place focus, kiosk mode, and admin access.
+- Legacy public URLs mapped into the current Hall model.
+- Data generation from `data/cihof_kiosk_manifest.csv` plus curated metadata, media, relationship, story, entity, physical-wall, and source-curation files.
+- Generated `public/data/cihof-runtime-data.json` as the preferred runtime bundle, with split runtime files retained as fallbacks.
 - 111 inductees from 2010-2026.
-- 111 primary image URLs.
-- 64 records with video.
-- Kiosk mode, 2-minute idle attract behavior, media stop on reset, and production content-protection behavior.
+- 111 primary image paths and 0 missing primary images.
+- 443 generated entities and 1,869 generated entity relationships.
+- 94 video items in media data.
+- Kiosk mode, idle reset/attract behavior, media stop on reset, viewport lock, content protection, and runtime error handling.
+- Browser acceptance tests for the persistent Hall, portrait frame system, hidden admin settings, portal readiness, and kiosk smoke behavior.
 
-The main gaps are installation operations, local media packaging, hardware lockdown, accessibility validation, content governance, and long-duration reliability testing.
+The main gaps are content approval, explicit curated relationship promotion, media approval/localization, installation operations, hardware lockdown, accessibility validation, and long-duration reliability testing.
 
 ## Standards And Benchmarks
 
@@ -124,12 +134,12 @@ Recommended work:
   - approved summary
   - approved themes
   - featured/attract priority
-  - journey membership
+  - story-lens and trace membership
   - media rights status
   - content approval status
   - review notes
-- Add schema validation for raw CSV, curated metadata, media manifest, generated inductees, journeys, and related IDs.
-- Fail the build on duplicate IDs, unresolved related IDs, unresolved journey IDs, empty required display fields, missing local media in kiosk mode, or unapproved content.
+- Add schema validation for raw CSV, curated metadata, media manifest, generated inductees, story lenses, story sections, relationship records, entity relationships, and physical wall positions.
+- Fail the build on duplicate IDs, unresolved relationship IDs, unresolved story lens references, empty required display fields, missing local media in kiosk mode, or unapproved content.
 - Preserve a generated content report for curators and staff.
 - Add a simple update runbook: edit source, validate, preview, approve, release.
 
@@ -155,11 +165,11 @@ Goal: make the exhibit usable by visitors with different heights, mobility, visi
 Recommended software work:
 
 - Treat WCAG 2.2 AA as the baseline for color contrast, focus behavior, keyboard access, target size, motion, resize/reflow, headings, labels, and error states.
-- Add a persistent Home/Back/Reset control that remains reachable in every view and drawer.
+- Add a persistent Reset control that remains reachable from every Hall lens, focused person state, anchored action panel, lightbox, and media state.
 - Move key kiosk actions into a lower or side action rail for mounted touchscreen reach.
 - Keep primary touch targets at least 56 px, and secondary targets at least 44 px.
 - Add an accessibility mode with larger text, reduced motion, higher contrast, and simplified navigation.
-- Ensure all carousels and journeys are usable by touch, keyboard, and assistive technology.
+- Ensure portrait focus, TRACES relationship selection, LEGACIES horizontal navigation, media controls, and QR close behavior are usable by touch, keyboard, and assistive technology.
 - Provide captions and transcripts for media.
 - Add captions/transcript controls that are not hidden behind native browser controls alone.
 - Avoid hover-only affordances.
@@ -201,15 +211,17 @@ Recommended work:
   - attract loop
 - Add `?kiosk=1&attract=1` launch state.
 - Ensure reset clears:
-  - selected person
-  - detail drawer
+  - focused person
+  - active Hall lens back to `PORTRAITS`
+  - active trace/thread/place context
+  - LEGACIES horizontal position
   - lightbox
-  - journey state
-  - filters
+  - anchored person action panel
+  - QR continuation layer
   - scroll positions
   - active video or iframe state
   - transient accessibility mode only if museum wants session-level preferences
-- Make attract mode route taps on featured profiles directly to stories when appropriate.
+- Make attract behavior reorganize the persistent Hall without routing to a separate attract page.
 - Add a staff-only diagnostics panel with app version, data version, media package status, browser info, uptime, last error, and reset count.
 - Add a hidden maintenance route that is blocked in visitor mode unless staff unlocks it.
 
@@ -221,9 +233,9 @@ Deliverables:
 
 Acceptance checks:
 
-- Idle reset works from every view.
+- Idle reset works from every Hall lens and anchored action state.
 - Reset stops all media.
-- No stale drawer, lightbox, or journey state survives reset.
+- No stale focused person, trace context, legacy pan, lightbox, media, or QR state survives reset.
 - Attract mode never traps the user.
 
 ### 6. Reliability, Monitoring, And Recovery
@@ -421,9 +433,9 @@ Exit criteria:
 | --- | --- |
 | Offline operation | App, data, images, videos, captions, and transcripts work with network disconnected. |
 | Kiosk lockdown | Visitor cannot open arbitrary URLs, browser settings, downloads, print dialogs, devtools, OS shell, or external apps. |
-| Idle recovery | Idle warning, reset, and attract mode work from every view, drawer, lightbox, and media state. |
+| Idle recovery | Idle warning, reset, and attract mode work from every Hall lens, focused person, anchored action, lightbox, and media state. |
 | Media | Every approved video has local file, poster, captions, transcript, and working controls. |
-| Data | Generated IDs are unique, related IDs resolve, journeys resolve, and visitor-facing required fields are present. |
+| Data | Generated IDs are unique, relationship IDs resolve, story lens references resolve, and visitor-facing required fields are present. |
 | Accessibility | WCAG 2.2 AA target is tested, core flows work by keyboard/touch, and physical reach/clearance is reviewed. |
 | Reliability | 72-hour burn-in passes on target hardware. |
 | Power recovery | Reboot or power restore returns to the exhibit without staff login. |
@@ -432,16 +444,16 @@ Exit criteria:
 
 ## Highest-Priority Code Changes
 
-1. Add `data/cihof_curated_metadata.json` and merge it in `scripts/data-utils.js`.
-2. Add `data/media_manifest.json` and local media path validation.
-3. Add schema validation for generated inductees, journeys, related IDs, and media.
-4. Add `build:kiosk` and `validate:kiosk` scripts.
-5. Make Vite base path configurable for local kiosk deployment.
-6. Update app data model to use local media first and expose captions/transcripts.
-7. Replace current simple kiosk reset with a centralized session reset controller.
-8. Add diagnostics/version screen.
-9. Add accessibility mode and reachable persistent action rail.
-10. Add Playwright smoke tests for desktop, large kiosk, tablet, reset, media, and no-external-navigation flows.
+1. Finish portal editing/apply workflow for curator-approved context, `HONORED FOR`, and Life + Work fields.
+2. Promote documented source-derived relationship candidates into `data/cihof_relationships.json`.
+3. Localize approved primary portraits and update `data/media_manifest.json` with kiosk-ready local paths.
+4. Add captions, transcripts, poster images, rights status, and kiosk approval for playable media.
+5. Tighten `validate:kiosk` so it blocks missing approved profile text, unresolved relationships, and missing local media for production releases.
+6. Add an installation runbook for target hardware, browser lockdown, local server startup, recovery, rollback, and staff diagnostics.
+7. Expand Playwright coverage for reduced motion, fast lens switching, offline loading, and admin import/export.
+8. Refactor `LivingHallView.tsx` and `ReviewDashboardView.tsx` after curation workflow stabilizes.
+9. Add accessibility-mode decisions and physical reach validation for the mounted screen.
+10. Run a 72-hour burn-in on target hardware.
 
 ## Risks To Resolve Early
 

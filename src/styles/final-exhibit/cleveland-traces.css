@@ -3,7 +3,7 @@
   inset: 0;
   z-index: 118;
   margin: 0;
-  color: rgba(21, 19, 15, 0.5);
+  color: rgba(21, 19, 15, 0.28);
   pointer-events: none;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field--portraits {
-  opacity: 0.16;
+  opacity: 0.055;
   mix-blend-mode: multiply;
 }
 
@@ -22,7 +22,7 @@
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field--legacies {
   z-index: 18;
-  opacity: 0.46;
+  opacity: 0.22;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__svg {
@@ -34,24 +34,24 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace {
-  color: rgba(21, 19, 15, 0.5);
+  color: rgba(21, 19, 15, 0.26);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--documented {
-  color: rgba(183, 74, 36, 0.78);
+  color: rgba(183, 74, 36, 0.62);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--curated {
-  color: rgba(21, 19, 15, 0.56);
+  color: rgba(21, 19, 15, 0.34);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--trail {
-  color: rgba(183, 74, 36, 0.82);
+  color: rgba(183, 74, 36, 0.68);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--latent,
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--legacy-register {
-  color: rgba(21, 19, 15, 0.26);
+  color: rgba(21, 19, 15, 0.1);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace__path {
@@ -59,7 +59,7 @@
   stroke: currentColor;
   stroke-linecap: square;
   stroke-linejoin: miter;
-  stroke-width: 0.68;
+  stroke-width: 0.5;
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
@@ -68,17 +68,17 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace__path--branch {
-  opacity: 0.56;
-  stroke-width: 0.44;
+  opacity: 0.34;
+  stroke-width: 0.34;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--documented .cleveland-trace__path--main,
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--trail .cleveland-trace__path--main {
-  stroke-width: 0.86;
+  stroke-width: 0.72;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--trail .cleveland-trace__path--branch {
-  opacity: 0.68;
+  opacity: 0.48;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--latent .cleveland-trace__path {
@@ -105,9 +105,9 @@
   display: grid;
   max-width: 21ch;
   gap: 2px;
-  color: rgba(21, 19, 15, 0.72);
+  color: rgba(21, 19, 15, 0.52);
   font-family: var(--font-exhibit-notation);
-  font-size: clamp(0.56rem, 0.62vw, 0.82rem);
+  font-size: clamp(0.48rem, 0.54vw, 0.68rem);
   font-stretch: var(--type-width-notation);
   font-variation-settings: "opsz" var(--type-opsz-text);
   font-weight: 720;
@@ -123,7 +123,7 @@
   height: 1px;
   margin-bottom: 3px;
   background: currentColor;
-  opacity: 0.54;
+  opacity: 0.34;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label strong,
@@ -135,7 +135,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label small {
-  color: rgba(168, 75, 37, 0.86);
+  color: rgba(168, 75, 37, 0.68);
   font-size: 0.86em;
 }
 

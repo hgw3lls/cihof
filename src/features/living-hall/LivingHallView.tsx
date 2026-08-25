@@ -734,12 +734,20 @@ export function LivingHallView({
           );
         })}
 
-        {!loading && !error && activeMode.labels.map((label) => (
-          <span className="living-hall__groupLabel" key={label.id} style={labelStyle(label)}>
-            <strong>{label.text}</strong>
-            {label.detail && <small>{label.detail}</small>}
-          </span>
-        ))}
+        {!loading && !error && activeMode.labels.map((label) => {
+          const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
+          const labelClassName = [
+            'living-hall__groupLabel',
+            activeLegacyLabel ? 'living-hall__groupLabel--active' : '',
+          ].filter(Boolean).join(' ');
+
+          return (
+            <span className={labelClassName} data-label-id={label.id} key={label.id} style={labelStyle(label)}>
+              <strong>{label.text}</strong>
+              {label.detail && <small>{label.detail}</small>}
+            </span>
+          );
+        })}
 
         {!loading && !error && lens === 'traces' && traceContext.activePerson && (
           <TracePanel
@@ -1075,7 +1083,6 @@ function LegacyControls({
 
 function TracePanel({
   context,
-  lines,
   panelSide,
   onTraceFocusChange,
 }: {
@@ -1086,18 +1093,12 @@ function TracePanel({
 }) {
   const activePerson = context.activePerson;
   if (!activePerson) return null;
-  const relationshipLines = lines.filter((line) => line.role !== 'trail');
 
   const activeTitle = context.mode === 'concept'
     ? context.activeConcept?.lens.label ?? 'Concept Trace'
     : context.mode === 'place'
       ? context.placeFocus.label
       : 'Direct Ties';
-  const activeDetail = context.mode === 'concept'
-    ? context.activeConcept?.lens.description ?? 'Reviewed story-lens trace.'
-    : context.mode === 'place'
-      ? `${context.placeFocus.people.length} ${context.placeFocus.people.length === 1 ? 'portrait' : 'portraits'} with presentation-ready place references.`
-      : `${context.directThreads.length} reviewed ${context.directThreads.length === 1 ? 'tie' : 'ties'} ranked for ${activePerson.name}.`;
 
   return (
     <aside className="living-hall__tracePanel" data-side={panelSide} aria-label={`${activePerson.name} traces`}>
@@ -1106,18 +1107,6 @@ function TracePanel({
         <h3>{activePerson.name}</h3>
         <p>{activeTitle}</p>
       </header>
-
-      <p className="living-hall__traceSummary">{activeDetail}</p>
-
-      <div className="living-hall__traceEvidence" aria-label="Visible trace relationships">
-        {relationshipLines.slice(0, initialTraceThreadCount).map((line) => (
-          <span className={`living-hall__traceEvidenceItem living-hall__traceEvidenceItem--${line.provenance}`} key={`evidence-${line.id}`}>
-            <strong>{line.label}</strong>
-            {line.detail && <small>{line.detail}</small>}
-          </span>
-        ))}
-        {relationshipLines.length === 0 && <span className="living-hall__traceEvidenceItem">No reviewed ties are available for this focus yet.</span>}
-      </div>
 
       {onTraceFocusChange && (
         <nav className="living-hall__traceControls" aria-label="Reorganize traces">
@@ -1128,7 +1117,7 @@ function TracePanel({
             onClick={() => onTraceFocusChange('')}
           >
             <span>Direct Ties</span>
-            <strong>{context.directThreads.length}</strong>
+            <strong>Reviewed</strong>
           </button>
 
           {context.conceptChoices.map((thread) => {
@@ -1449,7 +1438,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         ...current,
         x: anchor.x,
         y: anchor.y,
-        size: 176,
+        size: 172,
         z: 2600,
         delay: 0,
         emphasis: true,
@@ -1468,7 +1457,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         ...current,
         x: relatedX,
         y: relatedY,
-        size: visible.index < 4 ? 104 : 92,
+        size: visible.index < 4 ? 94 : 84,
         z: 1900 - visible.index,
         delay: staggerDelay(visible.index),
         emphasis: true,
@@ -1495,7 +1484,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         ...current,
         x: clamp(continuity.x + wobble(person.id, 157, -0.9, 0.9), 8, 92),
         y: clamp(continuity.y + wobble(person.name, 159, -0.75, 0.75), 13, 79),
-        size: 84,
+        size: 76,
         z: 1480 - trailIndex,
         delay: staggerDelay(trailIndex + 4),
         emphasis: true,
@@ -1565,15 +1554,15 @@ function buildTraceTrailLines(context: TraceContext, positions: Map<string, Port
   return lines;
 }
 
-const traceAnchorPoint = { x: 46, y: 44 };
+const traceAnchorPoint = { x: 46, y: 45 };
 
 const traceOrbitAnchors = [
-  { x: 28, y: 28 },
-  { x: 41, y: 21 },
-  { x: 56, y: 31 },
-  { x: 57, y: 60 },
-  { x: 35, y: 70 },
-  { x: 21, y: 52 },
+  { x: 29, y: 30 },
+  { x: 39, y: 23 },
+  { x: 30, y: 63 },
+  { x: 48, y: 68 },
+  { x: 18, y: 50 },
+  { x: 22, y: 16 },
 ];
 
 const traceContinuityAnchors = [
@@ -1608,7 +1597,7 @@ function tracePerimeterPosition(index: number, person: Inductee, current: Portra
   return {
     x: clamp(slot.x + wobble(person.id, 149, -1.5, 1.5), 4, 96),
     y: clamp(slot.y + band * 1.8 + wobble(person.name, 151, -1.1, 1.1), 6, 84),
-    size: Math.min(current.size, band < 2 ? 50 : 42),
+    size: Math.min(current.size, band < 2 ? 42 : 34),
   };
 }
 
@@ -1634,7 +1623,7 @@ function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[]
       : 'DIRECT TIES';
   const placeLabels = tracePlaceLabels(context);
 
-  return [
+  const labels: HallLabel[] = [
     {
       id: `trace-anchor-${context.activePerson.id}`,
       text: context.activePerson.classYear ? `CLASS ${context.activePerson.classYear}` : 'ANCHOR',
@@ -1642,19 +1631,20 @@ function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[]
       x: traceAnchorPoint.x,
       y: 71,
     },
-    {
+  ];
+
+  if (context.mode !== 'direct') {
+    labels.push({
       id: 'trace-mode-label',
       text: modeLabel,
-      detail: context.mode === 'direct'
-        ? `${context.visibleThreads.length} strongest ties`
-        : context.mode === 'concept'
-          ? 'FOLLOW THE TRACE'
-          : 'DOCUMENTED PLACE',
+      detail: context.mode === 'concept' ? 'FOLLOW THE TRACE' : 'DOCUMENTED PLACE',
       x: 82,
       y: 18,
-    },
-    ...placeLabels,
-  ];
+    });
+  }
+
+  labels.push(...placeLabels);
+  return labels;
 }
 
 function tracePlaceLabels(context: TraceContext): HallLabel[] {
@@ -1690,7 +1680,7 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
   const relatedIds = relatedPersonIdsForFocus(focused, inductees, relationships);
   const relatedPeople = inductees.filter((person) => relatedIds.has(person.id)).slice(0, focusRelatedAnchors.length);
   const positions = new Map<string, PortraitPosition>();
-  const center = { x: 39, y: 45 };
+  const center = { x: 32, y: 45 };
 
   inductees.forEach((person, index) => {
     const current = mode.positions.get(person.id) ?? fallbackPosition(index, inductees.length);
@@ -1700,7 +1690,7 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
         ...current,
         x: center.x,
         y: center.y,
-        size: Math.max(current.size, 196),
+        size: Math.max(current.size, 190),
         z: 2400,
         delay: 0,
         emphasis: true,
@@ -1757,28 +1747,28 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
 }
 
 const focusRelatedAnchors = [
-  { x: 17, y: 29 },
-  { x: 18, y: 58 },
-  { x: 34, y: 18 },
-  { x: 58, y: 22 },
-  { x: 57, y: 68 },
-  { x: 35, y: 77 },
-  { x: 10, y: 43 },
-  { x: 74, y: 32 },
-  { x: 74, y: 61 },
-  { x: 22, y: 76 },
+  { x: 13, y: 28 },
+  { x: 14, y: 58 },
+  { x: 30, y: 18 },
+  { x: 64, y: 14 },
+  { x: 36, y: 80 },
+  { x: 28, y: 77 },
+  { x: 8, y: 43 },
+  { x: 89, y: 29 },
+  { x: 90, y: 58 },
+  { x: 17, y: 76 },
 ];
 
 function movePortraitAwayFromFocus(position: PortraitPosition, index: number, center: { x: number; y: number }) {
-  const inFocusRoom = position.x > 23 && position.x < 78 && position.y > 23 && position.y < 68;
+  const inFocusRoom = position.x > 20 && position.x < 86 && position.y > 22 && position.y < 69;
   if (!inFocusRoom) return { x: position.x, y: position.y, shifted: false };
 
   const dx = position.x - center.x;
   const dy = position.y - center.y;
   const horizontal = Math.abs(dx) > Math.abs(dy);
   const x = horizontal
-    ? (dx < 0 ? 9 + (index % 5) * 2.8 : 80 + (index % 5) * 2.6)
-    : clamp(position.x + (dx < 0 ? -13 : 18), 7, 93);
+    ? (dx < 0 ? 7 + (index % 5) * 2.4 : 88 + (index % 4) * 1.7)
+    : clamp(position.x + (dx < 0 ? -15 : 22), 7, 94);
   const y = horizontal
     ? clamp(position.y + (dy < 0 ? -6 : 7), 10, 81)
     : (dy < 0 ? 10 + (index % 4) * 3.2 : 73 + (index % 4) * 2.2);
@@ -1881,7 +1871,7 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
       ? ((row % 2 === 0 ? 1 : -1) * 1.35)
       : ((row % 3) - 1) * 0.7;
     const classBeat = inductee.classYear ? (inductee.classYear % 7) * 0.18 : 0;
-    const size = portraitSize(inductee, slotIndex + (variant === 'wall-memory' ? 41 : 0), 52, 72);
+    const size = portraitSize(inductee, slotIndex + (variant === 'wall-memory' ? 41 : 0), 42, 62);
     const baseX = xMin + (xMax - xMin) * xRatio + rowOffset + wobble(inductee.id, 101, -0.55, 0.55);
     const baseY = yMin + (yMax - yMin) * yRatio + classBeat + wobble(inductee.name, 103, -0.45, 0.45);
     const composition = portraitWallComposition({
@@ -1896,13 +1886,24 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
       y: baseY,
     });
 
+    const strongFrame = inductee.featured || inductee.featuredCandidate || slotIndex % 11 === 0;
+    const anchorBoost = inductee.featured || inductee.featuredCandidate
+      ? 10
+      : slotIndex % 29 === 0
+        ? 8
+        : slotIndex % 11 === 0
+          ? 5
+          : 0;
+    const resolvedSize = clamp(size + composition.size + anchorBoost, 38, 74);
+
     positions.set(inductee.id, {
       x: clamp(baseX + composition.x, 4.5, 96),
       y: clamp(baseY + composition.y, 7, 82),
-      size: clamp(size + composition.size, 48, 78),
-      z: 80 + Math.round(size) + (inductee.featured ? 120 : inductee.featuredCandidate ? 60 : 0),
+      size: resolvedSize,
+      z: 80 + Math.round(resolvedSize) + (inductee.featured ? 120 : inductee.featuredCandidate ? 60 : 0),
       delay: staggerDelay(slotIndex),
-      emphasis: inductee.featured || inductee.featuredCandidate || slotIndex % 29 === 0,
+      emphasis: strongFrame,
+      muted: !strongFrame && resolvedSize < 58,
     });
   });
 
@@ -2079,7 +2080,7 @@ function buildLegacyHallMode(
   chronology.groups.forEach((group, groupIndex) => {
     const groupActive = group.year !== null && group.year === activeYear;
     const groupFocused = focusedGroup?.key === group.key;
-    const labelY = groupIndex % 2 === 0 ? 79 : 86;
+    const labelY = groupIndex % 2 === 0 ? 76 : 84;
     labels.push({
       id: `legacy-year-${group.key}`,
       text: group.label,
@@ -2091,7 +2092,7 @@ function buildLegacyHallMode(
     const people = group.people;
     const rows = people.length <= 1 ? 1 : 2;
     const columns = Math.max(1, Math.ceil(people.length / rows));
-    const localStep = clamp(group.spacing * 0.18, 0.74, 1.45);
+    const localStep = clamp(group.spacing * 0.23, 0.95, 1.85);
     const focusedIndex = focused ? people.findIndex((person) => person.id === focused.id) : -1;
     const focusedColumn = focusedIndex >= 0 ? Math.floor(focusedIndex / rows) : -1;
 
@@ -2102,20 +2103,20 @@ function buildLegacyHallMode(
       const yBase = rows === 1
         ? 45
         : row === 0
-          ? 32
-          : 58;
+          ? 34
+          : 57;
       const isFocused = inductee.id === focusedPersonId;
       const focusColumnDistance = focusedColumn < 0 ? Number.POSITIVE_INFINITY : Math.abs(column - focusedColumn);
       const focusPush = groupFocused && !isFocused && focusColumnDistance <= 1
         ? (column <= focusedColumn ? -1 : 1) * clamp(group.spacing * 0.32, 1.35, 2.75)
         : 0;
       const size = isFocused
-        ? 166
+        ? 154
         : groupFocused
-          ? 94
+          ? 88
           : groupActive
-            ? 108
-            : 98;
+            ? 96
+            : 86;
 
       positions.set(inductee.id, {
         x: clamp(group.x + xOffset + focusPush + wobble(inductee.id, 211, -0.18, 0.18), 1.5, 98.5),
@@ -2390,7 +2391,8 @@ function portraitFrameAspect(record: RuntimeMediaRecord | undefined): PortraitFr
 
 function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition) {
   if (position.focused || position.emphasis) return true;
-  if (lens === 'portraits' || lens === 'legacies') return true;
+  if (lens === 'legacies') return position.size >= 72;
+  if (lens === 'portraits') return position.size >= 60;
   return false;
 }
 
@@ -2432,7 +2434,7 @@ function portraitFrameMetrics(
   const tallRatio = frameState === 'legacy' ? 1.34 : 1.42;
   const aspectRatio = frameAspect === 'wide' ? 0.82 : tallRatio;
   const portraitVariationActive = lens === 'portraits' && Boolean(inducteeId);
-  const matVariation = portraitVariationActive ? Math.round(wobble(inducteeId, 311, -2, 2)) : 0;
+  const matVariation = portraitVariationActive ? Math.round(wobble(inducteeId, 311, -1, 1)) : 0;
   const rotation = portraitVariationActive ? Number(wobble(inducteeId, 313, -0.35, 0.35).toFixed(3)) : 0;
 
   if (frameState === 'focus') {
@@ -2454,12 +2456,12 @@ function portraitFrameMetrics(
     return {
       width,
       height: Math.round(width * (frameAspect === 'wide' ? 0.84 : 1.34)),
-      edge: Math.round(clamp(base * 0.035, 2, 4)),
-      mat: Math.round(clamp(base * 0.045, 2, 5)),
+      edge: Math.round(clamp(base * 0.026, 1, 3)),
+      mat: Math.round(clamp(base * 0.038, 2, 4)),
       scale: 1,
       rotation: 0,
-      accentOpacity: position.emphasis ? 0.62 : 0.34,
-      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.16, 8, 18)) : 0,
+      accentOpacity: position.emphasis ? 0.42 : 0.18,
+      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.13, 7, 15)) : 0,
     };
   }
 
@@ -2468,12 +2470,12 @@ function portraitFrameMetrics(
     return {
       width,
       height: Math.round(width * (frameAspect === 'wide' ? 0.78 : 1.34)),
-      edge: Math.round(clamp(base * 0.045, 4, 6)),
-      mat: Math.round(clamp(base * 0.06, 4, 7)),
+      edge: Math.round(clamp(base * 0.034, 3, 5)),
+      mat: Math.round(clamp(base * 0.05, 3, 6)),
       scale: 1,
       rotation: 0,
-      accentOpacity: 0.48,
-      recordAreaHeight: Math.round(clamp(base * 0.18, 14, 22)),
+      accentOpacity: 0.38,
+      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.16, 12, 20)) : 0,
     };
   }
 
@@ -2481,19 +2483,19 @@ function portraitFrameMetrics(
   return {
     width,
     height: Math.round(width * aspectRatio),
-    edge: Math.round(clamp(base * 0.06, 3, 5)),
-    mat: Math.round(clamp(base * 0.1, 5, 9) + matVariation),
+    edge: Math.round(clamp(base * 0.038, 2, 3)),
+    mat: Math.round(clamp(base * 0.084, 4, 7) + matVariation),
     scale: 1,
     rotation,
-    accentOpacity: position.emphasis ? 0.16 : 0,
-    recordAreaHeight: Math.round(clamp(base * 0.22, 11, 18)),
+    accentOpacity: position.emphasis ? 0.11 : 0,
+    recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.18, 9, 15)) : 0,
   };
 }
 
 function focusCardPlacement(position: PortraitPosition): FocusCardPlacement {
   const side = position.x > 58 ? 'left' : 'right';
   const x = side === 'right'
-    ? clamp(position.x + 15, 54, 78)
+    ? clamp(position.x + 16, 48, 78)
     : clamp(position.x - 15, 22, 46);
   const y = clamp(position.y + 1, 24, 68);
 

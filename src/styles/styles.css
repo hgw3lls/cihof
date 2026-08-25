@@ -3375,6 +3375,7 @@ textarea:focus,
 .portal-source-detail__actions button,
 .portal-source-evidence-row__actions button,
 .portal-source-evidence-row__actions a,
+.portal-focused-copy-starter__actions button,
 .portal-quick-actions button,
 .portal-editor__actions button,
 .portal-readiness-card button,
@@ -3413,6 +3414,7 @@ textarea:focus,
 .portal-source-detail__actions button:focus-visible,
 .portal-source-evidence-row__actions button:focus-visible,
 .portal-source-evidence-row__actions a:focus-visible,
+.portal-focused-copy-starter__actions button:focus-visible,
 .portal-quick-actions button:focus-visible,
 .portal-editor__actions button:focus-visible,
 .portal-readiness-card button:focus-visible,
@@ -3431,6 +3433,7 @@ textarea:focus,
 .portal-source-bulk button:disabled,
 .portal-source-detail__actions button:disabled,
 .portal-source-evidence-row__actions button:disabled,
+.portal-focused-copy-starter__actions button:disabled,
 .portal-lens-card__actions button:disabled,
 .portal-lens-preview-person__actions button:disabled,
 .portal-lens-preview__hidden button:disabled,
@@ -3984,6 +3987,111 @@ textarea:focus,
   padding-inline: 10px;
   font-size: 0.64rem;
   text-decoration: none;
+}
+
+.portal-focused-copy-starter {
+  display: grid;
+  gap: 10px;
+  border: 2px solid rgba(23, 21, 19, 0.24);
+  background: rgba(255, 247, 230, 0.7);
+  padding: 12px;
+}
+
+.portal-focused-copy-starter--empty {
+  color: var(--muted);
+}
+
+.portal-focused-copy-starter__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.portal-focused-copy-starter__header div:first-child {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.portal-focused-copy-starter__header strong,
+.portal-focused-copy-starter__header span,
+.portal-focused-copy-starter__grid span,
+.portal-focused-copy-starter__sources span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.portal-focused-copy-starter__header strong {
+  font-size: 0.78rem;
+}
+
+.portal-focused-copy-starter__header span,
+.portal-focused-copy-starter p,
+.portal-focused-copy-starter__sources span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.25;
+}
+
+.portal-focused-copy-starter p {
+  max-width: 780px;
+  margin: 0;
+  font-weight: 850;
+}
+
+.portal-focused-copy-starter__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.portal-focused-copy-starter__actions button {
+  min-height: 42px;
+  border-width: 2px;
+  padding-inline: 10px;
+  font-size: 0.64rem;
+}
+
+.portal-focused-copy-starter__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: 8px;
+}
+
+.portal-focused-copy-starter__grid div {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+  border: 2px solid rgba(23, 21, 19, 0.18);
+  background: rgba(243, 234, 214, 0.56);
+  padding: 8px;
+}
+
+.portal-focused-copy-starter__grid span,
+.portal-focused-copy-starter__sources span {
+  font-size: 0.58rem;
+}
+
+.portal-focused-copy-starter__grid strong {
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.portal-focused-copy-starter__sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.portal-focused-copy-starter__sources span {
+  border: 2px solid rgba(23, 21, 19, 0.18);
+  background: var(--bone);
+  padding: 5px 7px;
 }
 
 .portal-form-grid {
@@ -5575,6 +5683,7 @@ textarea:focus,
   .portal-source-bulk,
   .portal-source-data,
   .portal-export-summary,
+  .portal-focused-copy-starter__grid,
   .portal-profile-readiness__grid,
   .portal-apply-preview__grid,
   .portal-apply-preview__pipeline,
@@ -5649,6 +5758,7 @@ textarea:focus,
   .portal-source-data,
   .portal-source-bulk,
   .portal-lens-card__grid,
+  .portal-focused-copy-starter__grid,
   .portal-runner-access,
   .portal-export-summary,
   .portal-profile-readiness__grid,
@@ -5674,6 +5784,7 @@ textarea:focus,
   .portal-editor__hero,
   .portal-readiness__intro,
   .portal-source-evidence__header,
+  .portal-focused-copy-starter__header,
   .portal-lens-card__header,
   .portal-apply-preview__header,
   .portal-draft-list div,
