@@ -524,6 +524,35 @@ type DraftIssue = {
   message: string;
   severity: 'warning' | 'error';
 };
+type PortalCurationPackage = {
+  schemaVersion: 1;
+  packageKind: 'cihof-portal-curation-package';
+  exportedAt: string;
+  source: string;
+  profileDrafts: DraftMap;
+  relationshipDrafts: RelationshipDraftMap;
+  decisionCsv: string;
+  summary: {
+    totalProfiles: number;
+    profileDraftCount: number;
+    relationshipDraftCount: number;
+    draftIssueCount: number;
+    blockingDraftIssueCount: number;
+    sourceLeadCount: number;
+    curationErrors: number;
+    curationWarnings: number;
+    mediaErrors: number;
+    mediaWarnings: number;
+    runnerConnected: boolean;
+    runnerGitBranch?: string;
+    runnerGitCommit?: string;
+  };
+  provenance: {
+    app: string;
+    profileDraftStorageKey: string;
+    relationshipDraftStorageKey: string;
+  };
+};
 type DraftStorageResult = {
   ok: boolean;
   message: string;
@@ -968,6 +997,46 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
     setPortalNotice(`Exported ${draftCount} draft records as JSON.`);
   }
 
+  function exportCurationPackage() {
+    if (draftCount === 0 && relationshipDraftCount === 0) {
+      window.alert('There are no local profile or relationship drafts to package.');
+      return;
+    }
+
+    const packagePayload: PortalCurationPackage = {
+      schemaVersion: 1,
+      packageKind: 'cihof-portal-curation-package',
+      exportedAt: new Date().toISOString(),
+      source: 'CIHOF staff portal curation package',
+      profileDrafts: drafts,
+      relationshipDrafts,
+      decisionCsv,
+      summary: {
+        totalProfiles: inductees.length,
+        profileDraftCount: draftCount,
+        relationshipDraftCount,
+        draftIssueCount: draftIssues.length,
+        blockingDraftIssueCount: draftIssues.filter((issue) => issue.severity === 'error').length,
+        sourceLeadCount: sourceCuration.packet?.curationIndex?.length ?? 0,
+        curationErrors: reports.curation?.validation?.errors?.length ?? 0,
+        curationWarnings: reports.curation?.validation?.warnings?.length ?? 0,
+        mediaErrors: reports.media?.validation?.errors?.length ?? 0,
+        mediaWarnings: reports.media?.validation?.warnings?.length ?? 0,
+        runnerConnected: runner.available,
+        runnerGitBranch: runner.health?.git?.branch,
+        runnerGitCommit: runner.health?.git?.commit,
+      },
+      provenance: {
+        app: 'CIHOF staff portal',
+        profileDraftStorageKey: draftStorageKey,
+        relationshipDraftStorageKey,
+      },
+    };
+
+    downloadJson(packagePayload, `cihof-curation-package-${dateStamp()}.json`);
+    setPortalNotice(`Exported curation package with ${draftCount} profile draft${draftCount === 1 ? '' : 's'} and ${relationshipDraftCount} relationship draft${relationshipDraftCount === 1 ? '' : 's'}.`);
+  }
+
   function importDraftJson(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     event.target.value = '';
@@ -980,11 +1049,20 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         const source = getDraftRecordSource(payload);
         const sourceCount = source ? Object.keys(source).length : 0;
         const imported = normalizeDraftPayload(payload, inductees);
+        const relationshipSource = getRelationshipDraftRecordSource(payload);
+        const relationshipSourceCount = relationshipSource ? Object.keys(relationshipSource).length : 0;
+        const importedRelationships = normalizeRelationshipDraftPayload(payload);
         const importedCount = Object.keys(imported).length;
         setDrafts((current) => ({ ...current, ...imported }));
-        setPortalNotice(`Imported ${importedCount} draft records${sourceCount > importedCount ? `; skipped ${sourceCount - importedCount} invalid or unknown records` : ''}.`);
+        const importedRelationshipCount = Object.keys(importedRelationships).length;
+        if (importedRelationshipCount > 0) setRelationshipDrafts((current) => ({ ...current, ...importedRelationships }));
+        const skippedProfileMessage = sourceCount > importedCount ? `; skipped ${sourceCount - importedCount} invalid or unknown profile records` : '';
+        const skippedRelationshipMessage = relationshipSourceCount > importedRelationshipCount
+          ? `; skipped ${relationshipSourceCount - importedRelationshipCount} invalid relationship records`
+          : '';
+        setPortalNotice(`Imported ${importedCount} profile draft record${importedCount === 1 ? '' : 's'} and ${importedRelationshipCount} relationship draft${importedRelationshipCount === 1 ? '' : 's'}${skippedProfileMessage}${skippedRelationshipMessage}.`);
       } catch (error) {
-        window.alert(error instanceof Error ? error.message : 'Could not import draft JSON.');
+        window.alert(error instanceof Error ? error.message : 'Could not import draft or curation package JSON.');
       }
     };
     reader.readAsText(file);
@@ -1240,6 +1318,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       {tab === 'exports' && (
         <ExportPanel
           draftCount={draftCount}
+          relationshipDraftCount={relationshipDraftCount}
+          sourceLeadCount={sourceCuration.packet?.curationIndex?.length ?? 0}
           editedRows={editedRows}
           reports={reports}
           runner={runner}
@@ -1249,6 +1329,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           applyPreviewFresh={applyPreviewFresh}
           importInputRef={importInputRef}
           onClearDrafts={clearAllDrafts}
+          onExportCurationPackage={exportCurationPackage}
           onExportDraftJson={exportDraftJson}
           onImportDraftJson={importDraftJson}
           onRunScript={runPortalScript}
@@ -3057,6 +3138,8 @@ function ReadinessPanel({
 
 function ExportPanel({
   draftCount,
+  relationshipDraftCount,
+  sourceLeadCount,
   editedRows,
   reports,
   runner,
@@ -3066,6 +3149,7 @@ function ExportPanel({
   applyPreviewFresh,
   importInputRef,
   onClearDrafts,
+  onExportCurationPackage,
   onExportDraftJson,
   onExportDecisionCsv,
   onExportVisibleCsv,
@@ -3074,6 +3158,8 @@ function ExportPanel({
   onApplyDrafts,
 }: {
   draftCount: number;
+  relationshipDraftCount: number;
+  sourceLeadCount: number;
   editedRows: Inductee[];
   reports: ReportState;
   runner: RunnerState;
@@ -3083,6 +3169,7 @@ function ExportPanel({
   applyPreviewFresh: boolean;
   importInputRef: MutableRefObject<HTMLInputElement | null>;
   onClearDrafts: () => void;
+  onExportCurationPackage: () => void;
   onExportDraftJson: () => void;
   onExportDecisionCsv: () => void;
   onExportVisibleCsv: () => void;
@@ -3101,16 +3188,19 @@ function ExportPanel({
       <div className="portal-export-actions">
         <button disabled={!runner.available || draftCount === 0 || runner.activeJob?.status === 'running'} type="button" onClick={() => onApplyDrafts(true)}>1. Dry Run Portal Edits</button>
         <button disabled={!runner.available || draftCount === 0 || !applyPreviewFresh || draftIssues.some((issue) => issue.severity === 'error') || runner.activeJob?.status === 'running'} type="button" onClick={() => onApplyDrafts(false)}>2. Apply Validated Edits</button>
+        <button disabled={draftCount === 0 && relationshipDraftCount === 0} type="button" onClick={onExportCurationPackage}>Export Curation Package</button>
         <button disabled={draftCount === 0} type="button" onClick={onExportDecisionCsv}>Export Edited Decisions CSV</button>
         <button disabled={draftCount === 0} type="button" onClick={onExportDraftJson}>Export Draft JSON</button>
         <button type="button" onClick={onExportVisibleCsv}>Export Current Queue CSV</button>
-        <button type="button" onClick={() => importInputRef.current?.click()}>Import Draft JSON</button>
+        <button type="button" onClick={() => importInputRef.current?.click()}>Import Draft / Package JSON</button>
         <button disabled={draftCount === 0} type="button" onClick={onClearDrafts}>Clear Local Drafts</button>
       </div>
       <input ref={importInputRef} className="portal-file-input" accept="application/json,.json" type="file" onChange={onImportDraftJson} />
 
       <div className="portal-export-summary">
         <MetricCard label="Edited Records" value={editedRows.length} detail={`${draftCount} browser draft entries`} />
+        <MetricCard label="Relationship Drafts" value={relationshipDraftCount} detail="local relationship review decisions" />
+        <MetricCard label="Source Leads" value={sourceLeadCount} detail="original-site review aids" />
         <MetricCard label="Draft Warnings" value={draftIssues.length} detail={`${draftIssues.filter((issue) => issue.severity === 'error').length} blocking issues`} />
         <MetricCard label="Curation Errors" value={reports.curation?.validation?.errors?.length ?? 0} detail={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} />
         <MetricCard label="Media Errors" value={reports.media?.validation?.errors?.length ?? 0} detail={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} />
@@ -3142,6 +3232,7 @@ function ExportPanel({
         <code>1. Dry Run Portal Edits</code>
         <code>2. Review Apply Gate summary and runner job output</code>
         <code>3. Apply Validated Edits: apply, prepare data, validate reports/entities, build public app</code>
+        <code>Export Curation Package when handing off a browser review session</code>
       </div>
 
       <div className="portal-draft-list">
@@ -4429,7 +4520,7 @@ function persistRelationshipDrafts(drafts: RelationshipDraftMap) {
 }
 
 function normalizeRelationshipDraftPayload(payload: unknown): RelationshipDraftMap {
-  const source = getDraftRecordSource(payload);
+  const source = getRelationshipDraftRecordSource(payload);
   if (!source) return {};
 
   return Object.fromEntries(
@@ -4476,8 +4567,18 @@ function normalizeDraftPayload(payload: unknown, inductees: Inductee[] = []): Dr
 
 function getDraftRecordSource(payload: unknown) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
-  const objectPayload = payload as { drafts?: unknown; records?: unknown };
-  const source = objectPayload.drafts ?? objectPayload.records ?? payload;
+  const objectPayload = payload as { drafts?: unknown; profileDrafts?: unknown; records?: unknown; relationshipDrafts?: unknown; source?: unknown };
+  if (objectPayload.relationshipDrafts && !objectPayload.profileDrafts) return {};
+  if (typeof objectPayload.source === 'string' && objectPayload.source.toLowerCase().includes('relationship review')) return {};
+  const source = objectPayload.profileDrafts ?? objectPayload.drafts ?? objectPayload.records ?? payload;
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return null;
+  return source as Record<string, unknown>;
+}
+
+function getRelationshipDraftRecordSource(payload: unknown) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
+  const objectPayload = payload as { drafts?: unknown; relationshipDrafts?: unknown; records?: unknown };
+  const source = objectPayload.relationshipDrafts ?? objectPayload.drafts ?? objectPayload.records ?? payload;
   if (!source || typeof source !== 'object' || Array.isArray(source)) return null;
   return source as Record<string, unknown>;
 }
