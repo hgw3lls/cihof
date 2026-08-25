@@ -109,6 +109,9 @@ function applyRow(record, row, rowNumber, errors, warnings) {
   applyString(row, ['sort_name'], record, 'sortName', changed, clearEmpty);
   applyString(row, ['pronunciation'], record, 'pronunciation', changed, clearEmpty);
   applyString(row, ['approved_summary'], record, 'approvedSummary', changed, clearEmpty);
+  applyString(row, ['documented_context_line', 'context_line'], record, 'documentedContextLine', changed, clearEmpty);
+  applyString(row, ['honored_for_summary', 'honored_for'], record, 'honoredForSummary', changed, clearEmpty);
+  applyString(row, ['life_work_summary', 'life_and_work_summary'], record, 'lifeWorkSummary', changed, clearEmpty);
   applyList(row, ['approved_theme_tags'], record, 'approvedThemeTags', changed, clearEmpty);
   applyList(row, ['approved_country_tags', 'approved_countries'], record, 'approvedCountryTags', changed, clearEmpty);
   applyString(row, ['country_note', 'country_notes'], record, 'countryNotes', changed, clearEmpty);

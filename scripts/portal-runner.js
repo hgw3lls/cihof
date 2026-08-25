@@ -80,6 +80,14 @@ const scripts = [
     strict: true,
   },
   {
+    id: 'validate:offline',
+    label: 'Validate Offline Package',
+    description: 'Validate the latest built dist package, runtime bundle, and local media references for kiosk/offline delivery.',
+    command: ['run', 'validate:offline'],
+    mutates: false,
+    strict: true,
+  },
+  {
     id: 'audit:data',
     label: 'Data Audit',
     description: 'Run the local data audit report.',
@@ -135,7 +143,7 @@ const scripts = [
 ];
 
 const scriptById = new Map(scripts.map((script) => [script.id, script]));
-const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk', 'validate:media-clearance']);
+const validationScriptIds = new Set(['curate:report', 'media:validate', 'validate:entities', 'validate:kiosk', 'validate:media-clearance', 'validate:offline']);
 const buildScriptIds = new Set(['build', 'build:kiosk']);
 const curationDecisionColumns = new Set([
   'approval_status',
@@ -146,6 +154,12 @@ const curationDecisionColumns = new Set([
   'sort_name',
   'pronunciation',
   'approved_summary',
+  'documented_context_line',
+  'context_line',
+  'honored_for_summary',
+  'honored_for',
+  'life_work_summary',
+  'life_and_work_summary',
   'summary_approved',
   'approved_theme_tags',
   'theme_tags_approved',

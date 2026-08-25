@@ -1,6 +1,8 @@
 import type { Inductee } from './types';
 
 export function inducteeContextLabel(inductee: Inductee) {
+  if (inductee.documentedContextLine.trim()) return inductee.documentedContextLine.trim();
+
   const community = firstText(inductee.communityTags);
   if (community) return community;
 
@@ -19,6 +21,9 @@ export function inducteeContextLabel(inductee: Inductee) {
 }
 
 export function honoredForSummary(inductee: Inductee) {
+  const curated = cleanSummaryText(inductee.honoredForSummary, inductee.name);
+  if (curated) return limitWords(curated, 46);
+
   const preferred = cleanSummaryText(inductee.bioText || inductee.storySummary, inductee.name);
   const fallback = cleanSummaryText(inductee.storySummary, inductee.name);
   const source = wordCount(preferred) >= 24 ? preferred : fallback;

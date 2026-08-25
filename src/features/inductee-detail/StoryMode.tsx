@@ -175,7 +175,8 @@ function resolveStoryBeats(inductee: Inductee, allInductees: Inductee[], gallery
 }
 
 function generateStoryBeats(inductee: Inductee, allInductees: Inductee[], gallery: string[]): StoryBeat[] {
-  const sentences = splitSentences(cleanNarrativeText(inductee.bioText || inductee.storySummary));
+  const narrativeText = inductee.lifeWorkSummary || inductee.bioText || inductee.storySummary;
+  const sentences = splitSentences(cleanNarrativeText(narrativeText));
   const chunks = buildChunks(sentences);
   const quote = extractQuote(inductee.bioText);
 
