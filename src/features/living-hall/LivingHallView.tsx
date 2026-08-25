@@ -8,9 +8,10 @@ import {
   type PointerEvent as ReactPointerEvent,
   type WheelEvent as ReactWheelEvent,
 } from 'react';
+import { ClevelandTraceBackdrop, ClevelandTraceField, type ClevelandTraceRole } from '../../components/ClevelandTrace';
 import { FallbackImage, initials } from '../../components/FallbackImage';
+import { PortraitFrame, type PortraitFrameAspect, type PortraitFrameState } from '../../components/PortraitFrame';
 import { QRCodePanel } from '../../components/QRCodePanel';
-import { RouteLine } from '../../components/RouteLine';
 import { stopAllMedia } from '../../app/mediaControl';
 import { installationConfig } from '../../config/installationConfig';
 import { honoredForSummary, inducteeContextLabel } from '../../data/inducteeNarrative';
@@ -34,7 +35,7 @@ import {
 import { useCityQuestion } from '../../data/useCityQuestion';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
-import type { HallLens, Inductee, RelationshipProvenance, RelationshipRecord, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
+import type { HallLens, Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
 import { MediaExperience } from '../inductee-detail/MediaExperience';
 import { StoryMode } from '../inductee-detail/StoryMode';
 import { buildPersonGallery, canonicalContinuationUrl, mediaAvailability } from '../inductee-detail/personDetailModel';
@@ -93,6 +94,9 @@ type HallLine = {
   label: string;
   detail?: string;
   provenance: RelationshipProvenance;
+  relationshipType?: RelationshipType;
+  role?: ClevelandTraceRole;
+  motifId?: string;
   x1: number;
   y1: number;
   x2: number;
@@ -190,9 +194,11 @@ export function LivingHallView({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [legacyPan, setLegacyPan] = useState(0);
   const [legacyDragging, setLegacyDragging] = useState(false);
+  const [traceTrailIds, setTraceTrailIds] = useState<string[]>([]);
   const legacyFieldRef = useRef<HTMLDivElement | null>(null);
   const legacyDragRef = useRef<LegacyDragState | null>(null);
   const legacySuppressTapUntilRef = useRef(0);
+  const traceTrailKeyRef = useRef('');
   const reducedMotion = useReducedMotion();
   const cityQuestion = useCityQuestion();
   const storyLensState = useStoryLenses();
@@ -233,11 +239,12 @@ export function LivingHallView({
       relationships,
       step,
       timelineYear,
+      traceTrailIds,
       traceContext,
       legacyChronology,
       activeLegacyYear,
     }),
-    [activeLegacyYear, focusedPersonId, legacyChronology, lens, modes, people, relationships, step, timelineYear, traceContext],
+    [activeLegacyYear, focusedPersonId, legacyChronology, lens, modes, people, relationships, step, timelineYear, traceContext, traceTrailIds],
   );
   const focusedPosition = focusedPerson ? activeMode.positions.get(focusedPerson.id) ?? null : null;
   const focusedMediaRecord = focusedPerson ? mediaRecordMap.get(focusedPerson.id) : undefined;
@@ -383,6 +390,25 @@ export function LivingHallView({
     setLightboxIndex(null);
     stopHallFocusMedia();
   }, [focusedPersonId, lens]);
+
+  useEffect(() => {
+    if (lens !== 'traces') {
+      traceTrailKeyRef.current = '';
+      setTraceTrailIds([]);
+      return;
+    }
+
+    if (!focusedPersonId || !traceContext.activePerson) return;
+
+    const traceTrailKey = traceContext.traceFocusKey || 'direct';
+    setTraceTrailIds((current) => {
+      const sameTrace = traceTrailKeyRef.current === traceTrailKey;
+      traceTrailKeyRef.current = traceTrailKey;
+      const base = sameTrace ? current : [];
+      if (base[base.length - 1] === focusedPersonId) return base;
+      return [...base, focusedPersonId].slice(-5);
+    });
+  }, [focusedPersonId, lens, traceContext.activePerson, traceContext.traceFocusKey]);
 
   useEffect(() => {
     if (!focusedPersonId || !onCloseFocus) return undefined;
@@ -595,16 +621,13 @@ export function LivingHallView({
       data-hall-lens={lens}
       data-focused-person-id={focusedPersonId}
       data-trace-focus-key={lens === 'traces' ? traceContext.traceFocusKey : ''}
+      data-trace-trail-size={lens === 'traces' ? traceTrailIds.length : 0}
       data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
       onPointerDown={() => onEngage?.()}
     >
       <div className="living-hall__recordLayer" aria-hidden="true">
-        <RouteLine className="living-hall__routeLine living-hall__routeLine--north" path="kink" tone="route" end="dot" draw={attractActive} />
-        <RouteLine className="living-hall__routeLine living-hall__routeLine--east" path="kink" tone="route" end="dot" draw={attractActive} />
-        <RouteLine className="living-hall__routeLine living-hall__routeLine--south" path="horizontal" tone="route" end="dot" draw={attractActive} />
-        <RouteLine className="living-hall__routeLine living-hall__routeLine--west" path="horizontal" tone="quiet" end="none" />
         <span className="living-hall__recordNote living-hall__recordNote--one">CARD NO. CIHOF</span>
         <span className="living-hall__recordNote living-hall__recordNote--two">PORTRAIT / RECORD / TRACE</span>
         <span className="living-hall__recordNote living-hall__recordNote--three">CLEVELAND TRACES</span>
@@ -643,25 +666,19 @@ export function LivingHallView({
         onPointerUpCapture={endLegacyDrag}
         onWheelCapture={wheelLegacy}
       >
+        {!loading && !error && lens !== 'traces' && (
+          <ClevelandTraceBackdrop variant={lens} />
+        )}
         {loading && <LivingHallPlaceholders />}
         {!loading && !error && lens === 'traces' && activeMode.lines && activeMode.lines.length > 0 && (
-          <svg className="living-hall__traceLines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            {activeMode.lines.map((line) => (
-              <line
-                className={`living-hall__traceLine living-hall__traceLine--${line.provenance}`}
-                key={line.id}
-                x1={line.x1}
-                y1={line.y1}
-                x2={line.x2}
-                y2={line.y2}
-              />
-            ))}
-          </svg>
+          <ClevelandTraceField className="living-hall__traceLines" lines={activeMode.lines} variant={lens} />
         )}
 
         {!loading && !error && people.map((inductee, index) => {
           const position = activeMode.positions.get(inductee.id) ?? fallbackPosition(index, people.length);
-          const style = portraitStyle(position);
+          const frameState = portraitFrameState(lens, position);
+          const frameAspect = portraitFrameAspect(mediaRecordMap.get(inductee.id));
+          const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect);
           const className = [
             'living-portrait',
             position.emphasis ? 'living-portrait--emphasis' : '',
@@ -678,6 +695,8 @@ export function LivingHallView({
               data-transition-person={inductee.id}
               data-transition-role={lens === 'legacies' ? 'time-portrait' : 'living-portrait'}
               data-legacy-class-year={lens === 'legacies' ? inductee.classYear ?? '' : undefined}
+              data-frame-state={frameState}
+              data-frame-aspect={frameAspect}
               data-media-available={inductee.hasVideo ? 'true' : 'false'}
               key={inductee.id}
               style={style}
@@ -690,20 +709,16 @@ export function LivingHallView({
                 onSelect(inductee);
               }}
             >
-              <span className="living-portrait__imageWrap">
-                <FallbackImage
-                  alt={inductee.imageAltText || inductee.name}
-                  className="living-portrait__image"
-                  fallbackClassName="living-portrait__fallback"
-                  fallbackLabel={initials(inductee.name)}
-                  loading="eager"
-                  src={inductee.primaryImageUrl}
-                />
-              </span>
-              <span className="living-portrait__label">
-                <strong>{inductee.name}</strong>
-                {inductee.classYear && <small>{inductee.classYear}</small>}
-              </span>
+              <PortraitFrame
+                name={inductee.name}
+                classYear={inductee.classYear}
+                imageUrl={inductee.primaryImageUrl}
+                imageAltText={inductee.imageAltText}
+                fallbackLabel={initials(inductee.name)}
+                state={frameState}
+                aspect={frameAspect}
+                showRecord={shouldShowFrameRecord(lens, position)}
+              />
             </button>
           );
         })}
@@ -729,9 +744,11 @@ export function LivingHallView({
             inductee={focusedPerson}
             action={activePersonAction}
             continuationAvailable={Boolean(focusedContinuationUrl)}
+            lens={lens}
             mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
             placement={focusedCardPlacement}
             onClose={onCloseFocus}
+            onFollowTrace={() => onTraceFocusChange?.('')}
             onSetAction={setHallPersonAction}
           />
         )}
@@ -788,7 +805,7 @@ export function LivingHallView({
         />
       )}
 
-      {!loading && !error && cityQuestion.enabled && !attractActive && !latestClassFrame && (
+      {!loading && !error && cityQuestion.enabled && !attractActive && !focusedPerson && !latestClassFrame && (
         <CityQuestionPrompt
           config={cityQuestion.config}
           counts={cityQuestion.counts}
@@ -829,17 +846,21 @@ function PortraitFocusCard({
   inductee,
   action,
   continuationAvailable,
+  lens,
   mediaPlayable,
   placement,
   onClose,
+  onFollowTrace,
   onSetAction,
 }: {
   inductee: Inductee;
   action: HallPersonAction;
   continuationAvailable: boolean;
+  lens: HallLens;
   mediaPlayable: boolean;
   placement: FocusCardPlacement;
   onClose?: () => void;
+  onFollowTrace: () => void;
   onSetAction: (action: HallPersonAction) => void;
 }) {
   const context = inducteeContextLabel(inductee);
@@ -871,6 +892,14 @@ function PortraitFocusCard({
         <p>{summary}</p>
       </section>
       <nav className="living-hall__focusActions" aria-label={`Actions for ${inductee.name}`}>
+        <button
+          type="button"
+          aria-pressed={lens === 'traces'}
+          className={lens === 'traces' ? 'living-hall__focusAction living-hall__focusAction--primary living-hall__focusAction--active' : 'living-hall__focusAction living-hall__focusAction--primary'}
+          onClick={onFollowTrace}
+        >
+          FOLLOW THE TRACE →
+        </button>
         <button
           type="button"
           aria-pressed={action === 'story'}
@@ -1046,6 +1075,7 @@ function TracePanel({
 }) {
   const activePerson = context.activePerson;
   if (!activePerson) return null;
+  const relationshipLines = lines.filter((line) => line.role !== 'trail');
 
   const activeTitle = context.mode === 'concept'
     ? context.activeConcept?.lens.label ?? 'Concept Trace'
@@ -1069,13 +1099,13 @@ function TracePanel({
       <p className="living-hall__traceSummary">{activeDetail}</p>
 
       <div className="living-hall__traceEvidence" aria-label="Visible trace relationships">
-        {lines.slice(0, initialTraceThreadCount).map((line) => (
+        {relationshipLines.slice(0, initialTraceThreadCount).map((line) => (
           <span className={`living-hall__traceEvidenceItem living-hall__traceEvidenceItem--${line.provenance}`} key={`evidence-${line.id}`}>
             <strong>{line.label}</strong>
             {line.detail && <small>{line.detail}</small>}
           </span>
         ))}
-        {lines.length === 0 && <span className="living-hall__traceEvidenceItem">No reviewed ties are available for this focus yet.</span>}
+        {relationshipLines.length === 0 && <span className="living-hall__traceEvidenceItem">No reviewed ties are available for this focus yet.</span>}
       </div>
 
       {onTraceFocusChange && (
@@ -1230,9 +1260,16 @@ function LivingHallPlaceholders() {
         const position = fallbackPosition(index, 32);
         return (
           <span className="living-portrait living-portrait--placeholder" key={index} style={portraitStyle(position)}>
-            <span className="living-portrait__imageWrap">
-              <span className="living-portrait__fallback">CIHOF</span>
-            </span>
+            <PortraitFrame
+              name="CIHOF"
+              classYear={null}
+              imageUrl=""
+              imageAltText=""
+              fallbackLabel="CIHOF"
+              state="standard"
+              aspect="tall"
+              showRecord={false}
+            />
           </span>
         );
       })}
@@ -1262,6 +1299,7 @@ function selectHallMode({
   relationships,
   step,
   timelineYear,
+  traceTrailIds,
   traceContext,
   legacyChronology,
   activeLegacyYear,
@@ -1273,6 +1311,7 @@ function selectHallMode({
   relationships: RelationshipRecord[];
   step: number;
   timelineYear: string;
+  traceTrailIds: string[];
   traceContext: TraceContext;
   legacyChronology: LegacyChronology;
   activeLegacyYear: number | null;
@@ -1281,7 +1320,7 @@ function selectHallMode({
   const baseMode = lens === 'legacies'
     ? buildLegacyHallMode(people, legacyChronology, activeLegacyYear, focusedPersonId)
     : lens === 'traces'
-      ? buildTraceHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, traceContext)
+      ? buildTraceHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, traceContext, traceTrailIds)
       : portraitModeFromModes(modes, step) ?? fallback;
 
   return lens === 'traces' || lens === 'legacies' ? baseMode : applyHallFocus(baseMode, people, relationships, focusedPersonId);
@@ -1369,7 +1408,7 @@ function buildPlaceTraceChoices(geography: GeographyTraceModel, activePerson: In
     }));
 }
 
-function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: TraceContext): HallMode {
+function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: TraceContext, traceTrailIds: string[]): HallMode {
   if (!context.activePerson) {
     return {
       ...baseMode,
@@ -1389,6 +1428,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
   const lines: HallLine[] = [];
   const anchor = traceAnchorPoint;
   const visibleById = new Map(context.visibleThreads.map((thread, index) => [thread.person.id, { thread, index }]));
+  const recentTrailIds = traceTrailIds.filter((personId) => personId !== activePerson.id).slice(-3);
 
   inductees.forEach((person, index) => {
     const current = baseMode.positions.get(person.id) ?? fallbackPosition(index, inductees.length);
@@ -1411,10 +1451,12 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
     if (visible) {
       const orbit = traceOrbitAnchors[visible.index % traceOrbitAnchors.length];
       const reason = visible.thread.reasons[0];
+      const relatedX = clamp(orbit.x + wobble(person.id, 131, -1.1, 1.1), 8, 92);
+      const relatedY = clamp(orbit.y + wobble(person.name, 137, -1, 1), 13, 79);
       positions.set(person.id, {
         ...current,
-        x: clamp(orbit.x + wobble(person.id, 131, -1.1, 1.1), 8, 92),
-        y: clamp(orbit.y + wobble(person.name, 137, -1, 1), 13, 79),
+        x: relatedX,
+        y: relatedY,
         size: visible.index < 4 ? 104 : 92,
         z: 1900 - visible.index,
         delay: staggerDelay(visible.index),
@@ -1425,10 +1467,27 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         label: relationshipLineLabel(reason, activePerson.name),
         detail: reason ? relationshipSupportLabel(reason, activePerson.name) : undefined,
         provenance: reason?.provenance ?? 'curated',
+        relationshipType: reason?.type,
+        role: 'relationship',
         x1: anchor.x,
         y1: anchor.y,
-        x2: orbit.x,
-        y2: orbit.y,
+        x2: relatedX,
+        y2: relatedY,
+      });
+      return;
+    }
+
+    const trailIndex = recentTrailIds.indexOf(person.id);
+    if (context.mode !== 'direct' && trailIndex >= 0) {
+      const continuity = traceContinuityAnchors[trailIndex % traceContinuityAnchors.length];
+      positions.set(person.id, {
+        ...current,
+        x: clamp(continuity.x + wobble(person.id, 157, -0.9, 0.9), 8, 92),
+        y: clamp(continuity.y + wobble(person.name, 159, -0.75, 0.75), 13, 79),
+        size: 84,
+        z: 1480 - trailIndex,
+        delay: staggerDelay(trailIndex + 4),
+        emphasis: true,
       });
       return;
     }
@@ -1453,19 +1512,63 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
     subtitle: traceModeSubtitle(context),
     positions,
     labels: buildTraceLabels(context, lines),
-    lines,
+    lines: [
+      ...buildTraceTrailLines(context, positions, traceTrailIds),
+      ...lines,
+    ],
   };
 }
 
-const traceAnchorPoint = { x: 48, y: 44 };
+function buildTraceTrailLines(context: TraceContext, positions: Map<string, PortraitPosition>, traceTrailIds: string[]): HallLine[] {
+  if (traceTrailIds.length < 2) return [];
+  if (context.mode === 'direct') return [];
+
+  const trailLabel = context.mode === 'concept'
+    ? context.activeConcept?.lens.label.toUpperCase() ?? 'FOLLOW THE TRACE'
+    : context.placeFocus.label.toUpperCase();
+  const relationshipType: RelationshipType = context.mode === 'concept' ? 'shared_theme' : 'related_place';
+  const ids = traceTrailIds.slice(-5);
+  const lines: HallLine[] = [];
+
+  ids.forEach((personId, index) => {
+    if (index === 0) return;
+    const previousId = ids[index - 1];
+    const previous = positions.get(previousId);
+    const current = positions.get(personId);
+    if (!previous || !current) return;
+
+    lines.push({
+      id: `trace-trail-${context.traceFocusKey || 'direct'}-${previousId}-${personId}-${index}`,
+      label: index === ids.length - 1 ? trailLabel : '',
+      detail: 'Accumulated path',
+      provenance: 'curated',
+      relationshipType,
+      role: 'trail',
+      x1: previous.x,
+      y1: previous.y,
+      x2: current.x,
+      y2: current.y,
+    });
+  });
+
+  return lines;
+}
+
+const traceAnchorPoint = { x: 46, y: 44 };
 
 const traceOrbitAnchors = [
-  { x: 28, y: 25 },
-  { x: 68, y: 24 },
-  { x: 75, y: 46 },
-  { x: 63, y: 67 },
-  { x: 34, y: 67 },
-  { x: 22, y: 46 },
+  { x: 28, y: 28 },
+  { x: 41, y: 21 },
+  { x: 56, y: 31 },
+  { x: 57, y: 60 },
+  { x: 35, y: 70 },
+  { x: 21, y: 52 },
+];
+
+const traceContinuityAnchors = [
+  { x: 55, y: 74 },
+  { x: 37, y: 76 },
+  { x: 58, y: 18 },
 ];
 
 const tracePerimeterSlots = [
@@ -1531,7 +1634,11 @@ function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[]
     {
       id: 'trace-mode-label',
       text: modeLabel,
-      detail: `${lines.length} visible`,
+      detail: context.mode === 'direct'
+        ? `${context.visibleThreads.length} strongest ties`
+        : context.mode === 'concept'
+          ? 'FOLLOW THE TRACE'
+          : 'DOCUMENTED PLACE',
       x: 82,
       y: 18,
     },
@@ -1764,11 +1871,24 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
       : ((row % 3) - 1) * 0.7;
     const classBeat = inductee.classYear ? (inductee.classYear % 7) * 0.18 : 0;
     const size = portraitSize(inductee, slotIndex + (variant === 'wall-memory' ? 41 : 0), 52, 72);
+    const baseX = xMin + (xMax - xMin) * xRatio + rowOffset + wobble(inductee.id, 101, -0.55, 0.55);
+    const baseY = yMin + (yMax - yMin) * yRatio + classBeat + wobble(inductee.name, 103, -0.45, 0.45);
+    const composition = portraitWallComposition({
+      column,
+      columns,
+      inductee,
+      row,
+      rows,
+      slotIndex,
+      variant,
+      x: baseX,
+      y: baseY,
+    });
 
     positions.set(inductee.id, {
-      x: clamp(xMin + (xMax - xMin) * xRatio + rowOffset + wobble(inductee.id, 101, -0.55, 0.55), 4.5, 96),
-      y: clamp(yMin + (yMax - yMin) * yRatio + classBeat + wobble(inductee.name, 103, -0.45, 0.45), 7, 82),
-      size,
+      x: clamp(baseX + composition.x, 4.5, 96),
+      y: clamp(baseY + composition.y, 7, 82),
+      size: clamp(size + composition.size, 48, 78),
       z: 80 + Math.round(size) + (inductee.featured ? 120 : inductee.featuredCandidate ? 60 : 0),
       delay: staggerDelay(slotIndex),
       emphasis: inductee.featured || inductee.featuredCandidate || slotIndex % 29 === 0,
@@ -1784,6 +1904,59 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
     positions,
     labels: buildPortraitWallLabels(inductees, variant),
   };
+}
+
+function portraitWallComposition({
+  column,
+  columns,
+  inductee,
+  row,
+  rows,
+  slotIndex,
+  variant,
+  x,
+  y,
+}: {
+  column: number;
+  columns: number;
+  inductee: Inductee;
+  row: number;
+  rows: number;
+  slotIndex: number;
+  variant: 'chronicle' | 'wall-memory';
+  x: number;
+  y: number;
+}) {
+  let offsetX = 0;
+  let offsetY = 0;
+  let sizeOffset = 0;
+
+  const inTitleVoid = x > 29 && x < 63 && y > 24 && y < 55;
+  if (inTitleVoid) {
+    offsetX += x < 46 ? -2.8 : 3.2;
+    offsetY += y < 39 ? -2.1 : 2.6;
+    sizeOffset -= 4;
+  }
+
+  const edgeColumn = column < 2 || column > columns - 3;
+  if (edgeColumn) {
+    offsetX += column < 2 ? -1.2 : 1.2;
+    sizeOffset += variant === 'wall-memory' ? 2 : 0;
+  }
+
+  if (variant === 'wall-memory') {
+    const physicalPanelStep = inductee.physicalPanel ? (hashNumber(inductee.physicalPanel) % 3) - 1 : 0;
+    offsetX += physicalPanelStep * 0.7;
+    offsetY += ((row % 4) - 1.5) * 0.5;
+    if (slotIndex % 17 === 0) sizeOffset += 4;
+  } else {
+    const classDecade = inductee.classYear ? Math.floor(inductee.classYear / 10) : 0;
+    offsetX += ((classDecade % 3) - 1) * 0.55;
+    if (row > 0 && row < rows - 1 && column % 5 === 0) offsetY += 1.5;
+    if (slotIndex % 31 === 0) sizeOffset += 3;
+  }
+
+  return { x: offsetX, y: offsetY, size: sizeOffset };
 }
 
 function galleryColumnsForCount(count: number) {
@@ -2171,14 +2344,124 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-function portraitStyle(position: PortraitPosition) {
+function portraitFrameState(lens: HallLens, position: PortraitPosition): PortraitFrameState {
+  if (position.focused) return 'focus';
+  if (lens === 'traces') return 'trace';
+  if (lens === 'legacies') return 'legacy';
+  return 'standard';
+}
+
+function portraitFrameAspect(record: RuntimeMediaRecord | undefined): PortraitFrameAspect {
+  const primaryImage = record?.images?.primary;
+  if (
+    primaryImage
+    && typeof primaryImage.width === 'number'
+    && typeof primaryImage.height === 'number'
+    && primaryImage.width > primaryImage.height * 1.12
+  ) {
+    return 'wide';
+  }
+  return 'tall';
+}
+
+function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition) {
+  if (position.focused || position.emphasis) return true;
+  if (lens === 'portraits' || lens === 'legacies') return true;
+  return false;
+}
+
+function portraitStyle(
+  position: PortraitPosition,
+  lens: HallLens = 'portraits',
+  inducteeId = '',
+  frameState: PortraitFrameState = portraitFrameState(lens, position),
+  frameAspect: PortraitFrameAspect = 'tall',
+) {
+  const frame = portraitFrameMetrics(position, lens, inducteeId, frameState, frameAspect);
   return {
     '--portrait-x': `${position.x}%`,
     '--portrait-y': `${position.y}%`,
     '--portrait-size': `${position.size}px`,
     '--portrait-delay': `${position.delay}ms`,
+    '--frame-width': `${frame.width}px`,
+    '--frame-height': `${frame.height}px`,
+    '--frame-edge': `${frame.edge}px`,
+    '--mat-size': `${frame.mat}px`,
+    '--frame-scale': frame.scale,
+    '--frame-rotation': `${frame.rotation}deg`,
+    '--frame-accent-opacity': frame.accentOpacity,
+    '--record-area-height': `${frame.recordAreaHeight}px`,
     zIndex: position.z,
   } as CSSProperties & Record<string, string | number>;
+}
+
+function portraitFrameMetrics(
+  position: PortraitPosition,
+  lens: HallLens,
+  inducteeId: string,
+  frameState: PortraitFrameState,
+  frameAspect: PortraitFrameAspect,
+) {
+  const base = position.size;
+  const tallRatio = frameState === 'legacy' ? 1.34 : 1.42;
+  const aspectRatio = frameAspect === 'wide' ? 0.82 : tallRatio;
+  const portraitVariationActive = lens === 'portraits' && Boolean(inducteeId);
+  const matVariation = portraitVariationActive ? Math.round(wobble(inducteeId, 311, -2, 2)) : 0;
+  const rotation = portraitVariationActive ? Number(wobble(inducteeId, 313, -0.35, 0.35).toFixed(3)) : 0;
+
+  if (frameState === 'focus') {
+    const width = Math.round(base * (frameAspect === 'wide' ? 1.12 : 1.04));
+    return {
+      width,
+      height: Math.round(width * (frameAspect === 'wide' ? 0.92 : 1.42)),
+      edge: Math.round(clamp(base * 0.055, 7, 11)),
+      mat: Math.round(clamp(base * 0.11, 14, 22) + (portraitVariationActive ? matVariation * 0.5 : 0)),
+      scale: 1,
+      rotation: portraitVariationActive ? Number((rotation * 0.45).toFixed(3)) : 0,
+      accentOpacity: 1,
+      recordAreaHeight: Math.round(clamp(base * 0.24, 32, 50)),
+    };
+  }
+
+  if (frameState === 'trace') {
+    const width = Math.round(base * (frameAspect === 'wide' ? 1.18 : 1));
+    return {
+      width,
+      height: Math.round(width * (frameAspect === 'wide' ? 0.84 : 1.34)),
+      edge: Math.round(clamp(base * 0.035, 2, 4)),
+      mat: Math.round(clamp(base * 0.045, 2, 5)),
+      scale: 1,
+      rotation: 0,
+      accentOpacity: position.emphasis ? 0.62 : 0.34,
+      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.16, 8, 18)) : 0,
+    };
+  }
+
+  if (frameState === 'legacy') {
+    const width = Math.round(base * (frameAspect === 'wide' ? 1.22 : 1));
+    return {
+      width,
+      height: Math.round(width * (frameAspect === 'wide' ? 0.78 : 1.34)),
+      edge: Math.round(clamp(base * 0.045, 4, 6)),
+      mat: Math.round(clamp(base * 0.06, 4, 7)),
+      scale: 1,
+      rotation: 0,
+      accentOpacity: 0.48,
+      recordAreaHeight: Math.round(clamp(base * 0.18, 14, 22)),
+    };
+  }
+
+  const width = Math.round(base * (frameAspect === 'wide' ? 1.18 : 1));
+  return {
+    width,
+    height: Math.round(width * aspectRatio),
+    edge: Math.round(clamp(base * 0.06, 3, 5)),
+    mat: Math.round(clamp(base * 0.1, 5, 9) + matVariation),
+    scale: 1,
+    rotation,
+    accentOpacity: position.emphasis ? 0.16 : 0,
+    recordAreaHeight: Math.round(clamp(base * 0.22, 11, 18)),
+  };
 }
 
 function focusCardPlacement(position: PortraitPosition): FocusCardPlacement {

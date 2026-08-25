@@ -762,14 +762,6 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
               type="button"
               onClick={() => changeLens(item.lens)}
             >
-              <span className={`museum-nav-icon museum-nav-icon--${item.icon} museum-nav-icon--riso`} aria-hidden="true">
-                <img
-                  alt=""
-                  className="museum-nav-icon__image"
-                  draggable={false}
-                  src={`${import.meta.env.BASE_URL}risograph-icons/${item.risoIcon}.png`}
-                />
-              </span>
               <span className="experience-dock__label">
                 <span>{item.label}</span>
                 <small>{item.sublabel}</small>

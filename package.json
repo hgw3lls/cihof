@@ -12,6 +12,7 @@
     "media:localize": "node scripts/localize-media.js",
     "media:validate": "node scripts/validate-media.js",
     "media:apply": "node scripts/apply-media-decisions.js",
+    "traces:generate": "node scripts/generate-cleveland-traces.mjs",
     "validate:entities": "node scripts/validate-entity-model.js",
     "validate:kiosk": "npm run curate:report && npm run media:validate -- --strict --profile=wall",
     "validate:media-clearance": "npm run media:validate -- --strict --profile=full",
