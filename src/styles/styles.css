@@ -7784,7 +7784,10 @@ textarea:focus,
 .portal-tab,
 .portal-export-actions button,
 .portal-relationship-actions button,
+.portal-source-bulk button,
 .portal-source-detail__actions button,
+.portal-source-evidence-row__actions button,
+.portal-source-evidence-row__actions a,
 .portal-quick-actions button,
 .portal-editor__actions button,
 .portal-readiness-card button,
@@ -7819,7 +7822,10 @@ textarea:focus,
 .portal-lens-preview-person__actions button:focus-visible,
 .portal-lens-preview__hidden button:focus-visible,
 .portal-runner-access button:focus-visible,
+.portal-source-bulk button:focus-visible,
 .portal-source-detail__actions button:focus-visible,
+.portal-source-evidence-row__actions button:focus-visible,
+.portal-source-evidence-row__actions a:focus-visible,
 .portal-quick-actions button:focus-visible,
 .portal-editor__actions button:focus-visible,
 .portal-readiness-card button:focus-visible,
@@ -7835,7 +7841,9 @@ textarea:focus,
 .portal-export-actions button:disabled,
 .portal-lenses__actions button:disabled,
 .portal-relationship-actions button:disabled,
+.portal-source-bulk button:disabled,
 .portal-source-detail__actions button:disabled,
+.portal-source-evidence-row__actions button:disabled,
 .portal-lens-card__actions button:disabled,
 .portal-lens-preview-person__actions button:disabled,
 .portal-lens-preview__hidden button:disabled,
@@ -8220,6 +8228,175 @@ textarea:focus,
 
 .portal-profile-readiness__item--blocked span {
   background: var(--accent);
+}
+
+.portal-source-evidence {
+  display: grid;
+  gap: 12px;
+  border: 3px solid var(--ink);
+  background: var(--bone);
+  padding: 12px;
+}
+
+.portal-source-evidence__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 2px solid rgba(23, 21, 19, 0.22);
+  padding-bottom: 10px;
+}
+
+.portal-source-evidence__header div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.portal-source-evidence__header strong,
+.portal-source-evidence__header span,
+.portal-source-evidence-group h4,
+.portal-source-evidence-row__main span,
+.portal-source-evidence-row__main small,
+.portal-source-evidence-row__fields span,
+.portal-source-evidence-row__fields em,
+.portal-source-evidence-row__actions a {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.portal-source-evidence__header strong {
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.portal-source-evidence__header span,
+.portal-source-evidence__header p {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.portal-source-evidence__header p {
+  max-width: 520px;
+  margin: 0;
+  font-weight: 850;
+}
+
+.portal-source-evidence__groups {
+  display: grid;
+  gap: 12px;
+}
+
+.portal-source-evidence-group {
+  display: grid;
+  gap: 8px;
+}
+
+.portal-source-evidence-group h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  color: var(--accent-2);
+  font-size: 0.72rem;
+}
+
+.portal-source-evidence-group h4 span {
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 2px 6px;
+}
+
+.portal-source-evidence__list {
+  display: grid;
+  gap: 8px;
+}
+
+.portal-source-evidence-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(180px, 0.85fr);
+  gap: 10px;
+  border: 2px solid rgba(23, 21, 19, 0.28);
+  background: rgba(255, 247, 230, 0.68);
+  padding: 10px;
+}
+
+.portal-source-evidence-row--relationships,
+.portal-source-evidence-row--places,
+.portal-source-evidence-row--organizations {
+  box-shadow: inset 5px 0 0 rgba(145, 62, 31, 0.42);
+}
+
+.portal-source-evidence-row__main {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.portal-source-evidence-row__main span,
+.portal-source-evidence-row__main small {
+  color: var(--muted);
+  font-size: 0.64rem;
+  line-height: 1.2;
+}
+
+.portal-source-evidence-row__main strong {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  line-height: 1.02;
+}
+
+.portal-source-evidence-row__main p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.portal-source-evidence-row__fields {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.portal-source-evidence-row__fields span {
+  display: grid;
+  gap: 2px;
+  border: 2px solid rgba(23, 21, 19, 0.18);
+  background: rgba(243, 234, 214, 0.56);
+  padding: 6px;
+  color: var(--ink);
+  font-size: 0.62rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.portal-source-evidence-row__fields em {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.portal-source-evidence-row__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.portal-source-evidence-row__actions button,
+.portal-source-evidence-row__actions a {
+  min-height: 42px;
+  border-width: 2px;
+  padding-inline: 10px;
+  font-size: 0.64rem;
+  text-decoration: none;
 }
 
 .portal-form-grid {
@@ -8762,6 +8939,49 @@ textarea:focus,
   font-size: 0.68rem;
   font-weight: 950;
   text-transform: uppercase;
+}
+
+.portal-source-bulk {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(0, 220px));
+  gap: 8px;
+  align-items: stretch;
+  border: 3px solid var(--ink);
+  background: var(--bone);
+  padding: 10px;
+}
+
+.portal-source-bulk div {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+}
+
+.portal-source-bulk strong,
+.portal-source-bulk span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.portal-source-bulk strong {
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.portal-source-bulk span {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.25;
+}
+
+.portal-source-bulk button {
+  min-height: 64px;
+  border-width: 2px;
+  background: var(--paper);
+  font-size: 0.66rem;
+  line-height: 1.15;
 }
 
 .portal-source-layout {
@@ -9765,6 +9985,7 @@ textarea:focus,
   .portal-action-strip,
   .portal-lenses__summary,
   .portal-source-guardrails,
+  .portal-source-bulk,
   .portal-source-data,
   .portal-export-summary,
   .portal-profile-readiness__grid,
@@ -9839,10 +10060,12 @@ textarea:focus,
   .portal-lenses__summary,
   .portal-source-guardrails,
   .portal-source-data,
+  .portal-source-bulk,
   .portal-lens-card__grid,
   .portal-runner-access,
   .portal-export-summary,
   .portal-profile-readiness__grid,
+  .portal-source-evidence-row,
   .portal-apply-preview__grid,
   .portal-apply-preview__pipeline,
   .portal-runner-repo,
@@ -9863,6 +10086,7 @@ textarea:focus,
 
   .portal-editor__hero,
   .portal-readiness__intro,
+  .portal-source-evidence__header,
   .portal-lens-card__header,
   .portal-apply-preview__header,
   .portal-draft-list div,
@@ -9878,6 +10102,7 @@ textarea:focus,
   .portal-lenses__actions,
   .portal-relationship-actions,
   .portal-source-detail__actions,
+  .portal-source-evidence-row__actions,
   .portal-lens-card__actions,
   .portal-lens-preview-person__actions,
   .portal-export-actions {
@@ -9889,6 +10114,8 @@ textarea:focus,
   .portal-lenses__actions button,
   .portal-relationship-actions button,
   .portal-source-detail__actions button,
+  .portal-source-evidence-row__actions button,
+  .portal-source-evidence-row__actions a,
   .portal-lens-card__actions button,
   .portal-lens-preview-person__actions button,
   .portal-export-actions button {

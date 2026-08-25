@@ -443,6 +443,7 @@ type SourceCandidateRow = {
   imageAltText?: string;
   youtubeVideoId?: string;
 };
+type BulkSourceStageMode = 'primary' | 'review-note';
 type RelationshipQueueMode = 'needs-review' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
 type RelationshipReviewStatus = 'approved' | 'hidden' | 'needs-research';
 
@@ -745,6 +746,7 @@ const sourceQueueLabels: Record<SourceQueueMode, string> = {
   classes: 'Class Evidence',
   unresolved: 'Unresolved',
 };
+const sourceEvidenceModeOrder: SourceQueueMode[] = ['profiles', 'stories', 'relationships', 'places', 'organizations', 'media', 'video', 'aliases', 'classes', 'unresolved'];
 
 const reportUrls = {
   curation: `${import.meta.env.BASE_URL}data/curation-report.json`,
@@ -781,6 +783,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const summary = useMemo(() => buildDashboardSummary(inductees, reports.curation, reports.media, drafts), [drafts, inductees, reports.curation, reports.media]);
   const queueOptions = useMemo(() => buildQueueOptions(inductees, reports.curation, reports.media, drafts), [drafts, inductees, reports.curation, reports.media]);
   const actionItems = useMemo(() => buildActionItems(summary, draftCount), [draftCount, summary]);
+  const sourceRows = useMemo(() => buildSourceCandidateRows(sourceCuration.packet ?? emptySourceCurationPacket()), [sourceCuration.packet]);
   const relationshipRows = useMemo(
     () => buildRelationshipReviewRows(inductees, relationshipState.relationships, relationshipDrafts),
     [inductees, relationshipDrafts, relationshipState.relationships],
@@ -829,6 +832,10 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const selectedReadinessItems = selected
     ? buildProfileReadinessChecklist(selected, selectedDraft, reports.curation, reports.media, reports.manifest?.assets?.[selected.id], selectedDraftIssues)
     : [];
+  const selectedSourceRows = useMemo(
+    () => selected ? getProfileSourceRows(sourceRows, selected.id) : [],
+    [selected, sourceRows],
+  );
   const editedRows = useMemo(() => inductees.filter((item) => Boolean(drafts[item.id])), [drafts, inductees]);
   const decisionCsv = useMemo(
     () => editedRows.length > 0 ? buildReviewCsv(editedRows, reports.curation, reports.media, reports.manifest, drafts) : '',
@@ -904,6 +911,26 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
     patchDraft(id, patch);
     setSelectedId(id);
     setPortalNotice(notice);
+  }
+
+  function stageProfileSourceRow(row: SourceCandidateRow, stageMode: BulkSourceStageMode = 'primary') {
+    if (!selected) return;
+    const draft = drafts[selected.id];
+    const mediaRecord = reports.manifest?.assets?.[selected.id];
+    const patch = stageMode === 'review-note'
+      ? sourceReviewNotePatchForRow(row, selected, draft)
+      : sourceDraftPatchForRow(row, row.stageKind, selected, draft, mediaRecord);
+    stageSourceDraft(selected.id, patch, `Staged ${stageMode === 'review-note' ? 'review note' : sourceStageLabel(row.stageKind)} from ${sourceQueueLabels[row.mode]} source evidence on ${selected.name}.`);
+  }
+
+  function stageBulkSourceDrafts(rows: SourceCandidateRow[], stageMode: BulkSourceStageMode, label: string) {
+    if (rows.length === 0) {
+      setPortalNotice(`No ${label} are available to stage.`);
+      return;
+    }
+    const result = buildBulkSourceDrafts(drafts, rows, inductees, reports.manifest, stageMode);
+    setDrafts(result.drafts);
+    setPortalNotice(`Staged ${result.changed} ${label} across ${result.profileCount} profile${result.profileCount === 1 ? '' : 's'}. Review/export before applying to the repo.`);
   }
 
   function clearDraft(id: string) {
@@ -1251,10 +1278,12 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
                 needs={selectedNeeds}
                 draftIssues={selectedDraftIssues}
                 readinessItems={selectedReadinessItems}
+                sourceRows={selectedSourceRows}
                 saveState={storageState}
                 onClear={() => clearDraft(selected.id)}
                 onOpenProfile={() => onSelect(selected)}
                 onPatch={(patch) => patchDraft(selected.id, patch)}
+                onStageSourceRow={stageProfileSourceRow}
               />
             ) : (
               <div className="review-dashboard__alert">No profile selected.</div>
@@ -1284,6 +1313,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
             setSelectedId(personId);
             setTab('workbench');
           }}
+          onStageBulkDrafts={stageBulkSourceDrafts}
           onStageDraft={stageSourceDraft}
         />
       )}
@@ -1361,6 +1391,7 @@ function SourceCurationPanel({
   drafts,
   manifest,
   onOpenProfile,
+  onStageBulkDrafts,
   onStageDraft,
 }: {
   packet: SourceCurationPacket | null;
@@ -1370,6 +1401,7 @@ function SourceCurationPanel({
   drafts: DraftMap;
   manifest: MediaManifest | null;
   onOpenProfile: (personId: string) => void;
+  onStageBulkDrafts: (rows: SourceCandidateRow[], stageMode: BulkSourceStageMode, label: string) => void;
   onStageDraft: (personId: string, patch: DraftPatch, notice: string) => void;
 }) {
   const [queue, setQueue] = useState<SourceQueueMode>('profiles');
@@ -1399,6 +1431,9 @@ function SourceCurationPanel({
   const selectedTargetId = targetProfileId && peopleById.has(targetProfileId) ? targetProfileId : defaultTargetId;
   const selectedTarget = selectedTargetId ? peopleById.get(selectedTargetId) ?? null : null;
   const sourceSummary = normalizedPacket.summary;
+  const contextStarterRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'context'), [drafts, peopleById, rows]);
+  const storyStarterRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'story'), [drafts, peopleById, rows]);
+  const traceNoteRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'traces'), [drafts, peopleById, rows]);
 
   useEffect(() => {
     if (visibleRows.length === 0) return;
@@ -1448,6 +1483,22 @@ function SourceCurationPanel({
         {Object.entries(normalizedPacket.guardrails ?? {}).map(([key, value]) => (
           <span key={key}><strong>{sourceGuardrailLabel(key)}</strong>{value}</span>
         ))}
+      </div>
+
+      <div className="portal-source-bulk" aria-label="Bulk source staging">
+        <div>
+          <strong>Bulk staging</strong>
+          <span>Creates browser-local drafts only. Source leads still require review before export/apply.</span>
+        </div>
+        <button disabled={contextStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(contextStarterRows, 'primary', 'context starter drafts')}>
+          Stage Context Starters ({contextStarterRows.length})
+        </button>
+        <button disabled={storyStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(storyStarterRows, 'primary', 'story starter drafts')}>
+          Stage Story Starters ({storyStarterRows.length})
+        </button>
+        <button disabled={traceNoteRows.length === 0} type="button" onClick={() => onStageBulkDrafts(traceNoteRows, 'review-note', 'trace/place review notes')}>
+          Stage Trace/Place Notes ({traceNoteRows.length})
+        </button>
       </div>
 
       <div className="portal-source-layout">
@@ -2076,6 +2127,123 @@ function sourceDraftPatchForRow(row: SourceCandidateRow, stageKind: SourceCandid
   return {
     curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
   };
+}
+
+function sourceReviewNotePatchForRow(row: SourceCandidateRow, target: Inductee, draft: ReviewDraft | undefined): DraftPatch {
+  const patch: DraftPatch = {
+    curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
+  };
+  if (row.mode === 'places') {
+    patch.countryNotes = appendSourceText(draft?.countryNotes ?? target.countryTagsNote, row.note);
+  }
+  return patch;
+}
+
+function getProfileSourceRows(rows: SourceCandidateRow[], personId: string) {
+  return rows
+    .filter((row) => row.personId === personId)
+    .sort(compareProfileSourceRows);
+}
+
+function groupProfileSourceRows(rows: SourceCandidateRow[]) {
+  return sourceEvidenceModeOrder
+    .map((mode) => ({
+      mode,
+      rows: rows.filter((row) => row.mode === mode).sort(compareProfileSourceRows),
+    }))
+    .filter((group) => group.rows.length > 0);
+}
+
+function compareProfileSourceRows(a: SourceCandidateRow, b: SourceCandidateRow) {
+  return sourceEvidenceModeOrder.indexOf(a.mode) - sourceEvidenceModeOrder.indexOf(b.mode)
+    || (b.confidence ?? 0) - (a.confidence ?? 0)
+    || a.label.localeCompare(b.label);
+}
+
+function buildSourceBulkRows(rows: SourceCandidateRow[], peopleById: Map<string, Inductee>, drafts: DraftMap, mode: 'context' | 'story' | 'traces') {
+  const candidates = rows.filter((row) => {
+    if (!row.personId) return false;
+    const target = peopleById.get(row.personId);
+    if (!target) return false;
+    const draft = drafts[target.id];
+
+    if (mode === 'context') {
+      return (row.stageKind === 'profile-note' || row.stageKind === 'class-note')
+        && !draft?.documentedContextLine
+        && !target.documentedContextLine;
+    }
+
+    if (mode === 'story') {
+      return row.stageKind === 'story-note'
+        && !draft?.lifeWorkSummary
+        && !target.lifeWorkSummary;
+    }
+
+    return (row.mode === 'relationships' || row.mode === 'places' || row.mode === 'organizations')
+      && !sourceReviewNoteAlreadyStaged(row, target, draft);
+  });
+
+  return mode === 'traces' ? candidates : firstSourceRowPerProfile(candidates);
+}
+
+function firstSourceRowPerProfile(rows: SourceCandidateRow[]) {
+  const seen = new Set<string>();
+  return [...rows].sort(compareProfileSourceRows).filter((row) => {
+    if (!row.personId || seen.has(row.personId)) return false;
+    seen.add(row.personId);
+    return true;
+  });
+}
+
+function buildBulkSourceDrafts(currentDrafts: DraftMap, rows: SourceCandidateRow[], inductees: Inductee[], manifest: MediaManifest | null, stageMode: BulkSourceStageMode) {
+  const peopleById = new Map(inductees.map((inductee) => [inductee.id, inductee]));
+  const nextDrafts: DraftMap = { ...currentDrafts };
+  const changedProfileIds = new Set<string>();
+  const updatedAt = new Date().toISOString();
+  let changed = 0;
+
+  rows.forEach((row) => {
+    if (!row.personId) return;
+    const target = peopleById.get(row.personId);
+    if (!target) return;
+    const existingDraft = nextDrafts[target.id];
+    const patch = stageMode === 'review-note'
+      ? sourceReviewNotePatchForRow(row, target, existingDraft)
+      : sourceDraftPatchForRow(row, row.stageKind, target, existingDraft, manifest?.assets?.[target.id]);
+    if (!draftPatchHasChange(existingDraft, patch)) return;
+
+    const nextDraft: ReviewDraft = {
+      ...(existingDraft ?? { id: target.id }),
+      ...patch,
+      id: target.id,
+      updatedAt,
+    };
+    if (isMeaningfulDraft(nextDraft)) {
+      nextDrafts[target.id] = nextDraft;
+      changed += 1;
+      changedProfileIds.add(target.id);
+    } else if (existingDraft) {
+      delete nextDrafts[target.id];
+      changed += 1;
+      changedProfileIds.add(target.id);
+    }
+  });
+
+  return {
+    drafts: nextDrafts,
+    changed,
+    profileCount: changedProfileIds.size,
+  };
+}
+
+function sourceReviewNoteAlreadyStaged(row: SourceCandidateRow, target: Inductee, draft: ReviewDraft | undefined) {
+  return (draft?.curatorNotes ?? []).includes(row.note)
+    || (row.mode === 'places' && cleanPortalString(draft?.countryNotes ?? target.countryTagsNote).includes(row.note));
+}
+
+function draftPatchHasChange(existingDraft: ReviewDraft | undefined, patch: DraftPatch) {
+  const existingRecord = (existingDraft ?? {}) as Record<string, unknown>;
+  return Object.entries(patch).some(([key, value]) => JSON.stringify(existingRecord[key] ?? null) !== JSON.stringify(value ?? null));
 }
 
 function sourceContextLine(row: SourceCandidateRow) {
@@ -2775,6 +2943,69 @@ function ProfileReadinessChecklist({ items }: { items: ProfileReadinessItem[] })
   );
 }
 
+function ProfileSourceEvidencePanel({
+  rows,
+  onStageSourceRow,
+}: {
+  rows: SourceCandidateRow[];
+  onStageSourceRow: (row: SourceCandidateRow, stageMode?: BulkSourceStageMode) => void;
+}) {
+  const groups = useMemo(() => groupProfileSourceRows(rows), [rows]);
+  const traceRows = rows.filter((row) => row.mode === 'relationships' || row.mode === 'places' || row.mode === 'organizations').length;
+
+  return (
+    <section className="portal-source-evidence" aria-label="Selected profile source evidence">
+      <div className="portal-source-evidence__header">
+        <div>
+          <strong>Source evidence</strong>
+          <span>{rows.length} original-site lead{rows.length === 1 ? '' : 's'} / {traceRows} trace or place lead{traceRows === 1 ? '' : 's'}</span>
+        </div>
+        <p>Evidence is staged into browser-local drafts. Relationship and place leads stay review notes until staff explicitly approves them elsewhere.</p>
+      </div>
+
+      {groups.length > 0 ? (
+        <div className="portal-source-evidence__groups">
+          {groups.map((group) => (
+            <div className="portal-source-evidence-group" key={group.mode}>
+              <h4>{sourceQueueLabels[group.mode]} <span>{group.rows.length}</span></h4>
+              <div className="portal-source-evidence__list">
+                {group.rows.map((row) => (
+                  <article className={`portal-source-evidence-row portal-source-evidence-row--${row.mode}`} key={row.id}>
+                    <div className="portal-source-evidence-row__main">
+                      <span>{sourceQueueLabels[row.mode]}{row.confidence !== undefined ? ` / ${formatConfidence(row.confidence)}` : ''}</span>
+                      <strong>{row.label}</strong>
+                      <small>{row.subtitle}</small>
+                      <p>{row.detail}</p>
+                    </div>
+                    {row.fields.length > 0 && (
+                      <div className="portal-source-evidence-row__fields">
+                        {row.fields.slice(0, 4).map((field) => (
+                          <span key={`${row.id}-${field.label}-${field.value}`}>
+                            <em>{field.label}</em>
+                            {field.value}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="portal-source-evidence-row__actions">
+                      <button type="button" onClick={() => onStageSourceRow(row, 'primary')}>{sourcePrimaryActionLabel(row)}</button>
+                      <button type="button" onClick={() => onStageSourceRow(row, 'review-note')}>Stage Review Note</button>
+                      {row.sourceUrl && <a href={row.sourceUrl} rel="noreferrer" target="_blank">Source</a>}
+                      {row.sourcePageUrl && row.sourcePageUrl !== row.sourceUrl && <a href={row.sourcePageUrl} rel="noreferrer" target="_blank">Page</a>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="portal-empty-state">No original-site source leads are linked to this profile yet.</div>
+      )}
+    </section>
+  );
+}
+
 function ProfileEditor({
   inductee,
   draft,
@@ -2782,10 +3013,12 @@ function ProfileEditor({
   needs,
   draftIssues,
   readinessItems,
+  sourceRows,
   saveState,
   onPatch,
   onClear,
   onOpenProfile,
+  onStageSourceRow,
 }: {
   inductee: Inductee;
   draft?: ReviewDraft;
@@ -2793,10 +3026,12 @@ function ProfileEditor({
   needs: string[];
   draftIssues: DraftIssue[];
   readinessItems: ProfileReadinessItem[];
+  sourceRows: SourceCandidateRow[];
   saveState: DraftStorageResult;
   onPatch: (patch: DraftPatch) => void;
   onClear: () => void;
   onOpenProfile: () => void;
+  onStageSourceRow: (row: SourceCandidateRow, stageMode?: BulkSourceStageMode) => void;
 }) {
   const displayName = draft?.displayName ?? inductee.name;
   const sortName = draft?.sortName ?? inductee.sortName;
@@ -2849,6 +3084,8 @@ function ProfileEditor({
           ))}
         </div>
       )}
+
+      <ProfileSourceEvidencePanel rows={sourceRows} onStageSourceRow={onStageSourceRow} />
 
       <div className="portal-quick-actions" aria-label="Quick decisions">
         <button type="button" onClick={() => onPatch({ approvedSummary, summaryApproved: true })}>Approve Summary</button>
