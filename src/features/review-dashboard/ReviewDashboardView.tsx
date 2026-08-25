@@ -444,7 +444,7 @@ type SourceCandidateRow = {
   youtubeVideoId?: string;
 };
 type BulkSourceStageMode = 'primary' | 'review-note';
-type RelationshipQueueMode = 'needs-review' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
+type RelationshipQueueMode = 'needs-review' | 'source-leads' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
 type RelationshipReviewStatus = 'approved' | 'hidden' | 'needs-research';
 
 type ReviewDraft = {
@@ -511,6 +511,7 @@ type RelationshipReviewRow = {
   sourceNode: ConnectionNode;
   targetNode: ConnectionNode;
   draft?: RelationshipDraft;
+  sourceLead?: SourceRelationshipReviewDraft;
   effectiveLabel: string;
   effectiveNote: string;
   effectiveProvenance: RelationshipProvenance;
@@ -785,8 +786,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const actionItems = useMemo(() => buildActionItems(summary, draftCount), [draftCount, summary]);
   const sourceRows = useMemo(() => buildSourceCandidateRows(sourceCuration.packet ?? emptySourceCurationPacket()), [sourceCuration.packet]);
   const relationshipRows = useMemo(
-    () => buildRelationshipReviewRows(inductees, relationshipState.relationships, relationshipDrafts),
-    [inductees, relationshipDrafts, relationshipState.relationships],
+    () => buildRelationshipReviewRows(inductees, relationshipState.relationships, relationshipDrafts, sourceCuration.packet?.relationshipReviewDrafts ?? []),
+    [inductees, relationshipDrafts, relationshipState.relationships, sourceCuration.packet?.relationshipReviewDrafts],
   );
   const relationshipQueueOptions = useMemo(() => buildRelationshipQueueOptions(relationshipRows), [relationshipRows]);
   const visibleRelationshipRows = useMemo(
@@ -2744,6 +2745,7 @@ function RelationshipReviewPanel({
   onSelectRow: (rowId: string) => void;
 }) {
   const inferredCount = rows.filter((row) => row.edge.provenance === 'inferred').length;
+  const sourceLeadCount = rows.filter((row) => row.edge.source === 'sourceCuration').length;
   const hiddenCount = rows.filter((row) => row.reviewStatus === 'hidden').length;
   const approvedCount = rows.filter((row) => row.reviewStatus === 'approved').length;
   const selectedDraft = selectedRow?.draft;
@@ -2772,6 +2774,7 @@ function RelationshipReviewPanel({
 
       <div className="portal-lenses__summary">
         <MetricCard label="Connection Edges" value={rows.length} detail={`${visibleRows.length} shown`} />
+        <MetricCard label="Source Leads" value={sourceLeadCount} detail="original-site resolved pairs" />
         <MetricCard label="Inferred" value={inferredCount} detail="possible until reviewed" />
         <MetricCard label="Approved" value={approvedCount} detail={`${hiddenCount} hidden`} />
         <MetricCard label="Local Drafts" value={draftCount} detail={`${approvedDraftCount} ready / ${approvedRecordCount} total / ${storageState.message}`} />
@@ -2830,13 +2833,25 @@ function RelationshipReviewPanel({
               </div>
 
               <div className="portal-relationship-warning">
-                {selectedRow.edge.provenance === 'inferred'
+                {selectedRow.edge.source === 'sourceCuration'
+                  ? 'This relationship is a resolved original-site source lead. Approve only after confirming the source note; unresolved name targets remain in Source Evidence.'
+                  : selectedRow.edge.provenance === 'inferred'
                   ? 'This relationship is inferred from prepared metadata and should remain possible until staff approves it.'
                   : 'This relationship already comes from curated or documented data; staff can still annotate it.'}
               </div>
 
               <div className="portal-quick-actions">
-                <button type="button" onClick={() => patchSelected({ reviewStatus: 'approved', provenanceOverride: 'curated', displayLabel: selectedRow.effectiveLabel, referenceNote: selectedRow.effectiveNote })}>Approve As Curated</button>
+                <button
+                  type="button"
+                  onClick={() => patchSelected({
+                    reviewStatus: 'approved',
+                    provenanceOverride: selectedRow.edge.source === 'sourceCuration' ? 'documented' : 'curated',
+                    displayLabel: selectedRow.effectiveLabel,
+                    referenceNote: selectedRow.effectiveNote,
+                  })}
+                >
+                  {selectedRow.edge.source === 'sourceCuration' ? 'Approve As Documented' : 'Approve As Curated'}
+                </button>
                 <button type="button" onClick={() => patchSelected({ reviewStatus: 'needs-research' })}>Needs Research</button>
                 <button type="button" onClick={() => patchSelected({ reviewStatus: 'hidden' })}>Hide Link</button>
                 <button disabled={!selectedDraft} type="button" onClick={() => onClearDraft(selectedRow.id)}>Clear Draft</button>
@@ -4487,7 +4502,7 @@ function relationshipRecordKey(record: RelationshipRecord) {
   ].join('|');
 }
 
-function buildRelationshipReviewRows(inductees: Inductee[], relationships: RelationshipRecord[], drafts: RelationshipDraftMap): RelationshipReviewRow[] {
+function buildRelationshipReviewRows(inductees: Inductee[], relationships: RelationshipRecord[], drafts: RelationshipDraftMap, sourceLeads: SourceRelationshipReviewDraft[] = []): RelationshipReviewRow[] {
   const graph = buildConnectionGraph(inductees, relationships);
   const uniqueEdges = new Map<string, ConnectionEdge>();
 
@@ -4495,7 +4510,7 @@ function buildRelationshipReviewRows(inductees: Inductee[], relationships: Relat
     edges.forEach((edge) => uniqueEdges.set(edge.id, edge));
   });
 
-  return Array.from(uniqueEdges.values())
+  const graphRows = Array.from(uniqueEdges.values())
     .map<RelationshipReviewRow | null>((edge) => {
       const fromNode = graph.nodes.get(edge.from);
       const toNode = graph.nodes.get(edge.to);
@@ -4542,12 +4557,136 @@ function buildRelationshipReviewRows(inductees: Inductee[], relationships: Relat
       };
     })
     .filter((row): row is RelationshipReviewRow => Boolean(row));
+
+  const sourceRows = buildSourceRelationshipReviewRows(inductees, sourceLeads, drafts, new Set(graphRows.map((row) => relationshipPairKey(row))));
+  return [...graphRows, ...sourceRows];
+}
+
+function buildSourceRelationshipReviewRows(inductees: Inductee[], sourceLeads: SourceRelationshipReviewDraft[], drafts: RelationshipDraftMap, existingPairKeys: Set<string>): RelationshipReviewRow[] {
+  const peopleById = new Map(inductees.map((inductee) => [inductee.id, inductee]));
+  const uniqueRows = new Map<string, RelationshipReviewRow>();
+
+  sourceLeads.forEach((lead) => {
+    const sourcePersonId = cleanPortalString(lead.sourcePersonId);
+    const targetEntityId = cleanPortalString(lead.targetEntityId);
+    const sourceInductee = peopleById.get(sourcePersonId);
+    const targetInductee = peopleById.get(targetEntityId);
+    if (!sourceInductee || !targetInductee || sourceInductee.id === targetInductee.id) return;
+
+    const type = sourceRelationshipType(lead.type);
+    const label = cleanPortalString(lead.displayLabel) || sourceRelationshipLabel(lead, sourceInductee, targetInductee, type);
+    const provenance = sourceRelationshipProvenance(lead.provenanceCandidate);
+    const pairKey = [sourceInductee.id, targetInductee.id].sort().join('|');
+    const reviewPairKey = `${pairKey}|${type}`;
+    if (existingPairKeys.has(reviewPairKey)) return;
+
+    const id = `source-curation|${sourceInductee.id}|${targetInductee.id}|${type}|${slugifyRelationshipRowId(label)}`;
+    const sourceRowKey = `${sourceInductee.id}|${targetInductee.id}|${type}|${slugifyRelationshipRowId(label)}`;
+    if (uniqueRows.has(sourceRowKey)) return;
+    const draft = drafts[id];
+    const sourceNode = relationshipPersonNode(sourceInductee);
+    const targetNode = relationshipPersonNode(targetInductee);
+    const edge: ConnectionEdge = {
+      id,
+      from: sourceNode.id,
+      to: targetNode.id,
+      type,
+      label,
+      provenance,
+      referenceNote: sourceRelationshipReferenceNote(lead),
+      source: 'sourceCuration',
+      weight: provenance === 'documented' ? 3 : 8,
+    };
+    const effectiveLabel = cleanPortalString(draft?.displayLabel) || edge.label;
+    const effectiveNote = cleanPortalString(draft?.referenceNote) || edge.referenceNote || '';
+    const effectiveProvenance = draft?.provenanceOverride ?? edge.provenance;
+    const effectiveType = draft?.typeOverride ?? edge.type;
+    const reviewStatus: RelationshipReviewRow['reviewStatus'] = draft?.reviewStatus ?? 'unreviewed';
+    const searchText = [
+      sourceNode.label,
+      targetNode.label,
+      effectiveLabel,
+      effectiveNote,
+      effectiveProvenance,
+      relationshipProvenanceLabel(effectiveProvenance),
+      effectiveType,
+      relationshipTypeLabel(effectiveType),
+      relationshipSourceLabel(edge.source),
+      cleanPortalString(lead.provenanceCandidate),
+      cleanPortalString(lead.reviewAction),
+      cleanPortalString(lead.publicUse),
+      reviewStatus,
+    ].join(' ').toLowerCase();
+
+    uniqueRows.set(sourceRowKey, {
+      id,
+      edge,
+      sourceNode,
+      targetNode,
+      draft,
+      sourceLead: lead,
+      effectiveLabel,
+      effectiveNote,
+      effectiveProvenance,
+      effectiveType,
+      reviewStatus,
+      searchText,
+    });
+  });
+
+  return Array.from(uniqueRows.values());
+}
+
+function relationshipPairKey(row: RelationshipReviewRow) {
+  if (row.sourceNode.kind !== 'person' || row.targetNode.kind !== 'person') return row.id;
+  return `${[row.sourceNode.entityId, row.targetNode.entityId].sort().join('|')}|${row.effectiveType}`;
+}
+
+function relationshipPersonNode(inductee: Inductee): ConnectionNode {
+  return {
+    id: `person:${inductee.id}`,
+    entityId: inductee.id,
+    kind: 'person',
+    label: inductee.name,
+    inductee,
+  };
+}
+
+function sourceRelationshipType(value: string | undefined): RelationshipType {
+  return relationshipTypeValues.has(value as RelationshipType) ? value as RelationshipType : 'colleague';
+}
+
+function sourceRelationshipProvenance(value: string | undefined): RelationshipProvenance {
+  const candidate = cleanPortalString(value).toLowerCase();
+  if (candidate.includes('documented')) return 'documented';
+  return 'inferred';
+}
+
+function sourceRelationshipLabel(lead: SourceRelationshipReviewDraft, source: Inductee, target: Inductee, type: RelationshipType) {
+  const targetLabel = cleanPortalString(lead.targetDisplayName) || target.name;
+  return `${source.name} / ${targetLabel} / ${relationshipTypeLabel(type)}`;
+}
+
+function sourceRelationshipReferenceNote(lead: SourceRelationshipReviewDraft) {
+  return sourceNote('Original-site relationship lead', [
+    lead.referenceNote,
+    lead.provenanceCandidate,
+    lead.evidenceTypes?.join('; '),
+    lead.sourcePageUrls?.join('; '),
+    lead.reviewAction,
+    lead.publicUse,
+  ]);
+}
+
+function slugifyRelationshipRowId(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 72) || 'relationship';
 }
 
 function buildRelationshipQueueOptions(rows: RelationshipReviewRow[]): Array<{ mode: RelationshipQueueMode; label: string; count: number }> {
   const count = (mode: RelationshipQueueMode) => rows.filter((row) => matchesRelationshipQueue(row, mode)).length;
   return [
     { mode: 'needs-review', label: 'Needs Review', count: count('needs-review') },
+    { mode: 'source-leads', label: 'Source Leads', count: count('source-leads') },
     { mode: 'inferred', label: 'Inferred', count: count('inferred') },
     { mode: 'curated', label: 'Curated', count: count('curated') },
     { mode: 'documented', label: 'Documented', count: count('documented') },
@@ -4562,6 +4701,7 @@ function buildRelationshipQueueOptions(rows: RelationshipReviewRow[]): Array<{ m
 function matchesRelationshipQueue(row: RelationshipReviewRow, queue: RelationshipQueueMode) {
   if (queue === 'all') return true;
   if (queue === 'needs-review') return row.reviewStatus === 'unreviewed' || row.reviewStatus === 'needs-research';
+  if (queue === 'source-leads') return row.edge.source === 'sourceCuration';
   if (queue === 'inferred') return row.effectiveProvenance === 'inferred';
   if (queue === 'curated') return row.effectiveProvenance === 'curated';
   if (queue === 'documented') return row.effectiveProvenance === 'documented';
@@ -4575,12 +4715,13 @@ function matchesRelationshipQueue(row: RelationshipReviewRow, queue: Relationshi
 function relationshipPriorityRank(row: RelationshipReviewRow) {
   if (row.reviewStatus === 'hidden') return 8;
   if (row.reviewStatus === 'needs-research') return 0;
-  if (row.reviewStatus === 'unreviewed' && row.effectiveProvenance === 'inferred') return 1;
-  if (row.edge.source === 'relatedIds') return 2;
-  if (row.effectiveProvenance === 'inferred') return 3;
-  if (row.effectiveProvenance === 'documented') return 4;
-  if (row.effectiveProvenance === 'curated') return 5;
-  return 6;
+  if (row.edge.source === 'sourceCuration' && row.reviewStatus === 'unreviewed') return 1;
+  if (row.reviewStatus === 'unreviewed' && row.effectiveProvenance === 'inferred') return 2;
+  if (row.edge.source === 'relatedIds') return 3;
+  if (row.effectiveProvenance === 'inferred') return 4;
+  if (row.effectiveProvenance === 'documented') return 5;
+  if (row.effectiveProvenance === 'curated') return 6;
+  return 7;
 }
 
 function relationshipTypeLabel(type: RelationshipType) {
@@ -4614,6 +4755,7 @@ function relationshipSourceLabel(source: ConnectionEdge['source']) {
     relationship: 'Explicit relationship',
     metadata: 'Prepared metadata',
     relatedIds: 'Legacy suggestion',
+    sourceCuration: 'Original-site source lead',
   };
   return labels[source];
 }
