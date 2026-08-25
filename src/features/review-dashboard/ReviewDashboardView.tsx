@@ -524,6 +524,13 @@ type DraftIssue = {
   message: string;
   severity: 'warning' | 'error';
 };
+type ProfileReadinessStatus = 'ready' | 'drafted' | 'needed' | 'blocked' | 'optional';
+type ProfileReadinessItem = {
+  id: string;
+  label: string;
+  status: ProfileReadinessStatus;
+  detail: string;
+};
 type PortalCurationPackage = {
   schemaVersion: 1;
   packageKind: 'cihof-portal-curation-package';
@@ -819,6 +826,9 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const selectedDraft = selected ? drafts[selected.id] : undefined;
   const selectedNeeds = selected ? getReviewNeeds(selected, reports.curation, reports.media, selectedDraft) : [];
   const selectedDraftIssues = selected ? getDraftIssues(selected, selectedDraft, reports.manifest?.assets?.[selected.id]) : [];
+  const selectedReadinessItems = selected
+    ? buildProfileReadinessChecklist(selected, selectedDraft, reports.curation, reports.media, reports.manifest?.assets?.[selected.id], selectedDraftIssues)
+    : [];
   const editedRows = useMemo(() => inductees.filter((item) => Boolean(drafts[item.id])), [drafts, inductees]);
   const decisionCsv = useMemo(
     () => editedRows.length > 0 ? buildReviewCsv(editedRows, reports.curation, reports.media, reports.manifest, drafts) : '',
@@ -1240,6 +1250,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
                 mediaRecord={reports.manifest?.assets?.[selected.id]}
                 needs={selectedNeeds}
                 draftIssues={selectedDraftIssues}
+                readinessItems={selectedReadinessItems}
                 saveState={storageState}
                 onClear={() => clearDraft(selected.id)}
                 onOpenProfile={() => onSelect(selected)}
@@ -2740,12 +2751,37 @@ function RelationshipNodeCard({ node, label }: { node: ConnectionNode; label: st
   );
 }
 
+function ProfileReadinessChecklist({ items }: { items: ProfileReadinessItem[] }) {
+  const readyCount = items.filter((item) => item.status === 'ready' || item.status === 'optional').length;
+  const blockedCount = items.filter((item) => item.status === 'blocked').length;
+  const draftedCount = items.filter((item) => item.status === 'drafted').length;
+
+  return (
+    <section className="portal-profile-readiness" aria-label="Selected profile readiness checklist">
+      <div className="portal-profile-readiness__header">
+        <strong>Profile readiness</strong>
+        <span>{readyCount} ready / {draftedCount} staged / {blockedCount} blocked</span>
+      </div>
+      <div className="portal-profile-readiness__grid">
+        {items.map((item) => (
+          <div className={`portal-profile-readiness__item portal-profile-readiness__item--${item.status}`} key={item.id}>
+            <span>{readinessStatusLabel(item.status)}</span>
+            <strong>{item.label}</strong>
+            <small>{item.detail}</small>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ProfileEditor({
   inductee,
   draft,
   mediaRecord,
   needs,
   draftIssues,
+  readinessItems,
   saveState,
   onPatch,
   onClear,
@@ -2756,6 +2792,7 @@ function ProfileEditor({
   mediaRecord?: MediaManifestRecord;
   needs: string[];
   draftIssues: DraftIssue[];
+  readinessItems: ProfileReadinessItem[];
   saveState: DraftStorageResult;
   onPatch: (patch: DraftPatch) => void;
   onClear: () => void;
@@ -2799,6 +2836,8 @@ function ProfileEditor({
       <div className="portal-editor__needs">
         {needs.length > 0 ? needs.slice(0, 6).map((need) => <Chip key={need} label={need} tone="warn" />) : <Chip label="No open review flags" tone="ok" />}
       </div>
+
+      <ProfileReadinessChecklist items={readinessItems} />
 
       {draftIssues.length > 0 && (
         <div className="portal-validation" aria-label="Draft validation">
@@ -3899,6 +3938,114 @@ function getDraftIssues(inductee: Inductee, draft: ReviewDraft | undefined, medi
   return issues;
 }
 
+function buildProfileReadinessChecklist(
+  inductee: Inductee,
+  draft: ReviewDraft | undefined,
+  curation: CurationReport | null,
+  media: MediaReport | null,
+  mediaRecord: MediaManifestRecord | undefined,
+  draftIssues: DraftIssue[],
+): ProfileReadinessItem[] {
+  const blockingIssues = draftIssues.filter((issue) => issue.severity === 'error');
+  const hasVideo = inductee.hasVideo || Boolean(mediaRecord?.videos?.length) || (draft?.videoSourceUrls?.length ?? 0) > 0 || (draft?.youtubeVideoIds?.length ?? 0) > 0;
+  const localPrimaryReady = !hasId(media?.summary?.missingPrimaryLocalFiles, inductee.id) && Boolean(inductee.primaryImageUrl || mediaRecord?.images?.primary?.runtimePath);
+  const imageRightsReady = draft?.imageRightsApproved || draft?.imageRightsStatus === 'approved' || inductee.imageRightsStatus === 'approved';
+  const imageDrafted = draft?.imageRightsStatus !== undefined || draft?.primaryImageAltText !== undefined || draft?.imageSourceUrl !== undefined;
+  const videoRightsReady = !hasVideo || draft?.videoRightsApproved || draft?.videoRightsStatus === 'approved' || inductee.videoRightsStatus === 'approved';
+  const captionsReady = !hasVideo || draft?.captionsApproved || draft?.captionStatus === 'approved' || !hasId(media?.summary?.missingCaptions, inductee.id);
+  const transcriptReady = !hasVideo || draft?.transcriptApproved || draft?.transcriptStatus === 'approved' || !hasId(media?.summary?.missingTranscripts, inductee.id);
+  const videoDrafted = Boolean(draft?.videoRightsStatus || draft?.videoRightsApproved || draft?.captionStatus || draft?.captionsApproved || draft?.transcriptStatus || draft?.transcriptApproved);
+  const accessibilityOpen = Boolean(
+    curation?.accessibility?.plainLanguageReviewNeeded?.includes(inductee.id) ||
+    curation?.accessibility?.sensitiveContentReviewNeeded?.includes(inductee.id) ||
+    curation?.accessibility?.imageDescriptionReviewNeeded?.includes(inductee.id),
+  );
+  const accessibilityReady = Boolean(draft?.accessibilityApproved) || !accessibilityOpen;
+  const accessibilityDrafted = Boolean(draft?.plainLanguageReview || draft?.sensitiveContentReview || draft?.imageDescriptionReview);
+  const contextReady = Boolean(inductee.documentedContextLine.trim() && inductee.honoredForSummary.trim());
+  const contextDrafted = Boolean(draft?.documentedContextLine?.trim() || draft?.honoredForSummary?.trim());
+  const summaryReady = inductee.storySummarySource === 'curated' || Boolean(draft?.summaryApproved || draft?.approvedSummary?.trim());
+  const metadataReady = (inductee.themeTagsSource === 'curated' || Boolean(draft?.themeTagsApproved || (draft?.approvedThemeTags?.length ?? 0) > 0))
+    && (inductee.countryTagsSource === 'curated' || Boolean(draft?.countryTagsApproved || (draft?.approvedCountryTags?.length ?? 0) > 0));
+  const metadataDrafted = Boolean(
+    draft?.themeTagsApproved ||
+    draft?.countryTagsApproved ||
+    draft?.communityTagsApproved ||
+    (draft?.approvedThemeTags?.length ?? 0) > 0 ||
+    (draft?.approvedCountryTags?.length ?? 0) > 0 ||
+    (draft?.approvedCommunityTags?.length ?? 0) > 0,
+  );
+  const profileReady = inductee.approvalStatus === 'approved';
+  const profileDrafted = Boolean(draft?.approveProfile || draft?.approvalStatus === 'approved');
+
+  return [
+    {
+      id: 'draft-validity',
+      label: 'Draft validity',
+      status: blockingIssues.length > 0 ? 'blocked' : draftIssues.length > 0 ? 'drafted' : 'ready',
+      detail: blockingIssues.length > 0
+        ? `${blockingIssues.length} blocking issue${blockingIssues.length === 1 ? '' : 's'}`
+        : draftIssues.length > 0
+          ? `${draftIssues.length} warning${draftIssues.length === 1 ? '' : 's'} before export`
+          : 'No draft validation issues',
+    },
+    {
+      id: 'profile-approval',
+      label: 'Profile approval',
+      status: profileReady ? 'ready' : profileDrafted ? 'drafted' : 'needed',
+      detail: profileReady ? 'Approved in runtime data' : profileDrafted ? 'Approval staged in local draft' : 'Profile still needs approval decision',
+    },
+    {
+      id: 'focused-hall-copy',
+      label: 'Focused Hall copy',
+      status: contextReady ? 'ready' : contextDrafted ? 'drafted' : 'needed',
+      detail: contextReady
+        ? 'Context and HONORED FOR text are curated'
+        : contextDrafted
+          ? 'Focused-Hall text is staged locally'
+          : 'Uses generated/fallback text until curated',
+    },
+    {
+      id: 'summary',
+      label: 'Story summary',
+      status: summaryReady ? 'ready' : draft?.approvedSummary ? 'drafted' : 'needed',
+      detail: summaryReady ? 'Curated or staged summary is available' : 'Generated summary still needs review',
+    },
+    {
+      id: 'metadata',
+      label: 'Story metadata',
+      status: metadataReady ? 'ready' : metadataDrafted ? 'drafted' : 'needed',
+      detail: metadataReady ? 'Theme and country metadata are curated or staged' : 'Theme/country metadata still needs review',
+    },
+    {
+      id: 'portrait-media',
+      label: 'Portrait media',
+      status: localPrimaryReady && imageRightsReady ? 'ready' : imageDrafted ? 'drafted' : 'needed',
+      detail: localPrimaryReady && imageRightsReady
+        ? 'Primary image is local/available and rights-approved'
+        : imageDrafted
+          ? 'Primary image decision is staged locally'
+          : 'Primary image localization or rights review is still open',
+    },
+    {
+      id: 'watch-media',
+      label: 'Watch media',
+      status: !hasVideo ? 'optional' : videoRightsReady && captionsReady && transcriptReady ? 'ready' : videoDrafted ? 'drafted' : 'needed',
+      detail: !hasVideo
+        ? 'No approved video is linked for this profile'
+        : videoRightsReady && captionsReady && transcriptReady
+          ? 'Video rights, captions, and transcript are clear or staged'
+          : 'Video rights, captions, or transcript still need review',
+    },
+    {
+      id: 'accessibility',
+      label: 'Accessibility',
+      status: accessibilityReady ? 'ready' : accessibilityDrafted ? 'drafted' : 'needed',
+      detail: accessibilityReady ? 'Accessibility review is staged' : accessibilityDrafted ? 'Partial accessibility notes are staged' : 'Plain-language, sensitive-content, and image-description review remain open',
+    },
+  ];
+}
+
 function matchesSearch(inductee: Inductee, draft: ReviewDraft | undefined, search: string) {
   const draftText = draft
     ? [
@@ -4267,6 +4414,14 @@ function hasId(values: string[] | undefined, id: string) {
 function formatNeeds(needs: string[]) {
   if (needs.length === 0) return 'No open review flags';
   return needs.slice(0, 3).join(' / ') + (needs.length > 3 ? ` / +${needs.length - 3}` : '');
+}
+
+function readinessStatusLabel(status: ProfileReadinessStatus) {
+  if (status === 'ready') return 'Ready';
+  if (status === 'drafted') return 'Staged';
+  if (status === 'blocked') return 'Blocked';
+  if (status === 'optional') return 'Optional';
+  return 'Needed';
 }
 
 function downloadReviewQueue(inductees: Inductee[], curation: CurationReport | null, media: MediaReport | null, manifest: MediaManifest | null, drafts: DraftMap, queue: string) {
