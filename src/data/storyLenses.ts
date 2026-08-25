@@ -23,8 +23,8 @@ const storyLensCacheKey = 'story-lenses';
 export const defaultStoryLenses: StoryLensConfig[] = [
   {
     id: 'built-cleveland',
-    label: 'Built Cleveland',
-    prompt: 'Who Built Cleveland?',
+    label: 'Civic Builders',
+    prompt: 'Public Life',
     description: 'Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.',
     terms: ['founder', 'founded', 'business', 'company', 'entrepreneur', 'institution', 'developer', 'board', 'foundation', 'philanthropy'],
     themes: ['business', 'entrepreneurship', 'civic leadership', 'philanthropy'],
@@ -37,8 +37,8 @@ export const defaultStoryLenses: StoryLensConfig[] = [
   },
   {
     id: 'helped-arrive',
-    label: 'Helped New Arrivals',
-    prompt: 'Who Helped People Arrive?',
+    label: 'Newcomer Support',
+    prompt: 'Welcome Work',
     description: 'People connected to immigration, resettlement, welcome work, citizenship, and services for new Clevelanders.',
     terms: ['immigrant', 'immigration', 'refugee', 'resettlement', 'new arrival', 'citizenship', 'english', 'liaison', 'welcoming', 'arrival'],
     themes: ['immigrant advocacy', 'social service'],
@@ -51,8 +51,8 @@ export const defaultStoryLenses: StoryLensConfig[] = [
   },
   {
     id: 'kept-cultures',
-    label: 'Kept Cultures Alive',
-    prompt: 'Who Kept Cultures Alive?',
+    label: 'Cultural Preservation',
+    prompt: 'Culture Carried Forward',
     description: 'Artists, organizers, educators, and cultural stewards who carried traditions forward.',
     terms: ['culture', 'cultural', 'heritage', 'language', 'festival', 'garden', 'tradition', 'folk', 'dance', 'music', 'arts'],
     themes: ['arts and culture', 'heritage'],
@@ -65,8 +65,8 @@ export const defaultStoryLenses: StoryLensConfig[] = [
   },
   {
     id: 'changed-city',
-    label: 'Changed The City',
-    prompt: 'Who Changed The City?',
+    label: 'Civic Life',
+    prompt: 'City Change',
     description: 'Public servants, advocates, organizers, and leaders whose work changed civic life.',
     terms: ['justice', 'rights', 'advocate', 'advocacy', 'campaign', 'council', 'mayor', 'public service', 'reform', 'commission'],
     themes: ['civic leadership', 'justice', 'advocacy', 'public service'],
@@ -79,8 +79,8 @@ export const defaultStoryLenses: StoryLensConfig[] = [
   },
   {
     id: 'made-art',
-    label: 'Made Art',
-    prompt: 'Who Made Art?',
+    label: 'Arts',
+    prompt: 'Making Culture',
     description: 'Artists, musicians, writers, performers, and storytellers across Cleveland communities.',
     terms: ['art', 'artist', 'music', 'musician', 'orchestra', 'opera', 'theater', 'theatre', 'dance', 'writer', 'poet', 'film', 'media'],
     themes: ['arts and culture', 'media', 'storytelling'],
@@ -93,8 +93,8 @@ export const defaultStoryLenses: StoryLensConfig[] = [
   },
   {
     id: 'cared-for-city',
-    label: 'Cared For Cleveland',
-    prompt: 'Who Cared For Cleveland?',
+    label: 'Care + Health',
+    prompt: 'Care Work',
     description: 'Doctors, nurses, health leaders, social-service organizers, and people whose work centered care.',
     terms: ['doctor', 'physician', 'hospital', 'clinic', 'health', 'medicine', 'medical', 'nurse', 'patient'],
     themes: ['medicine and health', 'social service', 'public safety'],
@@ -255,7 +255,7 @@ function scoreStoryLensMatch(inductee: Inductee, lens: StoryLensConfig, pinned: 
 
   if (score > 0 && reasons.length === 0) {
     const label = countryCommunityOrRegionLabel(inductee);
-    reasons.push(label ? `Story match: ${label}` : 'Story match');
+    reasons.push(label ? `Trace match: ${label}` : 'Trace match');
   }
 
   return {

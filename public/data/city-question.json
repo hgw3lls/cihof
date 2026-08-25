@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "enabled": true,
-  "prompt": "WHAT HOLDS A CITY TOGETHER?",
-  "resultsTitle": "WHAT CLEVELAND SAID",
+  "prompt": "WHAT DO WE BUILD TOGETHER?",
+  "resultsTitle": "CLEVELAND ANSWERS",
   "instruction": "Choose one word.",
   "privacyNote": "Anonymous aggregate only.",
   "storageKey": "cihof.city-question.responses.v1",
@@ -15,12 +15,12 @@
   },
   "options": [
     { "id": "care", "label": "CARE" },
-    { "id": "language", "label": "LANGUAGE" },
+    { "id": "community", "label": "COMMUNITY" },
     { "id": "memory", "label": "MEMORY" },
-    { "id": "work", "label": "WORK" },
-    { "id": "art", "label": "ART" },
-    { "id": "food", "label": "FOOD" },
+    { "id": "culture", "label": "CULTURE" },
+    { "id": "knowledge", "label": "KNOWLEDGE" },
+    { "id": "opportunity", "label": "OPPORTUNITY" },
     { "id": "service", "label": "SERVICE" },
-    { "id": "organizing", "label": "ORGANIZING" }
+    { "id": "belonging", "label": "BELONGING" }
   ]
 }

@@ -5,9 +5,12 @@ test.describe('museum kiosk smoke', () => {
   test('loads the portrait wall and publishes health status', async ({ page }) => {
     await page.goto('./');
 
-    await expect(page.getByRole('toolbar', { name: 'Experience lenses' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Switch to Living Hall' })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByText('TOUCH SOMEONE')).toBeVisible();
+    await expect(page.getByRole('toolbar', { name: 'Ways to explore the Hall of Fame' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.museum-brand strong')).toHaveText('PORTRAITS');
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.living-hall__touchCue')).toHaveText('TOUCH A PORTRAIT');
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
     const latestClass = await readLatestClassData(page);
     await expect(page.locator('.living-hall')).toHaveAttribute('data-latest-class-year', String(latestClass.year));
@@ -31,12 +34,22 @@ test.describe('museum kiosk smoke', () => {
     expect(buildInfoJson.gitCommitShort).toBe(health.buildInfo.gitCommitShort);
   });
 
-  test('locks document scroll while allowing the museum stage to scroll', async ({ page }) => {
+  test('locks document scroll inside the persistent Hall surface', async ({ page }) => {
     await page.goto('./?view=world');
-    await expect(page.locator('.world-lens')).toBeVisible();
-    await expect(page.getByRole('button', { name: /^CLEVELAND/ })).toBeVisible();
-    await page.locator('.world-region').first().click();
-    await expect(page.locator('.world-person').first()).toBeVisible();
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.world-lens')).toHaveCount(0);
+    await expect(page.locator('.human-network')).toHaveCount(0);
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+
+    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
+    if (await placeControl.count()) {
+      await placeControl.click();
+      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
+      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    }
 
     const lockState = await page.evaluate(() => {
       const stage = document.querySelector<HTMLElement>('.museum-stage');
@@ -59,7 +72,7 @@ test.describe('museum kiosk smoke', () => {
 
     expect(lockState.bodyOverflow).toBe('hidden');
     expect(lockState.rootOverflow).toBe('hidden');
-    expect(lockState.stageOverflowY).toMatch(/auto|scroll/);
+    expect(lockState.stageOverflowY).toBe('hidden');
     expect(lockState.viewportHeight).toMatch(/px$/);
     expect(lockState.windowScrollY).toBe(0);
     expect(lockState.stageScrollTop).toBeGreaterThanOrEqual(0);
@@ -89,81 +102,259 @@ test.describe('museum kiosk smoke', () => {
     }
 
     for (const item of [
-      { label: 'Switch to World', view: 'world' },
-      { label: 'Switch to Time', view: 'time' },
+      { label: 'Arrange Hall by documented places and connections', lens: 'traces' },
+      { label: 'Arrange Hall by induction history', lens: 'legacies' },
     ]) {
       await page.getByRole('button', { name: item.label }).click();
       await expect(page.getByRole('button', { name: item.label })).toHaveAttribute('aria-pressed', 'true');
-      await expect(page).toHaveURL(new RegExp(`view=${item.view}`));
-      const health = await waitForKioskHealth(page, (snapshot) => snapshot.currentView === item.view);
-      expect(health.lastInteractionSource).toBe(`nav:${item.view}`);
-      if (item.view === 'time') {
-        await expect(page.locator('.time-lens')).toBeVisible();
-        const timeRange = page.locator('.time-lens__range');
-        await expect(timeRange).toBeVisible();
-        await expect(page.locator('.time-build-person').first()).toBeVisible();
-        const yearReadout = page.locator('.time-lens__yearReadout strong');
-        const startingYear = Number(await yearReadout.textContent());
-        await timeRange.focus();
-        await page.keyboard.press('ArrowLeft');
-        await expect(yearReadout).toHaveText(String(startingYear - 1));
-        await page.getByRole('button', { name: 'Open Class Media' }).click();
-        await expect(page.locator('.detail--action-watch')).toBeVisible();
-        await expect(page.locator('.media-experience, .person-watch-empty')).toBeVisible();
+      await expect(page.locator('.hall-surface')).toHaveCount(1);
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', item.lens);
+      await expect(page.locator('button.living-portrait').first()).toBeVisible();
+      await expect(page).toHaveURL(new RegExp(`lens=${item.lens}`));
+      const health = await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'living-hall');
+      expect(health.lastInteractionSource).toBe(`nav:${item.lens}`);
+      if (item.lens === 'traces') {
+        await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+        await expect(page.locator('.living-hall__traceLine').first()).toBeAttached();
+        await expect(page.locator('.world-lens')).toHaveCount(0);
+        await expect(page.locator('.human-network')).toHaveCount(0);
+      }
+      if (item.lens === 'legacies') {
+        await expect(page.locator('.living-hall__legacyControls')).toBeVisible();
+        await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', /\d{4}/);
+        await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
+        await expect(page.locator('.time-lens')).toHaveCount(0);
+        await expect(page.locator('.hall-surface__lensPanel--legacies')).toHaveCount(0);
+        await expect(page.locator('.detail--visitor')).toHaveCount(0);
       }
     }
 
-    await page.getByRole('button', { name: 'Switch to Living Hall' }).click();
-    await expect(page.getByRole('button', { name: 'Switch to Living Hall' })).toHaveAttribute('aria-pressed', 'true');
+    await page.getByRole('button', { name: 'Arrange Hall by portraits' }).click();
+    await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
   });
 
-  test('opens a person view and returns to Living Hall', async ({ page }) => {
+  test('maps legacy visitor URLs into persistent Hall lens state', async ({ page }) => {
+    const deepLink = await readDeepLinkCandidateData(page);
+    expect(deepLink.id).toBeTruthy();
+
+    for (const alias of ['living-hall', 'people', 'explore']) {
+      await page.goto(`./?view=${alias}`);
+      await expect(page.locator('.hall-surface')).toHaveCount(1);
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+      await expect(page.locator('.world-lens')).toHaveCount(0);
+      await expect(page.locator('.time-lens')).toHaveCount(0);
+      await expect(page.locator('.human-network')).toHaveCount(0);
+      await expect(page.locator('.detail--visitor')).toHaveCount(0);
+    }
+
+    await page.goto(`./?view=connections&person=${deepLink.id}`);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.human-network')).toHaveCount(0);
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+    await expect(page).toHaveURL(/lens=traces/);
+    await expect(page).not.toHaveURL(/view=connections/);
+
+    await page.goto(`./?view=routes&world=${encodeURIComponent(deepLink.countryTraceKey)}`);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', deepLink.countryTraceKey);
+    await expect(page.locator('.world-lens')).toHaveCount(0);
+    await expect(page).toHaveURL(/lens=traces/);
+    await expect(page).toHaveURL(new RegExp(`world=${encodeURIComponent(deepLink.countryTraceKey)}`));
+
+    await page.goto(`./?view=timeline&year=${deepLink.classYear}`);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', String(deepLink.classYear));
+    await expect(page.locator('.time-lens')).toHaveCount(0);
+    await expect(page).toHaveURL(/lens=legacies/);
+    await expect(page).not.toHaveURL(/view=timeline/);
+
+    await page.goto(`./?person=${deepLink.id}`);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${deepLink.id}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+  });
+
+  test('focuses a portrait frame in place and returns to portraits', async ({ page }) => {
     await page.goto('./');
-    await expect(page.locator('button.living-portrait').first()).toBeVisible();
-    await page.locator('button.living-portrait').first().dispatchEvent('pointerdown');
+    const firstPortrait = page.locator('button.living-portrait').first();
+    await expect(firstPortrait).toBeVisible();
+    const selectedPersonId = await firstPortrait.getAttribute('data-transition-person');
+    expect(selectedPersonId).toBeTruthy();
 
-    await expect(page.locator('.detail--museum')).toBeVisible();
-    await expect(page.getByText('WHY ARE THEY HERE?')).toBeVisible();
-    await expect(page.getByRole('button', { name: /^STORY$/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /^WATCH/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /^CONNECTIONS$/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /^FOLLOW A THREAD ->$/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /^CONTINUE THIS STORY ->$/ })).toBeVisible();
-    const selectedHealth = await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'person' && Boolean(snapshot.selectedPersonId));
-    expect(selectedHealth.selectedPersonId).not.toBe('');
+    await firstPortrait.click();
 
-    await page.getByRole('button', { name: /^CONTINUE THIS STORY ->$/ }).click();
-    await expect(page.locator('.qr-continuation')).toBeVisible();
-    await expect(page.locator('.qr-continuation__code img')).toHaveAttribute('src', /^data:image\/svg\+xml/);
-    await expect(page.locator('.qr-continuation')).toContainText('Scan with your phone');
-    await page.getByRole('button', { name: 'Return To Profile' }).click();
-    await expect(page.locator('.qr-continuation')).toBeHidden();
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', selectedPersonId ?? '');
+    await expect(page.locator('.living-hall')).toBeVisible();
+    await expect(page.locator(`button.living-portrait[data-transition-person="${selectedPersonId}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator('button.living-portrait:not(.living-portrait--focused)').first()).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+    const selectedHealth = await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'living-hall' && snapshot.selectedPersonId === selectedPersonId);
+    expect(selectedHealth.selectedPersonId).toBe(selectedPersonId);
 
-    await page.getByRole('button', { name: /^WATCH/ }).click();
-    await expect(page.locator('.media-experience, .person-watch-empty')).toBeVisible();
-
-    await page.getByRole('button', { name: /^FOLLOW A THREAD ->$/ }).click();
-    await expect(page.locator('.human-network')).toBeVisible();
-    await expect(page.locator('.human-network__threadChooser')).toBeVisible();
-    await expect(page.getByText('FOLLOW A THREAD ->')).toBeVisible();
-    await page.locator('.human-network__threadButton').first().click();
-    await expect(page.locator('.human-network--threading')).toBeVisible();
-    await expect(page.getByText('ANOTHER PERSON IN THIS STORY ->').first()).toBeVisible();
-    await expect(page.locator('.human-network__center')).toBeVisible();
-    await expect(page.locator('.human-network__node').first()).toBeVisible();
-    await page.locator('.human-network__node').first().click();
-    await expect(page.locator('.human-network')).toBeVisible();
-    await expect(page.locator('.human-network--threading')).toBeVisible();
-    await expect(page.locator('.human-network__threadButton--active')).toBeVisible();
-    await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'connections' && snapshot.selectedPersonId === '');
-
-    await page.getByRole('button', { name: 'Switch to Living Hall' }).click();
+    await page.getByRole('button', { name: 'Close focused portrait' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    await expect(page.locator('.living-hall__focusCard')).toBeHidden();
     await expect(page.locator('.detail--museum')).toBeHidden();
-    await expect(page.locator('.human-network')).toBeHidden();
-    await expect(page.getByRole('button', { name: 'Switch to Living Hall' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
 
     await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'living-hall' && snapshot.selectedPersonId === '');
+  });
+
+  test('reindexes traces around persistent portrait frames', async ({ page }) => {
+    await page.goto('./');
+    const firstPortrait = page.locator('button.living-portrait').first();
+    await expect(firstPortrait).toBeVisible();
+    const firstPersonId = await firstPortrait.getAttribute('data-transition-person');
+    expect(firstPersonId).toBeTruthy();
+
+    await firstPortrait.click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
+    await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__traceLine').first()).toBeAttached();
+    await expect(page.locator('.world-lens')).toHaveCount(0);
+    await expect(page.locator('.human-network')).toHaveCount(0);
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    const relatedPortrait = page.locator('button.living-portrait--emphasis:not(.living-portrait--focused)').first();
+    await expect(relatedPortrait).toBeVisible();
+    const relatedPersonId = await relatedPortrait.getAttribute('data-transition-person');
+    expect(relatedPersonId).toBeTruthy();
+    await relatedPortrait.click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', relatedPersonId ?? '');
+    await expect(page.locator(`button.living-portrait[data-transition-person="${relatedPersonId}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toBeVisible();
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+
+    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasNotText: 'Place' }).nth(1);
+    if (await conceptControl.count()) {
+      await conceptControl.click();
+      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^concept:/);
+      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    }
+
+    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
+    if (await placeControl.count()) {
+      await placeControl.click();
+      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
+      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+      await expect(page.locator('.world-lens')).toHaveCount(0);
+    }
+  });
+
+  test('keeps person actions anchored to the focused portrait and lens', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    const watchPerson = await readWatchCandidateData(page);
+    expect(watchPerson.id).toBeTruthy();
+
+    await page.locator(`button.living-portrait[data-transition-person="${watchPerson.id}"]`).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
+    await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
+    await expect(page.getByRole('button', { name: 'IN COMMON' })).toHaveCount(0);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await exerciseAnchoredStoryAndQr(page, 'portraits', watchPerson.id, true);
+
+    await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
+    await expect(page.locator('.living-hall__personActionPanel .media-experience')).toBeVisible();
+    await expect(page.locator('.living-hall')).toBeVisible();
+    await expect(page.locator('.detail--visitor:not(.living-hall__personActionPanel)')).toHaveCount(0);
+    await page.locator('.living-hall__personActionHeader button').click();
+    await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
+
+    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+    await exerciseAnchoredStoryAndQr(page, 'traces', watchPerson.id);
+
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+    await exerciseAnchoredStoryAndQr(page, 'legacies', watchPerson.id);
+  });
+
+  test('arranges legacies as a horizontal persistent chronology', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    const initialFrameCount = await page.locator('button.living-portrait').count();
+    const firstFrameId = await page.locator('button.living-portrait').first().getAttribute('data-transition-person');
+    expect(firstFrameId).toBeTruthy();
+
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.museum-brand strong')).toHaveText('LEGACIES');
+    await expect(page.locator('.living-hall__touchCue')).toHaveText('SWIPE THE CLASSES');
+    await expect(page.locator('button.living-portrait')).toHaveCount(initialFrameCount);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${firstFrameId}"]`)).toHaveCount(1);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${firstFrameId}"]`)).toHaveAttribute('data-transition-role', 'time-portrait');
+    await expect(page.locator('.living-hall__legacyControls')).toBeVisible();
+    await expect(page.locator('.time-lens')).toHaveCount(0);
+    await expect(page.locator('.hall-surface__lensPanel--legacies')).toHaveCount(0);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    const rowCount = await page.evaluate(() => {
+      const rows = new Set<number>();
+      document.querySelectorAll<HTMLButtonElement>('button.living-portrait').forEach((button) => {
+        const rect = button.getBoundingClientRect();
+        if (rect.right < 0 || rect.left > window.innerWidth || rect.bottom < 0 || rect.top > window.innerHeight) return;
+        rows.add(Math.round(rect.top / 24));
+      });
+      return rows.size;
+    });
+    expect(rowCount).toBeGreaterThanOrEqual(2);
+
+    const beforePan = await readLegacyPan(page);
+    const hallBox = await page.locator('.living-hall').boundingBox();
+    expect(hallBox).toBeTruthy();
+    if (!hallBox) throw new Error('Living Hall bounds unavailable.');
+    await page.mouse.move(hallBox.x + hallBox.width * 0.68, hallBox.y + hallBox.height * 0.48);
+    await page.mouse.down();
+    await page.mouse.move(hallBox.x + hallBox.width * 0.24, hallBox.y + hallBox.height * 0.48, { steps: 8 });
+    await page.mouse.up();
+    await expect.poll(() => readLegacyPan(page)).toBeGreaterThan(beforePan);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    await page.waitForTimeout(820);
+
+    const visiblePortrait = await visiblePortraitTarget(page);
+    expect(visiblePortrait.id).toBeTruthy();
+    await page.mouse.click(visiblePortrait.x, visiblePortrait.y);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${visiblePortrait.id}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${visiblePortrait.id}"]`)).toHaveClass(/living-portrait--focused/);
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
   });
 
   test('rapid repeated transition input settles into a valid lens', async ({ page }) => {
@@ -179,7 +370,8 @@ test.describe('museum kiosk smoke', () => {
       }
     });
 
-    await expect(page.locator('.detail--museum')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
     await page.evaluate(() => {
@@ -198,21 +390,56 @@ test.describe('museum kiosk smoke', () => {
         const style = window.getComputedStyle(element);
         return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
       });
+      const hallSurfaceCount = document.querySelectorAll('.hall-surface').length;
+      const hallLens = document.querySelector<HTMLElement>('.hall-surface')?.dataset.hallLens ?? '';
       const health = (window as unknown as { __CIHOF_KIOSK_STATUS__?: KioskHealthForTest }).__CIHOF_KIOSK_STATUS__;
-      return { visibleSurfaces, view: health?.currentView ?? '' };
+      return { hallLens, hallSurfaceCount, visibleSurfaces, view: health?.currentView ?? '' };
     });
 
-    expect(['living-hall', 'person', 'connections', 'world', 'time']).toContain(stableState.view);
-    expect(stableState.visibleSurfaces.length).toBe(1);
+    expect(stableState.view).toBe('living-hall');
+    expect(['portraits', 'traces', 'legacies']).toContain(stableState.hallLens);
+    expect(stableState.hallSurfaceCount).toBe(1);
+    expect(stableState.visibleSurfaces).toContain('.living-hall');
   });
 
   test('idle reset enters attract mode and touch returns home', async ({ page }) => {
-    await page.goto('./?kiosk=1');
-    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    const deepLink = await readDeepLinkCandidateData(page);
+    await page.goto(
+      `./?kiosk=1&view=routes&lens=legacies&world=${encodeURIComponent(deepLink.countryTraceKey)}&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
+      { waitUntil: 'domcontentloaded' },
+    );
+    await keepKioskAwakeUntil(page, async () => {
+      const state = await page.evaluate(() => {
+        const hallSurface = document.querySelector<HTMLElement>('.hall-surface');
+        const livingHall = document.querySelector<HTMLElement>('.living-hall');
+        return {
+          attract: livingHall?.classList.contains('living-hall--attract') ?? false,
+          focusedPersonId: hallSurface?.dataset.focusedPersonId ?? '',
+          lens: hallSurface?.dataset.hallLens ?? '',
+          portraitCount: document.querySelectorAll('button.living-portrait').length,
+        };
+      });
+      return !state.attract
+        && state.lens === 'legacies'
+        && state.focusedPersonId === deepLink.id
+        && state.portraitCount > 0;
+    }, 6_000);
+    const hallBox = await page.locator('.living-hall').boundingBox();
+    expect(hallBox).toBeTruthy();
+    if (!hallBox) throw new Error('Living Hall bounds unavailable.');
+    await page.mouse.move(hallBox.x + hallBox.width * 0.72, hallBox.y + hallBox.height * 0.48);
+    await page.mouse.down();
+    await page.mouse.move(hallBox.x + hallBox.width * 0.28, hallBox.y + hallBox.height * 0.48, { steps: 6 });
+    await page.mouse.up();
 
     const latestClass = await readLatestClassData(page);
     await expect(page.locator('.living-hall--attract')).toBeVisible({ timeout: 6_000 });
     await waitForKioskHealth(page, (snapshot) => snapshot.attractActive === true && snapshot.lastResetReason === 'idle');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', '');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-pan', '');
+    await expect(page).not.toHaveURL(/lens=traces|lens=legacies|person=|trace=|world=|timeYear=/);
     const latestSequence = page.locator('.latest-class-sequence');
     await expect(latestSequence).toBeVisible({ timeout: 9_000 });
     await expect(latestSequence).toContainText(`Class Of ${latestClass.year}`);
@@ -220,9 +447,18 @@ test.describe('museum kiosk smoke', () => {
     await page.mouse.click(60, 60);
 
     await expect(page.locator('.living-hall--attract')).toBeHidden();
-    await expect(page.getByRole('button', { name: 'Switch to Living Hall' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
     const health = await waitForKioskHealth(page, (snapshot) => snapshot.attractActive === false);
     expect(health.currentView).toBe('living-hall');
+
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect.poll(() => readLegacyPan(page)).toBe(0);
+
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', '');
   });
 });
 
@@ -244,6 +480,48 @@ async function readKioskHealth(page: Page) {
   return page.evaluate(() => {
     return (window as unknown as { __CIHOF_KIOSK_STATUS__?: KioskHealthForTest }).__CIHOF_KIOSK_STATUS__ ?? null;
   }) as Promise<KioskHealthForTest | null>;
+}
+
+async function readLegacyPan(page: Page) {
+  return page.evaluate(() => Number(document.querySelector<HTMLElement>('.living-hall')?.dataset.legacyPan ?? 0));
+}
+
+async function keepKioskAwakeUntil(page: Page, predicate: () => Promise<boolean>, timeoutMs = 3_000) {
+  const startedAt = Date.now();
+  let tick = 0;
+  while (Date.now() - startedAt < timeoutMs) {
+    await page.mouse.click(18 + tick, 18);
+    if (await predicate()) return;
+    tick += 1;
+    await page.waitForTimeout(120);
+  }
+  expect(await predicate()).toBe(true);
+}
+
+async function visiblePortraitTarget(page: Page) {
+  return page.evaluate(() => {
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('button.living-portrait'));
+    const visible = buttons.find((button) => {
+      const rect = button.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const hit = document.elementFromPoint(x, y);
+      return rect.width > 30
+        && rect.height > 40
+        && rect.left > 24
+        && rect.right < window.innerWidth - 24
+        && rect.top > 70
+        && rect.bottom < window.innerHeight - 120
+        && Boolean(hit && button.contains(hit));
+    });
+    if (!visible) return { id: '', x: 0, y: 0 };
+    const rect = visible.getBoundingClientRect();
+    return {
+      id: visible.dataset.transitionPerson ?? '',
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
+  });
 }
 
 async function readLatestClassData(page: Page) {
@@ -269,6 +547,78 @@ async function readLatestClassData(page: Page) {
   };
 }
 
+async function readWatchCandidateData(page: Page) {
+  const response = await page.request.get('data/inductees.json');
+  expect(response.ok()).toBe(true);
+  const inductees = await response.json() as Array<{
+    id: string;
+    name: string;
+    youtubeVideoIds?: string[];
+    localVideoPaths?: string[];
+  }>;
+  const candidate = inductees.find((inductee) => {
+    return (inductee.youtubeVideoIds?.length ?? 0) > 0 || (inductee.localVideoPaths?.length ?? 0) > 0;
+  });
+  if (!candidate) throw new Error('No watch-capable inductee found in test data.');
+  return { id: candidate.id, name: candidate.name };
+}
+
+async function readDeepLinkCandidateData(page: Page) {
+  const response = await page.request.get('data/inductees.json');
+  expect(response.ok()).toBe(true);
+  const inductees = await response.json() as Array<{
+    id: string;
+    classYear: number | null;
+    countryTags?: string[];
+  }>;
+  const candidate = inductees.find((inductee) => {
+    return Boolean(inductee.id)
+      && typeof inductee.classYear === 'number'
+      && (inductee.countryTags ?? []).some((country) => country && country !== 'United States');
+  });
+  if (!candidate || typeof candidate.classYear !== 'number') throw new Error('No deep-link candidate with class year and country tag found.');
+  const country = (candidate.countryTags ?? []).find((tag) => tag && tag !== 'United States') ?? '';
+  if (!country) throw new Error('No presentation country tag found for deep-link candidate.');
+  return {
+    id: candidate.id,
+    classYear: candidate.classYear,
+    countryTraceKey: `country:${slugForTraceKey(country)}`,
+  };
+}
+
+function slugForTraceKey(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+async function exerciseAnchoredStoryAndQr(page: Page, lens: string, personId: string, includeQr = false) {
+  await page.getByRole('button', { name: 'LIFE + WORK' }).click();
+  await expect(page.locator('.living-hall__personActionPanel .story-mode')).toBeVisible();
+  await expect(page.locator('.living-hall')).toBeVisible();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', lens);
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', personId);
+  await expect(page.locator('.detail--visitor:not(.living-hall__personActionPanel)')).toHaveCount(0);
+  await page.locator('.living-hall__personActionHeader button').click();
+  await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', lens);
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', personId);
+
+  if (!includeQr) return;
+
+  await page.getByRole('button', { name: 'TAKE IT WITH YOU' }).click();
+  await expect(page.locator('.living-hall__personActionPanel .qr-continuation')).toBeVisible();
+  await expect(page.locator('.living-hall')).toBeVisible();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', lens);
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', personId);
+  await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0, { timeout: 7_000 });
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', lens);
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', personId);
+}
+
 async function readCityQuestionData(page: Page) {
   const response = await page.request.get('data/city-question.json');
   expect(response.ok()).toBe(true);
@@ -281,7 +631,7 @@ async function readCityQuestionData(page: Page) {
 
   return {
     enabled: config.enabled === true,
-    prompt: typeof config.prompt === 'string' && config.prompt.trim() ? config.prompt : 'WHAT HOLDS A CITY TOGETHER?',
+    prompt: typeof config.prompt === 'string' && config.prompt.trim() ? config.prompt : 'WHAT DO WE BUILD TOGETHER?',
     storageKey: typeof config.storageKey === 'string' && config.storageKey.trim()
       ? config.storageKey
       : 'cihof.city-question.responses.v1',

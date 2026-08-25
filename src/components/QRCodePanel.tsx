@@ -84,15 +84,15 @@ export function QRCodePanel({
   }, [autoCloseMs, onAutoClose]);
 
   return (
-    <section className={rootClassName} aria-label={`Continue ${title} story`}>
+    <section className={rootClassName} aria-label={`Take ${title} record with you`}>
       <div className="qr-continuation__copy">
-        <p className="museum-kicker">Continue This Story</p>
+        <p className="museum-kicker">Take It With You</p>
         <h3>{title}</h3>
         <span>{instruction}</span>
         <small>{safeValue}</small>
         {onClose && (
           <button className="qr-continuation__close" type="button" onClick={onClose}>
-            Return To Profile
+            Return To Portrait
           </button>
         )}
       </div>

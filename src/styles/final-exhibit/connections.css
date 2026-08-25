@@ -385,6 +385,23 @@
   font-weight: 800;
 }
 
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__center {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__center > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(243, 234, 214, 0.84) 38%, rgba(243, 234, 214, 0.98) 100%);
+  padding: clamp(30px, 3.3vw, 58px) clamp(8px, 0.8vw, 14px) clamp(8px, 0.8vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .human-network--threading .human-network__center strong {
+  font-size: clamp(1.34rem, 1.8vw, 3rem);
+}
+
 .museum-shell:not(.museum-shell--staff) .human-network__node {
   width: clamp(118px, 8.8vw, 174px);
 }

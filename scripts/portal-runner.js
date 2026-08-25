@@ -481,8 +481,8 @@ function readStoryLensDocument() {
   const fallback = {
     schemaVersion: 1,
     source: {
-      name: 'CIHOF story lenses',
-      note: 'No story lens source file was found yet.',
+      name: 'CIHOF trace themes',
+      note: 'No trace-theme source file was found yet.',
     },
     lenses: [],
   };
@@ -500,12 +500,12 @@ function normalizeStoryLensDocument(input) {
   const document = input && typeof input === 'object' && !Array.isArray(input) ? input : {};
   const source = document.source && typeof document.source === 'object' && !Array.isArray(document.source)
     ? {
-        name: typeof document.source.name === 'string' ? document.source.name.trim() : 'CIHOF story lenses',
+        name: typeof document.source.name === 'string' ? document.source.name.trim() : 'CIHOF trace themes',
         note: typeof document.source.note === 'string' ? document.source.note.trim() : '',
       }
     : {
-        name: 'CIHOF story lenses',
-        note: 'Curator-editable interpretive prompts for arranging the All People portrait wall.',
+        name: 'CIHOF trace themes',
+        note: 'Curator-editable interpretive prompts for arranging portrait traces.',
       };
   const lenses = Array.isArray(document.lenses)
     ? document.lenses.map(normalizeStoryLens).filter(Boolean)

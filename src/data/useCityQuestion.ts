@@ -48,8 +48,8 @@ const cacheKey = 'city-question-config';
 const defaultConfig: CityQuestionConfig = {
   schemaVersion: 1,
   enabled: false,
-  prompt: 'WHAT HOLDS A CITY TOGETHER?',
-  resultsTitle: 'WHAT CLEVELAND SAID',
+  prompt: 'WHAT DO WE BUILD TOGETHER?',
+  resultsTitle: 'CLEVELAND ANSWERS',
   instruction: 'Choose one word.',
   privacyNote: 'Anonymous aggregate only.',
   storageKey: defaultStorageKey,

@@ -2,11 +2,11 @@
 .museum-shell:not(.museum-shell--staff) .experience-scene--transition-forward,
 .museum-shell:not(.museum-shell--staff) .experience-scene--transition-back,
 .museum-shell:not(.museum-shell--staff) .experience-scene--transition-switch {
-  animation: collection-recompose 420ms cubic-bezier(0.2, 0.74, 0.22, 1) both;
+  animation: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .experience-scene--transition-reset {
-  animation: collection-return-field 520ms cubic-bezier(0.16, 0.84, 0.22, 1) both;
+  animation: none;
 }
 
 .transition-input-guard {

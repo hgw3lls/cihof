@@ -80,7 +80,7 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
   return (
     <article
       className="story-mode"
-      aria-label={`${inductee.name} story mode`}
+      aria-label={`${inductee.name} life and work`}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={() => {
@@ -89,15 +89,15 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
     >
       <header className="story-mode__header">
         <div>
-          <p className="museum-kicker">Their Story</p>
+          <p className="museum-kicker">Life + Work</p>
           <h3>{activeBeat.headline}</h3>
         </div>
-        <div className="story-mode__status" aria-label="Story progress">
+        <div className="story-mode__status" aria-label="Section progress">
           <span>{step + 1} / {beats.length}</span>
-          <span>{storyRecord ? 'Curated' : 'Generated'}</span>
+          <span>{storyRecord ? 'Reviewed' : 'Record text'}</span>
         </div>
         <button className="story-mode__exit" type="button" onClick={onExit}>
-          Exit Story
+          Return
         </button>
       </header>
 
@@ -123,25 +123,25 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
           </div>
           <p>{activeBeat.body}</p>
           {activeBeat.quote && <blockquote>{activeBeat.quote}</blockquote>}
-          <div className="story-mode__meta" aria-label="Story beat metadata">
+          <div className="story-mode__meta" aria-label="Record section metadata">
             {activeBeat.place && <span>{activeBeat.place}</span>}
             {activeBeat.organization && <span>{activeBeat.organization}</span>}
             {activeBeat.provenance && <span>{activeBeat.provenance}</span>}
           </div>
           {relatedPerson && (
             <button className="story-mode__related" type="button" onClick={() => onSelectPerson(relatedPerson)}>
-              <span>Related Person</span>
+              <span>Related Portrait</span>
               <strong>{relatedPerson.name}</strong>
             </button>
           )}
         </div>
       </section>
 
-      <nav className="story-mode__nav" aria-label="Story navigation">
+      <nav className="story-mode__nav" aria-label="Life and work navigation">
         <button type="button" disabled={step === 0} onClick={() => goToStep(step - 1)}>
           Previous
         </button>
-        <div className="story-mode__dots" aria-label="Story sections">
+        <div className="story-mode__dots" aria-label="Life and work sections">
           {beats.map((beat, index) => (
             <button
               aria-current={index === step ? 'step' : undefined}
@@ -266,7 +266,7 @@ function generatedHeadline(type: StoryBeatType, index: number, total: number) {
 }
 
 function formatBeatType(type?: StoryBeatType) {
-  return type ? beatLabels[type] : 'Story Beat';
+  return type ? beatLabels[type] : 'Record Section';
 }
 
 function extractQuote(text: string) {
@@ -316,5 +316,5 @@ function wordCount(text: string) {
 }
 
 function formatYear(year: number | null) {
-  return year ? `Class of ${year}` : 'Timeline pending';
+  return year ? `Class of ${year}` : 'Class year pending';
 }
