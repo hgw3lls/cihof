@@ -76,12 +76,7 @@
   font-synthesis-weight: none;
 }
 
-.museum-shell:not(.museum-shell--staff).experience-shell--living-hall,
-.museum-shell:not(.museum-shell--staff).experience-shell--person,
-.museum-shell:not(.museum-shell--staff).experience-shell--connections,
-.museum-shell:not(.museum-shell--staff).experience-shell--world,
-.museum-shell:not(.museum-shell--staff).experience-shell--time,
-.museum-shell:not(.museum-shell--staff) .timeline.time-lens {
+.museum-shell:not(.museum-shell--staff).experience-shell--living-hall {
   --living-hall-ink: var(--exhibit-paper);
   --living-hall-paper: var(--exhibit-ink);
   --person-ink: var(--exhibit-paper);
@@ -107,11 +102,6 @@
   --time-teal: var(--exhibit-sage);
   --time-line: var(--exhibit-line);
   --time-muted: var(--exhibit-muted);
-}
-
-.museum-shell:not(.museum-shell--staff):is(.experience-shell--person, .experience-shell--connections) {
-  --experience-dock-height: clamp(58px, 5.2vh, 78px);
-  --experience-dock-gap: clamp(8px, 1vw, 16px);
 }
 
 .museum-shell:not(.museum-shell--staff) :is(

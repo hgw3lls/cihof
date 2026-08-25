@@ -1,4 +1,4 @@
-/* Living Hall final visitor layer: archival contact sheet, route, and record field. */
+/* Persistent Hall visitor layer: archival contact sheet, route, and record field. */
 .museum-shell:not(.museum-shell--staff) .living-hall {
   overflow: hidden;
 }
