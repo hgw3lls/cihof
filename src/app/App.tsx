@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { FallbackImage, initials } from '../components/FallbackImage';
 import { installationConfig } from '../config/installationConfig';
 import { useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
 import { mostConnectedPerson } from '../data/traceModel';
-import { InducteeDetail, type DetailAction } from '../features/inductee-detail/InducteeDetail';
-import { ConnectionFinder } from '../features/connections/ConnectionFinder';
+import { AdminDataPanel } from '../features/admin/AdminDataPanel';
+import { matchesAdminHotkey, readKioskSettings, subscribeKioskSettings, type KioskSettings } from './kioskSettings';
+import type { DetailAction } from '../features/inductee-detail/InducteeDetail';
 import { HallSurface } from '../features/hall-surface/HallSurface';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import {
@@ -30,14 +31,8 @@ const showKioskToggleInProduction = installationConfig.debug.showKioskToggleInPr
 const sharedPortraitDurationMs = installationConfig.transitions.sharedPortraitMs;
 const transitionInputGuardMs = installationConfig.transitions.inputGuardMs;
 
-type ReviewDashboardProps = {
-  inductees: Inductee[];
-  onSelect: (inductee: Inductee) => void;
-};
-
 type AppProps = {
   defaultView?: ViewMode;
-  ReviewDashboard?: (props: ReviewDashboardProps) => ReactElement;
 };
 
 type TransitionRect = {
@@ -68,13 +63,12 @@ type SharedPortraitHandoff = PendingSharedPortrait & {
   to: TransitionRect;
 };
 
-export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) {
+export function App({ defaultView = 'living-hall' }: AppProps) {
   useViewportLock();
 
-  const staffPortalEnabled = Boolean(ReviewDashboard);
   const { inductees, loading, error } = useInductees();
   const { relationships, loading: relationshipsLoading, error: relationshipsError } = useRelationships();
-  const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(staffPortalEnabled, defaultView));
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(false, defaultView));
   const [hallLens, setHallLens] = useState<HallLens>(() => readHallLens(defaultView));
   const [hallFocus, setHallFocus] = useState<HallFocus>(() => readHallFocus());
   const [experienceTransition, setExperienceTransition] = useState<ExperienceTransition>('switch');
@@ -91,20 +85,23 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
   const [sharedPortrait, setSharedPortrait] = useState<SharedPortraitHandoff | null>(null);
   const [transitionLocked, setTransitionLocked] = useState(false);
   const [networkOnline, setNetworkOnline] = useState(() => typeof navigator === 'undefined' ? true : navigator.onLine);
+  const [adminDataOpen, setAdminDataOpen] = useState(() => readParam('admin') === '1');
+  const [kioskSettings, setKioskSettings] = useState(() => readKioskSettings());
   const stageRef = useRef<HTMLElement | null>(null);
   const scrollPositionRef = useRef({ left: 0, top: 0 });
   const pendingSharedPortraitRef = useRef<PendingSharedPortrait | null>(null);
+  const adminTapRef = useRef({ count: 0, startedAt: 0 });
   const transitionLockUntilRef = useRef(0);
   const transitionLockTimeoutRef = useRef<number | null>(null);
   const sharedPortraitTimeoutRef = useRef<number | null>(null);
   const animationFramesRef = useRef<number[]>([]);
-  const reviewModeEnabled = staffPortalEnabled && viewMode === 'review';
-  const staffConnectionOpen = staffPortalEnabled && viewMode === 'connections';
+  const reviewModeEnabled = false;
   const selectedId = hallFocus?.personId ?? '';
   const activeVisitorMode: VisitorExperienceMode = isVisitorExperienceMode(viewMode) ? viewMode : viewModeForHallLens(hallLens);
   const activeShellMode: ViewMode = reviewModeEnabled ? 'review' : activeVisitorMode;
-  const wallDebugEnabled = staffPortalEnabled && (installationConfig.debug.enabled || readParam('wallDebug') === '1' || readParam('debugWall') === '1');
-  const kioskToggleVisible = staffPortalEnabled || !contentProtectionActive || showKioskToggleInProduction;
+  const shellStyle = useMemo(() => kioskSettingsStyle(kioskSettings), [kioskSettings]);
+  const wallDebugEnabled = installationConfig.debug.enabled && (readParam('wallDebug') === '1' || readParam('debugWall') === '1');
+  const kioskToggleVisible = !contentProtectionActive || showKioskToggleInProduction;
   const shellClassName = [
     'app-shell',
     'museum-shell',
@@ -190,7 +187,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     const pending = pendingSharedPortraitRef.current;
     if (!pending || pending.targetView !== viewMode) return undefined;
 
-    if (prefersReducedMotion()) {
+    if (prefersReducedMotion(kioskSettings.motion)) {
       pendingSharedPortraitRef.current = null;
       return undefined;
     }
@@ -214,7 +211,9 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [connectionReturnId, connectionSeedId, selectedId, timelineYear, viewMode, worldFocusKey]);
+  }, [connectionReturnId, connectionSeedId, kioskSettings.motion, selectedId, timelineYear, viewMode, worldFocusKey]);
+
+  useEffect(() => subscribeKioskSettings(setKioskSettings), []);
 
   useEffect(() => {
     recordKioskHealth({
@@ -263,13 +262,23 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
   }, []);
 
   useEffect(() => {
+    function openAdminWithKeyboard(event: KeyboardEvent) {
+      if (!matchesAdminHotkey(event, kioskSettings.adminHotkey)) return;
+      event.preventDefault();
+      recordKioskInteraction('admin-data-hotkey');
+      stopActiveMedia();
+      setAdminDataOpen(true);
+    }
+
+    window.addEventListener('keydown', openAdminWithKeyboard);
+    return () => window.removeEventListener('keydown', openAdminWithKeyboard);
+  }, [kioskSettings.adminHotkey]);
+
+  useEffect(() => {
     const params = new URLSearchParams();
     if (reviewModeEnabled) {
       params.set('view', 'review');
       params.set('review', '1');
-    } else if (staffConnectionOpen) {
-      params.set('view', 'connections');
-      if (connectionSeedId) params.set('person', connectionSeedId);
     } else {
       if (hallLens !== 'portraits') params.set('lens', hallLens);
       if (hallLens === 'legacies' && timelineYear) params.set('timeYear', timelineYear);
@@ -285,12 +294,14 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [connectionSeedId, hallLens, kioskMode, reviewModeEnabled, selectedId, staffConnectionOpen, timelineYear, wallDebugEnabled, worldFocusKey]);
+  }, [connectionSeedId, hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, wallDebugEnabled, worldFocusKey]);
 
   useEffect(() => {
-    if (!kioskMode || reviewModeEnabled) return;
+    if (!kioskMode || reviewModeEnabled || adminDataOpen) return;
 
-    const warningDelay = Math.max(installationConfig.idle.timeoutMs - installationConfig.idle.warningMs, 0);
+    const idleTimeoutMs = kioskSettings.idleTimeoutMs;
+    const idleWarningMs = Math.min(kioskSettings.idleWarningMs, Math.max(0, idleTimeoutMs - 1_000));
+    const warningDelay = Math.max(idleTimeoutMs - idleWarningMs, 0);
     let warningTimeout = window.setTimeout(() => {
       setIdleWarningActive(true);
     }, warningDelay);
@@ -299,7 +310,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
       resetExperience('idle');
       setAttractActive(true);
     };
-    let timeout = window.setTimeout(showAttract, installationConfig.idle.timeoutMs);
+    let timeout = window.setTimeout(showAttract, idleTimeoutMs);
     const resetTimer = () => {
       if (attractActive) return;
       setIdleWarningActive(false);
@@ -308,7 +319,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
       warningTimeout = window.setTimeout(() => {
         setIdleWarningActive(true);
       }, warningDelay);
-      timeout = window.setTimeout(showAttract, installationConfig.idle.timeoutMs);
+      timeout = window.setTimeout(showAttract, idleTimeoutMs);
     };
 
     window.addEventListener('pointerdown', resetTimer);
@@ -322,7 +333,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
       window.removeEventListener('keydown', resetTimer);
       window.removeEventListener('touchstart', resetTimer);
     };
-  }, [attractActive, kioskMode, reviewModeEnabled]);
+  }, [adminDataOpen, attractActive, kioskMode, kioskSettings.idleTimeoutMs, kioskSettings.idleWarningMs, reviewModeEnabled]);
 
   useEffect(() => {
     if (!attractActive || hallLens !== 'portraits') return undefined;
@@ -342,7 +353,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     };
   }, [attractActive, hallLens]);
 
-  useContentProtection(!reviewModeEnabled);
+  useContentProtection(!reviewModeEnabled && !adminDataOpen);
 
   const stats = useMemo(() => {
     const withImages = inductees.filter((item) => item.primaryImageUrl).length;
@@ -387,7 +398,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     const now = window.performance.now();
     if (transitionLockUntilRef.current > now) return false;
 
-    const guardMs = prefersReducedMotion() ? 90 : durationMs;
+    const guardMs = prefersReducedMotion(kioskSettings.motion) ? 90 : durationMs;
     transitionLockUntilRef.current = now + guardMs;
     setTransitionLocked(true);
 
@@ -402,7 +413,7 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
   }
 
   function prepareSharedPortraitTransition(person: Inductee | null | undefined, targetView: ViewMode, kind: SharedPortraitKind) {
-    if (!person || reviewModeEnabled || prefersReducedMotion()) {
+    if (!person || reviewModeEnabled || prefersReducedMotion(kioskSettings.motion)) {
       pendingSharedPortraitRef.current = null;
       return;
     }
@@ -555,37 +566,19 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     setIdleWarningActive(false);
     const seedId = seed?.id || selectedId || lastSeenId;
     const seedPerson = seed ?? selected ?? lastSeen ?? null;
-    if (!reviewModeEnabled) {
-      if (seedId) onPhysicalPortraitSelected(seedId, seedPerson ? physicalPortraitSelectionFromInductee(seedPerson) : undefined);
-      setSelectedId(seedId);
-      setLastSeenId(seedId);
-      setConnectionSeedId('');
-      setConnectionReturnId('');
-      setWorldFocusKey('');
-      setHallLens('traces');
-      setExperienceMode('living-hall', transition);
-      return;
-    }
-    prepareSharedPortraitTransition(seedPerson, 'connections', 'person-to-connections');
-    setConnectionSeedId(seedId);
-    setConnectionReturnId(selectedId || seed?.id || lastSeenId);
-    setSelectedId('');
-    setPersonInitialAction('overview');
-    setExperienceMode('connections', transition);
+    if (seedId) onPhysicalPortraitSelected(seedId, seedPerson ? physicalPortraitSelectionFromInductee(seedPerson) : undefined);
+    setSelectedId(seedId);
+    setLastSeenId(seedId);
+    setConnectionSeedId('');
+    setConnectionReturnId('');
+    setWorldFocusKey('');
+    setHallLens('traces');
+    setExperienceMode('living-hall', transition);
   }
 
   function closeConnectionFinder() {
     if (!beginInteractionTransition()) return;
     recordKioskInteraction('close-connection-finder');
-    if (staffConnectionOpen) {
-      const returnPersonId = connectionReturnId || lastSeenId || '';
-      setConnectionSeedId('');
-      setConnectionReturnId('');
-      setSelectedId(returnPersonId);
-      setPersonInitialAction('overview');
-      setExperienceMode('review', 'back');
-      return;
-    }
     pendingSharedPortraitRef.current = null;
     setSharedPortrait(null);
     setConnectionSeedId('');
@@ -598,18 +591,6 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
   }
 
   function selectFromConnection(inductee: Inductee) {
-    if (staffConnectionOpen) {
-      if (!beginInteractionTransition()) return;
-      recordKioskInteraction('select-connection-person');
-      stopActiveMedia();
-      setConnectionSeedId('');
-      setConnectionReturnId('');
-      setLastSeenId(inductee.id);
-      setSelectedId(inductee.id);
-      setPersonInitialAction('overview');
-      setExperienceMode('review', 'back');
-      return;
-    }
     selectInductee(inductee, 'select-connection-person');
   }
 
@@ -617,6 +598,22 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
     recordKioskInteraction('continue-exploring');
     setIdleWarningActive(false);
     setAttractActive(false);
+  }
+
+  function handleAdminBrandTap() {
+    const now = window.performance.now();
+    const current = adminTapRef.current;
+    if (now - current.startedAt > 3_500) {
+      current.count = 0;
+      current.startedAt = now;
+    }
+    current.count += 1;
+    if (current.count < 5) return;
+    current.count = 0;
+    current.startedAt = now;
+    recordKioskInteraction('admin-data-brand-gesture');
+    stopActiveMedia();
+    setAdminDataOpen(true);
   }
 
   function changeTraceFocus(focusKey: string) {
@@ -663,20 +660,19 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
   }
 
   const activeExperienceLabel = isVisitorExperienceMode(activeShellMode)
-    ? staffConnectionOpen
-      ? 'Staff Portal'
-      : visitorExperienceNavItems.find((item) => item.lens === hallLens)?.label ?? 'PORTRAITS'
+    ? visitorExperienceNavItems.find((item) => item.lens === hallLens)?.label ?? 'PORTRAITS'
     : 'Staff Portal';
 
   return (
     <main
       className={shellClassName}
       aria-busy={transitionLocked ? 'true' : undefined}
-      data-animation-intensity={installationConfig.animationIntensity}
+      data-animation-intensity={kioskSettings.motion}
       data-debug-mode={installationConfig.debug.enabled ? 'true' : 'false'}
+      style={shellStyle}
     >
       <header className="museum-rail" aria-label="Installation identity and controls">
-        <div className="museum-brand">
+        <div className="museum-brand" onPointerDown={handleAdminBrandTap}>
           <span>CIHOF</span>
           <strong>{activeExperienceLabel}</strong>
         </div>
@@ -707,48 +703,31 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
       </header>
 
       <section className={stageClassName} ref={stageRef}>
-        {!reviewModeEnabled && (
-          <ExperienceScene mode={activeVisitorMode} transition={experienceTransition}>
-            {staffConnectionOpen ? (
-              <ConnectionFinder
-                closeLabel="Review"
-                inductees={inductees}
-                open
-                presentation="scene"
-                relationships={relationships}
-                returnPerson={connectionReturn}
-                seedPerson={connectionSeed}
-                onClose={closeConnectionFinder}
-                onSelectPerson={selectFromConnection}
-              />
-            ) : (
-              <HallSurface
-                inductees={inductees}
-                relationships={relationships}
-                loading={loading}
-                error={error}
-                lens={hallLens}
-                focus={hallFocus}
-                attractActive={attractActive}
-                kioskMode={kioskMode}
-                qrEnabled={installationConfig.features.qrContinuation}
-                soundEnabled={installationConfig.features.sound}
-                timelineYear={timelineYear}
-                traceFocusKey={worldFocusKey}
-                onEngage={continueExploring}
-                onSelect={selectInductee}
-                onCloseFocus={closeHallFocus}
-                onTimelineYearChange={setTimelineYear}
-                onTraceFocusChange={changeTraceFocus}
-              />
-            )}
-          </ExperienceScene>
-        )}
-
-        {reviewModeEnabled && ReviewDashboard && <ReviewDashboard inductees={inductees} onSelect={selectInductee} />}
+        <ExperienceScene mode={activeVisitorMode} transition={experienceTransition}>
+          <HallSurface
+            inductees={inductees}
+            relationships={relationships}
+            loading={loading}
+            error={error}
+            lens={hallLens}
+            focus={hallFocus}
+            attractActive={attractActive}
+            kioskMode={kioskMode}
+            qrEnabled={installationConfig.features.qrContinuation}
+            soundEnabled={installationConfig.features.sound}
+            settings={kioskSettings}
+            timelineYear={timelineYear}
+            traceFocusKey={worldFocusKey}
+            onEngage={continueExploring}
+            onSelect={selectInductee}
+            onCloseFocus={closeHallFocus}
+            onTimelineYearChange={setTimelineYear}
+            onTraceFocusChange={changeTraceFocus}
+          />
+        </ExperienceScene>
       </section>
 
-      {!reviewModeEnabled && !staffConnectionOpen && !attractActive && (
+      {!reviewModeEnabled && !attractActive && (
         <div className="museum-bottom-nav experience-dock" role="toolbar" aria-label="Ways to explore the Hall of Fame">
           {visitorExperienceNavItems.map((item) => {
             const active = hallLens === item.lens;
@@ -782,26 +761,12 @@ export function App({ defaultView = 'living-hall', ReviewDashboard }: AppProps) 
         </section>
       )}
 
-      {reviewModeEnabled && (
-        <InducteeDetail
-          inductee={!attractActive ? selected : null}
-          allInductees={inductees}
-          relationships={relationships}
-          kioskMode={kioskMode}
-          qrEnabled={installationConfig.features.qrContinuation}
-          soundEnabled={installationConfig.features.sound}
-          initialAction={personInitialAction}
-          nextInductee={nextInductee}
-          previousInductee={previousInductee}
-          staffMode={reviewModeEnabled}
-          wallDebug={wallDebugEnabled}
-          onClose={closeDetail}
-          onHome={returnHome}
-          onReset={() => resetExperience('detail')}
-          onSelect={selectInductee}
-          onFindConnection={openConnectionFinder}
-        />
-      )}
+      <AdminDataPanel
+        open={adminDataOpen}
+        settings={kioskSettings}
+        onClose={() => setAdminDataOpen(false)}
+        onSettingsChange={setKioskSettings}
+      />
       {transitionLocked && <div className="transition-input-guard" aria-hidden="true" />}
       {sharedPortrait && <SharedPortraitHandoffView handoff={sharedPortrait} />}
     </main>
@@ -1023,8 +988,16 @@ function escapeCssAttributeValue(value: string) {
   return value.replace(/["\\]/g, '\\$&');
 }
 
-function prefersReducedMotion() {
-  if (installationConfig.animationIntensity !== 'standard') return true;
+function kioskSettingsStyle(settings: KioskSettings) {
+  return {
+    '--kiosk-screen-scale': settings.screenScale,
+    '--kiosk-field-inset': `${settings.fieldInsetVmin}vmin`,
+    '--kiosk-label-scale': settings.labelScale,
+  } as CSSProperties & Record<string, string | number>;
+}
+
+function prefersReducedMotion(animationIntensity = installationConfig.animationIntensity) {
+  if (animationIntensity !== 'standard') return true;
   return typeof window !== 'undefined'
     && typeof window.matchMedia === 'function'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

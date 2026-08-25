@@ -13,6 +13,7 @@ import { FallbackImage, initials } from '../../components/FallbackImage';
 import { PortraitFrame, type PortraitFrameAspect, type PortraitFrameState } from '../../components/PortraitFrame';
 import { QRCodePanel } from '../../components/QRCodePanel';
 import { stopAllMedia } from '../../app/mediaControl';
+import { defaultKioskSettings, type KioskSettings } from '../../app/kioskSettings';
 import { installationConfig } from '../../config/installationConfig';
 import { honoredForSummary, inducteeContextLabel } from '../../data/inducteeNarrative';
 import { useStoryLenses } from '../../data/storyLenses';
@@ -49,6 +50,7 @@ type LivingHallViewProps = {
   kioskMode?: boolean;
   qrEnabled?: boolean;
   soundEnabled?: boolean;
+  settings?: KioskSettings;
   lens?: HallLens;
   focusedPersonId?: string;
   relationships?: RelationshipRecord[];
@@ -176,6 +178,7 @@ export function LivingHallView({
   kioskMode = false,
   qrEnabled = true,
   soundEnabled = true,
+  settings = defaultKioskSettings,
   lens = 'portraits',
   focusedPersonId = '',
   relationships = [],
@@ -199,14 +202,18 @@ export function LivingHallView({
   const legacyDragRef = useRef<LegacyDragState | null>(null);
   const legacySuppressTapUntilRef = useRef(0);
   const traceTrailKeyRef = useRef('');
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = useReducedMotion(settings.motion);
   const cityQuestion = useCityQuestion();
   const storyLensState = useStoryLenses();
   const { records: storySectionRecords } = useStorySections();
   const storySectionMap = useStorySectionMap(storySectionRecords);
   const { records: mediaRecords } = useMediaManifest();
   const mediaRecordMap = useMediaRecordMap(mediaRecords);
-  const people = useMemo(() => sortInductees(inductees), [inductees]);
+  const allPeople = useMemo(() => sortInductees(inductees), [inductees]);
+  const people = useMemo(
+    () => selectHallPeople(allPeople, lens, focusedPersonId, settings.portraitLimit),
+    [allPeople, focusedPersonId, lens, settings.portraitLimit],
+  );
   const modes = useMemo(() => buildHallModes(people), [people]);
   const focusedPerson = useMemo(
     () => focusedPersonId ? people.find((person) => person.id === focusedPersonId) ?? null : null,
@@ -267,15 +274,15 @@ export function LivingHallView({
   } = cityQuestion.config.attract;
 
   useEffect(() => {
-    if (installationConfig.animationIntensity === 'none') return undefined;
+    if (settings.motion === 'none') return undefined;
     if (focusedPersonId) return undefined;
     if (modes.length <= 1) return undefined;
     const interval = window.setInterval(() => {
       setStep((value) => value + 1);
-    }, installationConfig.attractLoop.regroupMs);
+    }, settings.attractRegroupMs);
 
     return () => window.clearInterval(interval);
-  }, [focusedPersonId, modes.length]);
+  }, [focusedPersonId, modes.length, settings.attractRegroupMs, settings.motion]);
 
   useEffect(() => {
     if (modes.length > 0 && step >= modes.length) setStep(0);
@@ -599,6 +606,10 @@ export function LivingHallView({
     legacyDragging ? 'living-hall--legacy-dragging' : '',
     latestClassFrame ? 'living-hall--latest-sequence' : '',
     cityResultsActive ? 'living-hall--city-results' : '',
+    settings.showTouchCue ? '' : 'living-hall--hide-touch-cue',
+    settings.showVocabulary ? '' : 'living-hall--hide-vocabulary',
+    settings.showRecordLayer ? '' : 'living-hall--hide-record-layer',
+    `living-hall--motion-${settings.motion}`,
   ].filter(Boolean).join(' ');
   const legacyFieldStyle = lens === 'legacies'
     ? {
@@ -678,7 +689,7 @@ export function LivingHallView({
           const position = activeMode.positions.get(inductee.id) ?? fallbackPosition(index, people.length);
           const frameState = portraitFrameState(lens, position);
           const frameAspect = portraitFrameAspect(mediaRecordMap.get(inductee.id));
-          const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect);
+          const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect, settings);
           const className = [
             'living-portrait',
             position.emphasis ? 'living-portrait--emphasis' : '',
@@ -2241,6 +2252,19 @@ function sortInductees(inductees: Inductee[]) {
   });
 }
 
+function selectHallPeople(inductees: Inductee[], lens: HallLens, focusedPersonId: string, portraitLimit: number) {
+  if (lens !== 'portraits') return inductees;
+  const limit = Math.round(clamp(portraitLimit, 24, Math.max(24, inductees.length)));
+  if (inductees.length <= limit) return inductees;
+
+  const visible = inductees.slice(0, limit);
+  if (!focusedPersonId || visible.some((person) => person.id === focusedPersonId)) return visible;
+
+  const focusedPerson = inductees.find((person) => person.id === focusedPersonId);
+  if (!focusedPerson) return visible;
+  return [...visible.slice(0, Math.max(0, limit - 1)), focusedPerson];
+}
+
 function groupByYear(inductees: Inductee[]) {
   const groups = new Map<number, Inductee[]>();
   for (const inductee of inductees) {
@@ -2376,12 +2400,14 @@ function portraitStyle(
   inducteeId = '',
   frameState: PortraitFrameState = portraitFrameState(lens, position),
   frameAspect: PortraitFrameAspect = 'tall',
+  settings: KioskSettings = defaultKioskSettings,
 ) {
-  const frame = portraitFrameMetrics(position, lens, inducteeId, frameState, frameAspect);
+  const scaledSize = position.size * settings.portraitScale;
+  const frame = portraitFrameMetrics({ ...position, size: scaledSize }, lens, inducteeId, frameState, frameAspect);
   return {
     '--portrait-x': `${position.x}%`,
     '--portrait-y': `${position.y}%`,
-    '--portrait-size': `${position.size}px`,
+    '--portrait-size': `${scaledSize}px`,
     '--portrait-delay': `${position.delay}ms`,
     '--frame-width': `${frame.width}px`,
     '--frame-height': `${frame.height}px`,
@@ -2508,8 +2534,8 @@ function cycleImage(current: number | null, total: number, direction: -1 | 1) {
   return (current + direction + total) % total;
 }
 
-function useReducedMotion() {
-  const configuredReducedMotion = installationConfig.animationIntensity !== 'standard';
+function useReducedMotion(animationIntensity: KioskSettings['motion']) {
+  const configuredReducedMotion = animationIntensity !== 'standard';
   const [reducedMotion, setReducedMotion] = useState(configuredReducedMotion);
 
   useEffect(() => {

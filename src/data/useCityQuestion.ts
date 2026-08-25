@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { installationConfig } from '../config/installationConfig';
 import { readCachedJson, writeCachedJson } from './localDataCache';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 
 export type CityQuestionOption = {
   id: string;
@@ -76,38 +77,28 @@ export function useCityQuestion(): CityQuestionState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(configUrl, { cache: 'no-store', signal: controller.signal })
-      .then((response) => {
-        if (response.status === 404) return null;
-        if (!response.ok) throw new Error(`City question config request failed: ${response.status}`);
-        return response.json() as Promise<unknown>;
-      })
-      .then((payload) => {
-        if (cancelled) return;
-        if (payload) writeCachedJson(cacheKey, payload);
-        setState({ config: parseCityQuestionConfig(payload), loading: false, error: '' });
-      })
-      .catch((error: Error) => {
-        if (cancelled) return;
-        if (controller.signal.aborted) return;
-        const cached = readCachedJson(cacheKey);
-        if (cached) {
-          runtimeLogger.warn('Using cached city question config after load failure.', { error: error.message });
-          setState({ config: parseCityQuestionConfig(cached), loading: false, error: '' });
-          return;
-        }
-        setState({
-          config: defaultConfig,
-          loading: false,
-          error: offlineAwareError(error.message, 'City question config could not be loaded.'),
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const payload = bundle.cityQuestion ?? null;
+          if (payload) writeCachedJson(cacheKey, payload);
+          if (!cancelled) setState({ config: parseCityQuestionConfig(payload), loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide city question config; falling back to city-question.json.', { error: error.message });
+          void loadLegacyCityQuestion(() => cancelled, setState);
         });
-      });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
 
     return () => {
       cancelled = true;
-      controller.abort();
+      unsubscribe();
     };
   }, []);
 
@@ -148,6 +139,34 @@ export function useCityQuestion(): CityQuestionState {
     enabled,
     recordChoice,
   };
+}
+
+function loadLegacyCityQuestion(isCancelled: () => boolean, setState: (state: CityQuestionLoadState) => void) {
+  return fetch(configUrl, { cache: 'no-store' })
+      .then((response) => {
+        if (response.status === 404) return null;
+        if (!response.ok) throw new Error(`City question config request failed: ${response.status}`);
+        return response.json() as Promise<unknown>;
+      })
+      .then((payload) => {
+        if (isCancelled()) return;
+        if (payload) writeCachedJson(cacheKey, payload);
+        setState({ config: parseCityQuestionConfig(payload), loading: false, error: '' });
+      })
+      .catch((error: Error) => {
+        if (isCancelled()) return;
+        const cached = readCachedJson(cacheKey);
+        if (cached) {
+          runtimeLogger.warn('Using cached city question config after load failure.', { error: error.message });
+          setState({ config: parseCityQuestionConfig(cached), loading: false, error: '' });
+          return;
+        }
+        setState({
+          config: defaultConfig,
+          loading: false,
+          error: offlineAwareError(error.message, 'City question config could not be loaded.'),
+        });
+      });
 }
 
 function parseCityQuestionConfig(payload: unknown): CityQuestionConfig {

@@ -1,5 +1,6 @@
 import { LivingHallView } from '../living-hall/LivingHallView';
 import type { HallFocus, HallLens, Inductee, RelationshipRecord } from '../../data/types';
+import type { KioskSettings } from '../../app/kioskSettings';
 
 type HallSurfaceProps = {
   inductees: Inductee[];
@@ -12,6 +13,7 @@ type HallSurfaceProps = {
   kioskMode: boolean;
   qrEnabled: boolean;
   soundEnabled: boolean;
+  settings: KioskSettings;
   timelineYear: string;
   traceFocusKey: string;
   onEngage: () => void;
@@ -32,6 +34,7 @@ export function HallSurface({
   kioskMode,
   qrEnabled,
   soundEnabled,
+  settings,
   timelineYear,
   traceFocusKey,
   onEngage,
@@ -63,6 +66,7 @@ export function HallSurface({
         kioskMode={kioskMode}
         qrEnabled={qrEnabled}
         soundEnabled={soundEnabled}
+        settings={settings}
         lens={lens}
         focusedPersonId={focusedPersonId}
         relationships={relationships}

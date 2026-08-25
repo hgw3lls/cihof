@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { RelationshipProvenance, StorySectionRecord } from './types';
 
 type StorySectionsState = {
@@ -18,35 +19,54 @@ export function useStorySections(): StorySectionsState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(storySectionsUrl, { signal: controller.signal })
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const payload = bundle.storySections ?? { records: {} };
+          writeCachedJson(cacheKey, payload);
+          if (!cancelled) setState({ records: parseStorySections(payload), loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide story sections; falling back to story-sections.json.', { error: error.message });
+          void loadLegacyStorySections(() => cancelled, setState);
+        });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  return state;
+}
+
+function loadLegacyStorySections(isCancelled: () => boolean, setState: (state: StorySectionsState) => void) {
+  return fetch(storySectionsUrl)
       .then((response) => {
         if (!response.ok) throw new Error(`Story sections request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
       })
       .then((payload) => {
         writeCachedJson(cacheKey, payload);
-        if (!cancelled) setState({ records: parseStorySections(payload), loading: false, error: '' });
+        if (!isCancelled()) setState({ records: parseStorySections(payload), loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (controller.signal.aborted || cancelled) return;
+        if (isCancelled()) return;
         const cached = readCachedJson(cacheKey);
         if (cached) {
           runtimeLogger.warn('Using cached story sections after load failure.', { error: error.message });
-          setState({ records: parseStorySections(cached), loading: false, error: '' });
+          if (!isCancelled()) setState({ records: parseStorySections(cached), loading: false, error: '' });
           return;
         }
-        setState({ records: [], loading: false, error: error.message });
+        if (!isCancelled()) setState({ records: [], loading: false, error: error.message });
       });
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
-
-  return state;
 }
 
 export function useStorySectionMap(records: StorySectionRecord[]) {

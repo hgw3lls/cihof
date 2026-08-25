@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { RelationshipEntityType, RelationshipProvenance, RelationshipRecord, RelationshipType } from './types';
 
 type RelationshipState = {
@@ -34,37 +35,58 @@ const entityTypes = new Set<RelationshipEntityType>(['person', 'organization', '
 export function useRelationships(): RelationshipState {
   const [state, setState] = useState<RelationshipLoadState>({ relationships: [], loading: true, error: '' });
 
-  const refreshInternal = useCallback(async (signal?: AbortSignal) => {
+  const refreshInternal = useCallback(async () => {
     setState((current) => ({ ...current, loading: true }));
     try {
-      const payload = await fetch(relationshipsUrl, { cache: 'no-store', signal })
-      .then((response) => {
-        if (response.status === 404) return [] as unknown;
-        if (!response.ok) throw new Error(`Relationships request failed: ${response.status}`);
-        return response.json() as Promise<unknown>;
-      })
+      const bundle = await loadRuntimeDataBundle();
+      const payload = bundle.relationships ?? [];
       if (!Array.isArray(payload)) throw new Error('Relationships data must be an array.');
       writeCachedJson(cacheKey, payload);
       setState({ relationships: payload.filter(isRelationshipRecord), loading: false, error: '' });
     } catch (error) {
-      if (signal?.aborted) return;
-      const cached = readCachedJson(cacheKey);
-      if (Array.isArray(cached)) {
-        runtimeLogger.warn('Using cached relationship data after load failure.', { error });
-        setState({ relationships: cached.filter(isRelationshipRecord), loading: false, error: '' });
-        return;
-      }
-      setState({ relationships: [], loading: false, error: error instanceof Error ? offlineAwareError(error.message, 'Could not load relationships.') : 'Could not load relationships.' });
+      runtimeLogger.warn('Runtime data bundle did not provide relationships; falling back to relationships.json.', { error });
+      await loadLegacyRelationships(setState);
     }
   }, []);
 
   useEffect(() => {
-    const controller = new AbortController();
-    void refreshInternal(controller.signal);
-    return () => controller.abort();
+    let cancelled = false;
+    const load = () => {
+      void refreshInternal().then(() => {
+        if (cancelled) return;
+      });
+    };
+    load();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(load);
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, [refreshInternal]);
 
   return { ...state, refresh: () => refreshInternal() };
+}
+
+async function loadLegacyRelationships(setState: (state: RelationshipLoadState) => void) {
+  try {
+    const payload = await fetch(relationshipsUrl, { cache: 'no-store' })
+      .then((response) => {
+        if (response.status === 404) return [] as unknown;
+        if (!response.ok) throw new Error(`Relationships request failed: ${response.status}`);
+        return response.json() as Promise<unknown>;
+      });
+    if (!Array.isArray(payload)) throw new Error('Relationships data must be an array.');
+    writeCachedJson(cacheKey, payload);
+    setState({ relationships: payload.filter(isRelationshipRecord), loading: false, error: '' });
+  } catch (error) {
+    const cached = readCachedJson(cacheKey);
+    if (Array.isArray(cached)) {
+      runtimeLogger.warn('Using cached relationship data after load failure.', { error });
+      setState({ relationships: cached.filter(isRelationshipRecord), loading: false, error: '' });
+      return;
+    }
+    setState({ relationships: [], loading: false, error: error instanceof Error ? offlineAwareError(error.message, 'Could not load relationships.') : 'Could not load relationships.' });
+  }
 }
 
 function isRelationshipRecord(value: unknown): value is RelationshipRecord {
