@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
 import { countryCommunityOrRegionLabel } from './inducteeLabels';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { Inductee, StoryLensConfig, StoryLensDocument } from './types';
 
 type StoryLensState = {
@@ -133,9 +134,37 @@ export function useStoryLenses(): StoryLensState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(storyLensUrl, { cache: 'no-store', signal: controller.signal })
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const payload = bundle.storyLenses ?? { lenses: [] };
+          writeCachedJson(storyLensCacheKey, payload);
+          const lenses = normalizeStoryLenses(payload);
+          if (!cancelled) setState({ lenses: lenses.length > 0 ? lenses : defaultStoryLenses, loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide story lenses; falling back to story-lenses.json.', { error: error.message });
+          void loadLegacyStoryLenses(() => cancelled, setState);
+        });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  return useMemo(() => state, [state]);
+}
+
+function loadLegacyStoryLenses(isCancelled: () => boolean, setState: (state: StoryLensState) => void) {
+  return fetch(storyLensUrl, { cache: 'no-store' })
       .then((response) => {
         if (!response.ok) throw new Error(`Story lens request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
@@ -143,27 +172,19 @@ export function useStoryLenses(): StoryLensState {
       .then((payload) => {
         writeCachedJson(storyLensCacheKey, payload);
         const lenses = normalizeStoryLenses(payload);
-        if (!cancelled) setState({ lenses: lenses.length > 0 ? lenses : defaultStoryLenses, loading: false, error: '' });
+        if (!isCancelled()) setState({ lenses: lenses.length > 0 ? lenses : defaultStoryLenses, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (controller.signal.aborted || cancelled) return;
+        if (isCancelled()) return;
         const cached = readCachedJson(storyLensCacheKey);
         const cachedLenses = normalizeStoryLenses(cached);
         if (cachedLenses.length > 0) {
           runtimeLogger.warn('Using cached story lenses after load failure.', { error: error.message });
-          setState({ lenses: cachedLenses, loading: false, error: '' });
+          if (!isCancelled()) setState({ lenses: cachedLenses, loading: false, error: '' });
           return;
         }
-        setState({ lenses: defaultStoryLenses, loading: false, error: error.message });
+        if (!isCancelled()) setState({ lenses: defaultStoryLenses, loading: false, error: error.message });
       });
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
-
-  return useMemo(() => state, [state]);
 }
 
 export function normalizeStoryLenses(document: StoryLensDocument | unknown): StoryLensConfig[] {

@@ -145,10 +145,268 @@ type MediaManifest = {
 };
 type MediaManifestRecord = NonNullable<MediaManifest['assets']>[string];
 
+type SourceCurationPacket = {
+  schemaVersion?: number;
+  source?: {
+    generatedAt?: string;
+    originalSite?: string;
+    note?: string;
+    [key: string]: unknown;
+  };
+  guardrails?: Record<string, string>;
+  summary?: {
+    sourceProfiles?: {
+      resolved?: number;
+      unresolved?: number;
+      duplicateGroups?: number;
+    };
+    mediaReviewDrafts?: {
+      total?: number;
+      newSources?: number;
+      highConfidenceNewSources?: number;
+    };
+    videoReviewDrafts?: {
+      total?: number;
+      newSources?: number;
+    };
+    relationshipReviewDrafts?: {
+      total?: number;
+      resolvedInductionLinks?: number;
+      weakPairCandidates?: number;
+    };
+    placeReviewDrafts?: {
+      total?: number;
+      nonDirectional?: number;
+    };
+    organizationReviewDrafts?: {
+      total?: number;
+    };
+    storySectionReviewDrafts?: {
+      total?: number;
+      primaryLeads?: number;
+    };
+    [key: string]: unknown;
+  };
+  curationIndex?: SourceCurationIndexRow[];
+  sourceProfileReferences?: SourceProfileReference[];
+  profileUrlAliasDrafts?: SourceProfileAliasDraft[];
+  duplicateSourceGroups?: SourceDuplicateSourceGroup[];
+  mediaReviewDrafts?: SourceMediaReviewDraft[];
+  videoReviewDrafts?: SourceVideoReviewDraft[];
+  relationshipReviewDrafts?: SourceRelationshipReviewDraft[];
+  placeReviewDrafts?: SourcePlaceReviewDraft[];
+  placePhraseReviewDrafts?: SourcePlacePhraseReviewDraft[];
+  organizationReviewDrafts?: SourceOrganizationReviewDraft[];
+  storySectionReviewDrafts?: SourceStorySectionReviewDraft[];
+  classEvidenceReviewDrafts?: SourceClassEvidenceReviewDraft[];
+  unresolvedSourceRecords?: SourceUnresolvedRecord[];
+};
+
+type SourceCurationIndexRow = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  region?: string;
+  primarySourceProfileUrl?: string;
+  sourceProfileCount?: number;
+  newImageReviewCount?: number;
+  newProfileVideoReviewCount?: number;
+  newContextVideoReviewCount?: number;
+  relationshipReviewCount?: number;
+  placeReviewCount?: number;
+  organizationReviewCount?: number;
+  primaryStoryLeadCount?: number;
+  reviewPriority?: string;
+  manualFlags?: string[];
+  nextBestAction?: string;
+};
+
+type SourceProfileReference = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  sourceUrl?: string;
+  canonicalUrl?: string;
+  sourceTitle?: string;
+  sourceModified?: string;
+  matchType?: string;
+  confidence?: number;
+  sourceRegionCandidates?: string[];
+  sourceClassYearCandidates?: number[];
+  reviewAction?: string;
+};
+
+type SourceProfileAliasDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  currentProfileUrl?: string;
+  alternateSourceUrl?: string;
+  sourceTitle?: string;
+  matchType?: string;
+  confidence?: number;
+  reviewAction?: string;
+  publishStatus?: string;
+};
+
+type SourceDuplicateSourceGroup = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  sources?: SourceProfileReference[];
+};
+
+type SourceMediaReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  mediaType?: string;
+  roleCandidate?: string;
+  confidence?: number;
+  sourceUrl?: string;
+  sourcePageUrl?: string;
+  sourcePageTitle?: string;
+  width?: number;
+  height?: number;
+  altText?: string;
+  caption?: string;
+  alreadyInMediaManifest?: boolean;
+  rightsStatus?: string;
+  reviewAction?: string;
+};
+
+type SourceVideoReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  youtubeVideoId?: string;
+  sourceUrl?: string;
+  sourcePageUrl?: string;
+  sourcePageTitle?: string;
+  assignment?: string;
+  confidence?: number;
+  alreadyInMediaManifest?: boolean;
+  rightsStatus?: string;
+  reviewAction?: string;
+};
+
+type SourceRelationshipReviewDraft = {
+  sourcePersonId?: string;
+  sourcePersonName?: string;
+  targetEntityType?: string;
+  targetEntityId?: string;
+  targetDisplayName?: string;
+  type?: string;
+  displayLabel?: string;
+  provenanceCandidate?: string;
+  confidence?: number;
+  evidenceCount?: number;
+  evidenceTypes?: string[];
+  sourcePageUrls?: string[];
+  referenceNote?: string;
+  reviewAction?: string;
+  publicUse?: string;
+};
+
+type SourcePlaceReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  placeLabel?: string;
+  placeScopeHint?: string;
+  confidence?: number;
+  evidenceCount?: number;
+  evidenceTypes?: string[];
+  sourcePageUrls?: string[];
+  existingCountryTags?: string[];
+  inferredCountryTags?: string[];
+  safeguardStatus?: string;
+  migrationDirection?: string;
+  reviewAction?: string;
+  publicUse?: string;
+};
+
+type SourcePlacePhraseReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  phraseLabel?: string;
+  phraseQuality?: string;
+  confidence?: number;
+  evidenceCount?: number;
+  sourcePageUrls?: string[];
+  existingCountryTags?: string[];
+  inferredCountryTags?: string[];
+  safeguardStatus?: string;
+  migrationDirection?: string;
+  reviewAction?: string;
+  publicUse?: string;
+};
+
+type SourceOrganizationReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  organizationName?: string;
+  confidence?: number;
+  evidenceCount?: number;
+  sourcePageUrls?: string[];
+  reviewAction?: string;
+  publicUse?: string;
+};
+
+type SourceStorySectionReviewDraft = {
+  inducteeId?: string;
+  inducteeName?: string;
+  classYear?: number;
+  sourcePageUrl?: string;
+  sourcePageTitle?: string;
+  suggestedTheme?: string;
+  blockIndex?: number;
+  wordCount?: number;
+  excerpt?: string;
+  candidateUse?: string;
+  copyrightNote?: string;
+  reviewAction?: string;
+  priority?: string;
+};
+
+type SourceClassEvidenceReviewDraft = {
+  sourceKind?: string;
+  title?: string;
+  sourcePageUrl?: string;
+  primaryClassYearCandidates?: number[];
+  allClassYearCandidates?: number[];
+  imageCount?: number;
+  attachedMediaCount?: number;
+  youtubeVideoIds?: string[];
+  mentionedInducteeCount?: number;
+  confidence?: number;
+  reviewAction?: string;
+};
+
+type SourceUnresolvedRecord = {
+  wpId?: number;
+  sourceKind?: string;
+  sourceTitle?: string;
+  sourceTitleName?: string;
+  sourceUrl?: string;
+  sourceRegionCandidates?: string[];
+  sourceClassYearCandidates?: number[];
+  confidence?: number;
+  notes?: string[];
+  reviewAction?: string;
+};
+
 type ReportState = {
   curation: CurationReport | null;
   media: MediaReport | null;
   manifest: MediaManifest | null;
+  loading: boolean;
+  error: string;
+};
+type SourceCurationState = {
+  packet: SourceCurationPacket | null;
   loading: boolean;
   error: string;
 };
@@ -164,7 +422,27 @@ type QueueMode =
   | 'video-captions'
   | 'accessibility'
   | 'featured';
-type PortalTab = 'workbench' | 'lenses' | 'relationships' | 'readiness' | 'exports';
+type PortalTab = 'workbench' | 'source' | 'lenses' | 'relationships' | 'readiness' | 'exports';
+type SourceQueueMode = 'profiles' | 'media' | 'video' | 'relationships' | 'places' | 'organizations' | 'stories' | 'aliases' | 'classes' | 'unresolved';
+type SourceCandidateRow = {
+  id: string;
+  mode: SourceQueueMode;
+  label: string;
+  subtitle: string;
+  detail: string;
+  personId?: string;
+  personName?: string;
+  sourceUrl?: string;
+  sourcePageUrl?: string;
+  confidence?: number;
+  action?: string;
+  fields: Array<{ label: string; value: string }>;
+  stageKind: 'profile-note' | 'media-image' | 'video-source' | 'relationship-note' | 'place-note' | 'organization-note' | 'story-note' | 'alias-note' | 'class-note' | 'unresolved-note';
+  note: string;
+  countryCandidates?: string[];
+  imageAltText?: string;
+  youtubeVideoId?: string;
+};
 type RelationshipQueueMode = 'needs-review' | 'inferred' | 'curated' | 'documented' | 'people' | 'entities' | 'approved' | 'hidden' | 'all';
 type RelationshipReviewStatus = 'approved' | 'hidden' | 'needs-research';
 
@@ -201,6 +479,9 @@ type ReviewDraft = {
   imageDescriptionReview?: string;
   curatorNotes?: string[];
   mediaNotes?: string[];
+  imageSourceUrl?: string;
+  videoSourceUrls?: string[];
+  youtubeVideoIds?: string[];
 };
 
 type DraftMap = Record<string, ReviewDraft>;
@@ -410,17 +691,31 @@ const relationshipTypeOptions: RelationshipType[] = [
 const relationshipTypeValues = new Set<RelationshipType>(relationshipTypeOptions);
 const relationshipProvenanceValues = new Set<RelationshipProvenance>(['documented', 'curated', 'inferred']);
 const relationshipReviewStatusValues = new Set<RelationshipReviewStatus>(['approved', 'hidden', 'needs-research']);
+const sourceQueueLabels: Record<SourceQueueMode, string> = {
+  profiles: 'Profiles',
+  media: 'Image Leads',
+  video: 'Video Leads',
+  relationships: 'Relationships',
+  places: 'Places',
+  organizations: 'Organizations',
+  stories: 'Story Leads',
+  aliases: 'Aliases',
+  classes: 'Class Evidence',
+  unresolved: 'Unresolved',
+};
 
 const reportUrls = {
   curation: `${import.meta.env.BASE_URL}data/curation-report.json`,
   media: `${import.meta.env.BASE_URL}data/media-report.json`,
   manifest: `${import.meta.env.BASE_URL}data/media-manifest.json`,
   storyLenses: `${import.meta.env.BASE_URL}data/story-lenses.json`,
+  sourceCuration: `${import.meta.env.BASE_URL}data/source-curation-packet.json`,
 };
 const portalRunnerBaseUrl = 'http://127.0.0.1:5174';
 
 export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardViewProps) {
   const reports = useReviewReports();
+  const sourceCuration = useSourceCurationPacket();
   const relationshipState = useRelationships();
   const runner = usePortalRunner();
   const storyLensState = useStoryLensDocument();
@@ -558,6 +853,12 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       else delete next[id];
       return next;
     });
+  }
+
+  function stageSourceDraft(id: string, patch: DraftPatch, notice: string) {
+    patchDraft(id, patch);
+    setSelectedId(id);
+    setPortalNotice(notice);
   }
 
   function clearDraft(id: string) {
@@ -746,6 +1047,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
           <StatusPill label="Curation" value={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} tone={(reports.curation?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'ok'} />
           <StatusPill label="Media" value={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} tone={(reports.media?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'warn'} />
           <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
+          <StatusPill label="Sources" value={`${sourceCuration.packet?.curationIndex?.length ?? 0}`} tone={sourceCuration.error ? 'bad' : sourceCuration.loading ? 'warn' : 'ok'} />
           <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
           <StatusPill label="Links" value={`${relationshipRows.length}`} tone={relationshipState.error ? 'bad' : relationshipDraftCount > 0 ? 'warn' : 'ok'} />
           <StatusPill label="Wall Build" value={summary.wallReady ? 'Yes' : 'No'} tone={summary.wallReady ? 'ok' : 'bad'} />
@@ -754,6 +1056,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       </div>
 
       {reports.error && <div className="review-dashboard__alert">Report load error: {reports.error}</div>}
+      {sourceCuration.error && <div className="review-dashboard__alert">Source data load warning: {sourceCuration.error}</div>}
       {storyLensState.error && <div className="review-dashboard__alert">Story lens load warning: {storyLensState.error}</div>}
       {relationshipState.error && <div className="review-dashboard__alert">Relationship load warning: {relationshipState.error}</div>}
       {reports.loading && <div className="review-dashboard__alert">Loading review reports...</div>}
@@ -768,6 +1071,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
 
       <div className="portal-tabs" aria-label="Portal sections">
         <button className={tab === 'workbench' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('workbench')}>Workbench</button>
+        <button className={tab === 'source' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('source')}>Source Data</button>
         <button className={tab === 'lenses' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('lenses')}>Story Lenses {storyLensState.isDirty ? '*' : ''}</button>
         <button className={tab === 'relationships' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('relationships')}>Relationships {relationshipDraftCount > 0 ? `(${relationshipDraftCount})` : ''}</button>
         <button className={tab === 'readiness' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('readiness')}>Readiness</button>
@@ -873,6 +1177,22 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         />
       )}
 
+      {tab === 'source' && (
+        <SourceCurationPanel
+          drafts={drafts}
+          inductees={inductees}
+          manifest={reports.manifest}
+          packet={sourceCuration.packet}
+          loading={sourceCuration.loading}
+          error={sourceCuration.error}
+          onOpenProfile={(personId) => {
+            setSelectedId(personId);
+            setTab('workbench');
+          }}
+          onStageDraft={stageSourceDraft}
+        />
+      )}
+
       {tab === 'relationships' && (
         <RelationshipReviewPanel
           queue={relationshipQueue}
@@ -933,6 +1253,830 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       )}
     </section>
   );
+}
+
+function SourceCurationPanel({
+  packet,
+  loading,
+  error,
+  inductees,
+  drafts,
+  manifest,
+  onOpenProfile,
+  onStageDraft,
+}: {
+  packet: SourceCurationPacket | null;
+  loading: boolean;
+  error: string;
+  inductees: Inductee[];
+  drafts: DraftMap;
+  manifest: MediaManifest | null;
+  onOpenProfile: (personId: string) => void;
+  onStageDraft: (personId: string, patch: DraftPatch, notice: string) => void;
+}) {
+  const [queue, setQueue] = useState<SourceQueueMode>('profiles');
+  const [query, setQuery] = useState('');
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [targetProfileId, setTargetProfileId] = useState('');
+  const normalizedPacket = packet ?? emptySourceCurationPacket();
+  const peopleById = useMemo(() => new Map(inductees.map((inductee) => [inductee.id, inductee])), [inductees]);
+  const rows = useMemo(() => buildSourceCandidateRows(normalizedPacket), [normalizedPacket]);
+  const queueOptions = useMemo(() => buildSourceQueueOptions(rows), [rows]);
+  const visibleRows = useMemo(() => {
+    const search = query.trim().toLowerCase();
+    return rows
+      .filter((row) => row.mode === queue)
+      .filter((row) => !search || matchesSourceCandidate(row, search))
+      .sort((a, b) => (b.confidence ?? 0) - (a.confidence ?? 0) || a.label.localeCompare(b.label));
+  }, [query, queue, rows]);
+  const selectedRow = useMemo(
+    () => rows.find((row) => row.id === selectedRowId) ?? visibleRows[0] ?? rows[0] ?? null,
+    [rows, selectedRowId, visibleRows],
+  );
+  const defaultTargetId = selectedRow?.personId && peopleById.has(selectedRow.personId)
+    ? selectedRow.personId
+    : targetProfileId && peopleById.has(targetProfileId)
+      ? targetProfileId
+      : inductees[0]?.id ?? '';
+  const selectedTargetId = targetProfileId && peopleById.has(targetProfileId) ? targetProfileId : defaultTargetId;
+  const selectedTarget = selectedTargetId ? peopleById.get(selectedTargetId) ?? null : null;
+  const sourceSummary = normalizedPacket.summary;
+
+  useEffect(() => {
+    if (visibleRows.length === 0) return;
+    if (!selectedRowId || !visibleRows.some((row) => row.id === selectedRowId)) {
+      setSelectedRowId(visibleRows[0].id);
+    }
+  }, [selectedRowId, visibleRows]);
+
+  useEffect(() => {
+    if (selectedRow?.personId && peopleById.has(selectedRow.personId)) {
+      setTargetProfileId(selectedRow.personId);
+    }
+  }, [peopleById, selectedRow?.id, selectedRow?.personId]);
+
+  function stageSelected(stageKind: SourceCandidateRow['stageKind']) {
+    if (!selectedRow || !selectedTarget) return;
+    const draft = drafts[selectedTarget.id];
+    const mediaRecord = manifest?.assets?.[selectedTarget.id];
+    const patch = sourceDraftPatchForRow(selectedRow, stageKind, selectedTarget, draft, mediaRecord);
+    onStageDraft(selectedTarget.id, patch, `Staged ${sourceStageLabel(stageKind)} from source data on ${selectedTarget.name}.`);
+  }
+
+  return (
+    <section className="portal-source" aria-label="Source data curation">
+      <div className="portal-readiness__intro portal-source__intro">
+        <div>
+          <p className="eyebrow">Source Data</p>
+          <h3>Review original-site leads</h3>
+          <p>Source harvest records are review aids. Staged edits remain local drafts until exported or applied through the existing portal runner.</p>
+        </div>
+        <div className="portal-source__stamp">
+          <span>Generated: {formatDate(normalizedPacket.source?.generatedAt)}</span>
+          <span>{loading ? 'Loading source packet' : `${rows.length} source leads`}</span>
+        </div>
+      </div>
+
+      {error && <div className="review-dashboard__alert">Source packet warning: {error}</div>}
+
+      <div className="portal-lenses__summary portal-source__summary">
+        <MetricCard label="Profiles" value={sourceSummary?.sourceProfiles?.resolved ?? 0} detail={`${sourceSummary?.sourceProfiles?.unresolved ?? 0} unresolved / ${sourceSummary?.sourceProfiles?.duplicateGroups ?? 0} duplicate groups`} />
+        <MetricCard label="Media Leads" value={sourceSummary?.mediaReviewDrafts?.total ?? 0} detail={`${sourceSummary?.mediaReviewDrafts?.newSources ?? 0} new / ${sourceSummary?.mediaReviewDrafts?.highConfidenceNewSources ?? 0} high confidence`} />
+        <MetricCard label="Video Leads" value={sourceSummary?.videoReviewDrafts?.total ?? 0} detail={`${sourceSummary?.videoReviewDrafts?.newSources ?? 0} new source leads`} />
+        <MetricCard label="Story Leads" value={sourceSummary?.storySectionReviewDrafts?.total ?? 0} detail={`${sourceSummary?.storySectionReviewDrafts?.primaryLeads ?? 0} primary rewrite leads`} />
+      </div>
+
+      <div className="portal-source-guardrails" aria-label="Source curation guardrails">
+        {Object.entries(normalizedPacket.guardrails ?? {}).map(([key, value]) => (
+          <span key={key}><strong>{sourceGuardrailLabel(key)}</strong>{value}</span>
+        ))}
+      </div>
+
+      <div className="portal-source-layout">
+        <aside className="portal-source-queue" aria-label="Source queue">
+          <div className="review-controls portal-controls">
+            <label className="field field--search">
+              <span>Search</span>
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, source, place, organization, URL" type="search" />
+            </label>
+            <label className="field">
+              <span>Queue</span>
+              <select value={queue} onChange={(event) => setQueue(event.target.value as SourceQueueMode)}>
+                {queueOptions.map((option) => (
+                  <option key={option.mode} value={option.mode}>{option.label} ({option.count})</option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="portal-source-queue__list" aria-label="Source rows">
+            {visibleRows.map((row) => (
+              <button
+                className={selectedRow?.id === row.id ? 'portal-source-row portal-source-row--active' : 'portal-source-row'}
+                key={row.id}
+                type="button"
+                onClick={() => setSelectedRowId(row.id)}
+              >
+                <span>
+                  <strong>{row.label}</strong>
+                  {row.confidence !== undefined && <em>{formatConfidence(row.confidence)}</em>}
+                </span>
+                <small>{sourceQueueLabels[row.mode]} / {row.subtitle}</small>
+                <span>{row.detail}</span>
+              </button>
+            ))}
+            {visibleRows.length === 0 && <div className="portal-empty-state">No source leads match this queue.</div>}
+          </div>
+        </aside>
+
+        <section className="portal-source-detail" aria-label="Selected source lead">
+          {selectedRow ? (
+            <>
+              <div className="portal-source-detail__header">
+                <div>
+                  <span>{sourceQueueLabels[selectedRow.mode]}</span>
+                  <h4>{selectedRow.label}</h4>
+                  <p>{selectedRow.detail}</p>
+                </div>
+                <label className="field">
+                  <span>Add to profile</span>
+                  <select value={selectedTargetId} onChange={(event) => setTargetProfileId(event.target.value)}>
+                    {inductees.map((inductee) => (
+                      <option key={inductee.id} value={inductee.id}>{inductee.name} / {inductee.classYear ?? 'Year unknown'}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="portal-source-detail__actions">
+                <button disabled={!selectedTarget} type="button" onClick={() => stageSelected(selectedRow.stageKind)}>{sourcePrimaryActionLabel(selectedRow)}</button>
+                <button disabled={!selectedTarget} type="button" onClick={() => stageSelected('profile-note')}>Stage Review Note</button>
+                <button disabled={!selectedTarget} type="button" onClick={() => selectedTarget && onOpenProfile(selectedTarget.id)}>Open Workbench Profile</button>
+              </div>
+
+              <div className="portal-source-detail__links">
+                {selectedRow.sourceUrl && <a href={selectedRow.sourceUrl} rel="noreferrer" target="_blank">Source URL</a>}
+                {selectedRow.sourcePageUrl && selectedRow.sourcePageUrl !== selectedRow.sourceUrl && <a href={selectedRow.sourcePageUrl} rel="noreferrer" target="_blank">Source Page</a>}
+              </div>
+
+              <div className="portal-source-data">
+                {selectedRow.fields.map((field) => (
+                  <div key={`${field.label}-${field.value}`}>
+                    <span>{field.label}</span>
+                    <strong>{field.value}</strong>
+                  </div>
+                ))}
+              </div>
+
+              <label className="field">
+                <span>Note staged from this source</span>
+                <textarea readOnly value={selectedRow.note} rows={5} />
+              </label>
+            </>
+          ) : (
+            <div className="portal-empty-state">No source lead selected.</div>
+          )}
+        </section>
+      </div>
+    </section>
+  );
+}
+
+function emptySourceCurationPacket(): SourceCurationPacket {
+  return {
+    schemaVersion: 1,
+    source: {
+      note: 'No original-site pre-curation packet was loaded.',
+    },
+    guardrails: {
+      mediaRights: 'Source leads are review aids only and do not approve media rights.',
+      relationships: 'Relationship leads require curator approval before public use.',
+      geography: 'Place leads are textual evidence only. Migration direction is never inferred.',
+      storyText: 'Story excerpts are source pointers for curator rewriting, not publication-ready text.',
+    },
+    summary: {},
+    curationIndex: [],
+    sourceProfileReferences: [],
+    profileUrlAliasDrafts: [],
+    duplicateSourceGroups: [],
+    mediaReviewDrafts: [],
+    videoReviewDrafts: [],
+    relationshipReviewDrafts: [],
+    placeReviewDrafts: [],
+    placePhraseReviewDrafts: [],
+    organizationReviewDrafts: [],
+    storySectionReviewDrafts: [],
+    classEvidenceReviewDrafts: [],
+    unresolvedSourceRecords: [],
+  };
+}
+
+function normalizeSourceCurationPacket(packet: SourceCurationPacket | null | undefined): SourceCurationPacket {
+  const fallback = emptySourceCurationPacket();
+  if (!packet || typeof packet !== 'object') return fallback;
+  return {
+    ...fallback,
+    ...packet,
+    source: typeof packet.source === 'object' && packet.source ? packet.source : fallback.source,
+    guardrails: typeof packet.guardrails === 'object' && packet.guardrails ? packet.guardrails : fallback.guardrails,
+    summary: typeof packet.summary === 'object' && packet.summary ? packet.summary : fallback.summary,
+    curationIndex: Array.isArray(packet.curationIndex) ? packet.curationIndex : [],
+    sourceProfileReferences: Array.isArray(packet.sourceProfileReferences) ? packet.sourceProfileReferences : [],
+    profileUrlAliasDrafts: Array.isArray(packet.profileUrlAliasDrafts) ? packet.profileUrlAliasDrafts : [],
+    duplicateSourceGroups: Array.isArray(packet.duplicateSourceGroups) ? packet.duplicateSourceGroups : [],
+    mediaReviewDrafts: Array.isArray(packet.mediaReviewDrafts) ? packet.mediaReviewDrafts : [],
+    videoReviewDrafts: Array.isArray(packet.videoReviewDrafts) ? packet.videoReviewDrafts : [],
+    relationshipReviewDrafts: Array.isArray(packet.relationshipReviewDrafts) ? packet.relationshipReviewDrafts : [],
+    placeReviewDrafts: Array.isArray(packet.placeReviewDrafts) ? packet.placeReviewDrafts : [],
+    placePhraseReviewDrafts: Array.isArray(packet.placePhraseReviewDrafts) ? packet.placePhraseReviewDrafts : [],
+    organizationReviewDrafts: Array.isArray(packet.organizationReviewDrafts) ? packet.organizationReviewDrafts : [],
+    storySectionReviewDrafts: Array.isArray(packet.storySectionReviewDrafts) ? packet.storySectionReviewDrafts : [],
+    classEvidenceReviewDrafts: Array.isArray(packet.classEvidenceReviewDrafts) ? packet.classEvidenceReviewDrafts : [],
+    unresolvedSourceRecords: Array.isArray(packet.unresolvedSourceRecords) ? packet.unresolvedSourceRecords : [],
+  };
+}
+
+function buildSourceCandidateRows(packet: SourceCurationPacket): SourceCandidateRow[] {
+  const rows: SourceCandidateRow[] = [];
+
+  (packet.curationIndex ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `profiles-${personId || index}`,
+      mode: 'profiles',
+      label: cleanPortalString(record.inducteeName) || personId || 'Profile source lead',
+      subtitle: sourceYearRegion(record.classYear, record.region),
+      detail: cleanPortalString(record.nextBestAction) || 'Review harvested original-site profile evidence.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.primarySourceProfileUrl),
+      confidence: priorityConfidence(record.reviewPriority),
+      action: cleanPortalString(record.nextBestAction),
+      fields: compactSourceFields(
+        ['Primary source', record.primarySourceProfileUrl],
+        ['Profile sources', record.sourceProfileCount],
+        ['New image leads', record.newImageReviewCount],
+        ['New profile video leads', record.newProfileVideoReviewCount],
+        ['Context video leads', record.newContextVideoReviewCount],
+        ['Relationship leads', record.relationshipReviewCount],
+        ['Place leads', record.placeReviewCount],
+        ['Organization leads', record.organizationReviewCount],
+        ['Primary story leads', record.primaryStoryLeadCount],
+        ['Manual flags', record.manualFlags?.join('; ')],
+      ),
+      stageKind: 'profile-note',
+      note: sourceNote('Source profile review', [
+        record.nextBestAction,
+        record.primarySourceProfileUrl,
+        record.manualFlags?.join('; '),
+      ]),
+    });
+  });
+
+  (packet.sourceProfileReferences ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `profile-source-${personId || 'unknown'}-${index}`,
+      mode: 'profiles',
+      label: cleanPortalString(record.sourceTitle) || cleanPortalString(record.inducteeName) || 'Source profile',
+      subtitle: `${cleanPortalString(record.matchType) || 'source profile'} / ${sourceYearRegion(record.classYear)}`,
+      detail: 'Resolved original-site source profile reference.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.sourceUrl),
+      sourcePageUrl: cleanPortalString(record.canonicalUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Source title', record.sourceTitle],
+        ['Source URL', record.sourceUrl],
+        ['Canonical URL', record.canonicalUrl],
+        ['Modified', record.sourceModified],
+        ['Region candidates', record.sourceRegionCandidates?.join('; ')],
+        ['Class candidates', record.sourceClassYearCandidates?.join('; ')],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'profile-note',
+      note: sourceNote('Resolved original-site profile source', [
+        record.sourceTitle,
+        record.sourceUrl,
+        record.reviewAction,
+      ]),
+    });
+  });
+
+  (packet.mediaReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `media-${personId || 'unknown'}-${index}`,
+      mode: 'media',
+      label: cleanPortalString(record.inducteeName) || personId || 'Image lead',
+      subtitle: `${cleanPortalString(record.roleCandidate) || 'image'} / ${record.alreadyInMediaManifest ? 'in manifest' : 'new source'}`,
+      detail: cleanPortalString(record.sourcePageTitle) || cleanPortalString(record.sourceUrl) || 'Review image lead for rights and portrait suitability.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.sourceUrl),
+      sourcePageUrl: cleanPortalString(record.sourcePageUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      imageAltText: cleanPortalString(record.altText),
+      fields: compactSourceFields(
+        ['Media type', record.mediaType],
+        ['Role candidate', record.roleCandidate],
+        ['Dimensions', record.width && record.height ? `${record.width} x ${record.height}` : ''],
+        ['Alt text', record.altText],
+        ['Caption', record.caption],
+        ['Rights status', record.rightsStatus],
+        ['Already in manifest', record.alreadyInMediaManifest ? 'Yes' : 'No'],
+        ['Source page', record.sourcePageUrl],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: cleanPortalString(record.sourceUrl) ? 'media-image' : 'profile-note',
+      note: sourceNote('Image source lead', [
+        record.roleCandidate,
+        record.sourceUrl,
+        record.sourcePageUrl,
+        record.rightsStatus,
+        'Rights and suitability still require staff review.',
+      ]),
+    });
+  });
+
+  (packet.videoReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `video-${personId || 'unknown'}-${index}`,
+      mode: 'video',
+      label: cleanPortalString(record.inducteeName) || personId || 'Video lead',
+      subtitle: `${cleanPortalString(record.assignment) || 'video'} / ${record.alreadyInMediaManifest ? 'in manifest' : 'new source'}`,
+      detail: cleanPortalString(record.sourcePageTitle) || cleanPortalString(record.sourceUrl) || 'Review video lead for context, rights, captions, and transcript.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.sourceUrl),
+      sourcePageUrl: cleanPortalString(record.sourcePageUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      youtubeVideoId: cleanPortalString(record.youtubeVideoId),
+      fields: compactSourceFields(
+        ['YouTube ID', record.youtubeVideoId],
+        ['Assignment', record.assignment],
+        ['Rights status', record.rightsStatus],
+        ['Already in manifest', record.alreadyInMediaManifest ? 'Yes' : 'No'],
+        ['Source page', record.sourcePageUrl],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: cleanPortalString(record.sourceUrl) || cleanPortalString(record.youtubeVideoId) ? 'video-source' : 'profile-note',
+      note: sourceNote('Video source lead', [
+        record.assignment,
+        record.sourceUrl,
+        record.sourcePageUrl,
+        record.rightsStatus,
+        'Rights, captions, transcript, and context still require staff review.',
+      ]),
+    });
+  });
+
+  (packet.relationshipReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.sourcePersonId);
+    rows.push({
+      id: `relationship-${personId || 'unknown'}-${index}`,
+      mode: 'relationships',
+      label: `${cleanPortalString(record.sourcePersonName) || personId || 'Source person'} -> ${cleanPortalString(record.targetDisplayName) || cleanPortalString(record.targetEntityId) || 'target'}`,
+      subtitle: `${cleanPortalString(record.provenanceCandidate) || 'candidate'} / ${cleanPortalString(record.type) || 'relationship'}`,
+      detail: cleanPortalString(record.referenceNote) || 'Review relationship evidence before public display.',
+      personId,
+      personName: cleanPortalString(record.sourcePersonName),
+      sourceUrl: record.sourcePageUrls?.[0],
+      sourcePageUrl: record.sourcePageUrls?.[0],
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Target type', record.targetEntityType],
+        ['Target ID', record.targetEntityId],
+        ['Display label', record.displayLabel],
+        ['Evidence count', record.evidenceCount],
+        ['Evidence types', record.evidenceTypes?.join('; ')],
+        ['Public use', record.publicUse],
+        ['Source pages', record.sourcePageUrls?.join('; ')],
+      ),
+      stageKind: 'relationship-note',
+      note: sourceNote('Relationship source lead', [
+        `${record.sourcePersonName ?? personId} -> ${record.targetDisplayName ?? record.targetEntityId}`,
+        record.type,
+        record.referenceNote,
+        record.sourcePageUrls?.join('; '),
+        'Approve in the Relationships tab before public use.',
+      ]),
+    });
+  });
+
+  (packet.placeReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `place-${personId || 'unknown'}-${index}`,
+      mode: 'places',
+      label: `${cleanPortalString(record.inducteeName) || personId || 'Profile'} / ${cleanPortalString(record.placeLabel) || 'Place lead'}`,
+      subtitle: `${cleanPortalString(record.safeguardStatus) || 'geography review'} / ${cleanPortalString(record.migrationDirection) || 'not-inferred'}`,
+      detail: 'Review place evidence. Do not infer migration direction from this lead.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: record.sourcePageUrls?.[0],
+      sourcePageUrl: record.sourcePageUrls?.[0],
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      countryCandidates: cleanPortalList(record.inferredCountryTags),
+      fields: compactSourceFields(
+        ['Place', record.placeLabel],
+        ['Scope hint', record.placeScopeHint],
+        ['Evidence count', record.evidenceCount],
+        ['Evidence types', record.evidenceTypes?.join('; ')],
+        ['Existing countries', record.existingCountryTags?.join('; ')],
+        ['Country candidates', record.inferredCountryTags?.join('; ')],
+        ['Safeguard', record.safeguardStatus],
+        ['Migration direction', record.migrationDirection],
+        ['Source pages', record.sourcePageUrls?.join('; ')],
+      ),
+      stageKind: 'place-note',
+      note: sourceNote('Place source lead', [
+        record.placeLabel,
+        record.safeguardStatus,
+        record.migrationDirection,
+        record.sourcePageUrls?.join('; '),
+        'Geography candidate only; do not infer migration direction.',
+      ]),
+    });
+  });
+
+  (packet.placePhraseReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `place-phrase-${personId || 'unknown'}-${index}`,
+      mode: 'places',
+      label: `${cleanPortalString(record.inducteeName) || personId || 'Profile'} / ${cleanPortalString(record.phraseLabel) || 'Place phrase'}`,
+      subtitle: `${cleanPortalString(record.phraseQuality) || 'phrase'} / ${cleanPortalString(record.safeguardStatus) || 'geography review'}`,
+      detail: 'Exploratory place phrase. Staff should verify whether this is a usable place signal.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: record.sourcePageUrls?.[0],
+      sourcePageUrl: record.sourcePageUrls?.[0],
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      countryCandidates: cleanPortalList(record.inferredCountryTags),
+      fields: compactSourceFields(
+        ['Phrase', record.phraseLabel],
+        ['Quality', record.phraseQuality],
+        ['Evidence count', record.evidenceCount],
+        ['Existing countries', record.existingCountryTags?.join('; ')],
+        ['Country candidates', record.inferredCountryTags?.join('; ')],
+        ['Safeguard', record.safeguardStatus],
+        ['Migration direction', record.migrationDirection],
+        ['Source pages', record.sourcePageUrls?.join('; ')],
+      ),
+      stageKind: 'place-note',
+      note: sourceNote('Exploratory place phrase lead', [
+        record.phraseLabel,
+        record.phraseQuality,
+        record.safeguardStatus,
+        record.sourcePageUrls?.join('; '),
+        'Geography candidate only; do not infer migration direction.',
+      ]),
+    });
+  });
+
+  (packet.organizationReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `organization-${personId || 'unknown'}-${index}`,
+      mode: 'organizations',
+      label: cleanPortalString(record.organizationName) || 'Organization lead',
+      subtitle: `${cleanPortalString(record.inducteeName) || personId || 'Profile'} / ${sourceYearRegion(record.classYear)}`,
+      detail: 'Review organization as documented context, story signal, or relationship evidence.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: record.sourcePageUrls?.[0],
+      sourcePageUrl: record.sourcePageUrls?.[0],
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Organization', record.organizationName],
+        ['Evidence count', record.evidenceCount],
+        ['Public use', record.publicUse],
+        ['Source pages', record.sourcePageUrls?.join('; ')],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'organization-note',
+      note: sourceNote('Organization source lead', [
+        record.organizationName,
+        record.sourcePageUrls?.join('; '),
+        'Review as context before public use.',
+      ]),
+    });
+  });
+
+  (packet.storySectionReviewDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `story-${personId || 'unknown'}-${index}`,
+      mode: 'stories',
+      label: cleanPortalString(record.inducteeName) || personId || 'Story lead',
+      subtitle: `${cleanPortalString(record.suggestedTheme) || 'story'} / ${cleanPortalString(record.priority) || 'lead'}`,
+      detail: cleanPortalString(record.excerpt) || 'Review source excerpt as a rewrite lead.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.sourcePageUrl),
+      sourcePageUrl: cleanPortalString(record.sourcePageUrl),
+      confidence: record.priority === 'primary-story-lead' ? 0.9 : 0.58,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Source title', record.sourcePageTitle],
+        ['Suggested theme', record.suggestedTheme],
+        ['Block index', record.blockIndex],
+        ['Word count', record.wordCount],
+        ['Candidate use', record.candidateUse],
+        ['Copyright note', record.copyrightNote],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'story-note',
+      note: sourceNote('Story rewrite lead', [
+        record.suggestedTheme,
+        record.excerpt,
+        record.sourcePageUrl,
+        record.copyrightNote,
+      ]),
+    });
+  });
+
+  (packet.profileUrlAliasDrafts ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `alias-${personId || 'unknown'}-${index}`,
+      mode: 'aliases',
+      label: cleanPortalString(record.inducteeName) || personId || 'Profile alias',
+      subtitle: `${cleanPortalString(record.matchType) || 'alias'} / ${cleanPortalString(record.publishStatus) || 'review'}`,
+      detail: 'Review alternate original-site URL before changing canonical profile links.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: cleanPortalString(record.alternateSourceUrl),
+      sourcePageUrl: cleanPortalString(record.currentProfileUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Current URL', record.currentProfileUrl],
+        ['Alternate URL', record.alternateSourceUrl],
+        ['Source title', record.sourceTitle],
+        ['Publish status', record.publishStatus],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'alias-note',
+      note: sourceNote('Profile URL alias lead', [
+        record.alternateSourceUrl,
+        record.currentProfileUrl,
+        record.publishStatus,
+      ]),
+    });
+  });
+
+  (packet.duplicateSourceGroups ?? []).forEach((record, index) => {
+    const personId = cleanPortalString(record.inducteeId);
+    rows.push({
+      id: `duplicate-source-${personId || 'unknown'}-${index}`,
+      mode: 'aliases',
+      label: cleanPortalString(record.inducteeName) || personId || 'Duplicate source group',
+      subtitle: `${record.sources?.length ?? 0} source records`,
+      detail: 'Review duplicate original-site source records before using as canonical references.',
+      personId,
+      personName: cleanPortalString(record.inducteeName),
+      sourceUrl: record.sources?.[0]?.sourceUrl,
+      sourcePageUrl: record.sources?.[0]?.sourceUrl,
+      confidence: record.sources?.reduce((max, source) => Math.max(max, source.confidence ?? 0), 0),
+      fields: compactSourceFields(
+        ['Sources', record.sources?.map((source) => source.sourceUrl).join('; ')],
+        ['Match types', record.sources?.map((source) => source.matchType).filter(Boolean).join('; ')],
+      ),
+      stageKind: 'alias-note',
+      note: sourceNote('Duplicate source group lead', [
+        record.sources?.map((source) => `${source.sourceTitle ?? 'Untitled'}: ${source.sourceUrl}`).join('; '),
+      ]),
+    });
+  });
+
+  (packet.classEvidenceReviewDrafts ?? []).forEach((record, index) => {
+    rows.push({
+      id: `class-evidence-${index}`,
+      mode: 'classes',
+      label: cleanPortalString(record.title) || 'Class evidence lead',
+      subtitle: `${cleanPortalString(record.sourceKind) || 'class source'} / ${record.primaryClassYearCandidates?.join('; ') || 'year review'}`,
+      detail: 'Review class page evidence before applying to individual profiles.',
+      sourceUrl: cleanPortalString(record.sourcePageUrl),
+      sourcePageUrl: cleanPortalString(record.sourcePageUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Primary class years', record.primaryClassYearCandidates?.join('; ')],
+        ['All class years', record.allClassYearCandidates?.join('; ')],
+        ['Images', record.imageCount],
+        ['Attached media', record.attachedMediaCount],
+        ['YouTube IDs', record.youtubeVideoIds?.join('; ')],
+        ['Mentioned inductees', record.mentionedInducteeCount],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'class-note',
+      note: sourceNote('Class evidence lead', [
+        record.title,
+        record.sourcePageUrl,
+        record.primaryClassYearCandidates?.join('; '),
+      ]),
+    });
+  });
+
+  (packet.unresolvedSourceRecords ?? []).forEach((record, index) => {
+    rows.push({
+      id: `unresolved-${record.wpId ?? index}`,
+      mode: 'unresolved',
+      label: cleanPortalString(record.sourceTitle) || cleanPortalString(record.sourceTitleName) || 'Unresolved source',
+      subtitle: `${cleanPortalString(record.sourceKind) || 'source'} / no deterministic match`,
+      detail: 'Resolve manually to an existing profile or a future new record.',
+      sourceUrl: cleanPortalString(record.sourceUrl),
+      sourcePageUrl: cleanPortalString(record.sourceUrl),
+      confidence: record.confidence,
+      action: cleanPortalString(record.reviewAction),
+      fields: compactSourceFields(
+        ['Source title', record.sourceTitle],
+        ['Source title name', record.sourceTitleName],
+        ['Region candidates', record.sourceRegionCandidates?.join('; ')],
+        ['Class candidates', record.sourceClassYearCandidates?.join('; ')],
+        ['Notes', record.notes?.join('; ')],
+        ['Review action', record.reviewAction],
+      ),
+      stageKind: 'unresolved-note',
+      note: sourceNote('Unresolved original-site source', [
+        record.sourceTitle,
+        record.sourceUrl,
+        record.notes?.join('; '),
+      ]),
+    });
+  });
+
+  return rows;
+}
+
+function buildSourceQueueOptions(rows: SourceCandidateRow[]) {
+  return (Object.entries(sourceQueueLabels) as Array<[SourceQueueMode, string]>).map(([mode, label]) => ({
+    mode,
+    label,
+    count: rows.filter((row) => row.mode === mode).length,
+  }));
+}
+
+function sourceDraftPatchForRow(row: SourceCandidateRow, stageKind: SourceCandidateRow['stageKind'], target: Inductee, draft: ReviewDraft | undefined, mediaRecord: MediaManifestRecord | undefined): DraftPatch {
+  if (stageKind === 'media-image' && row.sourceUrl) {
+    const patch: DraftPatch = {
+      imageSourceUrl: row.sourceUrl,
+      imageRightsStatus: 'needs-review',
+      mediaNotes: addListValue(draft?.mediaNotes ?? mediaRecord?.notes ?? [], row.note),
+    };
+    if (row.imageAltText) patch.primaryImageAltText = row.imageAltText;
+    return patch;
+  }
+
+  if (stageKind === 'video-source') {
+    const patch: DraftPatch = {
+      videoRightsStatus: 'needs-review',
+      captionStatus: 'review-needed',
+      transcriptStatus: 'review-needed',
+      mediaNotes: addListValue(draft?.mediaNotes ?? mediaRecord?.notes ?? [], row.note),
+    };
+    if (row.sourceUrl) patch.videoSourceUrls = addListValue(draft?.videoSourceUrls ?? [], row.sourceUrl);
+    if (row.youtubeVideoId) patch.youtubeVideoIds = addListValue(draft?.youtubeVideoIds ?? [], row.youtubeVideoId);
+    return patch;
+  }
+
+  if (stageKind === 'place-note') {
+    const countryCandidates = row.countryCandidates ?? [];
+    const patch: DraftPatch = {
+      countryNotes: appendSourceText(draft?.countryNotes ?? target.countryTagsNote, row.note),
+      curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
+    };
+    if (countryCandidates.length > 0) patch.approvedCountryTags = addListValues(draft?.approvedCountryTags ?? target.countryTags, countryCandidates);
+    return patch;
+  }
+
+  return {
+    curatorNotes: addListValue(draft?.curatorNotes ?? [], row.note),
+  };
+}
+
+function matchesSourceCandidate(row: SourceCandidateRow, search: string) {
+  return [
+    row.label,
+    row.subtitle,
+    row.detail,
+    row.personId,
+    row.personName,
+    row.sourceUrl,
+    row.sourcePageUrl,
+    row.action,
+    row.note,
+    ...row.fields.flatMap((field) => [field.label, field.value]),
+  ].join(' ').toLowerCase().includes(search);
+}
+
+function sourcePrimaryActionLabel(row: SourceCandidateRow) {
+  switch (row.stageKind) {
+    case 'media-image':
+      return 'Stage Image Source';
+    case 'video-source':
+      return 'Stage Video Source';
+    case 'place-note':
+      return 'Stage Place Candidate';
+    case 'relationship-note':
+      return 'Stage Relationship Note';
+    case 'organization-note':
+      return 'Stage Organization Note';
+    case 'story-note':
+      return 'Stage Story Lead';
+    case 'alias-note':
+      return 'Stage Alias Note';
+    case 'class-note':
+      return 'Stage Class Note';
+    case 'unresolved-note':
+      return 'Stage Manual Note';
+    default:
+      return 'Stage Profile Note';
+  }
+}
+
+function sourceStageLabel(stageKind: SourceCandidateRow['stageKind']) {
+  switch (stageKind) {
+    case 'media-image':
+      return 'image source';
+    case 'video-source':
+      return 'video source';
+    case 'place-note':
+      return 'place candidate';
+    case 'relationship-note':
+      return 'relationship note';
+    case 'organization-note':
+      return 'organization note';
+    case 'story-note':
+      return 'story lead';
+    case 'alias-note':
+      return 'alias note';
+    case 'class-note':
+      return 'class evidence';
+    case 'unresolved-note':
+      return 'manual source note';
+    default:
+      return 'profile note';
+  }
+}
+
+function compactSourceFields(...fields: Array<[string, unknown]>): Array<{ label: string; value: string }> {
+  return fields
+    .map(([label, value]) => ({ label, value: sourceValueLabel(value) }))
+    .filter((field) => field.value.length > 0);
+}
+
+function sourceValueLabel(value: unknown): string {
+  if (typeof value === 'number') return Number.isFinite(value) ? String(value) : '';
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (Array.isArray(value)) return value.map(sourceValueLabel).filter(Boolean).join('; ');
+  return cleanPortalString(value);
+}
+
+function sourceYearRegion(classYear?: number, region?: string) {
+  return [classYear ? `Class of ${classYear}` : '', cleanPortalString(region)].filter(Boolean).join(' / ') || 'Year review';
+}
+
+function sourceNote(label: string, values: Array<unknown>) {
+  const detail = values.map(sourceValueLabel).filter(Boolean).join(' / ');
+  return detail ? `${label}: ${detail}` : label;
+}
+
+function priorityConfidence(priority?: string) {
+  if (priority === 'high') return 0.9;
+  if (priority === 'medium') return 0.64;
+  if (priority === 'standard') return 0.44;
+  return undefined;
+}
+
+function formatConfidence(value: number) {
+  return `${Math.round(value * 100)}%`;
+}
+
+function sourceGuardrailLabel(key: string) {
+  return key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (letter) => letter.toUpperCase()) + ': ';
+}
+
+function addListValues(values: string[], nextValues: string[]) {
+  return nextValues.reduce((current, value) => addListValue(current, value), values);
+}
+
+function appendSourceText(existingValue: string | undefined, nextValue: string) {
+  const existing = cleanPortalString(existingValue);
+  if (!existing) return nextValue;
+  if (existing.includes(nextValue)) return existing;
+  return `${existing}\n${nextValue}`;
 }
 
 function StoryLensEditor({
@@ -1514,7 +2658,11 @@ function ProfileEditor({
   const countryNotes = draft?.countryNotes ?? inductee.countryTagsNote;
   const approvedCommunityTags = draft?.approvedCommunityTags ?? inductee.communityTags;
   const primaryImage = mediaRecord?.images?.primary;
+  const imageSourceUrl = draft?.imageSourceUrl ?? primaryImage?.sourceUrl ?? '';
   const firstVideo = mediaRecord?.videos?.[0];
+  const videoSourceUrls = draft?.videoSourceUrls ?? (mediaRecord?.videos ?? []).map((video) => video.sourceUrl ?? '').filter(Boolean);
+  const youtubeVideoIds = draft?.youtubeVideoIds ?? (mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId ?? '').filter(Boolean);
+  const hasVideoReview = inductee.hasVideo || videoSourceUrls.length > 0 || youtubeVideoIds.length > 0;
 
   return (
     <div className="portal-editor">
@@ -1652,6 +2800,10 @@ function ProfileEditor({
             <textarea value={draft?.primaryImageAltText ?? primaryImage?.altText ?? inductee.imageAltText} onChange={(event) => onPatch({ primaryImageAltText: event.target.value })} rows={3} />
           </label>
           <label className="field">
+            <span>Primary image source URL</span>
+            <input value={imageSourceUrl} onChange={(event) => onPatch({ imageSourceUrl: event.target.value })} />
+          </label>
+          <label className="field">
             <span>Image rights</span>
             <select value={draft?.imageRightsStatus ?? primaryImage?.rightsStatus ?? inductee.imageRightsStatus} onChange={(event) => onPatch({ imageRightsStatus: event.target.value })}>
               <option value="needs-review">Needs review</option>
@@ -1665,8 +2817,16 @@ function ProfileEditor({
             <span>Approve image rights</span>
           </label>
 
-          {inductee.hasVideo ? (
+          {hasVideoReview ? (
             <>
+              <label className="field">
+                <span>Video source URLs</span>
+                <textarea value={joinList(videoSourceUrls)} onChange={(event) => onPatch({ videoSourceUrls: parseListInput(event.target.value) })} rows={3} />
+              </label>
+              <label className="field">
+                <span>YouTube video IDs</span>
+                <textarea value={joinList(youtubeVideoIds)} onChange={(event) => onPatch({ youtubeVideoIds: parseListInput(event.target.value) })} rows={2} />
+              </label>
               <label className="field">
                 <span>Video rights</span>
                 <select value={draft?.videoRightsStatus ?? firstVideo?.rightsStatus ?? inductee.videoRightsStatus} onChange={(event) => onPatch({ videoRightsStatus: event.target.value })}>
@@ -2157,6 +3317,28 @@ function useReviewReports(): ReportState {
   return state;
 }
 
+function useSourceCurationPacket(): SourceCurationState {
+  const [state, setState] = useState<SourceCurationState>({ packet: null, loading: true, error: '' });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchJson<SourceCurationPacket>(reportUrls.sourceCuration)
+      .then((packet) => {
+        if (!cancelled) setState({ packet: normalizeSourceCurationPacket(packet), loading: false, error: '' });
+      })
+      .catch((error: Error) => {
+        if (!cancelled) setState({ packet: emptySourceCurationPacket(), loading: false, error: error.message });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return state;
+}
+
 function useStoryLensDocument(): StoryLensEditorState {
   const [document, setDocument] = useState<StoryLensDocument | null>(null);
   const [draft, setDraft] = useState<StoryLensDocument | null>(null);
@@ -2546,6 +3728,10 @@ function matchesSearch(inductee: Inductee, draft: ReviewDraft | undefined, searc
         ...(draft.approvedCountryTags ?? []),
         ...(draft.approvedCommunityTags ?? []),
         ...(draft.curatorNotes ?? []),
+        ...(draft.mediaNotes ?? []),
+        draft.imageSourceUrl,
+        ...(draft.videoSourceUrls ?? []),
+        ...(draft.youtubeVideoIds ?? []),
       ].join(' ')
     : '';
   return [inductee.searchText, inductee.id, draftText].join(' ').toLowerCase().includes(search);
@@ -2944,6 +4130,7 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     'approved_community_tags',
     'community_tags_approved',
     'primary_image_source_url',
+    'image_source_url',
     'primary_image_file_path',
     'primary_image_runtime_path',
     'primary_image_checksum_sha256',
@@ -2959,6 +4146,8 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     'video_index',
     'video_source_url',
     'youtube_video_id',
+    'video_source_urls',
+    'youtube_video_ids',
     'video_file_path',
     'video_runtime_path',
     'video_poster_file_path',
@@ -2991,6 +4180,9 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     const primaryImage = mediaRecord?.images?.primary;
     const videos = mediaRecord?.videos ?? [];
     const firstVideo = videos[0];
+    const stagedVideoSourceUrls = draft?.videoSourceUrls ?? [];
+    const stagedYoutubeVideoIds = draft?.youtubeVideoIds ?? [];
+    const hasStagedVideoSource = stagedVideoSourceUrls.length > 0 || stagedYoutubeVideoIds.length > 0;
 
     return [
       inductee.id,
@@ -3020,7 +4212,8 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
       inductee.communityTags.join('; '),
       (draft?.approvedCommunityTags ?? []).join('; '),
       toDecisionFlag(draft?.communityTagsApproved),
-      primaryImage?.sourceUrl ?? '',
+      draft?.imageSourceUrl ?? primaryImage?.sourceUrl ?? '',
+      draft?.imageSourceUrl ?? primaryImage?.sourceUrl ?? '',
       primaryImage?.filePath ?? '',
       primaryImage?.runtimePath ?? '',
       primaryImage?.checksumSha256 ?? '',
@@ -3031,11 +4224,13 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
       draft?.imageRightsStatus ?? primaryImage?.rightsStatus ?? '',
       toDecisionFlag(draft?.imageRightsApproved),
       primaryImage?.approvedForKiosk ? 'yes' : 'no',
-      inductee.hasVideo ? 'yes' : 'no',
+      inductee.hasVideo || hasStagedVideoSource ? 'yes' : 'no',
       videos.length,
       videos.length === 1 ? '1' : '',
-      videos.length === 1 ? firstVideo?.sourceUrl ?? '' : '',
-      videos.length === 1 ? firstVideo?.youtubeVideoId ?? '' : '',
+      videos.length === 1 ? firstVideo?.sourceUrl ?? '' : stagedVideoSourceUrls.length === 1 ? stagedVideoSourceUrls[0] : '',
+      videos.length === 1 ? firstVideo?.youtubeVideoId ?? '' : stagedYoutubeVideoIds.length === 1 ? stagedYoutubeVideoIds[0] : '',
+      stagedVideoSourceUrls.join('; '),
+      stagedYoutubeVideoIds.join('; '),
       videos.length === 1 ? firstVideo?.filePath ?? '' : '',
       videos.length === 1 ? firstVideo?.runtimePath ?? '' : '',
       videos.length === 1 ? firstVideo?.posterFilePath ?? '' : '',

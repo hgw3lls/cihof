@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { PlaceRecord, PlaceType, RelationshipProvenance } from './types';
 
 type PlacesState = {
@@ -30,9 +31,37 @@ export function usePlaces(): PlacesState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(placesUrl, { signal: controller.signal })
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const payload = bundle.places ?? { places: [] };
+          writeCachedJson(cacheKey, payload);
+          const places = parsePlaces(payload);
+          if (!cancelled) setState({ places, loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide places; falling back to places.json.', { error: error.message });
+          void loadLegacyPlaces(() => cancelled, setState);
+        });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  return state;
+}
+
+function loadLegacyPlaces(isCancelled: () => boolean, setState: (state: PlacesState) => void) {
+  return fetch(placesUrl)
       .then((response) => {
         if (!response.ok) throw new Error(`Places request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
@@ -40,26 +69,18 @@ export function usePlaces(): PlacesState {
       .then((payload) => {
         writeCachedJson(cacheKey, payload);
         const places = parsePlaces(payload);
-        if (!cancelled) setState({ places, loading: false, error: '' });
+        if (!isCancelled()) setState({ places, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (controller.signal.aborted || cancelled) return;
+        if (isCancelled()) return;
         const cached = readCachedJson(cacheKey);
         if (cached) {
           runtimeLogger.warn('Using cached places after load failure.', { error: error.message });
-          setState({ places: parsePlaces(cached), loading: false, error: '' });
+          if (!isCancelled()) setState({ places: parsePlaces(cached), loading: false, error: '' });
           return;
         }
-        setState({ places: [], loading: false, error: error.message });
+        if (!isCancelled()) setState({ places: [], loading: false, error: error.message });
       });
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
-
-  return state;
 }
 
 export function usePlaceTypes(places: PlaceRecord[]) {

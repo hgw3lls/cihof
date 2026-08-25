@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { RuntimeAudioAsset, RuntimeImageAsset, RuntimeMediaRecord, RuntimeVideoAsset } from './types';
 
 type MediaManifestState = {
@@ -17,9 +18,36 @@ export function useMediaManifest(): MediaManifestState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(mediaManifestUrl, { signal: controller.signal })
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const payload = bundle.mediaManifest ?? { assets: {} };
+          writeCachedJson(cacheKey, payload);
+          if (!cancelled) setState({ records: parseMediaManifest(payload), loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide media manifest; falling back to media-manifest.json.', { error: error.message });
+          void loadLegacyMediaManifest(() => cancelled, setState);
+        });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  return state;
+}
+
+function loadLegacyMediaManifest(isCancelled: () => boolean, setState: (state: MediaManifestState) => void) {
+  return fetch(mediaManifestUrl)
       .then((response) => {
         if (response.status === 404) return { assets: {} } as unknown;
         if (!response.ok) throw new Error(`Media manifest request failed: ${response.status}`);
@@ -27,26 +55,18 @@ export function useMediaManifest(): MediaManifestState {
       })
       .then((payload) => {
         writeCachedJson(cacheKey, payload);
-        if (!cancelled) setState({ records: parseMediaManifest(payload), loading: false, error: '' });
+        if (!isCancelled()) setState({ records: parseMediaManifest(payload), loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (controller.signal.aborted || cancelled) return;
+        if (isCancelled()) return;
         const cached = readCachedJson(cacheKey);
         if (cached) {
           runtimeLogger.warn('Using cached media manifest after load failure.', { error: error.message });
-          setState({ records: parseMediaManifest(cached), loading: false, error: '' });
+          if (!isCancelled()) setState({ records: parseMediaManifest(cached), loading: false, error: '' });
           return;
         }
-        setState({ records: [], loading: false, error: offlineAwareError(error.message, 'Media manifest could not be loaded.') });
+        if (!isCancelled()) setState({ records: [], loading: false, error: offlineAwareError(error.message, 'Media manifest could not be loaded.') });
       });
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
-
-  return state;
 }
 
 export function useMediaRecordMap(records: RuntimeMediaRecord[]) {

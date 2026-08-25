@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { runtimeLogger } from '../app/runtimeLogger';
 import { readCachedJson, writeCachedJson } from './localDataCache';
 import { normalizeInducteePayload } from './normalizeInductees';
+import { loadRuntimeDataBundle, subscribeRuntimeDataBundleChanges } from './runtimeDataBundle';
 import type { Inductee } from './types';
 
 type DataState = {
@@ -18,9 +19,36 @@ export function useInductees(): DataState {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
-    fetch(dataUrl, { signal: controller.signal })
+    function loadData() {
+      setState((current) => ({ ...current, loading: true }));
+
+      loadRuntimeDataBundle()
+        .then((bundle) => {
+          const inductees = normalizeInducteePayload(bundle.inductees);
+          if (inductees.length > 0) writeCachedJson(cacheKey, bundle.inductees);
+          if (!cancelled) setState({ inductees, loading: false, error: '' });
+        })
+        .catch((error: Error) => {
+          runtimeLogger.warn('Runtime data bundle did not provide inductees; falling back to inductees.json.', { error: error.message });
+          void loadLegacyInductees(() => cancelled, setState);
+        });
+    }
+
+    loadData();
+    const unsubscribe = subscribeRuntimeDataBundleChanges(loadData);
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  return state;
+}
+
+function loadLegacyInductees(isCancelled: () => boolean, setState: (state: DataState) => void) {
+  return fetch(dataUrl)
       .then((response) => {
         if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
         return response.json() as Promise<unknown>;
@@ -28,27 +56,19 @@ export function useInductees(): DataState {
       .then((payload) => {
         const inductees = normalizeInducteePayload(payload);
         if (inductees.length > 0) writeCachedJson(cacheKey, payload);
-        if (!cancelled) setState({ inductees, loading: false, error: '' });
+        if (!isCancelled()) setState({ inductees, loading: false, error: '' });
       })
       .catch((error: Error) => {
-        if (controller.signal.aborted || cancelled) return;
+        if (isCancelled()) return;
         const cached = readCachedJson(cacheKey);
         const cachedInductees = normalizeInducteePayload(cached);
         if (cachedInductees.length > 0) {
           runtimeLogger.warn('Using cached inductee data after load failure.', { error: error.message });
-          setState({ inductees: cachedInductees, loading: false, error: '' });
+          if (!isCancelled()) setState({ inductees: cachedInductees, loading: false, error: '' });
           return;
         }
-        setState({ inductees: [], loading: false, error: offlineAwareError(error.message, 'Inductee data could not be loaded.') });
+        if (!isCancelled()) setState({ inductees: [], loading: false, error: offlineAwareError(error.message, 'Inductee data could not be loaded.') });
       });
-
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, []);
-
-  return state;
 }
 
 function offlineAwareError(message: string, fallback: string) {

@@ -18,6 +18,9 @@ const storyLensesOutputPath = resolve('public/data/story-lenses.json');
 const mediaManifestSourcePath = resolve('data/media_manifest.json');
 const mediaManifestOutputPath = resolve('public/data/media-manifest.json');
 const physicalWallOutputPath = resolve('public/data/physical-wall-positions.json');
+const sourceCurationSourcePath = resolve('data/original-site-harvest/pre-curation/cihof-pre-curation-packet.json');
+const sourceCurationOutputPath = resolve('public/data/source-curation-packet.json');
+const runtimeDataBundleOutputPath = resolve('public/data/cihof-runtime-data.json');
 
 const inductees = loadInductees();
 const report = buildReport(inductees);
@@ -27,6 +30,8 @@ const storySections = loadStorySections(inductees);
 const storyLenses = loadStoryLenses();
 const mediaManifest = loadRuntimeMediaManifest();
 const physicalWallMetadata = loadPhysicalWallMetadata();
+const sourceCurationPacket = loadSourceCurationPacket();
+const runtimeDataBundle = buildRuntimeDataBundle();
 
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(inductees, null, 2)}\n`);
@@ -39,6 +44,8 @@ writeFileSync(storySectionsOutputPath, `${JSON.stringify(storySections.document,
 writeFileSync(storyLensesOutputPath, `${JSON.stringify(storyLenses.document, null, 2)}\n`);
 writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document, null, 2)}\n`);
 writeFileSync(physicalWallOutputPath, `${JSON.stringify(physicalWallMetadata, null, 2)}\n`);
+writeFileSync(sourceCurationOutputPath, `${JSON.stringify(sourceCurationPacket.document, null, 2)}\n`);
+writeFileSync(runtimeDataBundleOutputPath, `${JSON.stringify(runtimeDataBundle, null, 2)}\n`);
 
 console.log(
   `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions and ${report.countries.length} countries. ` +
@@ -53,6 +60,8 @@ console.log(`Prepared ${storySections.recordCount} curated story section records
 console.log(`Prepared ${storyLenses.recordCount} story lens records.`);
 console.log(`Prepared ${mediaManifest.recordCount} runtime media manifest records.`);
 console.log(`Prepared ${Object.keys(physicalWallMetadata.positions ?? {}).length} physical wall position records.`);
+console.log(`Prepared ${sourceCurationPacket.recordCount} source curation profile rows.`);
+console.log(`Prepared one-file runtime data bundle at ${runtimeDataBundleOutputPath}.`);
 if (report.missing.primaryImage.length > 0) {
   console.log(`Missing primary images: ${report.missing.primaryImage.length}`);
 }
@@ -271,4 +280,108 @@ function loadRuntimeMediaManifest() {
     },
     recordCount: Object.keys(assets).length,
   };
+}
+
+function loadSourceCurationPacket() {
+  const emptyDocument = {
+    schemaVersion: 1,
+    source: {
+      generator: 'scripts/prepare-data.js',
+      note: 'No original-site pre-curation packet was found. Staff portal source queues will be empty.',
+    },
+    guardrails: {
+      mediaRights: 'Source leads are review aids only and do not approve media rights.',
+      relationships: 'Relationship leads require curator approval before public use.',
+      geography: 'Place leads are textual evidence only. Migration direction is never inferred.',
+      storyText: 'Story excerpts are source pointers for curator rewriting, not publication-ready text.',
+    },
+    summary: {},
+    curationIndex: [],
+    sourceProfileReferences: [],
+    profileUrlAliasDrafts: [],
+    duplicateSourceGroups: [],
+    mediaReviewDrafts: [],
+    videoReviewDrafts: [],
+    relationshipReviewDrafts: [],
+    placeReviewDrafts: [],
+    placePhraseReviewDrafts: [],
+    organizationReviewDrafts: [],
+    storySectionReviewDrafts: [],
+    classEvidenceReviewDrafts: [],
+    unresolvedSourceRecords: [],
+  };
+
+  if (!existsSync(sourceCurationSourcePath)) {
+    return { document: emptyDocument, recordCount: 0 };
+  }
+
+  const document = JSON.parse(readFileSync(sourceCurationSourcePath, 'utf8'));
+  return {
+    document: normalizeSourceCurationPacket(document, emptyDocument),
+    recordCount: Array.isArray(document.curationIndex) ? document.curationIndex.length : 0,
+  };
+}
+
+function normalizeSourceCurationPacket(document, fallback) {
+  if (!document || typeof document !== 'object' || Array.isArray(document)) return fallback;
+  const normalized = { ...fallback, ...document };
+  [
+    'curationIndex',
+    'sourceProfileReferences',
+    'profileUrlAliasDrafts',
+    'duplicateSourceGroups',
+    'mediaReviewDrafts',
+    'videoReviewDrafts',
+    'relationshipReviewDrafts',
+    'placeReviewDrafts',
+    'placePhraseReviewDrafts',
+    'organizationReviewDrafts',
+    'storySectionReviewDrafts',
+    'classEvidenceReviewDrafts',
+    'unresolvedSourceRecords',
+  ].forEach((key) => {
+    if (!Array.isArray(normalized[key])) normalized[key] = [];
+  });
+  return normalized;
+}
+
+function buildRuntimeDataBundle() {
+  return {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    appName: 'CIHOF Portrait Wall',
+    source: {
+      generator: 'scripts/prepare-data.js',
+      note: 'Single-file runtime bundle for visitor import/export and offline cache hydration. Individual JSON files are still emitted for compatibility and portal tooling.',
+    },
+    inductees,
+    relationships: relationshipMetadata.records,
+    entities: entityModel.entityDocument,
+    entityRelationships: entityModel.relationshipDocument,
+    storySections: storySections.document,
+    storyLenses: storyLenses.document,
+    mediaManifest: mediaManifest.document,
+    physicalWall: physicalWallMetadata,
+    places: loadOptionalRuntimeJson('public/data/places.json', { schemaVersion: 1, places: [] }),
+    cityQuestion: loadOptionalRuntimeJson('public/data/city-question.json', null),
+    worldLens: loadOptionalRuntimeJson('public/data/world-lens.json', null),
+    sourceCuration: sourceCurationPacket.document,
+    reports: {
+      data: report,
+      entityModel: entityModel.report,
+      curation: loadOptionalRuntimeJson('public/data/curation-report.json', null),
+      media: loadOptionalRuntimeJson('public/data/media-report.json', null),
+      mediaLocalization: loadOptionalRuntimeJson('public/data/media-localization-report.json', null),
+    },
+  };
+}
+
+function loadOptionalRuntimeJson(path, fallback) {
+  const resolvedPath = resolve(path);
+  if (!existsSync(resolvedPath)) return fallback;
+  try {
+    return JSON.parse(readFileSync(resolvedPath, 'utf8'));
+  } catch {
+    return fallback;
+  }
 }

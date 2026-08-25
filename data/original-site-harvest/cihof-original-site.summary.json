@@ -1,0 +1,1178 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "Cleveland International Hall of Fame original WordPress site",
+    "baseUrl": "https://clevelandinternationalhalloffame.com",
+    "fetchedAt": "2026-08-25T12:21:58.094Z",
+    "robotsTxt": "User-Agent: *\nDisallow:\n",
+    "note": "Raw source harvest for curation and parsing. Do not overwrite approved kiosk metadata without curator review."
+  },
+  "counts": {
+    "manifestRecords": 111,
+    "pages": 161,
+    "posts": 2,
+    "media": 1003,
+    "categories": 10,
+    "tags": 96,
+    "sitemapEntries": 1200,
+    "profileRecords": 121,
+    "classOrCeremonyPages": 20,
+    "photoGalleries": 6,
+    "newsOrEventPosts": 2
+  },
+  "coverage": {
+    "profileUrlMatches": 105,
+    "nameMatches": 11,
+    "missingManifestProfiles": [
+      {
+        "name": "Sam Kim",
+        "classYear": "2017",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/sam-kim/"
+      },
+      {
+        "name": "Mona Alag",
+        "classYear": "2017",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/mona-alag/"
+      },
+      {
+        "name": "Jim Craciun",
+        "classYear": "2017",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      },
+      {
+        "name": "Wael Khoury",
+        "classYear": "2017",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/wael-khoury/"
+      },
+      {
+        "name": "Ralph J. Perk",
+        "classYear": "2011",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/"
+      },
+      {
+        "name": "Rev. Mikhail Mikhail",
+        "classYear": "2016",
+        "profileUrl": "https://clevelandinternationalhalloffame.com/rev-mikhail-mikhail/"
+      }
+    ],
+    "sourceOnlyProfiles": [
+      {
+        "title": "Anjan Ghose",
+        "link": "https://clevelandinternationalhalloffame.com/anjan-ghose/",
+        "sourceKind": "probable-inductee-profile",
+        "classYearCandidates": [
+          2010,
+          2013,
+          2025,
+          2026
+        ],
+        "regionCandidates": [
+          "Asia"
+        ]
+      },
+      {
+        "title": "Mary Anne DeGrandis Baucco",
+        "link": "https://clevelandinternationalhalloffame.com/mary-anne-degrandis-baucco/",
+        "sourceKind": "probable-inductee-profile",
+        "classYearCandidates": [
+          2010,
+          2026
+        ],
+        "regionCandidates": [
+          "Europe"
+        ]
+      },
+      {
+        "title": "Reverend Mikhail Mikhail – 2016",
+        "link": "https://clevelandinternationalhalloffame.com/reverend-mikhail-mikhail-2016/",
+        "sourceKind": "probable-inductee-profile",
+        "classYearCandidates": [
+          2016
+        ],
+        "regionCandidates": [
+          "Africa"
+        ]
+      },
+      {
+        "title": "Dr. Mohan Bafna",
+        "link": "https://clevelandinternationalhalloffame.com/induction-event-info/dr-mohan-bafna/",
+        "sourceKind": "probable-inductee-profile",
+        "classYearCandidates": [
+          2014
+        ],
+        "regionCandidates": [
+          "Asia"
+        ]
+      },
+      {
+        "title": "Mayor Ralph Perk – 2011",
+        "link": "https://clevelandinternationalhalloffame.com/mayor-ralph-perk-2011/",
+        "sourceKind": "probable-inductee-profile",
+        "classYearCandidates": [
+          2011
+        ],
+        "regionCandidates": [
+          "Europe"
+        ]
+      }
+    ]
+  },
+  "taxonomies": {
+    "categories": [
+      {
+        "id": 7,
+        "name": "Africa",
+        "slug": "africa",
+        "count": 8
+      },
+      {
+        "id": 4,
+        "name": "Antartica",
+        "slug": "antartica",
+        "count": 0
+      },
+      {
+        "id": 6,
+        "name": "Asia",
+        "slug": "asia",
+        "count": 35
+      },
+      {
+        "id": 3,
+        "name": "Australia",
+        "slug": "australia",
+        "count": 1
+      },
+      {
+        "id": 9,
+        "name": "Europe",
+        "slug": "europe",
+        "count": 63
+      },
+      {
+        "id": 11,
+        "name": "Event",
+        "slug": "event",
+        "count": 7
+      },
+      {
+        "id": 75,
+        "name": "Middle East",
+        "slug": "middle-east",
+        "count": 3
+      },
+      {
+        "id": 5,
+        "name": "North America",
+        "slug": "north-america",
+        "count": 9
+      },
+      {
+        "id": 8,
+        "name": "South America",
+        "slug": "south-america",
+        "count": 3
+      },
+      {
+        "id": 1,
+        "name": "Uncategorized",
+        "slug": "uncategorized",
+        "count": 4
+      }
+    ],
+    "yearTags": [
+      {
+        "id": 16,
+        "name": "2016",
+        "slug": "2016",
+        "count": 5
+      },
+      {
+        "id": 27,
+        "name": "2017",
+        "slug": "2017",
+        "count": 6
+      },
+      {
+        "id": 28,
+        "name": "2018",
+        "slug": "2018",
+        "count": 8
+      },
+      {
+        "id": 45,
+        "name": "2019",
+        "slug": "2019",
+        "count": 5
+      },
+      {
+        "id": 56,
+        "name": "2019. MetroHealth",
+        "slug": "2019-metrohealth",
+        "count": 1
+      },
+      {
+        "id": 65,
+        "name": "2020",
+        "slug": "2020",
+        "count": 5
+      },
+      {
+        "id": 62,
+        "name": "2022",
+        "slug": "2022",
+        "count": 4
+      },
+      {
+        "id": 76,
+        "name": "2023",
+        "slug": "2023",
+        "count": 4
+      },
+      {
+        "id": 88,
+        "name": "2024",
+        "slug": "2024",
+        "count": 7
+      },
+      {
+        "id": 94,
+        "name": "2025",
+        "slug": "2025",
+        "count": 7
+      },
+      {
+        "id": 95,
+        "name": "2025 Japan",
+        "slug": "2025-japan",
+        "count": 0
+      },
+      {
+        "id": 99,
+        "name": "2026",
+        "slug": "2026",
+        "count": 11
+      },
+      {
+        "id": 102,
+        "name": "2026 Ukraine",
+        "slug": "2026-ukraine",
+        "count": 0
+      },
+      {
+        "id": 67,
+        "name": "2920",
+        "slug": "2920",
+        "count": 0
+      }
+    ],
+    "nonYearTags": [
+      {
+        "id": 21,
+        "name": "Africa",
+        "slug": "africa",
+        "count": 2
+      },
+      {
+        "id": 93,
+        "name": "African-American",
+        "slug": "african-american",
+        "count": 1
+      },
+      {
+        "id": 92,
+        "name": "Albania",
+        "slug": "albania",
+        "count": 1
+      },
+      {
+        "id": 29,
+        "name": "Arab",
+        "slug": "arab",
+        "count": 1
+      },
+      {
+        "id": 77,
+        "name": "Arabic",
+        "slug": "arabic",
+        "count": 1
+      },
+      {
+        "id": 52,
+        "name": "architect",
+        "slug": "architect",
+        "count": 1
+      },
+      {
+        "id": 50,
+        "name": "Architecy",
+        "slug": "architecy",
+        "count": 0
+      },
+      {
+        "id": 68,
+        "name": "Armenian",
+        "slug": "armenian",
+        "count": 1
+      },
+      {
+        "id": 31,
+        "name": "Atul Mehta",
+        "slug": "atul-mehta",
+        "count": 1
+      },
+      {
+        "id": 55,
+        "name": "Boutros",
+        "slug": "boutros",
+        "count": 1
+      },
+      {
+        "id": 104,
+        "name": "Buddhist",
+        "slug": "buddhist",
+        "count": 2
+      },
+      {
+        "id": 53,
+        "name": "Burik",
+        "slug": "burik",
+        "count": 1
+      },
+      {
+        "id": 17,
+        "name": "Carolyn Balogh",
+        "slug": "carolyn-balogh",
+        "count": 1
+      },
+      {
+        "id": 36,
+        "name": "Catholic",
+        "slug": "catholic",
+        "count": 1
+      },
+      {
+        "id": 66,
+        "name": "China",
+        "slug": "china",
+        "count": 1
+      },
+      {
+        "id": 90,
+        "name": "Chinese",
+        "slug": "chinese",
+        "count": 1
+      },
+      {
+        "id": 82,
+        "name": "City Council",
+        "slug": "city-council",
+        "count": 1
+      },
+      {
+        "id": 32,
+        "name": "Cleveland Clinic",
+        "slug": "cleveland-clinic",
+        "count": 1
+      },
+      {
+        "id": 38,
+        "name": "Cleveland Cultural Gardens",
+        "slug": "cleveland-cultural-gardens",
+        "count": 1
+      },
+      {
+        "id": 83,
+        "name": "Collinwood",
+        "slug": "collinwood",
+        "count": 1
+      },
+      {
+        "id": 97,
+        "name": "Croatian",
+        "slug": "croatian",
+        "count": 1
+      },
+      {
+        "id": 69,
+        "name": "Cultrual Garden",
+        "slug": "cultrual-garden",
+        "count": 1
+      },
+      {
+        "id": 41,
+        "name": "Czech",
+        "slug": "czech",
+        "count": 2
+      },
+      {
+        "id": 107,
+        "name": "Debbie Hanson Forever Young",
+        "slug": "debbie-hanson-forever-young",
+        "count": 2
+      },
+      {
+        "id": 23,
+        "name": "Egypt",
+        "slug": "egypt",
+        "count": 2
+      },
+      {
+        "id": 91,
+        "name": "Estonia",
+        "slug": "estonia",
+        "count": 1
+      },
+      {
+        "id": 63,
+        "name": "Ethiopia",
+        "slug": "ethiopia",
+        "count": 1
+      },
+      {
+        "id": 101,
+        "name": "Ethiopian",
+        "slug": "ethiopian",
+        "count": 1
+      },
+      {
+        "id": 24,
+        "name": "Eugenia Stolarczyk",
+        "slug": "eugenia-stolarczyk",
+        "count": 1
+      },
+      {
+        "id": 20,
+        "name": "Europe",
+        "slug": "europe",
+        "count": 2
+      },
+      {
+        "id": 87,
+        "name": "Event",
+        "slug": "event",
+        "count": 1
+      },
+      {
+        "id": 84,
+        "name": "FICA",
+        "slug": "fica",
+        "count": 1
+      },
+      {
+        "id": 51,
+        "name": "Fleischman",
+        "slug": "fleischman",
+        "count": 1
+      },
+      {
+        "id": 109,
+        "name": "German",
+        "slug": "german",
+        "count": 1
+      },
+      {
+        "id": 100,
+        "name": "Greek",
+        "slug": "greek",
+        "count": 1
+      },
+      {
+        "id": 26,
+        "name": "Hejnal",
+        "slug": "hejnal",
+        "count": 1
+      },
+      {
+        "id": 47,
+        "name": "Hibernian",
+        "slug": "hibernian",
+        "count": 1
+      },
+      {
+        "id": 59,
+        "name": "Hindu",
+        "slug": "hindu",
+        "count": 1
+      },
+      {
+        "id": 35,
+        "name": "Hispanic",
+        "slug": "hispanic",
+        "count": 3
+      },
+      {
+        "id": 19,
+        "name": "Hungary",
+        "slug": "hungary",
+        "count": 2
+      },
+      {
+        "id": 13,
+        "name": "India",
+        "slug": "india",
+        "count": 7
+      },
+      {
+        "id": 18,
+        "name": "inductee",
+        "slug": "inductee",
+        "count": 39
+      },
+      {
+        "id": 49,
+        "name": "Ingrida Bublys",
+        "slug": "ingrida-bublys",
+        "count": 1
+      },
+      {
+        "id": 14,
+        "name": "Irish",
+        "slug": "irish",
+        "count": 6
+      },
+      {
+        "id": 81,
+        "name": "Italian",
+        "slug": "italian",
+        "count": 3
+      },
+      {
+        "id": 79,
+        "name": "Italian Garden",
+        "slug": "italian-garden",
+        "count": 1
+      },
+      {
+        "id": 78,
+        "name": "Italy",
+        "slug": "italy",
+        "count": 1
+      },
+      {
+        "id": 15,
+        "name": "Jack Kahl",
+        "slug": "jack-kahl",
+        "count": 1
+      },
+      {
+        "id": 96,
+        "name": "Japan",
+        "slug": "japan",
+        "count": 1
+      },
+      {
+        "id": 64,
+        "name": "Latinx",
+        "slug": "latinx",
+        "count": 1
+      },
+      {
+        "id": 61,
+        "name": "Latvia",
+        "slug": "latvia",
+        "count": 1
+      },
+      {
+        "id": 43,
+        "name": "Lebanese",
+        "slug": "lebanese",
+        "count": 2
+      },
+      {
+        "id": 48,
+        "name": "Lithuania",
+        "slug": "lithuania",
+        "count": 1
+      },
+      {
+        "id": 46,
+        "name": "Marilyn Madigan",
+        "slug": "marilyn-madigan",
+        "count": 1
+      },
+      {
+        "id": 86,
+        "name": "Mayor",
+        "slug": "mayor",
+        "count": 1
+      },
+      {
+        "id": 71,
+        "name": "Mayor Frank Jackson",
+        "slug": "mayor-frank-jackson",
+        "count": 1
+      },
+      {
+        "id": 89,
+        "name": "Mexican",
+        "slug": "mexican",
+        "count": 1
+      },
+      {
+        "id": 30,
+        "name": "Middle East",
+        "slug": "middle-east",
+        "count": 2
+      },
+      {
+        "id": 12,
+        "name": "Mohan Bafna",
+        "slug": "mohan-bafna",
+        "count": 1
+      },
+      {
+        "id": 39,
+        "name": "Murphy Irish Dancers",
+        "slug": "murphy-irish-dancers",
+        "count": 1
+      },
+      {
+        "id": 105,
+        "name": "Norway",
+        "slug": "norway",
+        "count": 1
+      },
+      {
+        "id": 80,
+        "name": "opera",
+        "slug": "opera",
+        "count": 1
+      },
+      {
+        "id": 25,
+        "name": "Polish",
+        "slug": "polish",
+        "count": 2
+      },
+      {
+        "id": 74,
+        "name": "Polka",
+        "slug": "polka",
+        "count": 1
+      },
+      {
+        "id": 33,
+        "name": "Puerto Rico",
+        "slug": "puerto-rico",
+        "count": 3
+      },
+      {
+        "id": 40,
+        "name": "Ralph Perk",
+        "slug": "ralph-perk",
+        "count": 1
+      },
+      {
+        "id": 42,
+        "name": "Ray Pianka",
+        "slug": "ray-pianka",
+        "count": 1
+      },
+      {
+        "id": 22,
+        "name": "rev mikhail",
+        "slug": "rev-mikhail",
+        "count": 1
+      },
+      {
+        "id": 44,
+        "name": "Richard Buoncore",
+        "slug": "richard-buoncore",
+        "count": 1
+      },
+      {
+        "id": 98,
+        "name": "Russia",
+        "slug": "russia",
+        "count": 1
+      },
+      {
+        "id": 54,
+        "name": "Rusyn",
+        "slug": "rusyn",
+        "count": 1
+      },
+      {
+        "id": 106,
+        "name": "Scandinavia",
+        "slug": "scandinavia",
+        "count": 1
+      },
+      {
+        "id": 108,
+        "name": "Scottish",
+        "slug": "scottish",
+        "count": 1
+      },
+      {
+        "id": 85,
+        "name": "Serbian",
+        "slug": "serbian",
+        "count": 1
+      },
+      {
+        "id": 57,
+        "name": "Sewa",
+        "slug": "sewa",
+        "count": 1
+      },
+      {
+        "id": 37,
+        "name": "Sheila Murphy Crawford",
+        "slug": "sheila-murphy-crawford",
+        "count": 1
+      },
+      {
+        "id": 34,
+        "name": "Sister Alicia Alvarado",
+        "slug": "sister-alicia-alvarado",
+        "count": 1
+      },
+      {
+        "id": 72,
+        "name": "Sister Cities",
+        "slug": "sister-cities",
+        "count": 1
+      },
+      {
+        "id": 73,
+        "name": "Slovenian",
+        "slug": "slovenian",
+        "count": 2
+      },
+      {
+        "id": 58,
+        "name": "Sreenath",
+        "slug": "sreenath",
+        "count": 1
+      },
+      {
+        "id": 70,
+        "name": "Ukraine",
+        "slug": "ukraine",
+        "count": 2
+      },
+      {
+        "id": 103,
+        "name": "Vietnam",
+        "slug": "vietnam",
+        "count": 2
+      }
+    ]
+  },
+  "media": {
+    "byMimeType": {
+      "image/png": 33,
+      "image/jpeg": 970
+    },
+    "images": 1003,
+    "attached": 931,
+    "unattached": 72,
+    "largestImageCandidates": [
+      {
+        "id": 2013,
+        "title": "plaza-berj-medallion",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/plaza-berj-medallion-scaled.jpg",
+        "width": 2560,
+        "height": 2455,
+        "parentId": 2010
+      },
+      {
+        "id": 1938,
+        "title": "sudarshan-ramesh-paramjit",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/sudarshan-ramesh-paramjit-scaled.jpg",
+        "width": 2560,
+        "height": 2373,
+        "parentId": 1934
+      },
+      {
+        "id": 1937,
+        "title": "sudarshan-ramesh",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/sudarshan-ramesh-scaled.jpg",
+        "width": 2560,
+        "height": 2373,
+        "parentId": 1934
+      },
+      {
+        "id": 2012,
+        "title": "mayor-berj-2",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/mayor-berj-2-scaled.jpg",
+        "width": 2560,
+        "height": 2333,
+        "parentId": 2010
+      },
+      {
+        "id": 1941,
+        "title": "jaya-ramesh-baiju-1",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/jaya-ramesh-baiju-1-scaled.jpg",
+        "width": 2322,
+        "height": 2560,
+        "parentId": 1934
+      },
+      {
+        "id": 1939,
+        "title": "jaya-ramesh-baiju",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/jaya-ramesh-baiju-scaled.jpg",
+        "width": 2322,
+        "height": 2560,
+        "parentId": 1934
+      },
+      {
+        "id": 2147,
+        "title": "georgine-welo",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2023/03/georgine-welo-scaled.jpg",
+        "width": 2048,
+        "height": 2560,
+        "parentId": 22
+      },
+      {
+        "id": 1940,
+        "title": "sudarshan-ramesh-jaya-param-baiju",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/sudarshan-ramesh-jaya-param-baiju-scaled.jpg",
+        "width": 2560,
+        "height": 2007,
+        "parentId": 1934
+      },
+      {
+        "id": 2016,
+        "title": "taras",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/taras.jpeg",
+        "width": 1920,
+        "height": 2560,
+        "parentId": 2015
+      },
+      {
+        "id": 2031,
+        "title": "Joseph Valencic",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/Valencic002milner_2-scaled.jpg",
+        "width": 1707,
+        "height": 2560,
+        "parentId": 2021
+      },
+      {
+        "id": 2003,
+        "title": "may-chen-cihf-11",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/may-chen-cihf-11-scaled.jpg",
+        "width": 2560,
+        "height": 1707,
+        "parentId": 2000
+      },
+      {
+        "id": 2724,
+        "title": "2025-class-photo-array-big",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2025/02/2025-class-photo-array-big-scaled.jpg",
+        "width": 2560,
+        "height": 1652,
+        "parentId": 22
+      },
+      {
+        "id": 1551,
+        "title": "sree-sreenath",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2019/03/sree-sreenath-1.jpg",
+        "width": 1714,
+        "height": 2467,
+        "parentId": 1544
+      },
+      {
+        "id": 1547,
+        "title": "sree-sreenath",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2019/03/sree-sreenath.jpg",
+        "width": 1714,
+        "height": 2467,
+        "parentId": 1544
+      },
+      {
+        "id": 1936,
+        "title": "sudarshan-ramesh-jaya-param-baiju-gandhi",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/06/sudarshan-ramesh-jaya-param-baiju-gandhi-scaled.jpg",
+        "width": 1627,
+        "height": 2560,
+        "parentId": 1934
+      },
+      {
+        "id": 1977,
+        "title": "Lynch-Margaret-headshot-color",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/Lynch-Margaret-headshot-color.jpg",
+        "width": 1632,
+        "height": 2000,
+        "parentId": 1976
+      },
+      {
+        "id": 901,
+        "title": "arnie-delaporte-1500",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2016/10/arnie-delaporte-1500.jpg",
+        "width": 1500,
+        "height": 2118,
+        "parentId": 929
+      },
+      {
+        "id": 581,
+        "title": "dreamstime_l_8463479-fade1040",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2015/07/dreamstime_l_8463479-fade1040.jpg",
+        "width": 2040,
+        "height": 1535,
+        "parentId": null
+      },
+      {
+        "id": 1985,
+        "title": "Processed with VSCO with a4 preset",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/anda-cook.jpg",
+        "width": 1512,
+        "height": 2016,
+        "parentId": 1984
+      },
+      {
+        "id": 1550,
+        "title": "richard-fleischman-1500",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2019/03/richard-fleischman-1500.jpg",
+        "width": 1500,
+        "height": 2031,
+        "parentId": 1544
+      },
+      {
+        "id": 2008,
+        "title": "Victor-A.-Ruiz",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/Victor-A.-Ruiz.png",
+        "width": 1440,
+        "height": 1800,
+        "parentId": 2007
+      },
+      {
+        "id": 2113,
+        "title": "bishop-malesic",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2023/02/bishop-malesic.jpg",
+        "width": 1200,
+        "height": 1716,
+        "parentId": 22
+      },
+      {
+        "id": 2039,
+        "title": "bishop-malesic",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/bishop-malesic.jpg",
+        "width": 1200,
+        "height": 1716,
+        "parentId": 22
+      },
+      {
+        "id": 1921,
+        "title": "donna-hom-1500",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2021/01/donna-hom-1500.jpg",
+        "width": 1500,
+        "height": 1242,
+        "parentId": 22
+      },
+      {
+        "id": 2001,
+        "title": "May-Chen",
+        "sourceUrl": "https://clevelandinternationalhalloffame.com/wp-content/uploads/2022/05/May-Chen.jpg",
+        "width": 1080,
+        "height": 1375,
+        "parentId": 2000
+      }
+    ]
+  },
+  "relationshipInputs": {
+    "pagesWithInductedBy": 79,
+    "pagesMentioningOtherInductees": 78,
+    "topMentionedInductees": [
+      {
+        "name": "Pierre Bejjani",
+        "count": 19
+      },
+      {
+        "name": "Ingrida Bublys",
+        "count": 15
+      },
+      {
+        "name": "Dick Pogue",
+        "count": 12
+      },
+      {
+        "name": "Valarie McCall",
+        "count": 12
+      },
+      {
+        "name": "Alex Machaskee",
+        "count": 11
+      },
+      {
+        "name": "Mayor Frank Jackson",
+        "count": 11
+      },
+      {
+        "name": "Sudarshan Sathe",
+        "count": 11
+      },
+      {
+        "name": "August Pust",
+        "count": 10
+      },
+      {
+        "name": "Ken Kovach",
+        "count": 9
+      },
+      {
+        "name": "Wael Khoury",
+        "count": 9
+      },
+      {
+        "name": "Aklilu Demessie",
+        "count": 8
+      },
+      {
+        "name": "Basil Russo",
+        "count": 8
+      },
+      {
+        "name": "Dick Russ",
+        "count": 8
+      },
+      {
+        "name": "Irene Morrow",
+        "count": 8
+      },
+      {
+        "name": "Mona Alag",
+        "count": 8
+      },
+      {
+        "name": "Ramesh Shah",
+        "count": 8
+      },
+      {
+        "name": "David Gilbert",
+        "count": 7
+      },
+      {
+        "name": "Paramjit Singh",
+        "count": 7
+      },
+      {
+        "name": "Svetlana Stolyarova",
+        "count": 7
+      },
+      {
+        "name": "Jack Kahl",
+        "count": 6
+      },
+      {
+        "name": "Jim Craciun",
+        "count": 6
+      },
+      {
+        "name": "Paul Burik",
+        "count": 6
+      },
+      {
+        "name": "Raj Aggarwal",
+        "count": 6
+      },
+      {
+        "name": "Sheila Murphy Crawford",
+        "count": 6
+      },
+      {
+        "name": "Andy Fedynsky",
+        "count": 5
+      }
+    ],
+    "sourceLinkDomains": [
+      {
+        "name": "clevelandinternationalhalloffame.com",
+        "count": 86
+      },
+      {
+        "name": "clevelandpeople.com",
+        "count": 50
+      },
+      {
+        "name": "youtube.com",
+        "count": 6
+      },
+      {
+        "name": "facebook.com",
+        "count": 4
+      },
+      {
+        "name": "case.edu",
+        "count": 1
+      },
+      {
+        "name": "ccwa.org",
+        "count": 1
+      },
+      {
+        "name": "clevelandculturalgardens.org",
+        "count": 1
+      },
+      {
+        "name": "clevelandgivecamp.org",
+        "count": 1
+      },
+      {
+        "name": "clevelandmayosociety.org",
+        "count": 1
+      },
+      {
+        "name": "e-ventus.com",
+        "count": 1
+      },
+      {
+        "name": "ffavn.org",
+        "count": 1
+      },
+      {
+        "name": "globalcleveland.org",
+        "count": 1
+      },
+      {
+        "name": "imwong.com",
+        "count": 1
+      },
+      {
+        "name": "jonesday.com",
+        "count": 1
+      },
+      {
+        "name": "lms86.com",
+        "count": 1
+      },
+      {
+        "name": "mdifilm.com",
+        "count": 1
+      },
+      {
+        "name": "neorsd.org",
+        "count": 1
+      },
+      {
+        "name": "riderta.com",
+        "count": 1
+      },
+      {
+        "name": "serbianculturalgarden.org",
+        "count": 1
+      },
+      {
+        "name": "sewausa.org",
+        "count": 1
+      },
+      {
+        "name": "thegoodstufffamily.com",
+        "count": 1
+      },
+      {
+        "name": "tri-c.edu",
+        "count": 1
+      }
+    ]
+  },
+  "parsingOpportunities": [
+    "Use profile pages as source-of-truth snapshots for biography text, title, class year tags, region categories, canonical URLs, image references, and embedded YouTube IDs.",
+    "Use class/ceremony pages and press posts for induction relationships, introducers, ceremony context, group photos, and class-level labels.",
+    "Use media attachments as a secondary image inventory, grouped by parent page and filtered through current media approval rules.",
+    "Use tags and categories as evidence candidates only; keep current curation safeguards for geography and relationship provenance.",
+    "Use exact name mentions inside source text to propose relationship candidates for staff review, never as public documented ties without provenance approval."
+  ]
+}
