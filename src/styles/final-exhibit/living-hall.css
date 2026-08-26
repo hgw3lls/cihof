@@ -794,8 +794,13 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionHeader span {
+  min-width: 0;
+  max-width: min(42ch, 64%);
+  overflow: hidden;
   color: var(--exhibit-route);
   font-size: clamp(0.74rem, 0.76vw, 0.94rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionHeader button {

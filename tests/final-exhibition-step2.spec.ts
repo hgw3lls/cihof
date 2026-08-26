@@ -32,6 +32,7 @@ test.describe('focused portrait as in-place record', () => {
     await waitForGuard(page);
     await page.getByRole('button', { name: 'LIFE + WORK' }).click();
     await expect(page.locator('.living-hall__personActionPanel .story-mode')).toBeVisible();
+    await expectPersonActionHeader(page, candidate.name);
     await expectHall(page, 'portraits', candidate.id);
     await screenshotHall(page, 'life-work');
     await page.locator('.living-hall__personActionHeader button').click();
@@ -40,6 +41,7 @@ test.describe('focused portrait as in-place record', () => {
 
     await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
     await expect(page.locator('.living-hall__personActionPanel .media-experience')).toBeVisible();
+    await expectPersonActionHeader(page, candidate.name);
     await expectHall(page, 'portraits', candidate.id);
     await screenshotHall(page, 'watch');
     await page.locator('.living-hall__personActionHeader button').click();
@@ -48,6 +50,7 @@ test.describe('focused portrait as in-place record', () => {
 
     await page.getByRole('button', { name: 'TAKE IT WITH YOU' }).click();
     await expect(page.locator('.living-hall__personActionPanel .qr-continuation')).toBeVisible();
+    await expectPersonActionHeader(page, candidate.name);
     await expect(page.locator('.qr-continuation--hall-focus')).toContainText('Scan to continue on the Cleveland International Hall of Fame website.');
     await expectHall(page, 'portraits', candidate.id);
     await screenshotHall(page, 'qr');
@@ -73,6 +76,12 @@ async function screenshotHall(page: Page, name: string) {
 
 async function waitForGuard(page: Page) {
   await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+}
+
+async function expectPersonActionHeader(page: Page, name: string) {
+  const heading = page.locator('.living-hall__personActionHeader span');
+  await expect(heading).toHaveText(name);
+  await expect(heading).not.toHaveText(/^(LIFE \+ WORK|WATCH INDUCTION|TAKE IT WITH YOU)$/);
 }
 
 async function readActionCandidateData(page: Page) {
