@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Akram Boutros, Class of 2019"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Akram Boutros, MD, FACHE Akram Boutros Akram Boutros, MD, FACHE In his five years as the President and CEO of MetroHealth, the public health system in Cleveland, Akram Boutros, MD, FACHE, has galvanized political leaders, entrepreneurs and the..."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2019"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Africa"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Egypt"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Medicine and Health, Business and Entrepreneurship, Education, Community Organizing, Civic Leadership"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/akram-boutros/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/akram-boutros-2019/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json/canvas/primary",
+      "type": "Canvas",
+      "height": 750,
+      "width": 600,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/akram-boutros-2019/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 750,
+                "width": 600
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

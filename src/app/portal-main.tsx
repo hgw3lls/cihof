@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from './ErrorBoundary';
 import { PortalApp } from './PortalApp';
+import { registerServiceWorker } from './serviceWorkerRegistration';
 import '../styles/styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -11,3 +12,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </ErrorBoundary>
   </React.StrictMode>,
 );
+
+registerServiceWorker();

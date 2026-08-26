@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T01:40:21.905Z",
+  "generatedAt": "2026-08-26T10:43:15.111Z",
   "appName": "CIHOF Portrait Wall",
   "source": {
     "generator": "scripts/prepare-data.js",
@@ -151025,6 +151025,50 @@
       }
     ]
   },
+  "standards": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-08-26T10:43:15.109Z",
+    "source": {
+      "generator": "scripts/prepare-data.js",
+      "publicBaseUrl": "https://clevelandinternationalhalloffame.com/cihof/",
+      "note": "Public interoperability index for museum, archive, and cultural-heritage integrations."
+    },
+    "exports": {
+      "linkedArt": {
+        "id": "https://clevelandinternationalhalloffame.com/cihof/data/linked-art-export.json",
+        "path": "/data/linked-art-export.json",
+        "context": "https://linked.art/ns/v1/linked-art.json",
+        "description": "Linked Art JSON-LD person set aligned to CIDOC CRM cultural-heritage semantics."
+      },
+      "cidocCrm": {
+        "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json",
+        "path": "/data/cidoc-crm-export.json",
+        "context": {
+          "crm": "http://www.cidoc-crm.org/cidoc-crm/",
+          "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+          "cihof": "https://clevelandinternationalhalloffame.com/cihof/ontology/"
+        },
+        "description": "Compact CIDOC CRM JSON-LD graph for people, class events, places, themes, media, and documented relationships."
+      },
+      "iiifCollection": {
+        "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif-collection.json",
+        "path": "/data/iiif-collection.json",
+        "context": "http://iiif.io/api/presentation/3/context.json",
+        "description": "IIIF Presentation 3 collection with one portrait manifest per inductee with public image media."
+      }
+    },
+    "coverage": {
+      "inductees": 111,
+      "entityRecords": 443,
+      "relationshipRecords": 1869,
+      "iiifManifests": 111,
+      "primaryPortraits": 111
+    },
+    "mediaReadinessPolicy": {
+      "images": "IIIF manifests include public portrait image URLs. Rights status remains governed by data/media_manifest.json.",
+      "videoAndAudio": "Public playback requires approved rights, runtime files, posters where applicable, and caption/transcript readiness."
+    }
+  },
   "reports": {
     "data": {
       "source": "data/cihof_kiosk_manifest.csv",
@@ -151833,7 +151877,7 @@
       }
     },
     "curation": {
-      "generatedAt": "2026-08-19T12:03:33.012Z",
+      "generatedAt": "2026-08-26T10:42:05.758Z",
       "source": "data/cihof_curated_metadata.json",
       "totalInductees": 111,
       "curatedRecords": 111,
@@ -153154,9 +153198,9 @@
       }
     },
     "media": {
-      "generatedAt": "2026-08-19T22:56:15.783Z",
-      "strict": false,
-      "strictProfile": "report",
+      "generatedAt": "2026-08-26T10:43:08.952Z",
+      "strict": true,
+      "strictProfile": "wall",
       "source": "data/media_manifest.json",
       "totalInductees": 111,
       "validation": {

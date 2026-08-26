@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-19T22:56:15.783Z",
-  "strict": false,
-  "strictProfile": "report",
+  "generatedAt": "2026-08-26T10:43:08.952Z",
+  "strict": true,
+  "strictProfile": "wall",
   "source": "data/media_manifest.json",
   "totalInductees": 111,
   "validation": {

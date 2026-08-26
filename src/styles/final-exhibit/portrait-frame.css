@@ -49,6 +49,7 @@
 .museum-shell:not(.museum-shell--staff) .living-portrait {
   --frame-width: var(--portrait-size);
   --frame-height: calc(var(--portrait-size) * 1.42);
+  --portrait-hit-size: 44px;
   --frame-edge: 4px;
   --mat-size: 7px;
   --frame-scale: 1;
@@ -57,10 +58,10 @@
   --record-area-height: 16px;
   --frame-press-scale: 1;
   --portrait-transition-ms: 1700ms;
-  width: var(--frame-width);
-  height: var(--frame-height);
-  min-width: 0;
-  min-height: 0;
+  width: max(var(--frame-width), var(--portrait-hit-size));
+  height: max(var(--frame-height), var(--portrait-hit-size));
+  min-width: var(--portrait-hit-size);
+  min-height: var(--portrait-hit-size);
   transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
   transform-origin: 50% 50%;
   transition:
@@ -95,16 +96,19 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-frame {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: var(--frame-width);
+  height: var(--frame-height);
   overflow: visible;
   border: var(--frame-edge) solid rgba(22, 23, 19, 0.72);
   background: rgba(22, 23, 19, 0.72);
   color: var(--exhibit-ink);
   contain: layout paint;
   box-shadow: none;
+  transform: translate(-50%, -50%);
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-frame::before {
@@ -366,8 +370,8 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait {
-  min-width: 0;
-  min-height: 0;
+  min-width: var(--portrait-hit-size);
+  min-height: var(--portrait-hit-size);
 }
 
 /* Visual surgery pass: thinner frames, larger image windows, intentional archival fallback. */
