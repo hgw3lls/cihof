@@ -27,6 +27,7 @@ import type { HallFocus, HallLens, Inductee, ViewMode } from '../data/types';
 const contentProtectionActive = installationConfig.features.kioskGuards;
 const showKioskToggleInProduction = installationConfig.debug.showKioskToggleInProduction;
 const transitionInputGuardMs = installationConfig.transitions.inputGuardMs;
+const visitCollectionLimit = 6;
 
 type AppProps = {
   defaultView?: ViewMode;
@@ -43,6 +44,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const [experienceTransition, setExperienceTransition] = useState<ExperienceTransition>('switch');
   const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
+  const [visitCollectionIds, setVisitCollectionIds] = useState<string[]>(() => readVisitCollectionIds());
   const [worldFocusKey, setWorldFocusKey] = useState<string>(() => readInitialWorldFocus());
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
   const [attractActive, setAttractActive] = useState(false);
@@ -106,6 +108,12 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setSelectedId('');
     if (viewMode === 'person') setExperienceMode('living-hall', 'back');
   }, [lastSeen, loading, selected, selectedId, viewMode]);
+
+  useEffect(() => {
+    if (loading || inductees.length === 0) return;
+    const validIds = new Set(inductees.map((item) => item.id));
+    setVisitCollectionIds((current) => normalizeVisitCollectionIds(current.filter((id) => validIds.has(id))));
+  }, [inductees, loading]);
 
   useEffect(() => {
     if (reviewModeEnabled || loading || hallLens !== 'traces' || selectedId) return;
@@ -199,6 +207,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
         if (worldFocusKey.startsWith('country:') || worldFocusKey.startsWith('region:')) params.set('world', worldFocusKey);
       }
       if (selectedId) params.set('person', selectedId);
+      if (visitCollectionIds.length > 0) params.set('visit', visitCollectionIds.join(','));
     }
     if (kioskMode) params.set('kiosk', '1');
     if (wallDebugEnabled) params.set('wallDebug', '1');
@@ -206,7 +215,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     const query = params.toString();
     const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
     window.history.replaceState(null, '', nextUrl);
-  }, [hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, wallDebugEnabled, worldFocusKey]);
+  }, [hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, visitCollectionIds, wallDebugEnabled, worldFocusKey]);
 
   useEffect(() => {
     if (!kioskMode || reviewModeEnabled || adminDataOpen) return;
@@ -346,6 +355,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setTimelineYear('');
     setSelectedId('');
     setLastSeenId('');
+    setVisitCollectionIds([]);
     setHallLens('portraits');
     setExperienceMode('living-hall', 'reset');
     setAttractActive(false);
@@ -396,6 +406,24 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setHallLens('traces');
     setExperienceMode('living-hall', 'switch');
     scheduleAnimationFrame(() => resetStageScroll());
+  }
+
+  function addVisitCollectionPerson(personId: string) {
+    setVisitCollectionIds((current) => {
+      if (current.includes(personId)) return current;
+      return normalizeVisitCollectionIds([...current, personId]);
+    });
+    recordKioskInteraction('visit-collection:add');
+  }
+
+  function removeVisitCollectionPerson(personId: string) {
+    setVisitCollectionIds((current) => current.filter((id) => id !== personId));
+    recordKioskInteraction('visit-collection:remove');
+  }
+
+  function clearVisitCollection() {
+    setVisitCollectionIds([]);
+    recordKioskInteraction('visit-collection:clear');
   }
 
   function changeLens(lens: HallLens) {
@@ -480,11 +508,15 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
             settings={kioskSettings}
             timelineYear={timelineYear}
             traceFocusKey={worldFocusKey}
+            visitCollectionIds={visitCollectionIds}
             onEngage={continueExploring}
             onSelect={selectInductee}
             onCloseFocus={closeHallFocus}
             onTimelineYearChange={setTimelineYear}
             onTraceFocusChange={changeTraceFocus}
+            onAddVisitCollectionPerson={addVisitCollectionPerson}
+            onRemoveVisitCollectionPerson={removeVisitCollectionPerson}
+            onClearVisitCollection={clearVisitCollection}
           />
         </ExperienceScene>
       </section>
@@ -609,6 +641,23 @@ function useContentProtection(active: boolean) {
 
 function readParam(name: string) {
   return new URLSearchParams(window.location.search).get(name) ?? '';
+}
+
+function readVisitCollectionIds() {
+  const raw = readParam('visit');
+  if (!raw) return [];
+  return normalizeVisitCollectionIds(raw.split(/[,\s|]+/));
+}
+
+function normalizeVisitCollectionIds(ids: string[]) {
+  const normalized: string[] = [];
+  ids.forEach((candidate) => {
+    const id = candidate.trim();
+    if (!/^[a-z0-9][a-z0-9-]{1,96}$/i.test(id)) return;
+    if (normalized.includes(id)) return;
+    normalized.push(id);
+  });
+  return normalized.slice(0, visitCollectionLimit);
 }
 
 function readViewMode(allowReview: boolean, defaultView: ViewMode): ViewMode {

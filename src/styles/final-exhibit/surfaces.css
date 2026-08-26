@@ -10,8 +10,9 @@
   color: var(--exhibit-ink);
   background:
     linear-gradient(90deg, transparent 0 12%, rgba(20, 19, 15, 0.018) 12% calc(12% + 1px), transparent calc(12% + 1px) 88%, rgba(20, 19, 15, 0.014) 88% calc(88% + 1px), transparent calc(88% + 1px)),
+    linear-gradient(135deg, rgba(111, 121, 81, 0.08) 0%, transparent 34%, transparent 64%, rgba(155, 63, 31, 0.06) 100%),
     linear-gradient(180deg, var(--exhibit-field-3) 0%, var(--exhibit-field) 38%, var(--exhibit-field) 68%, var(--exhibit-field-2) 100%);
-  background-size: auto, auto;
+  background-size: auto, auto, auto;
 }
 
 .museum-shell:not(.museum-shell--staff) :is(

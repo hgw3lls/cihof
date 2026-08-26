@@ -16,11 +16,15 @@ type HallSurfaceProps = {
   settings: KioskSettings;
   timelineYear: string;
   traceFocusKey: string;
+  visitCollectionIds: string[];
   onEngage: () => void;
   onSelect: (inductee: Inductee) => void;
   onCloseFocus: () => void;
   onTimelineYearChange: (year: string) => void;
   onTraceFocusChange: (focusKey: string) => void;
+  onAddVisitCollectionPerson: (personId: string) => void;
+  onRemoveVisitCollectionPerson: (personId: string) => void;
+  onClearVisitCollection: () => void;
 };
 
 export function HallSurface({
@@ -37,11 +41,15 @@ export function HallSurface({
   settings,
   timelineYear,
   traceFocusKey,
+  visitCollectionIds,
   onEngage,
   onSelect,
   onCloseFocus,
   onTimelineYearChange,
   onTraceFocusChange,
+  onAddVisitCollectionPerson,
+  onRemoveVisitCollectionPerson,
+  onClearVisitCollection,
 }: HallSurfaceProps) {
   const focusedPersonId = focus?.personId ?? '';
   const className = [
@@ -72,11 +80,15 @@ export function HallSurface({
         relationships={relationships}
         timelineYear={timelineYear}
         traceFocusKey={traceFocusKey}
+        visitCollectionIds={visitCollectionIds}
         onEngage={onEngage}
         onCloseFocus={onCloseFocus}
         onTimelineYearChange={onTimelineYearChange}
         onTraceFocusChange={onTraceFocusChange}
         onSelect={onSelect}
+        onAddVisitCollectionPerson={onAddVisitCollectionPerson}
+        onRemoveVisitCollectionPerson={onRemoveVisitCollectionPerson}
+        onClearVisitCollection={onClearVisitCollection}
       />
     </div>
   );

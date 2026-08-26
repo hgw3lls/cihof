@@ -7,6 +7,7 @@ type QRCodePanelProps = {
   title: string;
   instruction: string;
   autoCloseMs?: number;
+  ariaLabel?: string;
   className?: string;
   onAutoClose?: () => void;
   onClose?: () => void;
@@ -17,6 +18,7 @@ export function QRCodePanel({
   title,
   instruction,
   autoCloseMs = installationConfig.qr.autoCloseMs,
+  ariaLabel,
   className = '',
   onAutoClose,
   onClose,
@@ -84,7 +86,7 @@ export function QRCodePanel({
   }, [autoCloseMs, onAutoClose]);
 
   return (
-    <section className={rootClassName} aria-label={`Take ${title} record with you`}>
+    <section className={rootClassName} aria-label={ariaLabel ?? `Take ${title} record with you`}>
       <div className="qr-continuation__copy">
         <p className="museum-kicker">Take It With You</p>
         <h3>{title}</h3>

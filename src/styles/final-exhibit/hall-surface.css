@@ -160,7 +160,7 @@
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue {
-  width: min(900px, 46vw);
+  width: min(820px, 42vw);
   max-height: min(76vh, 800px);
   overflow: visible;
   border: 0;
@@ -170,11 +170,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue {
-  width: min(740px, 38vw);
+  width: min(700px, 36vw);
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-text {
-  width: min(860px, 44vw);
+  width: min(780px, 40vw);
   max-height: min(76vh, 820px);
 }
 
@@ -196,7 +196,8 @@
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-continue .living-hall__personActionHeader button {
   min-height: 44px;
   flex: 0 0 auto;
-  max-width: 18ch;
+  max-width: none;
+  min-width: 140px;
   border-top-color: rgba(9, 9, 7, 0.26);
   color: rgba(9, 9, 7, 0.64);
   padding-top: 7px;
@@ -242,9 +243,9 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__beat {
-  min-height: clamp(420px, 56vh, 660px);
-  grid-template-columns: minmax(180px, 0.32fr) minmax(0, 0.68fr);
-  gap: clamp(22px, 3vw, 58px);
+  min-height: clamp(390px, 54vh, 620px);
+  grid-template-columns: minmax(190px, 0.36fr) minmax(0, 0.64fr);
+  gap: clamp(20px, 2.6vw, 46px);
   overflow: visible;
   border: 0;
   background: transparent;
@@ -253,9 +254,9 @@
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__media {
   min-height: 0;
-  height: min(46vh, 520px);
+  height: min(44vh, 500px);
   border: 0;
-  background: transparent;
+  background: rgba(244, 234, 211, 0.16);
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__image {
@@ -272,7 +273,7 @@
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__copy > p {
   color: rgba(9, 9, 7, 0.78);
   font-family: var(--font-exhibit-body);
-  font-size: clamp(1.16rem, 1.42vw, 1.86rem);
+  font-size: clamp(1.08rem, 1.28vw, 1.66rem);
   line-height: 1.34;
 }
 
