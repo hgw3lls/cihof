@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Beverly Kerecman, Class of 2025"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Beverly Kerecman Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated from Cleveland Heights High School. She earned her Bachelor of Science in Special Education from Kent State University."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2025"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asia"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Japan"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Education, Arts and Culture, Faith and Service"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/beverly-kerecman/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/beverly-kerecman-2025/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json/canvas/primary",
+      "type": "Canvas",
+      "height": 518,
+      "width": 500,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/beverly-kerecman-2025/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 518,
+                "width": 500
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

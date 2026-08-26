@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Pierre Bejjani, Class of 2023"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Pierre Bejjani Pierre Bejjani is the Managing Director and Executive Editor of Profile News Ohio and the Senior Partner of Diversity Advertising Agency."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2023"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asia"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Lebanon"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Arts and Culture, Business and Entrepreneurship, Civic Leadership, Diplomacy and Global Affairs, Faith and Service"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/pierre-bejjani/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/pierre-bejjani-2023/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json/canvas/primary",
+      "type": "Canvas",
+      "height": 468,
+      "width": 500,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/pierre-bejjani-2023/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 468,
+                "width": 500
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

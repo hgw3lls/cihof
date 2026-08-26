@@ -597,7 +597,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusHeader button {
-  min-height: 34px;
+  min-height: 44px;
   border: 0;
   border-top: 1px solid rgba(21, 19, 15, 0.28);
   background: transparent;
@@ -667,7 +667,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusAction {
-  min-height: 42px;
+  min-height: 44px;
   border: 0;
   border-bottom: 1px solid rgba(21, 19, 15, 0.16);
   background: transparent;
@@ -756,7 +756,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionHeader button {
-  min-height: 38px;
+  min-height: 44px;
   border: 0;
   border-top: 2px solid rgba(21, 19, 15, 0.28);
   background: transparent;
@@ -1177,7 +1177,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .city-question__trigger {
-  min-height: 34px;
+  min-height: 44px;
   justify-items: start;
   padding: 7px 0 0;
   font-size: clamp(0.62rem, 0.7vw, 0.82rem);
@@ -1299,7 +1299,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusAction {
-  min-height: 30px;
+  min-height: 44px;
   border-bottom-color: rgba(9, 9, 7, 0.08);
   color: rgba(9, 9, 7, 0.46);
   font-size: clamp(0.52rem, 0.56vw, 0.68rem);
@@ -1467,7 +1467,7 @@
   position: absolute;
   bottom: calc(var(--experience-dock-height) + clamp(22px, 3vh, 44px));
   min-width: 74px;
-  min-height: 34px;
+  min-height: 44px;
   padding-top: 7px;
   color: rgba(9, 9, 7, 0.42);
   font-size: clamp(0.58rem, 0.66vw, 0.78rem);

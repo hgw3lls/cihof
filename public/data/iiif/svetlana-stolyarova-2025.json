@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Svetlana Stolyarova, Class of 2025"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Svetlana Stolyarova Svetlana Stolyarova , born in the USSR in 1962, is a visionary leader dedicated to cultural heritage, community development, and international collaboration."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2025"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asia"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Russia"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Arts and Culture, Business and Entrepreneurship, Civic Leadership, Community Organizing, Diplomacy and Global Affairs"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/svetlana-stolyarova/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/svetlana-stolyarova-2025/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json/canvas/primary",
+      "type": "Canvas",
+      "height": 667,
+      "width": 500,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/svetlana-stolyarova-2025/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 667,
+                "width": 500
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

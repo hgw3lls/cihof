@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { stopMediaElement } from '../../app/mediaControl';
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import type { Inductee, RuntimeAudioAsset, RuntimeMediaRecord, RuntimeVideoAsset } from '../../data/types';
+import { isPublicReadyAudioAsset, isPublicReadyVideoAsset } from './personDetailModel';
 
 type MediaExperienceProps = {
   inductee: Inductee;
@@ -31,7 +32,7 @@ type MediaItem = {
 };
 
 export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, soundEnabled, onOpenImage }: MediaExperienceProps) {
-  const allItems = useMemo(() => buildMediaItems(inductee, mediaRecord), [inductee, mediaRecord]);
+  const allItems = useMemo(() => buildMediaItems(inductee, mediaRecord, kioskMode), [inductee, kioskMode, mediaRecord]);
   const playableItems = useMemo(
     () => allItems.filter((item) => !kioskMode || item.sourceType !== 'youtube'),
     [allItems, kioskMode],
@@ -310,18 +311,18 @@ function MediaTranscript({ item }: { item: MediaItem }) {
   );
 }
 
-function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
+function buildMediaItems(inductee: Inductee, mediaRecord: RuntimeMediaRecord | undefined, kioskMode: boolean) {
   const items: MediaItem[] = [];
   const seenLocalPaths = new Set<string>();
   const seenYoutubeIds = new Set<string>();
 
   (mediaRecord?.videos ?? []).forEach((video, index) => {
-    if (!isApprovedPlayableMedia(video) || !video.runtimePath || seenLocalPaths.has(video.runtimePath)) return;
+    if (!isPublicReadyVideoAsset(video) || !video.runtimePath || seenLocalPaths.has(video.runtimePath)) return;
     seenLocalPaths.add(video.runtimePath);
     items.push(videoToItem(video, index));
   });
 
-  if (!mediaRecord) {
+  if (!mediaRecord && !kioskMode) {
     inductee.localVideoPaths.forEach((path, index) => {
       const runtimePath = path.startsWith('/') ? path : `/${path}`;
       if (seenLocalPaths.has(runtimePath)) return;
@@ -341,7 +342,7 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   }
 
   (mediaRecord?.oralHistories ?? []).forEach((audio, index) => {
-    if (!isApprovedPlayableMedia(audio)) return;
+    if (!isPublicReadyAudioAsset(audio)) return;
     const item = audioToItem(audio, index, 'Oral History');
     if (!item || seenLocalPaths.has(item.runtimePath ?? '')) return;
     seenLocalPaths.add(item.runtimePath ?? '');
@@ -349,7 +350,7 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   });
 
   (mediaRecord?.audio ?? []).forEach((audio, index) => {
-    if (!isApprovedPlayableMedia(audio)) return;
+    if (!isPublicReadyAudioAsset(audio)) return;
     const item = audioToItem(audio, index, 'Audio');
     if (!item || seenLocalPaths.has(item.runtimePath ?? '')) return;
     seenLocalPaths.add(item.runtimePath ?? '');
@@ -376,12 +377,6 @@ function buildMediaItems(inductee: Inductee, mediaRecord?: RuntimeMediaRecord) {
   });
 
   return items;
-}
-
-function isApprovedPlayableMedia(asset: RuntimeVideoAsset | RuntimeAudioAsset) {
-  const captionsReady = asset.captionStatus === undefined || asset.captionStatus === 'approved' || asset.captionStatus === 'not-applicable';
-  const transcriptReady = asset.transcriptStatus === 'approved' || asset.transcriptStatus === 'not-applicable' || Boolean(asset.transcript?.text);
-  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && captionsReady && transcriptReady && asset.runtimePath);
 }
 
 function videoToItem(video: RuntimeVideoAsset, index: number): MediaItem {

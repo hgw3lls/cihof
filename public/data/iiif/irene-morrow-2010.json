@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Irene Morrow, Class of 2010"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Irene Morrow Irene Morrow is married to Edward and has six children (Jeffrey, Patrick (deceased), Martin, Roberta, Lorraine and Christine) and six grandchildren (Matthew, Ryan, Nathan, Michaela, Aaron and Justin) Irene has an impressive resume..."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2010"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Europe"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Poland"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Civic Leadership, Community Organizing"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/irene-morrow-2010/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/irene-morrow-2010/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json/canvas/primary",
+      "type": "Canvas",
+      "height": 302,
+      "width": 298,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/irene-morrow-2010/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 302,
+                "width": 298
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

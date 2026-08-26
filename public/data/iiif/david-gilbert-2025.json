@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "David Gilbert, Class of 2025"
+    ]
+  },
+  "summary": {
+    "en": [
+      "David Gilbert David Gilbert serves as president and CEO of Greater Cleveland Sports Commission (GCSC), an organization dedicated to making Greater Cleveland the nation’s foremost destination for amateur sporting events and activities, and..."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2025"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "North America"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "United States"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Business and Entrepreneurship, Diplomacy and Global Affairs, Civic Leadership"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/david-gilbert/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/david-gilbert-2025/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json/canvas/primary",
+      "type": "Canvas",
+      "height": 609,
+      "width": 618,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/david-gilbert-2025/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 609,
+                "width": 618
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

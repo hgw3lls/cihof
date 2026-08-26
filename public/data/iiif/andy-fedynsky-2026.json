@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Andy Fedynsky, Class of 2026"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Andy Fedynsky Andy Fedynsky was born in 1947 in Innsbruck, Austria to Ukrainian refugee parents who had fled communist tyranny."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Europe"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Austria, Ukraine"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Education, Civic Leadership, Immigrant Advocacy, Arts and Culture, Diplomacy and Global Affairs"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/andy-fedynsky/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/andy-fedynsky-2026/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json/canvas/primary",
+      "type": "Canvas",
+      "height": 637,
+      "width": 500,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/andy-fedynsky-2026/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 637,
+                "width": 500
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

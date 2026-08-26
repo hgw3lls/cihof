@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Giahoa Ryan, Class of 2011"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Giahoa Ryan Luong Thi Gia Hoa Ryan was born in Viet Nam, the oldest of twelve children. She worked for U.S. Government as Interpreter and Secretary during the Vietnam War and supervised local workers for the U.S. Government."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2011"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asia"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Vietnam"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Business and Entrepreneurship, Civic Leadership, Arts and Culture, Community Organizing, Education"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/giahoa-ryan-2011/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/giahoa-ryan-2011/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json/canvas/primary",
+      "type": "Canvas",
+      "height": 302,
+      "width": 298,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/giahoa-ryan-2011/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 302,
+                "width": 298
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

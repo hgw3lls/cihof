@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Eugenia Stolarczyk – 2016, Class of 2016"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Eugenia Stolarczyk Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk has been an active member of the Polish community."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2016"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Europe"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Poland"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Arts and Culture, Media and Storytelling, Business and Entrepreneurship, Community Organizing, Diplomacy and Global Affairs"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/eugenia-stolarczyk-2016/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/eugenia-stolarczyk-2016-2016/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json/canvas/primary",
+      "type": "Canvas",
+      "height": 753,
+      "width": 500,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/eugenia-stolarczyk-2016-2016/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 753,
+                "width": 500
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

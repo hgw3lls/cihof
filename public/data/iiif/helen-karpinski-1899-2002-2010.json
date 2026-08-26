@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Helen Karpinski (1899 – 2002), Class of 2010"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Helen Karpinski (1899 – 2002) Born in Cleveland in 1899, Helen Karpinski was raised in Reynoldsville, Pa. in a family of originally 13 children. Her father was a coal miner; her mother, Anna Olszewski, was the daughter of an inn keeper."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2010"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Europe"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Poland"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Business and Entrepreneurship, Arts and Culture, Civic Leadership, Community Organizing, Faith and Service"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/helen-karpinski-2010/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/helen-karpinski-1899-2002-2010/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json/canvas/primary",
+      "type": "Canvas",
+      "height": 302,
+      "width": 298,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/helen-karpinski-1899-2002-2010/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 302,
+                "width": 298
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

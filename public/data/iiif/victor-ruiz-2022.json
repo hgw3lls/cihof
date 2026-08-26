@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Victor Ruiz, Class of 2022"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Victor A. Ruiz Victor A. Ruiz Victor A. Ruiz was born in Puerto Rico and came to Cleveland, Ohio at the age of five with his mother and brother. He is a courageous leader and advocate with a body of work that spans over twenty years."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2022"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "North America"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "Puerto Rico"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Education"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/victor-ruiz/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/victor-ruiz-2022/primary.png",
+      "type": "Image",
+      "format": "image/png"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json/canvas/primary",
+      "type": "Canvas",
+      "height": 1024,
+      "width": 819,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/victor-ruiz-2022/primary.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 1024,
+                "width": 819
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Dick Pogue, Class of 2015"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Dick Pogue Richard W. (“Dick”) Pogue is Senior Advisor (i.e., full-time independent consultant) at Jones Day in Cleveland, Ohio."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Class Year"
+        ]
+      },
+      "value": {
+        "en": [
+          "2015"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Region"
+        ]
+      },
+      "value": {
+        "en": [
+          "Europe"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Countries / heritage tags"
+        ]
+      },
+      "value": {
+        "en": [
+          "United States"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Themes"
+        ]
+      },
+      "value": {
+        "en": [
+          "Education, Law and Justice, Diplomacy and Global Affairs, Civic Leadership, Business and Entrepreneurship"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Review status"
+        ]
+      },
+      "value": {
+        "en": [
+          "draft"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/richard-pogue-2015/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "CIHOF profile"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dick-pogue-2015/primary.jpg",
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json/canvas/primary",
+      "type": "Canvas",
+      "height": 302,
+      "width": 298,
+      "items": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json/canvas/primary/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json/canvas/primary/annotation/primary",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dick-pogue-2015/primary.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 302,
+                "width": 298
+              },
+              "target": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json/canvas/primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

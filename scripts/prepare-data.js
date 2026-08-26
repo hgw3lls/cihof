@@ -21,6 +21,12 @@ const physicalWallOutputPath = resolve('public/data/physical-wall-positions.json
 const sourceCurationSourcePath = resolve('data/original-site-harvest/pre-curation/cihof-pre-curation-packet.json');
 const sourceCurationOutputPath = resolve('public/data/source-curation-packet.json');
 const runtimeDataBundleOutputPath = resolve('public/data/cihof-runtime-data.json');
+const standardsIndexOutputPath = resolve('public/data/standards-index.json');
+const linkedArtOutputPath = resolve('public/data/linked-art-export.json');
+const cidocCrmOutputPath = resolve('public/data/cidoc-crm-export.json');
+const iiifCollectionOutputPath = resolve('public/data/iiif-collection.json');
+const iiifManifestOutputDir = resolve('public/data/iiif');
+const publicBaseUrl = 'https://clevelandinternationalhalloffame.com/cihof/';
 
 const inductees = loadInductees();
 const report = buildReport(inductees);
@@ -31,9 +37,11 @@ const storyLenses = loadStoryLenses();
 const mediaManifest = loadRuntimeMediaManifest();
 const physicalWallMetadata = loadPhysicalWallMetadata();
 const sourceCurationPacket = loadSourceCurationPacket();
+const standardsExport = buildStandardsExport();
 const runtimeDataBundle = buildRuntimeDataBundle();
 
 mkdirSync(dirname(outputPath), { recursive: true });
+mkdirSync(iiifManifestOutputDir, { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(inductees, null, 2)}\n`);
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 writeFileSync(entitiesPath, `${JSON.stringify(entityModel.entityDocument, null, 2)}\n`);
@@ -45,6 +53,13 @@ writeFileSync(storyLensesOutputPath, `${JSON.stringify(storyLenses.document, nul
 writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document, null, 2)}\n`);
 writeFileSync(physicalWallOutputPath, `${JSON.stringify(physicalWallMetadata, null, 2)}\n`);
 writeFileSync(sourceCurationOutputPath, `${JSON.stringify(sourceCurationPacket.document, null, 2)}\n`);
+writeFileSync(standardsIndexOutputPath, `${JSON.stringify(standardsExport.index, null, 2)}\n`);
+writeFileSync(linkedArtOutputPath, `${JSON.stringify(standardsExport.linkedArt, null, 2)}\n`);
+writeFileSync(cidocCrmOutputPath, `${JSON.stringify(standardsExport.cidocCrm, null, 2)}\n`);
+writeFileSync(iiifCollectionOutputPath, `${JSON.stringify(standardsExport.iiif.collection, null, 2)}\n`);
+standardsExport.iiif.manifests.forEach((manifest) => {
+  writeFileSync(resolve(iiifManifestOutputDir, `${manifest.slug}.json`), `${JSON.stringify(manifest.document, null, 2)}\n`);
+});
 writeFileSync(runtimeDataBundleOutputPath, `${JSON.stringify(runtimeDataBundle, null, 2)}\n`);
 
 console.log(
@@ -61,6 +76,9 @@ console.log(`Prepared ${storyLenses.recordCount} story lens records.`);
 console.log(`Prepared ${mediaManifest.recordCount} runtime media manifest records.`);
 console.log(`Prepared ${Object.keys(physicalWallMetadata.positions ?? {}).length} physical wall position records.`);
 console.log(`Prepared ${sourceCurationPacket.recordCount} source curation profile rows.`);
+console.log(
+  `Prepared standards exports: Linked Art, CIDOC CRM JSON-LD, and ${standardsExport.iiif.manifests.length} IIIF Presentation manifests.`,
+);
 console.log(`Prepared one-file runtime data bundle at ${runtimeDataBundleOutputPath}.`);
 if (report.missing.primaryImage.length > 0) {
   console.log(`Missing primary images: ${report.missing.primaryImage.length}`);
@@ -366,6 +384,7 @@ function buildRuntimeDataBundle() {
     cityQuestion: loadOptionalRuntimeJson('public/data/city-question.json', null),
     worldLens: loadOptionalRuntimeJson('public/data/world-lens.json', null),
     sourceCuration: sourceCurationPacket.document,
+    standards: standardsExport.index,
     reports: {
       data: report,
       entityModel: entityModel.report,
@@ -383,5 +402,442 @@ function loadOptionalRuntimeJson(path, fallback) {
     return JSON.parse(readFileSync(resolvedPath, 'utf8'));
   } catch {
     return fallback;
+  }
+}
+
+function buildStandardsExport() {
+  const linkedArt = buildLinkedArtExport();
+  const cidocCrm = buildCidocCrmExport();
+  const iiif = buildIiifExport();
+
+  return {
+    index: buildStandardsIndex(linkedArt, cidocCrm, iiif.collection, iiif.manifests.length),
+    linkedArt,
+    cidocCrm,
+    iiif,
+  };
+}
+
+function buildStandardsIndex(linkedArt, cidocCrm, iiifCollection, iiifManifestCount) {
+  return {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    source: {
+      generator: 'scripts/prepare-data.js',
+      publicBaseUrl,
+      note: 'Public interoperability index for museum, archive, and cultural-heritage integrations.',
+    },
+    exports: {
+      linkedArt: {
+        id: linkedArt.id,
+        path: '/data/linked-art-export.json',
+        context: linkedArt['@context'],
+        description: 'Linked Art JSON-LD person set aligned to CIDOC CRM cultural-heritage semantics.',
+      },
+      cidocCrm: {
+        id: cidocCrm.id,
+        path: '/data/cidoc-crm-export.json',
+        context: cidocCrm['@context'],
+        description: 'Compact CIDOC CRM JSON-LD graph for people, class events, places, themes, media, and documented relationships.',
+      },
+      iiifCollection: {
+        id: iiifCollection.id,
+        path: '/data/iiif-collection.json',
+        context: iiifCollection['@context'],
+        description: 'IIIF Presentation 3 collection with one portrait manifest per inductee with public image media.',
+      },
+    },
+    coverage: {
+      inductees: inductees.length,
+      entityRecords: entityModel.entityDocument.entities.length,
+      relationshipRecords: entityModel.relationshipDocument.relationships.length,
+      iiifManifests: iiifManifestCount,
+      primaryPortraits: inductees.filter((inductee) => Boolean(inductee.primaryImageUrl)).length,
+    },
+    mediaReadinessPolicy: {
+      images: 'IIIF manifests include public portrait image URLs. Rights status remains governed by data/media_manifest.json.',
+      videoAndAudio: 'Public playback requires approved rights, runtime files, posters where applicable, and caption/transcript readiness.',
+    },
+  };
+}
+
+function buildLinkedArtExport() {
+  return {
+    '@context': 'https://linked.art/ns/v1/linked-art.json',
+    id: publicUrl('data/linked-art-export.json'),
+    type: 'Set',
+    _label: 'Cleveland International Hall of Fame inductees',
+    identified_by: [linkedArtName('Cleveland International Hall of Fame inductees')],
+    classified_as: [linkedArtType('Inductee collection')],
+    referred_to_by: [
+      {
+        type: 'LinguisticObject',
+        _label: 'Export note',
+        content: 'Generated public interoperability export for the CIHOF portrait wall and staff portal.',
+      },
+    ],
+    member: inductees.map(personToLinkedArt),
+    subject_of: [
+      {
+        id: publicUrl('data/iiif-collection.json'),
+        type: 'LinguisticObject',
+        _label: 'IIIF Presentation collection',
+      },
+      {
+        id: publicUrl('data/cidoc-crm-export.json'),
+        type: 'LinguisticObject',
+        _label: 'CIDOC CRM JSON-LD export',
+      },
+    ],
+    _cihof_relationship_assertions: entityModel.relationshipDocument.relationships.map((relationship) => ({
+      id: relationship.id,
+      source: entityPublicId(relationship.sourceEntityId),
+      target: entityPublicId(relationship.targetEntityId),
+      type: relationship.type,
+      label: relationship.displayLabel,
+      provenance: relationship.provenance,
+    })),
+  };
+}
+
+function personToLinkedArt(inductee) {
+  const description = descriptionForInductee(inductee);
+  const result = {
+    id: personPublicId(inductee),
+    type: 'Person',
+    _label: inductee.name,
+    identified_by: [linkedArtName(inductee.name)],
+    classified_as: [linkedArtType('CIHOF inductee'), ...inductee.themeTags.map(linkedArtType)],
+    referred_to_by: description
+      ? [
+          {
+            type: 'LinguisticObject',
+            _label: `${inductee.name} biography summary`,
+            content: description,
+          },
+        ]
+      : [],
+    subject_of: [
+      ...profileSubject(inductee),
+      {
+        id: publicUrl(`data/iiif/${inductee.id}.json`),
+        type: 'LinguisticObject',
+        _label: `${inductee.name} IIIF manifest`,
+      },
+    ],
+    member_of: inductee.classYear
+      ? [
+          {
+            id: publicUrl(`data/linked-art-export.json#class-${inductee.classYear}`),
+            type: 'Set',
+            _label: `Class of ${inductee.classYear}`,
+          },
+        ]
+      : [],
+    _cihof: inducteePayload(inductee),
+  };
+
+  if (inductee.primaryImageUrl) {
+    result.representation = [
+      {
+        id: publicUrl(inductee.primaryImageUrl),
+        type: 'VisualItem',
+        _label: `${inductee.name} portrait`,
+      },
+    ];
+  }
+
+  return result;
+}
+
+function buildCidocCrmExport() {
+  return {
+    '@context': {
+      crm: 'http://www.cidoc-crm.org/cidoc-crm/',
+      rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+      cihof: `${publicBaseUrl}ontology/`,
+    },
+    id: publicUrl('data/cidoc-crm-export.json'),
+    type: 'crm:E78_Curated_Holding',
+    'rdfs:label': 'Cleveland International Hall of Fame portrait wall knowledge graph',
+    'crm:P46_is_composed_of': [
+      ...inductees.map(personToCidocCrm),
+      ...entityModel.entityDocument.entities.filter((entity) => entity.type !== 'Person').map(entityToCidocCrm),
+    ],
+    'crm:P67_refers_to': entityModel.relationshipDocument.relationships.map((relationship) => ({
+      id: publicUrl(`data/cidoc-crm-export.json#relationship-${relationship.id}`),
+      type: 'crm:E13_Attribute_Assignment',
+      'rdfs:label': relationship.displayLabel,
+      'crm:P140_assigned_attribute_to': entityPublicId(relationship.sourceEntityId),
+      'crm:P141_assigned': entityPublicId(relationship.targetEntityId),
+      'crm:P2_has_type': relationship.type,
+      cihof: {
+        provenance: relationship.provenance,
+        sourceField: relationship.provenance?.sourceField ?? '',
+        note: relationship.shortDescription ?? '',
+      },
+    })),
+  };
+}
+
+function personToCidocCrm(inductee) {
+  return {
+    id: personPublicId(inductee),
+    type: 'crm:E21_Person',
+    'rdfs:label': inductee.name,
+    'crm:P1_is_identified_by': inductee.name,
+    'crm:P2_has_type': ['CIHOF inductee', ...inductee.themeTags],
+    'crm:P11i_participated_in': inductee.classYear ? publicUrl(`data/cidoc-crm-export.json#class-${inductee.classYear}`) : undefined,
+    'crm:P67i_is_referred_to_by': descriptionForInductee(inductee),
+    'crm:P138i_has_representation': inductee.primaryImageUrl ? publicUrl(inductee.primaryImageUrl) : undefined,
+    cihof: inducteePayload(inductee),
+  };
+}
+
+function entityToCidocCrm(entity) {
+  return {
+    id: entityPublicId(entity.id),
+    type: cidocTypeForEntity(entity.type),
+    'rdfs:label': entity.displayName,
+    'crm:P2_has_type': entity.type,
+    'crm:P3_has_note': entity.shortDescription,
+    cihof: {
+      provenance: entity.provenance,
+      dateRange: entity.dateRange,
+      location: entity.location,
+      attributes: entity.attributes,
+    },
+  };
+}
+
+function buildIiifExport() {
+  const manifests = inductees
+    .filter((inductee) => Boolean(inductee.primaryImageUrl))
+    .map((inductee) => ({
+      slug: inductee.id,
+      document: buildIiifManifest(inductee),
+    }));
+
+  return {
+    manifests,
+    collection: {
+      '@context': 'http://iiif.io/api/presentation/3/context.json',
+      id: publicUrl('data/iiif-collection.json'),
+      type: 'Collection',
+      label: { en: ['Cleveland International Hall of Fame portraits'] },
+      summary: { en: ['Public portrait collection generated from the CIHOF kiosk data model.'] },
+      requiredStatement: {
+        label: { en: ['Attribution'] },
+        value: { en: ['Cleveland International Hall of Fame'] },
+      },
+      homepage: [
+        {
+          id: publicBaseUrl,
+          type: 'Text',
+          label: { en: ['Cleveland International Hall of Fame portrait wall'] },
+          format: 'text/html',
+        },
+      ],
+      items: manifests.map((manifest) => ({
+        id: manifest.document.id,
+        type: 'Manifest',
+        label: manifest.document.label,
+        thumbnail: manifest.document.thumbnail,
+      })),
+    },
+  };
+}
+
+function buildIiifManifest(inductee) {
+  const imageUrl = publicUrl(inductee.primaryImageUrl);
+  const manifestId = publicUrl(`data/iiif/${inductee.id}.json`);
+  const canvasId = `${manifestId}/canvas/primary`;
+  const pageId = `${canvasId}/page`;
+  const annotationId = `${canvasId}/annotation/primary`;
+  const dimensions = imageDimensionsForInductee(inductee);
+  const summary = descriptionForInductee(inductee);
+
+  return {
+    '@context': 'http://iiif.io/api/presentation/3/context.json',
+    id: manifestId,
+    type: 'Manifest',
+    label: { en: [inductee.classYear ? `${inductee.name}, Class of ${inductee.classYear}` : inductee.name] },
+    summary: summary ? { en: [summary] } : undefined,
+    metadata: iiifMetadata(inductee),
+    requiredStatement: {
+      label: { en: ['Attribution'] },
+      value: { en: ['Cleveland International Hall of Fame'] },
+    },
+    homepage: profileSubject(inductee).map((item) => ({
+      id: item.id,
+      type: 'Text',
+      label: { en: ['CIHOF profile'] },
+      format: 'text/html',
+    })),
+    thumbnail: [
+      {
+        id: imageUrl,
+        type: 'Image',
+        format: mimeTypeForPath(inductee.primaryImageUrl),
+      },
+    ],
+    items: [
+      {
+        id: canvasId,
+        type: 'Canvas',
+        height: dimensions.height,
+        width: dimensions.width,
+        items: [
+          {
+            id: pageId,
+            type: 'AnnotationPage',
+            items: [
+              {
+                id: annotationId,
+                type: 'Annotation',
+                motivation: 'painting',
+                body: {
+                  id: imageUrl,
+                  type: 'Image',
+                  format: mimeTypeForPath(inductee.primaryImageUrl),
+                  height: dimensions.height,
+                  width: dimensions.width,
+                },
+                target: canvasId,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+}
+
+function iiifMetadata(inductee) {
+  return [
+    ['Class Year', inductee.classYear ? String(inductee.classYear) : ''],
+    ['Region', inductee.region],
+    ['Countries / heritage tags', inductee.countryTags.join(', ')],
+    ['Communities', inductee.communityTags.join(', ')],
+    ['Themes', inductee.themeTags.join(', ')],
+    ['Review status', inductee.approvalStatus],
+  ]
+    .filter(([, value]) => value)
+    .map(([label, value]) => ({
+      label: { en: [label] },
+      value: { en: [value] },
+    }));
+}
+
+function linkedArtName(content) {
+  return {
+    type: 'Name',
+    content,
+  };
+}
+
+function linkedArtType(label) {
+  return {
+    type: 'Type',
+    _label: label,
+  };
+}
+
+function profileSubject(inductee) {
+  if (!inductee.profileUrl) return [];
+  return [
+    {
+      id: publicUrl(inductee.profileUrl),
+      type: 'DigitalObject',
+      _label: `${inductee.name} CIHOF profile`,
+    },
+  ];
+}
+
+function inducteePayload(inductee) {
+  return {
+    id: inductee.id,
+    classYear: inductee.classYear,
+    region: inductee.region,
+    countryTags: inductee.countryTags,
+    countryTagsSource: inductee.countryTagsSource,
+    communityTags: inductee.communityTags,
+    themeTags: inductee.themeTags,
+    reviewStatus: inductee.approvalStatus,
+    profileUrl: inductee.profileUrl,
+  };
+}
+
+function descriptionForInductee(inductee) {
+  return compactText(
+    inductee.lifeWorkSummary ||
+      inductee.honoredForSummary ||
+      inductee.storySummary ||
+      inductee.bioText ||
+      `${inductee.name}, Cleveland International Hall of Fame inductee.`,
+    560,
+  );
+}
+
+function imageDimensionsForInductee(inductee) {
+  const primary = mediaManifest.document.assets?.[inductee.id]?.images?.primary;
+  const width = Number(primary?.width);
+  const height = Number(primary?.height);
+  if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
+    return { width, height };
+  }
+  return { width: 1200, height: 1500 };
+}
+
+function personPublicId(inductee) {
+  return publicUrl(`?person=${encodeURIComponent(inductee.id)}`);
+}
+
+function entityPublicId(id) {
+  const person = inductees.find((inductee) => `person:${inductee.id}` === id || inductee.id === id);
+  if (person) return personPublicId(person);
+  return publicUrl(`data/cidoc-crm-export.json#${encodeURIComponent(id)}`);
+}
+
+function publicUrl(path) {
+  if (!path) return publicBaseUrl;
+  if (/^https?:\/\//i.test(path)) return path;
+  return new URL(String(path).replace(/^\/+/, ''), publicBaseUrl).href;
+}
+
+function compactText(value, maxLength) {
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  const truncated = text.slice(0, maxLength - 1).trimEnd();
+  const boundary = truncated.lastIndexOf(' ');
+  return `${truncated.slice(0, boundary > 160 ? boundary : truncated.length).trimEnd()}...`;
+}
+
+function mimeTypeForPath(path) {
+  const cleanPath = String(path ?? '').toLowerCase().split(/[?#]/)[0];
+  if (cleanPath.endsWith('.png')) return 'image/png';
+  if (cleanPath.endsWith('.webp')) return 'image/webp';
+  if (cleanPath.endsWith('.gif')) return 'image/gif';
+  if (cleanPath.endsWith('.avif')) return 'image/avif';
+  if (cleanPath.endsWith('.svg')) return 'image/svg+xml';
+  return 'image/jpeg';
+}
+
+function cidocTypeForEntity(type) {
+  switch (type) {
+    case 'Community':
+      return 'crm:E74_Group';
+    case 'Place':
+      return 'crm:E53_Place';
+    case 'Organization':
+      return 'crm:E74_Group';
+    case 'Event':
+      return 'crm:E5_Event';
+    case 'Theme':
+      return 'crm:E55_Type';
+    case 'Media':
+      return 'crm:E36_Visual_Item';
+    default:
+      return 'crm:E1_CRM_Entity';
   }
 }

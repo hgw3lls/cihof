@@ -186,7 +186,7 @@
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .living-hall__personActionHeader button,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-continue .living-hall__personActionHeader button {
-  min-height: 34px;
+  min-height: 44px;
   flex: 0 0 auto;
   max-width: 18ch;
   border-top-color: rgba(9, 9, 7, 0.26);

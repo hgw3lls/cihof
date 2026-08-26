@@ -7,9 +7,9 @@ export type WatchAvailability = {
 };
 
 export function mediaAvailability(inductee: Inductee, mediaRecord: RuntimeMediaRecord | undefined, kioskMode: boolean): WatchAvailability {
-  const approvedVideos = (mediaRecord?.videos ?? []).filter(isApprovedPlayableMediaForDetail);
-  const approvedAudio = [...(mediaRecord?.oralHistories ?? []), ...(mediaRecord?.audio ?? [])].filter(isApprovedPlayableMediaForDetail);
-  const legacyLocalVideos = mediaRecord ? [] : inductee.localVideoPaths.filter(Boolean);
+  const approvedVideos = (mediaRecord?.videos ?? []).filter(isPublicReadyVideoAsset);
+  const approvedAudio = [...(mediaRecord?.oralHistories ?? []), ...(mediaRecord?.audio ?? [])].filter(isPublicReadyAudioAsset);
+  const legacyLocalVideos = !kioskMode && !mediaRecord ? inductee.localVideoPaths.filter(Boolean) : [];
   const youtubeIds = new Set([
     ...(mediaRecord?.videos ?? []).map((video) => video.youtubeVideoId).filter((id): id is string => Boolean(id)),
     ...inductee.youtubeVideoIds,
@@ -69,7 +69,28 @@ export function buildPersonGallery(inductee: Inductee, mediaRecord: RuntimeMedia
 }
 
 export function isApprovedPlayableMediaForDetail(asset: RuntimeVideoAsset | RuntimeAudioAsset) {
-  const captionsReady = asset.captionStatus === undefined || asset.captionStatus === 'approved' || asset.captionStatus === 'not-applicable';
-  const transcriptReady = asset.transcriptStatus === 'approved' || asset.transcriptStatus === 'not-applicable' || Boolean(asset.transcript?.text);
-  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && captionsReady && transcriptReady && asset.runtimePath);
+  if ('youtubeVideoId' in asset || 'posterRuntimePath' in asset) return isPublicReadyVideoAsset(asset as RuntimeVideoAsset);
+  return isPublicReadyAudioAsset(asset as RuntimeAudioAsset);
+}
+
+export function isPublicReadyVideoAsset(asset: RuntimeVideoAsset) {
+  const captionsReady = (asset.captionStatus === 'approved' && Boolean(asset.captionRuntimePath)) || asset.captionStatus === 'not-applicable';
+  const transcriptReady = asset.transcriptStatus === 'approved'
+    || asset.transcriptStatus === 'not-applicable'
+    || Boolean(asset.transcript?.text || asset.transcriptRuntimePath || asset.transcript?.runtimePath);
+  return Boolean(
+    asset.approvedForKiosk
+      && asset.rightsStatus === 'approved'
+      && asset.runtimePath
+      && asset.posterRuntimePath
+      && captionsReady
+      && transcriptReady,
+  );
+}
+
+export function isPublicReadyAudioAsset(asset: RuntimeAudioAsset) {
+  const transcriptReady = asset.transcriptStatus === 'approved'
+    || asset.transcriptStatus === 'not-applicable'
+    || Boolean(asset.transcript?.text || asset.transcriptRuntimePath || asset.transcript?.runtimePath);
+  return Boolean(asset.approvedForKiosk && asset.rightsStatus === 'approved' && transcriptReady && asset.runtimePath);
 }

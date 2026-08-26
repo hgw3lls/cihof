@@ -1,0 +1,1817 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif-collection.json",
+  "type": "Collection",
+  "label": {
+    "en": [
+      "Cleveland International Hall of Fame portraits"
+    ]
+  },
+  "summary": {
+    "en": [
+      "Public portrait collection generated from the CIHOF kiosk data model."
+    ]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "Cleveland International Hall of Fame"
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/",
+      "type": "Text",
+      "label": {
+        "en": [
+          "Cleveland International Hall of Fame portrait wall"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/alex-machaskee-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Alex Machaskee, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/alex-machaskee-2010/primary.png",
+          "type": "Image",
+          "format": "image/png"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/august-pust-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "August Pust, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/august-pust-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dr-dieu-thuc-do-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dr. Dieu Thuc Do, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dr-dieu-thuc-do-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/helen-karpinski-1899-2002-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Helen Karpinski (1899 – 2002), Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/helen-karpinski-1899-2002-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/irene-morrow-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Irene Morrow, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/irene-morrow-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jeanette-grasselli-brown-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Jeanette Grasselli Brown, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jeanette-grasselli-brown-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/leo-weidenthal-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Leo Weidenthal, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/leo-weidenthal-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/lonnie-mccauley-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Lonnie McCauley, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/lonnie-mccauley-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/margaret-w-wong-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Margaret W. Wong, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/margaret-w-wong-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/paramjit-singh-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Paramjit Singh, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/paramjit-singh-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/paul-sciria-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Paul Sciria, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/paul-sciria-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/robert-j-haas-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Robert J. Haas, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/robert-j-haas-2010/primary.png",
+          "type": "Image",
+          "format": "image/png"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/senator-george-voinovich-2010.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Senator George Voinovich, Class of 2010"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/senator-george-voinovich-2010/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/albert-b-ratner-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Albert B. Ratner, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/albert-b-ratner-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/gerald-m-quinn-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Gerald M. Quinn, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/gerald-m-quinn-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/giahoa-ryan-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Giahoa Ryan, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/giahoa-ryan-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/lucretia-stoica-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Lucretia Stoica, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/lucretia-stoica-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/luis-martinez-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Luis Martinez, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/luis-martinez-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ralph-j-perk-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ralph J. Perk, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ralph-j-perk-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/reverend-dr-otis-moss-jr-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Reverend Dr. Otis Moss, Jr., Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/reverend-dr-otis-moss-jr-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/tony-petkovsek-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Tony Petkovsek, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/tony-petkovsek-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/vijaya-l-emani-2011.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Vijaya L. Emani, Class of 2011"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/vijaya-l-emani-2011/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/anthony-yen-yan-yuan-tai-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Anthony Yen (Yan Yuan Tai), Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/anthony-yen-yan-yuan-tai-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dr-jaya-shah-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dr. Jaya Shah, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dr-jaya-shah-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/fr-jim-o-donnell-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Fr. Jim O’Donnell, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/fr-jim-o-donnell-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/hon-mary-rose-oakar-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Hon. Mary Rose Oakar, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/hon-mary-rose-oakar-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jose-c-feliciano-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "José C. Feliciano, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jose-c-feliciano-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ken-kovach-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ken Kovach, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ken-kovach-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/milton-maltz-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Milton Maltz, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/milton-maltz-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/vladimir-rus-2012.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Vladimir Rus, Class of 2012"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/vladimir-rus-2012/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/bishop-a-edward-pevec-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Bishop A. Edward Pevec, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/bishop-a-edward-pevec-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dr-maria-pujana-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dr. Maria Pujana, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dr-maria-pujana-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jack-coyne-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Jack Coyne, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jack-coyne-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/josef-holzer-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Josef Holzer, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/josef-holzer-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/nacy-panzica-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Nacy Panzica, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/nacy-panzica-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ratanjit-s-sondhe-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ratanjit S. Sondhe, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ratanjit-s-sondhe-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/samuel-h-miller-2013.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Samuel H. Miller, Class of 2013"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/samuel-h-miller-2013/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/donna-hom-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Donna Hom, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/donna-hom-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ernie-mihaly-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ernie Mihaly, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ernie-mihaly-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugene-bak-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Eugene Bak, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/eugene-bak-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jim-foster-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Jim Foster, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jim-foster-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/joseph-p-meissner-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Joseph P Meissner, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/joseph-p-meissner-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/margaret-callander-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Margaret Callander, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/margaret-callander-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/monte-ahuja-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Monte Ahuja, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/monte-ahuja-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/thomas-j-scanlon-2014.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Thomas J. Scanlon, Class of 2014"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/thomas-j-scanlon-2014/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/bishop-anthony-pilla-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Bishop Anthony Pilla, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/bishop-anthony-pilla-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-pogue-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dick Pogue, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dick-pogue-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dick-russ-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dick Russ, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dick-russ-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/honorable-jose-a-villanueva-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Honorable José A. Villanueva, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/honorable-jose-a-villanueva-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/richard-a-ganim-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Richard A. Ganim, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/richard-a-ganim-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/shiv-k-aggarwal-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Shiv K. Aggarwal, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/shiv-k-aggarwal-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/steve-mulloy-2015.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Steve Mulloy, Class of 2015"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/steve-mulloy-2015/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/arnie-de-la-porte-2016-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Arnie de la Porte – 2016, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/arnie-de-la-porte-2016-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/carolyn-balogh-2016-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Carolyn Balogh – 2016, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/carolyn-balogh-2016-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/eugenia-stolarczyk-2016-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Eugenia Stolarczyk – 2016, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/eugenia-stolarczyk-2016-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jack-kahl-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Jack Kahl, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jack-kahl-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/khalid-samad-2016-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Khalid Samad – 2016, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/khalid-samad-2016-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/mohan-bafna-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Mohan Bafna, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/mohan-bafna-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/rev-mikhail-mikhail-2016.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Rev. Mikhail Mikhail, Class of 2016"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/rev-mikhail-mikhail-2016/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/basil-russo-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Basil Russo, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/basil-russo-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/bill-miller-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Bill Miller, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/bill-miller-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/jim-craciun-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Jim Craciun, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/jim-craciun-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/mona-alag-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Mona Alag, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/mona-alag-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/sam-kim-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Sam Kim, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/sam-kim-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/wael-khoury-2017.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Wael Khoury, Class of 2017"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/wael-khoury-2017/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/abby-mina-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Abby Mina, Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/abby-mina-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/atul-mehta-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Atul Mehta, Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/atul-mehta-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ralph-perk-jr-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ralph Perk Jr., Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ralph-perk-jr-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ray-pianka-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ray Pianka, Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ray-pianka-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/sheila-murphy-crawford-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Sheila Murphy Crawford, Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/sheila-murphy-crawford-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/sister-alicia-alvarado-2018.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Sister Alicia Alvarado, Class of 2018"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/sister-alicia-alvarado-2018/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/akram-boutros-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Akram Boutros, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/akram-boutros-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ingrida-bublys-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ingrida Bublys, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ingrida-bublys-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/marilyn-madigan-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Marilyn Madigan, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/marilyn-madigan-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/paul-burik-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Paul Burik, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/paul-burik-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/richard-fleischman-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Richard Fleischman, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/richard-fleischman-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/sree-sreenath-2019.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Sree Sreenath, Class of 2019"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/sree-sreenath-2019/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/berj-shakarian-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Berj Shakarian, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/berj-shakarian-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/joe-valencic-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Joe Valencic, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/joe-valencic-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/margaret-lynch-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Margaret Lynch, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/margaret-lynch-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/may-chen-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "May Chen, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/may-chen-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ramesh-shah-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ramesh Shah, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ramesh-shah-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/valarie-mccall-2020.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Valarie McCall, Class of 2020"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/valarie-mccall-2020/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/anda-cook-2022.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Anda Cook, Class of 2022"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/anda-cook-2022/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/carl-robson-2022.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Carl Robson, Class of 2022"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/carl-robson-2022/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/taras-szmagala-2022.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Taras Szmagala, Class of 2022"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/taras-szmagala-2022/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/victor-ruiz-2022.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Victor Ruiz, Class of 2022"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/victor-ruiz-2022/primary.png",
+          "type": "Image",
+          "format": "image/png"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/georgine-welo-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Georgine Welo, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/georgine-welo-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/joyce-mariani-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Joyce Mariani, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/joyce-mariani-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/michael-d-polensek-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Michael D. Polensek, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/michael-d-polensek-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pat-dowd-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Pat Dowd, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/pat-dowd-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/pierre-bejjani-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Pierre Bejjani, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/pierre-bejjani-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/sudarshan-sathe-2023.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Sudarshan Sathe, Class of 2023"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/sudarshan-sathe-2023/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/ambassador-edward-f-crawford-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Ambassador Edward F. Crawford, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/ambassador-edward-f-crawford-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dona-brady-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dona Brady, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dona-brady-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/dr-eugene-jordan-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Dr. Eugene Jordan, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/dr-eugene-jordan-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/erika-puussaar-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Erika Puussaar, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/erika-puussaar-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/johnny-k-wu-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Johnny K. Wu, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/johnny-k-wu-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/veronica-dahlberg-2024.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Veronica Dahlberg, Class of 2024"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/veronica-dahlberg-2024/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/beverly-kerecman-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Beverly Kerecman, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/beverly-kerecman-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/branka-malinar-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Branka Malinar, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/branka-malinar-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/david-gilbert-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "David Gilbert, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/david-gilbert-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/mayor-frank-jackson-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Mayor Frank Jackson, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/mayor-frank-jackson-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/raj-aggarwal-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Raj Aggarwal, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/raj-aggarwal-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/svetlana-stolyarova-2025.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Svetlana Stolyarova, Class of 2025"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/svetlana-stolyarova-2025/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/aklilu-demessie-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Aklilu Demessie, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/aklilu-demessie-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-chakalis-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Andy Chakalis, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/andy-chakalis-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/andy-fedynsky-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Andy Fedynsky, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/andy-fedynsky-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/catherine-jorgensen-mccutcheon-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Catherine Jorgensen McCutcheon, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/catherine-jorgensen-mccutcheon-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/le-nguyen-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Le Nguyen, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/le-nguyen-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/iiif/lucy-torres-2026.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "Lucy Torres, Class of 2026"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://clevelandinternationalhalloffame.com/cihof/media/images/lucy-torres-2026/primary.jpg",
+          "type": "Image",
+          "format": "image/jpeg"
+        }
+      ]
+    }
+  ]
+}
