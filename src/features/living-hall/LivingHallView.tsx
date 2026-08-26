@@ -151,6 +151,7 @@ type LegacyDragState = {
 };
 
 type HallPersonAction = 'overview' | 'story' | 'watch' | 'continue';
+type LegacyJumpTarget = -1 | 1 | 'first' | 'last' | number;
 
 type LatestClass = {
   year: number;
@@ -224,6 +225,10 @@ export function LivingHallView({
   const activeLegacyYear = useMemo(
     () => resolveLegacyActiveYear(legacyChronology, timelineYear, focusedPerson),
     [focusedPerson, legacyChronology, timelineYear],
+  );
+  const activeLegacyGroup = useMemo(
+    () => legacyGroupForYear(legacyChronology, activeLegacyYear),
+    [activeLegacyYear, legacyChronology],
   );
   const traceContext = useMemo(
     () => buildTraceContext({
@@ -514,10 +519,12 @@ export function LivingHallView({
     if (year !== null && timelineYear !== String(year)) onTimelineYearChange?.(String(year));
   }
 
-  function changeLegacyClass(direction: -1 | 1 | 'first' | 'last') {
+  function changeLegacyClass(direction: LegacyJumpTarget) {
     if (legacyChronology.years.length === 0) return;
     const currentIndex = Math.max(legacyChronology.years.indexOf(activeLegacyYear ?? legacyChronology.years[0]), 0);
-    const nextIndex = direction === 'first'
+    const nextIndex = typeof direction === 'number' && ![-1, 1].includes(direction)
+      ? legacyChronology.years.indexOf(direction)
+      : direction === 'first'
       ? 0
       : direction === 'last'
         ? legacyChronology.years.length - 1
@@ -685,6 +692,22 @@ export function LivingHallView({
         {lens === 'traces' ? 'TOUCH A TRACE' : lens === 'legacies' ? 'SWIPE THE CLASSES' : 'TOUCH A PORTRAIT'}
       </p>
 
+      {!loading && !error && (
+        <LensStatusRail
+          activeLegacyGroup={activeLegacyGroup}
+          activeLegacyYear={activeLegacyYear}
+          activeMode={activeMode}
+          allPeopleCount={allPeople.length}
+          focusedPerson={focusedPerson}
+          latestClass={latestClass}
+          legacyChronology={legacyChronology}
+          lens={lens}
+          people={people}
+          traceContext={traceContext}
+          traceTrailIds={traceTrailIds}
+        />
+      )}
+
       <div
         className="living-hall__field"
         ref={legacyFieldRef}
@@ -711,6 +734,8 @@ export function LivingHallView({
           const frameState = portraitFrameState(lens, position);
           const frameAspect = portraitFrameAspect(mediaRecordMap.get(inductee.id));
           const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect, settings);
+          const lensBadge = portraitLensBadge(lens, position, inductee, activeLegacyYear);
+          const portraitCategory = portraitCategoryForLens(lens, position, inductee, activeLegacyYear);
           const className = [
             'living-portrait',
             position.emphasis ? 'living-portrait--emphasis' : '',
@@ -729,7 +754,9 @@ export function LivingHallView({
               data-legacy-class-year={lens === 'legacies' ? inductee.classYear ?? '' : undefined}
               data-frame-state={frameState}
               data-frame-aspect={frameAspect}
+              data-lens-badge={lensBadge || undefined}
               data-media-available={inductee.hasVideo ? 'true' : 'false'}
+              data-portrait-category={portraitCategory}
               key={inductee.id}
               style={style}
               type="button"
@@ -1064,6 +1091,133 @@ function detailClassForAction(action: HallPersonAction) {
   return 'overview';
 }
 
+type LensStatusItem = {
+  label: string;
+  value: string;
+};
+
+function LensStatusRail({
+  activeLegacyGroup,
+  activeLegacyYear,
+  activeMode,
+  allPeopleCount,
+  focusedPerson,
+  latestClass,
+  legacyChronology,
+  lens,
+  people,
+  traceContext,
+  traceTrailIds,
+}: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
+  activeMode: HallMode;
+  allPeopleCount: number;
+  focusedPerson: Inductee | null;
+  latestClass: LatestClass | null;
+  legacyChronology: LegacyChronology;
+  lens: HallLens;
+  people: Inductee[];
+  traceContext: TraceContext;
+  traceTrailIds: string[];
+}) {
+  const items = lensStatusItems({
+    activeLegacyGroup,
+    activeLegacyYear,
+    activeMode,
+    allPeopleCount,
+    focusedPerson,
+    latestClass,
+    legacyChronology,
+    lens,
+    people,
+    traceContext,
+    traceTrailIds,
+  });
+
+  if (items.length === 0) return null;
+
+  return (
+    <aside className="living-hall__statusRail" aria-label="Hall category status" data-status-lens={lens}>
+      {items.map((item) => (
+        <span className="living-hall__statusMetric" key={`${item.label}-${item.value}`}>
+          <small>{item.label}</small>
+          <strong>{item.value}</strong>
+        </span>
+      ))}
+    </aside>
+  );
+}
+
+function lensStatusItems({
+  activeLegacyGroup,
+  activeLegacyYear,
+  activeMode,
+  allPeopleCount,
+  focusedPerson,
+  latestClass,
+  legacyChronology,
+  lens,
+  people,
+  traceContext,
+  traceTrailIds,
+}: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
+  activeMode: HallMode;
+  allPeopleCount: number;
+  focusedPerson: Inductee | null;
+  latestClass: LatestClass | null;
+  legacyChronology: LegacyChronology;
+  lens: HallLens;
+  people: Inductee[];
+  traceContext: TraceContext;
+  traceTrailIds: string[];
+}): LensStatusItem[] {
+  if (lens === 'traces') {
+    if (!traceContext.activePerson) {
+      return [
+        { label: 'Records', value: String(allPeopleCount) },
+        { label: 'Concepts', value: String(traceContext.conceptChoices.length) },
+        { label: 'Places', value: String(traceContext.placeChoices.length) },
+      ];
+    }
+
+    return [
+      { label: 'Direct', value: String(traceContext.directThreads.length) },
+      { label: 'Shown', value: String(traceContext.visibleThreads.length) },
+      { label: 'Modes', value: String(traceChooserOptions(traceContext).length) },
+      { label: 'Path', value: String(traceTrailIds.length) },
+    ];
+  }
+
+  if (lens === 'legacies') {
+    const activeIndex = activeLegacyYear === null ? -1 : legacyChronology.years.indexOf(activeLegacyYear);
+    return [
+      { label: 'Class', value: activeLegacyYear ? String(activeLegacyYear) : 'Open' },
+      { label: 'People', value: String(activeLegacyGroup?.people.length ?? 0) },
+      { label: 'Index', value: activeIndex >= 0 ? `${activeIndex + 1}/${legacyChronology.years.length}` : String(legacyChronology.years.length) },
+      { label: 'Range', value: legacyChronology.firstYear && legacyChronology.lastYear ? `${legacyChronology.firstYear}-${legacyChronology.lastYear}` : 'CIHOF' },
+    ];
+  }
+
+  const featuredCount = people.filter((person) => person.featured || person.featuredCandidate).length;
+  const emphasizedCount = [...activeMode.positions.values()].filter((position) => position.emphasis && !position.focused).length;
+  if (focusedPerson) {
+    return [
+      { label: 'Focus', value: focusedPerson.classYear ? String(focusedPerson.classYear) : 'Open' },
+      { label: 'Nearby', value: String(emphasizedCount) },
+      { label: 'Records', value: `${people.length}/${allPeopleCount}` },
+    ];
+  }
+
+  return [
+    { label: 'Records', value: `${people.length}/${allPeopleCount}` },
+    { label: 'Featured', value: String(featuredCount) },
+    { label: 'Latest', value: latestClass ? String(latestClass.year) : 'Open' },
+  ];
+}
+
 function LegacyControls({
   activeYear,
   chronology,
@@ -1071,7 +1225,7 @@ function LegacyControls({
 }: {
   activeYear: number | null;
   chronology: LegacyChronology;
-  onJump: (direction: -1 | 1 | 'first' | 'last') => void;
+  onJump: (direction: LegacyJumpTarget) => void;
 }) {
   if (chronology.years.length === 0) return null;
   const activeIndex = activeYear === null ? 0 : Math.max(chronology.years.indexOf(activeYear), 0);
@@ -1100,6 +1254,26 @@ function LegacyControls({
       >
         <span aria-hidden="true">Previous</span>
       </button>
+      <div className="living-hall__legacyTrack" aria-label="Induction class years">
+        {chronology.groups.filter((group) => group.year !== null).map((group) => {
+          const active = group.year === activeYear;
+          return (
+            <button
+              aria-label={`Class of ${group.year}, ${group.people.length} ${group.people.length === 1 ? 'inductee' : 'inductees'}`}
+              aria-pressed={active}
+              className={active ? 'living-hall__legacyYear living-hall__legacyYear--active' : 'living-hall__legacyYear'}
+              key={group.key}
+              style={{ '--legacy-class-size': String(group.people.length) } as CSSProperties & Record<string, string>}
+              type="button"
+              onClick={() => {
+                if (group.year !== null) onJump(group.year);
+              }}
+            >
+              <span>{group.label}</span>
+            </button>
+          );
+        })}
+      </div>
       <span className="living-hall__legacyReadout" aria-live="polite">
         <small>Class Of</small>
         <strong>{activeLabel}</strong>
@@ -1149,6 +1323,11 @@ function TracePanel({
       ? context.placeFocus.label
       : 'Direct Ties';
   const choices = traceChooserOptions(context);
+  const traceMetrics = [
+    { label: 'Direct', value: context.directThreads.length },
+    { label: 'Concept', value: context.conceptChoices.length },
+    { label: 'Place', value: context.placeChoices.length },
+  ];
 
   return (
     <aside
@@ -1164,7 +1343,16 @@ function TracePanel({
         </button>
       </header>
 
-      {onTraceFocusChange && chooserOpen && choices.length > 0 && (
+      <div className="living-hall__traceMetrics" aria-label="Trace mode counts">
+        {traceMetrics.map((metric) => (
+          <span key={metric.label}>
+            <small>{metric.label}</small>
+            <strong>{metric.value}</strong>
+          </span>
+        ))}
+      </div>
+
+      {onTraceFocusChange && choices.length > 0 && (
         <nav className="living-hall__traceControls" aria-label="Reorganize traces">
           {choices.map((choice) => {
             const active = choice.key === context.traceFocusKey;
@@ -1172,12 +1360,14 @@ function TracePanel({
               <button
                 aria-pressed={active}
                 className={active ? 'living-hall__traceControl living-hall__traceControl--active' : 'living-hall__traceControl'}
+                data-trace-choice={choice.kind}
                 key={choice.key || 'direct'}
                 type="button"
                 onClick={() => onTraceFocusChange(choice.key)}
               >
                 <span>{choice.kind === 'direct' ? 'Trace' : choice.kind === 'place' ? 'Place' : 'Concept'}</span>
                 <strong>{choice.label}</strong>
+                {choice.detail && <small>{choice.detail}</small>}
               </button>
             );
           })}
@@ -2426,6 +2616,24 @@ function portraitFrameState(lens: HallLens, position: PortraitPosition): Portrai
   if (position.focused) return 'focus';
   if (lens === 'traces') return 'trace';
   if (lens === 'legacies') return 'legacy';
+  return 'standard';
+}
+
+function portraitLensBadge(lens: HallLens, position: PortraitPosition, inductee: Inductee, activeLegacyYear: number | null) {
+  if (position.focused) return 'FOCUS';
+  if (lens === 'traces' && position.emphasis) return 'TRACE';
+  if (lens === 'legacies' && activeLegacyYear !== null && inductee.classYear === activeLegacyYear) return String(activeLegacyYear);
+  if (lens === 'portraits' && (inductee.featured || inductee.featuredCandidate) && position.size >= 58) return 'FEATURED';
+  return '';
+}
+
+function portraitCategoryForLens(lens: HallLens, position: PortraitPosition, inductee: Inductee, activeLegacyYear: number | null) {
+  if (position.focused) return 'focused';
+  if (position.muted) return 'background';
+  if (lens === 'traces' && position.emphasis) return 'trace-related';
+  if (lens === 'legacies' && activeLegacyYear !== null && inductee.classYear === activeLegacyYear) return 'active-class';
+  if (lens === 'portraits' && (inductee.featured || inductee.featuredCandidate)) return 'featured';
+  if (position.emphasis) return 'emphasis';
   return 'standard';
 }
 

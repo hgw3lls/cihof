@@ -79,6 +79,49 @@
   transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
 }
 
+.museum-shell:not(.museum-shell--staff) .living-portrait[data-lens-badge]::after {
+  content: attr(data-lens-badge);
+  position: absolute;
+  left: 50%;
+  top: calc(50% - (var(--frame-height) * 0.5) - clamp(15px, 1.1vw, 22px));
+  z-index: 4;
+  max-width: max(58px, var(--frame-width));
+  overflow: hidden;
+  border-top: 1px solid rgba(168, 75, 37, 0.56);
+  color: rgba(168, 75, 37, 0.68);
+  padding-top: 3px;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.45rem, 0.48vw, 0.62rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  opacity: 0.86;
+  pointer-events: none;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait[data-portrait-category="background"]::after,
+.museum-shell:not(.museum-shell--staff) .living-portrait--muted::after {
+  opacity: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait[data-portrait-category="focused"]::after {
+  border-top-color: rgba(168, 75, 37, 0.9);
+  color: rgba(21, 19, 15, 0.84);
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait[data-portrait-category="trace-related"]::after,
+.museum-shell:not(.museum-shell--staff) .living-portrait[data-portrait-category="active-class"]::after {
+  color: rgba(21, 19, 15, 0.68);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall--attract .living-portrait {
   --portrait-transition-ms: 3200ms;
 }

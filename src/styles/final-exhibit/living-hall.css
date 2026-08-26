@@ -231,6 +231,49 @@
   background: rgba(168, 75, 37, 0.24);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__statusRail {
+  position: absolute;
+  left: 50%;
+  top: clamp(70px, 8.5vh, 112px);
+  z-index: 66;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(8px, 0.85vw, 14px);
+  max-width: min(700px, 48vw);
+  color: rgba(21, 19, 15, 0.6);
+  pointer-events: none;
+  text-align: left;
+  text-transform: uppercase;
+  transform: translateX(-50%) scale(var(--kiosk-label-scale, 1));
+  transform-origin: center top;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric {
+  display: grid;
+  gap: 2px;
+  min-width: clamp(62px, 5.2vw, 104px);
+  border-top: 1px solid rgba(21, 19, 15, 0.18);
+  padding-top: 6px;
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric small {
+  color: rgba(168, 75, 37, 0.6);
+  font-size: clamp(0.48rem, 0.5vw, 0.64rem);
+  font-weight: 650;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric strong {
+  color: rgba(21, 19, 15, 0.72);
+  font-size: clamp(0.76rem, 0.88vw, 1.18rem);
+  font-weight: 750;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__field {
   inset: var(--kiosk-field-inset, 0vmin);
   z-index: 1800;
@@ -905,6 +948,39 @@
   display: none;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: clamp(6px, 0.7vw, 10px);
+  border-top: 1px solid rgba(21, 19, 15, 0.14);
+  padding-top: clamp(6px, 0.62vw, 10px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  color: rgba(21, 19, 15, 0.62);
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics small {
+  color: rgba(168, 75, 37, 0.54);
+  font-size: clamp(0.42rem, 0.45vw, 0.56rem);
+  font-weight: 650;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics strong {
+  font-size: clamp(0.66rem, 0.72vw, 0.9rem);
+  font-weight: 750;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__traceEvidence {
   display: none;
 }
@@ -983,7 +1059,8 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__traceControl span,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl strong {
+.museum-shell:not(.museum-shell--staff) .living-hall__traceControl strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceControl small {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1002,6 +1079,14 @@
   font-size: clamp(1.06rem, 1.38vw, 2rem);
   font-weight: 700;
   line-height: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceControl small {
+  margin-top: clamp(0.34rem, 0.42vw, 0.52rem);
+  color: rgba(21, 19, 15, 0.44);
+  font-size: clamp(0.48rem, 0.52vw, 0.66rem);
+  font-weight: 600;
+  line-height: 1.05;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControls {
@@ -1098,6 +1183,64 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--next::after {
   content: "›";
   right: clamp(20px, 2.2vw, 42px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyTrack {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--experience-dock-height) + clamp(72px, 8.2vh, 112px));
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: clamp(4px, 0.42vw, 8px);
+  width: min(940px, 58vw);
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  flex: 1 1 44px;
+  min-width: 44px;
+  max-width: 64px;
+  min-height: 44px;
+  overflow: hidden;
+  border-top: 1px solid rgba(21, 19, 15, 0.16);
+  color: rgba(21, 19, 15, 0.4);
+  padding: 0 0 7px;
+  opacity: 0.74;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 2px;
+  height: clamp(10px, calc(var(--legacy-class-size, 1) * 6px), 34px);
+  background: rgba(21, 19, 15, 0.2);
+  transform: translateX(-50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear span {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(0.46rem, 0.5vw, 0.62rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear--active,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear[aria-pressed="true"] {
+  border-top-color: rgba(168, 75, 37, 0.72);
+  color: rgba(21, 19, 15, 0.84);
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear--active::before,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyYear[aria-pressed="true"]::before {
+  width: 3px;
+  background: rgba(168, 75, 37, 0.78);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge:is(:focus-visible, :hover) {
@@ -1505,6 +1648,15 @@
   .museum-shell:not(.museum-shell--staff) .living-hall__vocabulary {
     display: none;
   }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__statusRail {
+    top: clamp(60px, 7.5vh, 90px);
+    max-width: min(720px, 68vw);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__legacyTrack {
+    width: min(820px, 70vw);
+  }
 }
 
 @media (max-width: 820px) {
@@ -1521,6 +1673,20 @@
   .museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
     right: clamp(22px, 6vw, 42px);
     bottom: calc(var(--experience-dock-height) + 92px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__statusRail {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    top: calc(var(--experience-dock-height) + 22px);
+    justify-content: start;
+    max-width: none;
+    transform: scale(var(--kiosk-label-scale, 1));
+    transform-origin: left top;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__statusMetric {
+    min-width: 72px;
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__focusCard,
@@ -1586,6 +1752,20 @@
   .museum-shell:not(.museum-shell--staff) .living-hall__legacyControls {
     inset: 0;
     transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__legacyTrack {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    bottom: calc(var(--experience-dock-height) + 82px);
+    justify-content: start;
+    width: auto;
+    overflow: hidden;
+    transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__legacyYear {
+    flex: 0 0 44px;
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
