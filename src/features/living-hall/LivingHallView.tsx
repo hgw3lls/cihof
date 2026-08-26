@@ -1034,13 +1034,14 @@ function PersonFocusActionPanel({
     <aside
       aria-label={`${inductee.name} ${personActionLabel(action)}`}
       className={`living-hall__personActionPanel detail--visitor detail--action-${detailClassForAction(action)}`}
+      data-action-label={personActionLabel(action)}
       data-side={placement.side}
       style={placement.style}
       onEndedCapture={action === 'watch' ? onClose : undefined}
       onPointerDown={(event) => event.stopPropagation()}
     >
       <header className="living-hall__personActionHeader">
-        <span>{personActionLabel(action)}</span>
+        <span title={inductee.name}>{inductee.name}</span>
         <button type="button" onClick={onClose}>Return To Portrait</button>
       </header>
       {action === 'story' && (
