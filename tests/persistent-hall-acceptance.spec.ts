@@ -29,10 +29,16 @@ test.describe('persistent Hall final acceptance', () => {
 
     await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
     await expectHall(page, 'traces', firstPersonId);
+    const traceInfo = page.locator('.living-hall__focusLens--traces');
+    await expect(traceInfo).toBeVisible();
+    await expect(traceInfo).toContainText('CONNECTIONS');
+    await expect(traceInfo).toContainText('Visible');
     await screenshotHall(page, 'traces');
 
     const secondPersonId = await clickRelatedPortrait(page, firstPersonId);
     await expectHall(page, 'traces', secondPersonId);
+    await expect(traceInfo).toBeVisible();
+    await expect(traceInfo).toContainText('CONNECTIONS');
     await waitForGuard(page);
 
     const thirdPersonId = await clickRelatedPortrait(page, secondPersonId);
@@ -80,6 +86,11 @@ test.describe('persistent Hall final acceptance', () => {
     await page.mouse.click(target.x, target.y);
     await expectHall(page, 'legacies', target.id);
     await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
+    const timelineInfo = page.locator('.living-hall__focusLens--legacies');
+    await expect(timelineInfo).toBeVisible();
+    await expect(timelineInfo).toContainText('TIMELINE');
+    await expect(timelineInfo).toContainText('Cohort');
+    await screenshotHall(page, 'legacies-focus');
     await expectNoVisitorDestination(page);
   });
 

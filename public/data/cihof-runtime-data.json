@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T12:08:58.030Z",
+  "generatedAt": "2026-08-26T13:03:19.275Z",
   "appName": "CIHOF Portrait Wall",
   "source": {
     "generator": "scripts/prepare-data.js",
@@ -151027,7 +151027,7 @@
   },
   "standards": {
     "schemaVersion": 1,
-    "generatedAt": "2026-08-26T12:08:58.028Z",
+    "generatedAt": "2026-08-26T13:03:19.272Z",
     "source": {
       "generator": "scripts/prepare-data.js",
       "publicBaseUrl": "https://clevelandinternationalhalloffame.com/cihof/",
@@ -151877,7 +151877,7 @@
       }
     },
     "curation": {
-      "generatedAt": "2026-08-26T12:02:44.376Z",
+      "generatedAt": "2026-08-26T13:03:02.347Z",
       "source": "data/cihof_curated_metadata.json",
       "totalInductees": 111,
       "curatedRecords": 111,
@@ -153198,7 +153198,7 @@
       }
     },
     "media": {
-      "generatedAt": "2026-08-26T12:02:45.318Z",
+      "generatedAt": "2026-08-26T13:03:03.400Z",
       "strict": true,
       "strictProfile": "wall",
       "source": "data/media_manifest.json",

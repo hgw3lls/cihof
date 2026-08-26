@@ -811,13 +811,17 @@ export function LivingHallView({
 
         {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
           <PortraitFocusCard
+            activeLegacyGroup={activeLegacyGroup}
+            activeLegacyYear={activeLegacyYear}
             inductee={focusedPerson}
             action={activePersonAction}
             continuationAvailable={Boolean(focusedContinuationUrl)}
             fullTextAvailable={focusedFullTextAvailable}
+            legacyChronology={legacyChronology}
             lens={lens}
             mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
             placement={focusedCardPlacement}
+            traceContext={traceContext}
             onClose={onCloseFocus}
             onFollowTrace={openTraceChooser}
             onSetAction={setHallPersonAction}
@@ -914,24 +918,32 @@ type FocusActionPlacement = {
 };
 
 function PortraitFocusCard({
+  activeLegacyGroup,
+  activeLegacyYear,
   inductee,
   action,
   continuationAvailable,
   fullTextAvailable,
+  legacyChronology,
   lens,
   mediaPlayable,
   placement,
+  traceContext,
   onClose,
   onFollowTrace,
   onSetAction,
 }: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
   inductee: Inductee;
   action: HallPersonAction;
   continuationAvailable: boolean;
   fullTextAvailable: boolean;
+  legacyChronology: LegacyChronology;
   lens: HallLens;
   mediaPlayable: boolean;
   placement: FocusCardPlacement;
+  traceContext: TraceContext;
   onClose?: () => void;
   onFollowTrace: () => void;
   onSetAction: (action: HallPersonAction) => void;
@@ -939,6 +951,14 @@ function PortraitFocusCard({
   const context = inducteeContextLabel(inductee);
   const summary = honoredForSummary(inductee);
   const shortFacts = portraitShortFacts(inductee);
+  const lensInsight = focusLensInsight({
+    activeLegacyGroup,
+    activeLegacyYear,
+    inductee,
+    legacyChronology,
+    lens,
+    traceContext,
+  });
   const panelId = focusActionPanelId(inductee.id);
   const traceDescriptionId = `${panelId}-trace-desc`;
   const storyDescriptionId = `${panelId}-story-desc`;
@@ -969,6 +989,23 @@ function PortraitFocusCard({
         <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
       </div>
       {context && <p className="living-hall__focusContext">{context}</p>}
+      {lensInsight && (
+        <section
+          className={`living-hall__focusLens living-hall__focusLens--${lensInsight.kind}`}
+          aria-label={lensInsight.ariaLabel}
+        >
+          <h4>{lensInsight.title}</h4>
+          <p>{lensInsight.summary}</p>
+          <dl>
+            {lensInsight.facts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
       <section className="living-hall__focusFacts" aria-label="Short facts">
         <h4>SHORT FACTS</h4>
         <dl>
@@ -1145,6 +1182,14 @@ type PortraitFocusFact = {
   value: string;
 };
 
+type FocusLensInsight = {
+  kind: 'traces' | 'legacies';
+  title: string;
+  ariaLabel: string;
+  summary: string;
+  facts: PortraitFocusFact[];
+};
+
 function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
   const text = fullBiographyText(inductee);
   const paragraphs = biographyParagraphs(text);
@@ -1173,6 +1218,98 @@ function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
       </div>
     </section>
   );
+}
+
+function focusLensInsight({
+  activeLegacyGroup,
+  activeLegacyYear,
+  inductee,
+  legacyChronology,
+  lens,
+  traceContext,
+}: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
+  inductee: Inductee;
+  legacyChronology: LegacyChronology;
+  lens: HallLens;
+  traceContext: TraceContext;
+}): FocusLensInsight | null {
+  if (lens === 'traces') return traceFocusInsight(traceContext);
+  if (lens === 'legacies') {
+    return legacyFocusInsight({
+      activeLegacyGroup,
+      activeLegacyYear,
+      inductee,
+      legacyChronology,
+    });
+  }
+  return null;
+}
+
+function traceFocusInsight(context: TraceContext): FocusLensInsight {
+  const activeTitle = context.mode === 'concept'
+    ? context.activeConcept?.lens.label ?? 'Concept Trace'
+    : context.mode === 'place'
+      ? context.placeFocus.label
+      : 'Direct Ties';
+  const nearest = context.visibleThreads[0] ?? null;
+  const summary = nearest
+    ? `${nearest.person.name} is the nearest visible connection through ${nearest.reasons[0]?.label ?? activeTitle}.`
+    : context.activePerson
+      ? 'This portrait is the anchor for the current connection view. Choose a trace mode to reorganize nearby records.'
+      : 'Touch a portrait to anchor documented people, places, and concepts.';
+
+  return {
+    kind: 'traces',
+    title: 'CONNECTIONS',
+    ariaLabel: 'Selected portrait connections information',
+    summary,
+    facts: [
+      { label: 'Mode', value: compactFactValue(activeTitle) },
+      { label: 'Visible', value: String(context.visibleThreads.length) },
+      { label: 'Direct', value: String(context.directThreads.length) },
+      { label: 'Places', value: String(context.placeChoices.length) },
+    ],
+  };
+}
+
+function legacyFocusInsight({
+  activeLegacyGroup,
+  activeLegacyYear,
+  inductee,
+  legacyChronology,
+}: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
+  inductee: Inductee;
+  legacyChronology: LegacyChronology;
+}): FocusLensInsight {
+  const group = legacyChronology.groups.find((candidate) => candidate.people.some((person) => person.id === inductee.id))
+    ?? activeLegacyGroup;
+  const classYear = group?.year ?? inductee.classYear ?? activeLegacyYear;
+  const groupPeople = group?.people ?? [];
+  const classIndex = classYear === null || classYear === undefined ? -1 : legacyChronology.years.indexOf(classYear);
+  const personIndex = groupPeople.findIndex((person) => person.id === inductee.id);
+  const previousYear = classIndex > 0 ? legacyChronology.years[classIndex - 1] : null;
+  const nextYear = classIndex >= 0 && classIndex < legacyChronology.years.length - 1 ? legacyChronology.years[classIndex + 1] : null;
+  const neighborLabel = [previousYear, nextYear].filter((year): year is number => typeof year === 'number').join(' / ') || 'Endpoint';
+  const summary = classYear
+    ? `${inductee.name} is selected inside the Class of ${classYear} timeline cohort.`
+    : `${inductee.name} is selected inside the pending class timeline group.`;
+
+  return {
+    kind: 'legacies',
+    title: 'TIMELINE',
+    ariaLabel: 'Selected portrait timeline information',
+    summary,
+    facts: [
+      { label: 'Class', value: classYear ? String(classYear) : 'Pending' },
+      { label: 'Cohort', value: groupPeople.length > 0 ? `${groupPeople.length} people` : 'Open' },
+      { label: 'Position', value: personIndex >= 0 && groupPeople.length > 0 ? `${personIndex + 1}/${groupPeople.length}` : 'Selected' },
+      { label: 'Near Years', value: neighborLabel },
+    ],
+  };
 }
 
 function portraitShortFacts(inductee: Inductee): PortraitFocusFact[] {
