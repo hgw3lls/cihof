@@ -150,7 +150,7 @@ type LegacyDragState = {
   moved: boolean;
 };
 
-type HallPersonAction = 'overview' | 'story' | 'watch' | 'continue';
+type HallPersonAction = 'overview' | 'story' | 'text' | 'watch' | 'continue';
 type LegacyJumpTarget = -1 | 1 | 'first' | 'last' | number;
 
 type LatestClass = {
@@ -268,6 +268,7 @@ export function LivingHallView({
   const focusedStoryRecord = focusedPerson ? storySectionMap.get(focusedPerson.id) : undefined;
   const focusedWatchAvailability = focusedPerson ? mediaAvailability(focusedPerson, focusedMediaRecord, kioskMode) : null;
   const focusedContinuationUrl = focusedPerson && qrEnabled ? canonicalContinuationUrl(focusedPerson) : '';
+  const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
   const cityQuestionTotal = useMemo(() => {
     return cityQuestion.config.options.reduce((total, option) => total + (cityQuestion.counts[option.id] ?? 0), 0);
@@ -609,6 +610,7 @@ export function LivingHallView({
   function setHallPersonAction(action: HallPersonAction) {
     if (action === 'continue' && !focusedContinuationUrl) return;
     if (action === 'watch' && !focusedWatchAvailability?.playable) return;
+    if (action === 'text' && !focusedFullTextAvailable) return;
     if (action !== 'watch') stopHallFocusMedia();
     setLightboxIndex(null);
     setActivePersonAction(action);
@@ -812,6 +814,7 @@ export function LivingHallView({
             inductee={focusedPerson}
             action={activePersonAction}
             continuationAvailable={Boolean(focusedContinuationUrl)}
+            fullTextAvailable={focusedFullTextAvailable}
             lens={lens}
             mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
             placement={focusedCardPlacement}
@@ -914,6 +917,7 @@ function PortraitFocusCard({
   inductee,
   action,
   continuationAvailable,
+  fullTextAvailable,
   lens,
   mediaPlayable,
   placement,
@@ -924,6 +928,7 @@ function PortraitFocusCard({
   inductee: Inductee;
   action: HallPersonAction;
   continuationAvailable: boolean;
+  fullTextAvailable: boolean;
   lens: HallLens;
   mediaPlayable: boolean;
   placement: FocusCardPlacement;
@@ -933,11 +938,20 @@ function PortraitFocusCard({
 }) {
   const context = inducteeContextLabel(inductee);
   const summary = honoredForSummary(inductee);
+  const shortFacts = portraitShortFacts(inductee);
+  const panelId = focusActionPanelId(inductee.id);
+  const traceDescriptionId = `${panelId}-trace-desc`;
+  const storyDescriptionId = `${panelId}-story-desc`;
+  const textDescriptionId = `${panelId}-text-desc`;
+  const watchDescriptionId = `${panelId}-watch-desc`;
+  const continueDescriptionId = `${panelId}-continue-desc`;
+  const biographyWords = fullBiographyWordCount(inductee);
 
   return (
     <aside
       aria-label={`${inductee.name} focused portrait context`}
       className="living-hall__focusCard"
+      data-full-text-available={fullTextAvailable ? 'true' : 'false'}
       data-side={placement.side}
       style={placement.style}
       onPointerDown={(event) => event.stopPropagation()}
@@ -955,6 +969,17 @@ function PortraitFocusCard({
         <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
       </div>
       {context && <p className="living-hall__focusContext">{context}</p>}
+      <section className="living-hall__focusFacts" aria-label="Short facts">
+        <h4>SHORT FACTS</h4>
+        <dl>
+          {shortFacts.map((fact) => (
+            <div key={fact.label}>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
       <section className="living-hall__focusWhy" aria-label="Honored for">
         <h4>HONORED FOR</h4>
         <p>{summary}</p>
@@ -962,38 +987,71 @@ function PortraitFocusCard({
       <nav className="living-hall__focusActions" aria-label={`Actions for ${inductee.name}`}>
         <button
           type="button"
+          aria-label="FOLLOW THE TRACE →"
+          aria-describedby={traceDescriptionId}
           aria-pressed={lens === 'traces'}
           className={lens === 'traces' ? 'living-hall__focusAction living-hall__focusAction--primary living-hall__focusAction--active' : 'living-hall__focusAction living-hall__focusAction--primary'}
           onClick={onFollowTrace}
         >
-          FOLLOW THE TRACE →
+          <span>FOLLOW THE TRACE →</span>
+          <small id={traceDescriptionId}>People, places, and class ties</small>
         </button>
         <button
           type="button"
+          aria-label="LIFE + WORK"
+          aria-controls={panelId}
+          aria-describedby={storyDescriptionId}
+          aria-expanded={action === 'story'}
           aria-pressed={action === 'story'}
           className={action === 'story' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
           onClick={() => onSetAction(action === 'story' ? 'overview' : 'story')}
         >
-          LIFE + WORK
+          <span>LIFE + WORK</span>
+          <small id={storyDescriptionId}>Guided highlights</small>
         </button>
+        {fullTextAvailable && (
+          <button
+            type="button"
+            aria-label="FULL TEXT"
+            aria-controls={panelId}
+            aria-describedby={textDescriptionId}
+            aria-expanded={action === 'text'}
+            aria-pressed={action === 'text'}
+            className={action === 'text' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
+            onClick={() => onSetAction(action === 'text' ? 'overview' : 'text')}
+          >
+            <span>FULL TEXT</span>
+            <small id={textDescriptionId}>{biographyWords ? `${biographyWords} words` : 'Source biography'}</small>
+          </button>
+        )}
         {mediaPlayable && (
           <button
             type="button"
+            aria-label="WATCH INDUCTION"
+            aria-controls={panelId}
+            aria-describedby={watchDescriptionId}
+            aria-expanded={action === 'watch'}
             aria-pressed={action === 'watch'}
             className={action === 'watch' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
             onClick={() => onSetAction(action === 'watch' ? 'overview' : 'watch')}
           >
-            WATCH INDUCTION
+            <span>WATCH INDUCTION</span>
+            <small id={watchDescriptionId}>Recorded media</small>
           </button>
         )}
         {continuationAvailable && (
           <button
             type="button"
+            aria-label="TAKE IT WITH YOU"
+            aria-controls={panelId}
+            aria-describedby={continueDescriptionId}
+            aria-expanded={action === 'continue'}
             aria-pressed={action === 'continue'}
             className={action === 'continue' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
             onClick={() => onSetAction(action === 'continue' ? 'overview' : 'continue')}
           >
-            TAKE IT WITH YOU
+            <span>TAKE IT WITH YOU</span>
+            <small id={continueDescriptionId}>QR continuation</small>
           </button>
         )}
       </nav>
@@ -1032,6 +1090,7 @@ function PersonFocusActionPanel({
 }) {
   return (
     <aside
+      id={focusActionPanelId(inductee.id)}
       aria-label={`${inductee.name} ${personActionLabel(action)}`}
       className={`living-hall__personActionPanel detail--visitor detail--action-${detailClassForAction(action)}`}
       data-action-label={personActionLabel(action)}
@@ -1053,6 +1112,9 @@ function PersonFocusActionPanel({
           onExit={onClose}
           onSelectPerson={onSelectPerson}
         />
+      )}
+      {action === 'text' && (
+        <PersonFullTextPanel inductee={inductee} />
       )}
       {action === 'watch' && (
         <MediaExperience
@@ -1078,8 +1140,126 @@ function PersonFocusActionPanel({
   );
 }
 
+type PortraitFocusFact = {
+  label: string;
+  value: string;
+};
+
+function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
+  const text = fullBiographyText(inductee);
+  const paragraphs = biographyParagraphs(text);
+  const wordCount = wordCountText(text);
+  const detail = [
+    inductee.classYear ? `Class of ${inductee.classYear}` : '',
+    wordCount ? `${wordCount} words` : '',
+    'Local biography text',
+  ].filter(Boolean).join(' / ');
+
+  return (
+    <section
+      aria-label={`${inductee.name} full biography`}
+      className="living-hall__fullText"
+      data-word-count={wordCount}
+    >
+      <header className="living-hall__fullTextHeader">
+        <p className="museum-kicker">Full Text</p>
+        <h3>Source Biography</h3>
+        <span>{detail}</span>
+      </header>
+      <div className="living-hall__fullTextBody" tabIndex={0} aria-label={`${inductee.name} biography text`}>
+        {paragraphs.map((paragraph, index) => (
+          <p key={`${inductee.id}-paragraph-${index}`}>{paragraph}</p>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function portraitShortFacts(inductee: Inductee): PortraitFocusFact[] {
+  const supportedPlaces = explicitTags(inductee.countryTags, inductee.countryTagsSource).slice(0, 2);
+  const place = supportedPlaces.join(' / ') || inductee.region;
+  const community = inductee.communityTags.slice(0, 2).join(' / ') || explicitTags(inductee.themeTags, inductee.themeTagsSource)[0] || '';
+  const biographyWords = fullBiographyWordCount(inductee);
+  const facts: PortraitFocusFact[] = [
+    { label: 'Class', value: inductee.classYear ? String(inductee.classYear) : 'Pending' },
+    { label: 'Place', value: compactFactValue(place || 'CIHOF') },
+    { label: 'Community', value: compactFactValue(community || inductee.region || 'CIHOF') },
+  ];
+
+  if (inductee.inductedBy) facts.push({ label: 'Inducted By', value: compactFactValue(inductee.inductedBy) });
+  if (facts.length < 4 && biographyWords > 0) facts.push({ label: 'Text', value: `${biographyWords} words` });
+
+  return facts.slice(0, 4);
+}
+
+function compactFactValue(value: string) {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= 44) return normalized;
+  return `${normalized.slice(0, 41).replace(/[,;:\s]+$/, '')}...`;
+}
+
+function fullBiographyWordCount(inductee: Inductee) {
+  return wordCountText(fullBiographyText(inductee));
+}
+
+function fullBiographyText(inductee: Inductee) {
+  const source = inductee.bioText || inductee.lifeWorkSummary || inductee.storySummary || inductee.honoredForSummary;
+  return stripLeadingBiographyName(source.replace(/\s+/g, ' ').trim(), inductee.name);
+}
+
+function stripLeadingBiographyName(text: string, name: string) {
+  const variants = [
+    name,
+    name.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim(),
+  ].filter(Boolean);
+  const lowerText = text.toLowerCase();
+  const match = variants.find((variant) => lowerText.startsWith(variant.toLowerCase()));
+  if (!match) return text;
+  return text.slice(match.length).replace(/^[-:,\s]+/, '').trim() || text;
+}
+
+function biographyParagraphs(text: string) {
+  if (!text) return ['No biography text is available in this local data bundle.'];
+  const sentences = splitBiographySentences(text);
+  const paragraphs: string[] = [];
+  let current: string[] = [];
+  let currentWords = 0;
+
+  sentences.forEach((sentence) => {
+    const sentenceWords = wordCountText(sentence);
+    if (current.length > 0 && (currentWords + sentenceWords > 115 || current.length >= 4)) {
+      paragraphs.push(current.join(' '));
+      current = [];
+      currentWords = 0;
+    }
+    current.push(sentence);
+    currentWords += sentenceWords;
+  });
+
+  if (current.length > 0) paragraphs.push(current.join(' '));
+  return paragraphs;
+}
+
+function splitBiographySentences(text: string) {
+  const protectedText = text
+    .replace(/\b(i\.e|e\.g|Mr|Mrs|Ms|Dr|Jr|Sr|St|Fr|Hon|Rev)\./gi, (match) => match.replace(/\./g, '<dot>'))
+    .replace(/\b([A-Z])\./g, '$1<dot>');
+  return (protectedText.match(/[^.!?]+(?:[.!?]+|$)/g) ?? [protectedText])
+    .map((sentence) => sentence.replace(/<dot>/g, '.').trim())
+    .filter(Boolean);
+}
+
+function wordCountText(text: string) {
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function focusActionPanelId(inducteeId: string) {
+  return `living-hall-person-action-${inducteeId}`;
+}
+
 function personActionLabel(action: HallPersonAction) {
   if (action === 'story') return 'LIFE + WORK';
+  if (action === 'text') return 'FULL TEXT';
   if (action === 'watch') return 'WATCH INDUCTION';
   if (action === 'continue') return 'TAKE IT WITH YOU';
   return 'FOCUSED PORTRAIT';
@@ -1087,6 +1267,7 @@ function personActionLabel(action: HallPersonAction) {
 
 function detailClassForAction(action: HallPersonAction) {
   if (action === 'story') return 'story';
+  if (action === 'text') return 'text';
   if (action === 'watch') return 'watch';
   if (action === 'continue') return 'continue';
   return 'overview';

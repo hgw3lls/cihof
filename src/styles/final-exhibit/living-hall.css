@@ -589,12 +589,17 @@
   position: absolute;
   left: var(--focus-card-x);
   top: var(--focus-card-y);
-  z-index: 2460;
-  width: min(560px, 34vw);
+  z-index: 3200;
+  box-sizing: border-box;
+  width: min(600px, 36vw);
   border-top: 0;
-  background: transparent;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.028) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242, 232, 209, 0.94) 0 86%, rgba(242, 232, 209, 0.78) 100%);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
   color: var(--exhibit-ink);
-  padding: 0;
+  padding: clamp(12px, 1.05vw, 18px);
   text-align: left;
   transform: translateY(-50%);
 }
@@ -624,6 +629,8 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__focusHeader span,
 .museum-shell:not(.museum-shell--staff) .living-hall__focusHeader button,
 .museum-shell:not(.museum-shell--staff) .living-hall__focusIdentity p,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts h4,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts dt,
 .museum-shell:not(.museum-shell--staff) .living-hall__focusWhy h4 {
   font-family: var(--font-exhibit-label);
   font-stretch: var(--type-width-label);
@@ -680,6 +687,49 @@
   line-height: 1.12;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts {
+  margin-top: clamp(12px, 1vw, 18px);
+  border-top: 1px solid rgba(21, 19, 15, 0.18);
+  padding-top: clamp(9px, 0.8vw, 13px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts h4 {
+  margin: 0 0 0.55rem;
+  color: var(--exhibit-route);
+  font-size: clamp(0.72rem, 0.74vw, 0.92rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 0.75vw, 13px) clamp(12px, 1vw, 18px);
+  margin: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts div {
+  min-width: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.12);
+  padding-top: 6px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts dt {
+  margin: 0 0 0.25rem;
+  color: rgba(21, 19, 15, 0.46);
+  font-size: clamp(0.56rem, 0.58vw, 0.72rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusFacts dd {
+  margin: 0;
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.84);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.78rem, 0.82vw, 1rem);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusWhy {
   margin-top: clamp(14px, 1.2vw, 20px);
   border-top: 1px solid rgba(21, 19, 15, 0.18);
@@ -710,12 +760,15 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusAction {
+  display: grid;
+  align-content: center;
+  gap: 4px;
   min-height: 44px;
   border: 0;
   border-bottom: 1px solid rgba(21, 19, 15, 0.16);
   background: transparent;
   color: var(--exhibit-ink);
-  padding: 0;
+  padding: 8px 0;
   font-family: var(--font-exhibit-label);
   font-size: clamp(0.66rem, 0.7vw, 0.88rem);
   font-stretch: var(--type-width-label);
@@ -728,11 +781,40 @@
   cursor: pointer;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.48);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.66rem, 0.68vw, 0.84rem);
+  font-stretch: normal;
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.16;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusAction--primary {
   min-height: 56px;
   color: var(--exhibit-route);
   font-size: clamp(1.04rem, 1.22vw, 1.58rem);
   letter-spacing: 0.03em;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--primary small {
+  color: rgba(168, 75, 37, 0.66);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusAction--active,
@@ -741,11 +823,17 @@
   background: linear-gradient(180deg, transparent 0 86%, rgba(168, 75, 37, 0.18) 86% 100%);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__focusHeader button:focus-visible,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction:focus-visible {
+  outline: 3px solid var(--exhibit-route);
+  outline-offset: 4px;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel {
   position: absolute;
   left: var(--person-action-x);
   top: var(--person-action-y);
-  z-index: 2500;
+  z-index: 3400;
   width: min(780px, 44vw);
   max-height: min(73vh, 760px);
   overflow: auto;
@@ -768,6 +856,10 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-watch {
   width: min(900px, 52vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-text {
+  width: min(860px, 48vw);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-continue {
@@ -813,8 +905,76 @@
   cursor: pointer;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionHeader button:focus-visible {
+  outline: 3px solid var(--exhibit-route);
+  outline-offset: 4px;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel :is(.story-mode, .media-experience, .qr-continuation) {
   max-height: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullText {
+  display: grid;
+  gap: clamp(12px, 1vw, 18px);
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextHeader {
+  display: grid;
+  gap: clamp(5px, 0.45vw, 8px);
+  border-top: 2px solid rgba(21, 19, 15, 0.28);
+  padding-top: clamp(8px, 0.8vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextHeader p,
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextHeader span {
+  margin: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextHeader h3 {
+  margin: 0;
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(2rem, 2.9vw, 4.8rem);
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 420;
+  letter-spacing: 0;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextHeader span {
+  color: rgba(21, 19, 15, 0.54);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.66rem, 0.7vw, 0.86rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextBody {
+  max-height: min(54vh, 610px);
+  overflow: auto;
+  padding-right: clamp(8px, 0.8vw, 14px);
+  scroll-padding: 16px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextBody:focus-visible {
+  outline: 3px solid var(--exhibit-route);
+  outline-offset: 5px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fullTextBody p {
+  margin: 0 0 clamp(0.86rem, 0.9vw, 1.15rem);
+  color: rgba(21, 19, 15, 0.88);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.98rem, 1.02vw, 1.22rem);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  line-height: 1.44;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel .story-mode {
@@ -1435,6 +1595,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusHeader,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusFacts,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusWhy {
   display: none;
 }
@@ -1451,6 +1612,10 @@
   border-bottom-color: rgba(9, 9, 7, 0.08);
   color: rgba(9, 9, 7, 0.46);
   font-size: clamp(0.52rem, 0.56vw, 0.68rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusAction small {
+  display: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusAction--primary {

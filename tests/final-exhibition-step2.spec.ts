@@ -39,6 +39,19 @@ test.describe('focused portrait as in-place record', () => {
     await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
     await expectHall(page, 'portraits', candidate.id);
 
+    await page.getByRole('button', { name: 'FULL TEXT' }).click();
+    const fullTextPanel = page.locator('.living-hall__personActionPanel .living-hall__fullText');
+    await expect(fullTextPanel).toBeVisible();
+    await expectPersonActionHeader(page, candidate.name);
+    await expect(fullTextPanel.locator('.living-hall__fullTextHeader')).toContainText('Source Biography');
+    await expect(fullTextPanel).toHaveAttribute('data-word-count', /[1-9][0-9]+/);
+    await expect(fullTextPanel.locator('.living-hall__fullTextBody p').first()).toBeVisible();
+    await expectHall(page, 'portraits', candidate.id);
+    await screenshotHall(page, 'full-text');
+    await page.locator('.living-hall__personActionHeader button').click();
+    await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
+    await expectHall(page, 'portraits', candidate.id);
+
     await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
     await expect(page.locator('.living-hall__personActionPanel .media-experience')).toBeVisible();
     await expectPersonActionHeader(page, candidate.name);
@@ -81,7 +94,7 @@ async function waitForGuard(page: Page) {
 async function expectPersonActionHeader(page: Page, name: string) {
   const heading = page.locator('.living-hall__personActionHeader span');
   await expect(heading).toHaveText(name);
-  await expect(heading).not.toHaveText(/^(LIFE \+ WORK|WATCH INDUCTION|TAKE IT WITH YOU)$/);
+  await expect(heading).not.toHaveText(/^(LIFE \+ WORK|FULL TEXT|WATCH INDUCTION|TAKE IT WITH YOU)$/);
 }
 
 async function readActionCandidateData(page: Page) {

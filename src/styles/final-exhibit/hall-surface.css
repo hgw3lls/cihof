@@ -135,17 +135,20 @@
   opacity: 0.08;
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-hall__focusCard {
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-hall__focusCard {
   opacity: 0;
   pointer-events: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-portrait:not(.living-portrait--focused),
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-portrait:not(.living-portrait--focused),
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="continue"] .living-portrait:not(.living-portrait--focused) {
   opacity: 0.045;
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record,
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="continue"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record {
   opacity: 0;
 }
@@ -168,6 +171,11 @@
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue {
   width: min(740px, 38vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-text {
+  width: min(860px, 44vw);
+  max-height: min(76vh, 820px);
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .living-hall__personActionHeader,
