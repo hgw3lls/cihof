@@ -225,14 +225,17 @@
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label {
   max-width: 25ch;
+  background: rgba(244, 234, 211, 0.58);
   color: rgba(9, 9, 7, 0.66);
   font-size: clamp(0.58rem, 0.64vw, 0.82rem);
   line-height: 1.02;
+  padding: 4px 6px 5px;
+  box-shadow: 0 0 0 1px rgba(9, 9, 7, 0.06);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label::before {
   width: 38px;
-  opacity: 0.46;
+  opacity: 0.56;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label small {

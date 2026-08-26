@@ -689,6 +689,244 @@
   line-height: 1.12;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocus,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocus {
+  display: grid;
+  gap: clamp(10px, 0.92vw, 15px);
+  margin-top: clamp(11px, 1vw, 17px);
+  border-top: 2px solid rgba(168, 75, 37, 0.48);
+  padding-top: clamp(9px, 0.86vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionIndex,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection em,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacySwipeHint {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 680;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader span {
+  color: rgba(168, 75, 37, 0.7);
+  font-size: clamp(0.56rem, 0.58vw, 0.74rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader strong {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.86);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(1rem, 1.2vw, 1.64rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 780;
+  line-height: 0.92;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader small {
+  color: rgba(21, 19, 15, 0.46);
+  font-size: clamp(0.52rem, 0.54vw, 0.68rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionList,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohort {
+  display: grid;
+  gap: clamp(6px, 0.56vw, 9px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.65ch minmax(0, 1fr);
+  gap: clamp(8px, 0.78vw, 12px);
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.16);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.78);
+  padding: clamp(7px, 0.62vw, 10px) 0 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection:focus-visible,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep:focus-visible,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson:focus-visible {
+  outline: 3px solid rgba(168, 75, 37, 0.74);
+  outline-offset: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionIndex,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson span {
+  color: rgba(168, 75, 37, 0.62);
+  font-size: clamp(0.52rem, 0.54vw, 0.68rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson small {
+  min-width: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson strong {
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.88);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.82rem, 0.9vw, 1.22rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  line-height: 0.95;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection em {
+  overflow: hidden;
+  color: rgba(168, 75, 37, 0.7);
+  font-size: clamp(0.52rem, 0.56vw, 0.7rem);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection small,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson small {
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.5);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.64rem, 0.68vw, 0.84rem);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  line-height: 1.14;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionWeight {
+  grid-column: 1 / -1;
+  width: calc(var(--trace-weight, 0.4) * 100%);
+  height: 2px;
+  background: rgba(168, 75, 37, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection:is(:hover, :focus-visible),
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson:is(:hover, :focus-visible),
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson--active,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson[aria-pressed="true"] {
+  border-top-color: rgba(168, 75, 37, 0.64);
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusEmpty,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacySwipeHint {
+  margin: 0;
+  color: rgba(21, 19, 15, 0.5);
+  font-size: clamp(0.58rem, 0.62vw, 0.78rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassStepper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(82px, 0.78fr) minmax(0, 1fr);
+  gap: clamp(7px, 0.65vw, 10px);
+  align-items: stretch;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass {
+  display: grid;
+  align-content: center;
+  gap: 0.28rem;
+  min-height: 58px;
+  min-width: 0;
+  border: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.18);
+  background: rgba(242, 232, 209, 0.24);
+  color: rgba(21, 19, 15, 0.68);
+  padding: clamp(7px, 0.66vw, 10px) 0 0;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep {
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep:disabled {
+  color: rgba(21, 19, 15, 0.24);
+  cursor: default;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep--next {
+  text-align: right;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass {
+  border-top-color: rgba(168, 75, 37, 0.72);
+  background: rgba(168, 75, 37, 0.12);
+  color: rgba(21, 19, 15, 0.86);
+  text-align: center;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep small,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass small {
+  overflow: hidden;
+  color: rgba(168, 75, 37, 0.62);
+  font-size: clamp(0.46rem, 0.5vw, 0.62rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyStep strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCurrentClass strong {
+  overflow: hidden;
+  color: currentColor;
+  font-size: clamp(0.82rem, 0.92vw, 1.2rem);
+  font-weight: 790;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson {
+  min-height: 46px;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusLens {
   display: grid;
   gap: clamp(8px, 0.75vw, 13px);
@@ -883,6 +1121,256 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__focusAction:focus-visible {
   outline: 3px solid var(--exhibit-route);
   outline-offset: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit {
+  color: rgba(21, 19, 15, 0.74);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit:disabled {
+  color: rgba(21, 19, 15, 0.32);
+  cursor: default;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray {
+  position: absolute;
+  left: clamp(18px, 2vw, 36px);
+  bottom: calc(var(--experience-dock-height) + clamp(18px, 2.4vh, 42px));
+  z-index: 3180;
+  display: grid;
+  gap: clamp(9px, 0.9vw, 15px);
+  width: min(400px, 25vw);
+  max-height: min(38vh, 390px);
+  overflow: hidden;
+  border-top: 2px solid rgba(155, 63, 31, 0.58);
+  background:
+    linear-gradient(90deg, rgba(244, 234, 211, 0.94), rgba(244, 234, 211, 0.72)),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px);
+  background-size: auto, var(--exhibit-stage-grid);
+  box-shadow:
+    0 0 0 1px rgba(9, 9, 7, 0.08),
+    0 16px 30px rgba(9, 9, 7, 0.1);
+  color: var(--exhibit-ink);
+  padding: clamp(10px, 1vw, 16px) 0 0;
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(12px, 1.2vw, 20px);
+  padding: 0 clamp(10px, 1vw, 16px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray button,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--exhibit-route);
+  font-size: clamp(0.62rem, 0.66vw, 0.78rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader strong {
+  display: block;
+  color: rgba(21, 19, 15, 0.78);
+  font-size: clamp(0.84rem, 0.9vw, 1.08rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions {
+  display: flex;
+  gap: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRemove,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader button {
+  min-height: 44px;
+  border: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.24);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.66);
+  padding: 7px 0 0;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child {
+  border-top-color: rgba(155, 63, 31, 0.7);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  max-height: min(27vh, 270px);
+  overflow: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitList li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(62px, auto);
+  align-items: stretch;
+  gap: 10px;
+  border-top: 1px solid rgba(21, 19, 15, 0.14);
+  padding: 0 clamp(10px, 1vw, 16px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson {
+  display: grid;
+  grid-template-columns: 2ch minmax(0, 1fr);
+  grid-template-areas:
+    "index name"
+    "index meta";
+  align-content: center;
+  column-gap: 10px;
+  min-height: 54px;
+  border: 0;
+  background: transparent;
+  color: rgba(9, 9, 7, 0.84);
+  padding: 8px 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson > span {
+  grid-area: index;
+  color: rgba(155, 63, 31, 0.72);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson > strong {
+  grid-area: name;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson > small {
+  grid-area: meta;
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.48);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.64rem, 0.68vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRemove {
+  justify-self: end;
+  min-width: 62px;
+  color: rgba(21, 19, 15, 0.44);
+  font-size: clamp(0.58rem, 0.62vw, 0.76rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray :is(button):focus-visible,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel :is(button):focus-visible {
+  outline: 3px solid var(--exhibit-route);
+  outline-offset: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
+  position: absolute;
+  left: clamp(18px, 2vw, 36px);
+  bottom: calc(var(--experience-dock-height) + clamp(60px, 8vh, 126px));
+  z-index: 3600;
+  width: min(660px, 44vw);
+  border-top: 2px solid rgba(155, 63, 31, 0.72);
+  background:
+    linear-gradient(90deg, rgba(242, 232, 209, 0.97) 0 88%, rgba(242, 232, 209, 0.78) 88% 100%),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px);
+  background-size: auto, var(--exhibit-stage-grid);
+  color: var(--exhibit-ink);
+  padding-top: clamp(10px, 1vw, 16px);
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 clamp(16px, 1.6vw, 28px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader span {
+  color: var(--exhibit-route);
+  font-size: clamp(0.76rem, 0.82vw, 1rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 0.42fr);
+  align-items: center;
+  gap: clamp(20px, 2.3vw, 44px);
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy {
+  display: grid;
+  gap: clamp(10px, 1vw, 18px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy h3 {
+  margin: 0;
+  color: rgba(9, 9, 7, 0.84);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(2.3rem, 3.4vw, 5rem);
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy span {
+  max-width: 28ch;
+  color: rgba(9, 9, 7, 0.76);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(1rem, 1.16vw, 1.46rem);
+  line-height: 1.2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy small {
+  max-width: 34ch;
+  color: rgba(9, 9, 7, 0.46);
+  font-size: clamp(0.58rem, 0.66vw, 0.82rem);
+  white-space: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__code {
+  width: clamp(180px, 15vw, 260px);
+  height: clamp(180px, 15vw, 260px);
+  display: grid;
+  place-items: center;
+  background: #fff;
+  padding: clamp(12px, 1.1vw, 20px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel {
@@ -1573,10 +2061,11 @@
 /* Visual surgery pass: reduce archival noise and give portraits/trace systems authority. */
 .museum-shell:not(.museum-shell--staff) .living-hall::before {
   background:
-    linear-gradient(90deg, transparent 0 22%, rgba(9, 9, 7, 0.024) 22% calc(22% + 1px), transparent calc(22% + 1px)),
-    linear-gradient(90deg, transparent 0 73%, rgba(9, 9, 7, 0.026) 73% calc(73% + 1px), transparent calc(73% + 1px)),
-    linear-gradient(180deg, transparent 0 74%, rgba(9, 9, 7, 0.026) 74% calc(74% + 1px), transparent calc(74% + 1px));
-  opacity: 0.14;
+    linear-gradient(90deg, transparent 0 22%, rgba(9, 9, 7, 0.038) 22% calc(22% + 1px), transparent calc(22% + 1px)),
+    linear-gradient(90deg, transparent 0 73%, rgba(9, 9, 7, 0.04) 73% calc(73% + 1px), transparent calc(73% + 1px)),
+    linear-gradient(180deg, transparent 0 74%, rgba(9, 9, 7, 0.048) 74% calc(74% + 1px), transparent calc(74% + 1px)),
+    repeating-linear-gradient(180deg, transparent 0 47px, rgba(111, 121, 81, 0.07) 47px 48px);
+  opacity: 0.24;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__recordLayer {
@@ -1597,24 +2086,57 @@
   display: none;
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__title h2,
-.museum-shell:not(.museum-shell--staff) .living-hall__era,
+.museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+  color: rgba(9, 9, 7, 0.18);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era {
+  color: rgba(9, 9, 7, 0.24);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__vocabulary,
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel {
-  color: rgba(9, 9, 7, 0.1);
+  color: rgba(9, 9, 7, 0.15);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
-  color: rgba(155, 63, 31, 0.14);
+  color: rgba(155, 63, 31, 0.34);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__touchCue::after {
-  background: rgba(155, 63, 31, 0.16);
+  background: rgba(155, 63, 31, 0.32);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusRail {
+  gap: clamp(10px, 1vw, 18px);
+  background: linear-gradient(180deg, rgba(244, 234, 211, 0.34), rgba(244, 234, 211, 0));
+  color: rgba(9, 9, 7, 0.72);
+  padding: clamp(7px, 0.7vw, 12px) clamp(10px, 1vw, 16px) 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric {
+  border-top-color: rgba(9, 9, 7, 0.28);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric small {
+  color: rgba(155, 63, 31, 0.74);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric strong {
+  color: rgba(9, 9, 7, 0.84);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--attract .living-hall__title {
+  opacity: 0.56;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--attract .living-hall__touchCue {
+  opacity: 0.62;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__touchCue {
   width: 11ch;
-  color: rgba(9, 9, 7, 0.1);
+  color: rgba(9, 9, 7, 0.2);
   font-size: clamp(0.82rem, 0.92vw, 1.18rem);
 }
 
@@ -1645,8 +2167,116 @@
   background: rgba(9, 9, 7, 0.96);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-portrait--focused {
+  --frame-edge: 5px;
+  --mat-size: 9px;
+  filter: contrast(1.2) brightness(0.97);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-portrait--focused .portrait-frame {
+  box-shadow:
+    0 0 0 1px rgba(244, 234, 211, 0.36),
+    0 22px 42px rgba(9, 9, 7, 0.26);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusCard {
+  width: min(560px, 34vw);
+  max-height: min(86vh, 800px);
+  overflow: auto;
+  background:
+    linear-gradient(90deg, rgba(9, 9, 7, 0.032) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(9, 9, 7, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 234, 211, 0.96) 0 82%, rgba(244, 234, 211, 0.72) 100%);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+  box-shadow:
+    0 0 0 1px rgba(9, 9, 7, 0.08),
+    18px 22px 42px rgba(9, 9, 7, 0.1);
+  padding: clamp(13px, 1.15vw, 20px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusHeader {
+  border-top-color: rgba(155, 63, 31, 0.86);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusHeader button {
+  min-width: 70px;
+  color: rgba(9, 9, 7, 0.74);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusIdentity h3 {
+  max-width: 14ch;
+  font-size: clamp(1.9rem, 2.8vw, 4.7rem);
+  line-height: 0.86;
+  overflow-wrap: break-word;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusContext,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusLens p,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusWhy p {
+  color: rgba(9, 9, 7, 0.78);
+  line-height: 1.22;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusActions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(8px, 0.75vw, 12px);
+  border-top-color: rgba(9, 9, 7, 0.22);
+  padding-top: clamp(9px, 0.8vw, 13px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction {
+  min-height: clamp(52px, 5.7vh, 70px);
+  border-top: 1px solid rgba(9, 9, 7, 0.18);
+  border-bottom: 0;
+  background: rgba(244, 234, 211, 0.28);
+  padding: clamp(8px, 0.78vw, 13px) clamp(8px, 0.78vw, 12px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--primary {
+  grid-column: 1 / -1;
+  min-height: clamp(60px, 6.5vh, 80px);
+  border-top-color: rgba(155, 63, 31, 0.78);
+  background: rgba(155, 63, 31, 0.11);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit {
+  border-top-color: rgba(111, 121, 81, 0.72);
+  background: rgba(111, 121, 81, 0.12);
+  color: rgba(49, 59, 34, 0.94);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit small {
+  color: rgba(49, 59, 34, 0.68);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--active,
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction[aria-pressed="true"] {
+  border-top-color: var(--exhibit-route);
+  background: linear-gradient(180deg, rgba(155, 63, 31, 0.16) 0 86%, rgba(155, 63, 31, 0.42) 86% 100%);
+  color: var(--exhibit-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit[aria-pressed="true"] {
+  border-top-color: rgba(111, 121, 81, 0.9);
+  background: linear-gradient(180deg, rgba(111, 121, 81, 0.18) 0 86%, rgba(111, 121, 81, 0.48) 86% 100%);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusAction--visit:disabled {
+  border-top-color: rgba(9, 9, 7, 0.14);
+  background: rgba(244, 234, 211, 0.16);
+  color: rgba(9, 9, 7, 0.32);
+  cursor: default;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="story"] .living-hall__statusRail,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="text"] .living-hall__statusRail,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="watch"] .living-hall__statusRail,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="continue"] .living-hall__statusRail {
+  opacity: 0;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusCard {
-  width: min(390px, 25vw);
+  width: min(430px, 28vw);
   color: rgba(9, 9, 7, 0.72);
 }
 
@@ -1654,9 +2284,14 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
   left: clamp(24px, 4vw, 74px);
   top: clamp(120px, 18vh, 176px);
-  width: min(470px, 31vw);
-  max-height: min(68vh, 680px);
+  width: min(540px, 34vw);
+  max-height: min(72vh, 720px);
   overflow: auto;
+  background:
+    linear-gradient(90deg, rgba(9, 9, 7, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(9, 9, 7, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 234, 211, 0.985) 0 88%, rgba(244, 234, 211, 0.92) 100%);
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
   pointer-events: none;
   transform: translate3d(var(--legacy-pan, 0px), 0, 0);
 }
@@ -1667,9 +2302,9 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__personActionPanel,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__personActionPanel[data-side="left"] {
-  left: clamp(520px, 42vw, 820px);
+  left: clamp(500px, 38vw, 700px);
   top: clamp(126px, 18vh, 188px);
-  width: min(840px, 48vw);
+  width: min(760px, 42vw);
   max-height: min(70vh, 760px);
   transform: translate3d(var(--legacy-pan, 0px), 0, 0);
 }
@@ -1681,10 +2316,10 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusActions {
-  width: min(220px, 15vw);
+  width: min(340px, 100%);
   margin-top: clamp(8px, 0.8vw, 14px);
-  border-top-color: rgba(9, 9, 7, 0.1);
-  opacity: 0.58;
+  border-top-color: rgba(9, 9, 7, 0.16);
+  opacity: 0.82;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusLens {
@@ -1713,9 +2348,10 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusAction {
-  min-height: 44px;
-  border-bottom-color: rgba(9, 9, 7, 0.08);
-  color: rgba(9, 9, 7, 0.46);
+  min-height: 48px;
+  border-top-color: rgba(9, 9, 7, 0.16);
+  background: rgba(244, 234, 211, 0.22);
+  color: rgba(9, 9, 7, 0.56);
   font-size: clamp(0.52rem, 0.56vw, 0.68rem);
 }
 
@@ -1745,9 +2381,15 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel {
   top: clamp(74px, 9vh, 110px);
   right: clamp(28px, 3.2vw, 64px);
-  width: min(220px, 15vw);
-  border-top-color: rgba(155, 63, 31, 0.32);
-  opacity: 0.84;
+  width: min(280px, 19vw);
+  border-top: 2px solid rgba(155, 63, 31, 0.62);
+  background:
+    linear-gradient(90deg, rgba(244, 234, 211, 0.76), rgba(244, 234, 211, 0.48)),
+    linear-gradient(90deg, rgba(9, 9, 7, 0.028) 1px, transparent 1px);
+  background-size: auto, var(--exhibit-stage-grid);
+  box-shadow: 0 18px 32px rgba(9, 9, 7, 0.08);
+  opacity: 0.96;
+  padding: clamp(8px, 0.7vw, 12px) clamp(10px, 0.9vw, 14px) clamp(10px, 0.9vw, 14px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] {
@@ -1760,18 +2402,18 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceContextButton {
-  min-height: clamp(36px, 4.2vh, 54px);
-  color: rgba(9, 9, 7, 0.62);
+  min-height: clamp(44px, 5vh, 66px);
+  color: rgba(9, 9, 7, 0.74);
   font-size: clamp(0.78rem, 0.9vw, 1.14rem);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControls {
-  top: clamp(48px, 5.6vh, 72px);
+  top: calc(100% + clamp(16px, 1.8vh, 26px));
   right: auto;
   left: 0;
-  width: min(410px, 30vw);
+  width: min(430px, 31vw);
   grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: clamp(12px, 1.3vw, 22px);
+  gap: clamp(10px, 1.1vw, 18px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] .living-hall__traceControls {
@@ -1780,9 +2422,19 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl {
-  min-height: clamp(54px, 6.4vh, 82px);
-  color: rgba(9, 9, 7, 0.36);
-  opacity: 0.72;
+  min-height: clamp(64px, 7vh, 92px);
+  border-top-color: rgba(9, 9, 7, 0.22);
+  background: rgba(244, 234, 211, 0.38);
+  color: rgba(9, 9, 7, 0.52);
+  padding: clamp(8px, 0.72vw, 12px) clamp(9px, 0.78vw, 13px);
+  opacity: 0.86;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl[aria-pressed="true"],
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl--active {
+  border-top-color: rgba(155, 63, 31, 0.82);
+  background: rgba(155, 63, 31, 0.12);
+  color: rgba(9, 9, 7, 0.86);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl strong {
@@ -1806,16 +2458,17 @@
   top: 45%;
   height: 3px;
   background:
-    linear-gradient(90deg, transparent, rgba(9, 9, 7, 0.22) 3%, rgba(9, 9, 7, 0.22) 97%, transparent),
-    repeating-linear-gradient(90deg, transparent 0 76px, rgba(9, 9, 7, 0.18) 76px 77px, transparent 77px 152px);
+    linear-gradient(90deg, transparent, rgba(9, 9, 7, 0.3) 3%, rgba(9, 9, 7, 0.3) 97%, transparent),
+    repeating-linear-gradient(90deg, transparent 0 76px, rgba(155, 63, 31, 0.24) 76px 77px, transparent 77px 152px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel {
   min-width: 76px;
   border-top: 0;
-  border-left: 1px solid rgba(9, 9, 7, 0.24);
-  padding: 8px 0 0 8px;
-  color: rgba(9, 9, 7, 0.34);
+  border-left: 2px solid rgba(9, 9, 7, 0.3);
+  background: rgba(244, 234, 211, 0.2);
+  padding: 8px 0 4px 8px;
+  color: rgba(9, 9, 7, 0.42);
   text-align: left;
 }
 
@@ -1841,8 +2494,9 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active {
-  min-width: min(220px, 12vw);
+  min-width: min(240px, 14vw);
   border-left-color: rgba(155, 63, 31, 0.8);
+  background: linear-gradient(90deg, rgba(244, 234, 211, 0.72), rgba(244, 234, 211, 0));
   color: rgba(9, 9, 7, 0.82);
 }
 
@@ -1868,7 +2522,8 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
-  opacity: 0.36;
+  color: rgba(9, 9, 7, 0.54);
+  opacity: 0.52;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--jump,
@@ -1887,7 +2542,8 @@
   min-width: 74px;
   min-height: 44px;
   padding-top: 7px;
-  color: rgba(9, 9, 7, 0.42);
+  border-top-color: rgba(9, 9, 7, 0.34);
+  color: rgba(9, 9, 7, 0.56);
   font-size: clamp(0.58rem, 0.66vw, 0.78rem);
   pointer-events: auto;
 }
@@ -1907,8 +2563,9 @@
   display: grid;
   gap: 2px;
   min-width: 120px;
-  border-top-color: rgba(155, 63, 31, 0.48);
-  color: rgba(9, 9, 7, 0.64);
+  border-top-color: rgba(155, 63, 31, 0.68);
+  background: rgba(244, 234, 211, 0.28);
+  color: rgba(9, 9, 7, 0.78);
   padding-top: 7px;
   text-align: center;
   transform: translateX(-50%);
@@ -1974,6 +2631,36 @@
     max-height: min(34vh, 280px);
     overflow: auto;
     transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitTray {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    top: clamp(92px, 14vh, 152px);
+    bottom: auto;
+    width: auto;
+    max-height: min(24vh, 190px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    top: clamp(112px, 17vh, 180px);
+    bottom: auto;
+    width: auto;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation {
+    grid-template-columns: 1fr;
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__focusIdentity h3 {

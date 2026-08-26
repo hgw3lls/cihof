@@ -56,11 +56,15 @@ type LivingHallViewProps = {
   relationships?: RelationshipRecord[];
   timelineYear?: string;
   traceFocusKey?: string;
+  visitCollectionIds?: string[];
   onEngage?: () => void;
   onCloseFocus?: () => void;
   onTimelineYearChange?: (year: string) => void;
   onTraceFocusChange?: (focusKey: string) => void;
   onSelect: (inductee: Inductee) => void;
+  onAddVisitCollectionPerson?: (personId: string) => void;
+  onRemoveVisitCollectionPerson?: (personId: string) => void;
+  onClearVisitCollection?: () => void;
 };
 
 type HallMode = {
@@ -170,6 +174,7 @@ type LatestClassFrame =
   | { kind: 'finale'; key: string };
 
 const explicitSources = new Set(['curated', 'documented']);
+const visitCollectionLimit = 6;
 
 export function LivingHallView({
   inductees,
@@ -185,11 +190,15 @@ export function LivingHallView({
   relationships = [],
   timelineYear = '',
   traceFocusKey = '',
+  visitCollectionIds = [],
   onEngage,
   onCloseFocus,
   onTimelineYearChange,
   onTraceFocusChange,
   onSelect,
+  onAddVisitCollectionPerson,
+  onRemoveVisitCollectionPerson,
+  onClearVisitCollection,
 }: LivingHallViewProps) {
   const [step, setStep] = useState(0);
   const [latestClassFrame, setLatestClassFrame] = useState<LatestClassFrame | null>(null);
@@ -200,6 +209,7 @@ export function LivingHallView({
   const [legacyDragging, setLegacyDragging] = useState(false);
   const [traceChooserOpen, setTraceChooserOpen] = useState(false);
   const [traceTrailIds, setTraceTrailIds] = useState<string[]>([]);
+  const [visitQrOpen, setVisitQrOpen] = useState(false);
   const legacyFieldRef = useRef<HTMLDivElement | null>(null);
   const legacyDragRef = useRef<LegacyDragState | null>(null);
   const legacySuppressTapUntilRef = useRef(0);
@@ -212,6 +222,11 @@ export function LivingHallView({
   const { records: mediaRecords } = useMediaManifest();
   const mediaRecordMap = useMediaRecordMap(mediaRecords);
   const allPeople = useMemo(() => sortInductees(inductees), [inductees]);
+  const peopleById = useMemo(() => new Map(allPeople.map((person) => [person.id, person])), [allPeople]);
+  const visitCollectionPeople = useMemo(
+    () => visitCollectionIds.map((id) => peopleById.get(id)).filter((person): person is Inductee => Boolean(person)),
+    [peopleById, visitCollectionIds],
+  );
   const people = useMemo(
     () => selectHallPeople(allPeople, lens, focusedPersonId, settings.portraitLimit),
     [allPeople, focusedPersonId, lens, settings.portraitLimit],
@@ -268,6 +283,17 @@ export function LivingHallView({
   const focusedStoryRecord = focusedPerson ? storySectionMap.get(focusedPerson.id) : undefined;
   const focusedWatchAvailability = focusedPerson ? mediaAvailability(focusedPerson, focusedMediaRecord, kioskMode) : null;
   const focusedContinuationUrl = focusedPerson && qrEnabled ? canonicalContinuationUrl(focusedPerson) : '';
+  const focusedVisitSaved = focusedPerson ? visitCollectionIds.includes(focusedPerson.id) : false;
+  const visitSessionUrl = useMemo(
+    () => buildVisitSessionUrl({
+      focusedPersonId,
+      lens,
+      savedPeople: visitCollectionPeople,
+      timelineYear,
+      traceFocusKey,
+    }),
+    [focusedPersonId, lens, timelineYear, traceFocusKey, visitCollectionPeople],
+  );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
   const cityQuestionTotal = useMemo(() => {
@@ -411,6 +437,11 @@ export function LivingHallView({
     const timeout = window.setTimeout(() => setTraceChooserOpen(false), 7_000);
     return () => window.clearTimeout(timeout);
   }, [traceChooserOpen]);
+
+  useEffect(() => {
+    if (visitCollectionPeople.length > 0 && !attractActive) return;
+    setVisitQrOpen(false);
+  }, [attractActive, visitCollectionPeople.length]);
 
   useEffect(() => {
     if (lens !== 'traces') {
@@ -635,6 +666,17 @@ export function LivingHallView({
     onSelect(inductee);
   }
 
+  function toggleFocusedVisitCollection() {
+    if (!focusedPerson || !qrEnabled) return;
+    onEngage?.();
+    if (visitCollectionIds.includes(focusedPerson.id)) {
+      onRemoveVisitCollectionPerson?.(focusedPerson.id);
+      if (visitCollectionPeople.length <= 1) setVisitQrOpen(false);
+      return;
+    }
+    onAddVisitCollectionPerson?.(focusedPerson.id);
+  }
+
   const hallClassName = [
     'living-hall',
     attractActive ? 'living-hall--attract' : '',
@@ -672,6 +714,7 @@ export function LivingHallView({
       data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
+      data-visit-collection-count={visitCollectionPeople.length}
       onPointerDown={() => onEngage?.()}
     >
       <div className="living-hall__title" aria-live="polite">
@@ -693,6 +736,25 @@ export function LivingHallView({
       <p className="living-hall__touchCue">
         {lens === 'traces' ? 'TOUCH A TRACE' : lens === 'legacies' ? 'SWIPE THE CLASSES' : 'TOUCH A PORTRAIT'}
       </p>
+
+      {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (
+        <VisitCollectionTray
+          people={visitCollectionPeople}
+          qrOpen={visitQrOpen}
+          sessionUrl={visitSessionUrl}
+          onClear={() => {
+            setVisitQrOpen(false);
+            onClearVisitCollection?.();
+          }}
+          onCloseQr={() => setVisitQrOpen(false)}
+          onOpenQr={() => setVisitQrOpen(true)}
+          onRemove={(personId) => {
+            if (visitCollectionPeople.length <= 1) setVisitQrOpen(false);
+            onRemoveVisitCollectionPerson?.(personId);
+          }}
+          onSelect={selectPortrait}
+        />
+      )}
 
       {!loading && !error && (
         <LensStatusRail
@@ -822,9 +884,16 @@ export function LivingHallView({
             mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
             placement={focusedCardPlacement}
             traceContext={traceContext}
+            visitCollectionEnabled={qrEnabled}
+            visitCollectionCount={visitCollectionPeople.length}
+            visitCollectionLimit={visitCollectionLimit}
+            visitCollectionSaved={focusedVisitSaved}
             onClose={onCloseFocus}
             onFollowTrace={openTraceChooser}
+            onLegacyJump={changeLegacyClass}
+            onSelectPerson={selectPortrait}
             onSetAction={setHallPersonAction}
+            onToggleVisitCollection={toggleFocusedVisitCollection}
           />
         )}
 
@@ -929,9 +998,16 @@ function PortraitFocusCard({
   mediaPlayable,
   placement,
   traceContext,
+  visitCollectionEnabled,
+  visitCollectionCount,
+  visitCollectionLimit,
+  visitCollectionSaved,
   onClose,
   onFollowTrace,
+  onLegacyJump,
+  onSelectPerson,
   onSetAction,
+  onToggleVisitCollection,
 }: {
   activeLegacyGroup: LegacyYearGroup | null;
   activeLegacyYear: number | null;
@@ -944,28 +1020,30 @@ function PortraitFocusCard({
   mediaPlayable: boolean;
   placement: FocusCardPlacement;
   traceContext: TraceContext;
+  visitCollectionEnabled: boolean;
+  visitCollectionCount: number;
+  visitCollectionLimit: number;
+  visitCollectionSaved: boolean;
   onClose?: () => void;
   onFollowTrace: () => void;
+  onLegacyJump: (direction: LegacyJumpTarget) => void;
+  onSelectPerson: (inductee: Inductee) => void;
   onSetAction: (action: HallPersonAction) => void;
+  onToggleVisitCollection: () => void;
 }) {
-  const context = inducteeContextLabel(inductee);
-  const summary = honoredForSummary(inductee);
-  const shortFacts = portraitShortFacts(inductee);
-  const lensInsight = focusLensInsight({
-    activeLegacyGroup,
-    activeLegacyYear,
-    inductee,
-    legacyChronology,
-    lens,
-    traceContext,
-  });
+  const profileMode = lens === 'portraits';
+  const context = profileMode ? inducteeContextLabel(inductee) : '';
+  const summary = profileMode ? honoredForSummary(inductee) : '';
+  const shortFacts = profileMode ? portraitShortFacts(inductee) : [];
   const panelId = focusActionPanelId(inductee.id);
   const traceDescriptionId = `${panelId}-trace-desc`;
   const storyDescriptionId = `${panelId}-story-desc`;
   const textDescriptionId = `${panelId}-text-desc`;
   const watchDescriptionId = `${panelId}-watch-desc`;
   const continueDescriptionId = `${panelId}-continue-desc`;
+  const saveDescriptionId = `${panelId}-visit-save-desc`;
   const biographyWords = fullBiographyWordCount(inductee);
+  const visitCollectionFull = !visitCollectionSaved && visitCollectionCount >= visitCollectionLimit;
 
   return (
     <aside
@@ -988,39 +1066,42 @@ function PortraitFocusCard({
         <h3>{inductee.name}</h3>
         <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
       </div>
-      {context && <p className="living-hall__focusContext">{context}</p>}
-      {lensInsight && (
-        <section
-          className={`living-hall__focusLens living-hall__focusLens--${lensInsight.kind}`}
-          aria-label={lensInsight.ariaLabel}
-        >
-          <h4>{lensInsight.title}</h4>
-          <p>{lensInsight.summary}</p>
-          <dl>
-            {lensInsight.facts.map((fact) => (
-              <div key={fact.label}>
-                <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+      {profileMode && context && <p className="living-hall__focusContext">{context}</p>}
+      {lens === 'traces' && (
+        <TraceFocusConnections
+          context={traceContext}
+          onSelectPerson={onSelectPerson}
+        />
       )}
-      <section className="living-hall__focusFacts" aria-label="Short facts">
-        <h4>SHORT FACTS</h4>
-        <dl>
-          {shortFacts.map((fact) => (
-            <div key={fact.label}>
-              <dt>{fact.label}</dt>
-              <dd>{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-      <section className="living-hall__focusWhy" aria-label="Honored for">
-        <h4>HONORED FOR</h4>
-        <p>{summary}</p>
-      </section>
+      {lens === 'legacies' && (
+        <LegacyFocusNavigator
+          activeLegacyGroup={activeLegacyGroup}
+          activeLegacyYear={activeLegacyYear}
+          chronology={legacyChronology}
+          inductee={inductee}
+          onJump={onLegacyJump}
+          onSelectPerson={onSelectPerson}
+        />
+      )}
+      {profileMode && (
+        <>
+          <section className="living-hall__focusFacts" aria-label="Short facts">
+            <h4>SHORT FACTS</h4>
+            <dl>
+              {shortFacts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+          <section className="living-hall__focusWhy" aria-label="Honored for">
+            <h4>HONORED FOR</h4>
+            <p>{summary}</p>
+          </section>
+        </>
+      )}
       <nav className="living-hall__focusActions" aria-label={`Actions for ${inductee.name}`}>
         <button
           type="button"
@@ -1091,8 +1172,277 @@ function PortraitFocusCard({
             <small id={continueDescriptionId}>QR continuation</small>
           </button>
         )}
+        {visitCollectionEnabled && (
+          <button
+            type="button"
+            aria-label={visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}
+            aria-describedby={saveDescriptionId}
+            aria-pressed={visitCollectionSaved}
+            className={visitCollectionSaved ? 'living-hall__focusAction living-hall__focusAction--active living-hall__focusAction--visit' : 'living-hall__focusAction living-hall__focusAction--visit'}
+            disabled={visitCollectionFull}
+            onClick={onToggleVisitCollection}
+          >
+            <span>{visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}</span>
+            <small id={saveDescriptionId}>
+              {visitCollectionSaved
+                ? `${Math.max(visitCollectionCount, 1)} saved for session QR`
+                : visitCollectionFull
+                  ? `${visitCollectionLimit} saved / visit list full`
+                  : 'Add to one session QR'}
+            </small>
+          </button>
+        )}
       </nav>
     </aside>
+  );
+}
+
+function TraceFocusConnections({
+  context,
+  onSelectPerson,
+}: {
+  context: TraceContext;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  const activePerson = context.activePerson;
+  if (!activePerson) return null;
+
+  const activeTitle = traceActiveTitle(context);
+  const visibleThreads = context.visibleThreads.slice(0, 5);
+  const totalConnections = context.visibleThreads.length;
+  const directCount = context.directThreads.length;
+  const modeLabel = context.mode === 'direct'
+    ? 'Direct ties'
+    : context.mode === 'concept'
+      ? 'Shared concept'
+      : 'Place trace';
+
+  return (
+    <section className="living-hall__traceFocus" aria-label={`${activePerson.name} connection context`}>
+      <header className="living-hall__traceFocusHeader">
+        <span>{modeLabel}</span>
+        <strong>{activeTitle}</strong>
+        <small>{totalConnections} shown / {directCount} direct</small>
+      </header>
+      {visibleThreads.length > 0 ? (
+        <ol className="living-hall__traceConnectionList" aria-label="Visible connected portraits">
+          {visibleThreads.map((thread, index) => {
+            const reason = thread.reasons[0] ?? null;
+            const label = reason ? relationshipLineLabel(reason, activePerson.name) : activeTitle;
+            const detail = reason ? relationshipSupportLabel(reason, activePerson.name) || reason.detail : '';
+            return (
+              <li key={thread.person.id}>
+                <button
+                  className="living-hall__traceConnection"
+                  type="button"
+                  aria-label={`Focus ${thread.person.name}, connected by ${label}`}
+                  onClick={() => onSelectPerson(thread.person)}
+                >
+                  <span className="living-hall__traceConnectionIndex">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="living-hall__traceConnectionBody">
+                    <strong>{thread.person.name}</strong>
+                    <em>{label}</em>
+                    {detail && <small>{detail}</small>}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="living-hall__traceConnectionWeight"
+                    style={{ '--trace-weight': String(clamp(thread.score / 220, 0.2, 1)) } as CSSProperties & Record<string, string>}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p className="living-hall__traceFocusEmpty">Choose a trace mode to reveal nearby documented people, places, and concepts.</p>
+      )}
+    </section>
+  );
+}
+
+function LegacyFocusNavigator({
+  activeLegacyGroup,
+  activeLegacyYear,
+  chronology,
+  inductee,
+  onJump,
+  onSelectPerson,
+}: {
+  activeLegacyGroup: LegacyYearGroup | null;
+  activeLegacyYear: number | null;
+  chronology: LegacyChronology;
+  inductee: Inductee;
+  onJump: (direction: LegacyJumpTarget) => void;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  const group = legacyFocusGroup({ activeLegacyGroup, activeLegacyYear, inductee, legacyChronology: chronology });
+  const classYear = group?.year ?? inductee.classYear ?? activeLegacyYear;
+  const yearIndex = typeof classYear === 'number' ? chronology.years.indexOf(classYear) : -1;
+  const previousYear = yearIndex > 0 ? chronology.years[yearIndex - 1] : null;
+  const nextYear = yearIndex >= 0 && yearIndex < chronology.years.length - 1 ? chronology.years[yearIndex + 1] : null;
+  const previousGroup = previousYear === null ? null : legacyGroupForYear(chronology, previousYear);
+  const nextGroup = nextYear === null ? null : legacyGroupForYear(chronology, nextYear);
+  const people = group?.people ?? [inductee];
+  const activeIndex = Math.max(people.findIndex((person) => person.id === inductee.id), 0);
+  const visiblePeople = legacyVisibleCohortPeople(people, inductee.id, 7);
+  const groupLabel = group?.year ? `Class of ${group.year}` : group?.label ?? 'Class group';
+
+  return (
+    <section className="living-hall__legacyFocus" aria-label={`${inductee.name} class cohort navigation`}>
+      <header className="living-hall__legacyFocusHeader">
+        <span>Class Corridor</span>
+        <strong>{groupLabel}</strong>
+        <small>{activeIndex + 1} of {people.length}</small>
+      </header>
+
+      <div className="living-hall__legacyClassStepper" aria-label="Move between induction classes">
+        <button
+          className="living-hall__legacyStep living-hall__legacyStep--previous"
+          type="button"
+          disabled={!previousGroup || previousYear === null}
+          onClick={() => {
+            if (previousYear !== null) onJump(previousYear);
+          }}
+        >
+          <span>Previous</span>
+          <strong>{previousGroup?.label ?? 'Start'}</strong>
+          <small>{previousGroup ? `${previousGroup.people.length} people` : 'Endpoint'}</small>
+        </button>
+        <div className="living-hall__legacyCurrentClass" aria-live="polite">
+          <span>Current</span>
+          <strong>{group?.label ?? (classYear ? String(classYear) : 'Open')}</strong>
+          <small>{people.length} {people.length === 1 ? 'portrait' : 'portraits'}</small>
+        </div>
+        <button
+          className="living-hall__legacyStep living-hall__legacyStep--next"
+          type="button"
+          disabled={!nextGroup || nextYear === null}
+          onClick={() => {
+            if (nextYear !== null) onJump(nextYear);
+          }}
+        >
+          <span>Next</span>
+          <strong>{nextGroup?.label ?? 'End'}</strong>
+          <small>{nextGroup ? `${nextGroup.people.length} people` : 'Endpoint'}</small>
+        </button>
+      </div>
+
+      <ol className="living-hall__legacyCohort" aria-label={`${groupLabel} portraits`}>
+        {visiblePeople.map((person) => {
+          const active = person.id === inductee.id;
+          const cohortIndex = Math.max(people.findIndex((candidate) => candidate.id === person.id), 0) + 1;
+          return (
+            <li key={person.id}>
+              <button
+                className={active ? 'living-hall__legacyCohortPerson living-hall__legacyCohortPerson--active' : 'living-hall__legacyCohortPerson'}
+                type="button"
+                aria-pressed={active}
+                aria-label={`Focus ${person.name}`}
+                onClick={() => onSelectPerson(person)}
+              >
+                <span>{String(cohortIndex).padStart(2, '0')}</span>
+                <strong>{person.name}</strong>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+
+      <p className="living-hall__legacySwipeHint">Swipe the class wall or use previous and next to move between cohorts.</p>
+    </section>
+  );
+}
+
+function VisitCollectionTray({
+  people,
+  qrOpen,
+  sessionUrl,
+  onClear,
+  onCloseQr,
+  onOpenQr,
+  onRemove,
+  onSelect,
+}: {
+  people: Inductee[];
+  qrOpen: boolean;
+  sessionUrl: string;
+  onClear: () => void;
+  onCloseQr: () => void;
+  onOpenQr: () => void;
+  onRemove: (personId: string) => void;
+  onSelect: (inductee: Inductee) => void;
+}) {
+  const title = `${people.length} saved ${people.length === 1 ? 'record' : 'records'}`;
+
+  return (
+    <>
+      <aside
+        aria-label="Saved visit collection"
+        className="living-hall__visitTray"
+        data-saved-count={people.length}
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        <header className="living-hall__visitTrayHeader">
+          <div>
+            <span>VISIT</span>
+            <strong>{title}</strong>
+          </div>
+          <div className="living-hall__visitTrayActions">
+            <button type="button" onClick={onOpenQr}>Visit QR</button>
+            <button type="button" onClick={onClear}>Clear</button>
+          </div>
+        </header>
+        <ol className="living-hall__visitList" aria-label="Saved people">
+          {people.map((person, index) => (
+            <li key={person.id}>
+              <button
+                className="living-hall__visitPerson"
+                data-visit-person={person.id}
+                type="button"
+                onClick={() => onSelect(person)}
+              >
+                <span>{index + 1}</span>
+                <strong>{person.name}</strong>
+                <small>{person.classYear ? `Class of ${person.classYear}` : person.region}</small>
+              </button>
+              <button
+                aria-label={`Remove ${person.name} from saved visit`}
+                className="living-hall__visitRemove"
+                data-remove-visit-person={person.id}
+                type="button"
+                onClick={() => onRemove(person.id)}
+              >
+                Remove
+              </button>
+            </li>
+          ))}
+        </ol>
+      </aside>
+
+      {qrOpen && (
+        <aside
+          aria-label="Saved visit QR"
+          className="living-hall__visitQrPanel"
+          role="dialog"
+          aria-modal="false"
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          <header className="living-hall__visitQrHeader">
+            <span>VISIT QR</span>
+            <button type="button" onClick={onCloseQr}>Close</button>
+          </header>
+          <QRCodePanel
+            className="qr-continuation--visit-session"
+            value={sessionUrl}
+            title={title}
+            instruction="Scan once to continue this saved visit path on the Hall website."
+            ariaLabel={`${title} visit continuation QR`}
+            onAutoClose={onCloseQr}
+          />
+        </aside>
+      )}
+    </>
   );
 }
 
@@ -1182,14 +1532,6 @@ type PortraitFocusFact = {
   value: string;
 };
 
-type FocusLensInsight = {
-  kind: 'traces' | 'legacies';
-  title: string;
-  ariaLabel: string;
-  summary: string;
-  facts: PortraitFocusFact[];
-};
-
 function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
   const text = fullBiographyText(inductee);
   const paragraphs = biographyParagraphs(text);
@@ -1220,61 +1562,13 @@ function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
   );
 }
 
-function focusLensInsight({
-  activeLegacyGroup,
-  activeLegacyYear,
-  inductee,
-  legacyChronology,
-  lens,
-  traceContext,
-}: {
-  activeLegacyGroup: LegacyYearGroup | null;
-  activeLegacyYear: number | null;
-  inductee: Inductee;
-  legacyChronology: LegacyChronology;
-  lens: HallLens;
-  traceContext: TraceContext;
-}): FocusLensInsight | null {
-  if (lens === 'traces') return traceFocusInsight(traceContext);
-  if (lens === 'legacies') {
-    return legacyFocusInsight({
-      activeLegacyGroup,
-      activeLegacyYear,
-      inductee,
-      legacyChronology,
-    });
-  }
-  return null;
+function traceActiveTitle(context: TraceContext) {
+  if (context.mode === 'concept') return context.activeConcept?.lens.label ?? 'Concept Trace';
+  if (context.mode === 'place') return context.placeFocus.label;
+  return 'Direct Ties';
 }
 
-function traceFocusInsight(context: TraceContext): FocusLensInsight {
-  const activeTitle = context.mode === 'concept'
-    ? context.activeConcept?.lens.label ?? 'Concept Trace'
-    : context.mode === 'place'
-      ? context.placeFocus.label
-      : 'Direct Ties';
-  const nearest = context.visibleThreads[0] ?? null;
-  const summary = nearest
-    ? `${nearest.person.name} is the nearest visible connection through ${nearest.reasons[0]?.label ?? activeTitle}.`
-    : context.activePerson
-      ? 'This portrait is the anchor for the current connection view. Choose a trace mode to reorganize nearby records.'
-      : 'Touch a portrait to anchor documented people, places, and concepts.';
-
-  return {
-    kind: 'traces',
-    title: 'CONNECTIONS',
-    ariaLabel: 'Selected portrait connections information',
-    summary,
-    facts: [
-      { label: 'Mode', value: compactFactValue(activeTitle) },
-      { label: 'Visible', value: String(context.visibleThreads.length) },
-      { label: 'Direct', value: String(context.directThreads.length) },
-      { label: 'Places', value: String(context.placeChoices.length) },
-    ],
-  };
-}
-
-function legacyFocusInsight({
+function legacyFocusGroup({
   activeLegacyGroup,
   activeLegacyYear,
   inductee,
@@ -1284,32 +1578,18 @@ function legacyFocusInsight({
   activeLegacyYear: number | null;
   inductee: Inductee;
   legacyChronology: LegacyChronology;
-}): FocusLensInsight {
-  const group = legacyChronology.groups.find((candidate) => candidate.people.some((person) => person.id === inductee.id))
-    ?? activeLegacyGroup;
-  const classYear = group?.year ?? inductee.classYear ?? activeLegacyYear;
-  const groupPeople = group?.people ?? [];
-  const classIndex = classYear === null || classYear === undefined ? -1 : legacyChronology.years.indexOf(classYear);
-  const personIndex = groupPeople.findIndex((person) => person.id === inductee.id);
-  const previousYear = classIndex > 0 ? legacyChronology.years[classIndex - 1] : null;
-  const nextYear = classIndex >= 0 && classIndex < legacyChronology.years.length - 1 ? legacyChronology.years[classIndex + 1] : null;
-  const neighborLabel = [previousYear, nextYear].filter((year): year is number => typeof year === 'number').join(' / ') || 'Endpoint';
-  const summary = classYear
-    ? `${inductee.name} is selected inside the Class of ${classYear} timeline cohort.`
-    : `${inductee.name} is selected inside the pending class timeline group.`;
+}): LegacyYearGroup | null {
+  return legacyChronology.groups.find((candidate) => candidate.people.some((person) => person.id === inductee.id))
+    ?? activeLegacyGroup
+    ?? legacyGroupForYear(legacyChronology, activeLegacyYear);
+}
 
-  return {
-    kind: 'legacies',
-    title: 'TIMELINE',
-    ariaLabel: 'Selected portrait timeline information',
-    summary,
-    facts: [
-      { label: 'Class', value: classYear ? String(classYear) : 'Pending' },
-      { label: 'Cohort', value: groupPeople.length > 0 ? `${groupPeople.length} people` : 'Open' },
-      { label: 'Position', value: personIndex >= 0 && groupPeople.length > 0 ? `${personIndex + 1}/${groupPeople.length}` : 'Selected' },
-      { label: 'Near Years', value: neighborLabel },
-    ],
-  };
+function legacyVisibleCohortPeople(people: Inductee[], activePersonId: string, limit: number) {
+  if (people.length <= limit) return people;
+  const activeIndex = Math.max(people.findIndex((person) => person.id === activePersonId), 0);
+  const before = Math.floor((limit - 1) / 2);
+  const start = clamp(activeIndex - before, 0, Math.max(0, people.length - limit));
+  return people.slice(start, start + limit);
 }
 
 function portraitShortFacts(inductee: Inductee): PortraitFocusFact[] {
@@ -1333,6 +1613,38 @@ function compactFactValue(value: string) {
   const normalized = value.replace(/\s+/g, ' ').trim();
   if (normalized.length <= 44) return normalized;
   return `${normalized.slice(0, 41).replace(/[,;:\s]+$/, '')}...`;
+}
+
+function buildVisitSessionUrl({
+  focusedPersonId,
+  lens,
+  savedPeople,
+  timelineYear,
+  traceFocusKey,
+}: {
+  focusedPersonId: string;
+  lens: HallLens;
+  savedPeople: Inductee[];
+  timelineYear: string;
+  traceFocusKey: string;
+}) {
+  if (savedPeople.length === 0) return '';
+
+  const savedIds = savedPeople.map((person) => person.id);
+  const startingPersonId = savedIds.includes(focusedPersonId) ? focusedPersonId : savedIds[0];
+  const baseHref = new URL(
+    import.meta.env.BASE_URL || '/',
+    typeof window === 'undefined' ? 'https://clevelandinternationalhalloffame.com' : window.location.origin,
+  ).href;
+  const url = new URL(baseHref);
+
+  url.searchParams.set('person', startingPersonId);
+  url.searchParams.set('visit', savedIds.join(','));
+  if (lens !== 'portraits') url.searchParams.set('lens', lens);
+  if (lens === 'traces' && traceFocusKey) url.searchParams.set('trace', traceFocusKey);
+  if (lens === 'legacies' && timelineYear) url.searchParams.set('timeYear', timelineYear);
+
+  return url.href;
 }
 
 function fullBiographyWordCount(inductee: Inductee) {
