@@ -30,7 +30,7 @@ test.describe('final installation choreography screenshots', () => {
     await screenshotHall(page, '03-traces');
 
     await ensureConceptTraceAvailable(page);
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasNotText: 'Place' }).nth(1);
+    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
     await expect(conceptControl).toBeVisible();
     await conceptControl.click();
     await waitForGuard(page);
@@ -125,8 +125,16 @@ async function clickFirstPortrait(page: Page) {
 
 async function ensureConceptTraceAvailable(page: Page) {
   for (let attempt = 0; attempt < 4; attempt += 1) {
-    if (await page.locator('.living-hall__traceControl').filter({ hasNotText: 'Place' }).nth(1).count()) return;
+    await openTraceChooser(page);
+    if (await page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first().count()) return;
     await clickVisibleRelatedPortrait(page);
     await waitForGuard(page);
   }
+}
+
+async function openTraceChooser(page: Page) {
+  const chooser = page.locator('.living-hall__traceContextButton');
+  await expect(chooser).toBeVisible();
+  await chooser.click();
+  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }

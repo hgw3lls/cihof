@@ -44,6 +44,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
 
+    await openTraceChooser(page);
     const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
@@ -243,13 +244,15 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toBeVisible();
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
 
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasNotText: 'Place' }).nth(1);
+    await openTraceChooser(page);
+    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
     if (await conceptControl.count()) {
       await conceptControl.click();
       await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^concept:/);
       await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
     }
 
+    await openTraceChooser(page);
     const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
@@ -405,7 +408,7 @@ test.describe('museum kiosk smoke', () => {
   test('idle reset enters attract mode and touch returns home', async ({ page }) => {
     const deepLink = await readDeepLinkCandidateData(page);
     await page.goto(
-      `./?kiosk=1&view=routes&lens=legacies&world=${encodeURIComponent(deepLink.countryTraceKey)}&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
+      `./?kiosk=1&lens=legacies&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
       { waitUntil: 'domcontentloaded' },
     );
     await keepKioskAwakeUntil(page, async () => {
@@ -666,6 +669,13 @@ function totalCityQuestionResponses(options: Array<{ id: string }>, counts: Reco
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+async function openTraceChooser(page: Page) {
+  const chooser = page.locator('.living-hall__traceContextButton');
+  await expect(chooser).toBeVisible();
+  await chooser.click();
+  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }
 
 type KioskHealthForTest = {

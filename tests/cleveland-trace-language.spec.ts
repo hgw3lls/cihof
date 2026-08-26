@@ -45,7 +45,8 @@ test.describe('Cleveland-derived TRACES line language', () => {
     await expect(page.locator('.cleveland-trace-field--traces[data-runtime-gis="false"]')).toBeVisible();
     await page.screenshot({ path: `${screenshotDir}/03-traces-redraw-second-focus.png` });
 
-    const conceptControl = page.locator('.living-hall__traceControl').nth(1);
+    await openTraceChooser(page);
+    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
     await expect(conceptControl).toBeVisible();
     await conceptControl.click();
     await waitForGuard(page);
@@ -74,4 +75,11 @@ test.describe('Cleveland-derived TRACES line language', () => {
 
 async function waitForGuard(page: Page) {
   await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+}
+
+async function openTraceChooser(page: Page) {
+  const chooser = page.locator('.living-hall__traceContextButton');
+  await expect(chooser).toBeVisible();
+  await chooser.click();
+  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }

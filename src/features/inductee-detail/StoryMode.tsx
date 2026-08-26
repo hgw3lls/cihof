@@ -126,7 +126,6 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
           <div className="story-mode__meta" aria-label="Record section metadata">
             {activeBeat.place && <span>{activeBeat.place}</span>}
             {activeBeat.organization && <span>{activeBeat.organization}</span>}
-            {activeBeat.provenance && <span>{activeBeat.provenance}</span>}
           </div>
           {relatedPerson && (
             <button className="story-mode__related" type="button" onClick={() => onSelectPerson(relatedPerson)}>

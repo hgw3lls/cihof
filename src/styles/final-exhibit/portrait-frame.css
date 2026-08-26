@@ -56,6 +56,7 @@
   --frame-accent-opacity: 0;
   --record-area-height: 16px;
   --frame-press-scale: 1;
+  --portrait-transition-ms: 1700ms;
   width: var(--frame-width);
   height: var(--frame-height);
   min-width: 0;
@@ -63,11 +64,11 @@
   transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
   transform-origin: 50% 50%;
   transition:
-    left 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
-    top 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
-    width 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
-    height 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
-    transform 2600ms cubic-bezier(0.2, 0.74, 0.18, 1),
+    left var(--portrait-transition-ms) cubic-bezier(0.2, 0.74, 0.18, 1),
+    top var(--portrait-transition-ms) cubic-bezier(0.2, 0.74, 0.18, 1),
+    width var(--portrait-transition-ms) cubic-bezier(0.2, 0.74, 0.18, 1),
+    height var(--portrait-transition-ms) cubic-bezier(0.2, 0.74, 0.18, 1),
+    transform var(--portrait-transition-ms) cubic-bezier(0.2, 0.74, 0.18, 1),
     filter 900ms ease,
     opacity 900ms ease;
 }
@@ -75,6 +76,14 @@
 .museum-shell:not(.museum-shell--staff) .living-portrait:active {
   --frame-press-scale: 0.985;
   transform: translate(-50%, -50%) rotate(var(--frame-rotation)) scale(calc(var(--frame-scale) * var(--frame-press-scale)));
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--attract .living-portrait {
+  --portrait-transition-ms: 3200ms;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--legacy-dragging .living-portrait {
+  --portrait-transition-ms: 520ms;
 }
 
 .museum-shell:not(.museum-shell--staff) .portrait-frame,
@@ -359,4 +368,72 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait {
   min-width: 0;
   min-height: 0;
+}
+
+/* Visual surgery pass: thinner frames, larger image windows, intentional archival fallback. */
+.museum-shell:not(.museum-shell--staff) .portrait-frame {
+  border-color: rgba(9, 9, 7, 0.66);
+  background: rgba(9, 9, 7, 0.66);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame::before {
+  border-color: rgba(244, 234, 211, 0.2);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__mat {
+  gap: calc(var(--mat-size) * 0.22);
+  border-color: rgba(9, 9, 7, 0.14);
+  background: rgba(244, 234, 211, 0.88);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__imageOpening {
+  border-color: rgba(9, 9, 7, 0.56);
+  background: var(--exhibit-field-2);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__image {
+  filter: grayscale(1) contrast(1.16) brightness(0.96) sepia(0.04);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame__fallback {
+  position: relative;
+  overflow: hidden;
+  background: var(--exhibit-mat);
+  color: rgba(155, 63, 31, 0.86);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--trace {
+  border-color: rgba(9, 9, 7, 0.54);
+  background: rgba(9, 9, 7, 0.54);
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--trace .portrait-frame__mat {
+  background: rgba(244, 234, 211, 0.82);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--focused .portrait-frame--trace {
+  border-color: rgba(9, 9, 7, 0.96);
+  background: rgba(9, 9, 7, 0.96);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--focused .portrait-frame--trace .portrait-frame__mat {
+  background: var(--exhibit-paper-highlight);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--focused .portrait-frame--trace .portrait-frame__image {
+  filter: grayscale(1) contrast(1.28) brightness(0.96) sepia(0.02);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--muted .portrait-frame {
+  opacity: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="portraits"] .living-portrait--muted .portrait-frame {
+  opacity: 0.42;
+}
+
+.museum-shell:not(.museum-shell--staff) .portrait-frame--focus,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="portraits"] .living-portrait--focused .portrait-frame {
+  border-color: rgba(9, 9, 7, 0.98);
+  background: rgba(9, 9, 7, 0.98);
 }

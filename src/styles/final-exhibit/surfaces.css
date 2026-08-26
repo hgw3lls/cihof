@@ -9,11 +9,9 @@
   box-shadow: none;
   color: var(--exhibit-ink);
   background:
-    linear-gradient(90deg, rgba(20, 19, 15, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(20, 19, 15, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, transparent 0 12%, rgba(20, 19, 15, 0.035) 12% calc(12% + 1px), transparent calc(12% + 1px) 88%, rgba(20, 19, 15, 0.03) 88% calc(88% + 1px), transparent calc(88% + 1px)),
+    linear-gradient(90deg, transparent 0 12%, rgba(20, 19, 15, 0.018) 12% calc(12% + 1px), transparent calc(12% + 1px) 88%, rgba(20, 19, 15, 0.014) 88% calc(88% + 1px), transparent calc(88% + 1px)),
     linear-gradient(180deg, var(--exhibit-field-3) 0%, var(--exhibit-field) 38%, var(--exhibit-field) 68%, var(--exhibit-field-2) 100%);
-  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto, auto;
+  background-size: auto, auto;
 }
 
 .museum-shell:not(.museum-shell--staff) :is(
@@ -41,9 +39,7 @@
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 0 9.5%, var(--exhibit-line-soft) 9.5% calc(9.5% + 1px), transparent calc(9.5% + 1px)),
-    linear-gradient(180deg, transparent 0 18%, var(--exhibit-line-soft) 18% calc(18% + 1px), transparent calc(18% + 1px)),
-    linear-gradient(90deg, transparent 0 calc(50% - 18px), rgba(20, 19, 15, 0.055) calc(50% - 18px) calc(50% - 17px), transparent calc(50% - 17px) calc(50% + 17px), rgba(20, 19, 15, 0.055) calc(50% + 17px) calc(50% + 18px), transparent calc(50% + 18px)),
-    linear-gradient(180deg, transparent 0 calc(50% - 18px), rgba(20, 19, 15, 0.05) calc(50% - 18px) calc(50% - 17px), transparent calc(50% - 17px) calc(50% + 17px), rgba(20, 19, 15, 0.05) calc(50% + 17px) calc(50% + 18px), transparent calc(50% + 18px));
-  opacity: 0.48;
+    linear-gradient(90deg, transparent 0 9.5%, rgba(20, 19, 15, 0.04) 9.5% calc(9.5% + 1px), transparent calc(9.5% + 1px)),
+    linear-gradient(180deg, transparent 0 18%, rgba(20, 19, 15, 0.035) 18% calc(18% + 1px), transparent calc(18% + 1px));
+  opacity: 0.18;
 }

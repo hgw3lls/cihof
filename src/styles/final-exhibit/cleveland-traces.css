@@ -46,7 +46,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--trail {
-  color: rgba(183, 74, 36, 0.68);
+  color: rgba(21, 19, 15, 0.18);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--latent,
@@ -78,7 +78,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--trail .cleveland-trace__path--branch {
-  opacity: 0.48;
+  opacity: 0.24;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--latent .cleveland-trace__path {
@@ -163,4 +163,78 @@
 
 .museum-shell:not(.museum-shell--staff).experience-shell--transition-locked .cleveland-trace__path {
   animation-play-state: paused;
+}
+
+/* Visual surgery pass: architectural linework with rust reserved for active traces. */
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field--portraits {
+  opacity: 0.025;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field--legacies {
+  opacity: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace {
+  color: rgba(9, 9, 7, 0.34);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--documented {
+  color: rgba(155, 63, 31, 0.78);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--curated {
+  color: rgba(9, 9, 7, 0.52);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail {
+  color: rgba(155, 63, 31, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--latent {
+  color: rgba(9, 9, 7, 0.055);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--legacy-register {
+  color: rgba(9, 9, 7, 0.16);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace__path {
+  stroke-width: 0.74;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace__path--branch {
+  opacity: 0.38;
+  stroke-width: 0.48;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--documented .cleveland-trace__path--main {
+  stroke-width: 1.12;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail .cleveland-trace__path--main {
+  stroke-width: 1.04;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail .cleveland-trace__path--branch {
+  opacity: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--legacy-register .cleveland-trace__path {
+  stroke-width: 0.8;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label {
+  max-width: 25ch;
+  color: rgba(9, 9, 7, 0.66);
+  font-size: clamp(0.58rem, 0.64vw, 0.82rem);
+  line-height: 1.02;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label::before {
+  width: 38px;
+  opacity: 0.46;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label small {
+  color: rgba(155, 63, 31, 0.78);
 }
