@@ -27,7 +27,20 @@ export function FallbackImage({
     return <span className={fallbackClassName}>{fallbackLabel}</span>;
   }
 
-  return <img className={className} src={assetSrc(src)} alt={alt} loading={loading} decoding="async" draggable={false} onError={() => setFailed(true)} />;
+  return (
+    <img
+      className={className}
+      src={assetSrc(src)}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      draggable={false}
+      onError={() => setFailed(true)}
+      onLoad={(event) => {
+        if (isNearSolidBlackImage(event.currentTarget)) setFailed(true);
+      }}
+    />
+  );
 }
 
 export function initials(name: string) {
@@ -43,4 +56,35 @@ function assetSrc(src: string) {
   if (/^(https?:|data:|blob:)/i.test(src)) return src;
   if (!src.startsWith('/')) return src;
   return `${import.meta.env.BASE_URL}${src.replace(/^\/+/, '')}`;
+}
+
+function isNearSolidBlackImage(image: HTMLImageElement) {
+  if (image.naturalWidth < 2 || image.naturalHeight < 2) return false;
+
+  const sampleSize = 10;
+  const canvas = document.createElement('canvas');
+  canvas.width = sampleSize;
+  canvas.height = sampleSize;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  if (!context) return false;
+
+  try {
+    context.drawImage(image, 0, 0, sampleSize, sampleSize);
+    const pixels = context.getImageData(0, 0, sampleSize, sampleSize).data;
+    let total = 0;
+    let min = 255;
+    let max = 0;
+
+    for (let index = 0; index < pixels.length; index += 4) {
+      const luminance = 0.2126 * pixels[index] + 0.7152 * pixels[index + 1] + 0.0722 * pixels[index + 2];
+      total += luminance;
+      min = Math.min(min, luminance);
+      max = Math.max(max, luminance);
+    }
+
+    const average = total / (pixels.length / 4);
+    return (average <= 22 && max <= 34) || (average <= 14 && max - min <= 28);
+  } catch {
+    return false;
+  }
 }

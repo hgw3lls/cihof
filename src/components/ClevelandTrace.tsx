@@ -208,11 +208,13 @@ function transformPoints(points: [number, number][], line: ClevelandTraceLine, r
   const nx = -uy;
   const ny = ux;
   const lineAmplitude = line.role === 'trail'
-    ? Math.min(18, Math.max(5, distance * 0.32))
-    : line.role === 'latent' || line.role === 'legacy-register'
-      ? Math.min(10, Math.max(2.5, distance * 0.12))
-      : Math.min(14, Math.max(4.5, distance * 0.24));
-  const branchScale = role === 'branch' ? 0.86 : 1;
+    ? Math.min(14, Math.max(4, distance * 0.22))
+    : line.role === 'legacy-register'
+      ? Math.min(3.8, Math.max(1, distance * 0.035))
+      : line.role === 'latent'
+        ? Math.min(7, Math.max(1.8, distance * 0.08))
+        : Math.min(18, Math.max(5, distance * 0.32));
+  const branchScale = role === 'branch' ? 0.72 : 1;
 
   return points.map(([x, y]) => {
     const t = x / 100;
@@ -238,7 +240,7 @@ function lineLabel(line: ClevelandTraceLine, motif: ManifestMotif, index: number
     line.x1 + (line.x2 - line.x1) * 0.56,
     line.y1 + (line.y2 - line.y1) * 0.56,
   ];
-  const detail = line.role === 'trail' ? 'Followed trace' : line.detail;
+  const detail = line.detail;
 
   return {
     id: `label-${line.id}`,

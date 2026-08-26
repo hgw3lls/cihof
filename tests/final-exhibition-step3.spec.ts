@@ -27,7 +27,8 @@ test.describe('signature TRACES interaction', () => {
     await expectRelationshipCount(page);
     await screenshotHall(page, '03-direct-person-3');
 
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasNotText: 'Place' }).nth(1);
+    await openTraceChooser(page);
+    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
     await expect(conceptControl).toBeVisible();
     await conceptControl.click();
     await waitForGuard(page);
@@ -43,12 +44,13 @@ test.describe('signature TRACES interaction', () => {
     await expect(page.locator('.cleveland-trace--trail .cleveland-trace__path--main').first()).toBeVisible();
     await screenshotHall(page, '04-follow-the-trace');
 
+    await openTraceChooser(page);
     const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
       await waitForGuard(page);
       await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
-      await expect(page.locator('.living-hall__groupLabel').filter({ hasText: /DOCUMENTED PLACE|Documented place|portraits/ }).first()).toBeVisible();
+      await expect(page.locator('.living-hall__groupLabel').filter({ hasText: /DOCUMENTED PLACE|CONNECTED PLACE|CONNECTED TO/ }).first()).toBeVisible();
       await screenshotHall(page, '05-place-trace');
     }
   });
@@ -100,4 +102,11 @@ async function screenshotHall(page: Page, name: string) {
 
 async function waitForGuard(page: Page) {
   await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+}
+
+async function openTraceChooser(page: Page) {
+  const chooser = page.locator('.living-hall__traceContextButton');
+  await expect(chooser).toBeVisible();
+  await chooser.click();
+  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }

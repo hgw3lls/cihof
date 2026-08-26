@@ -54,7 +54,7 @@
   display: flex;
   justify-content: flex-end;
   pointer-events: auto;
-  opacity: 0.3;
+  opacity: 0.16;
   transition: opacity 160ms ease;
 }
 
@@ -64,7 +64,7 @@
 
 .museum-shell:not(.museum-shell--staff) .museum-utilities:focus-within,
 .museum-shell:not(.museum-shell--staff) .museum-utilities:hover {
-  opacity: 0.82;
+  opacity: 0.78;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
@@ -72,9 +72,9 @@
   min-width: 72px;
   min-height: 58px;
   border: 0;
-  border-top: 2px solid rgba(21, 19, 15, 0.26);
+  border-top: 2px solid rgba(21, 19, 15, 0.18);
   background: transparent;
-  color: rgba(21, 19, 15, 0.68);
+  color: rgba(21, 19, 15, 0.56);
   padding: 8px 0 0;
   box-shadow: none;
   font-family: var(--font-exhibit-label);
