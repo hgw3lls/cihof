@@ -296,6 +296,7 @@ export function LivingHallView({
   );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
+  const legacyFocusModalOpen = lens === 'legacies' && Boolean(focusedPerson) && !attractActive;
   const cityQuestionTotal = useMemo(() => {
     return cityQuestion.config.options.reduce((total, option) => total + (cityQuestion.counts[option.id] ?? 0), 0);
   }, [cityQuestion.config.options, cityQuestion.counts]);
@@ -569,6 +570,13 @@ export function LivingHallView({
 
   function beginLegacyDrag(event: ReactPointerEvent<HTMLDivElement>) {
     if (lens !== 'legacies') return;
+    if (legacyFocusModalOpen) {
+      if (!eventTargetInsideFocusCard(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (eventTargetInsideFocusCard(event.target)) return;
     legacyDragRef.current = {
@@ -581,6 +589,17 @@ export function LivingHallView({
   }
 
   function moveLegacyDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    if (legacyFocusModalOpen) {
+      if (legacyDragRef.current?.pointerId === event.pointerId) {
+        legacyDragRef.current = null;
+        setLegacyDragging(false);
+      }
+      if (!eventTargetInsideFocusCard(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
     const drag = legacyDragRef.current;
     if (lens !== 'legacies' || !drag || drag.pointerId !== event.pointerId) return;
     const deltaX = event.clientX - drag.startX;
@@ -595,6 +614,17 @@ export function LivingHallView({
   }
 
   function endLegacyDrag(event: ReactPointerEvent<HTMLDivElement>) {
+    if (legacyFocusModalOpen) {
+      if (legacyDragRef.current?.pointerId === event.pointerId) {
+        legacyDragRef.current = null;
+        setLegacyDragging(false);
+      }
+      if (!eventTargetInsideFocusCard(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
     const drag = legacyDragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     legacyDragRef.current = null;
@@ -618,6 +648,13 @@ export function LivingHallView({
 
   function wheelLegacy(event: ReactWheelEvent<HTMLDivElement>) {
     if (lens !== 'legacies') return;
+    if (legacyFocusModalOpen) {
+      if (!eventTargetInsideFocusCard(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
     const delta = Math.abs(event.deltaX) >= Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
     if (!delta) return;
     event.preventDefault();
@@ -635,7 +672,8 @@ export function LivingHallView({
   }
 
   function eventTargetInsideFocusCard(target: EventTarget | null) {
-    return target instanceof Element && Boolean(target.closest('.living-hall__focusCard'));
+    const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
+    return Boolean(element?.closest('.living-hall__focusCard'));
   }
 
   function stopHallFocusMedia() {
@@ -717,6 +755,7 @@ export function LivingHallView({
       data-trace-focus-key={lens === 'traces' ? traceContext.traceFocusKey : ''}
       data-trace-trail-size={lens === 'traces' ? traceTrailIds.length : 0}
       data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
+      data-legacy-focus-locked={legacyFocusModalOpen ? 'true' : 'false'}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}

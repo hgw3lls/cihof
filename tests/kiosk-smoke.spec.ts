@@ -130,6 +130,7 @@ test.describe('museum kiosk smoke', () => {
       }
     }
 
+    await dismissLegacyFocusIfOpen(page);
     await page.getByRole('button', { name: 'Arrange Hall by portraits' }).click();
     await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
@@ -290,13 +291,15 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
-    await exerciseAnchoredStoryAndQr(page, 'traces', watchPerson.id);
+    await expectPortraitActionsHidden(page);
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
 
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
-    await exerciseAnchoredStoryAndQr(page, 'legacies', watchPerson.id);
+    await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
+    await expectPortraitActionsHidden(page);
   });
 
   test('arranges legacies as a horizontal persistent chronology', async ({ page }) => {
@@ -347,11 +350,14 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${visiblePortrait.id}"]`)).toHaveClass(/living-portrait--focused/);
-    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
-    await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
+    const cohortDialog = page.getByRole('dialog', { name: /cohort navigator/i });
+    await expect(cohortDialog).toBeVisible();
+    await expect(cohortDialog).toContainText('COHORT NAVIGATION');
+    await expect(cohortDialog).toContainText('Class Corridor');
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
+    await dismissLegacyFocus(page);
     await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
@@ -411,22 +417,10 @@ test.describe('museum kiosk smoke', () => {
       `./?kiosk=1&lens=legacies&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
       { waitUntil: 'domcontentloaded' },
     );
-    await keepKioskAwakeUntil(page, async () => {
-      const state = await page.evaluate(() => {
-        const hallSurface = document.querySelector<HTMLElement>('.hall-surface');
-        const livingHall = document.querySelector<HTMLElement>('.living-hall');
-        return {
-          attract: livingHall?.classList.contains('living-hall--attract') ?? false,
-          focusedPersonId: hallSurface?.dataset.focusedPersonId ?? '',
-          lens: hallSurface?.dataset.hallLens ?? '',
-          portraitCount: document.querySelectorAll('button.living-portrait').length,
-        };
-      });
-      return !state.attract
-        && state.lens === 'legacies'
-        && state.focusedPersonId === deepLink.id
-        && state.portraitCount > 0;
-    }, 6_000);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    await dismissLegacyFocusIfOpen(page);
     const hallBox = await page.locator('.living-hall').boundingBox();
     expect(hallBox).toBeTruthy();
     if (!hallBox) throw new Error('Living Hall bounds unavailable.');
@@ -487,6 +481,42 @@ async function readKioskHealth(page: Page) {
 
 async function readLegacyPan(page: Page) {
   return page.evaluate(() => Number(document.querySelector<HTMLElement>('.living-hall')?.dataset.legacyPan ?? 0));
+}
+
+async function dismissLegacyFocus(page: Page) {
+  const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
+  await expect(dialog).toBeVisible();
+  const point = await pointOutsideDialog(page);
+  await page.mouse.click(point.x, point.y);
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+}
+
+async function dismissLegacyFocusIfOpen(page: Page) {
+  const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
+  if (await dialog.isVisible().catch(() => false)) {
+    await dismissLegacyFocus(page);
+  }
+}
+
+async function pointOutsideDialog(page: Page) {
+  const point = await page.evaluate(() => {
+    const hall = document.querySelector<HTMLElement>('.living-hall')?.getBoundingClientRect() ?? null;
+    const dialog = document.querySelector<HTMLElement>('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+    if (!hall) return null;
+    const candidates = [
+      { x: hall.right - 96, y: hall.top + hall.height * 0.52 },
+      { x: hall.left + hall.width * 0.52, y: hall.bottom - 148 },
+      { x: hall.right - 96, y: hall.top + 128 },
+    ];
+    return candidates.find(({ x, y }) => {
+      if (!dialog) return true;
+      return x < dialog.left || x > dialog.right || y < dialog.top || y > dialog.bottom;
+    }) ?? candidates[0];
+  });
+
+  if (!point) throw new Error('No point outside the cohort navigator was available.');
+  return point;
 }
 
 async function keepKioskAwakeUntil(page: Page, predicate: () => Promise<boolean>, timeoutMs = 3_000) {
@@ -620,6 +650,12 @@ async function exerciseAnchoredStoryAndQr(page: Page, lens: string, personId: st
   await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0, { timeout: 7_000 });
   await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', lens);
   await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', personId);
+}
+
+async function expectPortraitActionsHidden(page: Page) {
+  for (const name of ['FOLLOW THE TRACE →', 'LIFE + WORK', 'FULL TEXT', 'WATCH INDUCTION', 'TAKE IT WITH YOU', 'SAVE TO VISIT']) {
+    await expect(page.getByRole('button', { name })).toHaveCount(0);
+  }
 }
 
 async function readCityQuestionData(page: Page) {
