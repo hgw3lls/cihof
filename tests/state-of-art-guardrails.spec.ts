@@ -31,6 +31,39 @@ test.describe('state-of-art guardrails', () => {
     await expectTouchTargets(page, 'legacies');
   });
 
+  test('legacies focus is a modal cohort navigator', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+
+    await clickVisiblePortrait(page);
+    await waitForGuard(page);
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await waitForGuard(page);
+
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard .living-hall__focusActions')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'LIFE + WORK' })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'SAVE TO VISIT', exact: true })).toHaveCount(0);
+
+    const navBox = await page.getByRole('button', { name: 'Arrange Hall by portraits' }).boundingBox();
+    expect(navBox).toBeTruthy();
+    await page.mouse.click((navBox?.x ?? 0) + (navBox?.width ?? 0) / 2, (navBox?.y ?? 0) + (navBox?.height ?? 0) / 2);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+
+    const focusedAgain = await clickVisiblePortrait(page);
+    await waitForGuard(page);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', focusedAgain);
+
+    const outsidePortrait = await visiblePortraitOutsideFocusCard(page, [focusedAgain]);
+    await page.mouse.click(outsidePortrait.x, outsidePortrait.y);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    await expect(page.locator(`button.living-portrait[data-transition-person="${outsidePortrait.id}"]`)).not.toHaveClass(/living-portrait--focused/);
+  });
+
   test('production build publishes offline and interoperability entrypoints', async ({ page, request }) => {
     const standards = await request.get('./data/standards-index.json');
     expect(standards.ok()).toBe(true);
@@ -103,4 +136,52 @@ async function expectTouchTargets(page: Page, stateLabel: string) {
   });
 
   expect(violations, `${stateLabel} has undersized visible controls`).toEqual([]);
+}
+
+async function clickVisiblePortrait(page: Page, skipIds: string[] = []) {
+  const target = await visiblePortraitTarget(page, skipIds);
+  await page.mouse.click(target.x, target.y);
+  return target.id;
+}
+
+async function visiblePortraitOutsideFocusCard(page: Page, skipIds: string[] = []) {
+  return visiblePortraitTarget(page, skipIds, true);
+}
+
+async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outsideFocusCard = false) {
+  const target = await page.evaluate(({ outsideCard, idsToSkip }) => {
+    const card = document.querySelector('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('button.living-portrait'));
+    const visible = buttons.find((button) => {
+      const id = button.dataset.transitionPerson ?? '';
+      if (!id || idsToSkip.includes(id) || button.classList.contains('living-portrait--focused')) return false;
+      const rect = button.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      if (outsideCard && card && x >= card.left && x <= card.right && y >= card.top && y <= card.bottom) return false;
+      const hit = document.elementFromPoint(x, y);
+      return rect.width > 24
+        && rect.height > 32
+        && rect.left > 8
+        && rect.right < window.innerWidth - 8
+        && rect.top > 32
+        && rect.bottom < window.innerHeight - 96
+        && Boolean(hit && (button.contains(hit) || hit.closest('.living-hall')));
+    });
+
+    if (!visible) return null;
+    const rect = visible.getBoundingClientRect();
+    return {
+      id: visible.dataset.transitionPerson ?? '',
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
+  }, { idsToSkip: skipIds, outsideCard: outsideFocusCard });
+
+  if (!target?.id) throw new Error('No visible portrait was available.');
+  return target;
+}
+
+async function waitForGuard(page: Page) {
+  await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 }

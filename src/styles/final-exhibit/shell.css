@@ -208,6 +208,12 @@
   outline-offset: 6px;
 }
 
+.museum-shell:not(.museum-shell--staff)[data-legacy-focus-modal="true"] .museum-rail,
+.museum-shell:not(.museum-shell--staff)[data-legacy-focus-modal="true"] .museum-bottom-nav.experience-dock {
+  opacity: 0.18;
+  pointer-events: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .museum-nav-item:active {
   color: var(--exhibit-route);
 }
