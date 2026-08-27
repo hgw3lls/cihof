@@ -339,6 +339,19 @@
   opacity: 0.08;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-hall__groupLabel:not(.living-hall__groupLabel--active) {
+  opacity: 0.12;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall:is(
+  [data-person-action="story"],
+  [data-person-action="text"],
+  [data-person-action="watch"],
+  [data-person-action="continue"]
+) :is(.living-hall__title, .living-hall__vocabulary, .living-hall__touchCue, .living-hall__groupLabel) {
+  opacity: 0;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall--focused .living-portrait--focused {
   opacity: 1;
   filter: contrast(1.05);
@@ -565,8 +578,14 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel {
   z-index: 56;
+  max-width: clamp(112px, 13vw, 250px);
   color: rgba(21, 19, 15, 0.2);
   opacity: 0.48;
+  transition: opacity 220ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__groupLabel--obscured {
+  opacity: 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel strong {
@@ -575,6 +594,7 @@
   font-stretch: var(--type-width-label);
   font-variation-settings: "opsz" var(--type-opsz-text);
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__groupLabel small {
@@ -595,7 +615,10 @@
   top: var(--focus-card-y);
   z-index: 3200;
   box-sizing: border-box;
-  width: min(600px, 36vw);
+  width: min(var(--focus-card-width, 600px), calc(100vw - 72px));
+  max-height: var(--focus-card-max-height, min(86vh, 800px));
+  overflow: auto;
+  overscroll-behavior: contain;
   border-top: 0;
   background:
     linear-gradient(90deg, rgba(21, 19, 15, 0.028) 1px, transparent 1px),
@@ -1390,9 +1413,10 @@
   left: var(--person-action-x);
   top: var(--person-action-y);
   z-index: 3400;
-  width: min(780px, 44vw);
-  max-height: min(73vh, 760px);
+  width: min(var(--person-action-width, 780px), calc(100vw - 72px));
+  max-height: var(--person-action-max-height, min(73vh, 760px));
   overflow: auto;
+  overscroll-behavior: contain;
   border-top: 3px solid var(--exhibit-route);
   background:
     linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px),
@@ -1411,15 +1435,15 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-watch {
-  width: min(900px, 52vw);
+  width: min(var(--person-action-width, 900px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-text {
-  width: min(860px, 48vw);
+  width: min(var(--person-action-width, 860px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-continue {
-  width: min(680px, 38vw);
+  width: min(var(--person-action-width, 680px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionHeader {
@@ -2209,9 +2233,10 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusCard {
-  width: min(560px, 34vw);
-  max-height: min(86vh, 800px);
+  width: min(var(--focus-card-width, 560px), calc(100vw - 72px));
+  max-height: var(--focus-card-max-height, min(86vh, 800px));
   overflow: auto;
+  overscroll-behavior: contain;
   background:
     linear-gradient(90deg, rgba(9, 9, 7, 0.032) 1px, transparent 1px),
     linear-gradient(180deg, rgba(9, 9, 7, 0.028) 1px, transparent 1px),
@@ -2305,16 +2330,19 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__focusCard {
-  width: min(430px, 28vw);
+  width: min(var(--focus-card-width, 430px), calc(100vw - 72px));
   color: rgba(9, 9, 7, 0.72);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
   left: clamp(24px, 4vw, 74px);
-  top: clamp(120px, 18vh, 176px);
-  width: min(540px, 34vw);
-  max-height: min(72vh, 720px);
+  top: clamp(96px, 14vh, 148px);
+  width: min(var(--focus-card-width, 540px), 34vw, calc(100vw - 72px));
+  max-height: min(
+    var(--focus-card-max-height, 720px),
+    calc(var(--cihof-vh, 100dvh) - var(--experience-dock-height) - clamp(260px, 30vh, 340px))
+  );
   overflow: auto;
   background:
     linear-gradient(90deg, rgba(9, 9, 7, 0.03) 1px, transparent 1px),
@@ -2538,6 +2566,11 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active strong {
   font-size: clamp(1.82rem, 2.55vw, 4.2rem);
   line-height: 0.84;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--obscured {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait--muted {
