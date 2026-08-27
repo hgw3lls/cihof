@@ -34,7 +34,7 @@
   position: absolute;
   left: var(--person-action-x);
   top: var(--person-action-y);
-  z-index: 2500;
+  z-index: 3400;
   width: min(var(--person-action-width, 780px), calc(100vw - 72px));
   height: auto;
   min-height: 0;

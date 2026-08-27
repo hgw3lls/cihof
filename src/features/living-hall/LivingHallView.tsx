@@ -310,7 +310,8 @@ export function LivingHallView({
   );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
-  const legacyFocusModalOpen = lens === 'legacies' && Boolean(focusedPerson) && !attractActive;
+  const focusContentWindowOpen = Boolean(focusedPerson) && !attractActive;
+  const legacyFocusModalOpen = lens === 'legacies' && focusContentWindowOpen;
   const cityQuestionTotal = useMemo(() => {
     return cityQuestion.config.options.reduce((total, option) => total + (cityQuestion.counts[option.id] ?? 0), 0);
   }, [cityQuestion.config.options, cityQuestion.counts]);
@@ -692,7 +693,23 @@ export function LivingHallView({
     setLegacyPan((value) => clamp(value + delta, 0, legacyMaxPan()));
   }
 
+  function dismissFocusedContentWindow() {
+    onEngage?.();
+    if (activePersonAction !== 'overview') {
+      setHallPersonAction('overview');
+      return;
+    }
+    onCloseFocus?.();
+  }
+
   function suppressPortraitSelection(event: ReactMouseEvent<HTMLButtonElement>) {
+    if (focusContentWindowOpen && !eventTargetInsideContentWindow(event.target)) {
+      event.preventDefault();
+      event.stopPropagation();
+      dismissFocusedContentWindow();
+      return true;
+    }
+
     if (lens !== 'legacies') return false;
     const suppressed = window.performance.now() < legacySuppressTapUntilRef.current;
     if (suppressed) {
@@ -705,6 +722,11 @@ export function LivingHallView({
   function eventTargetInsideFocusCard(target: EventTarget | null) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
     return Boolean(element?.closest('.living-hall__focusCard'));
+  }
+
+  function eventTargetInsideContentWindow(target: EventTarget | null) {
+    const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
+    return Boolean(element?.closest('.living-hall__focusCard, .living-hall__personActionPanel'));
   }
 
   function stopHallFocusMedia() {
@@ -806,6 +828,7 @@ export function LivingHallView({
       data-trace-trail-size={lens === 'traces' ? traceTrailIds.length : 0}
       data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
       data-legacy-focus-locked={legacyFocusModalOpen ? 'true' : 'false'}
+      data-content-window-open={focusContentWindowOpen ? 'true' : 'false'}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}
@@ -972,6 +995,24 @@ export function LivingHallView({
             panelSide={tracePanelSide}
             onOpenChooser={openTraceChooser}
             onTraceFocusChange={chooseTraceFocus}
+          />
+        )}
+
+        {!loading && !error && focusContentWindowOpen && (
+          <button
+            type="button"
+            aria-label={activePersonAction === 'overview' ? 'Dismiss focused content' : 'Dismiss focused content panel'}
+            className="living-hall__contentDismissLayer"
+            tabIndex={-1}
+            onPointerDown={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              dismissFocusedContentWindow();
+            }}
           />
         )}
 
@@ -1428,6 +1469,7 @@ function TraceFocusConnections({
                 <button
                   className="living-hall__traceConnection"
                   type="button"
+                  data-trace-person={thread.person.id}
                   aria-label={`Focus ${thread.person.name}, connected by ${label}`}
                   onClick={() => onSelectPerson(thread.person)}
                 >

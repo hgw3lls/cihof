@@ -135,6 +135,37 @@ test.describe('state-of-art guardrails', () => {
     }
   });
 
+  test('focused content windows block background portrait selection', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+
+    const focusedPerson = await clickVisiblePortrait(page);
+    await waitForGuard(page);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', focusedPerson);
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-content-window-open', 'true');
+    await expect(page.locator('.living-hall__contentDismissLayer')).toBeVisible();
+
+    const backgroundPortrait = await visiblePortraitOutsideContentWindow(page, [focusedPerson]);
+    await page.mouse.click(backgroundPortrait.x, backgroundPortrait.y);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    await expect(page.locator(`button.living-portrait[data-transition-person="${backgroundPortrait.id}"]`)).not.toHaveClass(/living-portrait--focused/);
+    await waitForGuard(page);
+
+    const actionCandidate = await readForegroundCandidateData(page);
+    await page.locator(`button.living-portrait[data-transition-person="${actionCandidate.id}"]`).click();
+    await waitForGuard(page);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', actionCandidate.id);
+
+    await page.getByRole('button', { name: 'LIFE + WORK' }).click();
+    await expect(page.locator('.living-hall__personActionPanel .story-mode')).toBeVisible();
+    const panelBackgroundPortrait = await visiblePortraitOutsideContentWindow(page, [actionCandidate.id]);
+    await page.mouse.click(panelBackgroundPortrait.x, panelBackgroundPortrait.y);
+    await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', actionCandidate.id);
+    await expect(page.locator(`button.living-portrait[data-transition-person="${panelBackgroundPortrait.id}"]`)).not.toHaveClass(/living-portrait--focused/);
+  });
+
   test('legacies focus is a modal cohort navigator', async ({ page }) => {
     await page.goto('./');
     await expect(page.locator('.hall-surface')).toHaveCount(1);
@@ -458,6 +489,10 @@ async function visiblePortraitOutsideFocusCard(page: Page, skipIds: string[] = [
   return visiblePortraitTarget(page, skipIds, true);
 }
 
+async function visiblePortraitOutsideContentWindow(page: Page, skipIds: string[] = []) {
+  return visiblePortraitTarget(page, skipIds, true, '.living-hall__focusCard, .living-hall__personActionPanel');
+}
+
 async function readLegacyPan(page: Page) {
   return page.evaluate(() => Number(document.querySelector<HTMLElement>('.living-hall')?.dataset.legacyPan ?? 0));
 }
@@ -515,9 +550,28 @@ async function dragLegacyTimelineAwayFromBoundary(page: Page) {
   return { direction };
 }
 
-async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outsideFocusCard = false) {
-  const target = await page.evaluate(({ outsideCard, idsToSkip }) => {
-    const card = document.querySelector('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+async function visiblePortraitTarget(
+  page: Page,
+  skipIds: string[] = [],
+  outsideFocusCard = false,
+  outsideSelector = '.living-hall__focusCard',
+) {
+  const target = await page.evaluate(({ idsToSkip, outsideCard, selector }) => {
+    function isVisible(element: HTMLElement) {
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number(style.opacity) > 0.05
+        && rect.width > 1
+        && rect.height > 1;
+    }
+
+    const foregroundRects = outsideCard
+      ? Array.from(document.querySelectorAll<HTMLElement>(selector))
+        .filter(isVisible)
+        .map((element) => element.getBoundingClientRect())
+      : [];
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('button.living-portrait'));
     const visible = buttons.find((button) => {
       const id = button.dataset.transitionPerson ?? '';
@@ -525,15 +579,17 @@ async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outside
       const rect = button.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
-      if (outsideCard && card && x >= card.left && x <= card.right && y >= card.top && y <= card.bottom) return false;
+      if (foregroundRects.some((foreground) => x >= foreground.left && x <= foreground.right && y >= foreground.top && y <= foreground.bottom)) return false;
       const hit = document.elementFromPoint(x, y);
+      const hitElement = hit instanceof Element ? hit : null;
+      const dismissLayerHit = Boolean(hitElement?.closest('.living-hall__contentDismissLayer'));
       return rect.width > 24
         && rect.height > 32
         && rect.left > 8
         && rect.right < window.innerWidth - 8
         && rect.top > 32
         && rect.bottom < window.innerHeight - 96
-        && Boolean(hit && button.contains(hit));
+        && Boolean(hit && (button.contains(hit) || dismissLayerHit));
     });
 
     if (!visible) return null;
@@ -543,7 +599,7 @@ async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outside
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
     };
-  }, { idsToSkip: skipIds, outsideCard: outsideFocusCard });
+  }, { idsToSkip: skipIds, outsideCard: outsideFocusCard, selector: outsideSelector });
 
   if (!target?.id) throw new Error('No visible portrait was available.');
   return target;
