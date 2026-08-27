@@ -247,11 +247,11 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
-    const relatedPortrait = page.locator('button.living-portrait--emphasis:not(.living-portrait--focused)').first();
-    await expect(relatedPortrait).toBeVisible();
-    const relatedPersonId = await relatedPortrait.getAttribute('data-transition-person');
+    const relatedConnection = page.locator('.living-hall__traceConnection').first();
+    await expect(relatedConnection).toBeVisible();
+    const relatedPersonId = await relatedConnection.getAttribute('data-trace-person');
     expect(relatedPersonId).toBeTruthy();
-    await relatedPortrait.click();
+    await relatedConnection.click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', relatedPersonId ?? '');
     await expect(page.locator(`button.living-portrait[data-transition-person="${relatedPersonId}"]`)).toHaveClass(/living-portrait--focused/);

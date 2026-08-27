@@ -609,6 +609,20 @@
   color: var(--exhibit-ink);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__contentDismissLayer {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3000;
+  display: block;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: default;
+  touch-action: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusCard {
   position: absolute;
   left: var(--focus-card-x);
@@ -1610,7 +1624,7 @@
   position: absolute;
   right: clamp(24px, 3vw, 62px);
   top: clamp(74px, 10vh, 128px);
-  z-index: 2350;
+  z-index: 3100;
   width: min(280px, 20vw);
   border-top: 1px solid rgba(168, 75, 37, 0.36);
   background: transparent;
