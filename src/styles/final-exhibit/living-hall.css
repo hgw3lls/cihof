@@ -927,6 +927,14 @@
   min-height: 46px;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__legacyControls {
+  opacity: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__legacyControls button {
+  pointer-events: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusLens {
   display: grid;
   gap: clamp(8px, 0.75vw, 13px);

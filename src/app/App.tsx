@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react';
 import { installationConfig } from '../config/installationConfig';
 import { useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
@@ -59,11 +59,13 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const transitionLockUntilRef = useRef(0);
   const transitionLockTimeoutRef = useRef<number | null>(null);
   const animationFramesRef = useRef<number[]>([]);
+  const suppressLegacyFocusClickRef = useRef(false);
   const reviewModeEnabled = false;
   const selectedId = hallFocus?.personId ?? '';
   const activeVisitorMode: VisitorExperienceMode = isVisitorExperienceMode(viewMode) ? viewMode : viewModeForHallLens(hallLens);
   const activeShellMode: ViewMode = reviewModeEnabled ? 'review' : activeVisitorMode;
   const shellStyle = useMemo(() => kioskSettingsStyle(kioskSettings), [kioskSettings]);
+  const legacyFocusModalActive = hallLens === 'legacies' && Boolean(selectedId) && !attractActive && !reviewModeEnabled;
   const wallDebugEnabled = installationConfig.debug.enabled && (readParam('wallDebug') === '1' || readParam('debugWall') === '1');
   const kioskToggleVisible = !contentProtectionActive || showKioskToggleInProduction;
   const shellClassName = [
@@ -374,6 +376,43 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     scheduleAnimationFrame(() => scrollStageTo(scrollPositionRef.current));
   }
 
+  function dismissLegacyFocusOutside() {
+    if (!legacyFocusModalActive) return;
+    recordKioskInteraction('close-legacy-focus-outside');
+    stopActiveMedia();
+    setSelectedId('');
+    setIdleWarningActive(false);
+    if (!reviewModeEnabled) setExperienceMode('living-hall', 'back');
+    scheduleAnimationFrame(() => scrollStageTo(scrollPositionRef.current));
+  }
+
+  function isInsideLegacyFocusTarget(target: EventTarget | null) {
+    return target instanceof Element && Boolean(target.closest('.living-hall__focusCard'));
+  }
+
+  function handleLegacyFocusPointerCapture(event: ReactPointerEvent<HTMLElement>) {
+    if (!legacyFocusModalActive) return;
+    if (isInsideLegacyFocusTarget(event.target)) return;
+    suppressLegacyFocusClickRef.current = true;
+    event.preventDefault();
+    event.stopPropagation();
+    dismissLegacyFocusOutside();
+  }
+
+  function handleLegacyFocusClickCapture(event: ReactMouseEvent<HTMLElement>) {
+    if (suppressLegacyFocusClickRef.current) {
+      suppressLegacyFocusClickRef.current = false;
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    if (!legacyFocusModalActive) return;
+    if (isInsideLegacyFocusTarget(event.target)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dismissLegacyFocusOutside();
+  }
+
   function continueExploring() {
     recordKioskInteraction('continue-exploring');
     setIdleWarningActive(false);
@@ -459,7 +498,10 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       aria-busy={transitionLocked ? 'true' : undefined}
       data-animation-intensity={kioskSettings.motion}
       data-debug-mode={installationConfig.debug.enabled ? 'true' : 'false'}
+      data-legacy-focus-modal={legacyFocusModalActive ? 'true' : 'false'}
       style={shellStyle}
+      onClickCapture={handleLegacyFocusClickCapture}
+      onPointerDownCapture={handleLegacyFocusPointerCapture}
     >
       <header className="museum-rail" aria-label="Installation identity and controls">
         <div className="museum-brand" onPointerDown={handleAdminBrandTap}>

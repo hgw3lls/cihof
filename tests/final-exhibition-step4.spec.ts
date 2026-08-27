@@ -47,6 +47,7 @@ test.describe('final installation choreography screenshots', () => {
     await expect(page.locator('button.living-portrait')).toHaveCount(initialPortraitCount);
     await screenshotHall(page, '05-legacies');
 
+    await dismissLegacyFocus(page);
     await waitForGuard(page);
     await page.getByRole('button', { name: 'Arrange Hall by portraits' }).click();
     await expectHall(page, 'portraits', await focusedPersonId(page));
@@ -79,6 +80,20 @@ async function waitForGuard(page: Page) {
 
 async function focusedPersonId(page: Page) {
   return await page.locator('.hall-surface').getAttribute('data-focused-person-id') ?? '';
+}
+
+async function dismissLegacyFocus(page: Page) {
+  const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
+  if (await dialog.count() === 0) return;
+  const surfaceBox = await page.locator('.hall-surface').boundingBox();
+  expect(surfaceBox).toBeTruthy();
+  await page.mouse.click(
+    (surfaceBox?.x ?? 0) + (surfaceBox?.width ?? 0) - 96,
+    (surfaceBox?.y ?? 0) + (surfaceBox?.height ?? 0) / 2,
+  );
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
 }
 
 async function portraitCount(page: Page) {
