@@ -210,6 +210,7 @@ export function LivingHallView({
   const [traceChooserOpen, setTraceChooserOpen] = useState(false);
   const [traceTrailIds, setTraceTrailIds] = useState<string[]>([]);
   const [visitQrOpen, setVisitQrOpen] = useState(false);
+  const [layoutViewport, setLayoutViewport] = useState<HallLayoutViewport>(() => readHallLayoutViewport());
   const legacyFieldRef = useRef<HTMLDivElement | null>(null);
   const legacyDragRef = useRef<LegacyDragState | null>(null);
   const legacySuppressTapUntilRef = useRef(0);
@@ -276,6 +277,7 @@ export function LivingHallView({
   );
   const focusedPosition = focusedPerson ? activeMode.positions.get(focusedPerson.id) ?? null : null;
   const focusedMediaRecord = focusedPerson ? mediaRecordMap.get(focusedPerson.id) : undefined;
+  const focusedFrameAspect = portraitFrameAspect(focusedMediaRecord);
   const focusedGallery = useMemo(
     () => focusedPerson ? buildPersonGallery(focusedPerson, focusedMediaRecord) : [],
     [focusedMediaRecord, focusedPerson],
@@ -306,6 +308,23 @@ export function LivingHallView({
     initialDelayMs: cityAttractInitialDelayMs,
     loopPauseMs: cityAttractLoopPauseMs,
   } = cityQuestion.config.attract;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    function syncLayoutViewport() {
+      setLayoutViewport(readHallLayoutViewport());
+    }
+
+    syncLayoutViewport();
+    window.addEventListener('resize', syncLayoutViewport);
+    window.visualViewport?.addEventListener('resize', syncLayoutViewport);
+
+    return () => {
+      window.removeEventListener('resize', syncLayoutViewport);
+      window.visualViewport?.removeEventListener('resize', syncLayoutViewport);
+    };
+  }, []);
 
   useEffect(() => {
     if (settings.motion === 'none') return undefined;
@@ -738,7 +757,21 @@ export function LivingHallView({
       '--legacy-pan': `${legacyPan}px`,
     } as CSSProperties & Record<string, string>
     : undefined;
-  const focusedCardPlacement = focusedPosition ? focusCardPlacement(focusedPosition) : null;
+  const focusedCardPlacement = focusedPosition
+    ? focusCardPlacement(focusedPosition, lens, layoutViewport, settings, focusedFrameAspect)
+    : null;
+  const focusedActionPlacement = focusedPosition && activePersonAction !== 'overview'
+    ? actionPanelPlacement(focusedPosition, activePersonAction, layoutViewport, settings, focusedFrameAspect)
+    : null;
+  const labelForegroundRects = foregroundLabelRects({
+    actionPlacement: focusedActionPlacement,
+    cardPlacement: activePersonAction === 'overview' ? focusedCardPlacement : null,
+    frameAspect: focusedFrameAspect,
+    lens,
+    position: focusedPosition,
+    settings,
+    viewport: layoutViewport,
+  });
   const tracePanelSide = focusedCardPlacement?.side === 'right' ? 'left' : 'right';
 
   return (
@@ -892,13 +925,22 @@ export function LivingHallView({
 
         {!loading && !error && activeMode.labels.map((label) => {
           const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
+          const labelObscured = labelOverlapsForeground(label, lens, activeLegacyYear, labelForegroundRects);
           const labelClassName = [
             'living-hall__groupLabel',
             activeLegacyLabel ? 'living-hall__groupLabel--active' : '',
+            labelObscured ? 'living-hall__groupLabel--obscured' : '',
           ].filter(Boolean).join(' ');
 
           return (
-            <span className={labelClassName} data-label-id={label.id} key={label.id} style={labelStyle(label)}>
+            <span
+              className={labelClassName}
+              data-label-id={label.id}
+              data-label-obscured={labelObscured ? 'true' : undefined}
+              aria-hidden={labelObscured ? true : undefined}
+              key={label.id}
+              style={labelStyle(label)}
+            >
               <strong>{label.text}</strong>
               {label.detail && <small>{label.detail}</small>}
             </span>
@@ -941,7 +983,7 @@ export function LivingHallView({
           />
         )}
 
-        {!loading && !error && focusedPerson && focusedPosition && activePersonAction !== 'overview' && !attractActive && (
+        {!loading && !error && focusedPerson && focusedActionPlacement && activePersonAction !== 'overview' && !attractActive && (
           <PersonFocusActionPanel
             action={activePersonAction}
             allInductees={people}
@@ -950,7 +992,7 @@ export function LivingHallView({
             inductee={focusedPerson}
             kioskMode={kioskMode}
             mediaRecord={focusedMediaRecord}
-            placement={actionPanelPlacement(focusedPosition)}
+            placement={focusedActionPlacement}
             soundEnabled={soundEnabled}
             storyRecord={focusedStoryRecord}
             onClose={() => setHallPersonAction('overview')}
@@ -1023,11 +1065,25 @@ export function LivingHallView({
 type FocusCardPlacement = {
   side: 'left' | 'right';
   style: CSSProperties & Record<string, string>;
+  rect: LayoutRect;
 };
 
 type FocusActionPlacement = {
   side: 'left' | 'right';
   style: CSSProperties & Record<string, string>;
+  rect: LayoutRect;
+};
+
+type HallLayoutViewport = {
+  width: number;
+  height: number;
+};
+
+type LayoutRect = {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
 };
 
 function PortraitFocusCard({
@@ -3431,35 +3487,49 @@ function portraitFrameMetrics(
   };
 }
 
-function focusCardPlacement(position: PortraitPosition): FocusCardPlacement {
-  const side = position.x > 58 ? 'left' : 'right';
-  const x = side === 'right'
-    ? clamp(position.x + 16, 48, 78)
-    : clamp(position.x - 15, 22, 46);
-  const y = clamp(position.y + 1, 24, 68);
+function focusCardPlacement(
+  position: PortraitPosition,
+  lens: HallLens,
+  viewport: HallLayoutViewport,
+  settings: KioskSettings,
+  frameAspect: PortraitFrameAspect,
+): FocusCardPlacement {
+  const metrics = focusCardMetrics(lens, viewport);
+  const portraitRect = portraitFootprintRect(position, lens, viewport, settings, frameAspect);
+  const placement = foregroundPlacement(position, viewport, portraitRect, metrics);
 
   return {
-    side,
+    side: placement.side,
     style: {
-      '--focus-card-x': `${x}%`,
-      '--focus-card-y': `${y}%`,
+      '--focus-card-x': `${placement.x}%`,
+      '--focus-card-y': `${placement.y}%`,
+      '--focus-card-width': `${Math.round(metrics.widthPx)}px`,
+      '--focus-card-max-height': `${Math.round(metrics.maxHeightPx)}px`,
     } as CSSProperties & Record<string, string>,
+    rect: placement.rect,
   };
 }
 
-function actionPanelPlacement(position: PortraitPosition): FocusActionPlacement {
-  const side = position.x > 50 ? 'left' : 'right';
-  const x = side === 'right'
-    ? clamp(position.x + 18, 8, 52)
-    : clamp(position.x - 18, 48, 92);
-  const y = clamp(position.y, 33, 58);
+function actionPanelPlacement(
+  position: PortraitPosition,
+  action: HallPersonAction,
+  viewport: HallLayoutViewport,
+  settings: KioskSettings,
+  frameAspect: PortraitFrameAspect,
+): FocusActionPlacement {
+  const metrics = actionPanelMetrics(action, viewport);
+  const portraitRect = portraitFootprintRect(position, 'portraits', viewport, settings, frameAspect, 1.22);
+  const placement = foregroundPlacement(position, viewport, portraitRect, metrics);
 
   return {
-    side,
+    side: placement.side,
     style: {
-      '--person-action-x': `${x}%`,
-      '--person-action-y': `${y}%`,
+      '--person-action-x': `${placement.x}%`,
+      '--person-action-y': `${placement.y}%`,
+      '--person-action-width': `${Math.round(metrics.widthPx)}px`,
+      '--person-action-max-height': `${Math.round(metrics.maxHeightPx)}px`,
     } as CSSProperties & Record<string, string>,
+    rect: placement.rect,
   };
 }
 
@@ -3468,6 +3538,176 @@ function labelStyle(label: HallLabel) {
     '--label-x': `${label.x}%`,
     '--label-y': `${label.y}%`,
   } as CSSProperties & Record<string, string>;
+}
+
+function foregroundLabelRects({
+  actionPlacement,
+  cardPlacement,
+  frameAspect,
+  lens,
+  position,
+  settings,
+  viewport,
+}: {
+  actionPlacement: FocusActionPlacement | null;
+  cardPlacement: FocusCardPlacement | null;
+  frameAspect: PortraitFrameAspect;
+  lens: HallLens;
+  position: PortraitPosition | null;
+  settings: KioskSettings;
+  viewport: HallLayoutViewport;
+}) {
+  const rects: LayoutRect[] = [];
+  if (position) rects.push(portraitFootprintRect(position, lens, viewport, settings, frameAspect, 1.08));
+  if (cardPlacement) rects.push(cardPlacement.rect);
+  if (actionPlacement) rects.push(actionPlacement.rect);
+  return rects;
+}
+
+function labelOverlapsForeground(
+  label: HallLabel,
+  lens: HallLens,
+  activeLegacyYear: number | null,
+  foregroundRects: LayoutRect[],
+) {
+  if (foregroundRects.length === 0) return false;
+  const labelRect = labelLayoutRect(label, lens, activeLegacyYear);
+  return foregroundRects.some((rect) => rectsOverlap(labelRect, rect, 1.6));
+}
+
+function labelLayoutRect(label: HallLabel, lens: HallLens, activeLegacyYear: number | null): LayoutRect {
+  const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
+  const width = activeLegacyLabel
+    ? 18
+    : clamp(Math.max(label.text.length * 0.72, (label.detail?.length ?? 0) * 0.42), 8, lens === 'traces' ? 20 : 15);
+  const height = activeLegacyLabel ? 9 : label.detail ? 6.6 : 4.2;
+  return rectFromCenter(label.x, label.y, width, height);
+}
+
+function foregroundPlacement(
+  position: PortraitPosition,
+  viewport: HallLayoutViewport,
+  portraitRect: LayoutRect,
+  metrics: { widthPx: number; heightPx: number; maxHeightPx: number; gapPx: number },
+) {
+  const fieldWidth = Math.max(viewport.width, 1);
+  const fieldHeight = Math.max(viewport.height, 1);
+  const widthPct = clamp((metrics.widthPx / fieldWidth) * 100, 18, 46);
+  const heightPct = clamp((Math.max(metrics.heightPx, metrics.maxHeightPx) / fieldHeight) * 100, 18, 76);
+  const gapPct = clamp((metrics.gapPx / fieldWidth) * 100, 2.4, 6.8);
+  const topReservePct = clamp((72 / fieldHeight) * 100, 6, 15);
+  const bottomReservePct = clamp((260 / fieldHeight) * 100, 18, 34);
+  const rightRoom = 96 - portraitRect.right;
+  const leftRoom = portraitRect.left - 4;
+  const side: 'left' | 'right' = rightRoom >= widthPct + gapPct || rightRoom >= leftRoom ? 'right' : 'left';
+  const x = side === 'right'
+    ? clamp(portraitRect.right + gapPct, 46, 98 - widthPct)
+    : clamp(portraitRect.left - gapPct, widthPct + 2, 54);
+  const yMin = topReservePct + heightPct * 0.5;
+  const yMax = 100 - bottomReservePct - heightPct * 0.5;
+  const y = clampToRange(position.y, yMin, yMax);
+  const rect = side === 'right'
+    ? rectFromEdges(x, y - heightPct * 0.5, x + widthPct, y + heightPct * 0.5)
+    : rectFromEdges(x - widthPct, y - heightPct * 0.5, x, y + heightPct * 0.5);
+
+  return { side, x, y, rect };
+}
+
+function focusCardMetrics(lens: HallLens, viewport: HallLayoutViewport) {
+  const compact = viewport.width < 980;
+  const widthPx = compact
+    ? Math.max(300, viewport.width - 48)
+    : lens === 'traces'
+      ? clamp(viewport.width * 0.25, 360, 470)
+      : lens === 'legacies'
+        ? clamp(viewport.width * 0.3, 440, 560)
+        : clamp(viewport.width * 0.3, 430, 560);
+  const heightPx = compact
+    ? clamp(viewport.height * 0.32, 220, 320)
+    : lens === 'traces'
+      ? clamp(viewport.height * 0.34, 260, 420)
+      : lens === 'legacies'
+        ? clamp(viewport.height * 0.5, 420, 680)
+        : clamp(viewport.height * 0.46, 360, 600);
+  const maxHeightPx = compact
+    ? clamp(viewport.height * 0.34, 220, 320)
+    : clamp(viewport.height * 0.68, 480, 800);
+
+  return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : 46 };
+}
+
+function actionPanelMetrics(action: HallPersonAction, viewport: HallLayoutViewport) {
+  const compact = viewport.width < 980;
+  const widthRatio = action === 'watch' ? 0.46 : action === 'text' ? 0.42 : action === 'continue' ? 0.36 : 0.42;
+  const widthPx = compact
+    ? Math.max(300, viewport.width - 48)
+    : clamp(viewport.width * widthRatio, action === 'continue' ? 560 : 660, action === 'watch' ? 900 : 820);
+  const heightRatio = action === 'continue' ? 0.38 : action === 'watch' ? 0.58 : 0.66;
+  const heightPx = compact
+    ? clamp(viewport.height * 0.58, 360, 620)
+    : clamp(viewport.height * heightRatio, action === 'continue' ? 310 : 470, action === 'watch' ? 650 : 760);
+  const maxHeightPx = compact
+    ? clamp(viewport.height * 0.58, 360, 620)
+    : clamp(viewport.height * 0.7, action === 'continue' ? 420 : 560, 820);
+
+  return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : 54 };
+}
+
+function portraitFootprintRect(
+  position: PortraitPosition,
+  lens: HallLens,
+  viewport: HallLayoutViewport,
+  settings: KioskSettings,
+  frameAspect: PortraitFrameAspect,
+  paddingScale = 1,
+): LayoutRect {
+  const scaledSize = position.size * settings.portraitScale;
+  const frame = portraitFrameMetrics(
+    { ...position, size: scaledSize },
+    lens,
+    '',
+    portraitFrameState(lens, position),
+    frameAspect,
+  );
+  const fieldWidth = Math.max(viewport.width, 1);
+  const fieldHeight = Math.max(viewport.height, 1);
+  const widthPct = ((frame.width + 42 * paddingScale) / fieldWidth) * 100;
+  const heightPct = ((frame.height + 86 * paddingScale) / fieldHeight) * 100;
+  return rectFromCenter(position.x, position.y, widthPct, heightPct);
+}
+
+function rectFromCenter(x: number, y: number, width: number, height: number): LayoutRect {
+  return {
+    left: x - width * 0.5,
+    top: y - height * 0.5,
+    right: x + width * 0.5,
+    bottom: y + height * 0.5,
+  };
+}
+
+function rectFromEdges(left: number, top: number, right: number, bottom: number): LayoutRect {
+  return { left, top, right, bottom };
+}
+
+function rectsOverlap(a: LayoutRect, b: LayoutRect, padding = 0) {
+  return a.left < b.right + padding
+    && a.right > b.left - padding
+    && a.top < b.bottom + padding
+    && a.bottom > b.top - padding;
+}
+
+function clampToRange(value: number, min: number, max: number) {
+  if (min > max) return clamp(value, max, min);
+  return clamp(value, min, max);
+}
+
+function readHallLayoutViewport(): HallLayoutViewport {
+  if (typeof window === 'undefined') return { width: 1920, height: 900 };
+  const visualViewport = window.visualViewport;
+  return {
+    width: Math.max(320, visualViewport?.width ?? window.innerWidth),
+    height: Math.max(420, visualViewport?.height ?? window.innerHeight),
+  };
 }
 
 function cycleImage(current: number | null, total: number, direction: -1 | 1) {

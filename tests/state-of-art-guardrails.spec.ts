@@ -8,6 +8,13 @@ type TargetViolation = {
   height: number;
 };
 
+type GeometryViolation = {
+  reason: string;
+  target: string;
+  against?: string;
+  overlapRatio?: number;
+};
+
 test.describe('state-of-art guardrails', () => {
   test('public kiosk controls expose museum-grade touch targets', async ({ page }) => {
     await page.goto('./?kiosk=1');
@@ -31,6 +38,49 @@ test.describe('state-of-art guardrails', () => {
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expectTouchTargets(page, 'legacies');
+  });
+
+  test('focused foreground panels avoid portrait and background text collisions', async ({ page }) => {
+    const viewports = [
+      { width: 1920, height: 1080 },
+      { width: 1366, height: 768 },
+    ];
+
+    for (const viewport of viewports) {
+      await test.step(`${viewport.width}x${viewport.height}`, async () => {
+        await page.setViewportSize(viewport);
+        await page.goto('./');
+        await expect(page.locator('.hall-surface')).toHaveCount(1);
+        await expect(page.locator('button.living-portrait').first()).toBeVisible();
+        const candidate = await readForegroundCandidateData(page);
+        await page.locator(`button.living-portrait[data-transition-person="${candidate.id}"]`).click();
+        await waitForGuard(page);
+        await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+        await expectForegroundGeometry(page, `portrait focus ${viewport.width}x${viewport.height}`);
+
+        await page.getByRole('button', { name: 'LIFE + WORK' }).click();
+        await expect(page.locator('.living-hall__personActionPanel .story-mode')).toBeVisible();
+        await expectForegroundGeometry(page, `life work ${viewport.width}x${viewport.height}`);
+        await closePersonActionPanel(page);
+
+        await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
+        await expect(page.locator('.living-hall__personActionPanel .media-experience')).toBeVisible();
+        await expectForegroundGeometry(page, `watch induction ${viewport.width}x${viewport.height}`);
+        await closePersonActionPanel(page);
+
+        await waitForGuard(page);
+        await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+        await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+        await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+        await expectForegroundGeometry(page, `traces focus ${viewport.width}x${viewport.height}`);
+
+        await waitForGuard(page);
+        await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+        await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+        await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
+        await expectForegroundGeometry(page, `legacies focus ${viewport.width}x${viewport.height}`);
+      });
+    }
   });
 
   test('legacies focus is a modal cohort navigator', async ({ page }) => {
@@ -165,6 +215,149 @@ async function expectTouchTargets(page: Page, stateLabel: string) {
   });
 
   expect(violations, `${stateLabel} has undersized visible controls`).toEqual([]);
+}
+
+async function expectForegroundGeometry(page: Page, stateLabel: string) {
+  const violations = await page.evaluate<GeometryViolation[]>(() => {
+    const viewport = {
+      width: window.innerWidth || document.documentElement.clientWidth,
+      height: window.innerHeight || document.documentElement.clientHeight,
+    };
+
+    function elementName(element: HTMLElement) {
+      const id = element.dataset.transitionPerson || element.dataset.labelId || element.getAttribute('aria-label') || '';
+      const classes = Array.from(element.classList).slice(0, 3).join('.');
+      return `${element.tagName.toLowerCase()}${classes ? `.${classes}` : ''}${id ? `[${id}]` : ''}`;
+    }
+
+    function rectFor(element: HTMLElement) {
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+      };
+    }
+
+    function isVisible(element: HTMLElement) {
+      if (element.closest('[aria-hidden="true"], [hidden]')) return false;
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number(style.opacity) > 0.05
+        && rect.width > 1
+        && rect.height > 1;
+    }
+
+    function overlapArea(a: ReturnType<typeof rectFor>, b: ReturnType<typeof rectFor>) {
+      const width = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+      const height = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      return width * height;
+    }
+
+    function overlapRatio(a: ReturnType<typeof rectFor>, b: ReturnType<typeof rectFor>) {
+      const smallerArea = Math.min(a.width * a.height, b.width * b.height);
+      return smallerArea > 0 ? overlapArea(a, b) / smallerArea : 0;
+    }
+
+    const violations: GeometryViolation[] = [];
+    const focusedPortrait = document.querySelector<HTMLElement>('button.living-portrait--focused');
+    const focusedRect = focusedPortrait && isVisible(focusedPortrait) ? rectFor(focusedPortrait) : null;
+    const nav = document.querySelector<HTMLElement>('.museum-bottom-nav.experience-dock');
+    const navRect = nav && isVisible(nav) ? rectFor(nav) : null;
+    const foregroundPanels = Array
+      .from(document.querySelectorAll<HTMLElement>('.living-hall__focusCard, .living-hall__personActionPanel'))
+      .filter(isVisible)
+      .map((element) => ({ element, rect: rectFor(element) }));
+
+    for (const { element, rect } of foregroundPanels) {
+      if (rect.left < 6 || rect.top < 6 || rect.right > viewport.width - 6 || rect.bottom > viewport.height - 6) {
+        violations.push({ reason: 'outside viewport', target: elementName(element) });
+      }
+
+      if (navRect && overlapArea(rect, navRect) > 1) {
+        violations.push({ reason: 'overlaps bottom navigation', target: elementName(element), against: elementName(nav) });
+      }
+
+      if (focusedRect) {
+        const ratio = overlapRatio(rect, focusedRect);
+        if (ratio > 0.02) {
+          violations.push({
+            reason: 'overlaps focused portrait',
+            target: elementName(element),
+            against: elementName(focusedPortrait as HTMLElement),
+            overlapRatio: Math.round(ratio * 1_000) / 1_000,
+          });
+        }
+      }
+
+      if (element.scrollWidth > element.clientWidth + 2) {
+        violations.push({ reason: 'horizontal content overflow', target: elementName(element) });
+      }
+    }
+
+    const visibleLabels = Array
+      .from(document.querySelectorAll<HTMLElement>('.living-hall__groupLabel'))
+      .filter((element) => element.dataset.labelObscured !== 'true' && isVisible(element));
+
+    for (const label of visibleLabels) {
+      const labelRect = rectFor(label);
+      for (const { element, rect } of foregroundPanels) {
+        const ratio = overlapRatio(labelRect, rect);
+        if (ratio > 0.02) {
+          violations.push({
+            reason: 'readable background label overlaps foreground',
+            target: elementName(label),
+            against: elementName(element),
+            overlapRatio: Math.round(ratio * 1_000) / 1_000,
+          });
+        }
+      }
+
+      if (focusedRect) {
+        const ratio = overlapRatio(labelRect, focusedRect);
+        if (ratio > 0.04) {
+          violations.push({
+            reason: 'readable background label overlaps focused portrait',
+            target: elementName(label),
+            against: elementName(focusedPortrait as HTMLElement),
+            overlapRatio: Math.round(ratio * 1_000) / 1_000,
+          });
+        }
+      }
+    }
+
+    return violations;
+  });
+
+  expect(violations, `${stateLabel} foreground geometry`).toEqual([]);
+}
+
+async function closePersonActionPanel(page: Page) {
+  await page.locator('.living-hall__personActionHeader button').click();
+  await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
+  await waitForGuard(page);
+}
+
+async function readForegroundCandidateData(page: Page) {
+  const response = await page.request.get('data/inductees.json');
+  expect(response.ok()).toBe(true);
+  const inductees = await response.json() as Array<{
+    id: string;
+    name: string;
+    localVideoPaths?: string[];
+    youtubeVideoIds?: string[];
+  }>;
+  const candidate = inductees.find((inductee) => {
+    const mediaCount = (inductee.youtubeVideoIds?.length ?? 0) + (inductee.localVideoPaths?.length ?? 0);
+    return Boolean(inductee.id && mediaCount > 0);
+  });
+  if (!candidate) throw new Error('No inductee with media found in test data.');
+  return { id: candidate.id, name: candidate.name };
 }
 
 async function clickVisiblePortrait(page: Page, skipIds: string[] = []) {

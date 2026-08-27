@@ -35,10 +35,10 @@
   left: var(--person-action-x);
   top: var(--person-action-y);
   z-index: 2500;
-  width: min(780px, 44vw);
+  width: min(var(--person-action-width, 780px), calc(100vw - 72px));
   height: auto;
   min-height: 0;
-  max-height: min(73vh, 760px);
+  max-height: var(--person-action-max-height, min(73vh, 760px));
   display: block;
   overflow: auto;
   border-top: 3px solid var(--exhibit-route);
@@ -57,11 +57,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-watch {
-  width: min(900px, 52vw);
+  width: min(var(--person-action-width, 900px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-continue {
-  width: min(680px, 38vw);
+  width: min(var(--person-action-width, 680px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel :is(.story-mode, .media-experience, .qr-continuation) {
@@ -136,19 +136,22 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-hall__focusCard,
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-hall__focusCard {
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="watch"] .living-hall__focusCard {
   opacity: 0;
   pointer-events: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-portrait:not(.living-portrait--focused),
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-portrait:not(.living-portrait--focused),
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="watch"] .living-portrait:not(.living-portrait--focused),
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="continue"] .living-portrait:not(.living-portrait--focused) {
   opacity: 0.045;
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="story"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="text"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record,
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="watch"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-person-action="continue"] .living-portrait:not(.living-portrait--focused) .portrait-frame__record {
   opacity: 0;
 }
@@ -160,9 +163,10 @@
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story,
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue {
-  width: min(820px, 42vw);
-  max-height: min(76vh, 800px);
-  overflow: visible;
+  width: min(var(--person-action-width, 820px), calc(100vw - 72px));
+  max-height: var(--person-action-max-height, min(76vh, 800px));
+  overflow: auto;
+  overscroll-behavior: contain;
   border: 0;
   background: transparent;
   background-size: auto;
@@ -170,12 +174,12 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue {
-  width: min(700px, 36vw);
+  width: min(var(--person-action-width, 700px), calc(100vw - 72px));
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-text {
-  width: min(780px, 40vw);
-  max-height: min(76vh, 820px);
+  width: min(var(--person-action-width, 780px), calc(100vw - 72px));
+  max-height: var(--person-action-max-height, min(76vh, 820px));
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .living-hall__personActionHeader,
@@ -211,7 +215,7 @@
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: clamp(14px, 1.5vw, 26px);
-  overflow: visible;
+  overflow: hidden;
   background: transparent;
   color: var(--exhibit-ink);
 }
@@ -246,7 +250,7 @@
   min-height: clamp(390px, 54vh, 620px);
   grid-template-columns: minmax(190px, 0.36fr) minmax(0, 0.64fr);
   gap: clamp(20px, 2.6vw, 46px);
-  overflow: visible;
+  overflow: hidden;
   border: 0;
   background: transparent;
   padding: 0;
