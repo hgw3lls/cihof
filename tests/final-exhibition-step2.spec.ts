@@ -26,6 +26,7 @@ test.describe('focused portrait as in-place record', () => {
     await screenshotHall(page, 'legacies-focus');
 
     await waitForGuard(page);
+    await dismissLegacyFocus(page);
     await page.getByRole('button', { name: 'Arrange Hall by portraits' }).click();
     await expectHall(page, 'portraits', candidate.id);
 
@@ -95,6 +96,35 @@ async function expectPersonActionHeader(page: Page, name: string) {
   const heading = page.locator('.living-hall__personActionHeader span');
   await expect(heading).toHaveText(name);
   await expect(heading).not.toHaveText(/^(LIFE \+ WORK|FULL TEXT|WATCH INDUCTION|TAKE IT WITH YOU)$/);
+}
+
+async function dismissLegacyFocus(page: Page) {
+  const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
+  await expect(dialog).toBeVisible();
+  const point = await pointOutsideDialog(page);
+  await page.mouse.click(point.x, point.y);
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+}
+
+async function pointOutsideDialog(page: Page) {
+  const point = await page.evaluate(() => {
+    const hall = document.querySelector<HTMLElement>('.living-hall')?.getBoundingClientRect() ?? null;
+    const dialog = document.querySelector<HTMLElement>('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+    if (!hall) return null;
+    const candidates = [
+      { x: hall.right - 96, y: hall.top + hall.height * 0.52 },
+      { x: hall.left + hall.width * 0.52, y: hall.bottom - 148 },
+      { x: hall.right - 96, y: hall.top + 128 },
+    ];
+    return candidates.find(({ x, y }) => {
+      if (!dialog) return true;
+      return x < dialog.left || x > dialog.right || y < dialog.top || y > dialog.bottom;
+    }) ?? candidates[0];
+  });
+
+  if (!point) throw new Error('No point outside the cohort navigator was available.');
+  return point;
 }
 
 async function readActionCandidateData(page: Page) {

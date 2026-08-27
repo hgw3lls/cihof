@@ -29,16 +29,15 @@ test.describe('persistent Hall final acceptance', () => {
 
     await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
     await expectHall(page, 'traces', firstPersonId);
-    const traceInfo = page.locator('.living-hall__focusLens--traces');
+    const traceInfo = page.locator('.living-hall__traceFocus');
     await expect(traceInfo).toBeVisible();
-    await expect(traceInfo).toContainText('CONNECTIONS');
-    await expect(traceInfo).toContainText('Visible');
+    await expect(traceInfo.locator('.living-hall__traceConnection').first()).toBeVisible();
     await screenshotHall(page, 'traces');
 
     const secondPersonId = await clickRelatedPortrait(page, firstPersonId);
     await expectHall(page, 'traces', secondPersonId);
     await expect(traceInfo).toBeVisible();
-    await expect(traceInfo).toContainText('CONNECTIONS');
+    await expect(traceInfo.locator('.living-hall__traceConnection').first()).toBeVisible();
     await waitForGuard(page);
 
     const thirdPersonId = await clickRelatedPortrait(page, secondPersonId);
@@ -85,11 +84,10 @@ test.describe('persistent Hall final acceptance', () => {
     const target = await visiblePortraitTarget(page);
     await page.mouse.click(target.x, target.y);
     await expectHall(page, 'legacies', target.id);
-    await expect(page.locator('.living-hall__focusCard')).toContainText('HONORED FOR');
-    const timelineInfo = page.locator('.living-hall__focusLens--legacies');
-    await expect(timelineInfo).toBeVisible();
-    await expect(timelineInfo).toContainText('TIMELINE');
-    await expect(timelineInfo).toContainText('Cohort');
+    const cohortDialog = page.getByRole('dialog', { name: /cohort navigator/i });
+    await expect(cohortDialog).toBeVisible();
+    await expect(cohortDialog).toContainText('COHORT NAVIGATION');
+    await expect(cohortDialog).toContainText('Class Corridor');
     await screenshotHall(page, 'legacies-focus');
     await expectNoVisitorDestination(page);
   });
@@ -106,6 +104,7 @@ test.describe('persistent Hall final acceptance', () => {
     await expectHall(page, 'legacies', target.id);
     await waitForGuard(page);
 
+    await dismissLegacyFocus(page);
     await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
     await expectHall(page, 'traces', target.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${target.id}"]`)).toHaveClass(/living-portrait--focused/);
@@ -283,6 +282,35 @@ async function visiblePortraitTarget(page: Page) {
 
 async function readLegacyPan(page: Page) {
   return page.evaluate(() => Number(document.querySelector<HTMLElement>('.living-hall')?.dataset.legacyPan ?? 0));
+}
+
+async function dismissLegacyFocus(page: Page) {
+  const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
+  await expect(dialog).toBeVisible();
+  const point = await pointOutsideDialog(page);
+  await page.mouse.click(point.x, point.y);
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+}
+
+async function pointOutsideDialog(page: Page) {
+  const point = await page.evaluate(() => {
+    const hall = document.querySelector<HTMLElement>('.living-hall')?.getBoundingClientRect() ?? null;
+    const dialog = document.querySelector<HTMLElement>('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+    if (!hall) return null;
+    const candidates = [
+      { x: hall.right - 96, y: hall.top + hall.height * 0.52 },
+      { x: hall.left + hall.width * 0.52, y: hall.bottom - 148 },
+      { x: hall.right - 96, y: hall.top + 128 },
+    ];
+    return candidates.find(({ x, y }) => {
+      if (!dialog) return true;
+      return x < dialog.left || x > dialog.right || y < dialog.top || y > dialog.bottom;
+    }) ?? candidates[0];
+  });
+
+  if (!point) throw new Error('No point outside the cohort navigator was available.');
+  return point;
 }
 
 async function readWatchCandidateData(page: Page) {

@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent,
+  ReactNode,
+  TouchEvent as ReactTouchEvent,
+  WheelEvent as ReactWheelEvent,
+} from 'react';
 import { installationConfig } from '../config/installationConfig';
 import { useInductees } from '../data/useInductees';
 import { useRelationships } from '../data/useRelationships';
@@ -60,6 +67,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const transitionLockTimeoutRef = useRef<number | null>(null);
   const animationFramesRef = useRef<number[]>([]);
   const suppressLegacyFocusClickRef = useRef(false);
+  const suppressLegacyFocusClickTimeoutRef = useRef<number | null>(null);
+  const legacyFocusDismissPointerRef = useRef<{ pointerId: number; startX: number; startY: number } | null>(null);
   const reviewModeEnabled = false;
   const selectedId = hallFocus?.personId ?? '';
   const activeVisitorMode: VisitorExperienceMode = isVisitorExperienceMode(viewMode) ? viewMode : viewModeForHallLens(hallLens);
@@ -130,6 +139,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   useEffect(() => {
     return () => {
       if (transitionLockTimeoutRef.current !== null) window.clearTimeout(transitionLockTimeoutRef.current);
+      if (suppressLegacyFocusClickTimeoutRef.current !== null) window.clearTimeout(suppressLegacyFocusClickTimeoutRef.current);
       animationFramesRef.current.forEach((frame) => window.cancelAnimationFrame(frame));
       animationFramesRef.current = [];
     };
@@ -387,21 +397,53 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function isInsideLegacyFocusTarget(target: EventTarget | null) {
-    return target instanceof Element && Boolean(target.closest('.living-hall__focusCard'));
+    const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
+    return Boolean(element?.closest('.living-hall__focusCard'));
+  }
+
+  function clearLegacyFocusClickSuppression() {
+    suppressLegacyFocusClickRef.current = false;
+    legacyFocusDismissPointerRef.current = null;
+    if (suppressLegacyFocusClickTimeoutRef.current !== null) {
+      window.clearTimeout(suppressLegacyFocusClickTimeoutRef.current);
+      suppressLegacyFocusClickTimeoutRef.current = null;
+    }
+  }
+
+  function suppressNextLegacyFocusClick(event: ReactPointerEvent<HTMLElement>) {
+    suppressLegacyFocusClickRef.current = true;
+    legacyFocusDismissPointerRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+    };
+    if (suppressLegacyFocusClickTimeoutRef.current !== null) window.clearTimeout(suppressLegacyFocusClickTimeoutRef.current);
+    suppressLegacyFocusClickTimeoutRef.current = window.setTimeout(() => {
+      clearLegacyFocusClickSuppression();
+    }, 800);
   }
 
   function handleLegacyFocusPointerCapture(event: ReactPointerEvent<HTMLElement>) {
     if (!legacyFocusModalActive) return;
     if (isInsideLegacyFocusTarget(event.target)) return;
-    suppressLegacyFocusClickRef.current = true;
+    suppressNextLegacyFocusClick(event);
     event.preventDefault();
     event.stopPropagation();
     dismissLegacyFocusOutside();
   }
 
+  function handleLegacyFocusPointerMoveCapture(event: ReactPointerEvent<HTMLElement>) {
+    const pending = legacyFocusDismissPointerRef.current;
+    if (!pending || pending.pointerId !== event.pointerId) return;
+    const deltaX = event.clientX - pending.startX;
+    const deltaY = event.clientY - pending.startY;
+    if (Math.hypot(deltaX, deltaY) < 8) return;
+    clearLegacyFocusClickSuppression();
+  }
+
   function handleLegacyFocusClickCapture(event: ReactMouseEvent<HTMLElement>) {
     if (suppressLegacyFocusClickRef.current) {
-      suppressLegacyFocusClickRef.current = false;
+      clearLegacyFocusClickSuppression();
       event.preventDefault();
       event.stopPropagation();
       return;
@@ -411,6 +453,20 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     event.preventDefault();
     event.stopPropagation();
     dismissLegacyFocusOutside();
+  }
+
+  function handleLegacyFocusTouchMoveCapture(event: ReactTouchEvent<HTMLElement>) {
+    if (!legacyFocusModalActive) return;
+    if (isInsideLegacyFocusTarget(event.target)) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function handleLegacyFocusWheelCapture(event: ReactWheelEvent<HTMLElement>) {
+    if (!legacyFocusModalActive) return;
+    if (isInsideLegacyFocusTarget(event.target)) return;
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   function continueExploring() {
@@ -502,6 +558,9 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       style={shellStyle}
       onClickCapture={handleLegacyFocusClickCapture}
       onPointerDownCapture={handleLegacyFocusPointerCapture}
+      onPointerMoveCapture={handleLegacyFocusPointerMoveCapture}
+      onTouchMoveCapture={handleLegacyFocusTouchMoveCapture}
+      onWheelCapture={handleLegacyFocusWheelCapture}
     >
       <header className="museum-rail" aria-label="Installation identity and controls">
         <div className="museum-brand" onPointerDown={handleAdminBrandTap}>

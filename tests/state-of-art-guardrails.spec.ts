@@ -22,10 +22,12 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.living-hall__focusCard')).toBeVisible();
     await expectTouchTargets(page, 'focused portrait');
 
+    await waitForGuard(page);
     await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expectTouchTargets(page, 'traces');
 
+    await waitForGuard(page);
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expectTouchTargets(page, 'legacies');
@@ -47,6 +49,14 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.getByRole('button', { name: 'LIFE + WORK' })).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'SAVE TO VISIT', exact: true })).toHaveCount(0);
 
+    const panBeforeWheel = await readLegacyPan(page);
+    const wheelPoint = await legacyTimelinePointOutsideDialog(page);
+    const wheelDelta = await legacyWheelDeltaAwayFromBoundary(page);
+    await page.mouse.move(wheelPoint.x, wheelPoint.y);
+    await page.mouse.wheel(wheelDelta, 0);
+    await page.waitForTimeout(160);
+    expect(await readLegacyPan(page)).toBe(panBeforeWheel);
+
     const navBox = await page.getByRole('button', { name: 'Arrange Hall by portraits' }).boundingBox();
     expect(navBox).toBeTruthy();
     await page.mouse.click((navBox?.x ?? 0) + (navBox?.width ?? 0) / 2, (navBox?.y ?? 0) + (navBox?.height ?? 0) / 2);
@@ -57,7 +67,26 @@ test.describe('state-of-art guardrails', () => {
     await waitForGuard(page);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', focusedAgain);
 
-    const outsidePortrait = await visiblePortraitOutsideFocusCard(page, [focusedAgain]);
+    const panBeforeDismissSwipe = await readLegacyPan(page);
+    await dragLegacyTimelineAwayFromBoundary(page);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    expect(await readLegacyPan(page)).toBe(panBeforeDismissSwipe);
+
+    const beforeUnlockedPan = await readLegacyPan(page);
+    const unlockedDrag = await dragLegacyTimelineAwayFromBoundary(page);
+    if (unlockedDrag.direction === 'increase') {
+      await expect.poll(() => readLegacyPan(page)).toBeGreaterThan(beforeUnlockedPan);
+    } else {
+      await expect.poll(() => readLegacyPan(page)).toBeLessThan(beforeUnlockedPan);
+    }
+
+    await page.waitForTimeout(620);
+    const focusedAfterUnlockedDrag = await clickVisiblePortrait(page);
+    await waitForGuard(page);
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', focusedAfterUnlockedDrag);
+
+    const outsidePortrait = await visiblePortraitOutsideFocusCard(page, [focusedAfterUnlockedDrag]);
     await page.mouse.click(outsidePortrait.x, outsidePortrait.y);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
@@ -148,6 +177,63 @@ async function visiblePortraitOutsideFocusCard(page: Page, skipIds: string[] = [
   return visiblePortraitTarget(page, skipIds, true);
 }
 
+async function readLegacyPan(page: Page) {
+  return page.evaluate(() => Number(document.querySelector<HTMLElement>('.living-hall')?.dataset.legacyPan ?? 0));
+}
+
+async function legacyWheelDeltaAwayFromBoundary(page: Page) {
+  const { pan, maxPan } = await legacyPanBounds(page);
+  expect(maxPan).toBeGreaterThan(0);
+  return pan > maxPan * 0.5 ? -520 : 520;
+}
+
+async function legacyPanBounds(page: Page) {
+  return page.evaluate(() => {
+    const hall = document.querySelector<HTMLElement>('.living-hall');
+    const field = document.querySelector<HTMLElement>('.living-hall__field');
+    const viewport = field?.parentElement as HTMLElement | null;
+    return {
+      pan: Number(hall?.dataset.legacyPan ?? 0),
+      maxPan: Math.max(0, (field?.offsetWidth ?? 0) - (viewport?.clientWidth ?? 0)),
+    };
+  });
+}
+
+async function legacyTimelinePointOutsideDialog(page: Page) {
+  const point = await page.evaluate(() => {
+    const hall = document.querySelector<HTMLElement>('.living-hall')?.getBoundingClientRect() ?? null;
+    const dialog = document.querySelector<HTMLElement>('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
+    if (!hall) return null;
+    const candidates = [
+      { x: hall.left + hall.width * 0.72, y: hall.top + hall.height * 0.48 },
+      { x: hall.left + hall.width * 0.36, y: hall.top + hall.height * 0.64 },
+      { x: hall.left + hall.width * 0.82, y: hall.top + hall.height * 0.35 },
+      { x: hall.left + hall.width * 0.52, y: hall.top + hall.height * 0.78 },
+    ];
+    return candidates.find(({ x, y }) => {
+      if (x < 12 || x > window.innerWidth - 12 || y < 44 || y > window.innerHeight - 100) return false;
+      if (!dialog) return true;
+      return x < dialog.left || x > dialog.right || y < dialog.top || y > dialog.bottom;
+    }) ?? candidates[0];
+  });
+
+  if (!point) throw new Error('No timeline point was available.');
+  return point;
+}
+
+async function dragLegacyTimelineAwayFromBoundary(page: Page) {
+  const { pan, maxPan } = await legacyPanBounds(page);
+  expect(maxPan).toBeGreaterThan(0);
+  const point = await legacyTimelinePointOutsideDialog(page);
+  const direction = pan > maxPan * 0.5 ? 'decrease' : 'increase';
+  const moveX = direction === 'increase' ? -260 : 260;
+  await page.mouse.move(point.x, point.y);
+  await page.mouse.down();
+  await page.mouse.move(point.x + moveX, point.y, { steps: 8 });
+  await page.mouse.up();
+  return { direction };
+}
+
 async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outsideFocusCard = false) {
   const target = await page.evaluate(({ outsideCard, idsToSkip }) => {
     const card = document.querySelector('.living-hall__focusCard')?.getBoundingClientRect() ?? null;
@@ -166,7 +252,7 @@ async function visiblePortraitTarget(page: Page, skipIds: string[] = [], outside
         && rect.right < window.innerWidth - 8
         && rect.top > 32
         && rect.bottom < window.innerHeight - 96
-        && Boolean(hit && (button.contains(hit) || hit.closest('.living-hall')));
+        && Boolean(hit && button.contains(hit));
     });
 
     if (!visible) return null;
