@@ -7660,11 +7660,18 @@ body {
 }
 
 .city-question--open {
-  width: min(660px, calc(100% - 48px));
+  position: fixed;
+  inset: 0;
+  z-index: 4200;
+  width: 100vw;
+  height: var(--cihof-vh, 100dvh);
+  color: var(--living-hall-paper);
+  touch-action: none;
 }
 
 .city-question__trigger,
-.city-question__option {
+.city-question__option,
+.city-question__close {
   border: 2px solid rgba(238, 226, 199, 0.72);
   border-radius: 0;
   background: rgba(7, 11, 13, 0.78);
@@ -7691,20 +7698,47 @@ body {
 }
 
 .city-question__trigger:focus-visible,
-.city-question__option:focus-visible {
+.city-question__option:focus-visible,
+.city-question__close:focus-visible {
   outline: 5px solid var(--riso-gold);
   outline-offset: 7px;
 }
 
 .city-question__trigger:active,
-.city-question__option:active {
+.city-question__option:active,
+.city-question__close:active {
   background: var(--living-hall-paper);
   color: var(--living-hall-ink);
 }
 
+.city-question__scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: rgba(7, 11, 13, 0.28);
+  padding: 0;
+  cursor: default;
+  touch-action: none;
+}
+
+.city-question__scrim:focus-visible {
+  outline: none;
+}
+
 .city-question__panel {
+  position: absolute;
+  right: clamp(20px, 2.8vw, 56px);
+  bottom: calc(var(--experience-dock-height) + clamp(18px, 2vw, 40px));
+  z-index: 1;
+  width: min(660px, calc(100% - 48px));
+  max-height: calc(var(--cihof-vh, 100dvh) - var(--experience-dock-height) - clamp(56px, 7vw, 118px));
   display: grid;
   gap: clamp(16px, 1.6vw, 26px);
+  overflow: auto;
+  overscroll-behavior: contain;
   border: 3px solid rgba(238, 226, 199, 0.82);
   background:
     linear-gradient(90deg, rgba(238, 226, 199, 0.07) 1px, transparent 1px),
@@ -7718,6 +7752,14 @@ body {
 }
 
 .city-question__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+}
+
+.city-question__headerText {
+  min-width: 0;
   display: grid;
   gap: 8px;
 }
@@ -7755,6 +7797,14 @@ body {
   min-height: 74px;
   padding: 0 12px;
   font-size: clamp(0.95rem, 1vw, 1.2rem);
+}
+
+.city-question__close {
+  min-height: 44px;
+  min-width: 82px;
+  padding: 0 12px;
+  font-size: 0.72rem;
+  line-height: 1;
 }
 
 .city-question__ack {
@@ -8044,7 +8094,16 @@ body {
     width: calc(100% - 26px);
   }
 
+  .city-question--open {
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+  }
+
   .city-question__panel {
+    right: 13px;
+    bottom: calc(var(--experience-dock-height) + 18px);
+    width: calc(100% - 26px);
     padding: 16px;
   }
 

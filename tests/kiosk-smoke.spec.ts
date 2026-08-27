@@ -91,9 +91,22 @@ test.describe('museum kiosk smoke', () => {
       const beforeCounts = await readCityQuestionCounts(page, cityQuestion.storageKey);
       const beforeTotal = totalCityQuestionResponses(cityQuestion.options, beforeCounts);
 
-      await expect(page.getByRole('button', { name: cityQuestion.prompt })).toBeVisible();
-      await page.getByRole('button', { name: cityQuestion.prompt }).click();
-      await expect(page.getByRole('dialog', { name: cityQuestion.prompt })).toBeVisible();
+      const questionTrigger = page.getByRole('button', { name: cityQuestion.prompt });
+      const questionDialog = page.getByRole('dialog', { name: cityQuestion.prompt });
+
+      await expect(questionTrigger).toBeVisible();
+      await questionTrigger.click();
+      await expect(questionDialog).toBeVisible();
+      await expect(questionDialog).toHaveAttribute('aria-modal', 'true');
+
+      const navBox = await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).boundingBox();
+      expect(navBox).toBeTruthy();
+      await page.mouse.click((navBox?.x ?? 0) + (navBox?.width ?? 0) / 2, (navBox?.y ?? 0) + (navBox?.height ?? 0) / 2);
+      await expect(questionDialog).toBeHidden();
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+
+      await questionTrigger.click();
+      await expect(questionDialog).toBeVisible();
       await page.getByRole('button', { name: new RegExp(`^${escapeRegExp(option.label)}$`) }).click();
 
       await expect(page.locator('.city-question__ack')).toContainText(option.label);
@@ -417,9 +430,13 @@ test.describe('museum kiosk smoke', () => {
       `./?kiosk=1&lens=legacies&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
       { waitUntil: 'domcontentloaded' },
     );
+    await page.keyboard.press('Shift');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await page.keyboard.press('Shift');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await page.keyboard.press('Shift');
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    await page.keyboard.press('Shift');
     await dismissLegacyFocusIfOpen(page);
     const hallBox = await page.locator('.living-hall').boundingBox();
     expect(hallBox).toBeTruthy();

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import type { CityQuestionConfig, CityQuestionCounts, CityQuestionOption } from '../../data/useCityQuestion';
 
 type CityQuestionPromptProps = {
@@ -29,6 +30,21 @@ export function CityQuestionPrompt({ config, counts, onRecordChoice }: CityQuest
     return () => window.clearTimeout(timer);
   }, [activityKey, config.autoCloseMs, open, selectedId]);
 
+  useEffect(() => {
+    if (!open) return undefined;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      setOpen(false);
+      setSelectedId('');
+      setActivityKey((value) => value + 1);
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open]);
+
   function noteActivity() {
     setActivityKey((value) => value + 1);
   }
@@ -39,15 +55,21 @@ export function CityQuestionPrompt({ config, counts, onRecordChoice }: CityQuest
     noteActivity();
   }
 
-  return (
-    <div
-      className={open ? 'city-question city-question--open' : 'city-question'}
-      onPointerDown={(event) => {
-        event.stopPropagation();
-        noteActivity();
-      }}
-    >
-      {!open && (
+  function closeQuestion() {
+    setOpen(false);
+    setSelectedId('');
+    noteActivity();
+  }
+
+  if (!open) {
+    return (
+      <div
+        className="city-question"
+        onPointerDown={(event) => {
+          event.stopPropagation();
+          noteActivity();
+        }}
+      >
         <button
           className="city-question__trigger"
           type="button"
@@ -60,41 +82,99 @@ export function CityQuestionPrompt({ config, counts, onRecordChoice }: CityQuest
         >
           {config.prompt}
         </button>
-      )}
+      </div>
+    );
+  }
 
-      {open && (
-        <aside className="city-question__panel" role="dialog" aria-label={config.prompt}>
-          <div className="city-question__header">
+  const dialog = (
+    <div
+      className="city-question city-question--open"
+      onPointerDown={(event) => {
+        event.stopPropagation();
+        noteActivity();
+      }}
+    >
+      <button
+        className="city-question__scrim"
+        type="button"
+        aria-label="Close question"
+        tabIndex={-1}
+        onClick={(event) => {
+          event.stopPropagation();
+          closeQuestion();
+        }}
+        onPointerDown={(event) => {
+          event.stopPropagation();
+          noteActivity();
+        }}
+        onTouchMove={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          noteActivity();
+        }}
+        onWheel={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          noteActivity();
+        }}
+      />
+      <aside
+        className="city-question__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label={config.prompt}
+        onPointerDown={(event) => {
+          event.stopPropagation();
+          noteActivity();
+        }}
+        onTouchMove={(event) => {
+          event.stopPropagation();
+        }}
+        onWheel={(event) => {
+          event.stopPropagation();
+        }}
+      >
+        <div className="city-question__header">
+          <div className="city-question__headerText">
             <p>{config.prompt}</p>
             <span>{selectedOption ? config.privacyNote : config.instruction}</span>
           </div>
+          <button className="city-question__close" type="button" onClick={closeQuestion}>
+            Close
+          </button>
+        </div>
 
-          {!selectedOption && (
-            <div className="city-question__options" aria-label={config.instruction}>
-              {config.options.map((option) => (
-                <button
-                  className="city-question__option"
-                  key={option.id}
-                  type="button"
-                  onClick={() => selectOption(option)}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          )}
+        {!selectedOption && (
+          <div className="city-question__options" aria-label={config.instruction}>
+            {config.options.map((option) => (
+              <button
+                className="city-question__option"
+                key={option.id}
+                type="button"
+                onClick={() => selectOption(option)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
 
-          {selectedOption && (
-            <div className="city-question__ack" aria-live="polite">
-              <strong>{selectedOption.label}</strong>
-              <span>Added to the anonymous field.</span>
-              <CityQuestionMiniField config={config} counts={counts} selectedId={selectedOption.id} />
-            </div>
-          )}
-        </aside>
-      )}
+        {selectedOption && (
+          <div className="city-question__ack" aria-live="polite">
+            <strong>{selectedOption.label}</strong>
+            <span>Added to the anonymous field.</span>
+            <CityQuestionMiniField config={config} counts={counts} selectedId={selectedOption.id} />
+          </div>
+        )}
+      </aside>
     </div>
   );
+
+  const portalHost = typeof document === 'undefined'
+    ? null
+    : document.querySelector<HTMLElement>('.museum-shell') ?? document.body;
+
+  return portalHost ? createPortal(dialog, portalHost) : dialog;
 }
 
 export function CityQuestionResults({ config, counts, reducedMotion }: CityQuestionResultsProps) {

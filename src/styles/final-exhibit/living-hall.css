@@ -2017,7 +2017,7 @@
   font-size: clamp(0.74rem, 0.78vw, 0.96rem);
 }
 
-.museum-shell:not(.museum-shell--staff) :is(.city-question__trigger, .city-question__option) {
+.museum-shell:not(.museum-shell--staff) :is(.city-question__trigger, .city-question__option, .city-question__close) {
   border: 0;
   border-top: 1px solid rgba(21, 19, 15, 0.18);
   background: transparent;
@@ -2040,11 +2040,21 @@
   z-index: 2420;
 }
 
+.museum-shell:not(.museum-shell--staff) .city-question--open {
+  z-index: 4200;
+  width: auto;
+  opacity: 1;
+}
+
 .museum-shell:not(.museum-shell--staff) .city-question__trigger {
   min-height: 44px;
   justify-items: start;
   padding: 7px 0 0;
   font-size: clamp(0.62rem, 0.7vw, 0.82rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question__scrim {
+  background: rgba(21, 19, 15, 0.12);
 }
 
 .museum-shell:not(.museum-shell--staff) .city-question__panel {
@@ -2053,6 +2063,13 @@
   background: rgba(243, 234, 214, 0.94);
   color: var(--exhibit-ink);
   box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question__close {
+  min-height: 44px;
+  min-width: 72px;
+  padding: 7px 0 0;
+  font-size: clamp(0.56rem, 0.62vw, 0.72rem);
 }
 
 .museum-shell:not(.museum-shell--staff) .city-question-dot,
