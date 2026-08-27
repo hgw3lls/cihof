@@ -91,6 +91,7 @@ type HallLabel = {
   id: string;
   text: string;
   detail?: string;
+  priority?: number;
   x: number;
   y: number;
 };
@@ -232,12 +233,22 @@ export function LivingHallView({
     () => selectHallPeople(allPeople, lens, focusedPersonId, settings.portraitLimit),
     [allPeople, focusedPersonId, lens, settings.portraitLimit],
   );
-  const modes = useMemo(() => buildHallModes(people), [people]);
   const focusedPerson = useMemo(
     () => focusedPersonId ? people.find((person) => person.id === focusedPersonId) ?? null : null,
     [focusedPersonId, people],
   );
-  const legacyChronology = useMemo(() => buildLegacyChronology(people), [people]);
+  const hallLayout = useMemo(
+    () => solveHallLayout({
+      focused: Boolean(focusedPersonId),
+      inductees: people,
+      lens,
+      settings,
+      viewport: layoutViewport,
+    }),
+    [focusedPersonId, lens, layoutViewport, people, settings],
+  );
+  const modes = useMemo(() => buildHallModes(people, hallLayout), [hallLayout, people]);
+  const legacyChronology = useMemo(() => buildLegacyChronology(people, hallLayout), [hallLayout, people]);
   const activeLegacyYear = useMemo(
     () => resolveLegacyActiveYear(legacyChronology, timelineYear, focusedPerson),
     [focusedPerson, legacyChronology, timelineYear],
@@ -272,8 +283,9 @@ export function LivingHallView({
       traceContext,
       legacyChronology,
       activeLegacyYear,
+      layout: hallLayout,
     }),
-    [activeLegacyYear, focusedPersonId, legacyChronology, lens, modes, people, relationships, step, timelineYear, traceContext, traceTrailIds],
+    [activeLegacyYear, focusedPersonId, hallLayout, legacyChronology, lens, modes, people, relationships, step, timelineYear, traceContext, traceTrailIds],
   );
   const focusedPosition = focusedPerson ? activeMode.positions.get(focusedPerson.id) ?? null : null;
   const focusedMediaRecord = focusedPerson ? mediaRecordMap.get(focusedPerson.id) : undefined;
@@ -758,21 +770,22 @@ export function LivingHallView({
     } as CSSProperties & Record<string, string>
     : undefined;
   const focusedCardPlacement = focusedPosition
-    ? focusCardPlacement(focusedPosition, lens, layoutViewport, settings, focusedFrameAspect)
+    ? focusCardPlacement(focusedPosition, lens, hallLayout, settings, focusedFrameAspect)
     : null;
   const focusedActionPlacement = focusedPosition && activePersonAction !== 'overview'
-    ? actionPanelPlacement(focusedPosition, activePersonAction, layoutViewport, settings, focusedFrameAspect)
+    ? actionPanelPlacement(focusedPosition, activePersonAction, hallLayout, settings, focusedFrameAspect)
     : null;
   const labelForegroundRects = foregroundLabelRects({
     actionPlacement: focusedActionPlacement,
     cardPlacement: activePersonAction === 'overview' ? focusedCardPlacement : null,
     frameAspect: focusedFrameAspect,
+    layout: hallLayout,
     lens,
     position: focusedPosition,
     settings,
-    viewport: layoutViewport,
   });
   const tracePanelSide = focusedCardPlacement?.side === 'right' ? 'left' : 'right';
+  const hallStyle = hallLayoutStyle(hallLayout, settings);
 
   return (
     <section
@@ -784,6 +797,10 @@ export function LivingHallView({
       data-city-question-total={cityQuestionTotal}
       data-hall-mode={activeMode.id}
       data-hall-lens={lens}
+      data-layout-tier={hallLayout.tier}
+      data-layout-density={hallLayout.densityScore.toFixed(2)}
+      data-layout-columns={hallLayout.portrait.columns}
+      data-layout-label-every={hallLayout.legacy.labelEvery}
       data-focused-person-id={focusedPersonId}
       data-trace-focus-key={lens === 'traces' ? traceContext.traceFocusKey : ''}
       data-trace-trail-size={lens === 'traces' ? traceTrailIds.length : 0}
@@ -792,6 +809,7 @@ export function LivingHallView({
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}
+      style={hallStyle}
       onPointerDown={() => onEngage?.()}
     >
       <div className="living-hall__title" aria-live="polite">
@@ -874,7 +892,7 @@ export function LivingHallView({
           const position = activeMode.positions.get(inductee.id) ?? fallbackPosition(index, people.length);
           const frameState = portraitFrameState(lens, position);
           const frameAspect = portraitFrameAspect(mediaRecordMap.get(inductee.id));
-          const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect, settings);
+          const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect, settings, hallLayout);
           const lensBadge = portraitLensBadge(lens, position, inductee, activeLegacyYear);
           const portraitCategory = portraitCategoryForLens(lens, position, inductee, activeLegacyYear);
           const className = [
@@ -917,13 +935,13 @@ export function LivingHallView({
                 fallbackLabel={initials(inductee.name)}
                 state={frameState}
                 aspect={frameAspect}
-                showRecord={shouldShowFrameRecord(lens, position)}
+                showRecord={shouldShowFrameRecord(lens, position, hallLayout)}
               />
             </button>
           );
         })}
 
-        {!loading && !error && activeMode.labels.map((label) => {
+        {!loading && !error && activeMode.labels.filter((label) => shouldRenderHallLabel(label, lens, hallLayout, activeLegacyYear)).map((label) => {
           const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
           const labelObscured = labelOverlapsForeground(label, lens, activeLegacyYear, labelForegroundRects);
           const labelClassName = [
@@ -1077,6 +1095,78 @@ type FocusActionPlacement = {
 type HallLayoutViewport = {
   width: number;
   height: number;
+};
+
+type HallLayoutTier = 'compact' | 'dense' | 'balanced' | 'open';
+
+type HallLayoutMetrics = {
+  tier: HallLayoutTier;
+  densityScore: number;
+  labelScale: number;
+  safe: {
+    topPct: number;
+    bottomPct: number;
+    leftPct: number;
+    rightPct: number;
+  };
+  portrait: {
+    columns: number;
+    xMin: number;
+    xMax: number;
+    yMin: number;
+    yMax: number;
+    minSize: number;
+    maxSize: number;
+    quietMinSize: number;
+    quietMaxSize: number;
+    emphasisMinSize: number;
+    emphasisMaxSize: number;
+    focusSize: number;
+    relatedMinSize: number;
+    relatedMaxSize: number;
+    mutedMaxSize: number;
+  };
+  trace: {
+    anchorSize: number;
+    relatedPrimarySize: number;
+    relatedSecondarySize: number;
+    trailSize: number;
+    perimeterNearSize: number;
+    perimeterFarSize: number;
+    yMax: number;
+  };
+  legacy: {
+    fieldScale: number;
+    localStepMin: number;
+    localStepMax: number;
+    focusedSize: number;
+    focusedGroupSize: number;
+    activeSize: number;
+    standardSize: number;
+    rowTopY: number;
+    rowBottomY: number;
+    labelEvery: number;
+    labelWindow: number;
+    labelPriorityMax: number;
+  };
+  foreground: {
+    focusWidthRatio: number;
+    focusMinWidth: number;
+    focusMaxWidth: number;
+    focusHeightRatio: number;
+    focusMaxHeightRatio: number;
+    actionWidthRatio: Record<Exclude<HallPersonAction, 'overview'>, number>;
+    actionMinWidth: Record<Exclude<HallPersonAction, 'overview'>, number>;
+    actionMaxWidth: Record<Exclude<HallPersonAction, 'overview'>, number>;
+    actionHeightRatio: Record<Exclude<HallPersonAction, 'overview'>, number>;
+    actionMaxHeightRatio: number;
+  };
+  recordThresholds: {
+    portraits: number;
+    traces: number;
+    legacies: number;
+  };
+  viewport: HallLayoutViewport;
 };
 
 type LayoutRect = {
@@ -2280,6 +2370,7 @@ function hallDisplayTitle(lens: HallLens) {
 function selectHallMode({
   focusedPersonId,
   lens,
+  layout,
   modes,
   people,
   relationships,
@@ -2292,6 +2383,7 @@ function selectHallMode({
 }: {
   focusedPersonId: string;
   lens: HallLens;
+  layout: HallLayoutMetrics;
   modes: HallMode[];
   people: Inductee[];
   relationships: RelationshipRecord[];
@@ -2304,12 +2396,12 @@ function selectHallMode({
 }) {
   const fallback = modes[step % Math.max(modes.length, 1)] ?? emptyMode;
   const baseMode = lens === 'legacies'
-    ? buildLegacyHallMode(people, legacyChronology, activeLegacyYear, focusedPersonId)
+    ? buildLegacyHallMode(people, legacyChronology, activeLegacyYear, focusedPersonId, layout)
     : lens === 'traces'
-      ? buildTraceHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, traceContext, traceTrailIds)
+      ? buildTraceHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, traceContext, traceTrailIds, layout)
       : portraitModeFromModes(modes, step) ?? fallback;
 
-  return lens === 'traces' || lens === 'legacies' ? baseMode : applyHallFocus(baseMode, people, relationships, focusedPersonId);
+  return lens === 'traces' || lens === 'legacies' ? baseMode : applyHallFocus(baseMode, people, relationships, focusedPersonId, layout);
 }
 
 function portraitModeFromModes(modes: HallMode[], step: number) {
@@ -2394,7 +2486,13 @@ function buildPlaceTraceChoices(geography: GeographyTraceModel, activePerson: In
     }));
 }
 
-function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: TraceContext, traceTrailIds: string[]): HallMode {
+function buildTraceHallMode(
+  inductees: Inductee[],
+  baseMode: HallMode,
+  context: TraceContext,
+  traceTrailIds: string[],
+  layout: HallLayoutMetrics,
+): HallMode {
   if (!context.activePerson) {
     return {
       ...baseMode,
@@ -2424,7 +2522,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         ...current,
         x: anchor.x,
         y: anchor.y,
-        size: 178,
+        size: layout.trace.anchorSize,
         z: 2600,
         delay: 0,
         emphasis: true,
@@ -2444,7 +2542,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
         ...current,
         x: relatedX,
         y: relatedY,
-        size: visible.index < 4 ? 92 : 82,
+        size: visible.index < 4 ? layout.trace.relatedPrimarySize : layout.trace.relatedSecondarySize,
         z: 1900 - visible.index,
         delay: staggerDelay(visible.index),
         emphasis: true,
@@ -2471,8 +2569,8 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
       positions.set(person.id, {
         ...current,
         x: clamp(continuity.x + wobble(person.id, 157, -0.9, 0.9), 8, 92),
-        y: clamp(continuity.y + wobble(person.name, 159, -0.75, 0.75), 13, 79),
-        size: context.mode === 'direct' ? 82 : 86,
+        y: clamp(continuity.y + wobble(person.name, 159, -0.75, 0.75), 13, layout.trace.yMax),
+        size: context.mode === 'direct' ? layout.trace.relatedSecondarySize : layout.trace.trailSize,
         z: 1760 - trailIndex,
         delay: staggerDelay(trailIndex + 4),
         emphasis: true,
@@ -2481,7 +2579,7 @@ function buildTraceHallMode(inductees: Inductee[], baseMode: HallMode, context: 
       return;
     }
 
-    const perimeter = tracePerimeterPosition(index, person, current);
+    const perimeter = tracePerimeterPosition(index, person, current, layout);
     positions.set(person.id, {
       ...current,
       x: perimeter.x,
@@ -2587,13 +2685,13 @@ const tracePerimeterSlots = [
   { x: 6, y: 35 },
 ];
 
-function tracePerimeterPosition(index: number, person: Inductee, current: PortraitPosition) {
+function tracePerimeterPosition(index: number, person: Inductee, current: PortraitPosition, layout: HallLayoutMetrics) {
   const slot = tracePerimeterSlots[index % tracePerimeterSlots.length];
   const band = Math.floor(index / tracePerimeterSlots.length);
   return {
     x: clamp(slot.x + wobble(person.id, 149, -1.5, 1.5), 4, 96),
-    y: clamp(slot.y + band * 1.8 + wobble(person.name, 151, -1.1, 1.1), 6, 84),
-    size: Math.min(current.size, band < 2 ? 42 : 34),
+    y: clamp(slot.y + band * 1.8 + wobble(person.name, 151, -1.1, 1.1), 6, layout.trace.yMax),
+    size: Math.min(current.size, band < 2 ? layout.trace.perimeterNearSize : layout.trace.perimeterFarSize),
   };
 }
 
@@ -2668,7 +2766,13 @@ function tracePlaceLabels(context: TraceContext): HallLabel[] {
   }));
 }
 
-function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: RelationshipRecord[], focusedPersonId: string): HallMode {
+function applyHallFocus(
+  mode: HallMode,
+  inductees: Inductee[],
+  relationships: RelationshipRecord[],
+  focusedPersonId: string,
+  layout: HallLayoutMetrics,
+): HallMode {
   if (!focusedPersonId) return mode;
   const focused = inductees.find((person) => person.id === focusedPersonId);
   if (!focused) return mode;
@@ -2676,7 +2780,10 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
   const relatedIds = relatedPersonIdsForFocus(focused, inductees, relationships);
   const relatedPeople = inductees.filter((person) => relatedIds.has(person.id)).slice(0, focusRelatedAnchors.length);
   const positions = new Map<string, PortraitPosition>();
-  const center = { x: 34, y: 45 };
+  const center = {
+    x: layout.tier === 'compact' ? 31 : 34,
+    y: clamp(45, layout.portrait.yMin + 8, layout.portrait.yMax - 8),
+  };
 
   inductees.forEach((person, index) => {
     const current = mode.positions.get(person.id) ?? fallbackPosition(index, inductees.length);
@@ -2686,7 +2793,7 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
         ...current,
         x: center.x,
         y: center.y,
-        size: Math.max(current.size, 190),
+        size: Math.max(current.size, layout.portrait.focusSize),
         z: 2400,
         delay: 0,
         emphasis: true,
@@ -2702,8 +2809,8 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
       positions.set(person.id, {
         ...current,
         x: clamp(anchor.x + wobble(person.id, 71, -1.4, 1.4), 7, 93),
-        y: clamp(anchor.y + wobble(person.name, 73, -1.1, 1.1), 12, 80),
-        size: Math.max(Math.min(current.size + 5, 92), 68),
+        y: clamp(anchor.y + wobble(person.name, 73, -1.1, 1.1), layout.portrait.yMin, layout.portrait.yMax),
+        size: Math.max(Math.min(current.size + 5, layout.portrait.relatedMaxSize), layout.portrait.relatedMinSize),
         z: 1700 - relatedIndex,
         delay: staggerDelay(relatedIndex),
         emphasis: true,
@@ -2717,7 +2824,7 @@ function applyHallFocus(mode: HallMode, inductees: Inductee[], relationships: Re
       ...current,
       x: openPosition.x,
       y: openPosition.y,
-      size: Math.min(current.size, openPosition.shifted ? 58 : 64),
+      size: Math.min(current.size, openPosition.shifted ? layout.portrait.mutedMaxSize : layout.portrait.relatedMinSize),
       z: Math.min(current.z, 28),
       delay: Math.min(current.delay, 120),
       emphasis: false,
@@ -2808,13 +2915,13 @@ function parseHallYear(value: string) {
   return Number.isInteger(year) ? year : null;
 }
 
-function buildHallModes(inductees: Inductee[]) {
+function buildHallModes(inductees: Inductee[], layout: HallLayoutMetrics) {
   if (inductees.length === 0) return [emptyMode];
 
   const modes: HallMode[] = [
-    buildPortraitWallMode(inductees, 'chronicle'),
-    buildPortraitWallMode(inductees, 'wall-memory'),
-    buildTimelineMode(inductees),
+    buildPortraitWallMode(inductees, 'chronicle', layout),
+    buildPortraitWallMode(inductees, 'wall-memory', layout),
+    buildTimelineMode(inductees, layout),
   ];
 
   const contributionMode = buildExplicitTagMode({
@@ -2822,6 +2929,7 @@ function buildHallModes(inductees: Inductee[]) {
     title: 'AREAS OF CONTRIBUTION',
     subtitle: 'Grouped by curated contribution metadata',
     inductees,
+    layout,
     tagSource: (inductee) => explicitTags(inductee.themeTags, inductee.themeTagsSource),
   });
   if (contributionMode) modes.push(contributionMode);
@@ -2831,6 +2939,7 @@ function buildHallModes(inductees: Inductee[]) {
     title: 'COMMUNITY TIES',
     subtitle: 'Grouped by documented community affiliations',
     inductees,
+    layout,
     tagSource: (inductee) => inductee.communityTags,
   });
   if (communityMode) modes.push(communityMode);
@@ -2840,6 +2949,7 @@ function buildHallModes(inductees: Inductee[]) {
     title: 'PLACE TRACES',
     subtitle: 'Grouped by curated geography metadata',
     inductees,
+    layout,
     tagSource: (inductee) => explicitTags(inductee.countryTags, inductee.countryTagsSource),
   });
   if (geographyMode) modes.push(geographyMode);
@@ -2847,15 +2957,15 @@ function buildHallModes(inductees: Inductee[]) {
   return modes;
 }
 
-function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wall-memory'): HallMode {
+function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wall-memory', layout: HallLayoutMetrics): HallMode {
   const positions = new Map<string, PortraitPosition>();
   const count = inductees.length;
-  const columns = galleryColumnsForCount(count);
+  const columns = layout.portrait.columns;
   const rows = Math.ceil(count / columns);
-  const xMin = 6.5;
-  const xMax = 94.5;
-  const yMin = 10;
-  const yMax = 78;
+  const xMin = layout.portrait.xMin;
+  const xMax = layout.portrait.xMax;
+  const yMin = layout.portrait.yMin;
+  const yMax = layout.portrait.yMax;
   const arranged = variant === 'wall-memory' ? sortByPhysicalWallMemory(inductees) : inductees;
 
   arranged.forEach((inductee, slotIndex) => {
@@ -2867,7 +2977,7 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
       ? ((row % 2 === 0 ? 1 : -1) * 1.35)
       : ((row % 3) - 1) * 0.7;
     const classBeat = inductee.classYear ? (inductee.classYear % 7) * 0.18 : 0;
-    const size = portraitSize(inductee, slotIndex + (variant === 'wall-memory' ? 41 : 0), 40, 62);
+    const size = portraitSize(inductee, slotIndex + (variant === 'wall-memory' ? 41 : 0), layout.portrait.minSize, layout.portrait.maxSize);
     const baseX = xMin + (xMax - xMin) * xRatio + rowOffset + wobble(inductee.id, 101, -0.55, 0.55);
     const baseY = yMin + (yMax - yMin) * yRatio + classBeat + wobble(inductee.name, 103, -0.45, 0.45);
     const composition = portraitWallComposition({
@@ -2891,12 +3001,12 @@ function buildPortraitWallMode(inductees: Inductee[], variant: 'chronicle' | 'wa
           ? 5
           : 0;
     const resolvedSize = strongFrame
-      ? clamp(size + composition.size + anchorBoost, 46, 76)
-      : clamp(size + composition.size - 6, 34, 54);
+      ? clamp(size + composition.size + anchorBoost, layout.portrait.emphasisMinSize, layout.portrait.emphasisMaxSize)
+      : clamp(size + composition.size - 6, layout.portrait.quietMinSize, layout.portrait.quietMaxSize);
 
     positions.set(inductee.id, {
-      x: clamp(baseX + composition.x, 4.5, 96),
-      y: clamp(baseY + composition.y, 7, 82),
+      x: clamp(baseX + composition.x, layout.portrait.xMin - 2, layout.portrait.xMax + 1.5),
+      y: clamp(baseY + composition.y, layout.portrait.yMin - 3, layout.portrait.yMax + 3),
       size: resolvedSize,
       z: 80 + Math.round(resolvedSize) + (inductee.featured ? 120 : inductee.featuredCandidate ? 60 : 0),
       delay: staggerDelay(slotIndex),
@@ -2997,7 +3107,7 @@ function buildPortraitWallLabels(): HallLabel[] {
   return [];
 }
 
-function buildLegacyChronology(inductees: Inductee[]): LegacyChronology {
+function buildLegacyChronology(inductees: Inductee[], layout: HallLayoutMetrics): LegacyChronology {
   const classGroups = [...groupByYear(inductees).entries()]
     .sort((a, b) => a[0] - b[0])
     .map(([year, people]) => ({
@@ -3014,7 +3124,7 @@ function buildLegacyChronology(inductees: Inductee[]): LegacyChronology {
     : classGroups;
   const count = Math.max(rawGroups.length, 1);
   const spacing = count <= 1 ? 0 : 92 / (count - 1);
-  const fieldScale = clamp(count * 0.32, 3.5, 7.4);
+  const fieldScale = layout.legacy.fieldScale;
   const groups = rawGroups.map((group, index) => ({
     ...group,
     x: count <= 1 ? 50 : 4 + index * spacing,
@@ -3048,20 +3158,24 @@ function buildLegacyHallMode(
   chronology: LegacyChronology,
   activeYear: number | null,
   focusedPersonId: string,
+  layout: HallLayoutMetrics,
 ): HallMode {
   const positions = new Map<string, PortraitPosition>();
   const focused = focusedPersonId ? inductees.find((person) => person.id === focusedPersonId) ?? null : null;
   const focusedGroup = focused ? chronology.groups.find((group) => group.people.some((person) => person.id === focused.id)) ?? null : null;
   const labels: HallLabel[] = [];
+  const activeGroupIndex = activeYear === null ? -1 : chronology.groups.findIndex((candidate) => candidate.year === activeYear);
 
   chronology.groups.forEach((group, groupIndex) => {
     const groupActive = group.year !== null && group.year === activeYear;
     const groupFocused = focusedGroup?.key === group.key;
+    const distanceFromActiveGroup = activeGroupIndex >= 0 ? Math.abs(groupIndex - activeGroupIndex) : Number.POSITIVE_INFINITY;
     const labelY = groupIndex % 2 === 0 ? 28 : 64;
     labels.push({
       id: `legacy-year-${group.key}`,
       text: group.label,
       detail: group.year === null ? 'CLASS' : groupActive ? `CLASS OF ${group.label}` : 'CLASS',
+      priority: legacyLabelPriority(groupIndex, distanceFromActiveGroup, groupActive || groupFocused, layout),
       x: group.x,
       y: labelY,
     });
@@ -3069,7 +3183,7 @@ function buildLegacyHallMode(
     const people = group.people;
     const rows = people.length <= 1 ? 1 : 2;
     const columns = Math.max(1, Math.ceil(people.length / rows));
-    const localStep = clamp(group.spacing * 0.23, 0.95, 1.85);
+    const localStep = clamp(group.spacing * 0.23, layout.legacy.localStepMin, layout.legacy.localStepMax);
     const focusedIndex = focused ? people.findIndex((person) => person.id === focused.id) : -1;
     const focusedColumn = focusedIndex >= 0 ? Math.floor(focusedIndex / rows) : -1;
 
@@ -3080,24 +3194,24 @@ function buildLegacyHallMode(
       const yBase = rows === 1
         ? 45
         : row === 0
-          ? 34
-          : 57;
+          ? layout.legacy.rowTopY
+          : layout.legacy.rowBottomY;
       const isFocused = inductee.id === focusedPersonId;
       const focusColumnDistance = focusedColumn < 0 ? Number.POSITIVE_INFINITY : Math.abs(column - focusedColumn);
       const focusPush = groupFocused && !isFocused && focusColumnDistance <= 1
         ? (column <= focusedColumn ? -1 : 1) * clamp(group.spacing * 0.32, 1.35, 2.75)
         : 0;
       const size = isFocused
-        ? 154
+        ? layout.legacy.focusedSize
         : groupFocused
-          ? 88
+          ? layout.legacy.focusedGroupSize
           : groupActive
-            ? 96
-            : 86;
+            ? layout.legacy.activeSize
+            : layout.legacy.standardSize;
 
       positions.set(inductee.id, {
         x: clamp(group.x + xOffset + focusPush + wobble(inductee.id, 211, -0.18, 0.18), 1.5, 98.5),
-        y: clamp((isFocused ? 45 : yBase) + wobble(inductee.name, 213, -0.65, 0.65), 18, 69),
+        y: clamp((isFocused ? 45 : yBase) + wobble(inductee.name, 213, -0.65, 0.65), layout.portrait.yMin, layout.legacy.rowBottomY + 12),
         size,
         z: isFocused ? 2600 : groupFocused ? 950 - personIndex : groupActive ? 420 - personIndex : 120 - Math.min(groupIndex, 80),
         delay: staggerDelay(groupIndex + personIndex),
@@ -3121,8 +3235,8 @@ function buildLegacyHallMode(
   };
 }
 
-function buildTimelineMode(inductees: Inductee[], activeYear: number | null = null): HallMode {
-  return buildLegacyHallMode(inductees, buildLegacyChronology(inductees), activeYear, '');
+function buildTimelineMode(inductees: Inductee[], layout: HallLayoutMetrics, activeYear: number | null = null): HallMode {
+  return buildLegacyHallMode(inductees, buildLegacyChronology(inductees, layout), activeYear, '', layout);
 }
 
 function buildExplicitTagMode({
@@ -3130,12 +3244,14 @@ function buildExplicitTagMode({
   title,
   subtitle,
   inductees,
+  layout,
   tagSource,
 }: {
   id: string;
   title: string;
   subtitle: string;
   inductees: Inductee[];
+  layout: HallLayoutMetrics;
   tagSource: (inductee: Inductee) => string[];
 }): HallMode | null {
   const buckets = new Map<string, Inductee[]>();
@@ -3168,11 +3284,16 @@ function buildExplicitTagMode({
       positionedIds.add(inductee.id);
       const orbit = Math.sqrt((personIndex + 1) / people.length);
       const angle = (personIndex * 151 + groupIndex * 43) * Math.PI / 180;
-      const size = portraitSize(inductee, personIndex + groupIndex, 76, 118);
+      const size = portraitSize(
+        inductee,
+        personIndex + groupIndex,
+        layout.portrait.relatedMinSize,
+        Math.max(layout.portrait.relatedMaxSize, layout.portrait.emphasisMaxSize),
+      );
 
       positions.set(inductee.id, {
         x: clamp(anchor.x + Math.cos(angle) * anchor.rx * orbit, 6, 94),
-        y: clamp(anchor.y + Math.sin(angle) * anchor.ry * orbit, 14, 80),
+        y: clamp(anchor.y + Math.sin(angle) * anchor.ry * orbit, layout.portrait.yMin, layout.portrait.yMax),
         size,
         z: 60 + Math.round(size),
         delay: staggerDelay(personIndex + groupIndex),
@@ -3187,8 +3308,8 @@ function buildExplicitTagMode({
       const position = fallbackPosition(index, ungrouped.length || 1);
       positions.set(inductee.id, {
         ...position,
-        size: Math.min(position.size, 76),
-        y: clamp(position.y, 18, 76),
+        size: Math.min(position.size, layout.portrait.relatedMaxSize),
+        y: clamp(position.y, layout.portrait.yMin, layout.portrait.yMax),
         z: 20,
         emphasis: false,
       });
@@ -3241,6 +3362,197 @@ function selectHallPeople(inductees: Inductee[], lens: HallLens, focusedPersonId
   const focusedPerson = inductees.find((person) => person.id === focusedPersonId);
   if (!focusedPerson) return visible;
   return [...visible.slice(0, Math.max(0, limit - 1)), focusedPerson];
+}
+
+function solveHallLayout({
+  focused,
+  inductees,
+  lens,
+  settings,
+  viewport,
+}: {
+  focused: boolean;
+  inductees: Inductee[];
+  lens: HallLens;
+  settings: KioskSettings;
+  viewport: HallLayoutViewport;
+}): HallLayoutMetrics {
+  const width = Math.max(320, viewport.width);
+  const height = Math.max(420, viewport.height);
+  const peopleCount = Math.max(1, inductees.length);
+  const dockReservePx = estimateExperienceDockReservePx(width, height);
+  const usableHeight = Math.max(360, height - dockReservePx - (focused ? 126 : 84));
+  const areaPerPortrait = (width * usableHeight) / peopleCount;
+  const densityScore = clamp((areaPerPortrait - 7200) / 9000, 0, 1);
+  const tier: HallLayoutTier = width < 980 || height < 640
+    ? 'compact'
+    : densityScore < 0.32
+      ? 'dense'
+      : densityScore < 0.66
+        ? 'balanced'
+        : 'open';
+  const sizeScale = tier === 'compact' ? 0.78 : 0.86 + densityScore * 0.2;
+  const insetPct = clamp((settings.fieldInsetVmin * Math.min(width, height)) / Math.max(width, 1), 0, 6);
+  const safeTopPct = clamp((72 / height) * 100, 6, 15);
+  const safeBottomPct = clamp(((dockReservePx + 72) / height) * 100, 16, 34);
+  const maxRows = tier === 'open' ? 8 : tier === 'balanced' ? 8 : 9;
+  const desiredCellWidth = tier === 'open' ? 138 : tier === 'balanced' ? 126 : 112;
+  const minColumns = Math.min(peopleCount, Math.max(4, Math.ceil(peopleCount / maxRows)));
+  const maxColumns = peopleCount >= 104
+    ? 15
+    : peopleCount >= 84
+      ? 13
+      : peopleCount >= 60
+        ? 11
+        : peopleCount >= 36
+          ? 9
+          : Math.max(4, Math.ceil(Math.sqrt(peopleCount)) + 1);
+  const columns = Math.max(1, Math.min(peopleCount, Math.round(clamp(width / desiredCellWidth, minColumns, maxColumns))));
+  const yMax = clamp(100 - safeBottomPct - 4, 68, 79);
+  const labelEvery = tier === 'open' ? 1 : tier === 'balanced' ? 2 : tier === 'dense' ? 3 : 4;
+  const labelPriorityMax = tier === 'open' ? 3 : tier === 'balanced' ? 2 : focused ? 1 : 2;
+  const legacyGroupCount = legacyVisualGroupCount(inductees);
+  const legacyGapPx = tier === 'open' ? 520 : tier === 'balanced' ? 460 : tier === 'dense' ? 410 : 360;
+  const legacyFieldScale = clamp(
+    (Math.max(legacyGroupCount - 1, 1) * legacyGapPx) / Math.max(width * 0.92, 1),
+    tier === 'compact' ? 3.9 : 3.4,
+    tier === 'compact' ? 8.4 : 7.4,
+  );
+  const foregroundWidthNudge = tier === 'open' ? 0 : tier === 'balanced' ? -0.015 : -0.035;
+  const focusWidthRatio = (
+    lens === 'traces'
+      ? 0.25
+      : lens === 'legacies'
+        ? 0.3
+        : 0.31
+  ) + foregroundWidthNudge;
+
+  return {
+    tier,
+    densityScore,
+    labelScale: tier === 'open' ? 1 : tier === 'balanced' ? 0.96 : tier === 'dense' ? 0.9 : 0.86,
+    safe: {
+      topPct: safeTopPct,
+      bottomPct: safeBottomPct,
+      leftPct: 4.5 + insetPct,
+      rightPct: 4.5 + insetPct,
+    },
+    portrait: {
+      columns,
+      xMin: tier === 'compact' ? 8 : 6.5 + insetPct,
+      xMax: tier === 'compact' ? 92 : 94.5 - insetPct,
+      yMin: Math.max(10, safeTopPct + 3),
+      yMax,
+      minSize: scaledPortraitSize(40, sizeScale, 32, 44),
+      maxSize: scaledPortraitSize(62, sizeScale, 50, 66),
+      quietMinSize: scaledPortraitSize(34, sizeScale, 28, 38),
+      quietMaxSize: scaledPortraitSize(54, sizeScale, 42, 58),
+      emphasisMinSize: scaledPortraitSize(46, sizeScale, 38, 50),
+      emphasisMaxSize: scaledPortraitSize(76, sizeScale, 58, 82),
+      focusSize: Math.round(clamp(height * (tier === 'compact' ? 0.16 : 0.17), tier === 'compact' ? 128 : 145, 190)),
+      relatedMinSize: scaledPortraitSize(68, sizeScale, 54, 72),
+      relatedMaxSize: scaledPortraitSize(92, sizeScale, 72, 96),
+      mutedMaxSize: scaledPortraitSize(58, sizeScale, 42, 60),
+    },
+    trace: {
+      anchorSize: Math.round(clamp(height * (tier === 'compact' ? 0.18 : 0.165), tier === 'compact' ? 122 : 132, 178)),
+      relatedPrimarySize: scaledPortraitSize(92, sizeScale, 72, 94),
+      relatedSecondarySize: scaledPortraitSize(82, sizeScale, 64, 86),
+      trailSize: scaledPortraitSize(86, sizeScale, 68, 90),
+      perimeterNearSize: scaledPortraitSize(42, sizeScale, 30, 44),
+      perimeterFarSize: scaledPortraitSize(34, sizeScale, 26, 36),
+      yMax: Math.min(yMax + 2, 84),
+    },
+    legacy: {
+      fieldScale: legacyFieldScale,
+      localStepMin: tier === 'open' ? 0.95 : tier === 'balanced' ? 1.05 : 1.15,
+      localStepMax: tier === 'open' ? 1.85 : tier === 'balanced' ? 1.72 : 1.58,
+      focusedSize: Math.round(clamp(height * (tier === 'compact' ? 0.17 : 0.145), tier === 'compact' ? 118 : 126, 154)),
+      focusedGroupSize: scaledPortraitSize(88, sizeScale, 66, 92),
+      activeSize: scaledPortraitSize(96, sizeScale, 72, 100),
+      standardSize: scaledPortraitSize(86, sizeScale, 62, 90),
+      rowTopY: tier === 'compact' ? 32 : 34,
+      rowBottomY: tier === 'compact' ? 55 : 57,
+      labelEvery,
+      labelWindow: tier === 'open' ? 2 : 1,
+      labelPriorityMax,
+    },
+    foreground: {
+      focusWidthRatio,
+      focusMinWidth: tier === 'compact' ? 300 : lens === 'traces' ? 340 : 410,
+      focusMaxWidth: tier === 'open' ? 580 : tier === 'balanced' ? 540 : 500,
+      focusHeightRatio: lens === 'legacies' ? 0.48 : lens === 'traces' ? 0.32 : 0.42,
+      focusMaxHeightRatio: tier === 'open' ? 0.68 : tier === 'balanced' ? 0.64 : 0.58,
+      actionWidthRatio: {
+        story: 0.42 + foregroundWidthNudge,
+        text: 0.42 + foregroundWidthNudge,
+        watch: 0.46 + foregroundWidthNudge,
+        continue: 0.36 + foregroundWidthNudge,
+      },
+      actionMinWidth: {
+        story: tier === 'open' ? 660 : 560,
+        text: tier === 'open' ? 660 : 560,
+        watch: tier === 'open' ? 720 : 620,
+        continue: tier === 'open' ? 560 : 460,
+      },
+      actionMaxWidth: {
+        story: tier === 'open' ? 820 : 740,
+        text: tier === 'open' ? 820 : 740,
+        watch: tier === 'open' ? 900 : 800,
+        continue: tier === 'open' ? 680 : 620,
+      },
+      actionHeightRatio: {
+        story: tier === 'open' ? 0.66 : 0.6,
+        text: tier === 'open' ? 0.66 : 0.6,
+        watch: tier === 'open' ? 0.58 : 0.52,
+        continue: tier === 'open' ? 0.38 : 0.34,
+      },
+      actionMaxHeightRatio: tier === 'open' ? 0.7 : tier === 'balanced' ? 0.66 : 0.62,
+    },
+    recordThresholds: {
+      portraits: tier === 'open' ? 60 : tier === 'balanced' ? 63 : 66,
+      traces: tier === 'open' ? 74 : 82,
+      legacies: tier === 'open' ? 72 : tier === 'balanced' ? 78 : 84,
+    },
+    viewport: { width, height },
+  };
+}
+
+function estimateExperienceDockReservePx(width: number, height: number) {
+  const dockHeight = clamp(height * 0.072, 82, 112);
+  const dockBottom = clamp(width * 0.018, 16, 32);
+  return dockHeight + dockBottom;
+}
+
+function legacyVisualGroupCount(inductees: Inductee[]) {
+  const yearCount = groupByYear(inductees).size;
+  const pending = inductees.some((inductee) => typeof inductee.classYear !== 'number') ? 1 : 0;
+  return Math.max(1, yearCount + pending);
+}
+
+function scaledPortraitSize(base: number, scale: number, min: number, max: number) {
+  return Math.round(clamp(base * scale, min, max));
+}
+
+function legacyLabelPriority(groupIndex: number, distanceFromActiveGroup: number, active: boolean, layout: HallLayoutMetrics) {
+  if (active) return 0;
+  if (distanceFromActiveGroup <= layout.legacy.labelWindow) return 1;
+  if (groupIndex % layout.legacy.labelEvery === 0) return 2;
+  return 3;
+}
+
+function shouldRenderHallLabel(label: HallLabel, lens: HallLens, layout: HallLayoutMetrics, activeLegacyYear: number | null) {
+  if (lens !== 'legacies') return true;
+  if (activeLegacyYear !== null && label.text === String(activeLegacyYear)) return true;
+  return (label.priority ?? 0) <= layout.legacy.labelPriorityMax;
+}
+
+function hallLayoutStyle(layout: HallLayoutMetrics, settings: KioskSettings) {
+  return {
+    '--kiosk-label-scale': Number((settings.labelScale * layout.labelScale).toFixed(3)),
+    '--hall-label-scale': Number(layout.labelScale.toFixed(3)),
+    '--hall-density-score': Number(layout.densityScore.toFixed(3)),
+  } as CSSProperties & Record<string, string | number>;
 }
 
 function groupByYear(inductees: Inductee[]) {
@@ -3384,10 +3696,11 @@ function portraitFrameAspect(record: RuntimeMediaRecord | undefined): PortraitFr
   return 'tall';
 }
 
-function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition) {
+function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition, layout?: HallLayoutMetrics) {
   if (position.focused || position.emphasis) return true;
-  if (lens === 'legacies') return position.size >= 72;
-  if (lens === 'portraits') return position.size >= 60;
+  if (lens === 'legacies') return position.size >= (layout?.recordThresholds.legacies ?? 72);
+  if (lens === 'portraits') return position.size >= (layout?.recordThresholds.portraits ?? 60);
+  if (lens === 'traces') return position.size >= (layout?.recordThresholds.traces ?? 82);
   return false;
 }
 
@@ -3398,9 +3711,10 @@ function portraitStyle(
   frameState: PortraitFrameState = portraitFrameState(lens, position),
   frameAspect: PortraitFrameAspect = 'tall',
   settings: KioskSettings = defaultKioskSettings,
+  layout?: HallLayoutMetrics,
 ) {
   const scaledSize = position.size * settings.portraitScale;
-  const frame = portraitFrameMetrics({ ...position, size: scaledSize }, lens, inducteeId, frameState, frameAspect);
+  const frame = portraitFrameMetrics({ ...position, size: scaledSize }, lens, inducteeId, frameState, frameAspect, layout);
   return {
     '--portrait-x': `${position.x}%`,
     '--portrait-y': `${position.y}%`,
@@ -3424,6 +3738,7 @@ function portraitFrameMetrics(
   inducteeId: string,
   frameState: PortraitFrameState,
   frameAspect: PortraitFrameAspect,
+  layout?: HallLayoutMetrics,
 ) {
   const base = position.size;
   const tallRatio = frameState === 'legacy' ? 1.34 : 1.42;
@@ -3456,7 +3771,7 @@ function portraitFrameMetrics(
       scale: 1,
       rotation: 0,
       accentOpacity: position.focused ? 1 : position.emphasis ? 0.56 : 0.14,
-      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.11, 6, 12)) : 0,
+      recordAreaHeight: shouldShowFrameRecord(lens, position, layout) ? Math.round(clamp(base * 0.11, 6, 12)) : 0,
     };
   }
 
@@ -3470,7 +3785,7 @@ function portraitFrameMetrics(
       scale: 1,
       rotation: 0,
       accentOpacity: 0.38,
-      recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.13, 10, 16)) : 0,
+      recordAreaHeight: shouldShowFrameRecord(lens, position, layout) ? Math.round(clamp(base * 0.13, 10, 16)) : 0,
     };
   }
 
@@ -3483,20 +3798,20 @@ function portraitFrameMetrics(
     scale: 1,
     rotation,
     accentOpacity: position.emphasis ? 0.11 : 0,
-    recordAreaHeight: shouldShowFrameRecord(lens, position) ? Math.round(clamp(base * 0.15, 8, 13)) : 0,
+    recordAreaHeight: shouldShowFrameRecord(lens, position, layout) ? Math.round(clamp(base * 0.15, 8, 13)) : 0,
   };
 }
 
 function focusCardPlacement(
   position: PortraitPosition,
   lens: HallLens,
-  viewport: HallLayoutViewport,
+  layout: HallLayoutMetrics,
   settings: KioskSettings,
   frameAspect: PortraitFrameAspect,
 ): FocusCardPlacement {
-  const metrics = focusCardMetrics(lens, viewport);
-  const portraitRect = portraitFootprintRect(position, lens, viewport, settings, frameAspect);
-  const placement = foregroundPlacement(position, viewport, portraitRect, metrics);
+  const metrics = focusCardMetrics(lens, layout);
+  const portraitRect = portraitFootprintRect(position, lens, layout, settings, frameAspect);
+  const placement = foregroundPlacement(position, layout, portraitRect, metrics);
 
   return {
     side: placement.side,
@@ -3513,13 +3828,13 @@ function focusCardPlacement(
 function actionPanelPlacement(
   position: PortraitPosition,
   action: HallPersonAction,
-  viewport: HallLayoutViewport,
+  layout: HallLayoutMetrics,
   settings: KioskSettings,
   frameAspect: PortraitFrameAspect,
 ): FocusActionPlacement {
-  const metrics = actionPanelMetrics(action, viewport);
-  const portraitRect = portraitFootprintRect(position, 'portraits', viewport, settings, frameAspect, 1.22);
-  const placement = foregroundPlacement(position, viewport, portraitRect, metrics);
+  const metrics = actionPanelMetrics(action, layout);
+  const portraitRect = portraitFootprintRect(position, 'portraits', layout, settings, frameAspect, 1.22);
+  const placement = foregroundPlacement(position, layout, portraitRect, metrics);
 
   return {
     side: placement.side,
@@ -3544,21 +3859,21 @@ function foregroundLabelRects({
   actionPlacement,
   cardPlacement,
   frameAspect,
+  layout,
   lens,
   position,
   settings,
-  viewport,
 }: {
   actionPlacement: FocusActionPlacement | null;
   cardPlacement: FocusCardPlacement | null;
   frameAspect: PortraitFrameAspect;
+  layout: HallLayoutMetrics;
   lens: HallLens;
   position: PortraitPosition | null;
   settings: KioskSettings;
-  viewport: HallLayoutViewport;
 }) {
   const rects: LayoutRect[] = [];
-  if (position) rects.push(portraitFootprintRect(position, lens, viewport, settings, frameAspect, 1.08));
+  if (position) rects.push(portraitFootprintRect(position, lens, layout, settings, frameAspect, 1.08));
   if (cardPlacement) rects.push(cardPlacement.rect);
   if (actionPlacement) rects.push(actionPlacement.rect);
   return rects;
@@ -3586,23 +3901,26 @@ function labelLayoutRect(label: HallLabel, lens: HallLens, activeLegacyYear: num
 
 function foregroundPlacement(
   position: PortraitPosition,
-  viewport: HallLayoutViewport,
+  layout: HallLayoutMetrics,
   portraitRect: LayoutRect,
   metrics: { widthPx: number; heightPx: number; maxHeightPx: number; gapPx: number },
 ) {
+  const viewport = layout.viewport;
   const fieldWidth = Math.max(viewport.width, 1);
   const fieldHeight = Math.max(viewport.height, 1);
   const widthPct = clamp((metrics.widthPx / fieldWidth) * 100, 18, 46);
   const heightPct = clamp((Math.max(metrics.heightPx, metrics.maxHeightPx) / fieldHeight) * 100, 18, 76);
   const gapPct = clamp((metrics.gapPx / fieldWidth) * 100, 2.4, 6.8);
-  const topReservePct = clamp((72 / fieldHeight) * 100, 6, 15);
-  const bottomReservePct = clamp((260 / fieldHeight) * 100, 18, 34);
-  const rightRoom = 96 - portraitRect.right;
-  const leftRoom = portraitRect.left - 4;
+  const topReservePct = layout.safe.topPct;
+  const bottomReservePct = Math.max(layout.safe.bottomPct, clamp((260 / fieldHeight) * 100, 18, 34));
+  const rightRoom = (100 - layout.safe.rightPct) - portraitRect.right;
+  const leftRoom = portraitRect.left - layout.safe.leftPct;
   const side: 'left' | 'right' = rightRoom >= widthPct + gapPct || rightRoom >= leftRoom ? 'right' : 'left';
+  const rightPanelMinPct = layout.tier === 'compact' ? layout.safe.leftPct + 2 : layout.tier === 'dense' ? 52 : 46;
+  const leftPanelMaxPct = layout.tier === 'compact' ? 100 - layout.safe.rightPct - 2 : layout.tier === 'dense' ? 48 : 54;
   const x = side === 'right'
-    ? clamp(portraitRect.right + gapPct, 46, 98 - widthPct)
-    : clamp(portraitRect.left - gapPct, widthPct + 2, 54);
+    ? clamp(portraitRect.right + gapPct, rightPanelMinPct, 100 - layout.safe.rightPct - widthPct)
+    : clamp(portraitRect.left - gapPct, layout.safe.leftPct + widthPct, leftPanelMaxPct);
   const yMin = topReservePct + heightPct * 0.5;
   const yMax = 100 - bottomReservePct - heightPct * 0.5;
   const y = clampToRange(position.y, yMin, yMax);
@@ -3613,42 +3931,47 @@ function foregroundPlacement(
   return { side, x, y, rect };
 }
 
-function focusCardMetrics(lens: HallLens, viewport: HallLayoutViewport) {
-  const compact = viewport.width < 980;
+function focusCardMetrics(lens: HallLens, layout: HallLayoutMetrics) {
+  const viewport = layout.viewport;
+  const compact = layout.tier === 'compact';
   const widthPx = compact
     ? Math.max(300, viewport.width - 48)
     : lens === 'traces'
-      ? clamp(viewport.width * 0.25, 360, 470)
+      ? clamp(viewport.width * layout.foreground.focusWidthRatio, layout.foreground.focusMinWidth, layout.foreground.focusMaxWidth)
       : lens === 'legacies'
-        ? clamp(viewport.width * 0.3, 440, 560)
-        : clamp(viewport.width * 0.3, 430, 560);
+        ? clamp(viewport.width * layout.foreground.focusWidthRatio, layout.foreground.focusMinWidth, layout.foreground.focusMaxWidth)
+        : clamp(viewport.width * layout.foreground.focusWidthRatio, layout.foreground.focusMinWidth, layout.foreground.focusMaxWidth);
   const heightPx = compact
     ? clamp(viewport.height * 0.32, 220, 320)
-    : lens === 'traces'
-      ? clamp(viewport.height * 0.34, 260, 420)
-      : lens === 'legacies'
-        ? clamp(viewport.height * 0.5, 420, 680)
-        : clamp(viewport.height * 0.46, 360, 600);
+    : clamp(viewport.height * layout.foreground.focusHeightRatio, lens === 'traces' ? 260 : 360, lens === 'legacies' ? 680 : 600);
   const maxHeightPx = compact
     ? clamp(viewport.height * 0.34, 220, 320)
-    : clamp(viewport.height * 0.68, 480, 800);
+    : clamp(viewport.height * layout.foreground.focusMaxHeightRatio, 440, 800);
 
   return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : 46 };
 }
 
-function actionPanelMetrics(action: HallPersonAction, viewport: HallLayoutViewport) {
-  const compact = viewport.width < 980;
-  const widthRatio = action === 'watch' ? 0.46 : action === 'text' ? 0.42 : action === 'continue' ? 0.36 : 0.42;
+function actionPanelMetrics(action: HallPersonAction, layout: HallLayoutMetrics) {
+  const viewport = layout.viewport;
+  const compact = layout.tier === 'compact';
+  const panelAction = action === 'overview' ? 'story' : action;
   const widthPx = compact
     ? Math.max(300, viewport.width - 48)
-    : clamp(viewport.width * widthRatio, action === 'continue' ? 560 : 660, action === 'watch' ? 900 : 820);
-  const heightRatio = action === 'continue' ? 0.38 : action === 'watch' ? 0.58 : 0.66;
+    : clamp(
+      viewport.width * layout.foreground.actionWidthRatio[panelAction],
+      layout.foreground.actionMinWidth[panelAction],
+      layout.foreground.actionMaxWidth[panelAction],
+    );
   const heightPx = compact
     ? clamp(viewport.height * 0.58, 360, 620)
-    : clamp(viewport.height * heightRatio, action === 'continue' ? 310 : 470, action === 'watch' ? 650 : 760);
+    : clamp(
+      viewport.height * layout.foreground.actionHeightRatio[panelAction],
+      panelAction === 'continue' ? 310 : 470,
+      panelAction === 'watch' ? 650 : 760,
+    );
   const maxHeightPx = compact
     ? clamp(viewport.height * 0.58, 360, 620)
-    : clamp(viewport.height * 0.7, action === 'continue' ? 420 : 560, 820);
+    : clamp(viewport.height * layout.foreground.actionMaxHeightRatio, panelAction === 'continue' ? 420 : 560, 820);
 
   return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : 54 };
 }
@@ -3656,11 +3979,12 @@ function actionPanelMetrics(action: HallPersonAction, viewport: HallLayoutViewpo
 function portraitFootprintRect(
   position: PortraitPosition,
   lens: HallLens,
-  viewport: HallLayoutViewport,
+  layout: HallLayoutMetrics,
   settings: KioskSettings,
   frameAspect: PortraitFrameAspect,
   paddingScale = 1,
 ): LayoutRect {
+  const viewport = layout.viewport;
   const scaledSize = position.size * settings.portraitScale;
   const frame = portraitFrameMetrics(
     { ...position, size: scaledSize },
@@ -3668,6 +3992,7 @@ function portraitFootprintRect(
     '',
     portraitFrameState(lens, position),
     frameAspect,
+    layout,
   );
   const fieldWidth = Math.max(viewport.width, 1);
   const fieldHeight = Math.max(viewport.height, 1);

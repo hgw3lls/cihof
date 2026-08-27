@@ -15,6 +15,16 @@ type GeometryViolation = {
   overlapRatio?: number;
 };
 
+type LayoutSolverSnapshot = {
+  tier: string;
+  density: number;
+  columns: number;
+  labelEvery: number;
+  labelScale: number;
+  averagePortraitArea: number;
+  visibleLabels: number;
+};
+
 test.describe('state-of-art guardrails', () => {
   test('public kiosk controls expose museum-grade touch targets', async ({ page }) => {
     await page.goto('./?kiosk=1');
@@ -38,6 +48,48 @@ test.describe('state-of-art guardrails', () => {
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expectTouchTargets(page, 'legacies');
+  });
+
+  test('portrait field density solver adapts scale and labels across viewports', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto('./');
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'open');
+    const desktopPortraits = await readLayoutSolverSnapshot(page);
+
+    await page.setViewportSize({ width: 1366, height: 768 });
+    await page.goto('./');
+    await expect(page.locator('.hall-surface')).toHaveCount(1);
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'dense');
+    const densePortraits = await readLayoutSolverSnapshot(page);
+
+    expect(desktopPortraits.tier).toBe('open');
+    expect(densePortraits.tier).toBe('dense');
+    expect(desktopPortraits.columns).toBeGreaterThanOrEqual(densePortraits.columns);
+    expect(desktopPortraits.averagePortraitArea).toBeGreaterThan(densePortraits.averagePortraitArea * 1.08);
+    expect(densePortraits.labelScale).toBeLessThan(desktopPortraits.labelScale);
+
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto('./');
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'open');
+    await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
+    const desktopLegacies = await readLayoutSolverSnapshot(page);
+
+    await page.setViewportSize({ width: 1366, height: 768 });
+    await page.goto('./');
+    await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'dense');
+    await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
+    const denseLegacies = await readLayoutSolverSnapshot(page);
+
+    expect(desktopLegacies.labelEvery).toBe(1);
+    expect(denseLegacies.labelEvery).toBeGreaterThan(1);
+    expect(desktopLegacies.visibleLabels).toBeGreaterThan(denseLegacies.visibleLabels);
   });
 
   test('focused foreground panels avoid portrait and background text collisions', async ({ page }) => {
@@ -215,6 +267,42 @@ async function expectTouchTargets(page: Page, stateLabel: string) {
   });
 
   expect(violations, `${stateLabel} has undersized visible controls`).toEqual([]);
+}
+
+async function readLayoutSolverSnapshot(page: Page) {
+  return page.evaluate<LayoutSolverSnapshot>(() => {
+    function isVisible(element: HTMLElement) {
+      if (element.closest('[aria-hidden="true"], [hidden]')) return false;
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number(style.opacity) > 0.05
+        && rect.width > 1
+        && rect.height > 1;
+    }
+
+    const hall = document.querySelector<HTMLElement>('.living-hall');
+    const portraits = Array.from(document.querySelectorAll<HTMLElement>('button.living-portrait')).filter(isVisible);
+    const portraitAreas = portraits.map((portrait) => {
+      const rect = portrait.getBoundingClientRect();
+      return rect.width * rect.height;
+    });
+    const averagePortraitArea = portraitAreas.length > 0
+      ? Math.round(portraitAreas.reduce((total, area) => total + area, 0) / portraitAreas.length)
+      : 0;
+    const labelScale = Number(window.getComputedStyle(hall ?? document.documentElement).getPropertyValue('--kiosk-label-scale')) || 1;
+
+    return {
+      tier: hall?.dataset.layoutTier ?? '',
+      density: Number(hall?.dataset.layoutDensity ?? 0),
+      columns: Number(hall?.dataset.layoutColumns ?? 0),
+      labelEvery: Number(hall?.dataset.layoutLabelEvery ?? 0),
+      labelScale,
+      averagePortraitArea,
+      visibleLabels: Array.from(document.querySelectorAll<HTMLElement>('.living-hall__groupLabel')).filter(isVisible).length,
+    };
+  });
 }
 
 async function expectForegroundGeometry(page: Page, stateLabel: string) {
