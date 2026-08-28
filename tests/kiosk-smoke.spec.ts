@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { expectCloseViewTypography } from './close-view-typography';
 
 test.describe('museum kiosk smoke', () => {
   test('loads the portrait wall and publishes health status', async ({ page }) => {
@@ -98,6 +99,7 @@ test.describe('museum kiosk smoke', () => {
       await questionTrigger.click();
       await expect(questionDialog).toBeVisible();
       await expect(questionDialog).toHaveAttribute('aria-modal', 'true');
+      await expectCloseViewTypography(page, 'city question dialog');
 
       const navBox = await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).boundingBox();
       expect(navBox).toBeTruthy();
@@ -110,6 +112,7 @@ test.describe('museum kiosk smoke', () => {
       await page.getByRole('button', { name: new RegExp(`^${escapeRegExp(option.label)}$`) }).click();
 
       await expect(page.locator('.city-question__ack')).toContainText(option.label);
+      await expectCloseViewTypography(page, 'city question ack');
       const afterCounts = await readCityQuestionCounts(page, cityQuestion.storageKey);
       expect(afterCounts[option.id] ?? 0).toBe((beforeCounts[option.id] ?? 0) + 1);
       await expect(page.locator('.living-hall')).toHaveAttribute('data-city-question-total', String(beforeTotal + 1));
@@ -465,6 +468,7 @@ test.describe('museum kiosk smoke', () => {
     const latestSequence = page.locator('.latest-class-sequence');
     await expect(latestSequence).toBeVisible({ timeout: 9_000 });
     await expect(latestSequence).toContainText(`Class Of ${latestClass.year}`);
+    await expectCloseViewTypography(page, 'latest class sequence');
 
     await page.mouse.click(60, 60);
 
