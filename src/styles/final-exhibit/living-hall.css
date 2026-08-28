@@ -488,6 +488,7 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__field {
   cursor: default;
+  transition: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__field::before {
@@ -2350,8 +2351,6 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
-  left: clamp(24px, 4vw, 74px);
-  top: clamp(96px, 14vh, 148px);
   width: min(var(--focus-card-width, 540px), 34vw, calc(100vw - 72px));
   max-height: min(
     var(--focus-card-max-height, 720px),
@@ -2366,7 +2365,11 @@
   overscroll-behavior: contain;
   pointer-events: auto;
   touch-action: pan-y;
-  transform: translate3d(var(--legacy-pan, 0px), 0, 0);
+  transform: translate(var(--legacy-pan, 0px), -50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
+  transform: translate(calc(var(--legacy-pan, 0px) - 100%), -50%);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__focusCard :is(button, [tabindex]) {
@@ -2583,6 +2586,11 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--obscured {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__groupLabel {
   opacity: 0;
   pointer-events: none;
 }

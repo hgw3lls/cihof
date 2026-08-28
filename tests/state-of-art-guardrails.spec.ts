@@ -25,6 +25,13 @@ type LayoutSolverSnapshot = {
   visibleLabels: number;
 };
 
+type LegacyFocusChromeSnapshot = {
+  cardFocusedOverlapRatio: number;
+  closeHit: boolean;
+  closeInsideCard: boolean;
+  closeInViewport: boolean;
+};
+
 test.describe('state-of-art guardrails', () => {
   test('public kiosk controls expose museum-grade touch targets', async ({ page }) => {
     await page.goto('./?kiosk=1');
@@ -164,6 +171,33 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', actionCandidate.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${panelBackgroundPortrait.id}"]`)).not.toHaveClass(/living-portrait--focused/);
+  });
+
+  test('legacies edge focus keeps cohort controls clear', async ({ page }) => {
+    for (const direction of ['earliest', 'latest'] as const) {
+      await test.step(direction, async () => {
+        await page.goto('./');
+        await expect(page.locator('.hall-surface')).toHaveCount(1);
+        await expect(page.locator('button.living-portrait').first()).toBeVisible();
+        await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
+        await waitForGuard(page);
+        await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+
+        await panLegacyChronologyToEdge(page, direction);
+        if (direction === 'earliest') {
+          await expect.poll(() => readLegacyPan(page)).toBeLessThan(2);
+        } else {
+          await expect.poll(() => readLegacyPan(page)).toBeGreaterThan(1000);
+        }
+
+        const focusedPerson = await clickVisiblePortrait(page);
+        await waitForGuard(page);
+        await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', focusedPerson);
+        await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
+        await expectForegroundGeometry(page, `legacies ${direction} edge focus`);
+        await expectLegacyFocusChromeUsable(page, `legacies ${direction} edge focus`);
+      });
+    }
   });
 
   test('legacies focus is a modal cohort navigator', async ({ page }) => {
@@ -491,6 +525,55 @@ async function visiblePortraitOutsideFocusCard(page: Page, skipIds: string[] = [
 
 async function visiblePortraitOutsideContentWindow(page: Page, skipIds: string[] = []) {
   return visiblePortraitTarget(page, skipIds, true, '.living-hall__focusCard, .living-hall__personActionPanel');
+}
+
+async function panLegacyChronologyToEdge(page: Page, direction: 'earliest' | 'latest') {
+  const hallBox = await page.locator('.living-hall').boundingBox();
+  expect(hallBox).toBeTruthy();
+  if (!hallBox) throw new Error('Living Hall bounds unavailable.');
+  await page.mouse.move(hallBox.x + hallBox.width * 0.5, hallBox.y + hallBox.height * 0.5);
+  const delta = direction === 'earliest' ? -900 : 900;
+  for (let index = 0; index < 24; index += 1) {
+    await page.mouse.wheel(delta, 0);
+  }
+  await page.waitForTimeout(820);
+}
+
+async function expectLegacyFocusChromeUsable(page: Page, stateLabel: string) {
+  const snapshot = await page.evaluate<LegacyFocusChromeSnapshot>(() => {
+    const card = document.querySelector<HTMLElement>('.living-hall__focusCard');
+    const focused = document.querySelector<HTMLElement>('button.living-portrait--focused');
+    const close = document.querySelector<HTMLButtonElement>('.living-hall__focusHeader button');
+    const cardRect = card?.getBoundingClientRect() ?? null;
+    const focusedRect = focused?.getBoundingClientRect() ?? null;
+    const closeRect = close?.getBoundingClientRect() ?? null;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    function overlapRatio(a: DOMRect | null, b: DOMRect | null) {
+      if (!a || !b) return 0;
+      const width = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+      const height = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      const smallerArea = Math.min(a.width * a.height, b.width * b.height);
+      return smallerArea > 0 ? (width * height) / smallerArea : 0;
+    }
+
+    const closeHit = close && closeRect
+      ? close.contains(document.elementFromPoint(closeRect.left + closeRect.width / 2, closeRect.top + closeRect.height / 2))
+      : false;
+
+    return {
+      cardFocusedOverlapRatio: Math.round(overlapRatio(cardRect, focusedRect) * 1_000) / 1_000,
+      closeHit: Boolean(closeHit),
+      closeInsideCard: Boolean(cardRect && closeRect && closeRect.left >= cardRect.left && closeRect.right <= cardRect.right && closeRect.top >= cardRect.top && closeRect.bottom <= cardRect.bottom),
+      closeInViewport: Boolean(closeRect && closeRect.left >= 0 && closeRect.right <= viewportWidth && closeRect.top >= 0 && closeRect.bottom <= viewportHeight),
+    };
+  });
+
+  expect(snapshot.closeHit, `${stateLabel} close hit target`).toBe(true);
+  expect(snapshot.closeInsideCard, `${stateLabel} close inside card`).toBe(true);
+  expect(snapshot.closeInViewport, `${stateLabel} close in viewport`).toBe(true);
+  expect(snapshot.cardFocusedOverlapRatio, `${stateLabel} card should not hide focused portrait`).toBeLessThanOrEqual(0.02);
 }
 
 async function readLegacyPan(page: Page) {
