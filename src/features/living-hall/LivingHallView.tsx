@@ -792,7 +792,20 @@ export function LivingHallView({
     } as CSSProperties & Record<string, string>
     : undefined;
   const focusedCardPlacement = focusedPosition
-    ? focusCardPlacement(focusedPosition, lens, hallLayout, settings, focusedFrameAspect)
+    ? focusCardPlacement(
+      focusedPosition,
+      lens,
+      hallLayout,
+      settings,
+      focusedFrameAspect,
+      lens === 'legacies'
+        ? {
+          fieldScale: legacyChronology.fieldScale,
+          panPx: legacyPan,
+          visibleWidthPx: legacyVisibleWidth() || hallLayout.viewport.width,
+        }
+        : undefined,
+    )
     : null;
   const focusedActionPlacement = focusedPosition && activePersonAction !== 'overview'
     ? actionPanelPlacement(focusedPosition, activePersonAction, hallLayout, settings, focusedFrameAspect)
@@ -1131,6 +1144,12 @@ type FocusActionPlacement = {
   side: 'left' | 'right';
   style: CSSProperties & Record<string, string>;
   rect: LayoutRect;
+};
+
+type LegacyForegroundContext = {
+  fieldScale: number;
+  panPx: number;
+  visibleWidthPx: number;
 };
 
 type HallLayoutViewport = {
@@ -3850,20 +3869,43 @@ function focusCardPlacement(
   layout: HallLayoutMetrics,
   settings: KioskSettings,
   frameAspect: PortraitFrameAspect,
+  legacyContext?: LegacyForegroundContext,
 ): FocusCardPlacement {
-  const metrics = focusCardMetrics(lens, layout);
-  const portraitRect = portraitFootprintRect(position, lens, layout, settings, frameAspect);
-  const placement = foregroundPlacement(position, layout, portraitRect, metrics);
+  const placementLayout = legacyContext
+    ? { ...layout, viewport: { ...layout.viewport, width: legacyContext.visibleWidthPx } }
+    : layout;
+  const metrics = focusCardMetrics(lens, placementLayout);
+  const placementPosition = legacyContext
+    ? visibleLegacyForegroundPosition(position, placementLayout, legacyContext)
+    : position;
+  const portraitRect = portraitFootprintRect(placementPosition, lens, placementLayout, settings, frameAspect);
+  const placement = foregroundPlacement(placementPosition, placementLayout, portraitRect, metrics);
+  const xValue = legacyContext
+    ? `${Math.round((placement.x / 100) * placementLayout.viewport.width)}px`
+    : `${placement.x}%`;
 
   return {
     side: placement.side,
     style: {
-      '--focus-card-x': `${placement.x}%`,
+      '--focus-card-x': xValue,
       '--focus-card-y': `${placement.y}%`,
       '--focus-card-width': `${Math.round(metrics.widthPx)}px`,
       '--focus-card-max-height': `${Math.round(metrics.maxHeightPx)}px`,
     } as CSSProperties & Record<string, string>,
     rect: placement.rect,
+  };
+}
+
+function visibleLegacyForegroundPosition(
+  position: PortraitPosition,
+  layout: HallLayoutMetrics,
+  legacyContext: LegacyForegroundContext,
+): PortraitPosition {
+  const viewportWidth = Math.max(layout.viewport.width, 1);
+  const panPct = (legacyContext.panPx / viewportWidth) * 100;
+  return {
+    ...position,
+    x: position.x * legacyContext.fieldScale - panPct,
   };
 }
 

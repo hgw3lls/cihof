@@ -130,6 +130,10 @@
   --portrait-transition-ms: 520ms;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-portrait--focused {
+  --portrait-transition-ms: 0.001ms;
+}
+
 .museum-shell:not(.museum-shell--staff) .portrait-frame,
 .museum-shell:not(.museum-shell--staff) .portrait-frame *,
 .museum-shell:not(.museum-shell--staff) .portrait-frame *::before,
