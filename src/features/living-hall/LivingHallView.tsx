@@ -785,6 +785,13 @@ export function LivingHallView({
     settings.showRecordLayer ? '' : 'living-hall--hide-record-layer',
     `living-hall--motion-${settings.motion}`,
   ].filter(Boolean).join(' ');
+  const legacyForegroundContext = lens === 'legacies'
+    ? {
+      fieldScale: legacyChronology.fieldScale,
+      panPx: legacyPan,
+      visibleWidthPx: legacyVisibleWidth() || hallLayout.viewport.width,
+    }
+    : undefined;
   const legacyFieldStyle = lens === 'legacies'
     ? {
       '--legacy-field-width': `${legacyChronology.fieldScale * 100}%`,
@@ -798,13 +805,7 @@ export function LivingHallView({
       hallLayout,
       settings,
       focusedFrameAspect,
-      lens === 'legacies'
-        ? {
-          fieldScale: legacyChronology.fieldScale,
-          panPx: legacyPan,
-          visibleWidthPx: legacyVisibleWidth() || hallLayout.viewport.width,
-        }
-        : undefined,
+      legacyForegroundContext,
     )
     : null;
   const focusedActionPlacement = focusedPosition && activePersonAction !== 'overview'
@@ -816,7 +817,18 @@ export function LivingHallView({
     frameAspect: focusedFrameAspect,
     layout: hallLayout,
     lens,
+    legacyContext: legacyForegroundContext,
     position: focusedPosition,
+    settings,
+  });
+  const labelCollisionRects = hallLabelCollisionRects({
+    activeMode,
+    foregroundRects: labelForegroundRects,
+    layout: hallLayout,
+    lens,
+    legacyContext: legacyForegroundContext,
+    mediaRecordMap,
+    people,
     settings,
   });
   const tracePanelSide = focusedCardPlacement?.side === 'right' ? 'left' : 'right';
@@ -979,7 +991,7 @@ export function LivingHallView({
 
         {!loading && !error && activeMode.labels.filter((label) => shouldRenderHallLabel(label, lens, hallLayout, activeLegacyYear)).map((label) => {
           const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
-          const labelObscured = labelOverlapsForeground(label, lens, activeLegacyYear, labelForegroundRects);
+          const labelObscured = labelOverlapsForeground(label, lens, activeLegacyYear, labelCollisionRects, legacyForegroundContext);
           const labelClassName = [
             'living-hall__groupLabel',
             activeLegacyLabel ? 'living-hall__groupLabel--active' : '',
@@ -1107,7 +1119,7 @@ export function LivingHallView({
         />
       )}
 
-      {!loading && !error && cityQuestion.enabled && !attractActive && !focusedPerson && !latestClassFrame && (
+      {!loading && !error && cityQuestion.enabled && lens !== 'legacies' && !attractActive && !focusedPerson && !latestClassFrame && (
         <CityQuestionPrompt
           config={cityQuestion.config}
           counts={cityQuestion.counts}
@@ -2778,15 +2790,7 @@ function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[]
       : 'DIRECT TIES';
   const placeLabels = tracePlaceLabels(context);
 
-  const labels: HallLabel[] = [
-    {
-      id: `trace-anchor-${context.activePerson.id}`,
-      text: context.activePerson.classYear ? `CLASS ${context.activePerson.classYear}` : 'ANCHOR',
-      detail: context.activePerson.name,
-      x: traceAnchorPoint.x,
-      y: 71,
-    },
-  ];
+  const labels: HallLabel[] = [];
 
   if (context.mode !== 'direct') {
     labels.push({
@@ -3231,11 +3235,13 @@ function buildLegacyHallMode(
     const groupActive = group.year !== null && group.year === activeYear;
     const groupFocused = focusedGroup?.key === group.key;
     const distanceFromActiveGroup = activeGroupIndex >= 0 ? Math.abs(groupIndex - activeGroupIndex) : Number.POSITIVE_INFINITY;
-    const labelY = groupIndex % 2 === 0 ? 28 : 64;
+    const upperLabelY = Math.max(layout.safe.topPct + 4, layout.legacy.rowTopY - 17);
+    const lowerLabelY = Math.min(layout.legacy.rowBottomY + 18, 100 - layout.safe.bottomPct - 8);
+    const labelY = groupActive ? lowerLabelY : groupIndex % 2 === 0 ? upperLabelY : lowerLabelY;
     labels.push({
       id: `legacy-year-${group.key}`,
       text: group.label,
-      detail: group.year === null ? 'CLASS' : groupActive ? `CLASS OF ${group.label}` : 'CLASS',
+      detail: group.year === null ? 'CLASS' : groupActive ? 'ACTIVE CLASS' : 'CLASS',
       priority: legacyLabelPriority(groupIndex, distanceFromActiveGroup, groupActive || groupFocused, layout),
       x: group.x,
       y: labelY,
@@ -3901,12 +3907,15 @@ function visibleLegacyForegroundPosition(
   layout: HallLayoutMetrics,
   legacyContext: LegacyForegroundContext,
 ): PortraitPosition {
-  const viewportWidth = Math.max(layout.viewport.width, 1);
-  const panPct = (legacyContext.panPx / viewportWidth) * 100;
   return {
     ...position,
-    x: position.x * legacyContext.fieldScale - panPct,
+    x: visibleLegacyXPercent(position.x, legacyContext, layout.viewport.width),
   };
+}
+
+function visibleLegacyXPercent(x: number, legacyContext: LegacyForegroundContext, viewportWidth = legacyContext.visibleWidthPx) {
+  const panPct = (legacyContext.panPx / Math.max(viewportWidth, 1)) * 100;
+  return x * legacyContext.fieldScale - panPct;
 }
 
 function actionPanelPlacement(
@@ -3945,6 +3954,7 @@ function foregroundLabelRects({
   frameAspect,
   layout,
   lens,
+  legacyContext,
   position,
   settings,
 }: {
@@ -3953,13 +3963,69 @@ function foregroundLabelRects({
   frameAspect: PortraitFrameAspect;
   layout: HallLayoutMetrics;
   lens: HallLens;
+  legacyContext?: LegacyForegroundContext;
   position: PortraitPosition | null;
   settings: KioskSettings;
 }) {
   const rects: LayoutRect[] = [];
-  if (position) rects.push(portraitFootprintRect(position, lens, layout, settings, frameAspect, 1.08));
+  const placementLayout = legacyContext
+    ? { ...layout, viewport: { ...layout.viewport, width: legacyContext.visibleWidthPx } }
+    : layout;
+  if (position) {
+    const labelPosition = legacyContext
+      ? visibleLegacyForegroundPosition(position, placementLayout, legacyContext)
+      : position;
+    rects.push(portraitFootprintRect(labelPosition, lens, placementLayout, settings, frameAspect, 1.08));
+  }
   if (cardPlacement) rects.push(cardPlacement.rect);
   if (actionPlacement) rects.push(actionPlacement.rect);
+  return rects;
+}
+
+function hallLabelCollisionRects({
+  activeMode,
+  foregroundRects,
+  layout,
+  lens,
+  legacyContext,
+  mediaRecordMap,
+  people,
+  settings,
+}: {
+  activeMode: HallMode;
+  foregroundRects: LayoutRect[];
+  layout: HallLayoutMetrics;
+  lens: HallLens;
+  legacyContext?: LegacyForegroundContext;
+  mediaRecordMap: Map<string, RuntimeMediaRecord>;
+  people: Inductee[];
+  settings: KioskSettings;
+}) {
+  if (lens !== 'traces' && lens !== 'legacies') return foregroundRects;
+
+  const placementLayout = legacyContext
+    ? { ...layout, viewport: { ...layout.viewport, width: legacyContext.visibleWidthPx } }
+    : layout;
+  const rects = [...foregroundRects];
+
+  people.forEach((person) => {
+    const position = activeMode.positions.get(person.id);
+    if (!position) return;
+
+    const visiblePosition = legacyContext
+      ? visibleLegacyForegroundPosition(position, placementLayout, legacyContext)
+      : position;
+    if (visiblePosition.x < -10 || visiblePosition.x > 110 || visiblePosition.y < -8 || visiblePosition.y > 108) return;
+
+    const frameAspect = portraitFrameAspect(mediaRecordMap.get(person.id));
+    const paddingScale = position.focused
+      ? 1.12
+      : lens === 'legacies'
+        ? 0.9
+        : 0.98;
+    rects.push(portraitFootprintRect(visiblePosition, lens, placementLayout, settings, frameAspect, paddingScale));
+  });
+
   return rects;
 }
 
@@ -3968,19 +4034,30 @@ function labelOverlapsForeground(
   lens: HallLens,
   activeLegacyYear: number | null,
   foregroundRects: LayoutRect[],
+  legacyContext?: LegacyForegroundContext,
 ) {
   if (foregroundRects.length === 0) return false;
-  const labelRect = labelLayoutRect(label, lens, activeLegacyYear);
+  const labelRect = labelLayoutRect(label, lens, activeLegacyYear, legacyContext);
   return foregroundRects.some((rect) => rectsOverlap(labelRect, rect, 1.6));
 }
 
-function labelLayoutRect(label: HallLabel, lens: HallLens, activeLegacyYear: number | null): LayoutRect {
+function labelLayoutRect(
+  label: HallLabel,
+  lens: HallLens,
+  activeLegacyYear: number | null,
+  legacyContext?: LegacyForegroundContext,
+): LayoutRect {
   const activeLegacyLabel = lens === 'legacies' && activeLegacyYear !== null && label.text === String(activeLegacyYear);
+  const x = lens === 'legacies' && legacyContext
+    ? visibleLegacyXPercent(label.x, legacyContext)
+    : label.x;
   const width = activeLegacyLabel
-    ? 18
-    : clamp(Math.max(label.text.length * 0.72, (label.detail?.length ?? 0) * 0.42), 8, lens === 'traces' ? 20 : 15);
-  const height = activeLegacyLabel ? 9 : label.detail ? 6.6 : 4.2;
-  return rectFromCenter(label.x, label.y, width, height);
+    ? 12
+    : lens === 'traces'
+      ? clamp(Math.max(label.text.length * 0.98, (label.detail?.length ?? 0) * 0.56), 9, 22)
+      : clamp(Math.max(label.text.length * 0.68, (label.detail?.length ?? 0) * 0.38), 7, lens === 'legacies' ? 12 : 15);
+  const height = activeLegacyLabel ? 6.4 : lens === 'traces' ? 8 : label.detail ? 6.2 : 4.2;
+  return rectFromCenter(x, label.y, width, height);
 }
 
 function foregroundPlacement(

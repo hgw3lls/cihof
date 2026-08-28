@@ -84,6 +84,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'open');
     await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
+    await expectForegroundGeometry(page, 'legacies desktop idle');
     const desktopLegacies = await readLayoutSolverSnapshot(page);
 
     await page.setViewportSize({ width: 1366, height: 768 });
@@ -92,6 +93,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'dense');
     await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
+    await expectForegroundGeometry(page, 'legacies dense idle');
     const denseLegacies = await readLayoutSolverSnapshot(page);
 
     expect(desktopLegacies.labelEvery).toBe(1);
@@ -418,10 +420,17 @@ async function expectForegroundGeometry(page: Page, stateLabel: string) {
     }
 
     const violations: GeometryViolation[] = [];
+    const hall = document.querySelector<HTMLElement>('.living-hall');
+    const hallLens = hall?.dataset.hallLens ?? '';
     const focusedPortrait = document.querySelector<HTMLElement>('button.living-portrait--focused');
     const focusedRect = focusedPortrait && isVisible(focusedPortrait) ? rectFor(focusedPortrait) : null;
     const nav = document.querySelector<HTMLElement>('.museum-bottom-nav.experience-dock');
     const navRect = nav && isVisible(nav) ? rectFor(nav) : null;
+    const visiblePortraits = Array
+      .from(document.querySelectorAll<HTMLElement>('button.living-portrait'))
+      .filter(isVisible)
+      .map((element) => ({ element, rect: rectFor(element) }))
+      .filter(({ rect }) => rect.right > 0 && rect.left < viewport.width && rect.bottom > 0 && rect.top < viewport.height);
     const foregroundPanels = Array
       .from(document.querySelectorAll<HTMLElement>('.living-hall__focusCard, .living-hall__personActionPanel'))
       .filter(isVisible)
@@ -480,6 +489,41 @@ async function expectForegroundGeometry(page: Page, stateLabel: string) {
             against: elementName(focusedPortrait as HTMLElement),
             overlapRatio: Math.round(ratio * 1_000) / 1_000,
           });
+        }
+      }
+
+      if (hallLens === 'traces' || hallLens === 'legacies') {
+        for (const { element, rect } of visiblePortraits) {
+          const ratio = overlapRatio(labelRect, rect);
+          if (ratio > 0.02) {
+            violations.push({
+              reason: 'readable group label overlaps visible portrait',
+              target: elementName(label),
+              against: elementName(element),
+              overlapRatio: Math.round(ratio * 1_000) / 1_000,
+            });
+          }
+        }
+      }
+    }
+
+    if (hallLens === 'legacies') {
+      const edgeControls = Array
+        .from(document.querySelectorAll<HTMLElement>('.living-hall__legacyControl--edge'))
+        .filter(isVisible);
+
+      for (const control of edgeControls) {
+        const controlRect = rectFor(control);
+        for (const { element, rect } of visiblePortraits) {
+          const ratio = overlapRatio(controlRect, rect);
+          if (ratio > 0.02) {
+            violations.push({
+              reason: 'legacy edge control overlaps visible portrait',
+              target: elementName(control),
+              against: elementName(element),
+              overlapRatio: Math.round(ratio * 1_000) / 1_000,
+            });
+          }
         }
       }
     }

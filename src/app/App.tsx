@@ -230,7 +230,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }, [hallLens, kioskMode, reviewModeEnabled, selectedId, timelineYear, visitCollectionIds, wallDebugEnabled, worldFocusKey]);
 
   useEffect(() => {
-    if (!kioskMode || reviewModeEnabled || adminDataOpen) return;
+    if (!kioskMode || reviewModeEnabled || adminDataOpen || loading || relationshipsLoading) return;
 
     const idleTimeoutMs = kioskSettings.idleTimeoutMs;
     const idleWarningMs = Math.min(kioskSettings.idleWarningMs, Math.max(0, idleTimeoutMs - 1_000));
@@ -266,7 +266,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       window.removeEventListener('keydown', resetTimer);
       window.removeEventListener('touchstart', resetTimer);
     };
-  }, [adminDataOpen, attractActive, kioskMode, kioskSettings.idleTimeoutMs, kioskSettings.idleWarningMs, reviewModeEnabled]);
+  }, [adminDataOpen, attractActive, kioskMode, kioskSettings.idleTimeoutMs, kioskSettings.idleWarningMs, loading, relationshipsLoading, reviewModeEnabled]);
 
   useEffect(() => {
     if (!attractActive || hallLens !== 'portraits') return undefined;
