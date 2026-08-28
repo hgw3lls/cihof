@@ -430,7 +430,15 @@ test.describe('museum kiosk smoke', () => {
       `./?kiosk=1&lens=legacies&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
       { waitUntil: 'domcontentloaded' },
     );
-    await page.keyboard.press('Shift');
+    await keepKioskAwakeWithKeyboardUntil(page, async () => {
+      const surface = page.locator('.hall-surface');
+      const [lens, focused, portraitVisible] = await Promise.all([
+        surface.getAttribute('data-hall-lens').catch(() => ''),
+        surface.getAttribute('data-focused-person-id').catch(() => ''),
+        page.locator('button.living-portrait').first().isVisible().catch(() => false),
+      ]);
+      return lens === 'legacies' && focused === deepLink.id && portraitVisible;
+    }, 12_000);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await page.keyboard.press('Shift');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
@@ -543,6 +551,16 @@ async function keepKioskAwakeUntil(page: Page, predicate: () => Promise<boolean>
     await page.mouse.click(18 + tick, 18);
     if (await predicate()) return;
     tick += 1;
+    await page.waitForTimeout(120);
+  }
+  expect(await predicate()).toBe(true);
+}
+
+async function keepKioskAwakeWithKeyboardUntil(page: Page, predicate: () => Promise<boolean>, timeoutMs = 3_000) {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    await page.keyboard.press('Shift');
+    if (await predicate()) return;
     await page.waitForTimeout(120);
   }
   expect(await predicate()).toBe(true);

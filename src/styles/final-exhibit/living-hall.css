@@ -970,7 +970,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__legacyControls {
-  opacity: 0.24;
+  opacity: 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__legacyControls button {
@@ -2340,7 +2340,8 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="story"] .living-hall__statusRail,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="text"] .living-hall__statusRail,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="watch"] .living-hall__statusRail,
-.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="continue"] .living-hall__statusRail {
+.museum-shell:not(.museum-shell--staff) .living-hall[data-person-action="continue"] .living-hall__statusRail,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-content-window-open="true"] .living-hall__statusRail {
   opacity: 0;
 }
 
@@ -2539,12 +2540,15 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel {
+  z-index: 24;
   min-width: 76px;
+  max-width: clamp(78px, 9vw, 154px);
   border-top: 0;
   border-left: 2px solid rgba(9, 9, 7, 0.3);
-  background: rgba(244, 234, 211, 0.2);
-  padding: 8px 0 4px 8px;
-  color: rgba(9, 9, 7, 0.42);
+  background: transparent;
+  padding: 6px 0 3px 7px;
+  color: rgba(9, 9, 7, 0.36);
+  opacity: 0.5;
   text-align: left;
 }
 
@@ -2559,7 +2563,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel strong {
-  font-size: clamp(0.86rem, 0.98vw, 1.26rem);
+  font-size: clamp(0.78rem, 0.82vw, 1.08rem);
   line-height: 0.95;
 }
 
@@ -2570,10 +2574,13 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active {
-  min-width: min(240px, 14vw);
+  z-index: 30;
+  min-width: min(152px, 10vw);
+  max-width: min(176px, 12vw);
   border-left-color: rgba(155, 63, 31, 0.8);
-  background: linear-gradient(90deg, rgba(244, 234, 211, 0.72), rgba(244, 234, 211, 0));
-  color: rgba(9, 9, 7, 0.82);
+  background: linear-gradient(90deg, rgba(244, 234, 211, 0.44), rgba(244, 234, 211, 0));
+  color: rgba(9, 9, 7, 0.68);
+  opacity: 0.78;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active::before {
@@ -2581,8 +2588,8 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active strong {
-  font-size: clamp(1.82rem, 2.55vw, 4.2rem);
-  line-height: 0.84;
+  font-size: clamp(1.1rem, 1.35vw, 2.15rem);
+  line-height: 0.88;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--obscured {
@@ -2609,7 +2616,19 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
   color: rgba(9, 9, 7, 0.54);
-  opacity: 0.52;
+  top: auto;
+  bottom: calc(var(--experience-dock-height) + clamp(62px, 7vh, 96px));
+  height: clamp(44px, 5vh, 62px);
+  width: clamp(70px, 6vw, 112px);
+  opacity: 0.38;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge::before {
+  width: clamp(22px, 2.4vw, 42px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge::after {
+  font-size: clamp(2.1rem, 3vw, 4.8rem);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--jump,
@@ -2817,8 +2836,9 @@
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
-    top: clamp(76px, 14vh, 140px);
-    bottom: calc(var(--experience-dock-height) + 22px);
+    top: auto;
+    bottom: calc(var(--experience-dock-height) + 74px);
+    height: 46px;
     width: clamp(56px, 14vw, 96px);
   }
 
