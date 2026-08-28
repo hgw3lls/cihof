@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { expectCloseViewTypography } from './close-view-typography';
 
 type TargetViolation = {
   label: string;
@@ -63,6 +64,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.hall-surface')).toHaveCount(1);
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'open');
+    await expectCloseViewTypography(page, 'portrait wall desktop');
     const desktopPortraits = await readLayoutSolverSnapshot(page);
 
     await page.setViewportSize({ width: 1366, height: 768 });
@@ -70,6 +72,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.hall-surface')).toHaveCount(1);
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'dense');
+    await expectCloseViewTypography(page, 'portrait wall dense');
     const densePortraits = await readLayoutSolverSnapshot(page);
 
     expect(desktopPortraits.tier).toBe('open');
@@ -85,6 +88,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'open');
     await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
     await expectForegroundGeometry(page, 'legacies desktop idle');
+    await expectCloseViewTypography(page, 'legacies desktop idle');
     const desktopLegacies = await readLayoutSolverSnapshot(page);
 
     await page.setViewportSize({ width: 1366, height: 768 });
@@ -94,6 +98,7 @@ test.describe('state-of-art guardrails', () => {
     await expect(page.locator('.living-hall')).toHaveAttribute('data-layout-tier', 'dense');
     await expect(page.locator('.living-hall__groupLabel').first()).toBeVisible();
     await expectForegroundGeometry(page, 'legacies dense idle');
+    await expectCloseViewTypography(page, 'legacies dense idle');
     const denseLegacies = await readLayoutSolverSnapshot(page);
 
     expect(desktopLegacies.labelEvery).toBe(1);
@@ -118,15 +123,18 @@ test.describe('state-of-art guardrails', () => {
         await waitForGuard(page);
         await expect(page.locator('.living-hall__focusCard')).toBeVisible();
         await expectForegroundGeometry(page, `portrait focus ${viewport.width}x${viewport.height}`);
+        await expectCloseViewTypography(page, `portrait focus ${viewport.width}x${viewport.height}`);
 
         await page.getByRole('button', { name: 'LIFE + WORK' }).click();
         await expect(page.locator('.living-hall__personActionPanel .story-mode')).toBeVisible();
         await expectForegroundGeometry(page, `life work ${viewport.width}x${viewport.height}`);
+        await expectCloseViewTypography(page, `life work ${viewport.width}x${viewport.height}`);
         await closePersonActionPanel(page);
 
         await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
         await expect(page.locator('.living-hall__personActionPanel .media-experience')).toBeVisible();
         await expectForegroundGeometry(page, `watch induction ${viewport.width}x${viewport.height}`);
+        await expectCloseViewTypography(page, `watch induction ${viewport.width}x${viewport.height}`);
         await closePersonActionPanel(page);
 
         await waitForGuard(page);
@@ -134,12 +142,14 @@ test.describe('state-of-art guardrails', () => {
         await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
         await expect(page.locator('.living-hall__focusCard')).toBeVisible();
         await expectForegroundGeometry(page, `traces focus ${viewport.width}x${viewport.height}`);
+        await expectCloseViewTypography(page, `traces focus ${viewport.width}x${viewport.height}`);
 
         await waitForGuard(page);
         await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
         await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
         await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
         await expectForegroundGeometry(page, `legacies focus ${viewport.width}x${viewport.height}`);
+        await expectCloseViewTypography(page, `legacies focus ${viewport.width}x${viewport.height}`);
       });
     }
   });
@@ -198,6 +208,7 @@ test.describe('state-of-art guardrails', () => {
         await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
         await expectForegroundGeometry(page, `legacies ${direction} edge focus`);
         await expectLegacyFocusChromeUsable(page, `legacies ${direction} edge focus`);
+        await expectCloseViewTypography(page, `legacies ${direction} edge focus`);
       });
     }
   });

@@ -1,0 +1,143 @@
+/* Close-view scale for a 60-inch wall-mounted touch display. */
+.museum-shell:not(.museum-shell--staff) .living-hall__title {
+  width: min(560px, 38vw);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era {
+  font-size: clamp(0.82rem, 0.9vw, 1.22rem);
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+  max-width: 12ch;
+  font-size: clamp(1.55rem, 2.05vw, 3.1rem);
+  line-height: 0.96;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
+  width: 11ch;
+  font-size: clamp(0.76rem, 0.86vw, 1.08rem);
+  line-height: 1;
+}
+
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+  padding-inline: clamp(12px, 1vw, 18px);
+  font-size: clamp(0.74rem, 0.86vw, 1.18rem);
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric small {
+  font-size: clamp(0.42rem, 0.46vw, 0.56rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric strong {
+  font-size: clamp(0.62rem, 0.7vw, 0.9rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusIdentity h3 {
+  max-width: 18ch;
+  font-size: clamp(1.35rem, 2vw, 3rem);
+  line-height: 0.98;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .living-hall__focusContext,
+  .living-hall__focusLens p,
+  .living-hall__focusWhy p
+) {
+  font-size: clamp(0.74rem, 0.8vw, 0.96rem);
+  line-height: 1.3;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .living-hall__fullTextHeader h3,
+  .living-hall__visitQrPanel .qr-continuation__copy h3
+),
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel :is(
+  .story-mode__header h3,
+  .media-experience__header h3,
+  .media-stage__body h4,
+  .qr-continuation__copy h3
+) {
+  font-size: clamp(1.35rem, 1.9vw, 2.6rem);
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story .story-mode__copy > p {
+  font-size: clamp(0.92rem, 1vw, 1.12rem);
+  line-height: 1.38;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-continue .qr-continuation__copy span,
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel .qr-continuation--hall-focus .qr-continuation__copy span {
+  font-size: clamp(0.9rem, 1vw, 1.12rem);
+  line-height: 1.2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel .qr-continuation--hall-focus .qr-continuation__copy h3 {
+  font-size: clamp(1.35rem, 1.9vw, 2.6rem);
+  line-height: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .latest-class-sequence__intro h3,
+  .latest-class-sequence__group h3
+) {
+  font-size: clamp(2rem, 3.4vw, 4.35rem);
+  line-height: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .latest-class-sequence__person h3,
+  .latest-class-sequence__finale strong
+) {
+  font-size: clamp(1.85rem, 3vw, 3.8rem);
+  line-height: 0.92;
+}
+
+.museum-shell:not(.museum-shell--staff) :is(
+  .latest-class-sequence__intro p,
+  .latest-class-sequence__person p,
+  .latest-class-sequence__person span,
+  .latest-class-sequence__group p,
+  .latest-class-sequence__finale p,
+  .latest-class-sequence__grid span
+) {
+  font-size: clamp(0.76rem, 0.86vw, 1.02rem);
+  line-height: 1.05;
+}
+
+.museum-shell:not(.museum-shell--staff) .latest-class-sequence__fallback {
+  font-size: clamp(2rem, 3vw, 3.4rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .latest-class-sequence__gridFallback {
+  font-size: clamp(1.15rem, 1.6vw, 2rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question__header p {
+  max-width: 20ch;
+  font-size: clamp(1.35rem, 1.9vw, 2.7rem);
+  line-height: 1.02;
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question__ack strong {
+  font-size: clamp(1.6rem, 2.45vw, 3.25rem);
+  line-height: 0.94;
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question-results__heading h3 {
+  max-width: 14ch;
+  font-size: clamp(1.8rem, 3.5vw, 4.35rem);
+  line-height: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) .city-question-cluster strong {
+  font-size: clamp(1.05rem, 1.5vw, 2.25rem);
+  line-height: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) .idle-warning__panel h2 {
+  font-size: clamp(1.8rem, 3.2vw, 4rem);
+  line-height: 0.96;
+}
