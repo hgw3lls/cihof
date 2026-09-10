@@ -6966,7 +6966,6 @@
         "Greater Cleveland Sports"
       ],
       "approvedCommunityTags": [
-        "Jewish",
         "Greater Cleveland Sports"
       ],
       "featured": false,
@@ -7017,7 +7016,7 @@
         "Jewish"
       ],
       "approvedCountryTags": [],
-      "countryNotes": "Class-country attachment lists David Gilbert as Jewish / NA - Greater Cleveland Sports; mapped to Jewish for visitor-facing nationality/heritage metadata."
+      "countryNotes": "Class-country attachment lists David Gilbert as Jewish / NA - Greater Cleveland Sports; treated as a community-effort induction, so no nationality/heritage tag is assigned."
     },
     "mayor-frank-jackson-2025": {
       "id": "mayor-frank-jackson-2025",

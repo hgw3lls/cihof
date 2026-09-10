@@ -6,6 +6,9 @@ export const curatedMetadataPath = resolve('data/cihof_curated_metadata.json');
 export const countryInferencePath = resolve('data/cihof_country_inferences.json');
 export const mediaManifestPath = resolve('data/media_manifest.json');
 export const physicalWallMetadataPath = resolve('data/physical_wall_positions.json');
+export const communityTaxonomyPath = resolve('src/data/communityTaxonomy.json');
+
+const communityTaxonomy = loadCommunityTaxonomy();
 
 export function loadInductees(options = {}) {
   const raw = readFileSync(sourcePath, 'utf8').replace(/^\uFEFF/, '');
@@ -153,6 +156,23 @@ export function loadCuratedMetadata(options = {}) {
     return metadata && typeof metadata === 'object' ? metadata : { schemaVersion: 1, source: {}, reviewGuidance: {}, inductees: {} };
   } catch (error) {
     throw new Error(`Could not read curated metadata: ${error.message}`);
+  }
+}
+
+export function loadCommunityTaxonomy(options = {}) {
+  const optional = options.optional !== false;
+  if (!existsSync(communityTaxonomyPath)) {
+    if (optional) return { schemaVersion: 1, ignoredCommunityTags: [], communityTagAliases: {}, nationalityCommunityMap: {} };
+    throw new Error(`Missing community taxonomy file: ${communityTaxonomyPath}`);
+  }
+
+  try {
+    const taxonomy = JSON.parse(readFileSync(communityTaxonomyPath, 'utf8'));
+    return taxonomy && typeof taxonomy === 'object'
+      ? taxonomy
+      : { schemaVersion: 1, ignoredCommunityTags: [], communityTagAliases: {}, nationalityCommunityMap: {} };
+  } catch (error) {
+    throw new Error(`Could not read community taxonomy: ${error.message}`);
   }
 }
 
@@ -392,7 +412,12 @@ export function buildCurationReport(inductees, curatedMetadata, validation) {
     },
     communities: {
       approved: inductees.filter((item) => item.communityTags.length > 0).length,
-      candidateOnly: records.filter((record) => toStringArray(record.communityTagCandidates).length > 0 && toStringArray(record.approvedCommunityTags).length === 0).map((record) => record.id),
+      candidateOnly: records
+        .filter((record) => toStringArray(record.communityTagCandidates).length > 0 && normalizeCommunityTags(toStringArray(record.approvedCommunityTags)).length === 0)
+        .map((record) => record.id),
+      broadOnly: records
+        .filter((record) => toStringArray(record.approvedCommunityTags).length > 0 && normalizeCommunityTags(toStringArray(record.approvedCommunityTags)).length === 0)
+        .map((record) => record.id),
     },
     featured: {
       approved: inductees.filter((item) => item.featured).map((item) => item.id),
@@ -586,7 +611,7 @@ function applyCuratedMetadata(inductee, curated) {
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
   const approvedCountryTags = toStringArray(curated.approvedCountryTags);
   const countryNotes = cleanString(curated.countryNotes);
-  const approvedCommunityTags = toStringArray(curated.approvedCommunityTags);
+  const approvedCommunityTags = normalizeCommunityTags(toStringArray(curated.approvedCommunityTags));
   const storySummary = approvedSummary || inductee.storySummary;
   const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
   const countryTags = approvedCountryTags.length > 0 ? approvedCountryTags : inductee.countryTags;
@@ -760,6 +785,22 @@ function cleanString(value) {
 function toStringArray(value) {
   if (!Array.isArray(value)) return [];
   return value.map((item) => cleanString(item)).filter(Boolean);
+}
+
+function normalizeCommunityTags(tags) {
+  const aliases = communityTaxonomy.communityTagAliases ?? {};
+  const ignoredTags = new Set(communityTaxonomy.ignoredCommunityTags ?? []);
+  const seen = new Set();
+  const normalized = [];
+
+  for (const tag of tags) {
+    const label = cleanString(aliases[tag] ?? tag);
+    if (!label || ignoredTags.has(label) || seen.has(label)) continue;
+    seen.add(label);
+    normalized.push(label);
+  }
+
+  return normalized;
 }
 
 function defaultImageAltText(name, classYear) {

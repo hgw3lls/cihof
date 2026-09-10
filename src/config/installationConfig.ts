@@ -27,6 +27,7 @@ export type InstallationConfig = {
     sound: boolean;
     kioskGuards: boolean;
     dataCache: boolean;
+    staffReview: boolean;
   };
   debug: {
     enabled: boolean;
@@ -68,6 +69,7 @@ export const installationConfig: InstallationConfig = {
     sound: readBooleanEnv('VITE_CIHOF_SOUND_ENABLED', true),
     kioskGuards: readBooleanEnv('VITE_CIHOF_KIOSK_GUARDS_ENABLED', true),
     dataCache: readBooleanEnv('VITE_CIHOF_DATA_CACHE_ENABLED', true),
+    staffReview: readBooleanEnv('VITE_CIHOF_STAFF_REVIEW_ENABLED', false),
   },
   debug: {
     enabled: readBooleanEnv('VITE_CIHOF_DEBUG', import.meta.env.DEV),

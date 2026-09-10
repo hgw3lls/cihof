@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { generatedAtFor } from './stable-generated-at.js';
 import { loadInductees } from './data-utils.js';
 
 const manifestPath = resolve('data/media_manifest.json');
@@ -216,7 +217,7 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
   }
 
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt: generatedAtFor(reportPath),
     strict: options.strict,
     strictProfile: options.strictProfile,
     source: 'data/media_manifest.json',

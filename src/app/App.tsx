@@ -72,7 +72,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const suppressLegacyFocusClickRef = useRef(false);
   const suppressLegacyFocusClickTimeoutRef = useRef<number | null>(null);
   const legacyFocusDismissPointerRef = useRef<{ pointerId: number; startX: number; startY: number } | null>(null);
-  const reviewModeEnabled = false;
+  const reviewModeEnabled = installationConfig.features.staffReview;
   const selectedId = hallFocus?.personId ?? '';
   const activeVisitorMode: VisitorExperienceMode = isVisitorExperienceMode(viewMode) ? viewMode : viewModeForHallLens(hallLens);
   const activeShellMode: ViewMode = reviewModeEnabled ? 'review' : activeVisitorMode;
@@ -752,10 +752,17 @@ function ShellCommandSearch({
           autoComplete="off"
           spellCheck={false}
           placeholder="Search name, nationality, community, year"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-controls="museum-command-results"
+          aria-expanded={showResults}
           onChange={(event) => onQueryChange(event.currentTarget.value)}
           onFocus={() => onOpenChange(true)}
           onKeyDown={(event) => {
             if (event.key !== 'Escape') return;
+            event.preventDefault();
+            event.stopPropagation();
+            event.nativeEvent.stopImmediatePropagation?.();
             event.currentTarget.blur();
             onOpenChange(false);
           }}
@@ -765,10 +772,10 @@ function ShellCommandSearch({
         </button>
       </div>
       {showResults && (
-        <ol className="museum-command__results" aria-label="Search results">
+        <ol className="museum-command__results" id="museum-command-results" role="listbox" aria-label="Search results">
           {results.length > 0 ? results.map((person) => (
             <li key={person.id}>
-              <button type="button" onClick={() => onSelect(person)}>
+              <button type="button" role="option" aria-selected="false" onClick={() => onSelect(person)}>
                 <strong>{person.name}</strong>
                 <span>{commandResultMeta(person)}</span>
               </button>

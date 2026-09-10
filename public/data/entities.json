@@ -35,19 +35,6 @@
       }
     },
     {
-      "id": "community:african",
-      "displayName": "African",
-      "type": "Community",
-      "shortDescription": "Community label used in the current curated metadata.",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceField": "communityTags",
-        "note": "Generated from approved community metadata where available."
-      }
-    },
-    {
       "id": "community:albanian",
       "displayName": "Albanian",
       "type": "Community",
@@ -79,19 +66,6 @@
       "attributes": {
         "communityKind": "nationality-or-heritage",
         "legacyRegion": "Europe"
-      }
-    },
-    {
-      "id": "community:asian",
-      "displayName": "Asian",
-      "type": "Community",
-      "shortDescription": "Community label used in the current curated metadata.",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceField": "communityTags",
-        "note": "Generated from approved community metadata where available."
       }
     },
     {
@@ -258,19 +232,6 @@
       "attributes": {
         "communityKind": "nationality-or-heritage",
         "legacyRegion": "Africa"
-      }
-    },
-    {
-      "id": "community:european",
-      "displayName": "European",
-      "type": "Community",
-      "shortDescription": "Community label used in the current curated metadata.",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceField": "communityTags",
-        "note": "Generated from approved community metadata where available."
       }
     },
     {
@@ -6775,9 +6736,7 @@
           "Civic Leadership",
           "Immigrant Advocacy"
         ],
-        "communityTags": [
-          "African"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "khalid-samad-2016-2016",
           "andy-fedynsky-2026",
@@ -6859,8 +6818,7 @@
           "Civic Leadership"
         ],
         "communityTags": [
-          "Middle Eastern",
-          "African"
+          "Middle Eastern"
         ],
         "relatedIds": [
           "marilyn-madigan-2019",
@@ -7011,9 +6969,7 @@
           "Community Organizing",
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "eugenia-stolarczyk-2016-2016",
           "august-pust-2010",
@@ -7128,9 +7084,7 @@
           "Diplomacy and Global Affairs",
           "Arts and Culture"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "dona-brady-2024",
           "branka-malinar-2025",
@@ -7211,9 +7165,7 @@
           "Business and Entrepreneurship",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "robert-j-haas-2010",
           "lucy-torres-2026",
@@ -7327,9 +7279,7 @@
           "Community Organizing",
           "Faith and Service"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "catherine-jorgensen-mccutcheon-2026",
           "marilyn-madigan-2019",
@@ -7410,9 +7360,7 @@
           "Arts and Culture",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "branka-malinar-2025",
           "catherine-jorgensen-mccutcheon-2026",
@@ -7521,9 +7469,7 @@
           "Community Organizing",
           "Science and Technology"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "raj-aggarwal-2025",
           "ken-kovach-2012",
@@ -7630,9 +7576,7 @@
           "Business and Entrepreneurship",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "eugenia-stolarczyk-2016-2016",
           "jack-kahl-2016",
@@ -7718,9 +7662,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "abby-mina-2018",
           "sree-sreenath-2019",
@@ -7795,9 +7737,7 @@
           "Community Organizing",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "robert-j-haas-2010",
           "alex-machaskee-2010",
@@ -7895,9 +7835,7 @@
           "Faith and Service",
           "Media and Storytelling"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "bill-miller-2017",
           "joe-valencic-2020",
@@ -7999,8 +7937,7 @@
           "Civic Leadership"
         ],
         "communityTags": [
-          "Middle Eastern",
-          "European"
+          "Middle Eastern"
         ],
         "relatedIds": [
           "valarie-mccall-2020",
@@ -8080,9 +8017,7 @@
           "Arts and Culture",
           "Faith and Service"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "branka-malinar-2025",
           "andy-chakalis-2026",
@@ -8163,9 +8098,7 @@
           "Business and Entrepreneurship",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "basil-russo-2017",
           "jim-craciun-2017",
@@ -8237,9 +8170,7 @@
           "Faith and Service",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "jack-coyne-2013",
           "josef-holzer-2013",
@@ -8324,9 +8255,7 @@
           "Education",
           "Law and Justice"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "dick-pogue-2015",
           "erika-puussaar-2024",
@@ -8424,9 +8353,7 @@
           "Civic Leadership",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "andy-fedynsky-2026",
           "ambassador-edward-f-crawford-2024",
@@ -8506,9 +8433,7 @@
           "Education",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "African"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "anda-cook-2022",
           "akram-boutros-2019",
@@ -8600,9 +8525,7 @@
           "Arts and Culture",
           "Philanthropy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "jack-kahl-2016",
           "eugenia-stolarczyk-2016-2016",
@@ -8682,9 +8605,7 @@
           "Diplomacy and Global Affairs",
           "Arts and Culture"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "andy-chakalis-2026",
           "andy-fedynsky-2026",
@@ -8831,10 +8752,8 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "North America",
-        "countryTags": [
-          "Jewish"
-        ],
-        "countryTagsSource": "inferred",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "profileUrl": "https://clevelandinternationalhalloffame.com/david-gilbert/",
         "inductedBy": "Joe Cimperman",
         "approvalStatus": "draft",
@@ -8849,7 +8768,6 @@
           "Civic Leadership"
         ],
         "communityTags": [
-          "Jewish",
           "Greater Cleveland Sports"
         ],
         "relatedIds": [
@@ -9025,9 +8943,7 @@
           "Civic Leadership",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "eugenia-stolarczyk-2016-2016",
           "bill-miller-2017",
@@ -9108,9 +9024,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ambassador-edward-f-crawford-2024",
           "svetlana-stolyarova-2025",
@@ -9181,9 +9095,7 @@
         "themeTags": [
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "monte-ahuja-2014",
           "eugene-bak-2014",
@@ -9309,9 +9221,7 @@
           "Arts and Culture",
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "helen-karpinski-1899-2002-2010",
           "paul-sciria-2010",
@@ -9463,9 +9373,7 @@
           "Medicine and Health",
           "Community Organizing"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "anthony-yen-yan-yuan-tai-2012",
           "hon-mary-rose-oakar-2012",
@@ -9691,9 +9599,7 @@
           "Faith and Service",
           "Law and Justice"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ambassador-edward-f-crawford-2024",
           "bishop-anthony-pilla-2015",
@@ -9766,9 +9672,7 @@
           "Arts and Culture",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "jim-foster-2014",
           "joseph-p-meissner-2014",
@@ -9843,9 +9747,7 @@
           "Science and Technology",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "lucretia-stoica-2011",
           "jim-foster-2014",
@@ -9944,9 +9846,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "alex-machaskee-2010",
           "jack-kahl-2016",
@@ -10034,9 +9934,7 @@
         "themeTags": [
           "Faith and Service"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ken-kovach-2012",
           "milton-maltz-2012",
@@ -10168,9 +10066,7 @@
           "Faith and Service",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "pierre-bejjani-2023",
           "michael-d-polensek-2023",
@@ -10241,9 +10137,7 @@
         "themeTags": [
           "Community Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "albert-b-ratner-2011",
           "lucretia-stoica-2011",
@@ -10335,9 +10229,7 @@
           "Community Organizing",
           "Education"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "abby-mina-2018",
           "lucretia-stoica-2011",
@@ -10412,9 +10304,7 @@
           "Community Organizing",
           "Faith and Service"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "robert-j-haas-2010",
           "paramjit-singh-2010",
@@ -10661,9 +10551,7 @@
           "Diplomacy and Global Affairs",
           "Media and Storytelling"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "eugenia-stolarczyk-2016-2016",
           "alex-machaskee-2010",
@@ -10735,9 +10623,7 @@
           "Civic Leadership",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "august-pust-2010",
           "helen-karpinski-1899-2002-2010",
@@ -10811,9 +10697,7 @@
           "Law and Justice",
           "Philanthropy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "samuel-h-miller-2013",
           "thomas-j-scanlon-2014",
@@ -10906,9 +10790,7 @@
           "Diplomacy and Global Affairs",
           "Philanthropy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "carolyn-balogh-2016-2016",
           "eugenia-stolarczyk-2016-2016",
@@ -11016,9 +10898,7 @@
           "Civic Leadership",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "august-pust-2010",
           "robert-j-haas-2010",
@@ -11097,9 +10977,7 @@
           "Civic Leadership",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "bill-miller-2017",
           "ralph-perk-jr-2018",
@@ -11272,9 +11150,7 @@
           "Media and Storytelling",
           "Faith and Service"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "georgine-welo-2023",
           "sheila-murphy-crawford-2018",
@@ -11389,9 +11265,7 @@
           "Civic Leadership",
           "Immigrant Advocacy"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "veronica-dahlberg-2024",
           "ambassador-edward-f-crawford-2024",
@@ -11540,9 +11414,7 @@
           "Arts and Culture",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "dr-maria-pujana-2013",
           "bishop-a-edward-pevec-2013",
@@ -11619,10 +11491,7 @@
           "Public Safety and Military",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European",
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ernie-mihaly-2014",
           "jim-foster-2014",
@@ -11700,9 +11569,7 @@
           "Arts and Culture",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "georgine-welo-2023",
           "pierre-bejjani-2023",
@@ -11829,10 +11696,7 @@
           "Business and Entrepreneurship",
           "Science and Technology"
         ],
-        "communityTags": [
-          "Asian",
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "vladimir-rus-2012",
           "anthony-yen-yan-yuan-tai-2012",
@@ -12058,9 +11922,7 @@
           "Community Organizing",
           "Public Safety and Military"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "lucy-torres-2026",
           "svetlana-stolyarova-2025",
@@ -12240,9 +12102,7 @@
           "Arts and Culture",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "august-pust-2010",
           "paul-sciria-2010",
@@ -12368,9 +12228,7 @@
           "Civic Leadership",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "giahoa-ryan-2011",
           "ralph-j-perk-2011",
@@ -12599,9 +12457,7 @@
           "Arts and Culture",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ernie-mihaly-2014",
           "jim-foster-2014",
@@ -12680,9 +12536,7 @@
           "Education",
           "Immigrant Advocacy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "joe-valencic-2020",
           "branka-malinar-2025",
@@ -12757,9 +12611,7 @@
           "Media and Storytelling",
           "Medicine and Health"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "paul-sciria-2010",
           "dr-dieu-thuc-do-2010",
@@ -12857,9 +12709,7 @@
           "Community Organizing",
           "Faith and Service"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "sheila-murphy-crawford-2018",
           "andy-chakalis-2026",
@@ -12960,9 +12810,7 @@
           "Community Organizing",
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ramesh-shah-2020",
           "valarie-mccall-2020",
@@ -13043,8 +12891,7 @@
           "Law and Justice"
         ],
         "communityTags": [
-          "African-American",
-          "European"
+          "African-American"
         ],
         "relatedIds": [
           "rev-mikhail-mikhail-2016",
@@ -13177,9 +13024,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "pierre-bejjani-2023",
           "georgine-welo-2023",
@@ -13381,9 +13226,7 @@
           "Business and Entrepreneurship",
           "Education"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "wael-khoury-2017",
           "monte-ahuja-2014",
@@ -13463,9 +13306,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ramesh-shah-2020",
           "wael-khoury-2017",
@@ -13538,9 +13379,7 @@
           "Business and Entrepreneurship",
           "Medicine and Health"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "mohan-bafna-2016",
           "wael-khoury-2017",
@@ -13611,9 +13450,7 @@
         "themeTags": [
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "jack-coyne-2013",
           "samuel-h-miller-2013",
@@ -13690,7 +13527,6 @@
           "Community Organizing"
         ],
         "communityTags": [
-          "Asian",
           "Sikh"
         ],
         "relatedIds": [
@@ -13765,9 +13601,7 @@
           "Business and Entrepreneurship",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "georgine-welo-2023",
           "ambassador-edward-f-crawford-2024",
@@ -13846,9 +13680,7 @@
           "Arts and Culture",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "marilyn-madigan-2019",
           "ray-pianka-2018",
@@ -13923,9 +13755,7 @@
           "Public Safety and Military",
           "Media and Storytelling"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "jim-foster-2014",
           "alex-machaskee-2010",
@@ -14106,9 +13936,7 @@
           "Community Organizing",
           "Science and Technology"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "anthony-yen-yan-yuan-tai-2012",
           "svetlana-stolyarova-2025",
@@ -14199,9 +14027,7 @@
           "Arts and Culture",
           "Immigrant Advocacy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "lucretia-stoica-2011",
           "tony-petkovsek-2011",
@@ -14289,9 +14115,7 @@
           "Business and Entrepreneurship",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ray-pianka-2018",
           "abby-mina-2018",
@@ -14378,9 +14202,7 @@
           "Diplomacy and Global Affairs",
           "Law and Justice"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "raj-aggarwal-2025",
           "mona-alag-2017",
@@ -14456,7 +14278,6 @@
           "Diplomacy and Global Affairs"
         ],
         "communityTags": [
-          "Asian",
           "Sikh"
         ],
         "relatedIds": [
@@ -14539,9 +14360,7 @@
           "Arts and Culture",
           "Business and Entrepreneurship"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ralph-perk-jr-2018",
           "abby-mina-2018",
@@ -14617,8 +14436,7 @@
           "Community Organizing"
         ],
         "communityTags": [
-          "Middle Eastern",
-          "African"
+          "Middle Eastern"
         ],
         "relatedIds": [
           "khalid-samad-2016-2016",
@@ -14878,9 +14696,7 @@
         "themeTags": [
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "marilyn-madigan-2019",
           "akram-boutros-2019",
@@ -14955,9 +14771,7 @@
           "Community Organizing",
           "Education"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "august-pust-2010",
           "helen-karpinski-1899-2002-2010",
@@ -15052,9 +14866,7 @@
           "Business and Entrepreneurship",
           "Public Safety and Military"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "mona-alag-2017",
           "wael-khoury-2017",
@@ -15238,9 +15050,7 @@
           "Diplomacy and Global Affairs",
           "Arts and Culture"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "august-pust-2010",
           "alex-machaskee-2010",
@@ -15327,9 +15137,7 @@
           "Business and Entrepreneurship",
           "Community Organizing"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "abby-mina-2018",
           "sister-alicia-alvarado-2018",
@@ -15415,9 +15223,7 @@
           "Community Organizing",
           "Education"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "honorable-jose-a-villanueva-2015",
           "akram-boutros-2019",
@@ -15586,9 +15392,7 @@
           "Diplomacy and Global Affairs",
           "Philanthropy"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "anthony-yen-yan-yuan-tai-2012",
           "raj-aggarwal-2025",
@@ -15674,9 +15478,7 @@
           "Faith and Service",
           "Immigrant Advocacy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "dick-russ-2015",
           "lucretia-stoica-2011",
@@ -15773,9 +15575,7 @@
           "Civic Leadership",
           "Science and Technology"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "georgine-welo-2023",
           "pierre-bejjani-2023",
@@ -15873,9 +15673,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "dona-brady-2024",
           "raj-aggarwal-2025",
@@ -15953,9 +15751,7 @@
           "Education",
           "Civic Leadership"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "anda-cook-2022",
           "carl-robson-2022",
@@ -16046,9 +15842,7 @@
           "Law and Justice",
           "Philanthropy"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "joseph-p-meissner-2014",
           "ernie-mihaly-2014",
@@ -16173,9 +15967,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "lucretia-stoica-2011",
           "august-pust-2010",
@@ -16544,9 +16336,7 @@
           "Civic Leadership",
           "Science and Technology"
         ],
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "giahoa-ryan-2011",
           "sudarshan-sathe-2023",
@@ -16622,9 +16412,7 @@
           "Community Organizing",
           "Diplomacy and Global Affairs"
         ],
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "relatedIds": [
           "ken-kovach-2012",
           "anthony-yen-yan-yuan-tai-2012",

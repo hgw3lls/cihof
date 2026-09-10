@@ -1,12 +1,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { buildReport, loadInductees } from './data-utils.js';
+import { generatedAtFor } from './stable-generated-at.js';
 
 const outputPath = resolve('public/data/data-audit.local.json');
 const inductees = loadInductees();
 const report = buildReport(inductees);
 const audit = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: generatedAtFor(outputPath),
   ...report,
 };
 

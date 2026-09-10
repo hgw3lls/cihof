@@ -154,6 +154,26 @@ test.describe('state-of-art guardrails', () => {
     }
   });
 
+  test('command search escape does not dismiss the focused portrait', async ({ page }) => {
+    await page.goto('./');
+    const firstPortrait = page.locator('button.living-portrait').first();
+    await expect(firstPortrait).toBeVisible();
+    const selectedPersonId = await firstPortrait.getAttribute('data-transition-person');
+    expect(selectedPersonId).toBeTruthy();
+
+    await firstPortrait.click();
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator(`button.living-portrait[data-transition-person="${selectedPersonId}"]`)).toHaveClass(/living-portrait--focused/);
+
+    await page.locator('#museum-command-search').fill('Chinese');
+    await expect(page.locator('.museum-command')).toHaveClass(/museum-command--open/);
+    await page.locator('#museum-command-search').press('Escape');
+
+    await expect(page.locator('.museum-command')).not.toHaveClass(/museum-command--open/);
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator(`button.living-portrait[data-transition-person="${selectedPersonId}"]`)).toHaveClass(/living-portrait--focused/);
+  });
+
   test('focused content windows block background portrait selection', async ({ page }) => {
     await page.goto('./');
     await expect(page.locator('.hall-surface')).toHaveCount(1);
@@ -408,6 +428,21 @@ async function expectForegroundGeometry(page: Page, stateLabel: string) {
       };
     }
 
+    function intersectRect(a: ReturnType<typeof rectFor>, b: ReturnType<typeof rectFor>) {
+      const left = Math.max(a.left, b.left);
+      const top = Math.max(a.top, b.top);
+      const right = Math.min(a.right, b.right);
+      const bottom = Math.min(a.bottom, b.bottom);
+      return {
+        left,
+        top,
+        right,
+        bottom,
+        width: Math.max(0, right - left),
+        height: Math.max(0, bottom - top),
+      };
+    }
+
     function isVisible(element: HTMLElement) {
       if (element.closest('[aria-hidden="true"], [hidden]')) return false;
       const style = window.getComputedStyle(element);
@@ -431,17 +466,22 @@ async function expectForegroundGeometry(page: Page, stateLabel: string) {
     }
 
     const violations: GeometryViolation[] = [];
+    const viewportRect = { left: 0, top: 0, right: viewport.width, bottom: viewport.height, width: viewport.width, height: viewport.height };
     const hall = document.querySelector<HTMLElement>('.living-hall');
     const hallLens = hall?.dataset.hallLens ?? '';
-    const focusedPortrait = document.querySelector<HTMLElement>('button.living-portrait--focused');
-    const focusedRect = focusedPortrait && isVisible(focusedPortrait) ? rectFor(focusedPortrait) : null;
+    const fieldViewport = document.querySelector<HTMLElement>('.living-hall__fieldViewport');
+    const fieldViewportRect = fieldViewport && isVisible(fieldViewport) ? rectFor(fieldViewport) : viewportRect;
     const nav = document.querySelector<HTMLElement>('.museum-bottom-nav.experience-dock');
     const navRect = nav && isVisible(nav) ? rectFor(nav) : null;
     const visiblePortraits = Array
       .from(document.querySelectorAll<HTMLElement>('button.living-portrait'))
       .filter(isVisible)
-      .map((element) => ({ element, rect: rectFor(element) }))
-      .filter(({ rect }) => rect.right > 0 && rect.left < viewport.width && rect.bottom > 0 && rect.top < viewport.height);
+      .map((element) => ({ element, rect: intersectRect(rectFor(element), fieldViewportRect) }))
+      .filter(({ rect }) => rect.width > 1 && rect.height > 1 && rect.right > 0 && rect.left < viewport.width && rect.bottom > 0 && rect.top < viewport.height);
+    const focusedPortrait = document.querySelector<HTMLElement>('button.living-portrait--focused');
+    const focusedRect = focusedPortrait
+      ? visiblePortraits.find(({ element }) => element === focusedPortrait)?.rect ?? null
+      : null;
     const foregroundPanels = Array
       .from(document.querySelectorAll<HTMLElement>('.living-hall__focusCard, .living-hall__personActionPanel'))
       .filter(isVisible)
@@ -465,6 +505,20 @@ async function expectForegroundGeometry(page: Page, stateLabel: string) {
             against: elementName(focusedPortrait as HTMLElement),
             overlapRatio: Math.round(ratio * 1_000) / 1_000,
           });
+        }
+      }
+
+      if (element.classList.contains('living-hall__focusCard')) {
+        for (const { element: portrait, rect: portraitRect } of visiblePortraits) {
+          const ratio = overlapRatio(rect, portraitRect);
+          if (ratio > 0.02) {
+            violations.push({
+              reason: 'focus card overlaps visible portrait',
+              target: elementName(element),
+              against: elementName(portrait),
+              overlapRatio: Math.round(ratio * 1_000) / 1_000,
+            });
+          }
         }
       }
 

@@ -274,9 +274,29 @@
   font-weight: 750;
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__field {
-  inset: var(--kiosk-field-inset, 0vmin);
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport {
+  position: absolute;
+  top: var(--kiosk-field-inset, 0vmin);
+  right: max(var(--kiosk-field-inset, 0vmin), var(--app-inspector-reserve, 0px));
+  bottom: var(--kiosk-field-inset, 0vmin);
+  left: var(--kiosk-field-inset, 0vmin);
   z-index: 1800;
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__field {
+  inset: 0;
+  z-index: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--latest-sequence .living-hall__fieldViewport {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--city-results .living-hall__fieldViewport {
+  filter: saturate(0.72) contrast(0.92);
+  opacity: 0.12;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall--hide-record-layer .living-hall__recordLayer,
@@ -472,7 +492,7 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__field {
   right: auto;
-  left: var(--kiosk-field-inset, 0vmin);
+  left: 0;
   width: var(--legacy-field-width, 420%);
   cursor: grab;
   touch-action: pan-x;

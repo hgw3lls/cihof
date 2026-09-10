@@ -1,8 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, relative, resolve } from 'node:path';
 import { buildReport, loadInductees, loadPhysicalWallMetadata } from './data-utils.js';
 import { buildEntityModel, loadCuratedEntityModel } from './entity-model.js';
 import { normalizeRelationshipRecords, validateRelationshipRecords } from './relationship-metadata.js';
+import { generatedAtFor } from './stable-generated-at.js';
 
 const outputPath = resolve('public/data/inductees.json');
 const reportPath = resolve('public/data/data-report.json');
@@ -30,6 +31,8 @@ const cidocCrmOutputPath = resolve('public/data/cidoc-crm-export.json');
 const iiifCollectionOutputPath = resolve('public/data/iiif-collection.json');
 const iiifManifestOutputDir = resolve('public/data/iiif');
 const publicBaseUrl = 'https://clevelandinternationalhalloffame.com/cihof/';
+const runtimeDataGeneratedAt = generatedAtFor(runtimeDataBundleOutputPath);
+const standardsIndexGeneratedAt = generatedAtFor(standardsIndexOutputPath);
 
 const inductees = loadInductees();
 const report = buildReport(inductees);
@@ -347,7 +350,7 @@ function loadSourceCurationPacket() {
   );
 
   return {
-    document: withRecountedSourceSummary(document),
+    document: sanitizeSourceCurationPacketForPublic(withRecountedSourceSummary(document)),
     recordCount: Array.isArray(document.curationIndex) ? document.curationIndex.length : 0,
   };
 }
@@ -403,8 +406,8 @@ function mergeSourceCurationPacket(base, addendum, addendumPath) {
       addenda: [
         ...sourceAddenda,
         {
-          path: addendumPath,
-          ...(normalizedAddendum.source ?? {}),
+          ...sanitizePublicSourceMetadata(normalizedAddendum.source),
+          path: publicSourcePath(addendumPath),
         },
       ],
     },
@@ -437,6 +440,40 @@ function mergeSourceCurationPacket(base, addendum, addendumPath) {
   });
 
   return merged;
+}
+
+function sanitizeSourceCurationPacketForPublic(document) {
+  const addenda = Array.isArray(document.source?.addenda)
+    ? document.source.addenda.map((addendum) => sanitizePublicSourceMetadata(addendum))
+    : [];
+
+  return {
+    ...document,
+    source: {
+      ...(document.source ?? {}),
+      ...sanitizePublicSourceMetadata(document.source),
+      addenda,
+    },
+  };
+}
+
+function sanitizePublicSourceMetadata(source = {}) {
+  const sanitized = { ...source };
+  if (sanitized.path) sanitized.path = publicSourcePath(sanitized.path);
+  if (sanitized.sourceDocument) sanitized.sourceDocument = publicSourceDocument(sanitized.sourceDocument);
+  return sanitized;
+}
+
+function publicSourcePath(path) {
+  if (typeof path !== 'string' || path.trim().length === 0) return path;
+  const repoRelative = relative(process.cwd(), path);
+  if (repoRelative && !repoRelative.startsWith('..') && !repoRelative.startsWith('/')) return repoRelative;
+  return basename(path);
+}
+
+function publicSourceDocument(path) {
+  if (typeof path !== 'string' || path.trim().length === 0) return path;
+  return path.startsWith('/') ? `${basename(path)} (user-supplied)` : path;
 }
 
 function withRecountedSourceSummary(document) {
@@ -484,7 +521,7 @@ function withRecountedSourceSummary(document) {
 function buildRuntimeDataBundle() {
   return {
     schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
+    generatedAt: runtimeDataGeneratedAt,
     appName: 'CIHOF Portrait Wall',
     source: {
       generator: 'scripts/prepare-data.js',
@@ -539,7 +576,7 @@ function buildStandardsExport() {
 function buildStandardsIndex(linkedArt, cidocCrm, iiifCollection, iiifManifestCount) {
   return {
     schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
+    generatedAt: standardsIndexGeneratedAt,
     source: {
       generator: 'scripts/prepare-data.js',
       publicBaseUrl,

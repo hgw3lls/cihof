@@ -93,9 +93,7 @@
           "Serbian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Diplomacy and Global Affairs",
@@ -184,9 +182,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership",
@@ -275,9 +271,7 @@
           "Vietnamese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Medicine and Health",
           "Civic Leadership",
@@ -366,9 +360,7 @@
           "Polish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Arts and Culture",
@@ -445,9 +437,7 @@
           "Polish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Community Organizing"
@@ -529,9 +519,7 @@
           "Hungarian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Science and Technology",
@@ -683,9 +671,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education"
@@ -771,9 +757,7 @@
           "Chinese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Law and Justice",
           "Education",
@@ -864,7 +848,6 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "Asian",
           "Sikh"
         ],
         "themeTags": [
@@ -955,9 +938,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Business and Entrepreneurship",
@@ -1046,9 +1027,7 @@
           "German"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership",
@@ -1130,9 +1109,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Diplomacy and Global Affairs",
@@ -1284,9 +1261,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Community Leadership"
         ],
@@ -1371,9 +1346,7 @@
           "Vietnamese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Civic Leadership",
@@ -1462,9 +1435,7 @@
           "Romanian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Immigrant Advocacy",
           "Business and Entrepreneurship",
@@ -1625,9 +1596,7 @@
           "Czech"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Law and Justice",
@@ -1802,9 +1771,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership",
@@ -1884,9 +1851,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Civic Leadership",
@@ -1973,9 +1938,7 @@
           "Chinese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Diplomacy and Global Affairs",
@@ -2052,9 +2015,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Medicine and Health",
           "Community Organizing"
@@ -2124,9 +2085,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Faith and Service"
         ],
@@ -2395,10 +2354,7 @@
           "Hungarian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian",
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Education",
@@ -2579,9 +2535,7 @@
           "Croatian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Education",
@@ -2658,9 +2612,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Faith and Service",
           "Education"
@@ -2834,9 +2786,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Education",
@@ -2912,9 +2862,7 @@
           "German"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education"
@@ -2984,9 +2932,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship"
         ],
@@ -3069,7 +3015,6 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "Asian",
           "Sikh"
         ],
         "themeTags": [
@@ -3229,9 +3174,7 @@
           "Chinese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship"
         ],
@@ -3308,9 +3251,7 @@
           "Hungarian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Public Safety and Military",
           "Arts and Culture",
@@ -3397,9 +3338,7 @@
           "Polish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Business and Entrepreneurship",
@@ -3579,10 +3518,7 @@
           "Vietnamese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European",
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Law and Justice",
           "Education",
@@ -3659,9 +3595,7 @@
           "Scottish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education"
@@ -3739,9 +3673,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Business and Entrepreneurship",
@@ -3824,9 +3756,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -3906,9 +3836,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Faith and Service",
           "Education",
@@ -4084,9 +4012,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Media and Storytelling",
           "Business and Entrepreneurship",
@@ -4348,9 +4274,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Medicine and Health",
@@ -4434,9 +4358,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Community Organizing",
           "Civic Leadership",
@@ -4512,9 +4434,7 @@
           "Dutch"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Diplomacy and Global Affairs"
@@ -4596,9 +4516,7 @@
           "Hungarian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Education",
@@ -4686,9 +4604,7 @@
           "Polish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Media and Storytelling",
@@ -4777,9 +4693,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Education",
@@ -4951,9 +4865,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Medicine and Health",
           "Business and Entrepreneurship",
@@ -5041,8 +4953,7 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "Middle Eastern",
-          "African"
+          "Middle Eastern"
         ],
         "themeTags": [
           "Education",
@@ -5132,9 +5043,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Law and Justice",
           "Arts and Culture",
@@ -5223,9 +5132,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -5306,9 +5213,7 @@
           "Romanian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Civic Leadership",
@@ -5391,9 +5296,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Law and Justice",
           "Business and Entrepreneurship",
@@ -5469,9 +5372,7 @@
           "Korean"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Public Safety and Military"
@@ -5735,9 +5636,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Medicine and Health",
           "Education",
@@ -5826,9 +5725,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Education",
@@ -5917,9 +5814,7 @@
           "Polish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Law and Justice",
@@ -6008,9 +5903,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -6186,8 +6079,7 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "Middle Eastern",
-          "African"
+          "Middle Eastern"
         ],
         "themeTags": [
           "Medicine and Health",
@@ -6273,9 +6165,7 @@
           "Lithuanian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Community Organizing",
@@ -6363,9 +6253,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Medicine and Health",
@@ -6443,9 +6331,7 @@
           "Carpatho-Rusyn"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership"
@@ -6515,9 +6401,7 @@
           "Hungarian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education"
         ],
@@ -6602,9 +6486,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Community Organizing",
@@ -6682,8 +6564,7 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "Middle Eastern",
-          "European"
+          "Middle Eastern"
         ],
         "themeTags": [
           "Education",
@@ -6770,9 +6651,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Business and Entrepreneurship",
@@ -6853,9 +6732,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -6930,9 +6807,7 @@
           "Chinese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Community Organizing",
           "Business and Entrepreneurship"
@@ -7018,9 +6893,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Education",
@@ -7200,9 +7073,7 @@
           "Latvian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership",
@@ -7287,9 +7158,7 @@
           "Ethiopian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "African"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Medicine and Health",
@@ -7365,9 +7234,7 @@
           "Ukrainian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Civic Leadership"
@@ -7524,9 +7391,7 @@
           "Serbian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Arts and Culture",
@@ -7603,9 +7468,7 @@
           "Italian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Civic Leadership"
@@ -7691,9 +7554,7 @@
           "Slovenian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Faith and Service",
           "Business and Entrepreneurship",
@@ -7774,9 +7635,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Business and Entrepreneurship",
@@ -7950,9 +7809,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Business and Entrepreneurship",
@@ -8040,9 +7897,7 @@
           "Irish"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Business and Entrepreneurship",
           "Education",
@@ -8131,9 +7986,7 @@
           "Albanian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Arts and Culture",
@@ -8294,9 +8147,7 @@
           "Estonian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Diplomacy and Global Affairs",
@@ -8384,9 +8235,7 @@
           "Chinese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Law and Justice",
@@ -8558,9 +8407,7 @@
           "Japanese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Arts and Culture",
@@ -8647,9 +8494,7 @@
           "Croatian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -8726,12 +8571,9 @@
         "id": "david-gilbert-2025",
         "classYear": 2025,
         "region": "North America",
-        "countryTags": [
-          "Jewish"
-        ],
-        "countryTagsSource": "inferred",
+        "countryTags": [],
+        "countryTagsSource": "none",
         "communityTags": [
-          "Jewish",
           "Greater Cleveland Sports"
         ],
         "themeTags": [
@@ -8814,8 +8656,7 @@
         ],
         "countryTagsSource": "inferred",
         "communityTags": [
-          "African-American",
-          "European"
+          "African-American"
         ],
         "themeTags": [
           "Civic Leadership",
@@ -8903,9 +8744,7 @@
           "Indian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Business and Entrepreneurship",
@@ -8994,9 +8833,7 @@
           "Russian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Business and Entrepreneurship",
@@ -9085,9 +8922,7 @@
           "Ethiopian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "African"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Business and Entrepreneurship",
@@ -9172,9 +9007,7 @@
           "Greek"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Arts and Culture",
           "Education",
@@ -9262,9 +9095,7 @@
           "Ukrainian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Civic Leadership",
@@ -9349,9 +9180,7 @@
           "Norwegian"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "European"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Education",
           "Community Organizing",
@@ -9435,9 +9264,7 @@
           "Vietnamese"
         ],
         "countryTagsSource": "inferred",
-        "communityTags": [
-          "Asian"
-        ],
+        "communityTags": [],
         "themeTags": [
           "Civic Leadership",
           "Arts and Culture",
@@ -10122,20 +9949,6 @@
       }
     },
     {
-      "id": "rel:person-aklilu-demessie-2026:member_of_community:community-african",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=aklilu-demessie-2026",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aafrican",
-      "type": "member_of_community",
-      "label": "Community: African",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "aklilu-demessie-2026",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-aklilu-demessie-2026:member_of_community:community-ethiopian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=aklilu-demessie-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aethiopian",
@@ -10400,20 +10213,6 @@
         "sourceRecordId": "akram-boutros-2019",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-akram-boutros-2019:member_of_community:community-african",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=akram-boutros-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aafrican",
-      "type": "member_of_community",
-      "label": "Community: African",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "akram-boutros-2019",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -10907,20 +10706,6 @@
       }
     },
     {
-      "id": "rel:person-alex-machaskee-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=alex-machaskee-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "alex-machaskee-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-alex-machaskee-2010:member_of_community:community-serbian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=alex-machaskee-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aserbian",
@@ -11185,20 +10970,6 @@
         "sourceRecordId": "ambassador-edward-f-crawford-2024",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-ambassador-edward-f-crawford-2024:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ambassador-edward-f-crawford-2024",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ambassador-edward-f-crawford-2024",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -11469,20 +11240,6 @@
       }
     },
     {
-      "id": "rel:person-anda-cook-2022:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=anda-cook-2022",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "anda-cook-2022",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-anda-cook-2022:member_of_community:community-latvian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=anda-cook-2022",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Alatvian",
@@ -11732,20 +11489,6 @@
         "sourceRecordId": "andy-chakalis-2026",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-andy-chakalis-2026:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-chakalis-2026",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "andy-chakalis-2026",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -12016,20 +11759,6 @@
       }
     },
     {
-      "id": "rel:person-andy-fedynsky-2026:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-fedynsky-2026",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "andy-fedynsky-2026",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-andy-fedynsky-2026:member_of_community:community-ukrainian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-fedynsky-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aukrainian",
@@ -12280,20 +12009,6 @@
         "sourceRecordId": "anthony-yen-yan-yuan-tai-2012",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-anthony-yen-yan-yuan-tai-2012:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=anthony-yen-yan-yuan-tai-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "anthony-yen-yan-yuan-tai-2012",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -12562,20 +12277,6 @@
       }
     },
     {
-      "id": "rel:person-arnie-de-la-porte-2016-2016:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=arnie-de-la-porte-2016-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "arnie-de-la-porte-2016-2016",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-atul-mehta-2018:has_media:media-primary-image-atul-mehta-2018",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=atul-mehta-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aatul-mehta-2018",
@@ -12824,20 +12525,6 @@
         "sourceRecordId": "atul-mehta-2018",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-atul-mehta-2018:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=atul-mehta-2018",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "atul-mehta-2018",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -13091,20 +12778,6 @@
         "sourceRecordId": "august-pust-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-august-pust-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=august-pust-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "august-pust-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -13375,20 +13048,6 @@
       }
     },
     {
-      "id": "rel:person-basil-russo-2017:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=basil-russo-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "basil-russo-2017",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-basil-russo-2017:member_of_community:community-italian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=basil-russo-2017",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aitalian",
@@ -13640,20 +13299,6 @@
       }
     },
     {
-      "id": "rel:person-berj-shakarian-2020:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=berj-shakarian-2020",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "berj-shakarian-2020",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-berj-shakarian-2020:member_of_community:community-middle-eastern",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=berj-shakarian-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Amiddle-eastern",
@@ -13887,20 +13532,6 @@
         "sourceRecordId": "beverly-kerecman-2025",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-beverly-kerecman-2025:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=beverly-kerecman-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "beverly-kerecman-2025",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -14171,20 +13802,6 @@
       }
     },
     {
-      "id": "rel:person-bill-miller-2017:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "bill-miller-2017",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-bill-miller-2017:member_of_community:community-slovenian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovenian",
@@ -14390,20 +14007,6 @@
         "sourceRecordId": "bishop-a-edward-pevec-2013",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-bishop-a-edward-pevec-2013:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bishop-a-edward-pevec-2013",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "bishop-a-edward-pevec-2013",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -14655,20 +14258,6 @@
         "sourceRecordId": "bishop-anthony-pilla-2015",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-bishop-anthony-pilla-2015:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bishop-anthony-pilla-2015",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "bishop-anthony-pilla-2015",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -14954,20 +14543,6 @@
       }
     },
     {
-      "id": "rel:person-branka-malinar-2025:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=branka-malinar-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "branka-malinar-2025",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-carl-robson-2022:has_media:media-primary-image-carl-robson-2022",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carl-robson-2022",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Acarl-robson-2022",
@@ -15202,20 +14777,6 @@
         "sourceRecordId": "carl-robson-2022",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-carl-robson-2022:member_of_community:community-african",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carl-robson-2022",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aafrican",
-      "type": "member_of_community",
-      "label": "Community: African",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "carl-robson-2022",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -15499,20 +15060,6 @@
       }
     },
     {
-      "id": "rel:person-carolyn-balogh-2016-2016:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carolyn-balogh-2016-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "carolyn-balogh-2016-2016",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-carolyn-balogh-2016-2016:member_of_community:community-hungarian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carolyn-balogh-2016-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ahungarian",
@@ -15765,20 +15312,6 @@
       }
     },
     {
-      "id": "rel:person-catherine-jorgensen-mccutcheon-2026:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=catherine-jorgensen-mccutcheon-2026",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "catherine-jorgensen-mccutcheon-2026",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-catherine-jorgensen-mccutcheon-2026:member_of_community:community-norwegian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=catherine-jorgensen-mccutcheon-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Anorwegian",
@@ -16027,21 +15560,6 @@
         "confidence": "curated",
         "sourceRecordId": "david-gilbert-2025",
         "sourceField": "communityTags"
-      }
-    },
-    {
-      "id": "rel:person-david-gilbert-2025:member_of_community:community-jewish",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=david-gilbert-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ajewish",
-      "type": "member_of_community",
-      "label": "Nationality / Heritage: Jewish",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
-        "sourceRecordId": "david-gilbert-2025",
-        "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
       }
     },
     {
@@ -16591,20 +16109,6 @@
       }
     },
     {
-      "id": "rel:person-dick-russ-2015:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-russ-2015",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "dick-russ-2015",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-dick-russ-2015:member_of_community:community-slovenian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-russ-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovenian",
@@ -16887,20 +16391,6 @@
       }
     },
     {
-      "id": "rel:person-dona-brady-2024:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dona-brady-2024",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "dona-brady-2024",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-donna-hom-2014:has_media:media-primary-image-donna-hom-2014",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=donna-hom-2014",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Adonna-hom-2014",
@@ -17076,20 +16566,6 @@
         "sourceRecordId": "donna-hom-2014",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-donna-hom-2014:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=donna-hom-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "donna-hom-2014",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -17343,20 +16819,6 @@
         "sourceRecordId": "dr-dieu-thuc-do-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-dr-dieu-thuc-do-2010:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dr-dieu-thuc-do-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "dr-dieu-thuc-do-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -17787,20 +17249,6 @@
         "sourceRecordId": "dr-jaya-shah-2012",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-dr-jaya-shah-2012:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dr-jaya-shah-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "dr-jaya-shah-2012",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -18353,20 +17801,6 @@
       }
     },
     {
-      "id": "rel:person-erika-puussaar-2024:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=erika-puussaar-2024",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "erika-puussaar-2024",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-ernie-mihaly-2014:has_media:media-primary-image-ernie-mihaly-2014",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ernie-mihaly-2014",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aernie-mihaly-2014",
@@ -18572,20 +18006,6 @@
         "sourceRecordId": "ernie-mihaly-2014",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-ernie-mihaly-2014:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ernie-mihaly-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ernie-mihaly-2014",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -18839,20 +18259,6 @@
         "sourceRecordId": "eugene-bak-2014",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-eugene-bak-2014:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugene-bak-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "eugene-bak-2014",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -19165,20 +18571,6 @@
       }
     },
     {
-      "id": "rel:person-eugenia-stolarczyk-2016-2016:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-eugenia-stolarczyk-2016-2016:member_of_community:community-polish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Apolish",
@@ -19369,20 +18761,6 @@
         "sourceRecordId": "fr-jim-o-donnell-2012",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-fr-jim-o-donnell-2012:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=fr-jim-o-donnell-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "fr-jim-o-donnell-2012",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -19653,20 +19031,6 @@
       }
     },
     {
-      "id": "rel:person-georgine-welo-2023:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=georgine-welo-2023",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "georgine-welo-2023",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-georgine-welo-2023:member_of_community:community-serbian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=georgine-welo-2023",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aserbian",
@@ -19857,20 +19221,6 @@
         "sourceRecordId": "gerald-m-quinn-2011",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-gerald-m-quinn-2011:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=gerald-m-quinn-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "gerald-m-quinn-2011",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -20127,20 +19477,6 @@
       }
     },
     {
-      "id": "rel:person-giahoa-ryan-2011:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=giahoa-ryan-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "giahoa-ryan-2011",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-giahoa-ryan-2011:member_of_community:community-vietnamese",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=giahoa-ryan-2011",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Avietnamese",
@@ -20391,20 +19727,6 @@
         "sourceRecordId": "helen-karpinski-1899-2002-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-helen-karpinski-1899-2002-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=helen-karpinski-1899-2002-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "helen-karpinski-1899-2002-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -21237,20 +20559,6 @@
       }
     },
     {
-      "id": "rel:person-ingrida-bublys-2019:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ingrida-bublys-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ingrida-bublys-2019",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-ingrida-bublys-2019:member_of_community:community-lithuanian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ingrida-bublys-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Alithuanian",
@@ -21456,20 +20764,6 @@
         "sourceRecordId": "irene-morrow-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-irene-morrow-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=irene-morrow-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "irene-morrow-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -21708,20 +21002,6 @@
         "sourceRecordId": "jack-coyne-2013",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-jack-coyne-2013:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-coyne-2013",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "jack-coyne-2013",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -22020,20 +21300,6 @@
       }
     },
     {
-      "id": "rel:person-jack-kahl-2016:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "jack-kahl-2016",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-jack-kahl-2016:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -22272,20 +21538,6 @@
       }
     },
     {
-      "id": "rel:person-jeanette-grasselli-brown-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jeanette-grasselli-brown-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "jeanette-grasselli-brown-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-jeanette-grasselli-brown-2010:member_of_community:community-hungarian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jeanette-grasselli-brown-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ahungarian",
@@ -22520,20 +21772,6 @@
         "sourceRecordId": "jim-craciun-2017",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-jim-craciun-2017:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jim-craciun-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "jim-craciun-2017",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -23056,20 +22294,6 @@
       }
     },
     {
-      "id": "rel:person-joe-valencic-2020:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joe-valencic-2020",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "joe-valencic-2020",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-joe-valencic-2020:member_of_community:community-slovenian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joe-valencic-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovenian",
@@ -23334,20 +22558,6 @@
         "sourceRecordId": "johnny-k-wu-2024",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-johnny-k-wu-2024:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=johnny-k-wu-2024",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "johnny-k-wu-2024",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -23826,20 +23036,6 @@
       }
     },
     {
-      "id": "rel:person-josef-holzer-2013:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=josef-holzer-2013",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "josef-holzer-2013",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-josef-holzer-2013:member_of_community:community-german",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=josef-holzer-2013",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Agerman",
@@ -24090,34 +23286,6 @@
         "sourceRecordId": "joseph-p-meissner-2014",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-joseph-p-meissner-2014:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joseph-p-meissner-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "joseph-p-meissner-2014",
-        "sourceField": "communityTags"
-      }
-    },
-    {
-      "id": "rel:person-joseph-p-meissner-2014:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joseph-p-meissner-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "joseph-p-meissner-2014",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -24373,20 +23541,6 @@
       }
     },
     {
-      "id": "rel:person-joyce-mariani-2023:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joyce-mariani-2023",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "joyce-mariani-2023",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-joyce-mariani-2023:member_of_community:community-italian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joyce-mariani-2023",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aitalian",
@@ -24637,34 +23791,6 @@
         "sourceRecordId": "ken-kovach-2012",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-ken-kovach-2012:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ken-kovach-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ken-kovach-2012",
-        "sourceField": "communityTags"
-      }
-    },
-    {
-      "id": "rel:person-ken-kovach-2012:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ken-kovach-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ken-kovach-2012",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -25230,20 +24356,6 @@
       }
     },
     {
-      "id": "rel:person-le-nguyen-2026:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=le-nguyen-2026",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "le-nguyen-2026",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-le-nguyen-2026:member_of_community:community-vietnamese",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=le-nguyen-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Avietnamese",
@@ -25660,20 +24772,6 @@
       }
     },
     {
-      "id": "rel:person-lonnie-mccauley-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=lonnie-mccauley-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "lonnie-mccauley-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-lonnie-mccauley-2010:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=lonnie-mccauley-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -25924,20 +25022,6 @@
         "sourceRecordId": "lucretia-stoica-2011",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-lucretia-stoica-2011:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=lucretia-stoica-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "lucretia-stoica-2011",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -26652,20 +25736,6 @@
       }
     },
     {
-      "id": "rel:person-margaret-callander-2014:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-callander-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "margaret-callander-2014",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-margaret-callander-2014:member_of_community:community-scottish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-callander-2014",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ascottish",
@@ -26900,20 +25970,6 @@
         "sourceRecordId": "margaret-lynch-2020",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-margaret-lynch-2020:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-lynch-2020",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "margaret-lynch-2020",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -27167,20 +26223,6 @@
         "sourceRecordId": "margaret-w-wong-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-margaret-w-wong-2010:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-w-wong-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "margaret-w-wong-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -27451,20 +26493,6 @@
       }
     },
     {
-      "id": "rel:person-marilyn-madigan-2019:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=marilyn-madigan-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "marilyn-madigan-2019",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-marilyn-madigan-2019:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=marilyn-madigan-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -27698,20 +26726,6 @@
         "sourceRecordId": "may-chen-2020",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-may-chen-2020:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=may-chen-2020",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "may-chen-2020",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -27964,20 +26978,6 @@
         "sourceRecordId": "mayor-frank-jackson-2025",
         "sourceField": "countryTags",
         "note": "Generated nationality or heritage metadata; needs curatorial review."
-      }
-    },
-    {
-      "id": "rel:person-mayor-frank-jackson-2025:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mayor-frank-jackson-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "mayor-frank-jackson-2025",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -28245,20 +27245,6 @@
         "sourceRecordId": "michael-d-polensek-2023",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-michael-d-polensek-2023:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=michael-d-polensek-2023",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "michael-d-polensek-2023",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -28780,20 +27766,6 @@
       }
     },
     {
-      "id": "rel:person-mohan-bafna-2016:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "mohan-bafna-2016",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-mohan-bafna-2016:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -29046,20 +28018,6 @@
       }
     },
     {
-      "id": "rel:person-mona-alag-2017:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mona-alag-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "mona-alag-2017",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-mona-alag-2017:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mona-alag-2017",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -29283,20 +28241,6 @@
       }
     },
     {
-      "id": "rel:person-monte-ahuja-2014:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=monte-ahuja-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "monte-ahuja-2014",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-monte-ahuja-2014:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=monte-ahuja-2014",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -29487,20 +28431,6 @@
         "sourceRecordId": "nacy-panzica-2013",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-nacy-panzica-2013:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=nacy-panzica-2013",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "nacy-panzica-2013",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -29757,20 +28687,6 @@
       }
     },
     {
-      "id": "rel:person-paramjit-singh-2010:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paramjit-singh-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "paramjit-singh-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-paramjit-singh-2010:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paramjit-singh-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -30006,20 +28922,6 @@
         "sourceRecordId": "pat-dowd-2023",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-pat-dowd-2023:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=pat-dowd-2023",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "pat-dowd-2023",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -30275,20 +29177,6 @@
       }
     },
     {
-      "id": "rel:person-paul-burik-2019:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paul-burik-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "paul-burik-2019",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-paul-sciria-2010:has_media:media-primary-image-paul-sciria-2010",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paul-sciria-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Apaul-sciria-2010",
@@ -30524,20 +29412,6 @@
         "sourceRecordId": "paul-sciria-2010",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-paul-sciria-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paul-sciria-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "paul-sciria-2010",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -31089,20 +29963,6 @@
       }
     },
     {
-      "id": "rel:person-raj-aggarwal-2025:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=raj-aggarwal-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "raj-aggarwal-2025",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-raj-aggarwal-2025:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=raj-aggarwal-2025",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -31353,20 +30213,6 @@
         "sourceRecordId": "ralph-j-perk-2011",
         "sourceField": "countryTags",
         "note": "Generated nationality or heritage metadata; needs curatorial review."
-      }
-    },
-    {
-      "id": "rel:person-ralph-j-perk-2011:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-j-perk-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ralph-j-perk-2011",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -31651,20 +30497,6 @@
       }
     },
     {
-      "id": "rel:person-ralph-perk-jr-2018:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-perk-jr-2018",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ralph-perk-jr-2018",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-ralph-perk-jr-2018:member_of_community:community-italian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-perk-jr-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aitalian",
@@ -31946,20 +30778,6 @@
       }
     },
     {
-      "id": "rel:person-ramesh-shah-2020:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ramesh-shah-2020",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ramesh-shah-2020",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-ramesh-shah-2020:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ramesh-shah-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -32195,20 +31013,6 @@
         "sourceRecordId": "ratanjit-s-sondhe-2013",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-ratanjit-s-sondhe-2013:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ratanjit-s-sondhe-2013",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ratanjit-s-sondhe-2013",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -32494,20 +31298,6 @@
       }
     },
     {
-      "id": "rel:person-ray-pianka-2018:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ray-pianka-2018",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "ray-pianka-2018",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-ray-pianka-2018:member_of_community:community-polish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ray-pianka-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Apolish",
@@ -32758,20 +31548,6 @@
         "sourceRecordId": "rev-mikhail-mikhail-2016",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-rev-mikhail-mikhail-2016:member_of_community:community-african",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=rev-mikhail-mikhail-2016",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aafrican",
-      "type": "member_of_community",
-      "label": "Community: African",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "rev-mikhail-mikhail-2016",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -33529,20 +32305,6 @@
       }
     },
     {
-      "id": "rel:person-richard-fleischman-2019:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-fleischman-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "richard-fleischman-2019",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-richard-fleischman-2019:member_of_community:community-hungarian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-fleischman-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ahungarian",
@@ -33796,20 +32558,6 @@
       }
     },
     {
-      "id": "rel:person-robert-j-haas-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=robert-j-haas-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "robert-j-haas-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-robert-j-haas-2010:member_of_community:community-german",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=robert-j-haas-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Agerman",
@@ -34029,20 +32777,6 @@
         "sourceRecordId": "sam-kim-2017",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-sam-kim-2017:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sam-kim-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "sam-kim-2017",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -34507,20 +33241,6 @@
       }
     },
     {
-      "id": "rel:person-senator-george-voinovich-2010:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=senator-george-voinovich-2010",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "senator-george-voinovich-2010",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-senator-george-voinovich-2010:member_of_community:community-serbian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=senator-george-voinovich-2010",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aserbian",
@@ -34817,20 +33537,6 @@
       }
     },
     {
-      "id": "rel:person-sheila-murphy-crawford-2018:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sheila-murphy-crawford-2018",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "sheila-murphy-crawford-2018",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-sheila-murphy-crawford-2018:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sheila-murphy-crawford-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -35094,20 +33800,6 @@
         "sourceRecordId": "shiv-k-aggarwal-2015",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-shiv-k-aggarwal-2015:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=shiv-k-aggarwal-2015",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "shiv-k-aggarwal-2015",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -35658,20 +34350,6 @@
       }
     },
     {
-      "id": "rel:person-sree-sreenath-2019:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sree-sreenath-2019",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "sree-sreenath-2019",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-sree-sreenath-2019:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sree-sreenath-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -35938,20 +34616,6 @@
       }
     },
     {
-      "id": "rel:person-steve-mulloy-2015:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=steve-mulloy-2015",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "steve-mulloy-2015",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-steve-mulloy-2015:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=steve-mulloy-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -36201,20 +34865,6 @@
         "sourceRecordId": "sudarshan-sathe-2023",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-sudarshan-sathe-2023:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sudarshan-sathe-2023",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "sudarshan-sathe-2023",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -36485,20 +35135,6 @@
       }
     },
     {
-      "id": "rel:person-svetlana-stolyarova-2025:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=svetlana-stolyarova-2025",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "svetlana-stolyarova-2025",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-svetlana-stolyarova-2025:member_of_community:community-russian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=svetlana-stolyarova-2025",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Arussian",
@@ -36718,20 +35354,6 @@
         "sourceRecordId": "taras-szmagala-2022",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-taras-szmagala-2022:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=taras-szmagala-2022",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "taras-szmagala-2022",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -36973,20 +35595,6 @@
       }
     },
     {
-      "id": "rel:person-thomas-j-scanlon-2014:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=thomas-j-scanlon-2014",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "thomas-j-scanlon-2014",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-thomas-j-scanlon-2014:member_of_community:community-irish",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=thomas-j-scanlon-2014",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Airish",
@@ -37222,20 +35830,6 @@
         "sourceRecordId": "tony-petkovsek-2011",
         "sourceField": "relatedIds",
         "note": "Generated by the legacy inductee adapter; needs curatorial review before being treated as fact."
-      }
-    },
-    {
-      "id": "rel:person-tony-petkovsek-2011:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=tony-petkovsek-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "tony-petkovsek-2011",
-        "sourceField": "communityTags"
       }
     },
     {
@@ -38231,20 +36825,6 @@
       }
     },
     {
-      "id": "rel:person-vijaya-l-emani-2011:member_of_community:community-asian",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=vijaya-l-emani-2011",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aasian",
-      "type": "member_of_community",
-      "label": "Community: Asian",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "vijaya-l-emani-2011",
-        "sourceField": "communityTags"
-      }
-    },
-    {
       "id": "rel:person-vijaya-l-emani-2011:member_of_community:community-indian",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=vijaya-l-emani-2011",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aindian",
@@ -38510,20 +37090,6 @@
         "sourceRecordId": "vladimir-rus-2012",
         "sourceField": "countryTags",
         "note": "Generated nationality or heritage metadata; needs curatorial review."
-      }
-    },
-    {
-      "id": "rel:person-vladimir-rus-2012:member_of_community:community-european",
-      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=vladimir-rus-2012",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aeuropean",
-      "type": "member_of_community",
-      "label": "Community: European",
-      "provenance": {
-        "source": "legacy-inductee-adapter",
-        "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "curated",
-        "sourceRecordId": "vladimir-rus-2012",
-        "sourceField": "communityTags"
       }
     },
     {

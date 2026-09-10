@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { buildCurationReport, loadCuratedMetadata, loadInductees, validateCuratedMetadata } from './data-utils.js';
+import { generatedAtFor } from './stable-generated-at.js';
 
 const outputPath = resolve('public/data/curation-report.json');
 const baseInductees = loadInductees({ includeCurated: false, includeMedia: false });
@@ -8,7 +9,7 @@ const curatedMetadata = loadCuratedMetadata();
 const validation = validateCuratedMetadata(curatedMetadata, baseInductees.map((item) => item.id));
 const inductees = validation.errors.length > 0 ? baseInductees : loadInductees();
 const report = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: generatedAtFor(outputPath),
   ...buildCurationReport(inductees, curatedMetadata, validation),
 };
 

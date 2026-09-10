@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
+import { generatedAtFor } from './stable-generated-at.js';
 
 const manifestPath = resolve('data/media_manifest.json');
 const reportPath = resolve('public/data/media-localization-report.json');
@@ -17,7 +18,7 @@ const selectedRecords = options.ids.size > 0 ? records.filter((record) => option
 const limitedRecords = options.limit === null ? selectedRecords : selectedRecords.slice(0, options.limit);
 const videoSourceIndex = options.videoSourceRoot ? buildFileIndex(resolve(options.videoSourceRoot)) : new Map();
 const report = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: generatedAtFor(reportPath),
   dryRun: options.dryRun,
   options: {
     downloadImages: options.downloadImages,
