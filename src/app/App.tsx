@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type {
   CSSProperties,
+  FormEvent,
   MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent,
   ReactNode,
@@ -48,6 +49,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const [viewMode, setViewMode] = useState<ViewMode>(() => readViewMode(false, defaultView));
   const [hallLens, setHallLens] = useState<HallLens>(() => readHallLens(defaultView));
   const [hallFocus, setHallFocus] = useState<HallFocus>(() => readHallFocus());
+  const [commandQuery, setCommandQuery] = useState('');
+  const [commandOpen, setCommandOpen] = useState(false);
   const [experienceTransition, setExperienceTransition] = useState<ExperienceTransition>('switch');
   const [timelineYear, setTimelineYear] = useState<string>(() => readTimelineYear());
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
@@ -293,6 +296,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     const withVideo = inductees.filter((item) => item.hasVideo).length;
     return { total: inductees.length, withImages, withVideo };
   }, [inductees]);
+  const commandResults = useMemo(() => commandSearchResults(inductees, commandQuery), [commandQuery, inductees]);
 
   function readStageScrollPosition() {
     const stage = stageRef.current;
@@ -357,6 +361,27 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setSelectedId(inductee.id);
     if (hallLens === 'legacies' && inductee.classYear) setTimelineYear(String(inductee.classYear));
     if (!reviewModeEnabled) setExperienceMode(viewModeForHallLens(hallLens), 'switch');
+  }
+
+  function updateCommandQuery(query: string) {
+    setCommandQuery(query);
+    setCommandOpen(query.trim().length > 0);
+  }
+
+  function submitCommandSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const firstMatch = commandResults[0];
+    if (!firstMatch) {
+      setCommandOpen(commandQuery.trim().length > 0);
+      return;
+    }
+    selectFromCommand(firstMatch);
+  }
+
+  function selectFromCommand(inductee: Inductee) {
+    selectInductee(inductee, 'command-search');
+    setCommandQuery('');
+    setCommandOpen(false);
   }
 
   function resetExperience(reason = 'manual') {
@@ -567,9 +592,20 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
           <span>CIHOF</span>
           <strong>{activeExperienceLabel}</strong>
         </div>
+        <ShellCommandSearch
+          open={commandOpen}
+          query={commandQuery}
+          results={commandResults}
+          onOpenChange={setCommandOpen}
+          onQueryChange={updateCommandQuery}
+          onSelect={selectFromCommand}
+          onSubmit={submitCommandSearch}
+        />
         <div className="museum-status" aria-label="Collection summary">
-          <span>{stats.total} people</span>
-          <span>{stats.withVideo} videos</span>
+          <span>{stats.total} profiles</span>
+          <span>{stats.withVideo} media</span>
+          {selected && <span className="museum-status__focus">Focus: {selected.name}</span>}
+          {visitCollectionIds.length > 0 && <span>{visitCollectionIds.length}/{visitCollectionLimit} saved</span>}
           {!networkOnline && <span>Offline</span>}
           {kioskMode && <span>Kiosk</span>}
           {wallDebugEnabled && <span>Wall Debug</span>}
@@ -681,6 +717,123 @@ function ExperienceScene({
       {children}
     </div>
   );
+}
+
+function ShellCommandSearch({
+  open,
+  query,
+  results,
+  onOpenChange,
+  onQueryChange,
+  onSelect,
+  onSubmit,
+}: {
+  open: boolean;
+  query: string;
+  results: Inductee[];
+  onOpenChange: (open: boolean) => void;
+  onQueryChange: (query: string) => void;
+  onSelect: (inductee: Inductee) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}) {
+  const hasQuery = query.trim().length > 0;
+  const showResults = open && hasQuery;
+
+  return (
+    <form className={showResults ? 'museum-command museum-command--open' : 'museum-command'} role="search" onSubmit={onSubmit}>
+      <label className="museum-command__label" htmlFor="museum-command-search">
+        Find
+      </label>
+      <div className="museum-command__box">
+        <input
+          id="museum-command-search"
+          type="search"
+          value={query}
+          autoComplete="off"
+          spellCheck={false}
+          placeholder="Search name, nationality, community, year"
+          onChange={(event) => onQueryChange(event.currentTarget.value)}
+          onFocus={() => onOpenChange(true)}
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape') return;
+            event.currentTarget.blur();
+            onOpenChange(false);
+          }}
+        />
+        <button type="submit" disabled={!hasQuery || results.length === 0}>
+          Open
+        </button>
+      </div>
+      {showResults && (
+        <ol className="museum-command__results" aria-label="Search results">
+          {results.length > 0 ? results.map((person) => (
+            <li key={person.id}>
+              <button type="button" onClick={() => onSelect(person)}>
+                <strong>{person.name}</strong>
+                <span>{commandResultMeta(person)}</span>
+              </button>
+            </li>
+          )) : (
+            <li className="museum-command__empty">No matching profiles</li>
+          )}
+        </ol>
+      )}
+    </form>
+  );
+}
+
+function commandSearchResults(inductees: Inductee[], query: string) {
+  const terms = normalizeSearchTerm(query).split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return [];
+
+  return inductees
+    .map((inductee) => ({ inductee, score: commandSearchScore(inductee, terms) }))
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.inductee.sortName.localeCompare(b.inductee.sortName))
+    .slice(0, 6)
+    .map((item) => item.inductee);
+}
+
+function commandSearchScore(inductee: Inductee, terms: string[]) {
+  const name = normalizeSearchTerm(inductee.name);
+  const sortName = normalizeSearchTerm(inductee.sortName);
+  const classYear = inductee.classYear ? String(inductee.classYear) : '';
+  const heritageTags = inductee.countryTags.map(normalizeSearchTerm);
+  const communityTags = inductee.communityTags.map(normalizeSearchTerm);
+  const themeTags = inductee.themeTags.map(normalizeSearchTerm);
+  const haystack = [
+    name,
+    sortName,
+    classYear,
+    normalizeSearchTerm(inductee.region),
+    normalizeSearchTerm(inductee.inductedBy),
+    normalizeSearchTerm(inductee.searchText),
+    ...heritageTags,
+    ...communityTags,
+    ...themeTags,
+  ].join(' ');
+
+  if (!terms.every((term) => haystack.includes(term))) return 0;
+
+  return terms.reduce((score, term) => {
+    if (name.startsWith(term) || sortName.startsWith(term)) return score + 90;
+    if (name.includes(term) || sortName.includes(term)) return score + 62;
+    if (heritageTags.some((tag) => tag.includes(term))) return score + 46;
+    if (communityTags.some((tag) => tag.includes(term))) return score + 40;
+    if (classYear.startsWith(term)) return score + 32;
+    if (themeTags.some((tag) => tag.includes(term))) return score + 16;
+    return score + 8;
+  }, inductee.featured ? 8 : 0);
+}
+
+function commandResultMeta(inductee: Inductee) {
+  const classLabel = inductee.classYear ? `Class ${inductee.classYear}` : 'Class year pending';
+  const tags = [...inductee.countryTags, ...inductee.communityTags].slice(0, 2);
+  return [classLabel, ...tags].join(' / ');
+}
+
+function normalizeSearchTerm(value: string) {
+  return value.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 function useContentProtection(active: boolean) {

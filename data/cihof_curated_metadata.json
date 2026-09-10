@@ -12,7 +12,9 @@
     "communityTagCandidates": "Generated from contextual heritage and community terms. Copy only reviewed tags into approvedCommunityTags.",
     "featured": "Human-owned final feature flag. Generated records default to false.",
     "featuredCandidate": "Machine-ranked suggestion for attract mode and promoted discovery.",
-    "mediaRightsStatus": "Set to approved only after rights, licensing, captions, and transcripts are confirmed."
+    "mediaRightsStatus": "Set to approved only after rights, licensing, captions, and transcripts are confirmed.",
+    "countryTagCandidates": "Generated from nationality and heritage references in source text. Copy only reviewed labels into approvedCountryTags.",
+    "countryNotes": "Evidence note for generated or inferred nationality/heritage candidates. Rewrite or clear after curator review."
   },
   "inductees": {
     "alex-machaskee-2010": {
@@ -32,8 +34,12 @@
         "Business and Entrepreneurship"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -70,7 +76,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Serbian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Alex Machaskee as Serbian; mapped to Serbian for visitor-facing nationality/heritage metadata."
     },
     "august-pust-2010": {
       "id": "august-pust-2010",
@@ -90,9 +101,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -132,7 +145,12 @@
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists August Pust as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "dr-dieu-thuc-do-2010": {
       "id": "dr-dieu-thuc-do-2010",
@@ -152,9 +170,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Vietnamese"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -192,7 +212,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Vietnamese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dr. Dieu Thuc Do as Vietnamese; mapped to Vietnamese for visitor-facing nationality/heritage metadata."
     },
     "helen-karpinski-1899-2002-2010": {
       "id": "helen-karpinski-1899-2002-2010",
@@ -212,9 +237,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Polish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -251,7 +278,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Polish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Helen Karpinski (1899 – 2002) as Polish; mapped to Polish for visitor-facing nationality/heritage metadata."
     },
     "irene-morrow-2010": {
       "id": "irene-morrow-2010",
@@ -268,11 +300,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian",
-        "Polish",
-        "Vietnamese"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -308,7 +340,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Polish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Irene Morrow as Polish; mapped to Polish for visitor-facing nationality/heritage metadata."
     },
     "jeanette-grasselli-brown-2010": {
       "id": "jeanette-grasselli-brown-2010",
@@ -327,9 +364,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -366,7 +405,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Hungarian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Jeanette Grasselli Brown as Hungarian; mapped to Hungarian for visitor-facing nationality/heritage metadata."
     },
     "leo-weidenthal-2010": {
       "id": "leo-weidenthal-2010",
@@ -385,7 +429,9 @@
       "communityTagCandidates": [
         "Jewish"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Jewish"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -420,7 +466,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Jewish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Leo Weidenthal as Jewish / NA; mapped to Jewish for visitor-facing nationality/heritage metadata."
     },
     "lonnie-mccauley-2010": {
       "id": "lonnie-mccauley-2010",
@@ -437,9 +488,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -474,7 +527,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Lonnie McCauley as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "margaret-w-wong-2010": {
       "id": "margaret-w-wong-2010",
@@ -493,8 +551,12 @@
         "Medicine and Health"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Asian"
+      ],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -533,7 +595,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Chinese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Margaret W. Wong as Chinese; mapped to Chinese for visitor-facing nationality/heritage metadata."
     },
     "paramjit-singh-2010": {
       "id": "paramjit-singh-2010",
@@ -553,9 +620,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian",
+        "Sikh"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian",
+        "Sikh"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -592,7 +663,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian",
+        "Sikh"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Paramjit Singh as Indian and Sikh; mapped to Indian, Sikh for visitor-facing nationality/heritage metadata."
     },
     "paul-sciria-2010": {
       "id": "paul-sciria-2010",
@@ -612,9 +689,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -650,7 +729,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Paul Sciria as Italian; mapped to Italian for visitor-facing nationality/heritage metadata."
     },
     "robert-j-haas-2010": {
       "id": "robert-j-haas-2010",
@@ -670,9 +754,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "German"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -710,7 +796,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "German"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Robert J. Haas as German; mapped to German for visitor-facing nationality/heritage metadata."
     },
     "senator-george-voinovich-2010": {
       "id": "senator-george-voinovich-2010",
@@ -728,10 +819,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Serbian",
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -769,7 +861,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Serbian",
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Senator George Voinovich as Serbian & Slovenian; mapped to Serbian, Slovenian for visitor-facing nationality/heritage metadata."
     },
     "albert-b-ratner-2011": {
       "id": "albert-b-ratner-2011",
@@ -789,7 +887,9 @@
       "communityTagCandidates": [
         "Jewish"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Jewish"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -825,7 +925,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Jewish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Albert B. Ratner as Jewish / NA; mapped to Jewish for visitor-facing nationality/heritage metadata."
     },
     "gerald-m-quinn-2011": {
       "id": "gerald-m-quinn-2011",
@@ -841,9 +946,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -876,7 +983,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Gerald M. Quinn as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "giahoa-ryan-2011": {
       "id": "giahoa-ryan-2011",
@@ -896,9 +1008,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Vietnamese"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -936,7 +1050,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Vietnamese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Giahoa Ryan as Vietnamese; mapped to Vietnamese for visitor-facing nationality/heritage metadata."
     },
     "lucretia-stoica-2011": {
       "id": "lucretia-stoica-2011",
@@ -955,8 +1074,12 @@
         "Community Organizing"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -994,7 +1117,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Romanian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Lucretia Stoica as Romanian; mapped to Romanian for visitor-facing nationality/heritage metadata."
     },
     "luis-martinez-2011": {
       "id": "luis-martinez-2011",
@@ -1011,10 +1139,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican",
-        "Vietnamese"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1050,7 +1179,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Luis Martinez as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     },
     "ralph-j-perk-2011": {
       "id": "ralph-j-perk-2011",
@@ -1068,8 +1202,12 @@
         "Immigrant Advocacy"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1107,7 +1245,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Czech"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ralph J. Perk as Czech; mapped to Czech for visitor-facing nationality/heritage metadata."
     },
     "reverend-dr-otis-moss-jr-2011": {
       "id": "reverend-dr-otis-moss-jr-2011",
@@ -1127,9 +1270,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Jewish"
+        "African-American"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "African-American"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1167,7 +1312,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "African-American"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Reverend Dr. Otis Moss, Jr. as African-American; mapped to African-American for visitor-facing nationality/heritage metadata."
     },
     "tony-petkovsek-2011": {
       "id": "tony-petkovsek-2011",
@@ -1186,9 +1336,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1227,7 +1379,12 @@
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Tony Petkovsek as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "vijaya-l-emani-2011": {
       "id": "vijaya-l-emani-2011",
@@ -1245,9 +1402,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1283,7 +1442,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Vijaya L. Emani as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "anthony-yen-yan-yuan-tai-2012": {
       "id": "anthony-yen-yan-yuan-tai-2012",
@@ -1303,10 +1467,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Chinese",
-        "Korean"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1344,7 +1509,12 @@
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Chinese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Anthony Yen (Yan Yuan Tai) as Chinese; mapped to Chinese for visitor-facing nationality/heritage metadata."
     },
     "dr-jaya-shah-2012": {
       "id": "dr-jaya-shah-2012",
@@ -1361,9 +1531,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1398,7 +1570,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dr. Jaya Shah as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "fr-jim-o-donnell-2012": {
       "id": "fr-jim-o-donnell-2012",
@@ -1413,8 +1590,12 @@
         "Faith and Service"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1448,7 +1629,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Fr. Jim O’Donnell as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "hon-mary-rose-oakar-2012": {
       "id": "hon-mary-rose-oakar-2012",
@@ -1468,9 +1654,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Arabic"
+        "Middle Eastern"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1507,7 +1695,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Syrian",
+        "Lebanese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Hon. Mary Rose Oakar as Syrian and Lebanese; mapped to Syrian, Lebanese for visitor-facing nationality/heritage metadata."
     },
     "jose-c-feliciano-2012": {
       "id": "jose-c-feliciano-2012",
@@ -1527,9 +1721,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1568,7 +1764,12 @@
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists José C. Feliciano as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     },
     "ken-kovach-2012": {
       "id": "ken-kovach-2012",
@@ -1588,9 +1789,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian",
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian",
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1627,7 +1832,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Russian",
+        "Hungarian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ken Kovach as Russian & Hungarian; mapped to Russian, Hungarian for visitor-facing nationality/heritage metadata."
     },
     "milton-maltz-2012": {
       "id": "milton-maltz-2012",
@@ -1649,7 +1860,9 @@
       "communityTagCandidates": [
         "Jewish"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Jewish"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1687,7 +1900,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Jewish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Milton Maltz as Jewish / NA; mapped to Jewish for visitor-facing nationality/heritage metadata."
     },
     "vladimir-rus-2012": {
       "id": "vladimir-rus-2012",
@@ -1707,10 +1925,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Croatian",
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1748,7 +1967,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian",
+        "Croatian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Vladimir Rus as Slovenian & Croatian; mapped to Slovenian, Croatian for visitor-facing nationality/heritage metadata."
     },
     "bishop-a-edward-pevec-2013": {
       "id": "bishop-a-edward-pevec-2013",
@@ -1764,8 +1989,12 @@
         "Education"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1800,7 +2029,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Bishop A. Edward Pevec as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "dr-maria-pujana-2013": {
       "id": "dr-maria-pujana-2013",
@@ -1819,8 +2053,12 @@
         "Diplomacy and Global Affairs"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Hispanic"
+      ],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1857,7 +2095,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Spanish",
+        "Colombian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dr. Maria Pujana as Spanish & Colombian; mapped to Spanish, Colombian for visitor-facing nationality/heritage metadata."
     },
     "jack-coyne-2013": {
       "id": "jack-coyne-2013",
@@ -1876,9 +2120,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1914,7 +2160,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Jack Coyne as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "josef-holzer-2013": {
       "id": "josef-holzer-2013",
@@ -1930,8 +2181,12 @@
         "Education"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -1966,7 +2221,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "German"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Josef Holzer as German; mapped to German for visitor-facing nationality/heritage metadata."
     },
     "nacy-panzica-2013": {
       "id": "nacy-panzica-2013",
@@ -1981,8 +2241,12 @@
         "Business and Entrepreneurship"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2016,7 +2280,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Nacy Panzica as Italian; mapped to Italian for visitor-facing nationality/heritage metadata."
     },
     "ratanjit-s-sondhe-2013": {
       "id": "ratanjit-s-sondhe-2013",
@@ -2035,9 +2304,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian",
+        "Sikh"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian",
+        "Sikh"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2074,7 +2347,13 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian",
+        "Sikh"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ratanjit S. Sondhe as Indian and Sikh; mapped to Indian, Sikh for visitor-facing nationality/heritage metadata."
     },
     "samuel-h-miller-2013": {
       "id": "samuel-h-miller-2013",
@@ -2095,7 +2374,9 @@
       "communityTagCandidates": [
         "Jewish"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Jewish"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2130,7 +2411,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Jewish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Samuel H. Miller as Jewish / NA; mapped to Jewish for visitor-facing nationality/heritage metadata."
     },
     "donna-hom-2014": {
       "id": "donna-hom-2014",
@@ -2146,9 +2432,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Chinese"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2181,7 +2469,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Chinese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Donna Hom as Chinese; mapped to Chinese for visitor-facing nationality/heritage metadata."
     },
     "ernie-mihaly-2014": {
       "id": "ernie-mihaly-2014",
@@ -2199,9 +2492,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2236,7 +2531,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Hungarian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ernie Mihaly as Hungarian; mapped to Hungarian for visitor-facing nationality/heritage metadata."
     },
     "eugene-bak-2014": {
       "id": "eugene-bak-2014",
@@ -2256,9 +2556,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Polish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2297,7 +2599,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Polish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Eugene Bak as Polish; mapped to Polish for visitor-facing nationality/heritage metadata."
     },
     "jim-foster-2014": {
       "id": "jim-foster-2014",
@@ -2316,8 +2623,12 @@
         "Public Safety and Military"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "City Club"
+      ],
+      "approvedCommunityTags": [
+        "City Club"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2353,7 +2664,10 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment marks Jim Foster as NA - City Club for a community-based induction; no nationality/heritage tag is assigned."
     },
     "joseph-p-meissner-2014": {
       "id": "joseph-p-meissner-2014",
@@ -2373,9 +2687,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Vietnamese"
+        "European",
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European",
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2412,7 +2730,14 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish",
+        "German",
+        "Vietnamese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Joseph P Meissner as Irish and German and Vietnamese; mapped to Irish, German, Vietnamese for visitor-facing nationality/heritage metadata."
     },
     "margaret-callander-2014": {
       "id": "margaret-callander-2014",
@@ -2428,8 +2753,12 @@
         "Education"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2464,7 +2793,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Scottish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Margaret Callander as Scottish; mapped to Scottish for visitor-facing nationality/heritage metadata."
     },
     "monte-ahuja-2014": {
       "id": "monte-ahuja-2014",
@@ -2481,8 +2815,12 @@
         "Medicine and Health"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Asian"
+      ],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2516,7 +2854,12 @@
       "curatorNotes": [
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Monte Ahuja as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "thomas-j-scanlon-2014": {
       "id": "thomas-j-scanlon-2014",
@@ -2535,9 +2878,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2574,7 +2919,12 @@
         "No video linked in current source data.",
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Thomas J. Scanlon as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "bishop-anthony-pilla-2015": {
       "id": "bishop-anthony-pilla-2015",
@@ -2592,9 +2942,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2638,7 +2990,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Bishop Anthony Pilla as Italian; mapped to Italian for visitor-facing nationality/heritage metadata."
     },
     "dick-pogue-2015": {
       "id": "dick-pogue-2015",
@@ -2657,8 +3014,12 @@
         "Business and Entrepreneurship"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Jones Day"
+      ],
+      "approvedCommunityTags": [
+        "Jones Day"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2704,7 +3065,10 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment marks Dick Pogue as NA - Jones Day for a community-based induction; no nationality/heritage tag is assigned."
     },
     "dick-russ-2015": {
       "id": "dick-russ-2015",
@@ -2724,10 +3088,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian",
-        "Ukrainian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2772,7 +3137,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dick Russ as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "honorable-jose-a-villanueva-2015": {
       "id": "honorable-jose-a-villanueva-2015",
@@ -2792,9 +3162,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2839,7 +3211,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Honorable José A. Villanueva as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     },
     "richard-a-ganim-2015": {
       "id": "richard-a-ganim-2015",
@@ -2858,9 +3235,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Lebanese"
+        "Middle Eastern"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2904,7 +3283,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Lebanese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Richard A. Ganim as Lebanese; mapped to Lebanese for visitor-facing nationality/heritage metadata."
     },
     "shiv-k-aggarwal-2015": {
       "id": "shiv-k-aggarwal-2015",
@@ -2923,13 +3307,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian",
-        "Indian",
-        "Italian",
-        "Slovak",
-        "Slovenian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -2974,7 +3356,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Shiv K. Aggarwal as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "steve-mulloy-2015": {
       "id": "steve-mulloy-2015",
@@ -2993,9 +3380,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3040,7 +3429,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Steve Mulloy as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "arnie-de-la-porte-2016-2016": {
       "id": "arnie-de-la-porte-2016-2016",
@@ -3057,9 +3451,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "German"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3104,7 +3500,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Dutch"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Arnie de la Porte – 2016 as Dutch; mapped to Dutch for visitor-facing nationality/heritage metadata."
     },
     "carolyn-balogh-2016-2016": {
       "id": "carolyn-balogh-2016-2016",
@@ -3123,9 +3524,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3172,7 +3575,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Hungarian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Carolyn Balogh – 2016 as Hungarian; mapped to Hungarian for visitor-facing nationality/heritage metadata."
     },
     "eugenia-stolarczyk-2016-2016": {
       "id": "eugenia-stolarczyk-2016-2016",
@@ -3192,9 +3600,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Polish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3245,7 +3655,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Polish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Eugenia Stolarczyk – 2016 as Polish; mapped to Polish for visitor-facing nationality/heritage metadata."
     },
     "jack-kahl-2016": {
       "id": "jack-kahl-2016",
@@ -3265,10 +3680,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish",
-        "Vietnamese"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3316,7 +3732,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Jack Kahl as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "khalid-samad-2016-2016": {
       "id": "khalid-samad-2016-2016",
@@ -3336,9 +3757,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Arabic"
+        "African-American"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "African-American"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3387,7 +3810,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "African-American"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Khalid Samad – 2016 as African-American; mapped to African-American for visitor-facing nationality/heritage metadata."
     },
     "mohan-bafna-2016": {
       "id": "mohan-bafna-2016",
@@ -3405,9 +3833,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3452,7 +3882,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Mohan Bafna as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "rev-mikhail-mikhail-2016": {
       "id": "rev-mikhail-mikhail-2016",
@@ -3472,9 +3907,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Egyptian"
+        "Middle Eastern",
+        "African"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern",
+        "African"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3512,7 +3951,12 @@
         "Only one image currently available; consider adding approved gallery media.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Egyptian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Rev. Mikhail Mikhail as Egyptian; mapped to Egyptian for visitor-facing nationality/heritage metadata."
     },
     "basil-russo-2017": {
       "id": "basil-russo-2017",
@@ -3532,9 +3976,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3576,7 +4022,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Basil Russo as Italian; mapped to Italian for visitor-facing nationality/heritage metadata."
     },
     "bill-miller-2017": {
       "id": "bill-miller-2017",
@@ -3596,10 +4047,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "German",
-        "Polish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3642,7 +4094,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Bill Miller as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "jim-craciun-2017": {
       "id": "jim-craciun-2017",
@@ -3660,10 +4117,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian",
-        "Romanian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3704,7 +4162,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Romanian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Jim Craciun as Romanian; mapped to Romanian for visitor-facing nationality/heritage metadata."
     },
     "mona-alag-2017": {
       "id": "mona-alag-2017",
@@ -3723,9 +4186,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3766,7 +4231,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Mona Alag as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "sam-kim-2017": {
       "id": "sam-kim-2017",
@@ -3783,9 +4253,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Korean"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3823,7 +4295,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Korean"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Sam Kim as Korean; mapped to Korean for visitor-facing nationality/heritage metadata."
     },
     "wael-khoury-2017": {
       "id": "wael-khoury-2017",
@@ -3843,10 +4320,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Arabic",
-        "Syrian"
+        "Middle Eastern"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3888,7 +4366,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Syrian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Wael Khoury as Syrian; mapped to Syrian for visitor-facing nationality/heritage metadata."
     },
     "abby-mina-2018": {
       "id": "abby-mina-2018",
@@ -3908,10 +4391,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Arabic",
-        "Lebanese"
+        "Middle Eastern"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -3960,7 +4444,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Lebanese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Abby Mina as Lebanese; mapped to Lebanese for visitor-facing nationality/heritage metadata."
     },
     "atul-mehta-2018": {
       "id": "atul-mehta-2018",
@@ -3979,9 +4468,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4027,7 +4518,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Atul Mehta as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "ralph-perk-jr-2018": {
       "id": "ralph-perk-jr-2018",
@@ -4047,10 +4543,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Czech",
-        "Slovak"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4095,7 +4592,13 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Czech",
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ralph Perk Jr. as Czech and Italian; mapped to Czech, Italian for visitor-facing nationality/heritage metadata."
     },
     "ray-pianka-2018": {
       "id": "ray-pianka-2018",
@@ -4115,10 +4618,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish",
-        "Polish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 97,
@@ -4162,7 +4666,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Polish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ray Pianka as Polish; mapped to Polish for visitor-facing nationality/heritage metadata."
     },
     "sheila-murphy-crawford-2018": {
       "id": "sheila-murphy-crawford-2018",
@@ -4182,9 +4691,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 97,
@@ -4231,7 +4742,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Sheila Murphy Crawford as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "sister-alicia-alvarado-2018": {
       "id": "sister-alicia-alvarado-2018",
@@ -4250,9 +4766,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4297,7 +4815,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Sister Alicia Alvarado as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     },
     "akram-boutros-2019": {
       "id": "akram-boutros-2019",
@@ -4317,10 +4840,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Jewish",
-        "Lebanese"
+        "Middle Eastern",
+        "African"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern",
+        "African"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4363,7 +4889,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Egyptian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Akram Boutros as Egyptian; mapped to Egyptian for visitor-facing nationality/heritage metadata."
     },
     "ingrida-bublys-2019": {
       "id": "ingrida-bublys-2019",
@@ -4382,9 +4913,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Lithuanian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4427,7 +4960,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Lithuanian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ingrida Bublys as Lithuanian; mapped to Lithuanian for visitor-facing nationality/heritage metadata."
     },
     "marilyn-madigan-2019": {
       "id": "marilyn-madigan-2019",
@@ -4447,9 +4985,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4492,7 +5032,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Marilyn Madigan as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "paul-burik-2019": {
       "id": "paul-burik-2019",
@@ -4509,9 +5054,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Czech"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4552,7 +5099,13 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Czech",
+        "Carpatho-Rusyn"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Paul Burik as Czech & Carpatho-Rusyn; mapped to Czech, Carpatho-Rusyn for visitor-facing nationality/heritage metadata."
     },
     "richard-fleischman-2019": {
       "id": "richard-fleischman-2019",
@@ -4568,9 +5121,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4609,7 +5164,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Hungarian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Richard Fleischman as Hungarian; mapped to Hungarian for visitor-facing nationality/heritage metadata."
     },
     "sree-sreenath-2019": {
       "id": "sree-sreenath-2019",
@@ -4629,9 +5189,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4673,7 +5235,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Sree Sreenath as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "berj-shakarian-2020": {
       "id": "berj-shakarian-2020",
@@ -4690,12 +5257,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Armenian",
-        "Croatian",
-        "Czech",
-        "Romanian"
+        "Middle Eastern",
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern",
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4739,7 +5307,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Armenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Berj Shakarian as Armenian; mapped to Armenian for visitor-facing nationality/heritage metadata."
     },
     "joe-valencic-2020": {
       "id": "joe-valencic-2020",
@@ -4759,9 +5332,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4803,7 +5378,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Joe Valencic as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "margaret-lynch-2020": {
       "id": "margaret-lynch-2020",
@@ -4821,9 +5401,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4865,7 +5447,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Margaret Lynch as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "may-chen-2020": {
       "id": "may-chen-2020",
@@ -4882,9 +5469,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Chinese"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4927,7 +5516,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Chinese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists May Chen as Chinese; mapped to Chinese for visitor-facing nationality/heritage metadata."
     },
     "ramesh-shah-2020": {
       "id": "ramesh-shah-2020",
@@ -4947,9 +5541,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -4994,7 +5590,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ramesh Shah as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "valarie-mccall-2020": {
       "id": "valarie-mccall-2020",
@@ -5013,8 +5614,12 @@
         "Philanthropy"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "African-American"
+      ],
+      "approvedCommunityTags": [
+        "African-American"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 97,
@@ -5058,7 +5663,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "African-American"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Valarie McCall as African-American; mapped to African-American for visitor-facing nationality/heritage metadata."
     },
     "anda-cook-2022": {
       "id": "anda-cook-2022",
@@ -5077,8 +5687,12 @@
         "Community Organizing"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "European"
+      ],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5121,7 +5735,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Latvian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Anda Cook as Latvian; mapped to Latvian for visitor-facing nationality/heritage metadata."
     },
     "carl-robson-2022": {
       "id": "carl-robson-2022",
@@ -5140,9 +5759,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Ethiopian"
+        "African"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "African"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5185,7 +5806,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Ethiopian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Carl Robson as Ethiopian; mapped to Ethiopian for visitor-facing nationality/heritage metadata."
     },
     "taras-szmagala-2022": {
       "id": "taras-szmagala-2022",
@@ -5202,9 +5828,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Ukrainian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5246,7 +5874,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Ukrainian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Taras Szmagala as Ukrainian; mapped to Ukrainian for visitor-facing nationality/heritage metadata."
     },
     "victor-ruiz-2022": {
       "id": "victor-ruiz-2022",
@@ -5262,9 +5895,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5303,7 +5938,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Victor Ruiz as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     },
     "georgine-welo-2023": {
       "id": "georgine-welo-2023",
@@ -5323,9 +5963,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Serbian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 109,
@@ -5370,7 +6012,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Serbian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Georgine Welo as Serbian; mapped to Serbian for visitor-facing nationality/heritage metadata."
     },
     "joyce-mariani-2023": {
       "id": "joyce-mariani-2023",
@@ -5387,9 +6034,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5430,7 +6079,12 @@
       },
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Joyce Mariani as Italian; mapped to Italian for visitor-facing nationality/heritage metadata."
     },
     "michael-d-polensek-2023": {
       "id": "michael-d-polensek-2023",
@@ -5450,10 +6104,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Italian",
-        "Slovenian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 105,
@@ -5497,7 +6152,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Slovenian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Michael D. Polensek as Slovenian; mapped to Slovenian for visitor-facing nationality/heritage metadata."
     },
     "pat-dowd-2023": {
       "id": "pat-dowd-2023",
@@ -5515,9 +6175,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5551,7 +6213,12 @@
       },
       "curatorNotes": [
         "No video linked in current source data."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Pat Dowd as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "pierre-bejjani-2023": {
       "id": "pierre-bejjani-2023",
@@ -5571,9 +6238,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Lebanese"
+        "Middle Eastern"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Middle Eastern"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 104,
@@ -5617,7 +6286,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Lebanese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Pierre Bejjani as Lebanese; mapped to Lebanese for visitor-facing nationality/heritage metadata."
     },
     "sudarshan-sathe-2023": {
       "id": "sudarshan-sathe-2023",
@@ -5636,9 +6310,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Indian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 99,
@@ -5681,7 +6357,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Sudarshan Sathe as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "ambassador-edward-f-crawford-2024": {
       "id": "ambassador-edward-f-crawford-2024",
@@ -5701,9 +6382,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Irish"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 109,
@@ -5749,7 +6432,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Irish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Ambassador Edward F. Crawford as Irish; mapped to Irish for visitor-facing nationality/heritage metadata."
     },
     "dona-brady-2024": {
       "id": "dona-brady-2024",
@@ -5769,9 +6457,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Albanian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 103,
@@ -5816,7 +6506,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Albanian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dona Brady as Albanian; mapped to Albanian for visitor-facing nationality/heritage metadata."
     },
     "dr-eugene-jordan-2024": {
       "id": "dr-eugene-jordan-2024",
@@ -5832,8 +6527,12 @@
         "Education"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "African-American"
+      ],
+      "approvedCommunityTags": [
+        "African-American"
+      ],
       "featured": false,
       "featuredCandidate": false,
       "attractPriority": 0,
@@ -5874,7 +6573,12 @@
       "curatorNotes": [
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "African-American"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Dr. Eugene Jordan as African-American; mapped to African-American for visitor-facing nationality/heritage metadata."
     },
     "erika-puussaar-2024": {
       "id": "erika-puussaar-2024",
@@ -5893,10 +6597,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Egyptian",
-        "Estonian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 104,
@@ -5941,7 +6646,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Estonian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Erika Puussaar as Estonian; mapped to Estonian for visitor-facing nationality/heritage metadata."
     },
     "johnny-k-wu-2024": {
       "id": "johnny-k-wu-2024",
@@ -5960,8 +6670,12 @@
         "Immigrant Advocacy"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Asian"
+      ],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 106,
@@ -6007,7 +6721,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Chinese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Johnny K. Wu as Chinese; mapped to Chinese for visitor-facing nationality/heritage metadata."
     },
     "veronica-dahlberg-2024": {
       "id": "veronica-dahlberg-2024",
@@ -6027,10 +6746,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Hungarian",
-        "Mexican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 106,
@@ -6074,7 +6794,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Mexican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Veronica Dahlberg as Mexican; mapped to Mexican for visitor-facing nationality/heritage metadata."
     },
     "beverly-kerecman-2025": {
       "id": "beverly-kerecman-2025",
@@ -6091,8 +6816,12 @@
         "Faith and Service"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Asian"
+      ],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 100,
@@ -6135,7 +6864,12 @@
       "curatorNotes": [
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Japanese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Beverly Kerecman as Japanese; mapped to Japanese for visitor-facing nationality/heritage metadata."
     },
     "branka-malinar-2025": {
       "id": "branka-malinar-2025",
@@ -6155,9 +6889,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Croatian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 109,
@@ -6203,7 +6939,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Croatian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Branka Malinar as Croatian; mapped to Croatian for visitor-facing nationality/heritage metadata."
     },
     "david-gilbert-2025": {
       "id": "david-gilbert-2025",
@@ -6220,8 +6961,14 @@
         "Civic Leadership"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Jewish",
+        "Greater Cleveland Sports"
+      ],
+      "approvedCommunityTags": [
+        "Jewish",
+        "Greater Cleveland Sports"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 97,
@@ -6265,7 +7012,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Jewish"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists David Gilbert as Jewish / NA - Greater Cleveland Sports; mapped to Jewish for visitor-facing nationality/heritage metadata."
     },
     "mayor-frank-jackson-2025": {
       "id": "mayor-frank-jackson-2025",
@@ -6283,15 +7035,13 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Ethiopian",
-        "Hungarian",
-        "Italian",
-        "Lebanese",
-        "Polish",
-        "Puerto Rican",
-        "Russian"
+        "African-American",
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "African-American",
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 97,
@@ -6334,7 +7084,13 @@
       "curatorNotes": [
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need."
-      ]
+      ],
+      "countryTagCandidates": [
+        "African-American",
+        "Italian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Mayor Frank Jackson as African American and Italian; mapped to African-American, Italian for visitor-facing nationality/heritage metadata."
     },
     "raj-aggarwal-2025": {
       "id": "raj-aggarwal-2025",
@@ -6353,8 +7109,12 @@
         "Science and Technology"
       ],
       "approvedThemeTags": [],
-      "communityTagCandidates": [],
-      "approvedCommunityTags": [],
+      "communityTagCandidates": [
+        "Asian"
+      ],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 102,
@@ -6398,7 +7158,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Indian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Raj Aggarwal as Indian; mapped to Indian for visitor-facing nationality/heritage metadata."
     },
     "svetlana-stolyarova-2025": {
       "id": "svetlana-stolyarova-2025",
@@ -6418,9 +7183,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Russian"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 103,
@@ -6465,7 +7232,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Russian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Svetlana Stolyarova as Russian; mapped to Russian for visitor-facing nationality/heritage metadata."
     },
     "aklilu-demessie-2026": {
       "id": "aklilu-demessie-2026",
@@ -6485,9 +7257,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Ethiopian"
+        "African"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "African"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 117,
@@ -6531,7 +7305,12 @@
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags.",
         "Generated summary is truncated and should be rewritten for final display."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Ethiopian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Aklilu Demessie as Ethiopian; mapped to Ethiopian for visitor-facing nationality/heritage metadata."
     },
     "andy-chakalis-2026": {
       "id": "andy-chakalis-2026",
@@ -6550,10 +7329,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Greek",
-        "Indian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 109,
@@ -6596,7 +7376,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Greek"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Andy Chakalis as Greek; mapped to Greek for visitor-facing nationality/heritage metadata."
     },
     "andy-fedynsky-2026": {
       "id": "andy-fedynsky-2026",
@@ -6616,10 +7401,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Russian",
-        "Ukrainian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 112,
@@ -6663,7 +7449,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Ukrainian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Andy Fedynsky as Ukrainian; mapped to Ukrainian for visitor-facing nationality/heritage metadata."
     },
     "catherine-jorgensen-mccutcheon-2026": {
       "id": "catherine-jorgensen-mccutcheon-2026",
@@ -6682,9 +7473,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Norwegian"
+        "European"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "European"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 110,
@@ -6727,7 +7520,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Norwegian"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Catherine Jorgensen McCutcheon as Norwegian; mapped to Norwegian for visitor-facing nationality/heritage metadata."
     },
     "le-nguyen-2026": {
       "id": "le-nguyen-2026",
@@ -6746,9 +7544,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Vietnamese"
+        "Asian"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Asian"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 110,
@@ -6790,7 +7590,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Vietnamese"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Le Nguyen as Vietnamese; mapped to Vietnamese for visitor-facing nationality/heritage metadata."
     },
     "lucy-torres-2026": {
       "id": "lucy-torres-2026",
@@ -6810,9 +7615,11 @@
       ],
       "approvedThemeTags": [],
       "communityTagCandidates": [
-        "Puerto Rican"
+        "Hispanic"
       ],
-      "approvedCommunityTags": [],
+      "approvedCommunityTags": [
+        "Hispanic"
+      ],
       "featured": false,
       "featuredCandidate": true,
       "attractPriority": 112,
@@ -6855,7 +7662,12 @@
         "Featured candidate based on media completeness, recency, and story depth.",
         "Video exists; verify local file, rights, captions, transcript, and audio-description need.",
         "Multiple generated themes; curator should trim to strongest public-facing tags."
-      ]
+      ],
+      "countryTagCandidates": [
+        "Puerto Rican"
+      ],
+      "approvedCountryTags": [],
+      "countryNotes": "Class-country attachment lists Lucy Torres as Puerto Rican; mapped to Puerto Rican for visitor-facing nationality/heritage metadata."
     }
   }
 }

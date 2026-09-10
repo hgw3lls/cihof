@@ -20,6 +20,9 @@ const mediaManifestOutputPath = resolve('public/data/media-manifest.json');
 const physicalWallOutputPath = resolve('public/data/physical-wall-positions.json');
 const sourceCurationSourcePath = resolve('data/original-site-harvest/pre-curation/cihof-pre-curation-packet.json');
 const sourceCurationOutputPath = resolve('public/data/source-curation-packet.json');
+const sourceCurationAddendumPaths = [
+  resolve('data/wrhs_exhibition_research_addendum.json'),
+];
 const runtimeDataBundleOutputPath = resolve('public/data/cihof-runtime-data.json');
 const standardsIndexOutputPath = resolve('public/data/standards-index.json');
 const linkedArtOutputPath = resolve('public/data/linked-art-export.json');
@@ -63,7 +66,7 @@ standardsExport.iiif.manifests.forEach((manifest) => {
 writeFileSync(runtimeDataBundleOutputPath, `${JSON.stringify(runtimeDataBundle, null, 2)}\n`);
 
 console.log(
-  `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions and ${report.countries.length} countries. ` +
+  `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions and ${report.countries.length} nationality/heritage labels. ` +
     `${report.media.withPrimaryImage} have primary images, ${report.media.withVideo} have videos.`,
 );
 console.log(
@@ -329,13 +332,22 @@ function loadSourceCurationPacket() {
     unresolvedSourceRecords: [],
   };
 
-  if (!existsSync(sourceCurationSourcePath)) {
-    return { document: emptyDocument, recordCount: 0 };
-  }
+  const baseDocument = existsSync(sourceCurationSourcePath)
+    ? JSON.parse(readFileSync(sourceCurationSourcePath, 'utf8'))
+    : emptyDocument;
+  const addenda = sourceCurationAddendumPaths
+    .filter((path) => existsSync(path))
+    .map((path) => ({
+      path,
+      document: JSON.parse(readFileSync(path, 'utf8')),
+    }));
+  const document = addenda.reduce(
+    (current, addendum) => mergeSourceCurationPacket(current, addendum.document, addendum.path),
+    normalizeSourceCurationPacket(baseDocument, emptyDocument),
+  );
 
-  const document = JSON.parse(readFileSync(sourceCurationSourcePath, 'utf8'));
   return {
-    document: normalizeSourceCurationPacket(document, emptyDocument),
+    document: withRecountedSourceSummary(document),
     recordCount: Array.isArray(document.curationIndex) ? document.curationIndex.length : 0,
   };
 }
@@ -361,6 +373,112 @@ function normalizeSourceCurationPacket(document, fallback) {
     if (!Array.isArray(normalized[key])) normalized[key] = [];
   });
   return normalized;
+}
+
+function mergeSourceCurationPacket(base, addendum, addendumPath) {
+  const normalizedAddendum = normalizeSourceCurationPacket(addendum, {
+    schemaVersion: 1,
+    source: {},
+    guardrails: {},
+    summary: {},
+    curationIndex: [],
+    sourceProfileReferences: [],
+    profileUrlAliasDrafts: [],
+    duplicateSourceGroups: [],
+    mediaReviewDrafts: [],
+    videoReviewDrafts: [],
+    relationshipReviewDrafts: [],
+    placeReviewDrafts: [],
+    placePhraseReviewDrafts: [],
+    organizationReviewDrafts: [],
+    storySectionReviewDrafts: [],
+    classEvidenceReviewDrafts: [],
+    unresolvedSourceRecords: [],
+  });
+  const sourceAddenda = Array.isArray(base.source?.addenda) ? base.source.addenda : [];
+  const merged = {
+    ...base,
+    source: {
+      ...base.source,
+      addenda: [
+        ...sourceAddenda,
+        {
+          path: addendumPath,
+          ...(normalizedAddendum.source ?? {}),
+        },
+      ],
+    },
+    guardrails: {
+      ...(base.guardrails ?? {}),
+      ...(normalizedAddendum.guardrails ?? {}),
+    },
+    summary: {
+      ...(base.summary ?? {}),
+      ...(normalizedAddendum.summary ?? {}),
+    },
+  };
+
+  [
+    'curationIndex',
+    'sourceProfileReferences',
+    'profileUrlAliasDrafts',
+    'duplicateSourceGroups',
+    'mediaReviewDrafts',
+    'videoReviewDrafts',
+    'relationshipReviewDrafts',
+    'placeReviewDrafts',
+    'placePhraseReviewDrafts',
+    'organizationReviewDrafts',
+    'storySectionReviewDrafts',
+    'classEvidenceReviewDrafts',
+    'unresolvedSourceRecords',
+  ].forEach((key) => {
+    merged[key] = [...(base[key] ?? []), ...(normalizedAddendum[key] ?? [])];
+  });
+
+  return merged;
+}
+
+function withRecountedSourceSummary(document) {
+  return {
+    ...document,
+    summary: {
+      ...(document.summary ?? {}),
+      mediaReviewDrafts: {
+        ...(document.summary?.mediaReviewDrafts ?? {}),
+        total: document.mediaReviewDrafts.length,
+        newSources: document.mediaReviewDrafts.filter((record) => !record.alreadyInMediaManifest).length,
+        highConfidenceNewSources: document.mediaReviewDrafts.filter((record) => !record.alreadyInMediaManifest && (record.confidence ?? 0) >= 0.8).length,
+      },
+      videoReviewDrafts: {
+        ...(document.summary?.videoReviewDrafts ?? {}),
+        total: document.videoReviewDrafts.length,
+        newSources: document.videoReviewDrafts.filter((record) => !record.alreadyInMediaManifest).length,
+      },
+      relationshipReviewDrafts: {
+        ...(document.summary?.relationshipReviewDrafts ?? {}),
+        total: document.relationshipReviewDrafts.length,
+      },
+      placeReviewDrafts: {
+        ...(document.summary?.placeReviewDrafts ?? {}),
+        total: document.placeReviewDrafts.length,
+        nonDirectional: document.placeReviewDrafts.filter((record) => record.migrationDirection !== 'inferred').length,
+      },
+      organizationReviewDrafts: {
+        ...(document.summary?.organizationReviewDrafts ?? {}),
+        total: document.organizationReviewDrafts.length,
+      },
+      storySectionReviewDrafts: {
+        ...(document.summary?.storySectionReviewDrafts ?? {}),
+        total: document.storySectionReviewDrafts.length,
+        primaryLeads: document.storySectionReviewDrafts.filter((record) => record.priority === 'primary-story-lead').length,
+      },
+      classEvidenceReviewDrafts: {
+        ...(document.summary?.classEvidenceReviewDrafts ?? {}),
+        total: document.classEvidenceReviewDrafts.length,
+      },
+    },
+  };
 }
 
 function buildRuntimeDataBundle() {
@@ -717,7 +835,7 @@ function iiifMetadata(inductee) {
   return [
     ['Class Year', inductee.classYear ? String(inductee.classYear) : ''],
     ['Region', inductee.region],
-    ['Countries / heritage tags', inductee.countryTags.join(', ')],
+    ['Nationality / Heritage', inductee.countryTags.join(', ')],
     ['Communities', inductee.communityTags.join(', ')],
     ['Themes', inductee.themeTags.join(', ')],
     ['Review status', inductee.approvalStatus],

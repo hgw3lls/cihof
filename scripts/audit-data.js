@@ -13,7 +13,7 @@ const audit = {
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(audit, null, 2)}\n`);
 
-console.log(`Audit complete: ${report.totalInductees} inductees, ${report.regions.length} regions, ${report.countries.length} countries.`);
+console.log(`Audit complete: ${report.totalInductees} inductees, ${report.regions.length} regions, ${report.countries.length} nationality/heritage labels.`);
 console.log(`Videos missing: ${report.missing.video.length}`);
 console.log(`Primary images missing: ${report.missing.primaryImage.length}`);
 console.log(`Duplicate IDs: ${report.duplicateIds.length}`);

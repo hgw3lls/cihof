@@ -26,8 +26,8 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
   {
     lens: 'traces',
     label: 'TRACES',
-    sublabel: 'PLACES & CONNECTIONS',
-    ariaLabel: 'Arrange Hall by documented places and connections',
+    sublabel: 'HERITAGE & CONNECTIONS',
+    ariaLabel: 'Arrange Hall by heritage and connections',
   },
   {
     lens: 'legacies',

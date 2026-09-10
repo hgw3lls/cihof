@@ -27,7 +27,7 @@ test.describe('persistent Hall final acceptance', () => {
     const firstPersonId = await clickFirstPortrait(page);
     await waitForGuard(page);
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', firstPersonId);
     const traceInfo = page.locator('.living-hall__traceFocus');
     await expect(traceInfo).toBeVisible();
@@ -51,7 +51,7 @@ test.describe('persistent Hall final acceptance', () => {
     const personId = await clickFirstPortrait(page);
     await waitForGuard(page);
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', personId);
     await waitForGuard(page);
 
@@ -59,7 +59,7 @@ test.describe('persistent Hall final acceptance', () => {
     await expectHall(page, 'portraits', personId);
     await waitForGuard(page);
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', personId);
     await expect(page.locator(`button.living-portrait[data-transition-person="${personId}"]`)).toHaveClass(/living-portrait--focused/);
     await expectNoVisitorDestination(page);
@@ -105,7 +105,7 @@ test.describe('persistent Hall final acceptance', () => {
     await waitForGuard(page);
 
     await dismissLegacyFocus(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', target.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${target.id}"]`)).toHaveClass(/living-portrait--focused/);
     await expectNoVisitorDestination(page);
@@ -214,6 +214,15 @@ async function clickFirstPortrait(page: Page) {
 }
 
 async function clickRelatedPortrait(page: Page, currentPersonId: string) {
+  const connection = page.locator(`.living-hall__traceConnection:not([data-trace-person="${currentPersonId}"])`).first();
+  if (await connection.count()) {
+    await expect(connection).toBeVisible();
+    const personId = await connection.getAttribute('data-trace-person');
+    expect(personId).toBeTruthy();
+    await connection.click();
+    return personId ?? '';
+  }
+
   const related = page.locator(`button.living-portrait--emphasis:not(.living-portrait--focused):not([data-transition-person="${currentPersonId}"])`).first();
   await expect(related).toBeVisible();
   const personId = await related.getAttribute('data-transition-person');
@@ -342,9 +351,9 @@ async function readDeepLinkCandidateData(page: Page) {
       && typeof inductee.classYear === 'number'
       && (inductee.countryTags ?? []).some((country) => country && country !== 'United States');
   });
-  if (!candidate || typeof candidate.classYear !== 'number') throw new Error('No deep-link candidate with class year and country tag found.');
+  if (!candidate || typeof candidate.classYear !== 'number') throw new Error('No deep-link candidate with class year and nationality tag found.');
   const country = (candidate.countryTags ?? []).find((tag) => tag && tag !== 'United States') ?? '';
-  if (!country) throw new Error('No presentation country tag found for deep-link candidate.');
+  if (!country) throw new Error('No presentation nationality tag found for deep-link candidate.');
   return {
     id: candidate.id,
     classYear: candidate.classYear,
