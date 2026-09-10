@@ -40,12 +40,24 @@
     {
       "label": {
         "en": [
-          "Countries / heritage tags"
+          "Nationality / Heritage"
         ]
       },
       "value": {
         "en": [
-          "South Korea"
+          "Korean"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asian"
         ]
       }
     },

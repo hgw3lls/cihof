@@ -40,12 +40,24 @@
     {
       "label": {
         "en": [
-          "Countries / heritage tags"
+          "Nationality / Heritage"
         ]
       },
       "value": {
         "en": [
-          "United Kingdom"
+          "Scottish"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "European"
         ]
       }
     },

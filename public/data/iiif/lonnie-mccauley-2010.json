@@ -40,12 +40,24 @@
     {
       "label": {
         "en": [
-          "Countries / heritage tags"
+          "Nationality / Heritage"
         ]
       },
       "value": {
         "en": [
-          "Ireland"
+          "Irish"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "European"
         ]
       }
     },

@@ -113,8 +113,8 @@ function applyRow(record, row, rowNumber, errors, warnings) {
   applyString(row, ['honored_for_summary', 'honored_for'], record, 'honoredForSummary', changed, clearEmpty);
   applyString(row, ['life_work_summary', 'life_and_work_summary'], record, 'lifeWorkSummary', changed, clearEmpty);
   applyList(row, ['approved_theme_tags'], record, 'approvedThemeTags', changed, clearEmpty);
-  applyList(row, ['approved_country_tags', 'approved_countries'], record, 'approvedCountryTags', changed, clearEmpty);
-  applyString(row, ['country_note', 'country_notes'], record, 'countryNotes', changed, clearEmpty);
+  applyList(row, ['approved_country_tags', 'approved_countries', 'approved_nationality_tags', 'approved_nationality_heritage_tags'], record, 'approvedCountryTags', changed, clearEmpty);
+  applyString(row, ['country_note', 'country_notes', 'nationality_note', 'nationality_heritage_note'], record, 'countryNotes', changed, clearEmpty);
   applyList(row, ['approved_community_tags', 'community_tags'], record, 'approvedCommunityTags', changed, clearEmpty);
   applyList(row, ['journey_suggestions'], record, 'journeySuggestions', changed, clearEmpty);
   applyList(row, ['curator_notes'], record, 'curatorNotes', changed, clearEmpty);
@@ -132,10 +132,10 @@ function applyRow(record, row, rowNumber, errors, warnings) {
     const approvedTags = parseList(getCell(row, ['approved_theme_tags']));
     setValue(record, 'approvedThemeTags', approvedTags.length > 0 ? approvedTags : record.approvedThemeTags?.length > 0 ? record.approvedThemeTags : record.themeTagCandidates ?? [], changed);
   }
-  if (readBoolean(row, ['country_tags_approved', 'approve_country_tags'], rowNumber, errors) === true) {
-    const approvedTags = parseList(getCell(row, ['approved_country_tags', 'approved_countries', 'country_tags']));
+  if (readBoolean(row, ['country_tags_approved', 'approve_country_tags', 'nationality_tags_approved', 'approve_nationality_tags', 'nationality_heritage_tags_approved', 'approve_nationality_heritage_tags'], rowNumber, errors) === true) {
+    const approvedTags = parseList(getCell(row, ['approved_country_tags', 'approved_countries', 'country_tags', 'approved_nationality_tags', 'nationality_tags', 'approved_nationality_heritage_tags', 'nationality_heritage_tags']));
     setValue(record, 'approvedCountryTags', approvedTags.length > 0 ? approvedTags : record.approvedCountryTags?.length > 0 ? record.approvedCountryTags : record.countryTagCandidates ?? [], changed);
-    const countryNote = getCell(row, ['country_note', 'country_notes']);
+    const countryNote = getCell(row, ['country_note', 'country_notes', 'nationality_note', 'nationality_heritage_note']);
     if (countryNote !== undefined && countryNote !== '') setValue(record, 'countryNotes', countryNote, changed);
   }
   if (readBoolean(row, ['community_tags_approved', 'approve_community_tags'], rowNumber, errors) === true) {
@@ -293,7 +293,7 @@ function printUsage() {
 
 Supported editable columns include:
   approval_status, review_priority, approve_profile, approved_summary,
-  approved_theme_tags, approved_country_tags, country_note, approved_community_tags,
+  approved_theme_tags, approved_nationality_heritage_tags, nationality_heritage_note, approved_community_tags,
   featured, featured_candidate,
   image_rights_status, image_rights_approved, caption_status, captions_approved,
   transcript_status, transcript_approved, video_rights_status, video_rights_approved,

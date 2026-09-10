@@ -5,13 +5,13 @@ import type { Page } from '@playwright/test';
 const screenshotDir = process.env.CIHOF_FINAL_STEP3_SCREENSHOT_DIR ?? '/tmp/cihof-final-step3';
 
 test.describe('signature TRACES interaction', () => {
-  test('reindexes the Hall around direct, conceptual, and documented place traces', async ({ page }) => {
+  test('reindexes the Hall around direct, conceptual, and nationality traces', async ({ page }) => {
     mkdirSync(screenshotDir, { recursive: true });
     await page.goto('./');
 
     const firstPersonId = await clickFirstPortrait(page);
     await waitForGuard(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectTraceFocus(page, firstPersonId);
     await expectRelationshipCount(page);
     await expect(page.locator('.living-hall__traceEvidenceItem--inferred')).toHaveCount(0);
@@ -45,13 +45,13 @@ test.describe('signature TRACES interaction', () => {
     await screenshotHall(page, '04-follow-the-trace');
 
     await openTraceChooser(page);
-    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
+    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Nationality' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
       await waitForGuard(page);
       await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
-      await expect(page.locator('.living-hall__groupLabel').filter({ hasText: /DOCUMENTED PLACE|CONNECTED PLACE|CONNECTED TO/ }).first()).toBeVisible();
-      await screenshotHall(page, '05-place-trace');
+      await expect(page.locator('.living-hall__groupLabel').filter({ hasText: /NATIONALITY \/ HERITAGE|CONNECTED HERITAGE|CONNECTED TO/ }).first()).toBeVisible();
+      await screenshotHall(page, '05-nationality-trace');
     }
   });
 });
@@ -66,6 +66,16 @@ async function clickFirstPortrait(page: Page) {
 }
 
 async function clickRelatedPortrait(page: Page, currentPersonId: string) {
+  const connection = page.locator(`.living-hall__traceConnection:not([data-trace-person="${currentPersonId}"])`).first();
+  if (await connection.count()) {
+    await expect(connection).toBeVisible();
+    const personId = await connection.getAttribute('data-trace-person');
+    expect(personId).toBeTruthy();
+    await connection.click();
+    await waitForGuard(page);
+    return personId ?? '';
+  }
+
   const portrait = page.locator(`button.living-portrait--emphasis:not(.living-portrait--focused):not([data-transition-person="${currentPersonId}"])`).first();
   await expect(portrait).toBeVisible();
   const personId = await portrait.getAttribute('data-transition-person');

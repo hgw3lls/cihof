@@ -233,8 +233,8 @@ function addMetadataRelationships(
 
   inductee.countryTags.forEach((country) => {
     const countryNode = entityNode({
-      entityId: `country-${country}`,
-      kind: 'place',
+      entityId: `community-${country}`,
+      kind: 'community',
       label: country,
     });
     const provenance: RelationshipProvenance = inductee.countryTagsSource === 'curated' ? 'curated' : 'inferred';
@@ -242,12 +242,12 @@ function addMetadataRelationships(
     addEdge(graph, {
       from: source.id,
       to: countryNode.id,
-      type: 'related_place',
-      label: `Country: ${country}`,
+      type: 'shared_community',
+      label: `Nationality / Heritage: ${country}`,
       provenance,
       referenceNote: provenance === 'curated'
-        ? 'Country in reviewed metadata.'
-        : 'Generated country metadata from source text; needs curatorial review.',
+        ? 'Nationality or heritage label in reviewed metadata.'
+        : 'Generated nationality or heritage metadata from source text; needs curatorial review.',
       source: 'metadata',
     });
   });

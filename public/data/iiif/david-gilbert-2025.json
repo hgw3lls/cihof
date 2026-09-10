@@ -40,12 +40,24 @@
     {
       "label": {
         "en": [
-          "Countries / heritage tags"
+          "Nationality / Heritage"
         ]
       },
       "value": {
         "en": [
-          "United States"
+          "Jewish"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "Jewish, Greater Cleveland Sports"
         ]
       }
     },

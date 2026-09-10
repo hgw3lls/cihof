@@ -46,7 +46,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
 
     await openTraceChooser(page);
-    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
+    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Nationality' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
       await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
@@ -101,7 +101,7 @@ test.describe('museum kiosk smoke', () => {
       await expect(questionDialog).toHaveAttribute('aria-modal', 'true');
       await expectCloseViewTypography(page, 'city question dialog');
 
-      const navBox = await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).boundingBox();
+      const navBox = await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).boundingBox();
       expect(navBox).toBeTruthy();
       await page.mouse.click((navBox?.x ?? 0) + (navBox?.width ?? 0) / 2, (navBox?.y ?? 0) + (navBox?.height ?? 0) / 2);
       await expect(questionDialog).toBeHidden();
@@ -119,7 +119,7 @@ test.describe('museum kiosk smoke', () => {
     }
 
     for (const item of [
-      { label: 'Arrange Hall by documented places and connections', lens: 'traces' },
+      { label: 'Arrange Hall by heritage and connections', lens: 'traces' },
       { label: 'Arrange Hall by induction history', lens: 'legacies' },
     ]) {
       await page.getByRole('button', { name: item.label }).click();
@@ -239,7 +239,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toHaveClass(/living-portrait--focused/);
@@ -270,7 +270,7 @@ test.describe('museum kiosk smoke', () => {
     }
 
     await openTraceChooser(page);
-    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Place' }).first();
+    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Nationality' }).first();
     if (await placeControl.count()) {
       await placeControl.click();
       await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
@@ -303,7 +303,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
@@ -374,7 +374,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
     await dismissLegacyFocus(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${visiblePortrait.id}"]`)).toHaveClass(/living-portrait--focused/);
@@ -482,7 +482,7 @@ test.describe('museum kiosk smoke', () => {
     await expect.poll(() => readLegacyPan(page)).toBe(0);
 
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', '');
   });
@@ -648,9 +648,9 @@ async function readDeepLinkCandidateData(page: Page) {
       && typeof inductee.classYear === 'number'
       && (inductee.countryTags ?? []).some((country) => country && country !== 'United States');
   });
-  if (!candidate || typeof candidate.classYear !== 'number') throw new Error('No deep-link candidate with class year and country tag found.');
+  if (!candidate || typeof candidate.classYear !== 'number') throw new Error('No deep-link candidate with class year and nationality tag found.');
   const country = (candidate.countryTags ?? []).find((tag) => tag && tag !== 'United States') ?? '';
-  if (!country) throw new Error('No presentation country tag found for deep-link candidate.');
+  if (!country) throw new Error('No presentation nationality tag found for deep-link candidate.');
   return {
     id: candidate.id,
     classYear: candidate.classYear,

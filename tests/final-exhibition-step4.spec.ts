@@ -25,7 +25,7 @@ test.describe('final installation choreography screenshots', () => {
     await screenshotHall(page, '02-portraits-focused');
 
     await waitForGuard(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', candidateId);
     await screenshotHall(page, '03-traces');
 

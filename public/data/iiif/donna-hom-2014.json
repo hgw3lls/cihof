@@ -40,12 +40,24 @@
     {
       "label": {
         "en": [
-          "Countries / heritage tags"
+          "Nationality / Heritage"
         ]
       },
       "value": {
         "en": [
-          "China"
+          "Chinese"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "Asian"
         ]
       }
     },

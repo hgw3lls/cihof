@@ -16,7 +16,7 @@ test.describe('focused portrait as in-place record', () => {
     await screenshotHall(page, 'portraits-focus');
 
     await waitForGuard(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', candidate.id);
     await screenshotHall(page, 'traces-focus');
 

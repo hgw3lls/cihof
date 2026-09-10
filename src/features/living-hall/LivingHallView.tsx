@@ -24,6 +24,7 @@ import {
   buildHumanNetwork,
   buildPlaceNetwork,
   initialTraceThreadCount,
+  isPresentationReadyGeography,
   relationshipLineLabel,
   relationshipSupportLabel,
   resolvePlaceTraceFocus,
@@ -785,17 +786,21 @@ export function LivingHallView({
     settings.showRecordLayer ? '' : 'living-hall--hide-record-layer',
     `living-hall--motion-${settings.motion}`,
   ].filter(Boolean).join(' ');
+  const legacyVisibleWidthPx = lens === 'legacies'
+    ? legacyVisibleWidth() || hallLayout.viewport.width
+    : hallLayout.viewport.width;
   const legacyForegroundContext = lens === 'legacies'
     ? {
       fieldScale: legacyChronology.fieldScale,
       panPx: legacyPan,
-      visibleWidthPx: legacyVisibleWidth() || hallLayout.viewport.width,
+      visibleWidthPx: legacyVisibleWidthPx,
     }
     : undefined;
   const legacyFieldStyle = lens === 'legacies'
     ? {
       '--legacy-field-width': `${legacyChronology.fieldScale * 100}%`,
       '--legacy-pan': `${legacyPan}px`,
+      '--legacy-visible-width': `${legacyVisibleWidthPx}px`,
     } as CSSProperties & Record<string, string>
     : undefined;
   const focusedCardPlacement = focusedPosition
@@ -1041,32 +1046,6 @@ export function LivingHallView({
           />
         )}
 
-        {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
-          <PortraitFocusCard
-            activeLegacyGroup={activeLegacyGroup}
-            activeLegacyYear={activeLegacyYear}
-            inductee={focusedPerson}
-            action={activePersonAction}
-            continuationAvailable={Boolean(focusedContinuationUrl)}
-            fullTextAvailable={focusedFullTextAvailable}
-            legacyChronology={legacyChronology}
-            lens={lens}
-            mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
-            placement={focusedCardPlacement}
-            traceContext={traceContext}
-            visitCollectionEnabled={qrEnabled}
-            visitCollectionCount={visitCollectionPeople.length}
-            visitCollectionLimit={visitCollectionLimit}
-            visitCollectionSaved={focusedVisitSaved}
-            onClose={onCloseFocus}
-            onFollowTrace={openTraceChooser}
-            onLegacyJump={changeLegacyClass}
-            onSelectPerson={selectPortrait}
-            onSetAction={setHallPersonAction}
-            onToggleVisitCollection={toggleFocusedVisitCollection}
-          />
-        )}
-
         {!loading && !error && focusedPerson && focusedActionPlacement && activePersonAction !== 'overview' && !attractActive && (
           <PersonFocusActionPanel
             action={activePersonAction}
@@ -1087,6 +1066,32 @@ export function LivingHallView({
 
         {!loading && error && <div className="living-hall__status">Data error: {error}</div>}
       </div>
+
+      {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
+        <PortraitFocusCard
+          activeLegacyGroup={activeLegacyGroup}
+          activeLegacyYear={activeLegacyYear}
+          inductee={focusedPerson}
+          action={activePersonAction}
+          continuationAvailable={Boolean(focusedContinuationUrl)}
+          fullTextAvailable={focusedFullTextAvailable}
+          legacyChronology={legacyChronology}
+          lens={lens}
+          mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
+          placement={focusedCardPlacement}
+          traceContext={traceContext}
+          visitCollectionEnabled={qrEnabled}
+          visitCollectionCount={visitCollectionPeople.length}
+          visitCollectionLimit={visitCollectionLimit}
+          visitCollectionSaved={focusedVisitSaved}
+          onClose={onCloseFocus}
+          onFollowTrace={openTraceChooser}
+          onLegacyJump={changeLegacyClass}
+          onSelectPerson={selectPortrait}
+          onSetAction={setHallPersonAction}
+          onToggleVisitCollection={toggleFocusedVisitCollection}
+        />
+      )}
 
       {activeLightboxUrl && focusedPerson && (
         <div className="lightbox living-hall__lightbox" role="dialog" aria-label={`${focusedPerson.name} image viewer`}>
@@ -1376,7 +1381,7 @@ function PortraitFocusCard({
             onClick={onFollowTrace}
           >
             <span>FOLLOW THE TRACE →</span>
-            <small id={traceDescriptionId}>People, places, and class ties</small>
+            <small id={traceDescriptionId}>People, heritage, and class ties</small>
           </button>
           <button
             type="button"
@@ -1480,7 +1485,7 @@ function TraceFocusConnections({
     ? 'Direct ties'
     : context.mode === 'concept'
       ? 'Shared concept'
-      : 'Place trace';
+      : 'Nationality trace';
 
   return (
     <section className="living-hall__traceFocus" aria-label={`${activePerson.name} connection context`}>
@@ -1521,7 +1526,7 @@ function TraceFocusConnections({
           })}
         </ol>
       ) : (
-        <p className="living-hall__traceFocusEmpty">Choose a trace mode to reveal nearby documented people, places, and concepts.</p>
+        <p className="living-hall__traceFocusEmpty">Choose a trace mode to reveal nearby documented people, communities, and concepts.</p>
       )}
     </section>
   );
@@ -1859,15 +1864,17 @@ function legacyVisibleCohortPeople(people: Inductee[], activePersonId: string, l
 }
 
 function portraitShortFacts(inductee: Inductee): PortraitFocusFact[] {
-  const supportedPlaces = explicitTags(inductee.countryTags, inductee.countryTagsSource).slice(0, 2);
-  const place = supportedPlaces.join(' / ') || inductee.region;
+  const supportedNationalities = isPresentationReadyGeography(inductee)
+    ? inductee.countryTags.slice(0, 2)
+    : [];
+  const nationality = supportedNationalities.join(' / ');
   const community = inductee.communityTags.slice(0, 2).join(' / ') || explicitTags(inductee.themeTags, inductee.themeTagsSource)[0] || '';
   const biographyWords = fullBiographyWordCount(inductee);
   const facts: PortraitFocusFact[] = [
     { label: 'Class', value: inductee.classYear ? String(inductee.classYear) : 'Pending' },
-    { label: 'Place', value: compactFactValue(place || 'CIHOF') },
-    { label: 'Community', value: compactFactValue(community || inductee.region || 'CIHOF') },
   ];
+  if (nationality) facts.push({ label: 'Nationality', value: compactFactValue(nationality) });
+  if (community || inductee.region) facts.push({ label: 'Community', value: compactFactValue(community || inductee.region) });
 
   if (inductee.inductedBy) facts.push({ label: 'Inducted By', value: compactFactValue(inductee.inductedBy) });
   if (facts.length < 4 && biographyWords > 0) facts.push({ label: 'Text', value: `${biographyWords} words` });
@@ -2076,7 +2083,7 @@ function lensStatusItems({
       return [
         { label: 'Records', value: String(allPeopleCount) },
         { label: 'Concepts', value: String(traceContext.conceptChoices.length) },
-        { label: 'Places', value: String(traceContext.placeChoices.length) },
+        { label: 'Nationalities', value: String(traceContext.placeChoices.length) },
       ];
     }
 
@@ -2223,7 +2230,7 @@ function TracePanel({
   const traceMetrics = [
     { label: 'Direct', value: context.directThreads.length },
     { label: 'Concept', value: context.conceptChoices.length },
-    { label: 'Place', value: context.placeChoices.length },
+    { label: 'Nationality', value: context.placeChoices.length },
   ];
 
   return (
@@ -2262,7 +2269,7 @@ function TracePanel({
                 type="button"
                 onClick={() => onTraceFocusChange(choice.key)}
               >
-                <span>{choice.kind === 'direct' ? 'Trace' : choice.kind === 'place' ? 'Place' : 'Concept'}</span>
+                <span>{choice.kind === 'direct' ? 'Trace' : choice.kind === 'place' ? 'Nationality' : 'Concept'}</span>
                 <strong>{choice.label}</strong>
                 {choice.detail && <small>{choice.detail}</small>}
               </button>
@@ -2571,7 +2578,7 @@ function buildTraceHallMode(
       ...baseMode,
       id: 'traces-awaiting-focus',
       title: 'TRACES',
-      subtitle: 'Focus a portrait to reorganize the Hall by reviewed ties, concepts, and places',
+      subtitle: 'Focus a portrait to reorganize the Hall by reviewed ties, concepts, and nationality or heritage',
       labels: [
         { id: 'traces-awaiting-focus', text: 'TRACES', detail: 'Touch a portrait', x: 50, y: 50 },
         ...baseMode.labels.slice(0, 2),
@@ -2777,7 +2784,7 @@ function traceModeId(context: TraceContext) {
 function traceModeSubtitle(context: TraceContext) {
   if (!context.activePerson) return 'Touch a portrait to begin';
   if (context.mode === 'concept') return `${context.activeConcept?.lens.label ?? 'Concept'} trace around ${context.activePerson.name}`;
-  if (context.mode === 'place') return `${context.placeFocus.label} trace around ${context.activePerson.name}`;
+  if (context.mode === 'place') return `${context.placeFocus.label} nationality trace around ${context.activePerson.name}`;
   return `Reviewed ties around ${context.activePerson.name}`;
 }
 
@@ -2796,7 +2803,7 @@ function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[]
     labels.push({
       id: 'trace-mode-label',
       text: modeLabel,
-      detail: context.mode === 'concept' ? 'FOLLOW THE TRACE' : 'DOCUMENTED PLACE',
+      detail: context.mode === 'concept' ? 'FOLLOW THE TRACE' : 'NATIONALITY / HERITAGE',
       x: 82,
       y: 18,
     });
@@ -2812,7 +2819,7 @@ function tracePlaceLabels(context: TraceContext): HallLabel[] {
     return countries.map((country, index) => ({
       id: `trace-place-${country.id}`,
       text: country.label.toUpperCase(),
-      detail: 'CONNECTED PLACE',
+      detail: 'CONNECTED HERITAGE',
       x: [18, 82, 72][index] ?? 82,
       y: [18, 74, 13][index] ?? 74,
     }));
@@ -3011,11 +3018,11 @@ function buildHallModes(inductees: Inductee[], layout: HallLayoutMetrics) {
 
   const geographyMode = buildExplicitTagMode({
     id: 'geography',
-    title: 'PLACE TRACES',
-    subtitle: 'Grouped by curated geography metadata',
+    title: 'NATIONALITY TRACES',
+    subtitle: 'Grouped by nationality and heritage metadata',
     inductees,
     layout,
-    tagSource: (inductee) => explicitTags(inductee.countryTags, inductee.countryTagsSource),
+    tagSource: (inductee) => isPresentationReadyGeography(inductee) ? inductee.countryTags : [],
   });
   if (geographyMode) modes.push(geographyMode);
 

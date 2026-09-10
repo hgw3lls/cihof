@@ -5,7 +5,7 @@ import {
   type ConnectionEdge,
   type ConnectionNode,
 } from '../../data/connectionGraph';
-import { countryOrRegionLabel } from '../../data/inducteeLabels';
+import { countryCommunityOrRegionLabel } from '../../data/inducteeLabels';
 import {
   honoredForSummary as buildDefaultHonoredForSummary,
   inducteeContextLabel,
@@ -1216,7 +1216,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       <div className="review-metrics" aria-label="Review metrics">
         <MetricCard label="Profiles" value={summary.totalProfiles} detail={`${summary.approvedProfiles} approved / ${summary.draftProfiles} draft`} />
         <MetricCard label="Open Drafts" value={draftCount} detail={`${summary.draftApprovedProfiles} profile approvals staged`} />
-        <MetricCard label="Countries" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
+        <MetricCard label="Nationality" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
         <MetricCard label="Hall Copy" value={summary.focusedCopyReady} detail={`${summary.focusedCopyNeeded} profile panels need focused copy / ${summary.draftFocusedCopy} staged`} />
         <MetricCard label="Summaries" value={summary.approvedSummaries} detail={`${summary.summaryDrafts} draft / ${summary.draftApprovedSummaries} staged`} />
         <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesWallReady} wall-ready / ${summary.primaryImagesReady} cleared`} />
@@ -1245,7 +1245,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
             <div className="review-controls portal-controls" aria-label="Review filters">
               <label className="field field--search">
                 <span>Search</span>
-                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, id, country, year, story, tag" type="search" />
+                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, id, nationality, year, story, tag" type="search" />
               </label>
               <label className="field">
                 <span>Queue</span>
@@ -1275,7 +1275,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
                     <strong>{inductee.name}</strong>
                     {drafts[inductee.id] && <em>Edited</em>}
                   </span>
-                  <small>{inductee.classYear ?? 'Year unknown'} / {countryOrRegionLabel(inductee)}</small>
+                  <small>{inductee.classYear ?? 'Year unknown'} / {countryCommunityOrRegionLabel(inductee)}</small>
                   <span className="portal-queue-row__needs">{formatNeeds(getReviewNeeds(inductee, reports.curation, reports.media, drafts[inductee.id]))}</span>
                 </button>
               ))}
@@ -1854,8 +1854,8 @@ function buildSourceCandidateRows(packet: SourceCurationPacket): SourceCandidate
         ['Scope hint', record.placeScopeHint],
         ['Evidence count', record.evidenceCount],
         ['Evidence types', record.evidenceTypes?.join('; ')],
-        ['Existing countries', record.existingCountryTags?.join('; ')],
-        ['Country candidates', record.inferredCountryTags?.join('; ')],
+        ['Existing nationality tags', record.existingCountryTags?.join('; ')],
+        ['Nationality candidates', record.inferredCountryTags?.join('; ')],
         ['Safeguard', record.safeguardStatus],
         ['Migration direction', record.migrationDirection],
         ['Source pages', record.sourcePageUrls?.join('; ')],
@@ -1890,8 +1890,8 @@ function buildSourceCandidateRows(packet: SourceCurationPacket): SourceCandidate
         ['Phrase', record.phraseLabel],
         ['Quality', record.phraseQuality],
         ['Evidence count', record.evidenceCount],
-        ['Existing countries', record.existingCountryTags?.join('; ')],
-        ['Country candidates', record.inferredCountryTags?.join('; ')],
+        ['Existing nationality tags', record.existingCountryTags?.join('; ')],
+        ['Nationality candidates', record.inferredCountryTags?.join('; ')],
         ['Safeguard', record.safeguardStatus],
         ['Migration direction', record.migrationDirection],
         ['Source pages', record.sourcePageUrls?.join('; ')],
@@ -2789,7 +2789,7 @@ function StoryLensPreview({
               />
               <div>
                 <strong>{match.inductee.name}</strong>
-                <span>{match.inductee.classYear ? `Class of ${match.inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(match.inductee)}</span>
+                <span>{match.inductee.classYear ? `Class of ${match.inductee.classYear}` : 'Year unknown'} / {countryCommunityOrRegionLabel(match.inductee)}</span>
                 <small>{match.reasons.join(' / ') || `Score ${match.score}`}</small>
               </div>
               <div className="portal-lens-preview-person__actions">
@@ -3047,7 +3047,7 @@ function RelationshipNodeCard({ node, label }: { node: ConnectionNode; label: st
       )}
       <span>{label} / {nodeKindLabel(node.kind)}</span>
       <strong>{node.label}</strong>
-      {node.inductee && <small>{node.inductee.classYear ? `Class of ${node.inductee.classYear}` : 'Year unknown'} / {countryOrRegionLabel(node.inductee)}</small>}
+      {node.inductee && <small>{node.inductee.classYear ? `Class of ${node.inductee.classYear}` : 'Year unknown'} / {countryCommunityOrRegionLabel(node.inductee)}</small>}
     </div>
   );
 }
@@ -3258,7 +3258,7 @@ function ProfileEditor({
         <div className="portal-editor__identity">
           <span className="portal-editor__eyebrow">Selected Profile</span>
           <h3>{inductee.name}</h3>
-          <p>{inductee.classYear ?? 'Year unknown'} / {countryOrRegionLabel(inductee)}</p>
+          <p>{inductee.classYear ?? 'Year unknown'} / {countryCommunityOrRegionLabel(inductee)}</p>
         </div>
         <div className="portal-editor__actions">
           <span className={saveState.ok ? 'portal-save-state portal-save-state--ok' : 'portal-save-state portal-save-state--bad'}>
@@ -3414,11 +3414,11 @@ function ProfileEditor({
             <textarea value={joinList(approvedThemeTags)} onChange={(event) => onPatch({ approvedThemeTags: parseListInput(event.target.value) })} rows={4} />
           </label>
           <label className="field">
-            <span>Approved countries</span>
+            <span>Approved nationality / heritage</span>
             <textarea value={joinList(approvedCountryTags)} onChange={(event) => onPatch({ approvedCountryTags: parseListInput(event.target.value) })} rows={3} />
           </label>
           <label className="field">
-            <span>Country note</span>
+            <span>Nationality note</span>
             <textarea value={countryNotes} onChange={(event) => onPatch({ countryNotes: event.target.value })} rows={3} />
           </label>
           <label className="field">
@@ -3432,7 +3432,7 @@ function ProfileEditor({
             </label>
             <label className="portal-check">
               <input checked={Boolean(draft?.countryTagsApproved)} onChange={(event) => onPatch({ countryTagsApproved: event.target.checked })} type="checkbox" />
-              <span>Approve countries</span>
+              <span>Approve nationality</span>
             </label>
             <label className="portal-check">
               <input checked={Boolean(draft?.communityTagsApproved)} onChange={(event) => onPatch({ communityTagsApproved: event.target.checked })} type="checkbox" />
@@ -3604,7 +3604,7 @@ function ReadinessPanel({
       </div>
       <div className="portal-readiness__grid">
         <ReadinessCard title="Profile approval" ready={summary.approvedProfiles + summary.draftApprovedProfiles} total={summary.totalProfiles} action="Open high priority" onClick={() => onQueueChange('high')} />
-        <ReadinessCard title="Country labels" ready={summary.approvedCountries + summary.draftApprovedCountries} total={summary.totalProfiles} action="Review countries" onClick={() => onQueueChange('country')} ids={countryIds} />
+        <ReadinessCard title="Nationality labels" ready={summary.approvedCountries + summary.draftApprovedCountries} total={summary.totalProfiles} action="Review nationality" onClick={() => onQueueChange('country')} ids={countryIds} />
         <ReadinessCard title="Summaries" ready={summary.approvedSummaries + summary.draftApprovedSummaries} total={summary.totalProfiles} action="Review summaries" onClick={() => onQueueChange('summary')} />
         <ReadinessCard title="Portrait wall images" ready={summary.primaryImagesWallReady} total={summary.totalProfiles} action="Review images" onClick={() => onQueueChange('image-rights')} ids={imageIds} />
         <ReadinessCard title="Primary image rights" ready={summary.primaryImagesReady + summary.draftApprovedImages} total={summary.totalProfiles} action="Review images" onClick={() => onQueueChange('image-rights')} ids={imageIds} />
@@ -4250,7 +4250,7 @@ function buildQueueOptions(inductees: Inductee[], curation: CurationReport | nul
     { mode: 'high', label: 'High priority' },
     { mode: 'edited', label: 'Local draft edits' },
     { mode: 'focused-copy', label: 'Focused Hall copy' },
-    { mode: 'country', label: 'Country review' },
+    { mode: 'country', label: 'Nationality review' },
     { mode: 'summary', label: 'Summary drafts' },
     { mode: 'themes', label: 'Theme candidates' },
     { mode: 'image-rights', label: 'Image rights' },
@@ -4279,8 +4279,8 @@ function buildActionItems(summary: ReturnType<typeof buildDashboardSummary>, dra
   }
   if (summary.countryNeedsReview > summary.draftApprovedCountries) {
     items.push({
-      label: 'Approve Countries',
-      detail: `${summary.countryNeedsReview - summary.draftApprovedCountries} country labels still need review`,
+      label: 'Approve Nationality',
+      detail: `${summary.countryNeedsReview - summary.draftApprovedCountries} nationality labels still need review`,
       queue: 'country',
       priority: 1,
     });
@@ -4382,11 +4382,11 @@ function getDraftIssues(inductee: Inductee, draft: ReviewDraft | undefined, medi
   }
   if (draft.summaryApproved && approvedSummary.length < 80) add('Approved summary is very short or empty.', 'error');
   if (draft.themeTagsApproved && (draft.approvedThemeTags?.length ?? 0) === 0) add('Theme approval is checked but no approved themes are staged.', 'error');
-  if (draft.countryTagsApproved && (draft.approvedCountryTags?.length ?? 0) === 0) add('Country approval is checked but no approved countries are staged.', 'error');
+  if (draft.countryTagsApproved && (draft.approvedCountryTags?.length ?? 0) === 0) add('Nationality approval is checked but no approved nationality or heritage labels are staged.', 'error');
   if (draft.communityTagsApproved && (draft.approvedCommunityTags?.length ?? 0) === 0) add('Community approval is checked but no approved communities are staged.');
   if (draft.approveProfile && !draft.summaryApproved && !draft.approvedSummary) add('Profile approval is staged before summary approval.');
   if (draft.approveProfile && !draft.countryTagsApproved && (draft.approvedCountryTags?.length ?? 0) === 0 && inductee.countryTagsSource !== 'curated') {
-    add('Profile approval is staged before country metadata is curator-approved.');
+    add('Profile approval is staged before nationality or heritage metadata is curator-approved.');
   }
   if (draft.primaryImageAltText !== undefined && draft.primaryImageAltText.trim().length < 20) add('Primary image alt text is very short.');
   if (draft.imageRightsApproved && draft.imageRightsStatus && draft.imageRightsStatus !== 'approved') add('Image rights approval conflicts with a non-approved rights status.', 'error');
@@ -4482,7 +4482,7 @@ function buildProfileReadinessChecklist(
       id: 'metadata',
       label: 'Story metadata',
       status: metadataReady ? 'ready' : metadataDrafted ? 'drafted' : 'needed',
-      detail: metadataReady ? 'Theme and country metadata are curated or staged' : 'Theme/country metadata still needs review',
+      detail: metadataReady ? 'Theme and nationality metadata are curated or staged' : 'Theme/nationality metadata still needs review',
     },
     {
       id: 'portrait-media',
@@ -4555,7 +4555,7 @@ function getReviewNeeds(inductee: Inductee, curation: CurationReport | null, med
   if (!focusedCopyReady && !focusedCopyDrafted) needs.push('Stage focused Hall copy');
   if (!summaryApproved) needs.push('Approve or rewrite story summary');
   if (!themesApproved) needs.push('Approve theme tags');
-  if (!countriesApproved) needs.push('Approve country tags');
+  if (!countriesApproved) needs.push('Approve nationality tags');
   if (inductee.featuredCandidate && !inductee.featured && draft?.featured !== true) needs.push('Featured story decision');
   if (!imageApproved || hasId(curation?.media?.imageRightsReviewNeeded, inductee.id) || hasId(media?.summary?.imageRightsNeedsReview, inductee.id)) {
     needs.push('Approve primary image rights');
@@ -5046,11 +5046,11 @@ function buildReviewCsv(inductees: Inductee[], curation: CurationReport | null, 
     'sort_name',
     'pronunciation',
     'class_year',
-    'country_tags',
-    'country_source',
-    'country_note',
-    'approved_country_tags',
-    'country_tags_approved',
+    'nationality_heritage_tags',
+    'nationality_heritage_source',
+    'nationality_heritage_note',
+    'approved_nationality_heritage_tags',
+    'nationality_heritage_tags_approved',
     'region',
     'profile_url',
     'approval_status',

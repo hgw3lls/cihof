@@ -48,7 +48,7 @@ test.describe('state-of-art guardrails', () => {
     await expectTouchTargets(page, 'focused portrait');
 
     await waitForGuard(page);
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expectTouchTargets(page, 'traces');
 
@@ -138,7 +138,7 @@ test.describe('state-of-art guardrails', () => {
         await closePersonActionPanel(page);
 
         await waitForGuard(page);
-        await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+        await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
         await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
         await expect(page.locator('.living-hall__focusCard')).toBeVisible();
         await expectForegroundGeometry(page, `traces focus ${viewport.width}x${viewport.height}`);

@@ -19,7 +19,7 @@ test.describe('production PortraitFrame system', () => {
     await expectFrameState(page, id, 'standard');
     await screenshotFrame(page, id, 'standard');
 
-    await page.getByRole('button', { name: 'Arrange Hall by documented places and connections' }).click();
+    await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await waitForGuard(page);
     await expectFrameState(page, id, 'trace');

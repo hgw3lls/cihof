@@ -62,7 +62,7 @@ export const initialTraceThreadCount = 6;
 export const maxTraceThreadCount = 8;
 export const maxConceptThreadChoices = 4;
 export const internationalCountryExclusions = new Set(['United States']);
-export const presentationReadySourceNotes = /Profile states|Profile identifies|Profile references|Profile centers|Profile describes|Profile names|born in|immigrated|emigrated|came to|arrived|Honorary Consul|first person of/i;
+export const presentationReadySourceNotes = /Profile states|Profile identifies|Profile references|Profile centers|Profile describes|Profile names|Class-country attachment lists|born in|immigrated|emigrated|came to|arrived|Honorary Consul|first person of/i;
 export const withheldSourceNotes = /needs curator confirmation|requires curator confirmation|pending review|suggests|no specific international origin|no specific country|born in Cleveland|born in La Grange|raised in Columbus/i;
 
 export function buildConceptThreads(active: Inductee, inductees: Inductee[], lenses: StoryLensConfig[]): ConceptThread[] {
@@ -136,8 +136,8 @@ export function buildPlaceNetwork(active: Inductee, focus: PlaceTraceFocus, dire
         type: 'related_place',
         label: `Connected to: ${label}`,
         detail: focus.kind === 'country'
-          ? `Both records include presentation-ready CIHOF place references for ${focus.label}.`
-          : 'This portrait is part of a presentation-ready CIHOF place trace.',
+          ? `Both records include presentation-ready CIHOF nationality or heritage labels for ${focus.label}.`
+          : 'This portrait is part of a presentation-ready CIHOF nationality or heritage trace.',
         provenance: directThread?.reasons[0]?.provenance ?? 'curated',
         score: 76 + (directThread ? 40 : 0),
       };
@@ -265,7 +265,7 @@ export function buildHumanNetwork(active: Inductee, inductees: Inductee[], relat
       addReason(candidate, {
         type: 'related_place',
         label: `Connected to: ${place}`,
-        detail: 'Both records include a reviewed place association.',
+        detail: 'Both records include a reviewed nationality or heritage association.',
         provenance: 'curated',
         score: 34,
       });
@@ -309,7 +309,7 @@ export function relationshipTypeLabel(type: RelationshipType) {
     mentor: 'Mentor',
     colleague: 'Colleague',
     family: 'Family',
-    related_place: 'Place',
+    related_place: 'Nationality',
     related_event: 'Event',
   };
   return labels[type];
@@ -445,7 +445,7 @@ export function resolvePlaceTraceFocus(model: GeographyTraceModel, focusKey: str
   return {
     kind: 'all',
     key: '',
-    label: 'Documented Places',
+    label: 'Nationality / Heritage',
     people: model.people,
     countries: model.countries,
   };
@@ -462,9 +462,49 @@ export function personPlaceLabel(person: Inductee, focus: PlaceTraceFocus) {
 }
 
 export function countryRegion(country: string, fallback: string) {
-  if (country === 'Puerto Rico' || country === 'Mexico') return 'North America';
-  if (country === 'Ethiopia' || country === 'Egypt') return 'Africa';
-  if (['China', 'India', 'Japan', 'Lebanon', 'Russia', 'South Korea', 'Syria', 'Vietnam'].includes(country)) return 'Asia';
+  const communities: Record<string, string> = {
+    Albanian: 'European',
+    Armenian: 'Middle Eastern',
+    British: 'European',
+    'Carpatho-Rusyn': 'European',
+    Chinese: 'Asian',
+    Colombian: 'Hispanic',
+    Croatian: 'European',
+    Czech: 'European',
+    Dutch: 'European',
+    Egyptian: 'Middle Eastern',
+    Estonian: 'European',
+    Ethiopian: 'African',
+    German: 'European',
+    Greek: 'European',
+    Hungarian: 'European',
+    Indian: 'Asian',
+    Irish: 'European',
+    Italian: 'European',
+    Japanese: 'Asian',
+    Korean: 'Asian',
+    Latvian: 'European',
+    Lebanese: 'Middle Eastern',
+    Lithuanian: 'European',
+    Mexican: 'Hispanic',
+    Norwegian: 'European',
+    Polish: 'European',
+    'Puerto Rican': 'Hispanic',
+    Romanian: 'European',
+    Russian: 'Asian',
+    Scottish: 'European',
+    Serbian: 'European',
+    Sikh: 'Asian',
+    Slovenian: 'European',
+    Spanish: 'Hispanic',
+    Syrian: 'Middle Eastern',
+    Ukrainian: 'European',
+    Vietnamese: 'Asian',
+  };
+  if (country === 'United States' || country === 'American') return 'International';
+  if (country === 'African-American') return 'African-American';
+  if (country === 'Jewish') return 'Jewish';
+  if (communities[country]) return communities[country];
   return fallback || 'International';
 }
 

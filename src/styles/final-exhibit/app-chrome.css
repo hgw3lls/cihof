@@ -1,0 +1,597 @@
+/* App chrome: command bar, mode rail, and docked profile inspector. */
+.museum-shell:not(.museum-shell--staff),
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk {
+  --app-topbar-height: clamp(74px, 8.4vh, 96px);
+  --app-rail-width: clamp(92px, 7.4vw, 120px);
+  --app-shell-gap: clamp(10px, 1.2vw, 18px);
+  --app-inspector-width: clamp(330px, 28vw, 430px);
+  --experience-dock-height: clamp(18px, 2.2vh, 30px);
+  grid-template-rows: minmax(0, 1fr);
+  background:
+    linear-gradient(180deg, rgba(27, 29, 21, 0.98), rgba(18, 18, 15, 0.98)),
+    #181814;
+  color: var(--exhibit-ink);
+  padding:
+    calc(var(--app-topbar-height) + var(--app-shell-gap))
+    var(--app-shell-gap)
+    var(--app-shell-gap)
+    calc(var(--app-rail-width) + var(--app-shell-gap));
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-rail,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 4300;
+  width: auto;
+  height: var(--app-topbar-height);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(128px, 190px) minmax(280px, 1fr) minmax(0, auto) auto;
+  align-items: center;
+  gap: clamp(10px, 1vw, 18px);
+  border-bottom: 1px solid rgba(244, 234, 211, 0.14);
+  background:
+    linear-gradient(180deg, rgba(34, 35, 27, 0.98), rgba(24, 24, 20, 0.98)),
+    #202018;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26);
+  color: rgba(244, 234, 211, 0.92);
+  padding: clamp(9px, 1vh, 13px) var(--app-shell-gap);
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand span {
+  color: rgba(244, 234, 211, 0.68);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.84rem, 0.9vw, 1rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 740;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand strong {
+  display: block;
+  overflow: hidden;
+  color: #f4ead3;
+  font-family: var(--font-exhibit-nav);
+  font-size: clamp(1rem, 1.5vw, 1.45rem);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 0.96;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-command {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: min(720px, 100%);
+  display: grid;
+  gap: 5px;
+}
+
+.museum-command__label {
+  color: rgba(244, 234, 211, 0.58);
+  font-family: var(--font-exhibit-label);
+  font-size: 0.68rem;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 680;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-command__box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(244, 234, 211, 0.16);
+  border-radius: 8px;
+  background: rgba(244, 234, 211, 0.1);
+  box-shadow: inset 0 1px 0 rgba(244, 234, 211, 0.08);
+  padding: 5px;
+}
+
+.museum-command__box:focus-within {
+  border-color: rgba(179, 111, 64, 0.86);
+  background: rgba(244, 234, 211, 0.14);
+}
+
+.museum-command input {
+  min-width: 0;
+  min-height: 38px;
+  border: 0;
+  background: transparent;
+  color: #f7efdf;
+  padding: 0 8px;
+  outline: 0;
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.88rem, 1vw, 1rem);
+  letter-spacing: 0;
+  line-height: 1.1;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.museum-command input::placeholder {
+  color: rgba(244, 234, 211, 0.44);
+  opacity: 1;
+}
+
+.museum-command button {
+  cursor: pointer;
+}
+
+.museum-command__box button {
+  min-height: 36px;
+  border: 1px solid rgba(244, 234, 211, 0.18);
+  border-radius: 6px;
+  background: rgba(118, 126, 83, 0.88);
+  color: #f9f1e1;
+  padding: 0 13px;
+  font-family: var(--font-exhibit-label);
+  font-size: 0.76rem;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-command__box button:disabled {
+  cursor: default;
+  opacity: 0.36;
+}
+
+.museum-command__results {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 4350;
+  max-height: min(48vh, 430px);
+  display: grid;
+  gap: 4px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  border: 1px solid rgba(244, 234, 211, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(245, 237, 220, 0.98), rgba(232, 220, 194, 0.98)),
+    #f0e3c7;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.36);
+  list-style: none;
+  padding: 6px;
+}
+
+.museum-command__results li {
+  min-width: 0;
+}
+
+.museum-command__results button {
+  width: 100%;
+  min-height: 54px;
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(21, 19, 15, 0.88);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.museum-command__results button:is(:hover, :focus-visible) {
+  border-color: rgba(155, 63, 31, 0.24);
+  background: rgba(155, 63, 31, 0.09);
+  outline: 0;
+}
+
+.museum-command__results strong {
+  overflow: hidden;
+  max-width: 100%;
+  font-family: var(--font-exhibit-nav);
+  font-size: clamp(1rem, 1.2vw, 1.18rem);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-command__results span,
+.museum-command__empty {
+  color: rgba(21, 19, 15, 0.58);
+  font-family: var(--font-exhibit-label);
+  font-size: 0.76rem;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.museum-command__empty {
+  padding: 16px 12px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status span {
+  min-width: 0;
+  min-height: 32px;
+  border: 1px solid rgba(244, 234, 211, 0.14);
+  border-radius: 999px;
+  background: rgba(244, 234, 211, 0.08);
+  color: rgba(244, 234, 211, 0.72);
+  padding: 0 10px;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.66rem, 0.72vw, 0.76rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 690;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status__focus {
+  max-width: clamp(140px, 17vw, 260px);
+  overflow: hidden;
+  border-color: rgba(179, 111, 64, 0.32);
+  color: rgba(244, 234, 211, 0.9);
+  text-overflow: ellipsis;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities {
+  position: static;
+  z-index: auto;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid rgba(244, 234, 211, 0.18);
+  border-radius: 8px;
+  background: rgba(244, 234, 211, 0.08);
+  color: rgba(244, 234, 211, 0.82);
+  padding: 0 11px;
+  box-shadow: none;
+  font-family: var(--font-exhibit-label);
+  font-size: 0.74rem;
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 720;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button--active {
+  border-color: rgba(118, 126, 83, 0.9);
+  background: rgba(118, 126, 83, 0.82);
+  color: #fff6e4;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-stage,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-stage {
+  grid-row: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(244, 234, 211, 0.14);
+  background: var(--exhibit-field);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  padding-top: 0;
+  scrollbar-gutter: auto;
+  transition: margin-right 220ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .museum-stage {
+  margin-right: 0;
+}
+
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk.hall-shell--focused .museum-stage {
+  margin-right: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-scene,
+.museum-shell:not(.museum-shell--staff) .hall-surface,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .experience-scene,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .hall-surface {
+  min-height: 100%;
+  height: 100%;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock {
+  position: fixed;
+  top: var(--app-topbar-height);
+  right: auto;
+  bottom: 0;
+  left: 0;
+  z-index: 4200;
+  width: var(--app-rail-width);
+  min-height: 0;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  border: 0;
+  border-right: 1px solid rgba(244, 234, 211, 0.14);
+  background:
+    linear-gradient(180deg, rgba(31, 32, 25, 0.98), rgba(21, 21, 18, 0.98)),
+    #1f2019;
+  box-shadow: 14px 0 34px rgba(0, 0, 0, 0.2);
+  padding: var(--app-shell-gap) 8px;
+  transform: none;
+  backdrop-filter: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  border: 1px solid rgba(244, 234, 211, 0.12);
+  border-radius: 8px;
+  background: rgba(244, 234, 211, 0.055);
+  box-shadow: none;
+  color: rgba(244, 234, 211, 0.68);
+  padding: 10px;
+  font-family: var(--font-exhibit-nav);
+  font-size: clamp(0.78rem, 0.88vw, 0.96rem);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1.04;
+  text-align: left;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item::before,
+.museum-shell:not(.museum-shell--staff) .museum-nav-item::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label {
+  display: grid;
+  gap: 6px;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label small {
+  max-width: 100%;
+  color: rgba(244, 234, 211, 0.54);
+  font-size: clamp(0.6rem, 0.62vw, 0.7rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 640;
+  letter-spacing: 0;
+  line-height: 1.08;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item--active {
+  border-color: rgba(244, 234, 211, 0.32);
+  background:
+    linear-gradient(90deg, rgba(179, 111, 64, 0.98) 0 5px, transparent 5px),
+    rgba(244, 234, 211, 0.16);
+  color: #f8efdd;
+  transform: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active .experience-dock__label small {
+  color: rgba(244, 234, 211, 0.66);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:is(:hover, :focus-visible) {
+  border-color: rgba(244, 234, 211, 0.32);
+  background-color: rgba(244, 234, 211, 0.12);
+  outline: 0;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard[data-side="left"],
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
+  position: absolute;
+  top: 0;
+  right: var(--app-shell-gap);
+  bottom: 0;
+  left: auto;
+  z-index: 4150;
+  box-sizing: border-box;
+  width: var(--app-inspector-width);
+  height: 100%;
+  max-width: calc(100vw - var(--app-rail-width) - var(--app-shell-gap) - var(--app-shell-gap) - var(--app-shell-gap));
+  max-height: 100%;
+  overflow: auto;
+  border: 1px solid rgba(21, 19, 15, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(9, 9, 7, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(9, 9, 7, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(246, 237, 218, 0.98), rgba(232, 220, 194, 0.98));
+  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(244, 234, 211, 0.22);
+  padding: clamp(14px, 1.15vw, 20px);
+  pointer-events: auto;
+  transform: none;
+  touch-action: pan-y;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusIdentity h3 {
+  max-width: 12ch;
+  font-size: clamp(1.55rem, 2.2vw, 3rem);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusLens {
+  max-width: none;
+}
+
+@media (max-width: 1180px) {
+  .museum-shell:not(.museum-shell--staff) {
+    --app-inspector-width: clamp(300px, 31vw, 360px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-status span:not(.museum-status__focus) {
+    display: none;
+  }
+}
+
+@media (max-width: 920px) {
+  .museum-shell:not(.museum-shell--staff) {
+    --app-topbar-height: 136px;
+    --app-rail-width: 0px;
+    --experience-dock-height: clamp(72px, 10vh, 92px);
+    padding:
+      calc(var(--app-topbar-height) + var(--app-shell-gap))
+      var(--app-shell-gap)
+      calc(var(--experience-dock-height) + var(--app-shell-gap))
+      var(--app-shell-gap);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-rail,
+  .museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
+    grid-template-columns: minmax(112px, auto) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand status utilities"
+      "command command command";
+    align-content: center;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-brand {
+    grid-area: brand;
+  }
+
+  .museum-command {
+    grid-area: command;
+    width: 100%;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-status {
+    grid-area: status;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-utilities {
+    grid-area: utilities;
+  }
+
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .museum-stage {
+    margin-right: 0;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+  .museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: var(--experience-dock-height);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: 1fr;
+    border-top: 1px solid rgba(244, 234, 211, 0.14);
+    border-right: 0;
+    padding: 8px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-item,
+  .museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+    justify-items: center;
+    padding: 8px;
+    font-size: clamp(0.74rem, 2.1vw, 0.9rem);
+    text-align: center;
+  }
+
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard[data-side="left"],
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
+    top: auto;
+    right: var(--app-shell-gap);
+    bottom: var(--app-shell-gap);
+    left: var(--app-shell-gap);
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: min(46vh, 430px);
+    transform: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .museum-shell:not(.museum-shell--staff) {
+    --app-topbar-height: 128px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-status {
+    display: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-rail,
+  .museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
+    grid-template-columns: minmax(92px, auto) 1fr auto;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-brand strong {
+    font-size: clamp(0.9rem, 3.4vw, 1.12rem);
+  }
+
+  .museum-command__box {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .museum-command__box button {
+    display: none;
+  }
+}

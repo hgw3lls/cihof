@@ -97,151 +97,204 @@
   ],
   "countries": [
     {
-      "country": "United States",
-      "count": 18
-    },
-    {
-      "country": "India",
+      "country": "Indian",
       "count": 13
     },
     {
-      "country": "Ireland",
-      "count": 11
+      "country": "Irish",
+      "count": 13
     },
     {
-      "country": "Italy",
-      "count": 8
+      "country": "Slovenian",
+      "count": 9
     },
     {
-      "country": "Poland",
+      "country": "Italian",
+      "count": 7
+    },
+    {
+      "country": "Puerto Rican",
       "count": 6
     },
     {
-      "country": "Puerto Rico",
-      "count": 6
+      "country": "African-American",
+      "count": 5
     },
     {
-      "country": "Slovenia",
-      "count": 6
+      "country": "Chinese",
+      "count": 5
     },
     {
-      "country": "China",
+      "country": "Hungarian",
+      "count": 5
+    },
+    {
+      "country": "Jewish",
+      "count": 5
+    },
+    {
+      "country": "Polish",
+      "count": 5
+    },
+    {
+      "country": "Lebanese",
       "count": 4
     },
     {
-      "country": "Lebanon",
+      "country": "Vietnamese",
       "count": 4
     },
     {
-      "country": "Hungary",
+      "country": "Czech",
       "count": 3
     },
     {
-      "country": "Romania",
+      "country": "German",
       "count": 3
     },
     {
-      "country": "Serbia",
+      "country": "Serbian",
       "count": 3
     },
     {
-      "country": "Ukraine",
-      "count": 3
-    },
-    {
-      "country": "Vietnam",
-      "count": 3
-    },
-    {
-      "country": "Austria",
+      "country": "Croatian",
       "count": 2
     },
     {
-      "country": "Croatia",
+      "country": "Egyptian",
       "count": 2
     },
     {
-      "country": "Czech Republic",
+      "country": "Ethiopian",
       "count": 2
     },
     {
-      "country": "Egypt",
+      "country": "Romanian",
       "count": 2
     },
     {
-      "country": "Ethiopia",
+      "country": "Russian",
       "count": 2
     },
     {
-      "country": "Germany",
+      "country": "Sikh",
       "count": 2
     },
     {
-      "country": "Albania",
+      "country": "Syrian",
+      "count": 2
+    },
+    {
+      "country": "Ukrainian",
+      "count": 2
+    },
+    {
+      "country": "Albanian",
       "count": 1
     },
     {
-      "country": "Armenia",
+      "country": "Armenian",
       "count": 1
     },
     {
-      "country": "Colombia",
+      "country": "Carpatho-Rusyn",
       "count": 1
     },
     {
-      "country": "Estonia",
+      "country": "Colombian",
       "count": 1
     },
     {
-      "country": "Greece",
+      "country": "Dutch",
       "count": 1
     },
     {
-      "country": "Japan",
+      "country": "Estonian",
       "count": 1
     },
     {
-      "country": "Latvia",
+      "country": "Greek",
       "count": 1
     },
     {
-      "country": "Lithuania",
+      "country": "Japanese",
       "count": 1
     },
     {
-      "country": "Mexico",
+      "country": "Korean",
       "count": 1
     },
     {
-      "country": "Netherlands",
+      "country": "Latvian",
       "count": 1
     },
     {
-      "country": "Norway",
+      "country": "Lithuanian",
       "count": 1
     },
     {
-      "country": "Russia",
+      "country": "Mexican",
       "count": 1
     },
     {
-      "country": "South Korea",
+      "country": "Norwegian",
       "count": 1
     },
     {
-      "country": "Syria",
+      "country": "Scottish",
       "count": 1
     },
     {
-      "country": "Taiwan",
-      "count": 1
-    },
-    {
-      "country": "United Kingdom",
+      "country": "Spanish",
       "count": 1
     }
   ],
-  "communities": [],
+  "communities": [
+    {
+      "community": "European",
+      "count": 59
+    },
+    {
+      "community": "Asian",
+      "count": 26
+    },
+    {
+      "community": "Hispanic",
+      "count": 8
+    },
+    {
+      "community": "Middle Eastern",
+      "count": 8
+    },
+    {
+      "community": "African-American",
+      "count": 5
+    },
+    {
+      "community": "Jewish",
+      "count": 5
+    },
+    {
+      "community": "African",
+      "count": 4
+    },
+    {
+      "community": "Sikh",
+      "count": 2
+    },
+    {
+      "community": "City Club",
+      "count": 1
+    },
+    {
+      "community": "Greater Cleveland Sports",
+      "count": 1
+    },
+    {
+      "community": "Jones Day",
+      "count": 1
+    }
+  ],
   "years": [
     {
       "year": 2010,
@@ -389,7 +442,10 @@
   "content": {
     "shortBio": [],
     "withoutThemeTags": [],
-    "withoutCountryTags": []
+    "withoutCountryTags": [
+      "jim-foster-2014",
+      "dick-pogue-2015"
+    ]
   },
   "curation": {
     "approvalStatus": [
@@ -415,8 +471,8 @@
     "approvedSummaries": 0,
     "approvedThemeTags": 0,
     "approvedCountryTags": 0,
-    "inferredCountryTags": 56,
-    "approvedCommunityTags": 0,
+    "inferredCountryTags": 109,
+    "approvedCommunityTags": 111,
     "featured": [],
     "featuredCandidates": [
       "ray-pianka-2018",

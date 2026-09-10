@@ -61,7 +61,7 @@ export function buildEntityModel(inductees, curatedModel = loadCuratedEntityMode
 
     addClassYearEntityAndRelationship(inductee, addEntity, addRelationship, addedEntityIds);
     addThemeEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
-    addCountryPlaceEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
+    addNationalityHeritageEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addCommunityEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addMediaEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds);
     addInductedByRelationship(inductee, peopleByName, addEntity, addRelationship, addedEntityIds);
@@ -313,26 +313,25 @@ function addCommunityEntitiesAndRelationships(inductee, addEntity, addRelationsh
   });
 }
 
-function addCountryPlaceEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds) {
+function addNationalityHeritageEntitiesAndRelationships(inductee, addEntity, addRelationship, addedEntityIds) {
   inductee.countryTags.forEach((country) => {
-    const id = countryPlaceEntityId(country);
+    const id = communityEntityId(country);
     const confidence = inductee.countryTagsSource === 'curated' ? 'curated' : 'inferred';
     if (!addedEntityIds.has(id)) {
       addEntity({
         id,
         displayName: country,
-        type: 'Place',
-        shortDescription: 'Country or heritage place label used for more specific browsing than broad region metadata.',
-        location: { displayName: country, region: inductee.region },
+        type: 'Community',
+        shortDescription: 'Nationality or heritage label used for more specific browsing than broad region metadata.',
         provenance: provenance({
           confidence,
           sourceField: 'countryTags',
           note: confidence === 'curated'
-            ? 'Generated from curator-approved country metadata.'
-            : 'Generated from country and nationality references in source text; needs curatorial review.',
+            ? 'Generated from curator-approved nationality or heritage metadata.'
+            : 'Generated from nationality and heritage references in source text; needs curatorial review.',
         }),
         attributes: {
-          placeKind: 'country',
+          communityKind: 'nationality-or-heritage',
           legacyRegion: inductee.region,
         },
       });
@@ -341,13 +340,13 @@ function addCountryPlaceEntitiesAndRelationships(inductee, addEntity, addRelatio
     addRelationship(entityRelationship({
       sourceEntityId: personEntityId(inductee.id),
       targetEntityId: id,
-      type: 'associated_with_place',
-      displayLabel: `Country: ${country}`,
+      type: 'member_of_community',
+      displayLabel: `Nationality / Heritage: ${country}`,
       shortDescription: `${inductee.name} is associated with ${country}.`,
       confidence,
       sourceField: 'countryTags',
       sourceRecordId: inductee.id,
-      note: confidence === 'curated' ? 'Approved country metadata.' : 'Generated country metadata; needs curatorial review.',
+      note: confidence === 'curated' ? 'Approved nationality or heritage metadata.' : 'Generated nationality or heritage metadata; needs curatorial review.',
     }));
   });
 }
@@ -538,9 +537,7 @@ function personEntity(inductee) {
     dateRange: inductee.classYear
       ? { start: String(inductee.classYear), end: String(inductee.classYear), label: `Class of ${inductee.classYear}` }
       : undefined,
-    location: inductee.countryTags[0]
-      ? { displayName: inductee.countryTags[0], region: inductee.region }
-      : inductee.region ? { displayName: inductee.region, region: inductee.region } : undefined,
+    location: inductee.region ? { displayName: inductee.region, region: inductee.region } : undefined,
     provenance: provenance({
       confidence: inductee.approvalStatus === 'approved' ? 'documented' : 'curated',
       sourceRecordId: inductee.id,
@@ -708,10 +705,6 @@ function themeEntityId(theme) {
 
 function communityEntityId(community) {
   return `community:${slugify(community)}`;
-}
-
-function countryPlaceEntityId(country) {
-  return `place:country:${slugify(country)}`;
 }
 
 function classEventEntityId(year) {
