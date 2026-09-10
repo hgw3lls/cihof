@@ -129,12 +129,12 @@
       "count": 5
     },
     {
-      "country": "Jewish",
+      "country": "Polish",
       "count": 5
     },
     {
-      "country": "Polish",
-      "count": 5
+      "country": "Jewish",
+      "count": 4
     },
     {
       "country": "Lebanese",
@@ -251,14 +251,6 @@
   ],
   "communities": [
     {
-      "community": "European",
-      "count": 59
-    },
-    {
-      "community": "Asian",
-      "count": 26
-    },
-    {
       "community": "Hispanic",
       "count": 8
     },
@@ -272,10 +264,6 @@
     },
     {
       "community": "Jewish",
-      "count": 5
-    },
-    {
-      "community": "African",
       "count": 4
     },
     {
@@ -444,7 +432,8 @@
     "withoutThemeTags": [],
     "withoutCountryTags": [
       "jim-foster-2014",
-      "dick-pogue-2015"
+      "dick-pogue-2015",
+      "david-gilbert-2025"
     ]
   },
   "curation": {
@@ -471,8 +460,8 @@
     "approvedSummaries": 0,
     "approvedThemeTags": 0,
     "approvedCountryTags": 0,
-    "inferredCountryTags": 109,
-    "approvedCommunityTags": 111,
+    "inferredCountryTags": 108,
+    "approvedCommunityTags": 30,
     "featured": [],
     "featuredCandidates": [
       "ray-pianka-2018",

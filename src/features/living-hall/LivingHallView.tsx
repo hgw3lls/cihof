@@ -920,26 +920,27 @@ export function LivingHallView({
         />
       )}
 
-      <div
-        className="living-hall__field"
-        ref={legacyFieldRef}
-        style={legacyFieldStyle}
-        aria-label={lens === 'legacies' ? 'Horizontal chronology of induction class portrait frames' : 'Interactive inductee portraits'}
-        data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
-        data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
-        onPointerCancelCapture={cancelLegacyDrag}
-        onPointerDownCapture={beginLegacyDrag}
-        onPointerMoveCapture={moveLegacyDrag}
-        onPointerUpCapture={endLegacyDrag}
-        onWheelCapture={wheelLegacy}
-      >
-        {!loading && !error && lens !== 'traces' && (
-          <ClevelandTraceBackdrop variant={lens} />
-        )}
-        {loading && <LivingHallPlaceholders />}
-        {!loading && !error && lens === 'traces' && activeMode.lines && activeMode.lines.length > 0 && (
-          <ClevelandTraceField className="living-hall__traceLines" lines={activeMode.lines} variant={lens} />
-        )}
+      <div className="living-hall__fieldViewport">
+        <div
+          className="living-hall__field"
+          ref={legacyFieldRef}
+          style={legacyFieldStyle}
+          aria-label={lens === 'legacies' ? 'Horizontal chronology of induction class portrait frames' : 'Interactive inductee portraits'}
+          data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
+          data-legacy-pan={lens === 'legacies' ? Math.round(legacyPan) : ''}
+          onPointerCancelCapture={cancelLegacyDrag}
+          onPointerDownCapture={beginLegacyDrag}
+          onPointerMoveCapture={moveLegacyDrag}
+          onPointerUpCapture={endLegacyDrag}
+          onWheelCapture={wheelLegacy}
+        >
+          {!loading && !error && lens !== 'traces' && (
+            <ClevelandTraceBackdrop variant={lens} />
+          )}
+          {loading && <LivingHallPlaceholders />}
+          {!loading && !error && lens === 'traces' && activeMode.lines && activeMode.lines.length > 0 && (
+            <ClevelandTraceField className="living-hall__traceLines" lines={activeMode.lines} variant={lens} />
+          )}
 
         {!loading && !error && people.map((inductee, index) => {
           const position = activeMode.positions.get(inductee.id) ?? fallbackPosition(index, people.length);
@@ -1064,7 +1065,8 @@ export function LivingHallView({
           />
         )}
 
-        {!loading && error && <div className="living-hall__status">Data error: {error}</div>}
+          {!loading && error && <div className="living-hall__status">Data error: {error}</div>}
+        </div>
       </div>
 
       {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
@@ -1180,6 +1182,9 @@ type HallLayoutMetrics = {
   tier: HallLayoutTier;
   densityScore: number;
   labelScale: number;
+  app: {
+    inspectorReservePx: number;
+  };
   safe: {
     topPct: number;
     bottomPct: number;
@@ -3451,8 +3456,11 @@ function solveHallLayout({
   settings: KioskSettings;
   viewport: HallLayoutViewport;
 }): HallLayoutMetrics {
-  const width = Math.max(320, viewport.width);
+  const viewportWidth = Math.max(320, viewport.width);
   const height = Math.max(420, viewport.height);
+  const appChrome = estimateAppChromeMetrics(viewportWidth);
+  const inspectorReservePx = focused && viewportWidth > 920 ? appChrome.inspectorReservePx : 0;
+  const width = Math.max(320, appChrome.stageWidthPx - inspectorReservePx);
   const peopleCount = Math.max(1, inductees.length);
   const dockReservePx = estimateExperienceDockReservePx(width, height);
   const usableHeight = Math.max(360, height - dockReservePx - (focused ? 126 : 84));
@@ -3505,6 +3513,9 @@ function solveHallLayout({
     tier,
     densityScore,
     labelScale: tier === 'open' ? 1 : tier === 'balanced' ? 0.96 : tier === 'dense' ? 0.9 : 0.86,
+    app: {
+      inspectorReservePx,
+    },
     safe: {
       topPct: safeTopPct,
       bottomPct: safeBottomPct,
@@ -3598,6 +3609,26 @@ function estimateExperienceDockReservePx(width: number, height: number) {
   return dockHeight + dockBottom;
 }
 
+function estimateAppChromeMetrics(viewportWidth: number) {
+  if (viewportWidth <= 920) {
+    return {
+      stageWidthPx: viewportWidth,
+      inspectorReservePx: 0,
+    };
+  }
+
+  const shellGapPx = clamp(viewportWidth * 0.012, 10, 18);
+  const railWidthPx = clamp(viewportWidth * 0.074, 92, 120);
+  const inspectorWidthPx = viewportWidth <= 1180
+    ? clamp(viewportWidth * 0.31, 300, 360)
+    : clamp(viewportWidth * 0.28, 330, 430);
+
+  return {
+    stageWidthPx: Math.max(320, viewportWidth - railWidthPx - shellGapPx * 2),
+    inspectorReservePx: inspectorWidthPx + shellGapPx,
+  };
+}
+
 function legacyVisualGroupCount(inductees: Inductee[]) {
   const yearCount = groupByYear(inductees).size;
   const pending = inductees.some((inductee) => typeof inductee.classYear !== 'number') ? 1 : 0;
@@ -3623,6 +3654,7 @@ function shouldRenderHallLabel(label: HallLabel, lens: HallLens, layout: HallLay
 
 function hallLayoutStyle(layout: HallLayoutMetrics, settings: KioskSettings) {
   return {
+    '--app-inspector-reserve': `${Math.round(layout.app.inspectorReservePx)}px`,
     '--kiosk-label-scale': Number((settings.labelScale * layout.labelScale).toFixed(3)),
     '--hall-label-scale': Number(layout.labelScale.toFixed(3)),
     '--hall-density-score': Number(layout.densityScore.toFixed(3)),
@@ -3888,6 +3920,19 @@ function focusCardPlacement(
     ? { ...layout, viewport: { ...layout.viewport, width: legacyContext.visibleWidthPx } }
     : layout;
   const metrics = focusCardMetrics(lens, placementLayout);
+  if (layout.app.inspectorReservePx > 0) {
+    return {
+      side: 'right',
+      style: {
+        '--focus-card-x': '100%',
+        '--focus-card-y': '50%',
+        '--focus-card-width': `${Math.round(metrics.widthPx)}px`,
+        '--focus-card-max-height': `${Math.round(metrics.maxHeightPx)}px`,
+      } as CSSProperties & Record<string, string>,
+      rect: dockedInspectorRect(placementLayout, layout.app.inspectorReservePx),
+    };
+  }
+
   const placementPosition = legacyContext
     ? visibleLegacyForegroundPosition(position, placementLayout, legacyContext)
     : position;
@@ -3907,6 +3952,11 @@ function focusCardPlacement(
     } as CSSProperties & Record<string, string>,
     rect: placement.rect,
   };
+}
+
+function dockedInspectorRect(layout: HallLayoutMetrics, reservePx: number): LayoutRect {
+  const reservePct = (reservePx / Math.max(layout.viewport.width, 1)) * 100;
+  return rectFromEdges(100, 0, 100 + reservePct, 100);
 }
 
 function visibleLegacyForegroundPosition(

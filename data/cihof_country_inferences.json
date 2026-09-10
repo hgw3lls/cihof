@@ -3,7 +3,7 @@
   "source": {
     "name": "CIHOF class-country supplied nationality, heritage, and community completions",
     "baseData": "data/cihof_kiosk_manifest.csv",
-    "sourceDocument": "/Users/hgw3lls/Downloads/class-countries.docx",
+    "sourceDocument": "class-countries.docx (user-supplied)",
     "note": "Nationality/heritage working metadata normalized from the supplied class-countries document. These records can override generated extractor guesses, but remain inferred until copied into approvedCountryTags during curator review. Community groupings are stored separately in curated metadata."
   },
   "reviewGuidance": {
@@ -931,12 +931,10 @@
     },
     "david-gilbert-2025": {
       "id": "david-gilbert-2025",
-      "inferredCountryTags": [
-        "Jewish"
-      ],
+      "inferredCountryTags": [],
       "confidence": "inferred",
       "overrideGeneratedCountryTags": true,
-      "evidenceNote": "Class-country attachment lists David Gilbert as Jewish / NA - Greater Cleveland Sports; mapped to Jewish for visitor-facing nationality/heritage metadata."
+      "evidenceNote": "Class-country attachment lists David Gilbert as Jewish / NA - Greater Cleveland Sports; treated as a community-effort induction, so no nationality/heritage tag is assigned."
     },
     "mayor-frank-jackson-2025": {
       "id": "mayor-frank-jackson-2025",

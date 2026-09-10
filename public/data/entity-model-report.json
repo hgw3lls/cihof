@@ -7,8 +7,8 @@
     "curatedSource": "data/cihof_curated_entities.json"
   },
   "totals": {
-    "entities": 453,
-    "relationships": 1979,
+    "entities": 450,
+    "relationships": 1889,
     "curatedEntities": 0,
     "curatedRelationships": 0
   },
@@ -23,7 +23,7 @@
     },
     {
       "type": "Community",
-      "count": 46
+      "count": 43
     },
     {
       "type": "Event",
@@ -44,12 +44,12 @@
       "count": 436
     },
     {
-      "type": "member_of_community",
-      "count": 229
-    },
-    {
       "type": "has_media",
       "count": 204
+    },
+    {
+      "type": "member_of_community",
+      "count": 139
     },
     {
       "type": "inducted_by_candidate",
@@ -63,11 +63,11 @@
   "provenance": [
     {
       "confidence": "inferred",
-      "count": 1639
+      "count": 1638
     },
     {
       "confidence": "curated",
-      "count": 793
+      "count": 701
     }
   ],
   "phaseCoverage": {

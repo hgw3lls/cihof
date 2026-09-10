@@ -20,7 +20,7 @@
     "validate:kiosk": "npm run curate:report && npm run media:validate -- --strict --profile=wall",
     "validate:media-clearance": "npm run media:validate -- --strict --profile=full",
     "validate:offline": "node scripts/validate-offline-package.js",
-    "build:kiosk": "npm run prepare:data && npm run validate:kiosk && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
+    "build:kiosk": "npm run validate:kiosk && npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
     "build:public": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
     "build:portal": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=portal vite build",
     "import:2026": "node scripts/import-2026-live-data.js",

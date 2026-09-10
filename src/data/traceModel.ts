@@ -1,5 +1,6 @@
 import { rankStoryLensMatches, type StoryLensMatch } from './storyLenses';
 import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType, StoryLensConfig } from './types';
+import communityTaxonomy from './communityTaxonomy.json';
 
 export type NetworkReason = {
   type: RelationshipType;
@@ -132,14 +133,13 @@ export function buildPlaceNetwork(active: Inductee, focus: PlaceTraceFocus, dire
     .map((person) => {
       const directThread = directById.get(person.id);
       const label = focus.kind === 'all' ? personPlaceLabel(person, focus) : focus.label;
+      const provenance = placeTraceProvenance(active, person);
       const placeReason: NetworkReason = {
         type: 'related_place',
         label: `Connected to: ${label}`,
-        detail: focus.kind === 'country'
-          ? `Both records include presentation-ready CIHOF nationality or heritage labels for ${focus.label}.`
-          : 'This portrait is part of a presentation-ready CIHOF nationality or heritage trace.',
-        provenance: directThread?.reasons[0]?.provenance ?? 'curated',
-        score: 76 + (directThread ? 40 : 0),
+        detail: placeTraceDetail(focus, provenance),
+        provenance,
+        score: (provenance === 'curated' ? 76 : 62) + (directThread ? 40 : 0),
       };
 
       return {
@@ -462,48 +462,7 @@ export function personPlaceLabel(person: Inductee, focus: PlaceTraceFocus) {
 }
 
 export function countryRegion(country: string, fallback: string) {
-  const communities: Record<string, string> = {
-    Albanian: 'European',
-    Armenian: 'Middle Eastern',
-    British: 'European',
-    'Carpatho-Rusyn': 'European',
-    Chinese: 'Asian',
-    Colombian: 'Hispanic',
-    Croatian: 'European',
-    Czech: 'European',
-    Dutch: 'European',
-    Egyptian: 'Middle Eastern',
-    Estonian: 'European',
-    Ethiopian: 'African',
-    German: 'European',
-    Greek: 'European',
-    Hungarian: 'European',
-    Indian: 'Asian',
-    Irish: 'European',
-    Italian: 'European',
-    Japanese: 'Asian',
-    Korean: 'Asian',
-    Latvian: 'European',
-    Lebanese: 'Middle Eastern',
-    Lithuanian: 'European',
-    Mexican: 'Hispanic',
-    Norwegian: 'European',
-    Polish: 'European',
-    'Puerto Rican': 'Hispanic',
-    Romanian: 'European',
-    Russian: 'Asian',
-    Scottish: 'European',
-    Serbian: 'European',
-    Sikh: 'Asian',
-    Slovenian: 'European',
-    Spanish: 'Hispanic',
-    Syrian: 'Middle Eastern',
-    Ukrainian: 'European',
-    Vietnamese: 'Asian',
-  };
-  if (country === 'United States' || country === 'American') return 'International';
-  if (country === 'African-American') return 'African-American';
-  if (country === 'Jewish') return 'Jewish';
+  const communities = communityTaxonomy.nationalityCommunityMap as Record<string, string>;
   if (communities[country]) return communities[country];
   return fallback || 'International';
 }
@@ -538,6 +497,19 @@ function sharedExplicitValues(activeValues: string[], activeSource: string, cand
 
 function isExplicitSource(source: string) {
   return source === 'curated' || source === 'documented';
+}
+
+function placeTraceProvenance(active: Inductee, candidate: Inductee): RelationshipProvenance {
+  return isExplicitSource(active.countryTagsSource) && isExplicitSource(candidate.countryTagsSource) ? 'curated' : 'inferred';
+}
+
+function placeTraceDetail(focus: PlaceTraceFocus, provenance: RelationshipProvenance) {
+  if (provenance !== 'curated') {
+    return 'This trace uses supplied working nationality or heritage metadata pending curator review.';
+  }
+  return focus.kind === 'country'
+    ? `Both records include presentation-ready CIHOF nationality or heritage labels for ${focus.label}.`
+    : 'This portrait is part of a presentation-ready CIHOF nationality or heritage trace.';
 }
 
 function strongestProvenance(a: RelationshipProvenance, b: RelationshipProvenance): RelationshipProvenance {
