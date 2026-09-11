@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useState,
   type MouseEvent as ReactMouseEvent,
@@ -134,6 +135,8 @@ export function LivingHallView({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [traceChooserOpen, setTraceChooserOpen] = useState(false);
   const [visitQrOpen, setVisitQrOpen] = useState(false);
+  const [visitJourneyOpen, setVisitJourneyOpen] = useState(false);
+  const [visitJourneyIndex, setVisitJourneyIndex] = useState(0);
   const layoutViewport = useHallLayoutViewport();
   const reducedMotion = useReducedMotion(settings.motion);
   const cityQuestion = useCityQuestion();
@@ -298,6 +301,17 @@ export function LivingHallView({
     setVisitQrOpen,
   });
 
+  useEffect(() => {
+    if (visitCollectionPeople.length === 0) {
+      setVisitJourneyOpen(false);
+      setVisitJourneyIndex(0);
+      return;
+    }
+    if (visitJourneyIndex >= visitCollectionPeople.length) {
+      setVisitJourneyIndex(visitCollectionPeople.length - 1);
+    }
+  }, [visitCollectionPeople.length, visitJourneyIndex]);
+
   function dismissFocusedContentWindow() {
     onEngage?.();
     if (activePersonAction !== 'overview') {
@@ -357,6 +371,25 @@ export function LivingHallView({
   function selectPortrait(inductee: Inductee) {
     if (traceChooserOpen) setTraceChooserOpen(false);
     onSelect(inductee);
+  }
+
+  function focusVisitJourneyStep(stepIndex: number) {
+    const target = visitCollectionPeople[stepIndex];
+    if (!target) return;
+    setVisitJourneyOpen(true);
+    setVisitJourneyIndex(stepIndex);
+    selectPortrait(target);
+  }
+
+  function startVisitJourney() {
+    if (visitCollectionPeople.length === 0) return;
+    focusVisitJourneyStep(0);
+  }
+
+  function moveVisitJourney(direction: -1 | 1) {
+    if (visitCollectionPeople.length === 0) return;
+    const nextIndex = (visitJourneyIndex + direction + visitCollectionPeople.length) % visitCollectionPeople.length;
+    focusVisitJourneyStep(nextIndex);
   }
 
   function toggleFocusedVisitCollection() {
@@ -480,15 +513,23 @@ export function LivingHallView({
 
       {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (
         <VisitCollectionTray
+          journeyActive={visitJourneyOpen}
+          journeyIndex={visitJourneyIndex}
           people={visitCollectionPeople}
           qrOpen={visitQrOpen}
           sessionUrl={visitSessionUrl}
           onClear={() => {
             setVisitQrOpen(false);
+            setVisitJourneyOpen(false);
             onClearVisitCollection?.();
           }}
           onCloseQr={() => setVisitQrOpen(false)}
           onOpenQr={() => setVisitQrOpen(true)}
+          onStartJourney={startVisitJourney}
+          onStopJourney={() => setVisitJourneyOpen(false)}
+          onPreviousJourney={() => moveVisitJourney(-1)}
+          onNextJourney={() => moveVisitJourney(1)}
+          onSelectJourneyStep={focusVisitJourneyStep}
           onRemove={(personId) => {
             if (visitCollectionPeople.length <= 1) setVisitQrOpen(false);
             onRemoveVisitCollectionPerson?.(personId);

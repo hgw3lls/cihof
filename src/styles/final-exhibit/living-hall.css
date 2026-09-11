@@ -1417,6 +1417,16 @@
   pointer-events: auto;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray[data-journey-active="true"] {
+  width: min(460px, 29vw);
+  max-height: min(62vh, 620px);
+  overflow: auto;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray[data-journey-active="true"] .living-hall__visitList {
+  max-height: min(18vh, 180px);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1457,6 +1467,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitRemove,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader button {
   min-height: 44px;
@@ -1468,11 +1479,15 @@
   cursor: pointer;
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child {
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button[aria-pressed="true"],
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button:last-child {
   color: var(--exhibit-route);
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child {
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button[aria-pressed="true"],
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button:last-child {
   border-top-color: rgba(155, 63, 31, 0.7);
 }
 
@@ -1540,11 +1555,130 @@
   white-space: nowrap;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson--journey {
+  color: rgba(9, 9, 7, 0.96);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson--journey > span {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitPerson--journey > strong {
+  text-decoration: underline;
+  text-decoration-color: rgba(155, 63, 31, 0.48);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__visitRemove {
   justify-self: end;
   min-width: 62px;
   color: rgba(21, 19, 15, 0.44);
   font-size: clamp(0.58rem, 0.62vw, 0.76rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney {
+  display: grid;
+  gap: clamp(10px, 0.9vw, 14px);
+  border-top: 1px solid rgba(21, 19, 15, 0.16);
+  background: rgba(255, 250, 238, 0.42);
+  padding: clamp(10px, 1vw, 16px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney header span,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney header strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney header span {
+  color: rgba(155, 63, 31, 0.68);
+  font-size: clamp(0.58rem, 0.62vw, 0.74rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourney header strong {
+  color: rgba(21, 19, 15, 0.72);
+  font-size: clamp(0.68rem, 0.72vw, 0.86rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson {
+  display: grid;
+  gap: 7px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson small,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson p {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson strong {
+  color: rgba(9, 9, 7, 0.9);
+  font-size: clamp(0.92rem, 0.96vw, 1.16rem);
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson small {
+  color: rgba(155, 63, 31, 0.7);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.62rem, 0.66vw, 0.78rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyPerson p {
+  display: -webkit-box;
+  margin: 0;
+  color: rgba(21, 19, 15, 0.62);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.76rem, 0.78vw, 0.94rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.28;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyDots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18px, 1fr));
+  gap: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyDots button {
+  min-height: 30px;
+  border: 0;
+  border-top: 3px solid rgba(21, 19, 15, 0.16);
+  background: transparent;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyDots button[aria-pressed="true"] {
+  border-top-color: var(--exhibit-route);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTray :is(button):focus-visible,
@@ -3215,13 +3349,18 @@
     max-height: min(24vh, 190px);
   }
 
+  .museum-shell:not(.museum-shell--staff) .living-hall__visitTray[data-journey-active="true"] {
+    width: auto;
+    max-height: min(46vh, 430px);
+  }
+
   .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
