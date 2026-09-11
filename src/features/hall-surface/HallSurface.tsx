@@ -1,5 +1,5 @@
 import { LivingHallView } from '../living-hall/LivingHallView';
-import type { HallFocus, HallLens, Inductee, RelationshipRecord } from '../../data/types';
+import type { HallFocus, HallLens, HallLinkedPath, Inductee, RelationshipRecord } from '../../data/types';
 import type { KioskSettings } from '../../app/kioskSettings';
 
 type HallSurfaceProps = {
@@ -16,12 +16,14 @@ type HallSurfaceProps = {
   settings: KioskSettings;
   timelineYear: string;
   traceFocusKey: string;
+  linkedPath: HallLinkedPath | null;
   visitCollectionIds: string[];
   onEngage: () => void;
   onSelect: (inductee: Inductee) => void;
   onCloseFocus: () => void;
   onTimelineYearChange: (year: string) => void;
   onTraceFocusChange: (focusKey: string) => void;
+  onExplorePath: (path: HallLinkedPath) => void;
   onAddVisitCollectionPerson: (personId: string) => void;
   onRemoveVisitCollectionPerson: (personId: string) => void;
   onClearVisitCollection: () => void;
@@ -41,12 +43,14 @@ export function HallSurface({
   settings,
   timelineYear,
   traceFocusKey,
+  linkedPath,
   visitCollectionIds,
   onEngage,
   onSelect,
   onCloseFocus,
   onTimelineYearChange,
   onTraceFocusChange,
+  onExplorePath,
   onAddVisitCollectionPerson,
   onRemoveVisitCollectionPerson,
   onClearVisitCollection,
@@ -80,11 +84,13 @@ export function HallSurface({
         relationships={relationships}
         timelineYear={timelineYear}
         traceFocusKey={traceFocusKey}
+        linkedPath={linkedPath}
         visitCollectionIds={visitCollectionIds}
         onEngage={onEngage}
         onCloseFocus={onCloseFocus}
         onTimelineYearChange={onTimelineYearChange}
         onTraceFocusChange={onTraceFocusChange}
+        onExplorePath={onExplorePath}
         onSelect={onSelect}
         onAddVisitCollectionPerson={onAddVisitCollectionPerson}
         onRemoveVisitCollectionPerson={onRemoveVisitCollectionPerson}

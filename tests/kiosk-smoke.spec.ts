@@ -45,6 +45,8 @@ test.describe('museum kiosk smoke', () => {
     await page.locator('.museum-command__result').filter({ hasText: 'Chinese' }).filter({ hasText: 'Traces' }).first().click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', 'country:chinese');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-label', 'Chinese');
+    await expect(page.locator('.living-portrait--linked')).toHaveCount(5);
     await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
@@ -53,6 +55,8 @@ test.describe('museum kiosk smoke', () => {
     await page.locator('.museum-command__result').filter({ hasText: 'Class of 2024' }).first().click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', '2024');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-label', 'Class of 2024');
+    await expect(page.locator('.living-portrait--linked')).toHaveCount(6);
     await expect(page).toHaveURL(/lens=legacies/);
     await expect(page).toHaveURL(/timeYear=2024/);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
@@ -63,6 +67,18 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', 'dona-brady-2024');
     await expect(page.locator('.living-hall__focusCard')).toContainText('Dona Brady');
+    await expect(page.locator('.living-hall__nextSteps')).toBeVisible();
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await page.locator('.living-hall__nextStep').filter({ hasText: 'See Class of 2024' }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-label', 'Class of 2024');
+    await expect(page.locator('.living-portrait--linked')).toHaveCount(6);
+
+    await page.getByRole('button', { name: /Save 6 to visit from Class of 2024/i }).click();
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-visit-collection-count', '6');
+    await expect(page.locator('.living-hall__visitTray')).toContainText('6 saved records');
+    await expect(page.getByRole('button', { name: /Path already saved from Class of 2024/i })).toBeDisabled();
   });
 
   test('locks document scroll inside the persistent Hall surface', async ({ page }) => {

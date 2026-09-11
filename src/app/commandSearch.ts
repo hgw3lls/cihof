@@ -1,5 +1,5 @@
 import { buildGeographyTraceModel } from '../data/traceModel';
-import type { HallLens, Inductee } from '../data/types';
+import type { HallLens, HallLinkedPath, Inductee } from '../data/types';
 
 export type CommandResultKind = 'class' | 'heritage' | 'community' | 'theme' | 'person';
 
@@ -11,6 +11,7 @@ export type CommandSearchResult = {
   title: string;
   subtitle: string;
   score: number;
+  personIds: string[];
   person?: Inductee;
   timelineYear?: string;
   traceFocusKey?: string;
@@ -68,6 +69,19 @@ export function commandSearchResultGroups(results: CommandSearchResult[]): Comma
     .filter((group) => group.results.length > 0);
 }
 
+export function commandResultToLinkedPath(result: CommandSearchResult): HallLinkedPath {
+  return {
+    kind: result.kind,
+    label: result.title,
+    detail: result.subtitle,
+    personIds: result.personIds,
+    lens: result.lens,
+    focusPersonId: result.person?.id,
+    timelineYear: result.timelineYear,
+    traceFocusKey: result.traceFocusKey,
+  };
+}
+
 function commandClassResults(inductees: Inductee[], terms: string[]): CommandSearchResult[] {
   const peopleByYear = new Map<number, Inductee[]>();
 
@@ -90,6 +104,7 @@ function commandClassResults(inductees: Inductee[], terms: string[]): CommandSea
       title: `Class of ${year}`,
       subtitle: `${people.length} inductees / open the class shelf`,
       score,
+      personIds: people.map((person) => person.id),
       timelineYear: String(year),
     };
     return [result];
@@ -112,6 +127,7 @@ function commandHeritageResults(
       title: country.label,
       subtitle: `${country.people.length} profiles / ${country.region} heritage path`,
       score,
+      personIds: country.people.map((person) => person.id),
       traceFocusKey: country.id,
     };
     if (country.people[0]) result.person = country.people[0];
@@ -152,6 +168,7 @@ function commandCommunityResults(
       title: community.label,
       subtitle: `${people.length} profiles / community path`,
       score,
+      personIds: people.map((person) => person.id),
     };
     if (people[0]) result.person = people[0];
     if (traceFocusKey) result.traceFocusKey = traceFocusKey;
@@ -181,6 +198,7 @@ function commandThemeResults(inductees: Inductee[], terms: string[]): CommandSea
       title: theme,
       subtitle: `${sortedPeople.length} profiles / shared theme`,
       score,
+      personIds: sortedPeople.map((person) => person.id),
     };
     if (sortedPeople[0]) result.person = sortedPeople[0];
     return [result];
@@ -200,6 +218,7 @@ function commandPersonResults(inductees: Inductee[], terms: string[]): CommandSe
       title: inductee.name,
       subtitle: commandResultMeta(inductee),
       score,
+      personIds: [inductee.id],
       person: inductee,
     }));
 }

@@ -9,7 +9,7 @@ import {
   relationshipSupportLabel,
   type NetworkReason,
 } from '../../data/traceModel';
-import type { HallLens, Inductee, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
+import type { HallLens, HallLinkedPath, Inductee, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
 import { MediaExperience } from '../inductee-detail/MediaExperience';
 import { StoryMode } from '../inductee-detail/StoryMode';
 import {
@@ -47,8 +47,10 @@ export function PortraitFocusCard({
   continuationAvailable,
   fullTextAvailable,
   legacyChronology,
+  linkedPath,
   lens,
   mediaPlayable,
+  nextSteps,
   placement,
   traceContext,
   visitCollectionEnabled,
@@ -58,6 +60,7 @@ export function PortraitFocusCard({
   onClose,
   onFollowTrace,
   onLegacyJump,
+  onExplorePath,
   onSelectPerson,
   onSetAction,
   onToggleVisitCollection,
@@ -69,8 +72,10 @@ export function PortraitFocusCard({
   continuationAvailable: boolean;
   fullTextAvailable: boolean;
   legacyChronology: LegacyChronology;
+  linkedPath: HallLinkedPath | null;
   lens: HallLens;
   mediaPlayable: boolean;
+  nextSteps: HallLinkedPath[];
   placement: FocusCardPlacement;
   traceContext: TraceContext;
   visitCollectionEnabled: boolean;
@@ -80,6 +85,7 @@ export function PortraitFocusCard({
   onClose?: () => void;
   onFollowTrace: () => void;
   onLegacyJump: (direction: LegacyJumpTarget) => void;
+  onExplorePath?: (path: HallLinkedPath) => void;
   onSelectPerson: (inductee: Inductee) => void;
   onSetAction: (action: HallPersonAction) => void;
   onToggleVisitCollection: () => void;
@@ -155,6 +161,14 @@ export function PortraitFocusCard({
             <h4>HONORED FOR</h4>
             <p>{summary}</p>
           </section>
+          {nextSteps.length > 0 && onExplorePath && (
+            <ContextualNextSteps
+              activePath={linkedPath}
+              inductee={inductee}
+              paths={nextSteps}
+              onExplorePath={onExplorePath}
+            />
+          )}
         </>
       )}
       {profileMode && (
@@ -251,6 +265,50 @@ export function PortraitFocusCard({
       )}
     </aside>
   );
+}
+
+function ContextualNextSteps({
+  activePath,
+  inductee,
+  paths,
+  onExplorePath,
+}: {
+  activePath: HallLinkedPath | null;
+  inductee: Inductee;
+  paths: HallLinkedPath[];
+  onExplorePath: (path: HallLinkedPath) => void;
+}) {
+  return (
+    <section className="living-hall__nextSteps" aria-label={`Next paths from ${inductee.name}`}>
+      <h4>NEXT STEPS</h4>
+      <ol>
+        {paths.map((path) => {
+          const active = activePath ? activePath.kind === path.kind && activePath.label === path.label : false;
+          return (
+            <li key={`${path.kind}-${path.label}`}>
+              <button
+                className={active ? 'living-hall__nextStep living-hall__nextStep--active' : 'living-hall__nextStep'}
+                type="button"
+                aria-pressed={active}
+                onClick={() => onExplorePath(path)}
+              >
+                <span>{nextStepActionLabel(path)}</span>
+                <small>{path.detail}</small>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function nextStepActionLabel(path: HallLinkedPath) {
+  if (path.kind === 'heritage') return `Follow ${path.label}`;
+  if (path.kind === 'class') return `See ${path.label}`;
+  if (path.kind === 'community') return `Explore ${path.label}`;
+  if (path.kind === 'theme') return `Compare ${path.label}`;
+  return `Open ${path.label}`;
 }
 
 function TraceFocusConnections({

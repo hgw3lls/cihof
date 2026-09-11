@@ -11,7 +11,7 @@ import { useStoryLenses } from '../../data/storyLenses';
 import { useCityQuestion } from '../../data/useCityQuestion';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
-import type { HallLens, Inductee, RelationshipRecord } from '../../data/types';
+import type { HallLens, HallLinkedPath, Inductee, RelationshipRecord } from '../../data/types';
 import { buildPersonGallery, canonicalContinuationUrl, mediaAvailability } from '../inductee-detail/personDetailModel';
 import { CityQuestionPrompt, CityQuestionResults } from './CityQuestion';
 import {
@@ -26,6 +26,7 @@ import {
 } from './LivingHallPanels';
 import { eventTargetInsideContentWindow } from './livingHallDom';
 import { buildVisitSessionUrl, fullBiographyText } from './livingHallContent';
+import { buildContextualNextSteps } from './livingHallNextSteps';
 import {
   buildHallModes,
   buildHallVocabulary,
@@ -88,11 +89,13 @@ type LivingHallViewProps = {
   relationships?: RelationshipRecord[];
   timelineYear?: string;
   traceFocusKey?: string;
+  linkedPath?: HallLinkedPath | null;
   visitCollectionIds?: string[];
   onEngage?: () => void;
   onCloseFocus?: () => void;
   onTimelineYearChange?: (year: string) => void;
   onTraceFocusChange?: (focusKey: string) => void;
+  onExplorePath?: (path: HallLinkedPath) => void;
   onSelect: (inductee: Inductee) => void;
   onAddVisitCollectionPerson?: (personId: string) => void;
   onRemoveVisitCollectionPerson?: (personId: string) => void;
@@ -115,11 +118,13 @@ export function LivingHallView({
   relationships = [],
   timelineYear = '',
   traceFocusKey = '',
+  linkedPath = null,
   visitCollectionIds = [],
   onEngage,
   onCloseFocus,
   onTimelineYearChange,
   onTraceFocusChange,
+  onExplorePath,
   onSelect,
   onAddVisitCollectionPerson,
   onRemoveVisitCollectionPerson,
@@ -185,6 +190,25 @@ export function LivingHallView({
       traceFocusKey,
     }),
     [focusedPersonId, people, relationships, storyLensState.lenses, traceFocusKey],
+  );
+  const linkedPersonIds = useMemo(() => new Set(linkedPath?.personIds ?? []), [linkedPath]);
+  const linkedPathUnsavedIds = useMemo(
+    () => linkedPath ? linkedPath.personIds.filter((id) => !visitCollectionIds.includes(id)) : [],
+    [linkedPath, visitCollectionIds],
+  );
+  const linkedPathAvailableSaveSlots = Math.max(visitCollectionLimit - visitCollectionPeople.length, 0);
+  const linkedPathSaveCount = Math.min(
+    linkedPathUnsavedIds.length,
+    linkedPathAvailableSaveSlots,
+  );
+  const contextualNextSteps = useMemo(
+    () => buildContextualNextSteps({
+      allPeople,
+      focusedPerson,
+      legacyChronology,
+      traceContext,
+    }),
+    [allPeople, focusedPerson, legacyChronology, traceContext],
   );
   const traceTrailIds = useTraceTrail({
     focusedPersonId,
@@ -346,6 +370,14 @@ export function LivingHallView({
     onAddVisitCollectionPerson?.(focusedPerson.id);
   }
 
+  function saveLinkedPathToVisit() {
+    if (!linkedPath || linkedPathSaveCount <= 0 || !qrEnabled) return;
+    onEngage?.();
+    linkedPathUnsavedIds.slice(0, linkedPathSaveCount).forEach((personId) => {
+      onAddVisitCollectionPerson?.(personId);
+    });
+  }
+
   const hallClassName = [
     'living-hall',
     attractActive ? 'living-hall--attract' : '',
@@ -415,6 +447,10 @@ export function LivingHallView({
       data-trace-trail-size={lens === 'traces' ? traceTrailIds.length : 0}
       data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
       data-legacy-focus-locked={legacyFocusModalOpen ? 'true' : 'false'}
+      data-linked-path-active={linkedPath ? 'true' : 'false'}
+      data-linked-path-kind={linkedPath?.kind ?? ''}
+      data-linked-path-label={linkedPath?.label ?? ''}
+      data-linked-path-count={linkedPath?.personIds.length ?? 0}
       data-content-window-open={focusContentWindowOpen ? 'true' : 'false'}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyTimeline.pan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
@@ -477,6 +513,17 @@ export function LivingHallView({
         />
       )}
 
+      {!loading && !error && linkedPath && activePersonAction === 'overview' && (
+        <LinkedPathRibbon
+          path={linkedPath}
+          availableSlots={linkedPathAvailableSaveSlots}
+          saveCount={linkedPathSaveCount}
+          saveEnabled={qrEnabled}
+          unsavedCount={linkedPathUnsavedIds.length}
+          onSave={saveLinkedPathToVisit}
+        />
+      )}
+
       <div className="living-hall__fieldViewport">
         <div
           className="living-hall__field"
@@ -502,11 +549,15 @@ export function LivingHallView({
           const style = portraitStyle(position, lens, inductee.id, frameState, frameAspect, settings, hallLayout);
           const lensBadge = portraitLensBadge(lens, position, inductee, activeLegacyYear);
           const portraitCategory = portraitCategoryForLens(lens, position, inductee, activeLegacyYear);
+          const linked = linkedPersonIds.has(inductee.id);
+          const linkedPathDimmed = Boolean(linkedPath) && !linked && !position.focused;
           const className = [
             'living-portrait',
             position.emphasis ? 'living-portrait--emphasis' : '',
             position.focused ? 'living-portrait--focused' : '',
             position.muted ? 'living-portrait--muted' : '',
+            linked ? 'living-portrait--linked' : '',
+            linkedPathDimmed ? 'living-portrait--path-dimmed' : '',
             inductee.hasVideo ? 'living-portrait--has-media' : '',
             inductee.featured || inductee.featuredCandidate ? 'living-portrait--featured' : '',
           ].filter(Boolean).join(' ');
@@ -521,6 +572,7 @@ export function LivingHallView({
               data-frame-state={frameState}
               data-frame-aspect={frameAspect}
               data-lens-badge={lensBadge || undefined}
+              data-linked-path={linked ? 'true' : undefined}
               data-media-available={inductee.hasVideo ? 'true' : 'false'}
               data-portrait-category={portraitCategory}
               key={inductee.id}
@@ -631,9 +683,11 @@ export function LivingHallView({
           continuationAvailable={Boolean(focusedContinuationUrl)}
           fullTextAvailable={focusedFullTextAvailable}
           legacyChronology={legacyChronology}
+          linkedPath={linkedPath}
           lens={lens}
           mediaPlayable={Boolean(focusedWatchAvailability?.playable)}
           placement={focusedCardPlacement}
+          nextSteps={contextualNextSteps}
           traceContext={traceContext}
           visitCollectionEnabled={qrEnabled}
           visitCollectionCount={visitCollectionPeople.length}
@@ -642,6 +696,7 @@ export function LivingHallView({
           onClose={onCloseFocus}
           onFollowTrace={openTraceChooser}
           onLegacyJump={legacyTimeline.changeClass}
+          onExplorePath={onExplorePath}
           onSelectPerson={selectPortrait}
           onSetAction={setHallPersonAction}
           onToggleVisitCollection={toggleFocusedVisitCollection}
@@ -710,4 +765,64 @@ export function LivingHallView({
 function cycleImage(current: number | null, total: number, direction: -1 | 1) {
   if (current === null || total <= 0) return null;
   return (current + direction + total) % total;
+}
+
+function LinkedPathRibbon({
+  availableSlots,
+  path,
+  saveCount,
+  saveEnabled,
+  unsavedCount,
+  onSave,
+}: {
+  availableSlots: number;
+  path: HallLinkedPath;
+  saveCount: number;
+  saveEnabled: boolean;
+  unsavedCount: number;
+  onSave: () => void;
+}) {
+  const saveDisabled = !saveEnabled || saveCount <= 0;
+  const saveLabel = !saveEnabled
+    ? 'Visit saving unavailable'
+    : unsavedCount <= 0
+      ? 'Path already saved'
+      : availableSlots <= 0
+        ? 'Visit full'
+        : `Save ${saveCount} to visit`;
+
+  return (
+    <aside
+      className="living-hall__pathRibbon"
+      aria-label={`Active path: ${path.label}`}
+      onPointerDown={(event) => event.stopPropagation()}
+    >
+      <span>{linkedPathKindLabel(path.kind)}</span>
+      <strong>{path.label}</strong>
+      <small>{path.personIds.length} {path.personIds.length === 1 ? 'portrait' : 'portraits'} highlighted</small>
+      <button
+        type="button"
+        disabled={saveDisabled}
+        aria-label={`${saveLabel} from ${path.label}`}
+        onClick={onSave}
+      >
+        {saveLabel}
+      </button>
+    </aside>
+  );
+}
+
+function linkedPathKindLabel(kind: HallLinkedPath['kind']) {
+  switch (kind) {
+    case 'heritage':
+      return 'Nationality Path';
+    case 'class':
+      return 'Class Path';
+    case 'theme':
+      return 'Theme Path';
+    case 'community':
+      return 'Community Path';
+    case 'person':
+      return 'Profile Path';
+  }
 }

@@ -274,6 +274,91 @@
   font-weight: 750;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon {
+  position: absolute;
+  left: clamp(28px, 3vw, 58px);
+  top: clamp(150px, 17vh, 210px);
+  z-index: 3185;
+  display: grid;
+  gap: 3px;
+  max-width: min(320px, 26vw);
+  border-left: 2px solid rgba(155, 63, 31, 0.78);
+  background: linear-gradient(90deg, rgba(244, 234, 211, 0.72), rgba(244, 234, 211, 0.12));
+  color: rgba(21, 19, 15, 0.82);
+  padding: 9px 12px;
+  pointer-events: auto;
+  transform: scale(var(--kiosk-label-scale, 1));
+  transform-origin: left top;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon span,
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon small {
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.58rem, 0.62vw, 0.78rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon span {
+  color: rgba(155, 63, 31, 0.78);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon strong {
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.86);
+  font-family: var(--font-exhibit-nav);
+  font-size: clamp(1rem, 1.12vw, 1.42rem);
+  font-stretch: var(--type-width-nav);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon small {
+  color: rgba(21, 19, 15, 0.56);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon button {
+  width: max-content;
+  min-height: 34px;
+  margin-top: 5px;
+  border: 1px solid rgba(155, 63, 31, 0.28);
+  border-radius: 6px;
+  background: rgba(155, 63, 31, 0.12);
+  color: rgba(21, 19, 15, 0.78);
+  padding: 0 10px;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.62rem, 0.66vw, 0.82rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon button:is(:hover, :focus-visible) {
+  border-color: rgba(155, 63, 31, 0.56);
+  background: rgba(155, 63, 31, 0.18);
+  outline: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon button:disabled {
+  border-color: rgba(21, 19, 15, 0.14);
+  background: rgba(21, 19, 15, 0.04);
+  color: rgba(21, 19, 15, 0.38);
+  cursor: default;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport {
   position: absolute;
   top: var(--kiosk-field-inset, 0vmin);
@@ -1144,6 +1229,82 @@
   font-size: clamp(0.88rem, 0.92vw, 1.08rem);
   font-variation-settings: "opsz" var(--type-opsz-text);
   line-height: 1.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextSteps {
+  display: grid;
+  gap: 8px;
+  margin-top: clamp(12px, 1.1vw, 18px);
+  border-top: 1px solid rgba(21, 19, 15, 0.18);
+  padding-top: clamp(10px, 0.9vw, 15px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextSteps h4 {
+  margin: 0;
+  color: var(--exhibit-route);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.74rem, 0.78vw, 0.96rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextSteps ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep {
+  width: 100%;
+  min-height: 48px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  border: 1px solid rgba(21, 19, 15, 0.14);
+  border-radius: 6px;
+  background: rgba(244, 234, 211, 0.28);
+  color: rgba(21, 19, 15, 0.84);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep span {
+  overflow: hidden;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.72rem, 0.76vw, 0.96rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep small {
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.54);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.66rem, 0.68vw, 0.84rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep:is(:hover, :focus-visible),
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep--active,
+.museum-shell:not(.museum-shell--staff) .living-hall__nextStep[aria-pressed="true"] {
+  border-color: rgba(155, 63, 31, 0.52);
+  background: rgba(155, 63, 31, 0.12);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusActions {
@@ -2890,6 +3051,35 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait--focused {
   filter: contrast(1.18) brightness(0.96);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--path-dimmed:not(.living-portrait--focused) {
+  opacity: 0.2;
+  filter: grayscale(1) contrast(0.86) brightness(0.9);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--linked {
+  opacity: 1;
+  filter: contrast(1.08) brightness(1);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--linked .living-portrait__imageWrap {
+  border-color: rgba(155, 63, 31, 0.72);
+  box-shadow:
+    0 0 0 5px rgba(244, 234, 211, 0.66),
+    0 0 0 9px rgba(155, 63, 31, 0.22),
+    0 18px 30px rgba(21, 19, 15, 0.2);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--linked .living-portrait__label {
+  border-left-color: rgba(155, 63, 31, 0.82);
+  background: rgba(244, 234, 211, 0.92);
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--focused.living-portrait--linked .portrait-frame {
+  outline: 3px solid rgba(155, 63, 31, 0.5);
+  outline-offset: 8px;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
