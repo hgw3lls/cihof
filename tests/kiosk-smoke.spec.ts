@@ -342,6 +342,16 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstFrameId}"]`)).toHaveCount(1);
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstFrameId}"]`)).toHaveAttribute('data-transition-role', 'time-portrait');
     await expect(page.locator('.living-hall__legacyControls')).toBeVisible();
+    await expect(page.locator('.living-hall__legacyClassShelf')).toBeVisible();
+    const classShelfPerson = page.locator('.living-hall__legacyClassPerson').first();
+    await expect(classShelfPerson).toBeVisible();
+    const classShelfPersonId = await classShelfPerson.getAttribute('data-legacy-person');
+    expect(classShelfPersonId).toBeTruthy();
+    await classShelfPerson.click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', classShelfPersonId ?? '');
+    await expect(page.getByRole('dialog', { name: /cohort navigator/i })).toBeVisible();
+    await dismissLegacyFocus(page);
+    await expect(page.locator('.living-hall__legacyControls')).toBeVisible();
     await expect(page.locator('.time-lens')).toHaveCount(0);
     await expect(page.locator('.hall-surface__lensPanel--legacies')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });

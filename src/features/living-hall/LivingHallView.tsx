@@ -692,6 +692,7 @@ export function LivingHallView({
           activeYear={activeLegacyYear}
           chronology={legacyChronology}
           onJump={legacyTimeline.changeClass}
+          onSelectPerson={selectPortrait}
         />
       )}
 

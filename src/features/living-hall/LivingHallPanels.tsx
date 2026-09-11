@@ -760,17 +760,24 @@ export function LegacyControls({
   activeYear,
   chronology,
   onJump,
+  onSelectPerson,
 }: {
   activeYear: number | null;
   chronology: LegacyChronology;
   onJump: (direction: LegacyJumpTarget) => void;
+  onSelectPerson: (inductee: Inductee) => void;
 }) {
   if (chronology.years.length === 0) return null;
   const activeIndex = activeYear === null ? 0 : Math.max(chronology.years.indexOf(activeYear), 0);
   const activeLabel = activeYear === null ? `${chronology.firstYear ?? ''}` : String(activeYear);
+  const activeGroup = legacyGroupForYear(chronology, activeYear);
+  const activePeople = activeGroup?.people ?? [];
+  const visibleClassPeople = activePeople.slice(0, 6);
+  const hiddenClassPeople = Math.max(0, activePeople.length - visibleClassPeople.length);
   const range = chronology.firstYear && chronology.lastYear
     ? `${chronology.firstYear} - ${chronology.lastYear}`
     : 'Class chronology';
+  const classPosition = activeIndex >= 0 ? `${activeIndex + 1} of ${chronology.years.length}` : String(chronology.years.length);
 
   return (
     <nav className="living-hall__legacyControls" aria-label="Chronology controls">
@@ -817,6 +824,36 @@ export function LegacyControls({
         <strong>{activeLabel}</strong>
         <em>{range}</em>
       </span>
+      {activeGroup && (
+        <section className="living-hall__legacyClassShelf" aria-label={`${activeGroup.label} cohort browser`}>
+          <header className="living-hall__legacyClassShelfHeader">
+            <span>Class Browser</span>
+            <strong>{activeGroup.label}</strong>
+            <small>{activePeople.length} {activePeople.length === 1 ? 'portrait' : 'portraits'} / {classPosition}</small>
+          </header>
+          <ol className="living-hall__legacyClassRoster" aria-label={`${activeGroup.label} inductees`}>
+            {visibleClassPeople.map((person, index) => (
+              <li key={person.id}>
+                <button
+                  className="living-hall__legacyClassPerson"
+                  type="button"
+                  aria-label={`Focus ${person.name}, ${activeGroup.label}`}
+                  data-legacy-person={person.id}
+                  onClick={() => onSelectPerson(person)}
+                >
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{person.name}</strong>
+                </button>
+              </li>
+            ))}
+            {hiddenClassPeople > 0 && (
+              <li aria-hidden="true">
+                <span className="living-hall__legacyClassMore">+{hiddenClassPeople}</span>
+              </li>
+            )}
+          </ol>
+        </section>
+      )}
       <button
         className="living-hall__legacyControl living-hall__legacyControl--edge living-hall__legacyControl--next"
         type="button"
