@@ -35,6 +35,36 @@ test.describe('museum kiosk smoke', () => {
     expect(buildInfoJson.gitCommitShort).toBe(health.buildInfo.gitCommitShort);
   });
 
+  test('command search jumps to nationality traces, classes, and people', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator('button.living-portrait').first()).toBeVisible();
+    const search = page.locator('#museum-command-search');
+
+    await search.fill('Chinese');
+    await expect(page.locator('.museum-command')).toHaveClass(/museum-command--open/);
+    await page.locator('.museum-command__result').filter({ hasText: 'Chinese' }).filter({ hasText: 'Traces' }).first().click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', 'country:chinese');
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await search.fill('2024');
+    await expect(page.locator('.museum-command')).toHaveClass(/museum-command--open/);
+    await page.locator('.museum-command__result').filter({ hasText: 'Class of 2024' }).first().click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', '2024');
+    await expect(page).toHaveURL(/lens=legacies/);
+    await expect(page).toHaveURL(/timeYear=2024/);
+    await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
+
+    await search.fill('Dona');
+    await expect(page.locator('.museum-command')).toHaveClass(/museum-command--open/);
+    await page.locator('.museum-command__result').filter({ hasText: 'Dona Brady' }).first().click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', 'dona-brady-2024');
+    await expect(page.locator('.living-hall__focusCard')).toContainText('Dona Brady');
+  });
+
   test('locks document scroll inside the persistent Hall surface', async ({ page }) => {
     await page.goto('./?view=world');
     await expect(page.locator('.hall-surface')).toHaveCount(1);
