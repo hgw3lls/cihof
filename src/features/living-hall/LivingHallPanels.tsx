@@ -7,6 +7,7 @@ import {
   isPresentationReadyGeography,
   relationshipLineLabel,
   relationshipSupportLabel,
+  type NetworkReason,
 } from '../../data/traceModel';
 import type { HallLens, Inductee, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
 import { MediaExperience } from '../inductee-detail/MediaExperience';
@@ -271,6 +272,10 @@ function TraceFocusConnections({
     : context.mode === 'concept'
       ? 'Shared concept'
       : 'Nationality trace';
+  const leadingReason = visibleThreads[0]?.reasons[0] ?? null;
+  const leadingSupport = leadingReason
+    ? relationshipSupportLabel(leadingReason, activePerson.name) || leadingReason.detail
+    : '';
 
   return (
     <section className="living-hall__traceFocus" aria-label={`${activePerson.name} connection context`}>
@@ -278,6 +283,7 @@ function TraceFocusConnections({
         <span>{modeLabel}</span>
         <strong>{activeTitle}</strong>
         <small>{totalConnections} shown / {directCount} direct</small>
+        {leadingSupport && <em>{leadingSupport}</em>}
       </header>
       {visibleThreads.length > 0 ? (
         <ol className="living-hall__traceConnectionList" aria-label="Visible connected portraits">
@@ -285,6 +291,7 @@ function TraceFocusConnections({
             const reason = thread.reasons[0] ?? null;
             const label = reason ? relationshipLineLabel(reason, activePerson.name) : activeTitle;
             const detail = reason ? relationshipSupportLabel(reason, activePerson.name) || reason.detail : '';
+            const supportingReasons = thread.reasons.slice(0, 2);
             return (
               <li key={thread.person.id}>
                 <button
@@ -299,6 +306,15 @@ function TraceFocusConnections({
                     <strong>{thread.person.name}</strong>
                     <em>{label}</em>
                     {detail && <small>{detail}</small>}
+                    {supportingReasons.length > 1 && (
+                      <span className="living-hall__traceConnectionReasons" aria-label={`${thread.person.name} supporting trace reasons`}>
+                        {supportingReasons.map((supportingReason) => (
+                          <b key={`${supportingReason.type}-${supportingReason.label}`}>
+                            {traceReasonChipLabel(supportingReason, activePerson.name)}
+                          </b>
+                        ))}
+                      </span>
+                    )}
                   </span>
                   <span
                     aria-hidden="true"
@@ -845,6 +861,8 @@ export function TracePanel({
       ? context.placeFocus.label
       : 'Direct Ties';
   const choices = traceChooserOptions(context);
+  const guideCards = traceGuideCards(context, choices);
+  const evidenceItems = traceEvidenceItems(context, activePerson.name);
   const traceMetrics = [
     { label: 'Direct', value: context.directThreads.length },
     { label: 'Concept', value: context.conceptChoices.length },
@@ -856,11 +874,18 @@ export function TracePanel({
       className={chooserOpen ? 'living-hall__tracePanel living-hall__tracePanel--chooser-open' : 'living-hall__tracePanel'}
       data-side={panelSide}
       aria-label={`${activePerson.name} traces`}
+      onPointerDown={(event) => event.stopPropagation()}
     >
       <header className="living-hall__traceHeader">
         <span>TRACES</span>
         <h3>{activePerson.name}</h3>
-        <button className="living-hall__traceContextButton" type="button" aria-expanded={chooserOpen} onClick={onOpenChooser}>
+        <button
+          className="living-hall__traceContextButton"
+          type="button"
+          aria-expanded={chooserOpen}
+          aria-label={`Choose trace path. Current path: ${activeTitle}`}
+          onClick={onOpenChooser}
+        >
           {activeTitle}
         </button>
       </header>
@@ -874,8 +899,46 @@ export function TracePanel({
         ))}
       </div>
 
+      {guideCards.length > 0 && (
+        <div className="living-hall__traceGuide" aria-label="Guided trace paths">
+          {guideCards.map((guide) => {
+            const active = guide.key === context.traceFocusKey;
+            return (
+              <button
+                aria-pressed={active}
+                className={active ? 'living-hall__traceGuideCard living-hall__traceGuideCard--active' : 'living-hall__traceGuideCard'}
+                data-trace-guide={guide.kind}
+                key={guide.key || 'direct'}
+                type="button"
+                onClick={() => onTraceFocusChange?.(guide.key)}
+              >
+                <span>{guide.eyebrow}</span>
+                <strong>{guide.label}</strong>
+                <small>{guide.detail}</small>
+                <em>{guide.countLabel}</em>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {evidenceItems.length > 0 && (
+        <div className="living-hall__traceEvidence" aria-label="Why this trace appears">
+          {evidenceItems.map((item) => (
+            <span
+              className={`living-hall__traceEvidenceItem living-hall__traceEvidenceItem--${item.provenance}`}
+              key={item.key}
+            >
+              <small>{item.source}</small>
+              <strong>{item.label}</strong>
+              {item.detail && <em>{item.detail}</em>}
+            </span>
+          ))}
+        </div>
+      )}
+
       {onTraceFocusChange && choices.length > 0 && (
-        <nav className="living-hall__traceControls" aria-label="Reorganize traces">
+        <nav className="living-hall__traceControls" aria-hidden={chooserOpen ? undefined : true} aria-label="Reorganize traces">
           {choices.map((choice) => {
             const active = choice.key === context.traceFocusKey;
             return (
@@ -1027,10 +1090,112 @@ type PortraitFocusFact = {
   value: string;
 };
 
+type TraceGuideCard = {
+  key: string;
+  kind: 'direct' | 'concept' | 'place';
+  eyebrow: string;
+  label: string;
+  detail: string;
+  countLabel: string;
+};
+
+type TraceEvidenceItem = {
+  key: string;
+  provenance: NetworkReason['provenance'];
+  source: string;
+  label: string;
+  detail: string;
+};
+
 function traceActiveTitle(context: TraceContext) {
   if (context.mode === 'concept') return context.activeConcept?.lens.label ?? 'Concept Trace';
   if (context.mode === 'place') return context.placeFocus.label;
   return 'Direct Ties';
+}
+
+function traceGuideCards(context: TraceContext, choices: ReturnType<typeof traceChooserOptions>): TraceGuideCard[] {
+  const directChoice = choices.find((choice) => choice.kind === 'direct');
+  const conceptChoice = choices.find((choice) => choice.kind === 'concept');
+  const placeChoice = choices.find((choice) => choice.kind === 'place');
+  const cards: TraceGuideCard[] = [];
+
+  if (directChoice) {
+    cards.push({
+      key: directChoice.key,
+      kind: 'direct',
+      eyebrow: 'Start here',
+      label: directChoice.label,
+      detail: context.directThreads.length === 1 ? '1 documented person-to-person tie' : `${context.directThreads.length} documented person-to-person ties`,
+      countLabel: `${context.directThreads.length} links`,
+    });
+  }
+
+  if (conceptChoice) {
+    const concept = context.conceptChoices.find((thread) => `concept:${thread.lens.id}` === conceptChoice.key);
+    const peopleCount = concept?.people.length ?? 0;
+    cards.push({
+      key: conceptChoice.key,
+      kind: 'concept',
+      eyebrow: 'Story path',
+      label: conceptChoice.label,
+      detail: compactTraceText(conceptChoice.detail || 'Shared work, themes, or civic impact'),
+      countLabel: peopleCount > 0 ? `${peopleCount} people` : 'shared theme',
+    });
+  }
+
+  if (placeChoice) {
+    const placePeople = context.placeChoices.find((choice) => choice.key === placeChoice.key)?.detail.match(/\d+/)?.[0];
+    cards.push({
+      key: placeChoice.key,
+      kind: 'place',
+      eyebrow: 'Heritage path',
+      label: placeChoice.label,
+      detail: compactTraceText(placeChoice.detail || 'Presentation-ready nationality and heritage metadata'),
+      countLabel: placePeople ? `${placePeople} people` : `${context.placeFocus.people.length} people`,
+    });
+  }
+
+  return cards.slice(0, 3);
+}
+
+function traceEvidenceItems(context: TraceContext, activeName: string): TraceEvidenceItem[] {
+  const seen = new Set<string>();
+  const items: TraceEvidenceItem[] = [];
+
+  context.visibleThreads.forEach((thread) => {
+    thread.reasons.forEach((reason) => {
+      const label = relationshipLineLabel(reason, activeName);
+      const detail = compactTraceText(relationshipSupportLabel(reason, activeName) || reason.detail);
+      const key = `${reason.type}-${label}-${detail}-${reason.provenance}`;
+      if (seen.has(key) || items.length >= 3) return;
+      seen.add(key);
+      items.push({
+        key,
+        provenance: reason.provenance,
+        source: traceEvidenceSource(reason.provenance),
+        label,
+        detail,
+      });
+    });
+  });
+
+  return items;
+}
+
+function traceReasonChipLabel(reason: NetworkReason, activeName: string) {
+  return compactTraceText(relationshipLineLabel(reason, activeName), 30);
+}
+
+function traceEvidenceSource(provenance: NetworkReason['provenance']) {
+  if (provenance === 'documented') return 'Documented';
+  if (provenance === 'curated') return 'Curated';
+  return 'Working';
+}
+
+function compactTraceText(value: string, maxLength = 82) {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= maxLength) return normalized;
+  return `${normalized.slice(0, maxLength - 3).replace(/[,;:\s]+$/, '')}...`;
 }
 
 function legacyFocusGroup({
