@@ -2213,6 +2213,127 @@
   font-size: clamp(0.74rem, 0.78vw, 0.96rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelf {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--experience-dock-height) + clamp(124px, 13.5vh, 188px));
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.32fr) minmax(0, 1fr);
+  gap: clamp(10px, 1vw, 18px);
+  width: min(760px, 54vw);
+  border-top: 2px solid rgba(155, 63, 31, 0.62);
+  background:
+    linear-gradient(90deg, rgba(244, 234, 211, 0.84), rgba(244, 234, 211, 0.56)),
+    linear-gradient(90deg, rgba(9, 9, 7, 0.03) 1px, transparent 1px);
+  background-size: auto, var(--exhibit-stage-grid);
+  box-shadow: 0 18px 32px rgba(9, 9, 7, 0.08);
+  color: rgba(9, 9, 7, 0.78);
+  padding: clamp(9px, 0.82vw, 13px);
+  pointer-events: auto;
+  transform: translateX(-50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelfHeader,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassMore {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelfHeader {
+  display: grid;
+  align-content: center;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelfHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelfHeader small {
+  overflow: hidden;
+  color: rgba(155, 63, 31, 0.66);
+  font-size: clamp(0.48rem, 0.52vw, 0.66rem);
+  font-weight: 680;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelfHeader strong {
+  overflow: hidden;
+  color: rgba(9, 9, 7, 0.86);
+  font-size: clamp(1.02rem, 1.16vw, 1.54rem);
+  font-weight: 780;
+  line-height: 0.9;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassRoster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassRoster li {
+  min-width: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson {
+  display: grid;
+  grid-template-columns: 2.35ch minmax(0, 1fr);
+  align-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 44px;
+  border-top-color: rgba(9, 9, 7, 0.18);
+  background: rgba(244, 234, 211, 0.24);
+  color: rgba(9, 9, 7, 0.7);
+  padding: 7px 8px 6px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson:is(:hover, :focus-visible) {
+  border-top-color: rgba(155, 63, 31, 0.76);
+  background: rgba(155, 63, 31, 0.12);
+  color: rgba(9, 9, 7, 0.88);
+  outline: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson span,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson span {
+  color: rgba(155, 63, 31, 0.62);
+  font-size: clamp(0.48rem, 0.5vw, 0.62rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson strong {
+  font-size: clamp(0.62rem, 0.68vw, 0.84rem);
+  font-weight: 750;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyClassMore {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-top: 1px solid rgba(9, 9, 7, 0.16);
+  background: rgba(9, 9, 7, 0.04);
+  color: rgba(9, 9, 7, 0.46);
+  font-size: clamp(0.58rem, 0.62vw, 0.78rem);
+  font-weight: 760;
+}
+
 .museum-shell:not(.museum-shell--staff) :is(.city-question__trigger, .city-question__option, .city-question__close) {
   border: 0;
   border-top: 1px solid rgba(21, 19, 15, 0.18);
@@ -2995,6 +3116,19 @@
     width: auto;
     overflow: hidden;
     transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelf {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    bottom: calc(var(--experience-dock-height) + 140px);
+    grid-template-columns: 1fr;
+    width: auto;
+    transform: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassRoster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__legacyYear {
