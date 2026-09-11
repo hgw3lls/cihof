@@ -457,7 +457,13 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
 
   function isInsideLegacyFocusTarget(target: EventTarget | null) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-    return Boolean(element?.closest('.living-hall__focusCard, .museum-command, .living-hall__pathRibbon'));
+    return Boolean(element?.closest([
+      '.living-hall__focusCard',
+      '.museum-command',
+      '.living-hall__pathRibbon',
+      '.living-hall__visitTray',
+      '.living-hall__visitQrPanel',
+    ].join(', ')));
   }
 
   function clearLegacyFocusClickSuppression() {

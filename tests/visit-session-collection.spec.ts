@@ -7,7 +7,7 @@ test.describe('saved visit collection', () => {
     await expect(page.locator('.hall-surface')).toHaveCount(1);
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
 
-    const firstId = await clickVisiblePortrait(page);
+    const firstId = await focusPersonFromSearch(page, 'Helen Karpinski', 'Helen Karpinski');
     await expectFocused(page, firstId);
     await waitForGuard(page);
 
@@ -19,7 +19,7 @@ test.describe('saved visit collection', () => {
     await expect(tray).toContainText('1 saved record');
     await expect(tray.locator(`[data-visit-person="${firstId}"]`)).toBeVisible();
 
-    const secondId = await clickVisiblePortrait(page, [firstId]);
+    const secondId = await focusPersonFromSearch(page, 'Jeanette Grasselli Brown', 'Jeanette Grasselli Brown');
     await expectFocused(page, secondId);
     await waitForGuard(page);
 
@@ -28,6 +28,20 @@ test.describe('saved visit collection', () => {
     await expect(tray).toContainText('2 saved records');
     await expect(tray.locator(`[data-visit-person="${secondId}"]`)).toBeVisible();
     await expect(page).toHaveURL(/visit=/);
+    await waitForGuard(page);
+
+    await tray.getByRole('button', { name: 'Start journey', exact: true }).click();
+    await expect(tray).toHaveAttribute('data-journey-active', 'true');
+    await expect(tray).toHaveAttribute('data-journey-index', '0');
+    await expect(tray.getByLabel('Guided visit journey')).toContainText('1 / 2');
+    await expectFocused(page, firstId);
+    await waitForGuard(page);
+
+    await tray.getByRole('button', { name: 'Next saved person', exact: true }).click();
+    await expect(tray).toHaveAttribute('data-journey-index', '1');
+    await expect(tray.locator(`[data-visit-person="${secondId}"]`)).toHaveAttribute('aria-current', 'step');
+    await expectFocused(page, secondId);
+    await waitForGuard(page);
 
     await tray.getByRole('button', { name: 'Visit QR', exact: true }).click();
     const qrPanel = page.getByRole('dialog', { name: 'Saved visit QR' });
@@ -60,37 +74,14 @@ test.describe('saved visit collection', () => {
   });
 });
 
-async function clickVisiblePortrait(page: Page, skipIds: string[] = []) {
-  const target = await page.evaluate((idsToSkip) => {
-    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('button.living-portrait'));
-    const visible = buttons.find((button) => {
-      const id = button.dataset.transitionPerson ?? '';
-      if (!id || idsToSkip.includes(id) || button.classList.contains('living-portrait--focused')) return false;
-      const rect = button.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const hit = document.elementFromPoint(x, y);
-      return rect.width > 24
-        && rect.height > 32
-        && rect.left > 8
-        && rect.right < window.innerWidth - 8
-        && rect.top > 32
-        && rect.bottom < window.innerHeight - 96
-        && Boolean(hit && button.contains(hit));
-    });
-
-    if (!visible) return null;
-    const rect = visible.getBoundingClientRect();
-    return {
-      id: visible.dataset.transitionPerson ?? '',
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    };
-  }, skipIds);
-
-  if (!target?.id) throw new Error('No visible portrait was available for the saved visit test.');
-  await page.mouse.click(target.x, target.y);
-  return target.id;
+async function focusPersonFromSearch(page: Page, query: string, resultText: string) {
+  const search = page.locator('#museum-command-search');
+  await search.fill(query);
+  await expect(page.locator('.museum-command')).toHaveClass(/museum-command--open/);
+  await page.locator('.museum-command__result').filter({ hasText: resultText }).first().click();
+  const focusedId = await page.locator('.hall-surface').getAttribute('data-focused-person-id');
+  expect(focusedId).toBeTruthy();
+  return focusedId ?? '';
 }
 
 async function expectFocused(page: Page, personId: string) {

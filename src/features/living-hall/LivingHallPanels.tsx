@@ -485,31 +485,49 @@ function LegacyFocusNavigator({
 }
 
 export function VisitCollectionTray({
+  journeyActive,
+  journeyIndex,
   people,
   qrOpen,
   sessionUrl,
   onClear,
   onCloseQr,
   onOpenQr,
+  onStartJourney,
+  onStopJourney,
+  onPreviousJourney,
+  onNextJourney,
+  onSelectJourneyStep,
   onRemove,
   onSelect,
 }: {
+  journeyActive: boolean;
+  journeyIndex: number;
   people: Inductee[];
   qrOpen: boolean;
   sessionUrl: string;
   onClear: () => void;
   onCloseQr: () => void;
   onOpenQr: () => void;
+  onStartJourney: () => void;
+  onStopJourney: () => void;
+  onPreviousJourney: () => void;
+  onNextJourney: () => void;
+  onSelectJourneyStep: (index: number) => void;
   onRemove: (personId: string) => void;
   onSelect: (inductee: Inductee) => void;
 }) {
   const title = `${people.length} saved ${people.length === 1 ? 'record' : 'records'}`;
+  const activeJourneyIndex = clamp(Math.round(journeyIndex), 0, Math.max(people.length - 1, 0));
+  const activeJourneyPerson = journeyActive ? people[activeJourneyIndex] ?? null : null;
 
   return (
     <>
       <aside
         aria-label="Saved visit collection"
         className="living-hall__visitTray"
+        data-journey-active={journeyActive ? 'true' : 'false'}
+        data-journey-index={journeyActive ? activeJourneyIndex : ''}
         data-saved-count={people.length}
         onPointerDown={(event) => event.stopPropagation()}
       >
@@ -519,35 +537,85 @@ export function VisitCollectionTray({
             <strong>{title}</strong>
           </div>
           <div className="living-hall__visitTrayActions">
+            <button
+              type="button"
+              aria-pressed={journeyActive}
+              onClick={journeyActive ? onStopJourney : onStartJourney}
+            >
+              {journeyActive ? 'End journey' : 'Start journey'}
+            </button>
             <button type="button" onClick={onOpenQr}>Visit QR</button>
             <button type="button" onClick={onClear}>Clear</button>
           </div>
         </header>
         <ol className="living-hall__visitList" aria-label="Saved people">
-          {people.map((person, index) => (
-            <li key={person.id}>
-              <button
-                className="living-hall__visitPerson"
-                data-visit-person={person.id}
-                type="button"
-                onClick={() => onSelect(person)}
-              >
-                <span>{index + 1}</span>
-                <strong>{person.name}</strong>
-                <small>{person.classYear ? `Class of ${person.classYear}` : person.region}</small>
-              </button>
-              <button
-                aria-label={`Remove ${person.name} from saved visit`}
-                className="living-hall__visitRemove"
-                data-remove-visit-person={person.id}
-                type="button"
-                onClick={() => onRemove(person.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
+          {people.map((person, index) => {
+            const journeyStepActive = journeyActive && index === activeJourneyIndex;
+            const personClassName = journeyStepActive
+              ? 'living-hall__visitPerson living-hall__visitPerson--journey'
+              : 'living-hall__visitPerson';
+
+            return (
+              <li key={person.id}>
+                <button
+                  className={personClassName}
+                  aria-current={journeyStepActive ? 'step' : undefined}
+                  data-visit-person={person.id}
+                  type="button"
+                  onClick={() => {
+                    if (journeyActive) {
+                      onSelectJourneyStep(index);
+                      return;
+                    }
+                    onSelect(person);
+                  }}
+                >
+                  <span>{index + 1}</span>
+                  <strong>{person.name}</strong>
+                  <small>{person.classYear ? `Class of ${person.classYear}` : person.region}</small>
+                </button>
+                <button
+                  aria-label={`Remove ${person.name} from saved visit`}
+                  className="living-hall__visitRemove"
+                  data-remove-visit-person={person.id}
+                  type="button"
+                  onClick={() => onRemove(person.id)}
+                >
+                  Remove
+                </button>
+              </li>
+            );
+          })}
         </ol>
+
+        {activeJourneyPerson && (
+          <section className="living-hall__visitJourney" aria-label="Guided visit journey">
+            <header>
+              <span>JOURNEY STEP</span>
+              <strong>{activeJourneyIndex + 1} / {people.length}</strong>
+            </header>
+            <div className="living-hall__visitJourneyPerson">
+              <strong>{activeJourneyPerson.name}</strong>
+              <small>{journeyPersonLabel(activeJourneyPerson)}</small>
+              <p>{journeyPersonSummary(activeJourneyPerson)}</p>
+            </div>
+            <div className="living-hall__visitJourneyControls">
+              <button type="button" aria-label="Previous saved person" onClick={onPreviousJourney}>Previous</button>
+              <button type="button" aria-label="Next saved person" onClick={onNextJourney}>Next</button>
+            </div>
+            <div className="living-hall__visitJourneyDots" aria-label="Saved visit steps">
+              {people.map((person, index) => (
+                <button
+                  key={person.id}
+                  type="button"
+                  aria-label={`Jump to step ${index + 1}: ${person.name}`}
+                  aria-pressed={index === activeJourneyIndex}
+                  onClick={() => onSelectJourneyStep(index)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </aside>
 
       {qrOpen && (
@@ -574,6 +642,29 @@ export function VisitCollectionTray({
       )}
     </>
   );
+}
+
+function journeyPersonLabel(person: Inductee) {
+  const heritage = person.countryTags.find((tag) => tag.trim().length > 0);
+  const community = person.communityTags.find((tag) => tag.trim().length > 0);
+  const classLabel = person.classYear ? `Class of ${person.classYear}` : person.region;
+  return [classLabel, heritage ?? community].filter(Boolean).join(' | ');
+}
+
+function journeyPersonSummary(person: Inductee) {
+  return trimJourneyText(
+    person.honoredForSummary
+      || person.storySummary
+      || person.lifeWorkSummary
+      || person.documentedContextLine
+      || 'Open this record for the full profile and related paths.',
+  );
+}
+
+function trimJourneyText(text: string) {
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= 142) return clean;
+  return `${clean.slice(0, 139).replace(/\s+\S*$/, '')}...`;
 }
 
 export function PersonFocusActionPanel({
