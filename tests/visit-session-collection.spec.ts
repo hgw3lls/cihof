@@ -33,11 +33,14 @@ test.describe('saved visit collection', () => {
     await tray.getByRole('button', { name: 'Start journey', exact: true }).click();
     await expect(tray).toHaveAttribute('data-journey-active', 'true');
     await expect(tray).toHaveAttribute('data-journey-index', '0');
+    await expect(tray).toHaveAttribute('data-route-title', 'Class of 2010 Legacy Path');
+    await expect(tray).toHaveAttribute('data-suggested-next', secondId);
+    await expect(tray.getByLabel('Visit route insight')).toContainText('Class of 2010');
     await expect(tray.getByLabel('Guided visit journey')).toContainText('1 / 2');
     await expectFocused(page, firstId);
     await waitForGuard(page);
 
-    await tray.getByRole('button', { name: 'Next saved person', exact: true }).click();
+    await tray.getByRole('button', { name: 'Suggested next: Jeanette Grasselli Brown', exact: true }).click();
     await expect(tray).toHaveAttribute('data-journey-index', '1');
     await expect(tray.locator(`[data-visit-person="${secondId}"]`)).toHaveAttribute('aria-current', 'step');
     await expectFocused(page, secondId);
@@ -46,13 +49,14 @@ test.describe('saved visit collection', () => {
     await tray.getByRole('button', { name: 'Visit QR', exact: true }).click();
     const qrPanel = page.getByRole('dialog', { name: 'Saved visit QR' });
     await expect(qrPanel).toBeVisible();
-    await expect(qrPanel.locator('.qr-continuation--visit-session')).toHaveAttribute('aria-label', '2 saved records visit continuation QR');
+    await expect(qrPanel.locator('.qr-continuation--visit-session')).toHaveAttribute('aria-label', 'Class of 2010 Legacy Path visit continuation QR');
 
     const qrUrl = await qrPanel.locator('.qr-continuation--visit-session small').textContent();
     expect(qrUrl).toContain('person=');
     expect(qrUrl).toContain('visit=');
     expect(qrUrl).toContain(firstId);
     expect(qrUrl).toContain(secondId);
+    expect(new URL(qrUrl ?? '').searchParams.get('route')).toBe('Class of 2010 Legacy Path');
 
     if (await qrPanel.isVisible()) {
       await qrPanel.getByRole('button', { name: 'Close', exact: true }).click();

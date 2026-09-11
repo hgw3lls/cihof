@@ -1437,6 +1437,7 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader span,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader small,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTray button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader {
   font-family: var(--font-exhibit-label);
@@ -1461,12 +1462,20 @@
   font-size: clamp(0.84rem, 0.9vw, 1.08rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTrayHeader small {
+  display: block;
+  margin-top: 0.36rem;
+  color: rgba(21, 19, 15, 0.48);
+  font-size: clamp(0.58rem, 0.62vw, 0.74rem);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions {
   display: flex;
   gap: 8px;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitRemove,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader button {
@@ -1481,14 +1490,53 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button[aria-pressed="true"],
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button:last-child {
   color: var(--exhibit-route);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button:first-child,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTrayActions button[aria-pressed="true"],
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button,
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls button:last-child {
   border-top-color: rgba(155, 63, 31, 0.7);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRoute {
+  display: grid;
+  gap: 5px;
+  border-top: 1px solid rgba(21, 19, 15, 0.14);
+  padding: clamp(9px, 0.85vw, 14px) clamp(10px, 1vw, 16px) 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRoute span,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge span,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRoute span,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge span {
+  color: rgba(155, 63, 31, 0.7);
+  font-size: clamp(0.58rem, 0.62vw, 0.74rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitRoute p,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge p {
+  margin: 0;
+  color: rgba(21, 19, 15, 0.62);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.72rem, 0.76vw, 0.9rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.24;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitList {
@@ -1655,6 +1703,35 @@
   line-height: 1.28;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge {
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid rgba(155, 63, 31, 0.24);
+  padding-top: clamp(9px, 0.9vw, 14px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge strong {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(9, 9, 7, 0.86);
+  font-size: clamp(0.78rem, 0.82vw, 1rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button {
+  justify-self: start;
+  min-width: min(160px, 100%);
+  font-size: clamp(0.58rem, 0.62vw, 0.76rem);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyControls {

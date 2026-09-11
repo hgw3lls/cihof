@@ -6,12 +6,14 @@ export function buildVisitSessionUrl({
   savedPeople,
   timelineYear,
   traceFocusKey,
+  visitTitle,
 }: {
   focusedPersonId: string;
   lens: HallLens;
   savedPeople: Inductee[];
   timelineYear: string;
   traceFocusKey: string;
+  visitTitle?: string;
 }) {
   if (savedPeople.length === 0) return '';
 
@@ -28,6 +30,7 @@ export function buildVisitSessionUrl({
   if (lens !== 'portraits') url.searchParams.set('lens', lens);
   if (lens === 'traces' && traceFocusKey) url.searchParams.set('trace', traceFocusKey);
   if (lens === 'legacies' && timelineYear) url.searchParams.set('timeYear', timelineYear);
+  if (savedPeople.length > 1 && visitTitle) url.searchParams.set('route', visitTitle);
 
   return url.href;
 }
