@@ -251,6 +251,9 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toHaveClass(/living-portrait--focused/);
     await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
     await expect(page.locator('.living-hall__traceLine').first()).toBeAttached();
+    await expect(page.locator('.living-hall__traceGuideCard')).toHaveCount(3);
+    await expect(page.locator('.living-hall__traceEvidenceItem').first()).toBeVisible();
+    await expect(page.locator('.living-hall__traceControl').first()).toBeHidden();
     await expect(page.locator('.world-lens')).toHaveCount(0);
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
