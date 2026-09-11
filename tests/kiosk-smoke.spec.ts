@@ -162,6 +162,8 @@ test.describe('museum kiosk smoke', () => {
       await expect(page.locator('.hall-surface')).toHaveCount(1);
       await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
       await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+      await waitForHallData(page);
+      await expect(page.locator('button.living-portrait').first()).toBeVisible();
       await expect(page.locator('.world-lens')).toHaveCount(0);
       await expect(page.locator('.time-lens')).toHaveCount(0);
       await expect(page.locator('.human-network')).toHaveCount(0);
@@ -171,6 +173,7 @@ test.describe('museum kiosk smoke', () => {
     await page.goto(`./?view=connections&person=${deepLink.id}`);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await waitForHallData(page);
     await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
@@ -179,6 +182,7 @@ test.describe('museum kiosk smoke', () => {
 
     await page.goto(`./?view=routes&world=${encodeURIComponent(deepLink.countryTraceKey)}`);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
+    await waitForHallData(page);
     await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', deepLink.countryTraceKey);
     await expect(page.locator('.world-lens')).toHaveCount(0);
     await expect(page).toHaveURL(/lens=traces/);
@@ -186,6 +190,7 @@ test.describe('museum kiosk smoke', () => {
 
     await page.goto(`./?view=timeline&year=${deepLink.classYear}`);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
+    await waitForHallData(page);
     await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', String(deepLink.classYear));
     await expect(page.locator('.time-lens')).toHaveCount(0);
     await expect(page).toHaveURL(/lens=legacies/);
@@ -194,6 +199,7 @@ test.describe('museum kiosk smoke', () => {
     await page.goto(`./?person=${deepLink.id}`);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
+    await waitForHallData(page);
     await expect(page.locator(`button.living-portrait[data-transition-person="${deepLink.id}"]`)).toHaveClass(/living-portrait--focused/);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
   });
@@ -500,6 +506,10 @@ async function waitForKioskHealth(
   const snapshot = await readKioskHealth(page);
   if (!snapshot) throw new Error('Kiosk health status was not published.');
   return snapshot;
+}
+
+async function waitForHallData(page: Page) {
+  await waitForKioskHealth(page, (snapshot) => snapshot.dataStatus === 'ready' && snapshot.peopleCount > 0);
 }
 
 async function readKioskHealth(page: Page) {
