@@ -828,7 +828,10 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__focusLens dt,
 .museum-shell:not(.museum-shell--staff) .living-hall__focusFacts h4,
 .museum-shell:not(.museum-shell--staff) .living-hall__focusFacts dt,
-.museum-shell:not(.museum-shell--staff) .living-hall__focusWhy h4 {
+.museum-shell:not(.museum-shell--staff) .living-hall__focusWhy h4,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief header span,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson span,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath span {
   font-family: var(--font-exhibit-label);
   font-stretch: var(--type-width-label);
   font-variation-settings: "opsz" var(--type-opsz-text);
@@ -1277,6 +1280,128 @@
   font-size: clamp(0.88rem, 0.92vw, 1.08rem);
   font-variation-settings: "opsz" var(--type-opsz-text);
   line-height: 1.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief {
+  display: grid;
+  gap: 8px;
+  margin-top: clamp(12px, 1.1vw, 18px);
+  border-top: 1px solid rgba(21, 19, 15, 0.18);
+  padding-top: clamp(10px, 0.9vw, 15px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief header {
+  display: grid;
+  gap: 5px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief header span {
+  color: var(--exhibit-route);
+  font-size: clamp(0.72rem, 0.74vw, 0.92rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief header strong {
+  color: rgba(9, 9, 7, 0.9);
+  font-family: var(--font-exhibit-display);
+  font-size: clamp(1.05rem, 1.15vw, 1.48rem);
+  font-stretch: var(--type-width-display);
+  font-variation-settings: "opsz" var(--type-opsz-display);
+  font-weight: 720;
+  line-height: 0.95;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief header small,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief p,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson small,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath small {
+  color: rgba(21, 19, 15, 0.58);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.66rem, 0.68vw, 0.84rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.16;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief p {
+  margin: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBrief ol {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.14);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.84);
+  padding: 8px 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson {
+  display: grid;
+  grid-template-columns: 2.6ch minmax(0, 1fr);
+  grid-template-areas:
+    "index name"
+    "index reason";
+  align-items: center;
+  column-gap: 9px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath {
+  display: grid;
+  gap: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson span {
+  grid-area: index;
+  color: rgba(155, 63, 31, 0.64);
+  font-size: clamp(0.58rem, 0.6vw, 0.76rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath strong {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(9, 9, 7, 0.88);
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.72rem, 0.76vw, 0.94rem);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson strong {
+  grid-area: name;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson small {
+  grid-area: reason;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPerson:is(:hover, :focus-visible),
+.museum-shell:not(.museum-shell--staff) .living-hall__connectionBriefPath:is(:hover, :focus-visible) {
+  border-top-color: rgba(155, 63, 31, 0.5);
+  color: var(--exhibit-route);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__nextSteps {
