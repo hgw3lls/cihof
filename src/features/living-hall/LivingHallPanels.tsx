@@ -18,6 +18,7 @@ import {
   fullBiographyWordCount,
   wordCountText,
 } from './livingHallContent';
+import type { VisitJourneyInsight } from './livingHallJourney';
 import type { LatestClassFrame } from './livingHallRuntime';
 import type { LegacyJumpTarget } from './useLegacyTimelineNavigation';
 import {
@@ -485,8 +486,8 @@ function LegacyFocusNavigator({
 }
 
 export function VisitCollectionTray({
+  journey,
   journeyActive,
-  journeyIndex,
   people,
   qrOpen,
   sessionUrl,
@@ -501,8 +502,8 @@ export function VisitCollectionTray({
   onRemove,
   onSelect,
 }: {
+  journey: VisitJourneyInsight;
   journeyActive: boolean;
-  journeyIndex: number;
   people: Inductee[];
   qrOpen: boolean;
   sessionUrl: string;
@@ -517,9 +518,9 @@ export function VisitCollectionTray({
   onRemove: (personId: string) => void;
   onSelect: (inductee: Inductee) => void;
 }) {
-  const title = `${people.length} saved ${people.length === 1 ? 'record' : 'records'}`;
-  const activeJourneyIndex = clamp(Math.round(journeyIndex), 0, Math.max(people.length - 1, 0));
+  const activeJourneyIndex = journey.activeIndex;
   const activeJourneyPerson = journeyActive ? people[activeJourneyIndex] ?? null : null;
+  const activeSuggestion = journeyActive ? journey.activeSuggestion : null;
 
   return (
     <>
@@ -528,13 +529,16 @@ export function VisitCollectionTray({
         className="living-hall__visitTray"
         data-journey-active={journeyActive ? 'true' : 'false'}
         data-journey-index={journeyActive ? activeJourneyIndex : ''}
+        data-route-title={journey.title}
         data-saved-count={people.length}
+        data-suggested-next={activeSuggestion?.person.id ?? ''}
         onPointerDown={(event) => event.stopPropagation()}
       >
         <header className="living-hall__visitTrayHeader">
           <div>
             <span>VISIT</span>
-            <strong>{title}</strong>
+            <strong>{journey.title}</strong>
+            <small>{journey.countLabel}</small>
           </div>
           <div className="living-hall__visitTrayActions">
             <button
@@ -548,6 +552,10 @@ export function VisitCollectionTray({
             <button type="button" onClick={onClear}>Clear</button>
           </div>
         </header>
+        <section className="living-hall__visitRoute" aria-label="Visit route insight">
+          <span>{journey.connectiveLabel}</span>
+          <p>{journey.summary}</p>
+        </section>
         <ol className="living-hall__visitList" aria-label="Saved people">
           {people.map((person, index) => {
             const journeyStepActive = journeyActive && index === activeJourneyIndex;
@@ -599,6 +607,20 @@ export function VisitCollectionTray({
               <small>{journeyPersonLabel(activeJourneyPerson)}</small>
               <p>{journeyPersonSummary(activeJourneyPerson)}</p>
             </div>
+            {activeSuggestion && (
+              <div className="living-hall__visitJourneyBridge">
+                <span>Suggested next</span>
+                <strong>{activeSuggestion.person.name}</strong>
+                <p>{activeSuggestion.connection.detail}</p>
+                <button
+                  type="button"
+                  aria-label={`Suggested next: ${activeSuggestion.person.name}`}
+                  onClick={() => onSelectJourneyStep(activeSuggestion.index)}
+                >
+                  Follow link
+                </button>
+              </div>
+            )}
             <div className="living-hall__visitJourneyControls">
               <button type="button" aria-label="Previous saved person" onClick={onPreviousJourney}>Previous</button>
               <button type="button" aria-label="Next saved person" onClick={onNextJourney}>Next</button>
@@ -633,9 +655,9 @@ export function VisitCollectionTray({
           <QRCodePanel
             className="qr-continuation--visit-session"
             value={sessionUrl}
-            title={title}
+            title={journey.title}
             instruction="Scan once to continue this saved visit path on the Hall website."
-            ariaLabel={`${title} visit continuation QR`}
+            ariaLabel={`${journey.title} visit continuation QR`}
             onAutoClose={onCloseQr}
           />
         </aside>

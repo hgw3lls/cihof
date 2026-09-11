@@ -27,6 +27,7 @@ import {
 } from './LivingHallPanels';
 import { eventTargetInsideContentWindow } from './livingHallDom';
 import { buildVisitSessionUrl, fullBiographyText } from './livingHallContent';
+import { buildVisitJourneyInsight } from './livingHallJourney';
 import { buildContextualNextSteps } from './livingHallNextSteps';
 import {
   buildHallModes,
@@ -260,6 +261,10 @@ export function LivingHallView({
   const focusedWatchAvailability = focusedPerson ? mediaAvailability(focusedPerson, focusedMediaRecord, kioskMode) : null;
   const focusedContinuationUrl = focusedPerson && qrEnabled ? canonicalContinuationUrl(focusedPerson) : '';
   const focusedVisitSaved = focusedPerson ? visitCollectionIds.includes(focusedPerson.id) : false;
+  const visitJourneyInsight = useMemo(
+    () => buildVisitJourneyInsight(visitCollectionPeople, visitJourneyIndex),
+    [visitCollectionPeople, visitJourneyIndex],
+  );
   const visitSessionUrl = useMemo(
     () => buildVisitSessionUrl({
       focusedPersonId,
@@ -267,8 +272,9 @@ export function LivingHallView({
       savedPeople: visitCollectionPeople,
       timelineYear,
       traceFocusKey,
+      visitTitle: visitJourneyInsight.title,
     }),
-    [focusedPersonId, lens, timelineYear, traceFocusKey, visitCollectionPeople],
+    [focusedPersonId, lens, timelineYear, traceFocusKey, visitCollectionPeople, visitJourneyInsight.title],
   );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
@@ -513,8 +519,8 @@ export function LivingHallView({
 
       {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (
         <VisitCollectionTray
+          journey={visitJourneyInsight}
           journeyActive={visitJourneyOpen}
-          journeyIndex={visitJourneyIndex}
           people={visitCollectionPeople}
           qrOpen={visitQrOpen}
           sessionUrl={visitSessionUrl}
