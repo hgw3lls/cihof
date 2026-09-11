@@ -563,6 +563,54 @@
   font-size: clamp(0.72rem, 0.8vw, 0.95rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-portrait__journeyBadge {
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * clamp(20px, 1.9vw, 32px));
+  z-index: 5;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(5px, 0.45vw, 8px);
+  width: max-content;
+  max-width: clamp(112px, 12vw, 210px);
+  border-top: 2px solid rgba(155, 63, 31, 0.84);
+  background: rgba(244, 234, 211, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(21, 19, 15, 0.08),
+    0 8px 16px rgba(21, 19, 15, 0.16);
+  color: rgba(21, 19, 15, 0.78);
+  padding: clamp(4px, 0.42vw, 7px) clamp(6px, 0.6vw, 10px) clamp(5px, 0.48vw, 8px);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__journeyBadge span,
+.museum-shell:not(.museum-shell--staff) .living-portrait__journeyBadge strong {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 760;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__journeyBadge span {
+  color: var(--exhibit-route);
+  font-size: clamp(0.8rem, 0.92vw, 1.18rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__journeyBadge strong {
+  color: rgba(21, 19, 15, 0.7);
+  font-size: clamp(0.52rem, 0.54vw, 0.68rem);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--muted {
   filter: grayscale(1) contrast(0.92);
 }
@@ -3291,6 +3339,51 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-linked-path-active="true"] .living-portrait--focused.living-portrait--linked .portrait-frame {
   outline: 3px solid rgba(155, 63, 31, 0.5);
   outline-offset: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-dimmed:not(.living-portrait--focused) {
+  opacity: 0.18;
+  filter: grayscale(1) contrast(0.84) brightness(0.92);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-step {
+  opacity: 1;
+  filter: contrast(1.1) brightness(1);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-journey-active="true"] .living-portrait--journey-step:not(.living-portrait--focused) {
+  opacity: 0.82;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-step .portrait-frame {
+  outline: 2px solid rgba(155, 63, 31, 0.36);
+  outline-offset: clamp(4px, 0.42vw, 8px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-current .portrait-frame {
+  outline-color: rgba(155, 63, 31, 0.72);
+  outline-width: 3px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-next .portrait-frame {
+  outline-color: rgba(21, 19, 15, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-current .living-portrait__journeyBadge,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-next .living-portrait__journeyBadge {
+  border-top-color: rgba(155, 63, 31, 0.98);
+  background: rgba(244, 234, 211, 0.98);
+  box-shadow:
+    0 0 0 1px rgba(155, 63, 31, 0.18),
+    0 12px 22px rgba(21, 19, 15, 0.2);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-current .living-portrait__journeyBadge strong {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-next .living-portrait__journeyBadge strong {
+  color: rgba(21, 19, 15, 0.84);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--edge {
