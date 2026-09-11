@@ -18,7 +18,7 @@ import {
   fullBiographyWordCount,
   wordCountText,
 } from './livingHallContent';
-import type { VisitJourneyInsight } from './livingHallJourney';
+import type { VisitJourneyConfidence, VisitJourneyInsight } from './livingHallJourney';
 import type { LatestClassFrame } from './livingHallRuntime';
 import type { LegacyJumpTarget } from './useLegacyTimelineNavigation';
 import {
@@ -609,9 +609,17 @@ export function VisitCollectionTray({
             </div>
             {activeSuggestion && (
               <div className="living-hall__visitJourneyBridge">
-                <span>Suggested next</span>
+                <div className="living-hall__visitJourneyBridgeMeta">
+                  <span>Suggested next</span>
+                  <small
+                    className={`living-hall__visitJourneyConfidence living-hall__visitJourneyConfidence--${activeSuggestion.connection.confidence}`}
+                  >
+                    {visitJourneyConfidenceLabel(activeSuggestion.connection.confidence)}
+                  </small>
+                </div>
                 <strong>{activeSuggestion.person.name}</strong>
                 <p>{activeSuggestion.connection.detail}</p>
+                <small className="living-hall__visitJourneySource">{activeSuggestion.connection.sourceLabel}</small>
                 <button
                   type="button"
                   aria-label={`Suggested next: ${activeSuggestion.person.name}`}
@@ -681,6 +689,13 @@ function journeyPersonSummary(person: Inductee) {
       || person.documentedContextLine
       || 'Open this record for the full profile and related paths.',
   );
+}
+
+function visitJourneyConfidenceLabel(confidence: VisitJourneyConfidence) {
+  if (confidence === 'documented') return 'Documented';
+  if (confidence === 'curated') return 'Curated';
+  if (confidence === 'visitor') return 'Visitor Path';
+  return 'Inferred';
 }
 
 function trimJourneyText(text: string) {

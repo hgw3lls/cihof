@@ -37,6 +37,8 @@ test.describe('saved visit collection', () => {
     await expect(tray).toHaveAttribute('data-suggested-next', secondId);
     await expect(tray.getByLabel('Visit route insight')).toContainText('Class of 2010');
     await expect(tray.getByLabel('Guided visit journey')).toContainText('1 / 2');
+    await expect(tray.getByLabel('Guided visit journey')).toContainText('Curated');
+    await expect(tray.getByLabel('Guided visit journey')).toContainText('Related profile ids');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-journey-active', 'true');
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstId}"]`)).toHaveAttribute('data-journey-step', '1');
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstId}"]`)).toHaveAttribute('data-journey-current', 'true');

@@ -1760,6 +1760,53 @@
   padding-top: clamp(9px, 0.9vw, 14px);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridgeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyConfidence,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneySource {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-exhibit-label);
+  font-size: clamp(0.54rem, 0.58vw, 0.7rem);
+  font-weight: 760;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyConfidence {
+  border: 1px solid rgba(21, 19, 15, 0.18);
+  background: rgba(255, 250, 238, 0.74);
+  color: rgba(21, 19, 15, 0.64);
+  padding: 3px 6px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyConfidence--documented {
+  border-color: rgba(50, 99, 76, 0.36);
+  background: rgba(50, 99, 76, 0.1);
+  color: rgba(24, 78, 55, 0.86);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyConfidence--curated {
+  border-color: rgba(155, 63, 31, 0.34);
+  background: rgba(155, 63, 31, 0.1);
+  color: rgba(132, 50, 22, 0.84);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyConfidence--visitor {
+  border-color: rgba(52, 67, 110, 0.34);
+  background: rgba(52, 67, 110, 0.1);
+  color: rgba(41, 55, 96, 0.82);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge strong {
   min-width: 0;
   overflow: hidden;
@@ -1774,6 +1821,10 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__visitJourneySource {
+  color: rgba(21, 19, 15, 0.42);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitJourneyBridge button {

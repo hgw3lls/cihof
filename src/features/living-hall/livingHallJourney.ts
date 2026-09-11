@@ -1,8 +1,12 @@
 import type { Inductee } from '../../data/types';
 
+export type VisitJourneyConfidence = 'documented' | 'curated' | 'inferred' | 'visitor';
+
 export type VisitJourneyConnection = {
   label: string;
   detail: string;
+  confidence: VisitJourneyConfidence;
+  sourceLabel: string;
   strength: number;
 };
 
@@ -32,6 +36,8 @@ type RouteCandidate = {
 const fallbackConnection: VisitJourneyConnection = {
   label: 'Saved visit path',
   detail: 'These profiles are connected by the visitor path you are building.',
+  confidence: 'visitor',
+  sourceLabel: 'Saved visit sequence',
   strength: 1,
 };
 
@@ -109,6 +115,8 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
     connections.push({
       label: 'Direct profile link',
       detail: `${source.name} and ${target.name} are explicitly linked in the Hall data.`,
+      confidence: 'curated',
+      sourceLabel: 'Related profile ids',
       strength: 9,
     });
   }
@@ -117,6 +125,8 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
     connections.push({
       label: `Class of ${source.classYear}`,
       detail: `${source.name} and ${target.name} were inducted in the same Hall of Fame class.`,
+      confidence: 'documented',
+      sourceLabel: 'Induction class metadata',
       strength: 8,
     });
   }
@@ -124,7 +134,9 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
   sharedTags(source.countryTags, target.countryTags).forEach((label) => {
     connections.push({
       label,
-      detail: `${source.name} and ${target.name} share the ${label} heritage path.`,
+      detail: `${source.name} and ${target.name} share the ${label} nationality path.`,
+      confidence: sharedSourceConfidence(source.countryTagsSource, target.countryTagsSource),
+      sourceLabel: 'Nationality metadata',
       strength: 7,
     });
   });
@@ -133,6 +145,8 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
     connections.push({
       label,
       detail: `${source.name} and ${target.name} connect through ${label} community work.`,
+      confidence: 'curated',
+      sourceLabel: 'Community taxonomy',
       strength: 6,
     });
   });
@@ -141,6 +155,8 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
     connections.push({
       label,
       detail: `${source.name} and ${target.name} share the ${label} theme in their Hall stories.`,
+      confidence: sharedSourceConfidence(source.themeTagsSource, target.themeTagsSource),
+      sourceLabel: 'Theme metadata',
       strength: 5,
     });
   });
@@ -149,6 +165,8 @@ function rankedConnections(source: Inductee, target: Inductee): VisitJourneyConn
     connections.push({
       label: source.region,
       detail: `${source.name} and ${target.name} are grouped in the same collection region.`,
+      confidence: 'inferred',
+      sourceLabel: 'Regional grouping',
       strength: 2,
     });
   }
@@ -246,6 +264,25 @@ function validLabel(label: string) {
 
 function normalizeLabel(label: string) {
   return label.trim().toLowerCase();
+}
+
+function sharedSourceConfidence(source: string, target: string): VisitJourneyConfidence {
+  const sourceConfidence = sourceConfidenceFor(source);
+  const targetConfidence = sourceConfidenceFor(target);
+  if (sourceConfidence === 'documented' && targetConfidence === 'documented') return 'documented';
+  if (isExplicitConfidence(sourceConfidence) && isExplicitConfidence(targetConfidence)) return 'curated';
+  return 'inferred';
+}
+
+function sourceConfidenceFor(source: string): VisitJourneyConfidence {
+  const key = normalizeLabel(source);
+  if (key === 'documented' || key === 'source') return 'documented';
+  if (key === 'curated' || key === 'approved') return 'curated';
+  return 'inferred';
+}
+
+function isExplicitConfidence(confidence: VisitJourneyConfidence) {
+  return confidence === 'documented' || confidence === 'curated';
 }
 
 function increment(counts: Map<string, number>, key: string) {
