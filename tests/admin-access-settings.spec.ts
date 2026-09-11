@@ -44,5 +44,11 @@ test.describe('hidden admin access and kiosk settings', () => {
     await expect(page.getByRole('heading', { name: 'Diagnostics' })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Data diagnostics' })).toContainText('Profiles');
     await expect(page.getByRole('button', { name: 'Export Diagnostics' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Review Queue' }).click();
+    await expect(page.getByRole('heading', { name: 'Review Queue', exact: true })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Curatorial review queue' })).toContainText('profiles need review');
+    await expect(page.locator('.admin-review__metrics')).toContainText('Nationality');
+    await expect(page.getByRole('button', { name: 'Export Review Queue' })).toBeVisible();
   });
 });
