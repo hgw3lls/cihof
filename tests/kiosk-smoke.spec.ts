@@ -67,6 +67,8 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', 'dona-brady-2024');
     await expect(page.locator('.living-hall__focusCard')).toContainText('Dona Brady');
+    await expect(page.locator('.living-hall__connectionBrief')).toContainText('CONNECTION BRIEF');
+    await expect(page.locator('.living-hall__connectionBrief')).toHaveAttribute('data-primary-path-kind', /class|heritage|community|theme|person/);
     await expect(page.locator('.living-hall__nextSteps')).toBeVisible();
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 

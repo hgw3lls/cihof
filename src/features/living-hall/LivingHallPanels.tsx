@@ -8,6 +8,7 @@ import {
   relationshipLineLabel,
   relationshipSupportLabel,
   type NetworkReason,
+  type NetworkThread,
 } from '../../data/traceModel';
 import type { HallLens, HallLinkedPath, Inductee, RuntimeMediaRecord, StorySectionRecord } from '../../data/types';
 import { MediaExperience } from '../inductee-detail/MediaExperience';
@@ -162,6 +163,13 @@ export function PortraitFocusCard({
             <h4>HONORED FOR</h4>
             <p>{summary}</p>
           </section>
+          <PortraitConnectionBrief
+            inductee={inductee}
+            paths={nextSteps}
+            traceContext={traceContext}
+            onExplorePath={onExplorePath}
+            onSelectPerson={onSelectPerson}
+          />
           {nextSteps.length > 0 && onExplorePath && (
             <ContextualNextSteps
               activePath={linkedPath}
@@ -268,6 +276,89 @@ export function PortraitFocusCard({
   );
 }
 
+function PortraitConnectionBrief({
+  inductee,
+  paths,
+  traceContext,
+  onExplorePath,
+  onSelectPerson,
+}: {
+  inductee: Inductee;
+  paths: HallLinkedPath[];
+  traceContext: TraceContext;
+  onExplorePath?: (path: HallLinkedPath) => void;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  const activePerson = traceContext.activePerson?.id === inductee.id ? traceContext.activePerson : inductee;
+  const threads = traceContext.activePerson?.id === inductee.id ? traceContext.directThreads.slice(0, 3) : [];
+  const primaryPath = paths[0] ?? null;
+  const leadReason = threads[0]?.reasons[0] ?? null;
+  const directCount = traceContext.activePerson?.id === inductee.id ? traceContext.directThreads.length : 0;
+  const summary = connectionBriefSummary(directCount, primaryPath);
+  const support = leadReason
+    ? relationshipSupportLabel(leadReason, activePerson.name) || leadReason.detail
+    : primaryPath?.detail ?? 'Class, nationality, community, and story patterns are available for comparison.';
+
+  return (
+    <section
+      className="living-hall__connectionBrief"
+      aria-label={`${inductee.name} connection brief`}
+      data-connection-count={directCount}
+      data-primary-path-kind={primaryPath?.kind ?? ''}
+    >
+      <header>
+        <span>CONNECTION BRIEF</span>
+        <strong>{summary}</strong>
+        <small>{compactTraceText(support, 118)}</small>
+      </header>
+
+      {threads.length > 0 ? (
+        <ol>
+          {threads.map((thread, index) => (
+            <li key={thread.person.id}>
+              <button
+                className="living-hall__connectionBriefPerson"
+                type="button"
+                data-connection-person={thread.person.id}
+                aria-label={`Focus ${thread.person.name} from connection brief`}
+                onClick={() => onSelectPerson(thread.person)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{thread.person.name}</strong>
+                <small>{connectionBriefThreadLabel(thread, activePerson.name)}</small>
+              </button>
+            </li>
+          ))}
+        </ol>
+      ) : primaryPath && onExplorePath ? (
+        <button
+          className="living-hall__connectionBriefPath"
+          type="button"
+          onClick={() => onExplorePath(primaryPath)}
+        >
+          <span>{linkedPathKindLabel(primaryPath.kind)}</span>
+          <strong>{primaryPath.label}</strong>
+          <small>{primaryPath.detail}</small>
+        </button>
+      ) : (
+        <p>Ranked links compare class, nationality, community, and story patterns.</p>
+      )}
+    </section>
+  );
+}
+
+function connectionBriefSummary(directCount: number, primaryPath: HallLinkedPath | null) {
+  if (directCount > 0) return `${directCount} reviewed ${directCount === 1 ? 'tie' : 'ties'}`;
+  if (primaryPath) return `${primaryPath.personIds.length} in ${primaryPath.label}`;
+  return 'Trace-ready profile';
+}
+
+function connectionBriefThreadLabel(thread: NetworkThread, activeName: string) {
+  const reason = thread.reasons[0];
+  if (!reason) return 'Related profile';
+  return compactTraceText(relationshipLineLabel(reason, activeName), 34);
+}
+
 function ContextualNextSteps({
   activePath,
   inductee,
@@ -310,6 +401,14 @@ function nextStepActionLabel(path: HallLinkedPath) {
   if (path.kind === 'community') return `Explore ${path.label}`;
   if (path.kind === 'theme') return `Compare ${path.label}`;
   return `Open ${path.label}`;
+}
+
+function linkedPathKindLabel(kind: HallLinkedPath['kind']) {
+  if (kind === 'heritage') return 'Nationality';
+  if (kind === 'class') return 'Class Path';
+  if (kind === 'community') return 'Community';
+  if (kind === 'theme') return 'Theme';
+  return 'Profile';
 }
 
 function TraceFocusConnections({
