@@ -15,6 +15,8 @@ import { mostConnectedPerson } from '../data/traceModel';
 import { AdminDataPanel } from '../features/admin/AdminDataPanel';
 import { matchesAdminHotkey, readKioskSettings, subscribeKioskSettings, type KioskSettings } from './kioskSettings';
 import { HallSurface } from '../features/hall-surface/HallSurface';
+import { ShellCommandSearch } from './ShellCommandSearch';
+import { commandSearchResults, type CommandSearchResult } from './commandSearch';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import {
   hallLensForViewMode,
@@ -378,8 +380,28 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     selectFromCommand(firstMatch);
   }
 
-  function selectFromCommand(inductee: Inductee) {
-    selectInductee(inductee, 'command-search');
+  function selectFromCommand(result: CommandSearchResult) {
+    if (!beginInteractionTransition()) return;
+    const nextLens = result.lens;
+    recordKioskInteraction(`command-search:${result.kind}`);
+    stopActiveMedia();
+    setAttractActive(false);
+    setIdleWarningActive(false);
+    scrollPositionRef.current = readStageScrollPosition();
+
+    if (result.person) {
+      onPhysicalPortraitSelected(result.person.id, physicalPortraitSelectionFromInductee(result.person));
+      setLastSeenId(result.person.id);
+      setSelectedId(result.person.id);
+    } else {
+      setSelectedId('');
+    }
+
+    setWorldFocusKey(nextLens === 'traces' ? result.traceFocusKey ?? '' : '');
+    setTimelineYear(nextLens === 'legacies' ? result.timelineYear ?? '' : '');
+    setHallLens(nextLens);
+    setExperienceMode('living-hall', hallLensTransitionFor(hallLens, nextLens));
+    scheduleAnimationFrame(() => resetStageScroll());
     setCommandQuery('');
     setCommandOpen(false);
   }
@@ -423,7 +445,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
 
   function isInsideLegacyFocusTarget(target: EventTarget | null) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-    return Boolean(element?.closest('.living-hall__focusCard'));
+    return Boolean(element?.closest('.living-hall__focusCard, .museum-command'));
   }
 
   function clearLegacyFocusClickSuppression() {
@@ -717,130 +739,6 @@ function ExperienceScene({
       {children}
     </div>
   );
-}
-
-function ShellCommandSearch({
-  open,
-  query,
-  results,
-  onOpenChange,
-  onQueryChange,
-  onSelect,
-  onSubmit,
-}: {
-  open: boolean;
-  query: string;
-  results: Inductee[];
-  onOpenChange: (open: boolean) => void;
-  onQueryChange: (query: string) => void;
-  onSelect: (inductee: Inductee) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-}) {
-  const hasQuery = query.trim().length > 0;
-  const showResults = open && hasQuery;
-
-  return (
-    <form className={showResults ? 'museum-command museum-command--open' : 'museum-command'} role="search" onSubmit={onSubmit}>
-      <label className="museum-command__label" htmlFor="museum-command-search">
-        Find
-      </label>
-      <div className="museum-command__box">
-        <input
-          id="museum-command-search"
-          type="search"
-          value={query}
-          autoComplete="off"
-          spellCheck={false}
-          placeholder="Search name, nationality, community, year"
-          role="combobox"
-          aria-autocomplete="list"
-          aria-controls="museum-command-results"
-          aria-expanded={showResults}
-          onChange={(event) => onQueryChange(event.currentTarget.value)}
-          onFocus={() => onOpenChange(true)}
-          onKeyDown={(event) => {
-            if (event.key !== 'Escape') return;
-            event.preventDefault();
-            event.stopPropagation();
-            event.nativeEvent.stopImmediatePropagation?.();
-            event.currentTarget.blur();
-            onOpenChange(false);
-          }}
-        />
-        <button type="submit" disabled={!hasQuery || results.length === 0}>
-          Open
-        </button>
-      </div>
-      {showResults && (
-        <ol className="museum-command__results" id="museum-command-results" role="listbox" aria-label="Search results">
-          {results.length > 0 ? results.map((person) => (
-            <li key={person.id}>
-              <button type="button" role="option" aria-selected="false" onClick={() => onSelect(person)}>
-                <strong>{person.name}</strong>
-                <span>{commandResultMeta(person)}</span>
-              </button>
-            </li>
-          )) : (
-            <li className="museum-command__empty">No matching profiles</li>
-          )}
-        </ol>
-      )}
-    </form>
-  );
-}
-
-function commandSearchResults(inductees: Inductee[], query: string) {
-  const terms = normalizeSearchTerm(query).split(/\s+/).filter(Boolean);
-  if (terms.length === 0) return [];
-
-  return inductees
-    .map((inductee) => ({ inductee, score: commandSearchScore(inductee, terms) }))
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score || a.inductee.sortName.localeCompare(b.inductee.sortName))
-    .slice(0, 6)
-    .map((item) => item.inductee);
-}
-
-function commandSearchScore(inductee: Inductee, terms: string[]) {
-  const name = normalizeSearchTerm(inductee.name);
-  const sortName = normalizeSearchTerm(inductee.sortName);
-  const classYear = inductee.classYear ? String(inductee.classYear) : '';
-  const heritageTags = inductee.countryTags.map(normalizeSearchTerm);
-  const communityTags = inductee.communityTags.map(normalizeSearchTerm);
-  const themeTags = inductee.themeTags.map(normalizeSearchTerm);
-  const haystack = [
-    name,
-    sortName,
-    classYear,
-    normalizeSearchTerm(inductee.region),
-    normalizeSearchTerm(inductee.inductedBy),
-    normalizeSearchTerm(inductee.searchText),
-    ...heritageTags,
-    ...communityTags,
-    ...themeTags,
-  ].join(' ');
-
-  if (!terms.every((term) => haystack.includes(term))) return 0;
-
-  return terms.reduce((score, term) => {
-    if (name.startsWith(term) || sortName.startsWith(term)) return score + 90;
-    if (name.includes(term) || sortName.includes(term)) return score + 62;
-    if (heritageTags.some((tag) => tag.includes(term))) return score + 46;
-    if (communityTags.some((tag) => tag.includes(term))) return score + 40;
-    if (classYear.startsWith(term)) return score + 32;
-    if (themeTags.some((tag) => tag.includes(term))) return score + 16;
-    return score + 8;
-  }, inductee.featured ? 8 : 0);
-}
-
-function commandResultMeta(inductee: Inductee) {
-  const classLabel = inductee.classYear ? `Class ${inductee.classYear}` : 'Class year pending';
-  const tags = [...inductee.countryTags, ...inductee.communityTags].slice(0, 2);
-  return [classLabel, ...tags].join(' / ');
-}
-
-function normalizeSearchTerm(value: string) {
-  return value.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 function useContentProtection(active: boolean) {
