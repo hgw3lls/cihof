@@ -60,6 +60,17 @@ export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'country-asc' | '
 export type MediaFilter = 'all' | 'with-video' | 'with-gallery';
 export type HallLens = 'portraits' | 'traces' | 'legacies';
 export type HallFocus = { personId: string } | null;
+export type HallLinkedPathKind = 'class' | 'heritage' | 'community' | 'theme' | 'person';
+export type HallLinkedPath = {
+  kind: HallLinkedPathKind;
+  label: string;
+  detail: string;
+  personIds: string[];
+  lens: HallLens;
+  focusPersonId?: string;
+  timelineYear?: string;
+  traceFocusKey?: string;
+};
 export type ViewMode = 'living-hall' | 'person' | 'connections' | 'world' | 'time' | 'review';
 export type RelationshipType =
   | 'inducted_by'

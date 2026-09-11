@@ -16,7 +16,7 @@ import { AdminDataPanel } from '../features/admin/AdminDataPanel';
 import { matchesAdminHotkey, readKioskSettings, subscribeKioskSettings, type KioskSettings } from './kioskSettings';
 import { HallSurface } from '../features/hall-surface/HallSurface';
 import { ShellCommandSearch } from './ShellCommandSearch';
-import { commandSearchResults, type CommandSearchResult } from './commandSearch';
+import { commandResultToLinkedPath, commandSearchResults, type CommandSearchResult } from './commandSearch';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import {
   hallLensForViewMode,
@@ -32,7 +32,7 @@ import {
 import { recordKioskHealth, recordKioskInteraction, recordKioskReset, startKioskHeartbeat } from './kioskHealth';
 import { stopAllMedia } from './mediaControl';
 import { useViewportLock } from './useViewportLock';
-import type { HallFocus, HallLens, Inductee, ViewMode } from '../data/types';
+import type { HallFocus, HallLens, HallLinkedPath, Inductee, ViewMode } from '../data/types';
 
 const contentProtectionActive = installationConfig.features.kioskGuards;
 const showKioskToggleInProduction = installationConfig.debug.showKioskToggleInProduction;
@@ -58,6 +58,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   const [lastSeenId, setLastSeenId] = useState<string>(() => readParam('person'));
   const [visitCollectionIds, setVisitCollectionIds] = useState<string[]>(() => readVisitCollectionIds());
   const [worldFocusKey, setWorldFocusKey] = useState<string>(() => readInitialWorldFocus());
+  const [linkedPath, setLinkedPath] = useState<HallLinkedPath | null>(null);
   const [kioskMode, setKioskMode] = useState(() => readParam('kiosk') === '1');
   const [attractActive, setAttractActive] = useState(false);
   const [idleWarningActive, setIdleWarningActive] = useState(false);
@@ -361,6 +362,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     scrollPositionRef.current = readStageScrollPosition();
     setLastSeenId(inductee.id);
     setSelectedId(inductee.id);
+    setLinkedPath((current) => current && current.personIds.includes(inductee.id) ? current : null);
     if (hallLens === 'legacies' && inductee.classYear) setTimelineYear(String(inductee.classYear));
     if (!reviewModeEnabled) setExperienceMode(viewModeForHallLens(hallLens), 'switch');
   }
@@ -381,29 +383,38 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function selectFromCommand(result: CommandSearchResult) {
-    if (!beginInteractionTransition()) return;
-    const nextLens = result.lens;
-    recordKioskInteraction(`command-search:${result.kind}`);
+    if (!activateLinkedPath(commandResultToLinkedPath(result), `command-search:${result.kind}`)) return;
+    setCommandQuery('');
+    setCommandOpen(false);
+  }
+
+  function activateLinkedPath(path: HallLinkedPath, source = 'linked-path') {
+    if (!beginInteractionTransition()) return false;
+    const nextLens = path.lens;
+    const focusPerson = path.focusPersonId
+      ? inductees.find((person) => person.id === path.focusPersonId) ?? null
+      : null;
+    recordKioskInteraction(source);
     stopActiveMedia();
     setAttractActive(false);
     setIdleWarningActive(false);
     scrollPositionRef.current = readStageScrollPosition();
 
-    if (result.person) {
-      onPhysicalPortraitSelected(result.person.id, physicalPortraitSelectionFromInductee(result.person));
-      setLastSeenId(result.person.id);
-      setSelectedId(result.person.id);
+    if (focusPerson) {
+      onPhysicalPortraitSelected(focusPerson.id, physicalPortraitSelectionFromInductee(focusPerson));
+      setLastSeenId(focusPerson.id);
+      setSelectedId(focusPerson.id);
     } else {
       setSelectedId('');
     }
 
-    setWorldFocusKey(nextLens === 'traces' ? result.traceFocusKey ?? '' : '');
-    setTimelineYear(nextLens === 'legacies' ? result.timelineYear ?? '' : '');
+    setLinkedPath(path);
+    setWorldFocusKey(nextLens === 'traces' ? path.traceFocusKey ?? '' : '');
+    setTimelineYear(nextLens === 'legacies' ? path.timelineYear ?? '' : '');
     setHallLens(nextLens);
     setExperienceMode('living-hall', hallLensTransitionFor(hallLens, nextLens));
     scheduleAnimationFrame(() => resetStageScroll());
-    setCommandQuery('');
-    setCommandOpen(false);
+    return true;
   }
 
   function resetExperience(reason = 'manual') {
@@ -415,6 +426,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setSelectedId('');
     setLastSeenId('');
     setVisitCollectionIds([]);
+    setLinkedPath(null);
     setHallLens('portraits');
     setExperienceMode('living-hall', 'reset');
     setAttractActive(false);
@@ -445,7 +457,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
 
   function isInsideLegacyFocusTarget(target: EventTarget | null) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-    return Boolean(element?.closest('.living-hall__focusCard, .museum-command'));
+    return Boolean(element?.closest('.living-hall__focusCard, .museum-command, .living-hall__pathRibbon'));
   }
 
   function clearLegacyFocusClickSuppression() {
@@ -545,6 +557,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setAttractActive(false);
     setIdleWarningActive(false);
     setWorldFocusKey(focusKey);
+    setLinkedPath(null);
     setHallLens('traces');
     setExperienceMode('living-hall', 'switch');
     scheduleAnimationFrame(() => resetStageScroll());
@@ -576,6 +589,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     const referencePerson = selected ?? lastSeen ?? mostConnectedPerson(inductees, relationships);
     setAttractActive(false);
     setIdleWarningActive(false);
+    setLinkedPath(null);
     if (lens === 'traces') {
       const nextFocusId = selectedId || referencePerson?.id || '';
       setSelectedId(nextFocusId);
@@ -589,6 +603,12 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setHallLens(lens);
     setExperienceMode('living-hall', transition);
     scheduleAnimationFrame(() => resetStageScroll());
+  }
+
+  function changeTimelineYear(year: string) {
+    setTimelineYear(year);
+    const nextPath = linkedClassPath(inductees, year);
+    setLinkedPath(nextPath);
   }
 
   const activeExperienceLabel = isVisitorExperienceMode(activeShellMode)
@@ -667,12 +687,14 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
             settings={kioskSettings}
             timelineYear={timelineYear}
             traceFocusKey={worldFocusKey}
+            linkedPath={linkedPath}
             visitCollectionIds={visitCollectionIds}
             onEngage={continueExploring}
             onSelect={selectInductee}
             onCloseFocus={closeHallFocus}
-            onTimelineYearChange={setTimelineYear}
+            onTimelineYearChange={changeTimelineYear}
             onTraceFocusChange={changeTraceFocus}
+            onExplorePath={activateLinkedPath}
             onAddVisitCollectionPerson={addVisitCollectionPerson}
             onRemoveVisitCollectionPerson={removeVisitCollectionPerson}
             onClearVisitCollection={clearVisitCollection}
@@ -858,6 +880,22 @@ function hallLensTransitionFor(current: HallLens, next: HallLens): ExperienceTra
   const nextIndex = hallLensOrder.indexOf(next);
   if (currentIndex === -1 || nextIndex === -1) return 'switch';
   return nextIndex > currentIndex ? 'forward' : 'back';
+}
+
+function linkedClassPath(inductees: Inductee[], year: string): HallLinkedPath | null {
+  const classYear = Number(year);
+  if (!Number.isInteger(classYear)) return null;
+  const people = inductees.filter((person) => person.classYear === classYear);
+  if (people.length === 0) return null;
+
+  return {
+    kind: 'class',
+    label: `Class of ${classYear}`,
+    detail: `${people.length} ${people.length === 1 ? 'profile' : 'profiles'} in this class`,
+    personIds: people.map((person) => person.id),
+    lens: 'legacies',
+    timelineYear: String(classYear),
+  };
 }
 
 function kioskSettingsStyle(settings: KioskSettings) {
