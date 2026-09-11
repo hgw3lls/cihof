@@ -27,7 +27,7 @@ import {
 } from './LivingHallPanels';
 import { eventTargetInsideContentWindow } from './livingHallDom';
 import { buildVisitSessionUrl, fullBiographyText } from './livingHallContent';
-import { buildVisitJourneyInsight } from './livingHallJourney';
+import { buildVisitJourneyInsight, strongestJourneyConnection } from './livingHallJourney';
 import { buildContextualNextSteps } from './livingHallNextSteps';
 import {
   buildHallModes,
@@ -105,6 +105,12 @@ type LivingHallViewProps = {
 };
 
 const visitCollectionLimit = 6;
+
+type VisitJourneyWallStep = {
+  connectionLabel: string;
+  index: number;
+  suggested: boolean;
+};
 
 export function LivingHallView({
   inductees,
@@ -265,6 +271,22 @@ export function LivingHallView({
     () => buildVisitJourneyInsight(visitCollectionPeople, visitJourneyIndex),
     [visitCollectionPeople, visitJourneyIndex],
   );
+  const visitJourneyWallSteps = useMemo(() => {
+    if (!visitJourneyOpen || visitCollectionPeople.length === 0) return new Map<string, VisitJourneyWallStep>();
+
+    return new Map(visitCollectionPeople.map((person, index) => {
+      const previousPerson = visitCollectionPeople[index - 1] ?? null;
+      const connectionLabel = previousPerson
+        ? strongestJourneyConnection(previousPerson, person).label
+        : 'Start';
+
+      return [person.id, {
+        connectionLabel,
+        index,
+        suggested: visitJourneyInsight.activeSuggestion?.person.id === person.id,
+      }];
+    }));
+  }, [visitCollectionPeople, visitJourneyInsight.activeSuggestion, visitJourneyOpen]);
   const visitSessionUrl = useMemo(
     () => buildVisitSessionUrl({
       focusedPersonId,
@@ -490,6 +512,10 @@ export function LivingHallView({
       data-linked-path-kind={linkedPath?.kind ?? ''}
       data-linked-path-label={linkedPath?.label ?? ''}
       data-linked-path-count={linkedPath?.personIds.length ?? 0}
+      data-journey-active={visitJourneyOpen ? 'true' : 'false'}
+      data-journey-current-step={visitJourneyOpen ? visitJourneyInsight.activeIndex + 1 : ''}
+      data-journey-suggested-next={visitJourneyOpen ? visitJourneyInsight.activeSuggestion?.person.id ?? '' : ''}
+      data-journey-step-count={visitJourneyOpen ? visitCollectionPeople.length : 0}
       data-content-window-open={focusContentWindowOpen ? 'true' : 'false'}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyTimeline.pan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
@@ -598,6 +624,9 @@ export function LivingHallView({
           const portraitCategory = portraitCategoryForLens(lens, position, inductee, activeLegacyYear);
           const linked = linkedPersonIds.has(inductee.id);
           const linkedPathDimmed = Boolean(linkedPath) && !linked && !position.focused;
+          const journeyStep = visitJourneyWallSteps.get(inductee.id);
+          const journeyCurrent = Boolean(journeyStep && journeyStep.index === visitJourneyInsight.activeIndex);
+          const journeyDimmed = visitJourneyOpen && !journeyStep && !position.focused;
           const className = [
             'living-portrait',
             position.emphasis ? 'living-portrait--emphasis' : '',
@@ -605,6 +634,10 @@ export function LivingHallView({
             position.muted ? 'living-portrait--muted' : '',
             linked ? 'living-portrait--linked' : '',
             linkedPathDimmed ? 'living-portrait--path-dimmed' : '',
+            journeyStep ? 'living-portrait--journey-step' : '',
+            journeyCurrent ? 'living-portrait--journey-current' : '',
+            journeyStep?.suggested ? 'living-portrait--journey-next' : '',
+            journeyDimmed ? 'living-portrait--journey-dimmed' : '',
             inductee.hasVideo ? 'living-portrait--has-media' : '',
             inductee.featured || inductee.featuredCandidate ? 'living-portrait--featured' : '',
           ].filter(Boolean).join(' ');
@@ -620,6 +653,10 @@ export function LivingHallView({
               data-frame-aspect={frameAspect}
               data-lens-badge={lensBadge || undefined}
               data-linked-path={linked ? 'true' : undefined}
+              data-journey-step={journeyStep ? journeyStep.index + 1 : undefined}
+              data-journey-current={journeyCurrent ? 'true' : undefined}
+              data-journey-suggested={journeyStep?.suggested ? 'true' : undefined}
+              data-journey-connection={journeyStep?.connectionLabel}
               data-media-available={inductee.hasVideo ? 'true' : 'false'}
               data-portrait-category={portraitCategory}
               key={inductee.id}
@@ -643,6 +680,12 @@ export function LivingHallView({
                 aspect={frameAspect}
                 showRecord={shouldShowFrameRecord(lens, position, hallLayout)}
               />
+              {journeyStep && (
+                <span className="living-portrait__journeyBadge" aria-hidden="true">
+                  <span>{String(journeyStep.index + 1).padStart(2, '0')}</span>
+                  <strong>{journeyCurrent ? 'Current stop' : journeyStep.suggested ? 'Suggested next' : journeyStep.connectionLabel}</strong>
+                </span>
+              )}
             </button>
           );
         })}
