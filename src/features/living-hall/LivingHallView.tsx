@@ -17,6 +17,7 @@ import { buildPersonGallery, canonicalContinuationUrl, mediaAvailability } from 
 import { CityQuestionPrompt, CityQuestionResults } from './CityQuestion';
 import {
   LegacyControls,
+  JourneyGuidePanel,
   LensStatusRail,
   LatestClassSequence,
   LivingHallPlaceholders,
@@ -27,7 +28,7 @@ import {
 } from './LivingHallPanels';
 import { eventTargetInsideContentWindow } from './livingHallDom';
 import { buildVisitSessionUrl, fullBiographyText } from './livingHallContent';
-import { buildVisitJourneyInsight, strongestJourneyConnection } from './livingHallJourney';
+import { buildCuratedJourneyPaths, buildVisitJourneyInsight, strongestJourneyConnection } from './livingHallJourney';
 import { buildContextualNextSteps } from './livingHallNextSteps';
 import {
   buildHallModes,
@@ -153,6 +154,8 @@ export function LivingHallView({
     () => visitCollectionIds.map((id) => peopleById.get(id)).filter((person): person is Inductee => Boolean(person)),
     [peopleById, visitCollectionIds],
   );
+  const journeyPaths = useMemo(() => buildCuratedJourneyPaths(allPeople), [allPeople]);
+  const activeJourneyPath = linkedPath?.lens === 'journeys' ? linkedPath : null;
   const people = useMemo(
     () => selectHallPeople(allPeople, lens, focusedPersonId, settings.portraitLimit),
     [allPeople, focusedPersonId, lens, settings.portraitLimit],
@@ -247,9 +250,11 @@ export function LivingHallView({
       traceContext,
       legacyChronology,
       activeLegacyYear,
+      journeyPaths,
+      linkedPath,
       layout: hallLayout,
     }),
-    [activeLegacyYear, focusedPersonId, hallLayout, legacyChronology, lens, modes, people, relationships, step, traceContext, traceTrailIds],
+    [activeLegacyYear, focusedPersonId, hallLayout, journeyPaths, legacyChronology, lens, linkedPath, modes, people, relationships, step, traceContext, traceTrailIds],
   );
   const focusedPosition = focusedPerson ? activeMode.positions.get(focusedPerson.id) ?? null : null;
   const focusedMediaRecord = focusedPerson ? mediaRecordMap.get(focusedPerson.id) : undefined;
@@ -446,6 +451,26 @@ export function LivingHallView({
     });
   }
 
+  function openCuratedJourney(path: HallLinkedPath) {
+    onEngage?.();
+    onExplorePath?.(path);
+  }
+
+  function saveJourneyPathToVisit(path: HallLinkedPath) {
+    if (!qrEnabled) return;
+    onEngage?.();
+    const availableSlots = Math.max(visitCollectionLimit - visitCollectionPeople.length, 0);
+    if (availableSlots <= 0) return;
+    const unsavedIds = path.personIds.filter((personId) => !visitCollectionIds.includes(personId));
+    unsavedIds.slice(0, availableSlots).forEach((personId) => {
+      onAddVisitCollectionPerson?.(personId);
+    });
+    if (unsavedIds.length > 0) {
+      setVisitJourneyOpen(true);
+      setVisitJourneyIndex(0);
+    }
+  }
+
   const hallClassName = [
     'living-hall',
     attractActive ? 'living-hall--attract' : '',
@@ -547,7 +572,7 @@ export function LivingHallView({
       </aside>
 
       <p className="living-hall__touchCue">
-        {lens === 'traces' ? 'TOUCH A TRACE' : lens === 'legacies' ? 'SWIPE THE CLASSES' : 'TOUCH A PORTRAIT'}
+        {lens === 'traces' ? 'TOUCH A TRACE' : lens === 'journeys' ? 'CHOOSE A JOURNEY' : lens === 'legacies' ? 'SWIPE THE CLASSES' : 'TOUCH A PORTRAIT'}
       </p>
 
       {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (
@@ -593,6 +618,19 @@ export function LivingHallView({
         />
       )}
 
+      {!loading && !error && lens === 'journeys' && !attractActive && (
+        <JourneyGuidePanel
+          activePath={activeJourneyPath}
+          paths={journeyPaths}
+          people={allPeople}
+          visitCollectionIds={visitCollectionIds}
+          visitCollectionLimit={visitCollectionLimit}
+          onOpenPath={openCuratedJourney}
+          onSavePath={saveJourneyPathToVisit}
+          onSelectPerson={selectPortrait}
+        />
+      )}
+
       {!loading && !error && linkedPath && activePersonAction === 'overview' && (
         <LinkedPathRibbon
           path={linkedPath}
@@ -609,7 +647,7 @@ export function LivingHallView({
           className="living-hall__field"
           ref={legacyTimeline.fieldRef}
           style={legacyFieldStyle}
-          aria-label={lens === 'legacies' ? 'Horizontal chronology of induction class portrait frames' : 'Interactive inductee portraits'}
+          aria-label={lens === 'legacies' ? 'Horizontal chronology of induction class portrait frames' : lens === 'journeys' ? 'Curated journey portrait routes' : 'Interactive inductee portraits'}
           data-legacy-active-year={lens === 'legacies' ? activeLegacyYear ?? '' : ''}
           data-legacy-pan={lens === 'legacies' ? Math.round(legacyTimeline.pan) : ''}
           {...legacyTimeline.fieldHandlers}
@@ -618,7 +656,7 @@ export function LivingHallView({
             <ClevelandTraceBackdrop variant={lens} />
           )}
           {loading && <LivingHallPlaceholders />}
-          {!loading && !error && lens === 'traces' && activeMode.lines && activeMode.lines.length > 0 && (
+          {!loading && !error && (lens === 'traces' || lens === 'journeys') && activeMode.lines && activeMode.lines.length > 0 && (
             <ClevelandTraceField className="living-hall__traceLines" lines={activeMode.lines} variant={lens} />
           )}
           {!loading && !error && (

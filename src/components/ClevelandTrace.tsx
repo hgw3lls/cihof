@@ -265,6 +265,13 @@ function backdropLinesForLens(variant: HallLens): ClevelandTraceLine[] {
       { id: 'legacy-register-03', motifId: 'register-03', role: 'legacy-register', x1: 8, y1: 59, x2: 92, y2: 59 },
     ];
   }
+  if (variant === 'journeys') {
+    return [
+      { id: 'journey-latent-01', motifId: 'transition-01', role: 'latent', x1: 10, y1: 34, x2: 88, y2: 54 },
+      { id: 'journey-latent-02', motifId: 'junction-branch-01', role: 'latent', x1: 18, y1: 70, x2: 80, y2: 26 },
+      { id: 'journey-latent-03', motifId: 'parallel-01', role: 'latent', x1: 22, y1: 23, x2: 74, y2: 76 },
+    ];
+  }
   return [
     { id: 'portrait-latent-01', motifId: 'diagonal-01', role: 'latent', x1: 8, y1: 24, x2: 72, y2: 18 },
     { id: 'portrait-latent-02', motifId: 'dense-01', role: 'latent', x1: 20, y1: 68, x2: 88, y2: 72 },

@@ -2,6 +2,41 @@ import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
 test.describe('saved visit collection', () => {
+  test('opens curated journeys and saves a route into the visit tray', async ({ page }) => {
+    await page.goto('./?lens=journeys');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'journeys');
+
+    const guide = page.getByLabel('Curated journey paths');
+    await expect(guide).toBeVisible();
+    await expect(guide).toContainText('Choose a path through the Hall');
+    await expect(guide.locator('.living-hall__journeyPath').first()).toBeVisible();
+
+    const firstPath = guide.locator('.living-hall__journeyPath').first();
+    const firstPathLabel = await firstPath.locator('.living-hall__journeyPathMain strong').textContent();
+    expect(firstPathLabel).toBeTruthy();
+
+    await firstPath.locator('.living-hall__journeyPathMain').click();
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-active', 'true');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', /.+/);
+    await expect(page).toHaveURL(/lens=journeys/);
+    await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-label', firstPathLabel ?? '');
+    await waitForGuard(page);
+
+    await page.getByRole('button', { name: 'Reset', exact: true }).click();
+    await waitForGuard(page);
+    await page.getByRole('button', { name: 'Arrange Hall by curated journeys', exact: true }).click();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'journeys');
+    await waitForGuard(page);
+
+    const saveButton = page.getByLabel('Curated journey paths').locator('.living-hall__journeyPathSave').first();
+    await expect(saveButton).toBeEnabled();
+    await saveButton.click();
+    const savedCount = Number(await page.locator('.living-hall').getAttribute('data-visit-collection-count'));
+    expect(savedCount).toBeGreaterThan(0);
+    await expect(page.getByLabel('Saved visit collection')).toBeVisible();
+    await expect(page.getByLabel('Saved visit collection')).toHaveAttribute('data-journey-active', 'true');
+  });
+
   test('collects multiple portraits into one continuation QR path', async ({ page }) => {
     await page.goto('./');
     await expect(page.locator('.hall-surface')).toHaveCount(1);

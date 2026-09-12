@@ -602,6 +602,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       const nextFocusId = selectedId || referencePerson?.id || '';
       setSelectedId(nextFocusId);
       if (nextFocusId) setLastSeenId(nextFocusId);
+    } else if (lens === 'journeys') {
+      setSelectedId('');
     } else if (lens === 'portraits') {
       setSelectedId(selectedId || referencePerson?.id || '');
     } else if (lens === 'legacies') {

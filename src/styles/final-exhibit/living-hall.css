@@ -2193,6 +2193,234 @@
   padding: clamp(12px, 1.1vw, 20px);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide {
+  position: absolute;
+  right: clamp(18px, 2.2vw, 42px);
+  bottom: calc(var(--experience-dock-height) + clamp(18px, 2.4vh, 42px));
+  z-index: 3185;
+  width: min(430px, 27vw);
+  max-height: min(66vh, 660px);
+  display: grid;
+  gap: clamp(10px, 1vw, 16px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-top: 2px solid rgba(155, 63, 31, 0.68);
+  background:
+    linear-gradient(90deg, rgba(244, 234, 211, 0.95), rgba(235, 223, 197, 0.84)),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px);
+  background-size: auto, var(--exhibit-stage-grid);
+  box-shadow:
+    0 0 0 1px rgba(9, 9, 7, 0.08),
+    0 18px 36px rgba(9, 9, 7, 0.12);
+  color: var(--exhibit-ink);
+  padding: clamp(11px, 1vw, 17px);
+  pointer-events: auto;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__journeyGuide {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header {
+  display: grid;
+  gap: 5px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathSave,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header span,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header strong,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header small,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button {
+  font-family: var(--font-exhibit-label);
+  font-stretch: var(--type-width-label);
+  font-variation-settings: "opsz" var(--type-opsz-text);
+  font-weight: 720;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header span {
+  color: var(--exhibit-route);
+  font-size: clamp(0.62rem, 0.66vw, 0.78rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader strong {
+  color: rgba(21, 19, 15, 0.82);
+  font-size: clamp(1rem, 1.08vw, 1.3rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuideHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header small {
+  color: rgba(21, 19, 15, 0.48);
+  font-size: clamp(0.58rem, 0.62vw, 0.74rem);
+  line-height: 1.18;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathList {
+  display: grid;
+  gap: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPath {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(70px, auto);
+  align-items: stretch;
+  gap: 8px;
+  border-top: 1px solid rgba(21, 19, 15, 0.16);
+  padding-top: 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathSave,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: rgba(21, 19, 15, 0.72);
+  text-align: left;
+  cursor: pointer;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain span,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain small,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain em {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain span,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain em {
+  color: rgba(155, 63, 31, 0.66);
+  font-size: clamp(0.54rem, 0.58vw, 0.68rem);
+  font-style: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain strong {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(9, 9, 7, 0.86);
+  font-size: clamp(0.82rem, 0.88vw, 1.05rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathMain small {
+  color: rgba(21, 19, 15, 0.5);
+  font-size: clamp(0.58rem, 0.62vw, 0.74rem);
+  line-height: 1.16;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathSave {
+  align-self: start;
+  justify-self: end;
+  min-width: 70px;
+  border-top: 1px solid rgba(155, 63, 31, 0.44);
+  color: var(--exhibit-route);
+  padding-top: 7px;
+  text-align: right;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPathSave:disabled {
+  border-top-color: rgba(21, 19, 15, 0.16);
+  color: rgba(21, 19, 15, 0.36);
+  cursor: default;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPath--active {
+  border-top-color: rgba(155, 63, 31, 0.82);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyPath--active .living-hall__journeyPathMain strong {
+  color: var(--exhibit-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid rgba(21, 19, 15, 0.16);
+  background: rgba(255, 250, 238, 0.38);
+  padding-top: 10px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview header strong {
+  color: rgba(21, 19, 15, 0.82);
+  font-size: clamp(0.84rem, 0.9vw, 1.08rem);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview ol {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  max-height: min(22vh, 210px);
+  overflow: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview li {
+  border-top: 1px solid rgba(21, 19, 15, 0.12);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2.6ch minmax(0, 1fr);
+  grid-template-areas:
+    "index name"
+    "index meta";
+  align-content: center;
+  column-gap: 10px;
+  padding: 8px 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button span {
+  grid-area: index;
+  color: rgba(155, 63, 31, 0.72);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button strong {
+  grid-area: name;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyRoutePreview button small {
+  grid-area: meta;
+  min-width: 0;
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.48);
+  font-family: var(--font-exhibit-body);
+  font-size: clamp(0.62rem, 0.66vw, 0.8rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide :is(button):focus-visible {
+  outline: 3px solid var(--exhibit-route);
+  outline-offset: 4px;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel {
   position: absolute;
   left: var(--person-action-x);
@@ -3671,6 +3899,20 @@
   outline-offset: 8px;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-portrait--emphasis:not(.living-portrait--focused) {
+  opacity: 0.9;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-portrait--emphasis:not(.living-portrait--focused) .portrait-frame {
+  outline: 2px solid rgba(155, 63, 31, 0.24);
+  outline-offset: clamp(4px, 0.42vw, 8px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-portrait--muted {
+  opacity: 0.18;
+  filter: grayscale(1) contrast(0.82) brightness(0.9);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall[data-journey-active="true"] .living-portrait--journey-dimmed:not(.living-portrait--focused) {
   opacity: 0.18;
   filter: grayscale(1) contrast(0.84) brightness(0.92);
@@ -3873,6 +4115,24 @@
 
   .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation {
     grid-template-columns: 1fr;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide {
+    left: clamp(18px, 5vw, 34px);
+    right: clamp(18px, 5vw, 34px);
+    top: clamp(92px, 14vh, 152px);
+    bottom: auto;
+    width: auto;
+    max-height: min(40vh, 360px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__journeyPath {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__journeyPathSave {
+    justify-self: start;
+    text-align: left;
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__focusIdentity h3 {

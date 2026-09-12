@@ -1,4 +1,4 @@
-import type { Inductee } from '../../data/types';
+import type { HallLinkedPath, HallLinkedPathKind, Inductee } from '../../data/types';
 
 export type VisitJourneyConfidence = 'documented' | 'curated' | 'inferred' | 'visitor';
 
@@ -23,6 +23,11 @@ export type VisitJourneyInsight = {
   connectiveLabel: string;
   summary: string;
   activeSuggestion: VisitJourneySuggestion | null;
+};
+
+export type CuratedJourneyPath = HallLinkedPath & {
+  sourceLabel: string;
+  strength: number;
 };
 
 type RouteCandidate = {
@@ -59,6 +64,27 @@ export function buildVisitJourneyInsight(people: Inductee[], activeIndex: number
 
 export function strongestJourneyConnection(source: Inductee, target: Inductee): VisitJourneyConnection {
   return rankedConnections(source, target)[0] ?? fallbackConnection;
+}
+
+export function buildCuratedJourneyPaths(people: Inductee[]): CuratedJourneyPath[] {
+  const paths = [
+    latestClassJourney(people),
+    ...tagJourneyCandidates(people, 'heritage', (label) => `${label} Heritage Path`, 'Nationality metadata', 8),
+    ...tagJourneyCandidates(people, 'community', (label) => `${label} Community Path`, 'Community taxonomy', 7),
+    ...tagJourneyCandidates(people, 'theme', (label) => `${label} Impact Path`, 'Contribution metadata', 6),
+    mediaMemoryJourney(people),
+  ].filter((path): path is CuratedJourneyPath => Boolean(path));
+
+  const seen = new Set<string>();
+  return paths
+    .sort((a, b) => b.strength - a.strength || b.personIds.length - a.personIds.length || a.label.localeCompare(b.label))
+    .filter((path) => {
+      const key = `${path.kind}:${normalizeLabel(path.label)}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 6);
 }
 
 function buildActiveSuggestion(people: Inductee[], activeIndex: number): VisitJourneySuggestion | null {
@@ -105,6 +131,107 @@ function selectRouteCandidate(people: Inductee[]): RouteCandidate {
     type: 'custom',
     count: people.length,
     strength: 1,
+  };
+}
+
+function latestClassJourney(people: Inductee[]): CuratedJourneyPath | null {
+  const classGroups = new Map<number, Inductee[]>();
+  people.forEach((person) => {
+    if (!person.classYear) return;
+    const current = classGroups.get(person.classYear) ?? [];
+    current.push(person);
+    classGroups.set(person.classYear, current);
+  });
+  const latestYear = Math.max(...classGroups.keys());
+  if (!Number.isFinite(latestYear)) return null;
+  const latestPeople = sortJourneyPeople(classGroups.get(latestYear) ?? []).slice(0, 6);
+  if (latestPeople.length < 3) return null;
+
+  return journeyPath({
+    kind: 'class',
+    label: `Class of ${latestYear} Legacy Path`,
+    detail: `${latestPeople.length} stops from the newest induction class`,
+    people: latestPeople,
+    sourceLabel: 'Induction class metadata',
+    strength: 10,
+    timelineYear: String(latestYear),
+  });
+}
+
+function tagJourneyCandidates(
+  people: Inductee[],
+  kind: Extract<HallLinkedPathKind, 'heritage' | 'community' | 'theme'>,
+  labelFor: (label: string) => string,
+  sourceLabel: string,
+  strength: number,
+): CuratedJourneyPath[] {
+  const buckets = new Map<string, { label: string; people: Inductee[] }>();
+
+  people.forEach((person) => {
+    tagsForType(person, kind).forEach((tag) => {
+      const key = normalizeLabel(tag);
+      const bucket = buckets.get(key) ?? { label: tag, people: [] };
+      if (!bucket.people.some((item) => item.id === person.id)) bucket.people.push(person);
+      buckets.set(key, bucket);
+    });
+  });
+
+  return Array.from(buckets.values())
+    .filter((bucket) => bucket.people.length >= 4)
+    .map((bucket) => {
+      const routePeople = sortJourneyPeople(bucket.people).slice(0, 6);
+      return journeyPath({
+        kind,
+        label: labelFor(bucket.label),
+        detail: `${routePeople.length} stops connected by ${bucket.label}`,
+        people: routePeople,
+        sourceLabel,
+        strength: strength + Math.min(routePeople.length, 6) / 10,
+      });
+    });
+}
+
+function mediaMemoryJourney(people: Inductee[]): CuratedJourneyPath | null {
+  const mediaPeople = sortJourneyPeople(people.filter((person) => person.hasVideo || person.hasGallery || person.storySummary.trim())).slice(0, 6);
+  if (mediaPeople.length < 4) return null;
+
+  return journeyPath({
+    kind: 'theme',
+    label: 'Media + Memory Path',
+    detail: `${mediaPeople.length} stops with richer media or story records`,
+    people: mediaPeople,
+    sourceLabel: 'Media and story availability',
+    strength: 5,
+  });
+}
+
+function journeyPath({
+  detail,
+  kind,
+  label,
+  people,
+  sourceLabel,
+  strength,
+  timelineYear,
+}: {
+  detail: string;
+  kind: HallLinkedPathKind;
+  label: string;
+  people: Inductee[];
+  sourceLabel: string;
+  strength: number;
+  timelineYear?: string;
+}): CuratedJourneyPath {
+  return {
+    kind,
+    label,
+    detail,
+    personIds: people.map((person) => person.id),
+    lens: 'journeys',
+    focusPersonId: people[0]?.id,
+    sourceLabel,
+    strength,
+    timelineYear,
   };
 }
 
@@ -240,6 +367,25 @@ function tagsForType(person: Inductee, type: RouteCandidate['type']) {
   if (type === 'community') return validTags(person.communityTags);
   if (type === 'theme') return validTags(person.themeTags);
   return [];
+}
+
+function sortJourneyPeople(people: Inductee[]) {
+  return [...people].sort((a, b) => {
+    const priorityA = journeyPriority(a);
+    const priorityB = journeyPriority(b);
+    return priorityB - priorityA
+      || (b.classYear ?? 0) - (a.classYear ?? 0)
+      || a.sortName.localeCompare(b.sortName)
+      || a.name.localeCompare(b.name);
+  });
+}
+
+function journeyPriority(person: Inductee) {
+  return (person.featured ? 12 : 0)
+    + (person.featuredCandidate ? 7 : 0)
+    + (person.hasVideo ? 5 : 0)
+    + (person.hasGallery ? 3 : 0)
+    + Math.min(person.attractPriority, 10);
 }
 
 function sharedTags(source: string[], target: string[]) {
