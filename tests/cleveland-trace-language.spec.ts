@@ -29,6 +29,9 @@ test.describe('Cleveland-derived TRACES line language', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
     await expect(page.locator('.cleveland-trace-field--traces[data-runtime-gis="false"]')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toContainText('CLEVELAND CIVIC FABRIC');
+    await expect(page.locator('.living-hall__fabricLane')).toHaveCount(4);
+    await expect(page.locator('.living-hall__fabricThreads [data-fabric-thread]').first()).toBeVisible();
     const initialRelationshipPaths = page.locator('.cleveland-trace--relationship .cleveland-trace__path--main');
     await expect(initialRelationshipPaths.first()).toBeVisible();
     expect(await initialRelationshipPaths.count()).toBeGreaterThanOrEqual(4);
