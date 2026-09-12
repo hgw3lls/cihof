@@ -1,4 +1,5 @@
-const CACHE_VERSION = 'cihof-runtime-v1';
+const CACHE_FAMILY = 'cihof-runtime-';
+const CACHE_VERSION = `${CACHE_FAMILY}v2`;
 const DOCUMENT_CACHE = `${CACHE_VERSION}:documents`;
 const DATA_CACHE = `${CACHE_VERSION}:data`;
 const ASSET_CACHE = `${CACHE_VERSION}:assets`;
@@ -11,7 +12,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('cihof-runtime-') && !key.startsWith(CACHE_VERSION)).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith(CACHE_FAMILY) && !key.startsWith(CACHE_VERSION)).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
 });

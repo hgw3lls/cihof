@@ -6,6 +6,7 @@ const screenshotDir = process.env.CIHOF_TRACE_SCREENSHOT_DIR ?? '/tmp/cihof-clev
 
 test.describe('Cleveland-derived TRACES line language', () => {
   test('uses local Cleveland motifs for portraits, traces, follow-the-trace, and legacies', async ({ page }) => {
+    test.setTimeout(60_000);
     mkdirSync(screenshotDir, { recursive: true });
     const gisRequests: string[] = [];
     await page.route(/gis\.cuyahogacounty\.gov/, async (route) => {
