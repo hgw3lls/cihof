@@ -23,6 +23,8 @@ Public global navigation contains only:
 - `TRACES`
 - `LEGACIES`
 
+Curated visit paths are still supported as an internal/deep-link route at `?lens=journeys`, shown in the app chrome as `VISIT PATHS`. That route is for saved visits, operator links, and regression coverage; it is not a fourth public navigation lens.
+
 The public app must not expose `Living Hall` as visitor-facing language. That name may still appear in internal file names from earlier implementation phases.
 
 ## Current Visitor Experience
@@ -120,19 +122,20 @@ npm run validate:entities
 
 ## Current Data Status
 
-Latest audit snapshot, August 25, 2026:
+Latest audit snapshot, September 12, 2026:
 
 - `111` inductees
 - `111/111` primary image paths present
 - `0` duplicate IDs
 - `0` generic image candidates
-- `443` generated entities
-- `1,869` generated entity relationships
+- `450` generated entities
+- `1,889` generated entity relationships
+- `0` explicit curated relationship records
 - `111/111` curated metadata records structurally present
 - `0` public-approved profile summaries/context/HONORED FOR/Life + Work fields
-- `94` video items in media data
-- `0` kiosk-ready videos
-- `0` kiosk-ready primary images
+- `64` profiles currently have video links in generated runtime data
+- `1,204` remote media references remain in the offline validation report
+- kiosk-ready media approval/localization remains the main production content gap
 
 The architecture is ahead of the approved content. The next major work should move source-derived suggestions into curator-approved canonical data.
 
@@ -253,6 +256,10 @@ Old visitor URLs are intentionally mapped into the persistent Hall model:
 - `person=...` -> focused persistent portrait frame
 
 Staff/review URLs remain separate.
+
+Internal route note:
+
+- `lens=journeys` is reserved for curated visit paths and saved-visit workflows. It remains supported for operator/deep links, but it is intentionally absent from public global navigation.
 
 ## Current Priorities
 

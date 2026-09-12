@@ -2,9 +2,10 @@ import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
 test.describe('saved visit collection', () => {
-  test('opens curated journeys and saves a route into the visit tray', async ({ page }) => {
+  test('opens internal curated journeys and saves a route into the visit tray', async ({ page }) => {
     await page.goto('./?lens=journeys');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'journeys');
+    await expect(page.getByRole('button', { name: 'Arrange Hall by curated journeys' })).toHaveCount(0);
 
     const guide = page.getByLabel('Curated journey paths');
     await expect(guide).toBeVisible();
@@ -24,7 +25,7 @@ test.describe('saved visit collection', () => {
 
     await page.getByRole('button', { name: 'Reset', exact: true }).click();
     await waitForGuard(page);
-    await page.getByRole('button', { name: 'Arrange Hall by curated journeys', exact: true }).click();
+    await page.goto('./?lens=journeys');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'journeys');
     await waitForGuard(page);
 

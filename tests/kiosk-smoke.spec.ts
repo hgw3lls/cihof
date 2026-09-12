@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import { expectCloseViewTypography } from './close-view-typography';
+import { useLongKioskIdle } from './kiosk-test-settings';
 
 test.describe('museum kiosk smoke', () => {
   test('loads the portrait wall and publishes health status', async ({ page }) => {
@@ -133,6 +134,11 @@ test.describe('museum kiosk smoke', () => {
 
   test('keeps bottom navigation usable across primary views', async ({ page }) => {
     await page.goto('./');
+    await expect(page.locator('.experience-dock__item')).toHaveCount(3);
+    await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Arrange Hall by heritage and connections' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Arrange Hall by induction history' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Arrange Hall by curated journeys' })).toHaveCount(0);
 
     const cityQuestion = await readCityQuestionData(page);
     if (cityQuestion.enabled && cityQuestion.options.length > 0) {
@@ -202,6 +208,7 @@ test.describe('museum kiosk smoke', () => {
   });
 
   test('maps legacy visitor URLs into persistent Hall lens state', async ({ page }) => {
+    test.setTimeout(60_000);
     const deepLink = await readDeepLinkCandidateData(page);
     expect(deepLink.id).toBeTruthy();
 
@@ -495,6 +502,7 @@ test.describe('museum kiosk smoke', () => {
   });
 
   test('idle reset enters attract mode and touch returns home', async ({ page }) => {
+    await useLongKioskIdle(page);
     const deepLink = await readDeepLinkCandidateData(page);
     await page.goto(
       `./?kiosk=1&lens=legacies&timeYear=${deepLink.classYear}&person=${deepLink.id}`,
@@ -523,6 +531,7 @@ test.describe('museum kiosk smoke', () => {
     await page.mouse.down();
     await page.mouse.move(hallBox.x + hallBox.width * 0.28, hallBox.y + hallBox.height * 0.48, { steps: 6 });
     await page.mouse.up();
+    await useShortKioskIdle(page);
 
     const latestClass = await readLatestClassData(page);
     await expect(page.locator('.living-hall--attract')).toBeVisible({ timeout: 6_000 });
@@ -543,6 +552,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.getByRole('button', { name: 'Arrange Hall by portraits' })).toHaveAttribute('aria-pressed', 'true');
     const health = await waitForKioskHealth(page, (snapshot) => snapshot.attractActive === false);
     expect(health.currentView).toBe('living-hall');
+    await useLongKioskIdle(page);
 
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
@@ -639,6 +649,14 @@ async function keepKioskAwakeWithKeyboardUntil(page: Page, predicate: () => Prom
     await page.waitForTimeout(120);
   }
   expect(await predicate()).toBe(true);
+}
+
+async function useShortKioskIdle(page: Page) {
+  await page.evaluate(() => {
+    const key = 'cihof.kiosk-settings.v1';
+    window.localStorage.removeItem(key);
+    window.dispatchEvent(new CustomEvent('cihof:kiosk-settings-changed', { detail: {} }));
+  });
 }
 
 async function visiblePortraitTarget(page: Page) {

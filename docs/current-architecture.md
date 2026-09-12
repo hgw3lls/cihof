@@ -29,6 +29,8 @@ The public navigation exposes only:
 - `TRACES`
 - `LEGACIES`
 
+`?lens=journeys` remains available as an internal/deep-link route for curated visit paths and saved-visit workflows. It is labeled `VISIT PATHS` in app chrome and must not be added back to the public global navigation.
+
 ## Persistent Portrait Frames
 
 The persistent visual object is the keyed portrait frame.
@@ -163,5 +165,7 @@ Current audit shape:
 - `111/111` primary image paths present
 - `450` generated entities
 - `1,889` generated entity relationships
-- explicit curated relationship records still need expansion
+- `0` explicit curated relationship records
+- `64` profiles currently have video links in generated runtime data
+- `1,204` remote media references remain in offline validation
 - kiosk-ready media approval/localization is still the main production content gap

@@ -622,7 +622,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   const activeExperienceLabel = isVisitorExperienceMode(activeShellMode)
-    ? visitorExperienceNavItems.find((item) => item.lens === hallLens)?.label ?? 'PORTRAITS'
+    ? visitorExperienceNavItems.find((item) => item.lens === hallLens)?.label ?? internalHallLensLabel(hallLens)
     : 'Staff Portal';
 
   return (
@@ -871,6 +871,11 @@ function hallLensTransitionFor(current: HallLens, next: HallLens): ExperienceTra
   const nextIndex = hallLensOrder.indexOf(next);
   if (currentIndex === -1 || nextIndex === -1) return 'switch';
   return nextIndex > currentIndex ? 'forward' : 'back';
+}
+
+function internalHallLensLabel(lens: HallLens) {
+  if (lens === 'journeys') return 'VISIT PATHS';
+  return 'PORTRAITS';
 }
 
 function linkedClassPath(inductees: Inductee[], year: string): HallLinkedPath | null {

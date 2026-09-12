@@ -2915,7 +2915,7 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads button {
   width: 100%;
-  min-height: 42px;
+  min-height: 48px;
   display: grid;
   grid-template-columns: 2.5ch minmax(0, 1fr) auto;
   grid-template-areas:

@@ -31,12 +31,6 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
     ariaLabel: 'Arrange Hall by heritage and connections',
   },
   {
-    lens: 'journeys',
-    label: 'JOURNEYS',
-    sublabel: 'CURATED PATHS',
-    ariaLabel: 'Arrange Hall by curated journeys',
-  },
-  {
     lens: 'legacies',
     label: 'LEGACIES',
     sublabel: 'CLASSES THROUGH TIME',
