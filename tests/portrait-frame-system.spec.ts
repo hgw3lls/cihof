@@ -33,6 +33,11 @@ test.describe('production PortraitFrame system', () => {
     await expect(page.locator(`button.living-portrait[data-transition-person="${id}"]`)).toHaveCSS('--frame-rotation', '0deg');
     await screenshotFrame(page, id, 'legacy');
 
+    const cohortClose = page.getByRole('button', { name: 'Close cohort navigator' });
+    if (await cohortClose.count()) {
+      await cohortClose.click();
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    }
     await page.locator(`button.living-portrait[data-transition-person="${id}"]`).click();
     await expectFrameState(page, id, 'focus');
     await screenshotFrame(page, id, 'focus');

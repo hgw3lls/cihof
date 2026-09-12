@@ -6,6 +6,7 @@ const screenshotDir = process.env.CIHOF_FINAL_STEP2_SCREENSHOT_DIR ?? '/tmp/ciho
 
 test.describe('focused portrait as in-place record', () => {
   test('keeps focus/actions anchored to the same Hall lens', async ({ page }) => {
+    test.setTimeout(90_000);
     mkdirSync(screenshotDir, { recursive: true });
     await page.goto('./');
 

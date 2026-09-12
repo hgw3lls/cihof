@@ -11,7 +11,7 @@ dist-portal/
 *.tsbuildinfo
 
 # Local generated audit output
-public/data/data-audit.local.json
+artifacts/data-audit.local.json
 
 # Local staff portal runner scratch files
 .portal/

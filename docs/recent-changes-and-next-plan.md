@@ -161,8 +161,8 @@ The staff/curation portal has been separated from the public visitor app. The ma
 - Runtime media data includes 94 video items.
 - Kiosk-ready primary images: 0.
 - Kiosk-ready videos: 0.
-- Generated entity count: 443 entities.
-- Generated entity relationship count: 1,869 relationships.
+- Generated entity count: 450 entities.
+- Generated entity relationship count: 1,889 relationships.
 - Explicit curated relationship records currently remain a curation area to expand from source-derived candidates.
 - Curated story section records currently remain limited and should be expanded through portal review.
 - Curated metadata records exist for all 111 inductees, but public-approved context/HONORED FOR/Life + Work fields remain empty.

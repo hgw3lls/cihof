@@ -85,12 +85,7 @@ async function focusedPersonId(page: Page) {
 async function dismissLegacyFocus(page: Page) {
   const dialog = page.getByRole('dialog', { name: /cohort navigator/i });
   if (await dialog.count() === 0) return;
-  const surfaceBox = await page.locator('.hall-surface').boundingBox();
-  expect(surfaceBox).toBeTruthy();
-  await page.mouse.click(
-    (surfaceBox?.x ?? 0) + (surfaceBox?.width ?? 0) - 96,
-    (surfaceBox?.y ?? 0) + (surfaceBox?.height ?? 0) / 2,
-  );
+  await page.getByRole('button', { name: 'Close cohort navigator' }).click();
   await expect(dialog).toBeHidden();
   await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
   await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');

@@ -1124,6 +1124,11 @@ async function buildAdminDiagnosticsSnapshot(settings: KioskSettings, overrideAc
   const mediaAssets = isRecord(mediaManifest.assets) ? mediaManifest.assets : {};
   const places = isRecord(bundle.places) && Array.isArray(bundle.places.places) ? bundle.places.places : [];
   const sourceCuration = isRecord(bundle.sourceCuration) ? bundle.sourceCuration : {};
+  const sourceCurationCount = typeof sourceCuration.recordCount === 'number'
+    ? sourceCuration.recordCount
+    : Array.isArray(sourceCuration.curationIndex)
+      ? sourceCuration.curationIndex.length
+      : 0;
 
   return {
     capturedAt: new Date().toISOString(),
@@ -1144,7 +1149,7 @@ async function buildAdminDiagnosticsSnapshot(settings: KioskSettings, overrideAc
       relationshipCount: Array.isArray(bundle.relationships) ? bundle.relationships.length : 0,
       mediaAssetCount: Object.keys(mediaAssets).length,
       placeCount: places.length,
-      sourceCurationCount: Array.isArray(sourceCuration.curationIndex) ? sourceCuration.curationIndex.length : 0,
+      sourceCurationCount,
     },
     storage: {
       ...localStorageDiagnostics,

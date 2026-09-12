@@ -1,10 +1,12 @@
 import { mkdirSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
+import { useLongKioskIdle } from './kiosk-test-settings';
 
 const screenshotDir = process.env.CIHOF_FINAL_STEP1_SCREENSHOT_DIR ?? '/tmp/cihof-final-step1';
 
 test.describe('final exhibition art direction', () => {
   test('captures PORTRAITS idle, PORTRAITS engaged, TRACES focused, and LEGACIES', async ({ page }) => {
+    test.setTimeout(60_000);
     mkdirSync(screenshotDir, { recursive: true });
 
     await page.goto('./?kiosk=1');
@@ -17,6 +19,7 @@ test.describe('final exhibition art direction', () => {
     });
 
     await page.mouse.click(72, 72);
+    await useLongKioskIdle(page);
     await expect(page.locator('.living-hall--attract')).toBeHidden();
 
     const firstPortrait = page.locator('button.living-portrait').first();

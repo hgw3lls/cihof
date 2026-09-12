@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { buildReport, loadInductees } from './data-utils.js';
 import { generatedAtFor } from './stable-generated-at.js';
 
-const outputPath = resolve('public/data/data-audit.local.json');
+const outputPath = resolve('artifacts/data-audit.local.json');
 const inductees = loadInductees();
 const report = buildReport(inductees);
 const audit = {
