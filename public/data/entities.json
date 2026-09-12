@@ -25,9 +25,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -42,9 +42,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -59,9 +59,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -76,9 +76,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -93,9 +93,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -123,9 +123,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -140,9 +140,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -157,9 +157,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -174,9 +174,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -191,9 +191,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -208,9 +208,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -225,9 +225,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -242,9 +242,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -272,9 +272,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -302,9 +302,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -319,9 +319,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -336,9 +336,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -353,9 +353,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -370,9 +370,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -387,9 +387,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -417,9 +417,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -434,9 +434,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -451,9 +451,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -468,9 +468,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -485,9 +485,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -515,9 +515,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -532,9 +532,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -549,9 +549,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -566,9 +566,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -583,9 +583,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -600,9 +600,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -617,9 +617,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -634,9 +634,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -651,9 +651,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -668,9 +668,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -685,9 +685,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -702,9 +702,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -719,9 +719,9 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceField": "countryTags",
-        "note": "Generated from nationality and heritage references in source text; needs curatorial review."
+        "note": "Generated from curator-approved nationality or heritage metadata."
       },
       "attributes": {
         "communityKind": "nationality-or-heritage",
@@ -6620,7 +6620,7 @@
         "countryTags": [
           "Lebanese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/",
         "inductedBy": "Pierre Bejjani",
         "approvalStatus": "draft",
@@ -6680,7 +6680,7 @@
       "id": "person:aklilu-demessie-2026",
       "displayName": "Aklilu Demessie",
       "type": "Person",
-      "shortDescription": "Aklilu Demessie Mr. Aklilu Demessie first came to the United States from Ethiopia for a year as part of an American Field Service, AFS, student scholarship program from Menelik High in Addis Ababa, Ethiopia, while a senior in high school in the...",
+      "shortDescription": "Aklilu Demessie Mr. Aklilu Demessie first came to the United States from Ethiopia for a year as part of an American Field Service, AFS, student scholarship program from Menelik High in Addis Ababa, Ethiopia, while a senior in high school in the 1970s. After graduating from Oberlin High...",
       "media": [
         {
           "entityId": "media:primary-image:aklilu-demessie-2026",
@@ -6720,7 +6720,7 @@
         "countryTags": [
           "Ethiopian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/aklilu-demessie/",
         "inductedBy": "Dr. Menna Demessie, Ph.D.",
         "approvalStatus": "draft",
@@ -6761,7 +6761,7 @@
       "id": "person:akram-boutros-2019",
       "displayName": "Akram Boutros",
       "type": "Person",
-      "shortDescription": "Akram Boutros, MD, FACHE Akram Boutros Akram Boutros, MD, FACHE In his five years as the President and CEO of MetroHealth, the public health system in Cleveland, Akram Boutros, MD, FACHE, has galvanized political leaders, entrepreneurs and the...",
+      "shortDescription": "Akram Boutros, MD, FACHE Akram Boutros Akram Boutros, MD, FACHE In his five years as the President and CEO of MetroHealth, the public health system in Cleveland, Akram Boutros, MD, FACHE, has galvanized political leaders, entrepreneurs and the public around supporting community-wide health care many had taken for...",
       "media": [
         {
           "entityId": "media:primary-image:akram-boutros-2019",
@@ -6801,7 +6801,7 @@
         "countryTags": [
           "Egyptian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/akram-boutros/",
         "inductedBy": "Armond Budish",
         "approvalStatus": "draft",
@@ -6844,7 +6844,7 @@
       "id": "person:albert-b-ratner-2011",
       "displayName": "Albert B. Ratner",
       "type": "Person",
-      "shortDescription": "Albert B. Ratner Albert B. Ratner is co-chairman of the board of Forest City Enterprises, Inc. He has been in the commercial and residential real estate industry with Forest City since 1951.",
+      "shortDescription": "Albert B. Ratner is co-chairman of the board of Forest City Enterprises, Inc. He has been in the commercial and residential real estate industry with Forest City since 1951.",
       "media": [
         {
           "entityId": "media:primary-image:albert-b-ratner-2011",
@@ -6878,7 +6878,7 @@
         "countryTags": [
           "Jewish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/albert-b-ratner-2011/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -6919,7 +6919,7 @@
       "id": "person:alex-machaskee-2010",
       "displayName": "Alex Machaskee",
       "type": "Person",
-      "shortDescription": "Alex Machaskee Alex Machaskee is the retired Publisher, President and Chief Executive Officer of The Plain Dealer, Ohio’s largest newspaper. In that capacity, he was responsible for the overall policy, operation and direction of the newspaper.",
+      "shortDescription": "Alex Machaskee is the retired Publisher, President and Chief Executive Officer of The Plain Dealer, Ohio’s largest newspaper. In that capacity, he was responsible for the overall policy, operation and direction of the newspaper.",
       "media": [
         {
           "entityId": "media:primary-image:alex-machaskee-2010",
@@ -6953,7 +6953,7 @@
         "countryTags": [
           "Serbian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/alex-machaskee-2010/",
         "inductedBy": "Dick Russ",
         "approvalStatus": "draft",
@@ -7028,7 +7028,7 @@
       "id": "person:ambassador-edward-f-crawford-2024",
       "displayName": "Ambassador Edward F. Crawford",
       "type": "Person",
-      "shortDescription": "Ambassador Edward F. Crawford Ambassador Edward F. Crawford is the former Chairman and Chief Executive Officer of Park-Ohio Holdings Corp. (NASDAQ Symbol PKOH) (1992 to 2019).",
+      "shortDescription": "Ambassador Edward F. Crawford is the former Chairman and Chief Executive Officer of Park-Ohio Holdings Corp. (NASDAQ Symbol PKOH) (1992 to 2019). This Cleveland, Ohio based industrial enterprise has annual revenues of approximately $2 billion and employs 8,000 associates worldwide.",
       "media": [
         {
           "entityId": "media:primary-image:ambassador-edward-f-crawford-2024",
@@ -7068,7 +7068,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/ambassador-edward-f-crawford/",
         "inductedBy": "Amb Byrne Nason",
         "approvalStatus": "draft",
@@ -7109,7 +7109,7 @@
       "id": "person:anda-cook-2022",
       "displayName": "Anda Cook",
       "type": "Person",
-      "shortDescription": "Anda Cook Anda Cook Anda Cook was born in Riga, capitol of Latvia, but when she was 9 years old, left with family to escape the advancing Soviet army. The family expected to return back home after the war, but it was not to be.",
+      "shortDescription": "Anda Cook was born in Riga, capitol of Latvia, but when she was 9 years old, left with family to escape the advancing Soviet army. The family expected to return back home after the war, but it was not to be.",
       "media": [
         {
           "entityId": "media:primary-image:anda-cook-2022",
@@ -7149,7 +7149,7 @@
         "countryTags": [
           "Latvian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/anda-cook/",
         "inductedBy": "Dagmar Celeste",
         "approvalStatus": "draft",
@@ -7224,7 +7224,7 @@
       "id": "person:andy-chakalis-2026",
       "displayName": "Andy Chakalis",
       "type": "Person",
-      "shortDescription": "Andy Chakalis A native Clevelander, Andrew Chakalis attended Brush High School and Case Western Reserve University, where his Italian language studies earned him the Italian Fellowship to the Academy of Fine Arts in Florence in 1966.",
+      "shortDescription": "Andy Chakalis A native Clevelander, Andrew Chakalis attended Brush High School and Case Western Reserve University, where his Italian language studies earned him the Italian Fellowship to the Academy of Fine Arts in Florence in 1966. The school term breaks provided him the opportunity to assist at the...",
       "media": [
         {
           "entityId": "media:primary-image:andy-chakalis-2026",
@@ -7264,7 +7264,7 @@
         "countryTags": [
           "Greek"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/andy-chakalis/",
         "inductedBy": "Lou Frangos",
         "approvalStatus": "draft",
@@ -7304,7 +7304,7 @@
       "id": "person:andy-fedynsky-2026",
       "displayName": "Andy Fedynsky",
       "type": "Person",
-      "shortDescription": "Andy Fedynsky Andy Fedynsky was born in 1947 in Innsbruck, Austria to Ukrainian refugee parents who had fled communist tyranny.",
+      "shortDescription": "Andy Fedynsky was born in 1947 in Innsbruck, Austria to Ukrainian refugee parents who had fled communist tyranny. He was eight months old when his family immigrated to the United States and soon after settled in Cleveland where he became immersed in the Ukrainian community as a scout...",
       "media": [
         {
           "entityId": "media:primary-image:andy-fedynsky-2026",
@@ -7344,7 +7344,7 @@
         "countryTags": [
           "Ukrainian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/andy-fedynsky/",
         "inductedBy": "George E. Jaskiw, M.D.",
         "approvalStatus": "draft",
@@ -7419,7 +7419,7 @@
       "id": "person:anthony-yen-yan-yuan-tai-2012",
       "displayName": "Anthony Yen (Yan Yuan Tai)",
       "type": "Person",
-      "shortDescription": "Anthony Yen (Yan Yuan Tai) Anthony Yen (Yan Yuan Tai) is an internationally recognized expert in business and trade. His work with the World Trade Center Cleveland and other businesses and organizations have earned him numerous business...",
+      "shortDescription": "Anthony Yen (Yan Yuan Tai) is an internationally recognized expert in business and trade. His work with the World Trade Center Cleveland and other businesses and organizations have earned him numerous business associations, consultancies, speaking engagements and awards and accolades as listed below.",
       "media": [
         {
           "entityId": "media:primary-image:anthony-yen-yan-yuan-tai-2012",
@@ -7453,7 +7453,7 @@
         "countryTags": [
           "Chinese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/anthony-yen-2012/",
         "inductedBy": "Wong, Margaret",
         "approvalStatus": "draft",
@@ -7511,7 +7511,7 @@
       "id": "person:arnie-de-la-porte-2016-2016",
       "displayName": "Arnie de la Porte – 2016",
       "type": "Person",
-      "shortDescription": "Arnie de la Porte Arnie de la Porte Charles A. Andre de la Porte , or Arnie de la Porte as he is known, was born and raised in the Netherlands.",
+      "shortDescription": "Arnie de la Porte Arnie de la Porte Charles A. Andre de la Porte, or Arnie de la Porte as he is known, was born and raised in the Netherlands. He is a graduate of de Kweekschool voor de Zeevaart, the oldest Nautical Academy in Europe, and a...",
       "media": [
         {
           "entityId": "media:primary-image:arnie-de-la-porte-2016-2016",
@@ -7563,7 +7563,7 @@
         "countryTags": [
           "Dutch"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/arnie-de-la-porte-2016/",
         "inductedBy": "Peter de la Porte",
         "approvalStatus": "draft",
@@ -7601,7 +7601,7 @@
       "id": "person:atul-mehta-2018",
       "displayName": "Atul Mehta",
       "type": "Person",
-      "shortDescription": "Dr. Atul C. Mehta, M.D. Dr. Atul C. Mehta, M.D Dr. Atul C. Mehta is a world-renowned pulmonary clinician and academic authority/teacher with a strong track record of hospital administrative and medical staff leadership over a 37-year career with...",
+      "shortDescription": "Dr. Atul C. Mehta, M.D. Dr. Atul C. Mehta, M.D Dr. Atul C. Mehta is a world-renowned pulmonary clinician and academic authority/teacher with a strong track record of hospital administrative and medical staff leadership over a 37-year career with Cleveland Clinic in the U.S. and abroad. He has...",
       "media": [
         {
           "entityId": "media:primary-image:atul-mehta-2018",
@@ -7647,7 +7647,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/atul-mehta/",
         "inductedBy": "Richard Buoncore",
         "approvalStatus": "draft",
@@ -7687,7 +7687,7 @@
       "id": "person:august-pust-2010",
       "displayName": "August Pust",
       "type": "Person",
-      "shortDescription": "August Pust August B. Pust, during his more than thirty-year career in U.S. public service, not only coordinated multicultural relations, but also participated, organized, and led various trade, humanitarian, educational, cultural, and goodwill...",
+      "shortDescription": "August B. Pust, during his more than thirty-year career in U.S. public service, not only coordinated multicultural relations, but also participated, organized, and led various trade, humanitarian, educational, cultural, and goodwill missions abroad. His specialty was focused on the development of programs and initiatives in the non-governmental sector...",
       "media": [
         {
           "entityId": "media:primary-image:august-pust-2010",
@@ -7721,7 +7721,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/august-pust-2010/",
         "inductedBy": "Jure Žmauc Consul General of Slovenia",
         "approvalStatus": "draft",
@@ -7779,7 +7779,7 @@
       "id": "person:basil-russo-2017",
       "displayName": "Basil Russo",
       "type": "Person",
-      "shortDescription": "Basil Russo Basil Russo Basil Russo Basil M. Russo is the National President of the Order Italian Sons and Daughters of America (ISDA), having been first elected at the organizations biennial convention in Chicago in 2014.",
+      "shortDescription": "Basil Russo Basil M. Russo is the National President of the Order Italian Sons and Daughters of America (ISDA), having been first elected at the organizations biennial convention in Chicago in 2014. The ISDA is one of the largest Italian American organizations in the United States.",
       "media": [
         {
           "entityId": "media:primary-image:basil-russo-2017",
@@ -7819,7 +7819,7 @@
         "countryTags": [
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/",
         "inductedBy": "Gabriella and Joseph Rosalina",
         "approvalStatus": "draft",
@@ -7923,7 +7923,7 @@
         "countryTags": [
           "Armenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
         "inductedBy": "Paul Burik",
         "approvalStatus": "draft",
@@ -7963,7 +7963,7 @@
       "id": "person:beverly-kerecman-2025",
       "displayName": "Beverly Kerecman",
       "type": "Person",
-      "shortDescription": "Beverly Kerecman Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated from Cleveland Heights High School. She earned her Bachelor of Science in Special Education from Kent State University.",
+      "shortDescription": "Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated from Cleveland Heights High School. She earned her Bachelor of Science in Special Education from Kent State University.",
       "media": [
         {
           "entityId": "media:primary-image:beverly-kerecman-2025",
@@ -8003,7 +8003,7 @@
         "countryTags": [
           "Japanese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/beverly-kerecman/",
         "inductedBy": "Lisa Wong",
         "approvalStatus": "draft",
@@ -8042,7 +8042,7 @@
       "id": "person:bill-miller-2017",
       "displayName": "Bill Miller",
       "type": "Person",
-      "shortDescription": "William (Bill) Miller Bill Miller Bill Miller You would be hard-pressed to find anybody in this world who was more fascinated by and curious about the people of Cleveland. And William F.",
+      "shortDescription": "William (Bill) Miller Bill Miller Bill Miller You would be hard-pressed to find anybody in this world who was more fascinated by and curious about the people of Cleveland. And William F. Miller possessed a passion for telling their stories throughout his four-decade career as a reporter for...",
       "media": [
         {
           "entityId": "media:primary-image:bill-miller-2017",
@@ -8082,7 +8082,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
         "inductedBy": "August Pust",
         "approvalStatus": "draft",
@@ -8157,7 +8157,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/bishop-a-edward-pevec-2013/",
         "inductedBy": "Jure Zmauc Consul General of Slovenia",
         "approvalStatus": "draft",
@@ -8195,7 +8195,7 @@
       "id": "person:bishop-anthony-pilla-2015",
       "displayName": "Bishop Anthony Pilla",
       "type": "Person",
-      "shortDescription": "Bishop Anthony Pilla Anthony Michael Pilla, the son of Italian immigrants, was born in Cleveland and was educated in public schools until high school that he began at Cathedral Latin and completed at St. Gregory Seminary in Cincinnati, Ohio.",
+      "shortDescription": "Bishop Anthony Pilla Anthony Michael Pilla, the son of Italian immigrants, was born in Cleveland and was educated in public schools until high school that he began at Cathedral Latin and completed at St. Gregory Seminary in Cincinnati, Ohio. He continued in college until Borromeo College Seminary opened...",
       "media": [
         {
           "entityId": "media:primary-image:bishop-anthony-pilla-2015",
@@ -8241,7 +8241,7 @@
         "countryTags": [
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/bishop-anthony-pilla-2015/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -8337,7 +8337,7 @@
         "countryTags": [
           "Croatian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/branka-malinar/",
         "inductedBy": "Tom Turkaly",
         "approvalStatus": "draft",
@@ -8378,7 +8378,7 @@
       "id": "person:carl-robson-2022",
       "displayName": "Carl Robson",
       "type": "Person",
-      "shortDescription": "Carl Robson, M.D. Carl Robson Carl Robson was raised in Hinsdale, Illinois. He attended College of Wooster, Ohio, then Case-Western Reserve Medical School. He interned at Parkland Hospital in Dallas TX and then spent 2 years in U.S.",
+      "shortDescription": "Carl Robson, M.D. Carl Robson Carl Robson was raised in Hinsdale, Illinois. He attended College of Wooster, Ohio, then Case-Western Reserve Medical School.",
       "media": [
         {
           "entityId": "media:primary-image:carl-robson-2022",
@@ -8418,7 +8418,7 @@
         "countryTags": [
           "Ethiopian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/carl-robson/",
         "inductedBy": "Aklilu Demessie",
         "approvalStatus": "draft",
@@ -8458,7 +8458,7 @@
       "id": "person:carolyn-balogh-2016-2016",
       "displayName": "Carolyn Balogh – 2016",
       "type": "Person",
-      "shortDescription": "Carolyn Balogh Carolyn Balogh Carolyn Balogh was born and raised in Cleveland, Ohio. She earned her B.S. in Education from Ohio University in Athens, Ohio.",
+      "shortDescription": "Carolyn Balogh Carolyn Balogh Carolyn Balogh was born and raised in Cleveland, Ohio. She earned her B.S. in Education from Ohio University in Athens, Ohio. Following graduation, she taught in Cleveland, Ohio, Euclid, Ohio, and Oakland, California. When Carolyn’s husband established their business, Mar-Bal, Inc. in 1970, Carolyn...",
       "media": [
         {
           "entityId": "media:primary-image:carolyn-balogh-2016-2016",
@@ -8510,7 +8510,7 @@
         "countryTags": [
           "Hungarian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/",
         "inductedBy": "Maria Pujana",
         "approvalStatus": "draft",
@@ -8590,7 +8590,7 @@
         "countryTags": [
           "Norwegian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/catherine-jorgensen-mccutcheon/",
         "inductedBy": "Karin McCutcheon",
         "approvalStatus": "draft",
@@ -8715,7 +8715,7 @@
       "id": "person:david-gilbert-2025",
       "displayName": "David Gilbert",
       "type": "Person",
-      "shortDescription": "David Gilbert David Gilbert serves as president and CEO of Greater Cleveland Sports Commission (GCSC), an organization dedicated to making Greater Cleveland the nation’s foremost destination for amateur sporting events and activities, and...",
+      "shortDescription": "David Gilbert serves as president and CEO of Greater Cleveland Sports Commission (GCSC), an organization dedicated to making Greater Cleveland the nation’s foremost destination for amateur sporting events and activities, and Destination Cleveland, the region’s destination marketing and management organization. He re-established the Sports Commission in 2000 and...",
       "media": [
         {
           "entityId": "media:primary-image:david-gilbert-2025",
@@ -8752,8 +8752,10 @@
         "classYear": 2025,
         "decade": "2020s",
         "region": "North America",
-        "countryTags": [],
-        "countryTagsSource": "none",
+        "countryTags": [
+          "Jewish"
+        ],
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/david-gilbert/",
         "inductedBy": "Joe Cimperman",
         "approvalStatus": "draft",
@@ -8794,7 +8796,7 @@
       "id": "person:dick-pogue-2015",
       "displayName": "Dick Pogue",
       "type": "Person",
-      "shortDescription": "Dick Pogue Richard W. (“Dick”) Pogue is Senior Advisor (i.e., full-time independent consultant) at Jones Day in Cleveland, Ohio.",
+      "shortDescription": "Dick Pogue Richard W. (“Dick”) Pogue is Senior Advisor (i.e., full-time independent consultant) at Jones Day in Cleveland, Ohio. A graduate of Cornell University (1950) and the University of Michigan Law School (1953), he served three years (1954-1957) in the Patents Division, Office of The Judge Advocate General...",
       "media": [
         {
           "entityId": "media:primary-image:dick-pogue-2015",
@@ -8881,7 +8883,7 @@
       "id": "person:dick-russ-2015",
       "displayName": "Dick Russ",
       "type": "Person",
-      "shortDescription": "Dick Russ Dick Russ has been serving the people of Northeast Ohio for some 40 years, both as a professional journalist and as a leader in the community’s civic life.",
+      "shortDescription": "Dick Russ has been serving the people of Northeast Ohio for some 40 years, both as a professional journalist and as a leader in the community’s civic life. He is currently Vice President of North Coast Community Homes, a non-profit organization which develops and maintains housing for people...",
       "media": [
         {
           "entityId": "media:primary-image:dick-russ-2015",
@@ -8927,7 +8929,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dick-russ-2015/",
         "inductedBy": "Loree Vick",
         "approvalStatus": "draft",
@@ -8968,7 +8970,7 @@
       "id": "person:dona-brady-2024",
       "displayName": "Dona Brady",
       "type": "Person",
-      "shortDescription": "Dona Brady Dona Brady was born and raised in Cleveland, Ohio and is of Albanian descent. She was a founder and first president of the Albanian American Association of Cleveland.",
+      "shortDescription": "Dona Brady was born and raised in Cleveland, Ohio and is of Albanian descent. She was a founder and first president of the Albanian American Association of Cleveland.",
       "media": [
         {
           "entityId": "media:primary-image:dona-brady-2024",
@@ -9008,7 +9010,7 @@
         "countryTags": [
           "Albanian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/dona-brady/",
         "inductedBy": "Mike Polensek",
         "approvalStatus": "draft",
@@ -9049,7 +9051,7 @@
       "id": "person:donna-hom-2014",
       "displayName": "Donna Hom",
       "type": "Person",
-      "shortDescription": "Donna Hom Donna was born in Guangdong province in southern China. She married her husband Willie Hom in 1960 and emigrated to the U.S. (settling in Youngstown, Ohio). After arriving in the U.S.",
+      "shortDescription": "Donna was born in Guangdong province in southern China. She married her husband Willie Hom in 1960 and emigrated to the U.S. (settling in Youngstown, Ohio).",
       "media": [
         {
           "entityId": "media:primary-image:donna-hom-2014",
@@ -9083,7 +9085,7 @@
         "countryTags": [
           "Chinese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/donna-hom-2014/",
         "inductedBy": "George Hwang",
         "approvalStatus": "draft",
@@ -9171,7 +9173,7 @@
       "id": "person:dr-dieu-thuc-do-2010",
       "displayName": "Dr. Dieu Thuc Do",
       "type": "Person",
-      "shortDescription": "Dr. Dieu Thuc Do Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of 5 children. His father was the Deputy Chief of Rach Gia and his mother was a homemaker.",
+      "shortDescription": "Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of 5 children.",
       "media": [
         {
           "entityId": "media:primary-image:dr-dieu-thuc-do-2010",
@@ -9205,7 +9207,7 @@
         "countryTags": [
           "Vietnamese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dr-dieu-thuc-do-2010/",
         "inductedBy": "Lt. Colonel Joe Meisner",
         "approvalStatus": "draft",
@@ -9246,7 +9248,7 @@
       "id": "person:dr-eugene-jordan-2024",
       "displayName": "Dr. Eugene Jordan",
       "type": "Person",
-      "shortDescription": "Dr. Eugene Jordan Dr. Eugene Jordan was many things in his life which ended, sadly, in 2020 at the age of 83. He served the communities of Cleveland and East Cleveland by providing quality, professional dental services to those who couldn’t...",
+      "shortDescription": "Dr. Eugene Jordan was many things in his life which ended, sadly, in 2020 at the age of 83. He served the communities of Cleveland and East Cleveland by providing quality, professional dental services to those who couldn’t afford care.",
       "media": [
         {
           "entityId": "media:primary-image:dr-eugene-jordan-2024",
@@ -9286,7 +9288,7 @@
         "countryTags": [
           "African-American"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/dr-eugene-jordan/",
         "inductedBy": "Rev Otis Moss Jr.",
         "approvalStatus": "draft",
@@ -9360,7 +9362,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/",
         "inductedBy": "Ratanjit Sondhe",
         "approvalStatus": "draft",
@@ -9415,7 +9417,7 @@
       "id": "person:dr-maria-pujana-2013",
       "displayName": "Dr. Maria Pujana",
       "type": "Person",
-      "shortDescription": "Dr. Maria Pujana Dr. Maria Pujana, a physician, a clinical neurologist and neurophysiologist, is a faculty member at Case Western Reserve University’s Global Health in the School of Medicine.",
+      "shortDescription": "Dr. Maria Pujana Dr. Maria Pujana, a physician, a clinical neurologist and neurophysiologist, is a faculty member at Case Western Reserve University’s Global Health in the School of Medicine. Her fields of concentrations are Economic Development, Public Health, Education Arts and Culture and International Affairs.",
       "media": [
         {
           "entityId": "media:primary-image:dr-maria-pujana-2013",
@@ -9450,7 +9452,7 @@
           "Spanish",
           "Colombian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/maria-pujana-2013/",
         "inductedBy": "Len Komoroski",
         "approvalStatus": "draft",
@@ -9544,7 +9546,7 @@
       "id": "person:erika-puussaar-2024",
       "displayName": "Erika Puussaar",
       "type": "Person",
-      "shortDescription": "Erika Puussaar Erika Kikut Puussaar was born in a small village named Vandra in central Estonia. Artur and Elmire Kikut, along with their children Silva, Aksi, and Erika (Villi born later) escaped their homeland to avoid Soviet occupation.",
+      "shortDescription": "Erika Kikut Puussaar was born in a small village named Vandra in central Estonia. Artur and Elmire Kikut, along with their children Silva, Aksi, and Erika (Villi born later) escaped their homeland to avoid Soviet occupation.",
       "media": [
         {
           "entityId": "media:primary-image:erika-puussaar-2024",
@@ -9584,7 +9586,7 @@
         "countryTags": [
           "Estonian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/",
         "inductedBy": "Amb Kristjan Prikk",
         "approvalStatus": "draft",
@@ -9658,7 +9660,7 @@
         "countryTags": [
           "Hungarian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ernie-mihaly-2014/",
         "inductedBy": "Richard Fleischman",
         "approvalStatus": "draft",
@@ -9697,7 +9699,7 @@
       "id": "person:eugene-bak-2014",
       "displayName": "Eugene Bak",
       "type": "Person",
-      "shortDescription": "Eugene Bak Gene Bak was born in Poland. In February 1940 the Soviets deported his entire village, including his family to Siberia. His family escaped from Siberia in 1942 and went to Uzbekistan where his father joined the Polish Army in Exile.",
+      "shortDescription": "Eugene Bak Gene Bak was born in Poland. In February 1940 the Soviets deported his entire village, including his family to Siberia.",
       "media": [
         {
           "entityId": "media:primary-image:eugene-bak-2014",
@@ -9731,7 +9733,7 @@
         "countryTags": [
           "Polish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/eugene-bak-2014/",
         "inductedBy": "BenStefanski",
         "approvalStatus": "draft",
@@ -9772,7 +9774,7 @@
       "id": "person:eugenia-stolarczyk-2016-2016",
       "displayName": "Eugenia Stolarczyk – 2016",
       "type": "Person",
-      "shortDescription": "Eugenia Stolarczyk Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk has been an active member of the Polish community.",
+      "shortDescription": "Eugenia Stolarczyk Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk has been an active member of the Polish community. She married Jerzy Stolarczyk in 1957 and with a special love for Polish music and folklore, the ambitious and hardworking couple began their radio career in 1961.",
       "media": [
         {
           "entityId": "media:primary-image:eugenia-stolarczyk-2016-2016",
@@ -9830,7 +9832,7 @@
         "countryTags": [
           "Polish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/eugenia-stolarczyk-2016/",
         "inductedBy": "Urszula Gacek Polish General Consul",
         "approvalStatus": "draft",
@@ -9888,7 +9890,7 @@
       "id": "person:fr-jim-o-donnell-2012",
       "displayName": "Fr. Jim O’Donnell",
       "type": "Person",
-      "shortDescription": "Fr. Jim O’Donnell Fr. Jim O’Donnell was ordained a priest in 1956 in the Diocese of Cleveland. His spiritual journey has led him through parish work at St. Colman’s Church in Cleveland and St. Mary’s Church in Avon.",
+      "shortDescription": "Fr. Jim O’Donnell was ordained a priest in 1956 in the Diocese of Cleveland. His spiritual journey has led him through parish work at St. Colman’s Church in Cleveland and St. Mary’s Church in Avon.",
       "media": [
         {
           "entityId": "media:primary-image:fr-jim-o-donnell-2012",
@@ -9922,7 +9924,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/fr-jim-odonnell-2012/",
         "inductedBy": "Jack Kahl",
         "approvalStatus": "draft",
@@ -10010,7 +10012,7 @@
       "id": "person:georgine-welo-2023",
       "displayName": "Georgine Welo",
       "type": "Person",
-      "shortDescription": "Georgine Welo As a young woman being raised in a Serbian Orthodox home, Georgine Welo (maiden name Coso), would be spotted on Friday nights at Saint Sava Serbian Orthodox Cathedral’s Cultural classes, attending Sunday School, reading the Epistle...",
+      "shortDescription": "Georgine Welo As a young woman being raised in a Serbian Orthodox home, Georgine Welo (maiden name Coso), would be spotted on Friday nights at Saint Sava Serbian Orthodox Cathedral’s Cultural classes, attending Sunday School, reading the Epistle and working at all the Church banquets at Saint Sava...",
       "media": [
         {
           "entityId": "media:primary-image:georgine-welo-2023",
@@ -10050,7 +10052,7 @@
         "countryTags": [
           "Serbian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/georgine-welo/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -10091,7 +10093,7 @@
       "id": "person:gerald-m-quinn-2011",
       "displayName": "Gerald M. Quinn",
       "type": "Person",
-      "shortDescription": "Gerald M. Quinn Gerald M. Quinn, an award winning broadcaster and community leader born in Garracloon, County Mayo (pop. 44) and now living in Euclid, has played a decisive part in keeping Cleveland area Irish in touch with their heritage.",
+      "shortDescription": "Gerald M. Quinn, an award winning broadcaster and community leader born in Garracloon, County Mayo (pop. 44) and now living in Euclid, has played a decisive part in keeping Cleveland area Irish in touch with their heritage.",
       "media": [
         {
           "entityId": "media:primary-image:gerald-m-quinn-2011",
@@ -10125,7 +10127,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/gerald-m-quinn-2011/",
         "inductedBy": "Tom Scanlon",
         "approvalStatus": "draft",
@@ -10213,7 +10215,7 @@
         "countryTags": [
           "Vietnamese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/giahoa-ryan-2011/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -10288,7 +10290,7 @@
         "countryTags": [
           "Polish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/helen-karpinski-2010/",
         "inductedBy": "John Borkowski",
         "approvalStatus": "draft",
@@ -10329,7 +10331,7 @@
       "id": "person:hon-mary-rose-oakar-2012",
       "displayName": "Hon. Mary Rose Oakar",
       "type": "Person",
-      "shortDescription": "Hon. Mary Rose Oakar Hon. Mary Rose Oakar, received her B.A. at Ursuline College, M.A. at John Carroll University, studied at Westham Adult College-Warwickshire, England, and had further study at Cleveland-Marshall College of Law.",
+      "shortDescription": "Hon. Mary Rose Oakar Hon. Mary Rose Oakar, received her B.A. at Ursuline College, M.A. at John Carroll University, studied at Westham Adult College-Warwickshire, England, and had further study at Cleveland-Marshall College of Law. She has also received numerous Honorary Doctorate Degrees of Law and Humane Letters from...",
       "media": [
         {
           "entityId": "media:primary-image:hon-mary-rose-oakar-2012",
@@ -10364,7 +10366,7 @@
           "Syrian",
           "Lebanese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/rep-mary-rose-oakar-2012/",
         "inductedBy": "Dr. Wael Khoury",
         "approvalStatus": "draft",
@@ -10453,7 +10455,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/honorable-jose-a-villanueva-2015/",
         "inductedBy": "José Feliciano",
         "approvalStatus": "draft",
@@ -10496,7 +10498,7 @@
       "id": "person:ingrida-bublys-2019",
       "displayName": "Ingrida Bublys",
       "type": "Person",
-      "shortDescription": "Ingrida Bublys Ingrida Bublys Ingrida Bublys, President of IB International Inc., shares 30 years in business development and company representation between the Baltic States and the US and lately has expanded business development to other...",
+      "shortDescription": "Ingrida Bublys, President of IB International Inc., shares 30 years in business development and company representation between the Baltic States and the US and lately has expanded business development to other surrounding countries. IBInternational represents a number of US companies in various industry sectors, while also representing and...",
       "media": [
         {
           "entityId": "media:primary-image:ingrida-bublys-2019",
@@ -10536,7 +10538,7 @@
         "countryTags": [
           "Lithuanian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ingrida-bublys/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -10576,7 +10578,7 @@
       "id": "person:irene-morrow-2010",
       "displayName": "Irene Morrow",
       "type": "Person",
-      "shortDescription": "Irene Morrow Irene Morrow is married to Edward and has six children (Jeffrey, Patrick (deceased), Martin, Roberta, Lorraine and Christine) and six grandchildren (Matthew, Ryan, Nathan, Michaela, Aaron and Justin) Irene has an impressive resume...",
+      "shortDescription": "Irene Morrow is married to Edward and has six children (Jeffrey, Patrick (deceased), Martin, Roberta, Lorraine and Christine) and six grandchildren (Matthew, Ryan, Nathan, Michaela, Aaron and Justin) Irene has an impressive resume of twenty-five years of public service. She served as Deputy Auditor in charge of Cuyahoga...",
       "media": [
         {
           "entityId": "media:primary-image:irene-morrow-2010",
@@ -10610,7 +10612,7 @@
         "countryTags": [
           "Polish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/irene-morrow-2010/",
         "inductedBy": "Valerie Schwonek",
         "approvalStatus": "draft",
@@ -10648,7 +10650,7 @@
       "id": "person:jack-coyne-2013",
       "displayName": "Jack Coyne",
       "type": "Person",
-      "shortDescription": "Jack Coyne John (“Jack”) P. Coyne was born in Cleveland, Ohio. John is a graduate of Benedictine High School, and he received his accounting degree and law degree from the University of Notre Dame.",
+      "shortDescription": "Jack Coyne John (“Jack”) P. Coyne was born in Cleveland, Ohio. John is a graduate of Benedictine High School, and he received his accounting degree and law degree from the University of Notre Dame. John has practiced law in Cleveland for fifty six years.",
       "media": [
         {
           "entityId": "media:primary-image:jack-coyne-2013",
@@ -10682,7 +10684,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/john-jack-coyne-2013",
         "inductedBy": "Aidan Cronin Consul General of Ireland",
         "approvalStatus": "draft",
@@ -10722,7 +10724,7 @@
       "id": "person:jack-kahl-2016",
       "displayName": "Jack Kahl",
       "type": "Person",
-      "shortDescription": "Jack Kahl Jack Kahl has been recognized globally for his innovative approach to business. He was named one of “America’s Most Admired CEOs” by Industry Week magazine in 1993. Inc.",
+      "shortDescription": "Jack Kahl has been recognized globally for his innovative approach to business. He was named one of “America’s Most Admired CEOs” by Industry Week magazine in 1993.",
       "media": [
         {
           "entityId": "media:primary-image:jack-kahl-2016",
@@ -10774,7 +10776,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jack-kahl-2016/",
         "inductedBy": "Dan Coughlin",
         "approvalStatus": "draft",
@@ -10849,7 +10851,7 @@
       "id": "person:jeanette-grasselli-brown-2010",
       "displayName": "Jeanette Grasselli Brown",
       "type": "Person",
-      "shortDescription": "Jeanette Grasselli Brown Jeanette Grasselli Brown spent 38 years in industrial research, retiring in 1989 as Director of Corporate Research for BP America (formerly The Standard Oil Co.",
+      "shortDescription": "Jeanette Grasselli Brown spent 38 years in industrial research, retiring in 1989 as Director of Corporate Research for BP America (formerly The Standard Oil Co.), From 1989 to 1995 she served as Distinguished Visiting Professor and Director, Research Enhancement at Ohio University, Athens, Ohio. In 1995 she was...",
       "media": [
         {
           "entityId": "media:primary-image:jeanette-grasselli-brown-2010",
@@ -10883,7 +10885,7 @@
         "countryTags": [
           "Hungarian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jeanette-grasselli-brown-2010/",
         "inductedBy": "Edith Lauer",
         "approvalStatus": "draft",
@@ -10923,7 +10925,7 @@
       "id": "person:jim-craciun-2017",
       "displayName": "Jim Craciun",
       "type": "Person",
-      "shortDescription": "Jim Craciun Jim Craciun James M. (“Jim”) Craciun was born on August 31, 1951, and raised in Cleveland, Ohio. He graduated cum laude from St. Edward’s High School 1969.",
+      "shortDescription": "Jim Craciun James M. (“Jim”) Craciun was born on August 31, 1951, and raised in Cleveland, Ohio. He graduated cum laude from St. Edward’s High School 1969. In 1973, he graduated from Cleveland State University with a Bachelor’s degree in business with a major in labor and industrial...",
       "media": [
         {
           "entityId": "media:primary-image:jim-craciun-2017",
@@ -10963,7 +10965,7 @@
         "countryTags": [
           "Romanian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jim-craciun/",
         "inductedBy": "Matt Zone",
         "approvalStatus": "draft",
@@ -11002,7 +11004,7 @@
       "id": "person:jim-foster-2014",
       "displayName": "Jim Foster",
       "type": "Person",
-      "shortDescription": "Jim Foster James H. Foster joined The City Club of Cleveland in 1993, as Managing Director and was named Executive Director July 1, 1994. Mr.",
+      "shortDescription": "Jim Foster James H. Foster joined The City Club of Cleveland in 1993, as Managing Director and was named Executive Director July 1, 1994. Mr. Foster significantly expanded programming initiatives and strengthened City Club television and radio broadcasts, both locally and nationally.",
       "media": [
         {
           "entityId": "media:primary-image:jim-foster-2014",
@@ -11094,7 +11096,7 @@
       "id": "person:joe-valencic-2020",
       "displayName": "Joe Valencic",
       "type": "Person",
-      "shortDescription": "Joe Valencic Joe Valencic Joseph Valencic is a dynamic and creative presence within Cleveland’s Slovenian-American scene. His enthusiasm for all things Slovenian inspires others to discover and celebrate the uniqueness of their own cultures.",
+      "shortDescription": "Joe Valencic Joseph Valencic is a dynamic and creative presence within Cleveland’s Slovenian-American scene. His enthusiasm for all things Slovenian inspires others to discover and celebrate the uniqueness of their own cultures.",
       "media": [
         {
           "entityId": "media:primary-image:joe-valencic-2020",
@@ -11134,7 +11136,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joe-valencic/",
         "inductedBy": "Mike Polensek",
         "approvalStatus": "draft",
@@ -11249,7 +11251,7 @@
         "countryTags": [
           "Chinese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -11290,7 +11292,7 @@
       "id": "person:jose-c-feliciano-2012",
       "displayName": "José C. Feliciano",
       "type": "Person",
-      "shortDescription": "José C. Feliciano José C. Feliciano was born in Yauco, Puerto Rico and was reared on the near west side of Cleveland. He has been a Partner in the Litigation Group in the Cleveland office of the national law firm of Baker & Hostetler LLP since...",
+      "shortDescription": "José C. Feliciano was born in Yauco, Puerto Rico and was reared on the near west side of Cleveland. He has been a Partner in the Litigation Group in the Cleveland office of the national law firm of Baker & Hostetler LLP since 1987.",
       "media": [
         {
           "entityId": "media:primary-image:jose-c-feliciano-2012",
@@ -11324,7 +11326,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/jose-feliciano-2012/",
         "inductedBy": "Alex Machaskee",
         "approvalStatus": "draft",
@@ -11367,7 +11369,7 @@
       "id": "person:josef-holzer-2013",
       "displayName": "Josef Holzer",
       "type": "Person",
-      "shortDescription": "Josef Holzer Josef Holzer was born in September of 1926 in Apatin, Batschka, in the former Yugoslavia, where he attended elementary school, high school, and then studied to become an electrician.",
+      "shortDescription": "Josef Holzer was born in September of 1926 in Apatin, Batschka, in the former Yugoslavia, where he attended elementary school, high school, and then studied to become an electrician. He eventually met and married Franziska Kufner, a union that would last 62 years until Franziska’s passing in November...",
       "media": [
         {
           "entityId": "media:primary-image:josef-holzer-2013",
@@ -11401,7 +11403,7 @@
         "countryTags": [
           "German"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joseph-holzer-2013/",
         "inductedBy": "Margot Maurer",
         "approvalStatus": "draft",
@@ -11439,7 +11441,7 @@
       "id": "person:joseph-p-meissner-2014",
       "displayName": "Joseph P Meissner",
       "type": "Person",
-      "shortDescription": "Joseph P Meissner LTC Joseph Patrick Meissner first became interested in the military at the age of eleven when he followed the epic battle of Dien Bien Phu in the daily Plain Dealer accounts in 1954.",
+      "shortDescription": "Joseph P Meissner LTC Joseph Patrick Meissner first became interested in the military at the age of eleven when he followed the epic battle of Dien Bien Phu in the daily Plain Dealer accounts in 1954. In this lengthy battle a series of French strong points were slowly...",
       "media": [
         {
           "entityId": "media:primary-image:joseph-p-meissner-2014",
@@ -11475,7 +11477,7 @@
           "German",
           "Vietnamese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joseph-p-meissner-2014",
         "inductedBy": "Jason Lin",
         "approvalStatus": "draft",
@@ -11516,7 +11518,7 @@
       "id": "person:joyce-mariani-2023",
       "displayName": "Joyce Mariani",
       "type": "Person",
-      "shortDescription": "Joyce Mariani Joyce Mariani has a deep love for the culture of Italy handed down from her family which is of Florentine origin and Roman origin.",
+      "shortDescription": "Joyce Mariani has a deep love for the culture of Italy handed down from her family which is of Florentine origin and Roman origin. Upon her return to Cleveland from Italy where she studied and worked, she founded the Cleveland Italian Film Festival in 2006 and the first...",
       "media": [
         {
           "entityId": "media:primary-image:joyce-mariani-2023",
@@ -11556,7 +11558,7 @@
         "countryTags": [
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/joyce-mariani/",
         "inductedBy": "Basil Russo",
         "approvalStatus": "draft",
@@ -11645,7 +11647,7 @@
       "id": "person:ken-kovach-2012",
       "displayName": "Ken Kovach",
       "type": "Person",
-      "shortDescription": "Ken Kovach Ken Kovach has built upon his advanced studies in sociology to develop a 30-year-plus professional practice in the fields of human resources development and organization development.",
+      "shortDescription": "Ken Kovach has built upon his advanced studies in sociology to develop a 30-year-plus professional practice in the fields of human resources development and organization development. He has special expertise in the fields of: coaching, creativity and innovation, leadership development, ethnic/minority group relations, and strategic planning.",
       "media": [
         {
           "entityId": "media:primary-image:ken-kovach-2012",
@@ -11680,7 +11682,7 @@
           "Russian",
           "Hungarian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ken-kovach-2012/",
         "inductedBy": "Dick Russ",
         "approvalStatus": "draft",
@@ -11738,7 +11740,7 @@
       "id": "person:khalid-samad-2016-2016",
       "displayName": "Khalid Samad – 2016",
       "type": "Person",
-      "shortDescription": "El Hajj Amir Khalid A. Samad Khalid Samad El Hajj Amir Khalid A. Samad is an internationally known and recognized Community Activist and leader who formerly served as the Assistant to the Public Safety Director for the City of Cleveland for...",
+      "shortDescription": "El Hajj Amir Khalid A. Samad Khalid Samad El Hajj Amir Khalid A. Samad is an internationally known and recognized Community Activist and leader who formerly served as the Assistant to the Public Safety Director for the City of Cleveland for youth gang intervention (Jane Campbell administration). He...",
       "media": [
         {
           "entityId": "media:primary-image:khalid-samad-2016-2016",
@@ -11790,7 +11792,7 @@
         "countryTags": [
           "African-American"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/khalid-samad-2016/",
         "inductedBy": "Blaine Griffin",
         "approvalStatus": "draft",
@@ -11867,7 +11869,7 @@
       "id": "person:le-nguyen-2026",
       "displayName": "Le Nguyen",
       "type": "Person",
-      "shortDescription": "Le Nguyen For decades, when Cleveland’s Asian communities needed help navigating a new country, resolving conflict, or putting on a program, Le Nguyen was the person they turned to.",
+      "shortDescription": "Le Nguyen For decades, when Cleveland’s Asian communities needed help navigating a new country, resolving conflict, or putting on a program, Le Nguyen was the person they turned to. As a connector and trusted presence, he spent more than 40 years building bridges between cultures, neighborhoods, and City...",
       "media": [
         {
           "entityId": "media:primary-image:le-nguyen-2026",
@@ -11907,7 +11909,7 @@
         "countryTags": [
           "Vietnamese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/",
         "inductedBy": "Former Mayor Frank G. Jackson; remarks by Valarie McCall and Matt Zone",
         "approvalStatus": "draft",
@@ -11964,7 +11966,7 @@
       "id": "person:leo-weidenthal-2010",
       "displayName": "Leo Weidenthal",
       "type": "Person",
-      "shortDescription": "Leo Weidenthal Leo Weidenthal (1878-1967) was editor of the Jewish Independent and founder of the Cleveland Cultural Garden Federation.",
+      "shortDescription": "Leo Weidenthal (1878-1967) was editor of the Jewish Independent and founder of the Cleveland Cultural Garden Federation. Born in Cleveland to Emanuel and Julia (Kretch) Weidenthal, he began his newspaper career as a reporter for the Cleveland World; then for the Cleveland Leader and in 1906, for the...",
       "media": [
         {
           "entityId": "media:primary-image:leo-weidenthal-2010",
@@ -11998,7 +12000,7 @@
         "countryTags": [
           "Jewish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/leo-weidenthal-2010/",
         "inductedBy": "Paul Burik",
         "approvalStatus": "draft",
@@ -12055,7 +12057,7 @@
       "id": "person:lonnie-mccauley-2010",
       "displayName": "Lonnie McCauley",
       "type": "Person",
-      "shortDescription": "Lonnie McCauley Lonnie Davis McCauley was born in Cleveland on September 19th, 1947. She attended high school at Lourdes Academy, received a B.A.",
+      "shortDescription": "Lonnie Davis McCauley was born in Cleveland on September 19th, 1947. She attended high school at Lourdes Academy, received a B.A. in sociology from Cleveland State University, and a Master’s Degree in Library Science from Kent State University in 1999.",
       "media": [
         {
           "entityId": "media:primary-image:lonnie-mccauley-2010",
@@ -12089,7 +12091,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lonnie-mccauley-2010/",
         "inductedBy": "Pat Dowd",
         "approvalStatus": "draft",
@@ -12178,7 +12180,7 @@
       "id": "person:lucretia-stoica-2011",
       "displayName": "Lucretia Stoica",
       "type": "Person",
-      "shortDescription": "Lucretia Stoica Lucretia Stoica was born in Youngstown, Ohio. As a young child she travelled to Romania where she grew up and completed her University studies obtaining a Master Degree in Law, Literature and Philosophy.",
+      "shortDescription": "Lucretia Stoica was born in Youngstown, Ohio. As a young child she travelled to Romania where she grew up and completed her University studies obtaining a Master Degree in Law, Literature and Philosophy. As an American abroad, she was among the first to be repatriated by the American...",
       "media": [
         {
           "entityId": "media:primary-image:lucretia-stoica-2011",
@@ -12212,7 +12214,7 @@
         "countryTags": [
           "Romanian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lucretia-stoica-2011/",
         "inductedBy": "Ken Kovach",
         "approvalStatus": "draft",
@@ -12253,7 +12255,7 @@
       "id": "person:lucy-torres-2026",
       "displayName": "Lucy Torres",
       "type": "Person",
-      "shortDescription": "Lucy Torres Lucy Torres is a Puerto Rican community leader whose life has been defined by service, resilience, and an unwavering commitment to uplifting others.",
+      "shortDescription": "Lucy Torres is a Puerto Rican community leader whose life has been defined by service, resilience, and an unwavering commitment to uplifting others. Born and raised in Comerío, Puerto Rico, Lucy is the daughter of Amparo Rodríguez and Luis Bonilla.",
       "media": [
         {
           "entityId": "media:primary-image:lucy-torres-2026",
@@ -12293,7 +12295,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/lucy-torres/",
         "inductedBy": "Blaine Griffin",
         "approvalStatus": "draft",
@@ -12336,7 +12338,7 @@
       "id": "person:luis-martinez-2011",
       "displayName": "Luis Martinez",
       "type": "Person",
-      "shortDescription": "Luis Martinez Luis Martinez was born in Bayamon, Puerto Rico and moved with his family from Puerto Rico to Lorain, Ohio when he was 3 years old. He graduated from Lorain Admiral King High School in 1966. He served with the U.S.",
+      "shortDescription": "Luis Martinez was born in Bayamon, Puerto Rico and moved with his family from Puerto Rico to Lorain, Ohio when he was 3 years old. He graduated from Lorain Admiral King High School in 1966.",
       "media": [
         {
           "entityId": "media:primary-image:luis-martinez-2011",
@@ -12370,7 +12372,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/luis-martinez-2011/",
         "inductedBy": "Andres Gonzalez",
         "approvalStatus": "draft",
@@ -12410,7 +12412,7 @@
       "id": "person:margaret-callander-2014",
       "displayName": "Margaret Callander",
       "type": "Person",
-      "shortDescription": "Margaret Callander Margaret was born on July 28, 1932 in Cleveland to Scottish Emigrant parents from Glasgow, Scotland. She graduated from Shaw High School in 1950 as a member of the National Honor Society.",
+      "shortDescription": "Margaret was born on July 28, 1932 in Cleveland to Scottish Emigrant parents from Glasgow, Scotland. She graduated from Shaw High School in 1950 as a member of the National Honor Society.",
       "media": [
         {
           "entityId": "media:primary-image:margaret-callander-2014",
@@ -12444,7 +12446,7 @@
         "countryTags": [
           "Scottish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-callander-2014",
         "inductedBy": "Kona Gant",
         "approvalStatus": "draft",
@@ -12482,7 +12484,7 @@
       "id": "person:margaret-lynch-2020",
       "displayName": "Margaret Lynch",
       "type": "Person",
-      "shortDescription": "Margaret Lynch Margaret Lynch Margaret Lynch has served as Executive Director of the Irish American Archives Society since 2008. She had been a founding Board member of the Society since its inception in 1994.",
+      "shortDescription": "Margaret Lynch has served as Executive Director of the Irish American Archives Society since 2008. She had been a founding Board member of the Society since its inception in 1994.",
       "media": [
         {
           "entityId": "media:primary-image:margaret-lynch-2020",
@@ -12522,7 +12524,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-lynch/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -12561,7 +12563,7 @@
       "id": "person:margaret-w-wong-2010",
       "displayName": "Margaret W. Wong",
       "type": "Person",
-      "shortDescription": "Margaret W. Wong In more than 30 years of practice, Margaret Wong built Margaret W. Wong & Associates Co., L.P.A. into a law firm nationally and internationally renowned for its knowledge and expertise in immigration and nationality law. Ms.",
+      "shortDescription": "Margaret W. Wong In more than 30 years of practice, Margaret Wong built Margaret W. Wong & Associates Co., L.P.A. into a law firm nationally and internationally renowned for its knowledge and expertise in immigration and nationality law. Ms. Wong is licensed to practice in Ohio, Michigan, New...",
       "media": [
         {
           "entityId": "media:primary-image:margaret-w-wong-2010",
@@ -12595,7 +12597,7 @@
         "countryTags": [
           "Chinese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/margaret-w-wong-2010/",
         "inductedBy": "Rose Wong",
         "approvalStatus": "draft",
@@ -12653,7 +12655,7 @@
       "id": "person:marilyn-madigan-2019",
       "displayName": "Marilyn Madigan",
       "type": "Person",
-      "shortDescription": "Marilyn Madigan Marilyn Madigan Marilyn Madigan is the daughter of the late Jack and Catherine Finn Madigan. She is a lifelong resident of the West Park area of Cleveland. She attended St. Patrick West Park Grade School and is an Alumni of St.",
+      "shortDescription": "Marilyn Madigan is the daughter of the late Jack and Catherine Finn Madigan. She is a lifelong resident of the West Park area of Cleveland.",
       "media": [
         {
           "entityId": "media:primary-image:marilyn-madigan-2019",
@@ -12693,7 +12695,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/marilyn-madigan/",
         "inductedBy": "John O'Brien Jr.",
         "approvalStatus": "draft",
@@ -12751,7 +12753,7 @@
       "id": "person:may-chen-2020",
       "displayName": "May Chen",
       "type": "Person",
-      "shortDescription": "May J. Chen May Chen May J. Chen, is co-founder and executive director emeritus of Asian Services in Action, Inc. , whose mission is to empower and advocate for Asian Americans/Pacific Islanders(AAPIs); and to provide AAPIs access to quality,...",
+      "shortDescription": "May J. Chen May Chen May J. Chen, is co-founder and executive director emeritus of Asian Services in Action, Inc., whose mission is to empower and advocate for Asian Americans/Pacific Islanders(AAPIs); and to provide AAPIs access to quality, culturally, and linguistically appropriate information and services, has changed the...",
       "media": [
         {
           "entityId": "media:primary-image:may-chen-2020",
@@ -12797,7 +12799,7 @@
         "countryTags": [
           "Chinese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/may-chen/",
         "inductedBy": "Margaret Wong",
         "approvalStatus": "draft",
@@ -12876,7 +12878,7 @@
           "African-American",
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mayor-frank-jackson/",
         "inductedBy": "Valarie McCall",
         "approvalStatus": "draft",
@@ -12968,7 +12970,7 @@
       "id": "person:michael-d-polensek-2023",
       "displayName": "Michael D. Polensek",
       "type": "Person",
-      "shortDescription": "Michael D. Polensek Michael D. Polensek, the “Dean” of City Council, and Councilman representing Cleveland’s 8th Ward, has served the neighborhoods of northeast Cleveland since 1978, making him the longest-serving Council member in the city’s...",
+      "shortDescription": "Michael D. Polensek, the “Dean” of City Council, and Councilman representing Cleveland’s 8th Ward, has served the neighborhoods of northeast Cleveland since 1978, making him the longest-serving Council member in the city’s history. Currently he serves as the Chair of the Public Safety Committee and sits on the...",
       "media": [
         {
           "entityId": "media:primary-image:michael-d-polensek-2023",
@@ -13008,7 +13010,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/michael-d-polensek/",
         "inductedBy": "Joe Cimperman",
         "approvalStatus": "draft",
@@ -13083,7 +13085,7 @@
       "id": "person:milton-maltz-2012",
       "displayName": "Milton Maltz",
       "type": "Person",
-      "shortDescription": "Milton Maltz Milton Maltz founded Malrite Communications Group, Inc. in 1956 and served as its Chairman and CEO until the Company was sold in 1998.",
+      "shortDescription": "Milton Maltz founded Malrite Communications Group, Inc. in 1956 and served as its Chairman and CEO until the Company was sold in 1998. Under his direction, Malrite became one of the most successful operators of radio and television properties in the country with stations stretching from New York...",
       "media": [
         {
           "entityId": "media:primary-image:milton-maltz-2012",
@@ -13117,7 +13119,7 @@
         "countryTags": [
           "Jewish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/milton-maltz-2012/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -13212,7 +13214,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mohan-bafna-2016/",
         "inductedBy": "Suresh Bafna",
         "approvalStatus": "draft",
@@ -13251,7 +13253,7 @@
       "id": "person:mona-alag-2017",
       "displayName": "Mona Alag",
       "type": "Person",
-      "shortDescription": "Mona Alag Mona Alag On a hot August night, the seventeenth day of August, in 1970, as the Air France airliner circled around the boroughs of New York, a sea of lights glittering and twinkling brought me to the magical land called America.",
+      "shortDescription": "Mona Alag On a hot August night, the seventeenth day of August, in 1970, as the Air France airliner circled around the boroughs of New York, a sea of lights glittering and twinkling brought me to the magical land called America. I was going to be in the...",
       "media": [
         {
           "entityId": "media:primary-image:mona-alag-2017",
@@ -13291,7 +13293,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/mona-alag/",
         "inductedBy": "Sudarshan Sathe",
         "approvalStatus": "draft",
@@ -13331,7 +13333,7 @@
       "id": "person:monte-ahuja-2014",
       "displayName": "Monte Ahuja",
       "type": "Person",
-      "shortDescription": "Monte Ahuja Monte Ahuja came to the U.S. in 1969 as a student at Ohio State University. He graduated with a Masters Degree in Mechanical Engineering in 1970.",
+      "shortDescription": "Monte Ahuja came to the U.S. in 1969 as a student at Ohio State University. He graduated with a Masters Degree in Mechanical Engineering in 1970.",
       "media": [
         {
           "entityId": "media:primary-image:monte-ahuja-2014",
@@ -13365,7 +13367,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/monte-ahuja-2014/",
         "inductedBy": "Thomas Zenty",
         "approvalStatus": "draft",
@@ -13404,7 +13406,7 @@
       "id": "person:nacy-panzica-2013",
       "displayName": "Nacy Panzica",
       "type": "Person",
-      "shortDescription": "Nacy Panzica Nacy Panzica has been in the construction industry for over 60 years. Through his guidance and leadership, Panzica Construction Company has grown from simple residential remodeling projects to what it is today, a multi-million...",
+      "shortDescription": "Nacy Panzica has been in the construction industry for over 60 years. Through his guidance and leadership, Panzica Construction Company has grown from simple residential remodeling projects to what it is today, a multi-million dollar construction company.",
       "media": [
         {
           "entityId": "media:primary-image:nacy-panzica-2013",
@@ -13438,7 +13440,7 @@
         "countryTags": [
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/nacy-panzica-2013/",
         "inductedBy": "Angie Spitalieri",
         "approvalStatus": "draft",
@@ -13475,7 +13477,7 @@
       "id": "person:paramjit-singh-2010",
       "displayName": "Paramjit Singh",
       "type": "Person",
-      "shortDescription": "Paramjit Singh Paramjit Singh has been a Community Leader of the Asian Indian Community since he landed in Cleveland in June of 1962. Being a Sikh, he has dedicated his life to serving the needy.",
+      "shortDescription": "Paramjit Singh has been a Community Leader of the Asian Indian Community since he landed in Cleveland in June of 1962. Being a Sikh, he has dedicated his life to serving the needy.",
       "media": [
         {
           "entityId": "media:primary-image:paramjit-singh-2010",
@@ -13510,7 +13512,7 @@
           "Indian",
           "Sikh"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/",
         "inductedBy": "Mona Alag",
         "approvalStatus": "draft",
@@ -13553,7 +13555,7 @@
       "id": "person:pat-dowd-2023",
       "displayName": "Pat Dowd",
       "type": "Person",
-      "shortDescription": "Pat Dowd Pat Dowd is the daughter of the late Tom and Millie Dowd and the oldest in her family of five siblings: Judy Wade, Kathy Dowd, Ginny Gaskill, Maureen Dowd, and Joe Dowd. She attended St. Agnes and St.",
+      "shortDescription": "Pat Dowd is the daughter of the late Tom and Millie Dowd and the oldest in her family of five siblings: Judy Wade, Kathy Dowd, Ginny Gaskill, Maureen Dowd, and Joe Dowd. She attended St. Agnes and St. Aloysius grade schools in Cleveland, Ursuline Academy of the Sacred...",
       "media": [
         {
           "entityId": "media:primary-image:pat-dowd-2023",
@@ -13587,7 +13589,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/pat-dowd/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -13626,7 +13628,7 @@
       "id": "person:paul-burik-2019",
       "displayName": "Paul Burik",
       "type": "Person",
-      "shortDescription": "Paul Burik Paul Burik Paul Burik was born in the city of Budvar – yes, the namesake of Budweiser Beer, in what is now the Czech Republic. He escaped with his father from Czechoslovakia in 1968 after the Soviet invasion. Mr.",
+      "shortDescription": "Paul Burik was born in the city of Budvar – yes, the namesake of Budweiser Beer, in what is now the Czech Republic. He escaped with his father from Czechoslovakia in 1968 after the Soviet invasion.",
       "media": [
         {
           "entityId": "media:primary-image:paul-burik-2019",
@@ -13667,7 +13669,7 @@
           "Czech",
           "Carpatho-Rusyn"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paul-burik/",
         "inductedBy": "Chris Ronayne",
         "approvalStatus": "draft",
@@ -13705,7 +13707,7 @@
       "id": "person:paul-sciria-2010",
       "displayName": "Paul Sciria",
       "type": "Person",
-      "shortDescription": "Paul Sciria Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3, 1928, Paul Angelo Sciria was welcomed to the world in their family home at 151st and Kinsman. He grew up in the Kinsman area where he attended A.J.",
+      "shortDescription": "Paul Sciria Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3, 1928, Paul Angelo Sciria was welcomed to the world in their family home at 151st and Kinsman. He grew up in the Kinsman area where he attended A.J. Rickoff Elementary, A. Hamilton Junior High and...",
       "media": [
         {
           "entityId": "media:primary-image:paul-sciria-2010",
@@ -13739,7 +13741,7 @@
         "countryTags": [
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/paul-sciria-2010/",
         "inductedBy": "Umberto Fedeli",
         "approvalStatus": "draft",
@@ -13797,7 +13799,7 @@
       "id": "person:pierre-bejjani-2023",
       "displayName": "Pierre Bejjani",
       "type": "Person",
-      "shortDescription": "Pierre Bejjani Pierre Bejjani is the Managing Director and Executive Editor of Profile News Ohio and the Senior Partner of Diversity Advertising Agency.",
+      "shortDescription": "Pierre Bejjani is the Managing Director and Executive Editor of Profile News Ohio and the Senior Partner of Diversity Advertising Agency. In addition to running the region’s largest Arabic/English newspaper, Profile News Ohio, Pierre actively promotes Middle Eastern culture.",
       "media": [
         {
           "entityId": "media:primary-image:pierre-bejjani-2023",
@@ -13837,7 +13839,7 @@
         "countryTags": [
           "Lebanese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/pierre-bejjani/",
         "inductedBy": "Mayor Tony Biasiotta",
         "approvalStatus": "draft",
@@ -13920,7 +13922,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/raj-aggarwal/",
         "inductedBy": "Stuart Muszynski",
         "approvalStatus": "draft",
@@ -13978,7 +13980,7 @@
       "id": "person:ralph-j-perk-2011",
       "displayName": "Ralph J. Perk",
       "type": "Person",
-      "shortDescription": "Ralph J. Perk The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for his human rights advocacy and his anti-communist, anti-totalitarian stance.",
+      "shortDescription": "Ralph J. Perk The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for his human rights advocacy and his anti-communist, anti-totalitarian stance. Before becoming Mayor, Perk served Ward 13 (Broadway/East 55th area) as its council member for five terms.",
       "media": [
         {
           "entityId": "media:primary-image:ralph-j-perk-2011",
@@ -14012,7 +14014,7 @@
         "countryTags": [
           "Czech"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/",
         "inductedBy": "Justice Terrence O'Donnell",
         "approvalStatus": "draft",
@@ -14052,7 +14054,7 @@
       "id": "person:ralph-perk-jr-2018",
       "displayName": "Ralph Perk Jr.",
       "type": "Person",
-      "shortDescription": "Ralph J. Perk, Jr. Ralph J. Perk, Jr. Ralph Perk, Jr was born during World War II in Cleveland, Ohio as the eldest son to Lucy (Gagliardi) and Mayor Emeritus Ralph Perk. He has 5 brothers and one sister.",
+      "shortDescription": "Ralph Perk, Jr was born during World War II in Cleveland, Ohio as the eldest son to Lucy (Gagliardi) and Mayor Emeritus Ralph Perk. He has 5 brothers and one sister.",
       "media": [
         {
           "entityId": "media:primary-image:ralph-perk-jr-2018",
@@ -14099,7 +14101,7 @@
           "Czech",
           "Italian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/",
         "inductedBy": "Mary Rose Oakar",
         "approvalStatus": "draft",
@@ -14140,7 +14142,7 @@
       "id": "person:ramesh-shah-2020",
       "displayName": "Ramesh Shah",
       "type": "Person",
-      "shortDescription": "Ramesh Shah Ramesh Shah Ramesh Shah’s humanitarian work in health and education illustrates what happens when someone is passionate and ever-focused on lifting others up.",
+      "shortDescription": "Ramesh Shah’s humanitarian work in health and education illustrates what happens when someone is passionate and ever-focused on lifting others up. Over the past 20 years, he has organized teams of physicians and volunteers for medical missions in underdeveloped countries around the world.",
       "media": [
         {
           "entityId": "media:primary-image:ramesh-shah-2020",
@@ -14186,7 +14188,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
         "inductedBy": "Sudarshan Sathe",
         "approvalStatus": "draft",
@@ -14227,7 +14229,7 @@
       "id": "person:ratanjit-s-sondhe-2013",
       "displayName": "Ratanjit S. Sondhe",
       "type": "Person",
-      "shortDescription": "Ratanjit S. Sondhe Ratanjit S. Sondhe emigrated from India in 1968 with two Masters’ degrees and $8 in his pocket to complete his Ph.D. in polymer chemistry at Akron University. In 1973, he founded POLY-CARB, Inc.",
+      "shortDescription": "Ratanjit S. Sondhe emigrated from India in 1968 with two Masters’ degrees and $8 in his pocket to complete his Ph.D. in polymer chemistry at Akron University. In 1973, he founded POLY-CARB, Inc., a materials science company, which he ran as its CEO for 34 years until it...",
       "media": [
         {
           "entityId": "media:primary-image:ratanjit-s-sondhe-2013",
@@ -14262,7 +14264,7 @@
           "Indian",
           "Sikh"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ratanjit-sondhe-2013",
         "inductedBy": "Ken Lanci",
         "approvalStatus": "draft",
@@ -14304,7 +14306,7 @@
       "id": "person:ray-pianka-2018",
       "displayName": "Ray Pianka",
       "type": "Person",
-      "shortDescription": "Judge Ray Pianka Judge Ray Pianka “Dla chcacego nic trudnego” is Polish for “Where there’s a will, there’s a way”. Judge Raymond L.",
+      "shortDescription": "Judge Ray Pianka Judge Ray Pianka “Dla chcacego nic trudnego” is Polish for “Where there’s a will, there’s a way”. Judge Raymond L. Pianka often quoted this Polish phrase when explaining how he was able to accomplish so much for the people of his Cleveland neighborhood, other city...",
       "media": [
         {
           "entityId": "media:primary-image:ray-pianka-2018",
@@ -14344,7 +14346,7 @@
         "countryTags": [
           "Polish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ray-pianka/",
         "inductedBy": "Anthony Brancatelli",
         "approvalStatus": "draft",
@@ -14385,7 +14387,7 @@
       "id": "person:rev-mikhail-mikhail-2016",
       "displayName": "Rev. Mikhail Mikhail",
       "type": "Person",
-      "shortDescription": "Rev. Mikhail Mikhail The Very Rev. Fr. Mikhail Edward Mikhail, D. Min. was born in Cairo, Egypt on August 2, 1949. From an early age, he was active in church life, and was fortunate to have several mentors who clearly influenced his life and...",
+      "shortDescription": "Rev. Mikhail Mikhail The Very Rev. Fr. Mikhail Edward Mikhail, D. Min. was born in Cairo, Egypt on August 2, 1949. From an early age, he was active in church life, and was fortunate to have several mentors who clearly influenced his life and guided him to a...",
       "media": [
         {
           "entityId": "media:primary-image:rev-mikhail-mikhail-2016",
@@ -14419,7 +14421,7 @@
         "countryTags": [
           "Egyptian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/rev-mikhail-mikhail/",
         "inductedBy": "Mayor Richard Dell’Aquila",
         "approvalStatus": "draft",
@@ -14462,7 +14464,7 @@
       "id": "person:reverend-dr-otis-moss-jr-2011",
       "displayName": "Reverend Dr. Otis Moss, Jr.",
       "type": "Person",
-      "shortDescription": "Reverend Dr. Otis Moss, Jr. Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr. is one of America’s most influential leaders. He was born in La Grange, GA.",
+      "shortDescription": "Reverend Dr. Otis Moss, Jr. Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr. is one of America’s most influential leaders.",
       "media": [
         {
           "entityId": "media:primary-image:reverend-dr-otis-moss-jr-2011",
@@ -14496,7 +14498,7 @@
         "countryTags": [
           "African-American"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/reverend-dr-otis-moss-jr-2011/",
         "inductedBy": "Congressman Louis Stokes",
         "approvalStatus": "draft",
@@ -14539,7 +14541,7 @@
       "id": "person:richard-a-ganim-2015",
       "displayName": "Richard A. Ganim",
       "type": "Person",
-      "shortDescription": "Richard A. Ganim Richard A. Ganim was born in Cleveland, Ohio in 1926, the second youngest of twelve children. His parents immigrated to this country from Lebanon in the early 1900’s.",
+      "shortDescription": "Richard A. Ganim was born in Cleveland, Ohio in 1926, the second youngest of twelve children. His parents immigrated to this country from Lebanon in the early 1900’s.",
       "media": [
         {
           "entityId": "media:primary-image:richard-a-ganim-2015",
@@ -14585,7 +14587,7 @@
         "countryTags": [
           "Lebanese"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-ganim-2015/",
         "inductedBy": "Pierre Bejjani",
         "approvalStatus": "draft",
@@ -14644,7 +14646,7 @@
       "id": "person:richard-fleischman-2019",
       "displayName": "Richard Fleischman",
       "type": "Person",
-      "shortDescription": "Richard Fleischman Richard Fleischman Born in Cleveland in 1928, Richard Fleischman was encouraged to study architecture at a young age by an uncle who noticed his avid interest in drawing and building models.",
+      "shortDescription": "Richard Fleischman Born in Cleveland in 1928, Richard Fleischman was encouraged to study architecture at a young age by an uncle who noticed his avid interest in drawing and building models. During his senior year at East Tech High School, Fleischman won an academic scholarship to Carnegie Tech...",
       "media": [
         {
           "entityId": "media:primary-image:richard-fleischman-2019",
@@ -14684,7 +14686,7 @@
         "countryTags": [
           "Hungarian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-fleischman/",
         "inductedBy": "Ernie Mihaly",
         "approvalStatus": "draft",
@@ -14721,7 +14723,7 @@
       "id": "person:robert-j-haas-2010",
       "displayName": "Robert J. Haas",
       "type": "Person",
-      "shortDescription": "Robert J. Haas Robert (Bob) Haas was born and raised on Cleveland’s west side. Married for 17 years to his wife Barbara, Bob has two sons and three grand children. He graduated from St.",
+      "shortDescription": "Robert (Bob) Haas was born and raised on Cleveland’s west side. Married for 17 years to his wife Barbara, Bob has two sons and three grand children.",
       "media": [
         {
           "entityId": "media:primary-image:robert-j-haas-2010",
@@ -14755,7 +14757,7 @@
         "countryTags": [
           "German"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/robert-j-haas-2010/",
         "inductedBy": "Dr. Joe Wendel",
         "approvalStatus": "draft",
@@ -14813,7 +14815,7 @@
       "id": "person:sam-kim-2017",
       "displayName": "Sam Kim",
       "type": "Person",
-      "shortDescription": "Sam Kim Sam Kim Sam Kim Seung K Kim was born October 30, 1947 in Kimhea, South Korea. As a young man, he served in the Vietnam War in 1969 and fought for the South Korean army as a proxy for the US military.",
+      "shortDescription": "Sam Kim Seung K Kim was born October 30, 1947 in Kimhea, South Korea. As a young man, he served in the Vietnam War in 1969 and fought for the South Korean army as a proxy for the US military.",
       "media": [
         {
           "entityId": "media:primary-image:sam-kim-2017",
@@ -14853,7 +14855,7 @@
         "countryTags": [
           "Korean"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sam-kim/",
         "inductedBy": "Ki Kim",
         "approvalStatus": "draft",
@@ -14908,7 +14910,7 @@
       "id": "person:samuel-h-miller-2013",
       "displayName": "Samuel H. Miller",
       "type": "Person",
-      "shortDescription": "Samuel H. Miller Samuel H. Miller is co-chairman emeritus of Forest City Enterprises, Inc. A key stakeholder since 1947, Miller has overseen various areas of Forest City.",
+      "shortDescription": "Samuel H. Miller is co-chairman emeritus of Forest City Enterprises, Inc. A key stakeholder since 1947, Miller has overseen various areas of Forest City.",
       "media": [
         {
           "entityId": "media:primary-image:samuel-h-miller-2013",
@@ -14942,7 +14944,7 @@
         "countryTags": [
           "Jewish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sam-miller-2013/",
         "inductedBy": "Dr. Andrew P. Roth",
         "approvalStatus": "draft",
@@ -15001,7 +15003,7 @@
       "id": "person:senator-george-voinovich-2010",
       "displayName": "Senator George Voinovich",
       "type": "Person",
-      "shortDescription": "Senator George Voinovich From his time as member of the Ohio House of Representatives, Cuyahoga County Commissioner, Lieutenant Governor of Ohio, Mayor of Cleveland and Governor of Ohio, to his present role as Ohio’s senior United States...",
+      "shortDescription": "Senator George Voinovich From his time as member of the Ohio House of Representatives, Cuyahoga County Commissioner, Lieutenant Governor of Ohio, Mayor of Cleveland and Governor of Ohio, to his present role as Ohio’s senior United States Senator, George V. Voinovich has strived for more than 40 years...",
       "media": [
         {
           "entityId": "media:primary-image:senator-george-voinovich-2010",
@@ -15036,7 +15038,7 @@
           "Serbian",
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/senator-george-voinovich-2010/",
         "inductedBy": "Ingrida Bublys",
         "approvalStatus": "draft",
@@ -15075,7 +15077,7 @@
       "id": "person:sheila-murphy-crawford-2018",
       "displayName": "Sheila Murphy Crawford",
       "type": "Person",
-      "shortDescription": "Sheila Murphy Crawford Sheila Murphy Crawford Sheila Murphy was born to Ollie and Betty Murphy in Cleveland, Ohio. She was the youngest of four children including her brother, Ollie, and her two sisters, Joan and Maureen.",
+      "shortDescription": "Sheila Murphy was born to Ollie and Betty Murphy in Cleveland, Ohio. She was the youngest of four children including her brother, Ollie, and her two sisters, Joan and Maureen. With grandparents from County Cork and West Meath, she grew up in a loving Irish-American family where the...",
       "media": [
         {
           "entityId": "media:primary-image:sheila-murphy-crawford-2018",
@@ -15121,7 +15123,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/sheila-murphy-crawford/",
         "inductedBy": "Gerry Quinn",
         "approvalStatus": "draft",
@@ -15162,7 +15164,7 @@
       "id": "person:shiv-k-aggarwal-2015",
       "displayName": "Shiv K. Aggarwal",
       "type": "Person",
-      "shortDescription": "Shiv K. Aggarwal Shiv Aggarwal was born in India, received degrees of B.A (Hons) from University of Delhi and Master of Social Work from M.S. University of Baroda.",
+      "shortDescription": "Shiv Aggarwal was born in India, received degrees of B.A (Hons) from University of Delhi and Master of Social Work from M.S. University of Baroda. He came to USA in 1956 for further studies, and received MBA from University of Missouri.",
       "media": [
         {
           "entityId": "media:primary-image:shiv-k-aggarwal-2015",
@@ -15208,7 +15210,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/shiv-k-aggarwal-2015/",
         "inductedBy": "Michael Shreshta",
         "approvalStatus": "draft",
@@ -15248,7 +15250,7 @@
       "id": "person:sister-alicia-alvarado-2018",
       "displayName": "Sister Alicia Alvarado",
       "type": "Person",
-      "shortDescription": "Sister Alicia Alvarado, OP Sister Alicia Alvarado, OP Sister Alicia Alvarado was born in Villalba, Puerto Rico on December 31, 1948, the second child of Felipe J. Alvarado and Rosa Maria Rodriquez Alvarado.",
+      "shortDescription": "Sister Alicia Alvarado, OP Sister Alicia Alvarado, OP Sister Alicia Alvarado was born in Villalba, Puerto Rico on December 31, 1948, the second child of Felipe J. Alvarado and Rosa Maria Rodriquez Alvarado. She immigrated to the United States of America as a 6 year old child with...",
       "media": [
         {
           "entityId": "media:primary-image:sister-alicia-alvarado-2018",
@@ -15294,7 +15296,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-south-america/sister-alicia-alvarado/",
         "inductedBy": "Jose Feliciano",
         "approvalStatus": "draft",
@@ -15336,7 +15338,7 @@
       "id": "person:sree-sreenath-2019",
       "displayName": "Sree Sreenath",
       "type": "Person",
-      "shortDescription": "Sree Sreenath Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO, is a tenured full professor in the Electrical Engineering and Computer Science Department at Case Western Reserve University, Cleveland, Ohio.",
+      "shortDescription": "Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO, is a tenured full professor in the Electrical Engineering and Computer Science Department at Case Western Reserve University, Cleveland, Ohio. He is the Director of Case GEMNI (Graduate Engineering & Management National and...",
       "media": [
         {
           "entityId": "media:primary-image:sree-sreenath-2019",
@@ -15376,7 +15378,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sree-sreenath/",
         "inductedBy": "Ramesh Shah",
         "approvalStatus": "draft",
@@ -15417,7 +15419,7 @@
       "id": "person:steve-mulloy-2015",
       "displayName": "Steve Mulloy",
       "type": "Person",
-      "shortDescription": "Steve Mulloy When Stephen L. Mulloy arrived in Cleveland in May 1954 to start a new life thousands of miles from home, he was lucky enough to have three aunts and an uncle to welcome him to West Park.",
+      "shortDescription": "Steve Mulloy When Stephen L. Mulloy arrived in Cleveland in May 1954 to start a new life thousands of miles from home, he was lucky enough to have three aunts and an uncle to welcome him to West Park. He also had a strong Irish community that helped...",
       "media": [
         {
           "entityId": "media:primary-image:steve-mulloy-2015",
@@ -15463,7 +15465,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/steve-mulloy-2015/",
         "inductedBy": "Mayor Jane Campbell",
         "approvalStatus": "draft",
@@ -15520,7 +15522,7 @@
       "id": "person:sudarshan-sathe-2023",
       "displayName": "Sudarshan Sathe",
       "type": "Person",
-      "shortDescription": "Sudarshan Sathe Sudarshan ( su- dar- shun) Sathe ( Saa-the) earned a bachelor’s degree in chemical engineering, with first division honors, from the world famous IIT engineering school in India. He arrived in the U.",
+      "shortDescription": "Sudarshan ( su- dar- shun) Sathe ( Saa-the) earned a bachelor’s degree in chemical engineering, with first division honors, from the world famous IIT engineering school in India. He arrived in the U.S at a young age of 22 to join University of Akron’s master’s in chemical engineering...",
       "media": [
         {
           "entityId": "media:primary-image:sudarshan-sathe-2023",
@@ -15560,7 +15562,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/sudarshan-sathe/",
         "inductedBy": "Baiju Shah",
         "approvalStatus": "draft",
@@ -15617,7 +15619,7 @@
       "id": "person:svetlana-stolyarova-2025",
       "displayName": "Svetlana Stolyarova",
       "type": "Person",
-      "shortDescription": "Svetlana Stolyarova Svetlana Stolyarova , born in the USSR in 1962, is a visionary leader dedicated to cultural heritage, community development, and international collaboration.",
+      "shortDescription": "Svetlana Stolyarova, born in the USSR in 1962, is a visionary leader dedicated to cultural heritage, community development, and international collaboration. Her lifelong passion for music, philosophy, and civic engagement has shaped her remarkable journey-from championing democratic reforms during Perestroika to becoming a key figure in Cleveland’s multicultural...",
       "media": [
         {
           "entityId": "media:primary-image:svetlana-stolyarova-2025",
@@ -15657,7 +15659,7 @@
         "countryTags": [
           "Russian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/svetlana-stolyarova/",
         "inductedBy": "Dr. Anton Komar",
         "approvalStatus": "draft",
@@ -15698,7 +15700,7 @@
       "id": "person:taras-szmagala-2022",
       "displayName": "Taras Szmagala",
       "type": "Person",
-      "shortDescription": "Taras Szmagala Midge and Taras Szmagala Taras Gregory Szmagala, Sr. was born in Cleveland, Ohio in 1933. The son of Ukrainian immigrants Dmytro and Bronislawa Szmagala, Taras (known as “Tary”) grew up immersed in Cleveland’s rich...",
+      "shortDescription": "Taras Szmagala Midge and Taras Szmagala Taras Gregory Szmagala, Sr. was born in Cleveland, Ohio in 1933. The son of Ukrainian immigrants Dmytro and Bronislawa Szmagala, Taras (known as “Tary”) grew up immersed in Cleveland’s rich Ukrainian-American community.",
       "media": [
         {
           "entityId": "media:primary-image:taras-szmagala-2022",
@@ -15738,7 +15740,7 @@
         "countryTags": [
           "Ukrainian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/taras-szmagala/",
         "inductedBy": "Andrew Fedynsky",
         "approvalStatus": "draft",
@@ -15793,7 +15795,7 @@
       "id": "person:thomas-j-scanlon-2014",
       "displayName": "Thomas J. Scanlon",
       "type": "Person",
-      "shortDescription": "Thomas J. Scanlon Thomas J. Scanlon received a Bachelor of Arts, Business Administration from John Carroll University in 1959. He then graduated from Cleveland State University – Cleveland Marshall College of Law – J.D.",
+      "shortDescription": "Thomas J. Scanlon received a Bachelor of Arts, Business Administration from John Carroll University in 1959. He then graduated from Cleveland State University – Cleveland Marshall College of Law – J.D., cum laude in 1963 and was a Member Board of Editors – Cleveland Marshall Law Review.",
       "media": [
         {
           "entityId": "media:primary-image:thomas-j-scanlon-2014",
@@ -15827,7 +15829,7 @@
         "countryTags": [
           "Irish"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/thomas-j-scanlon-2014/",
         "inductedBy": "Sam Miller",
         "approvalStatus": "draft",
@@ -15918,7 +15920,7 @@
       "id": "person:tony-petkovsek-2011",
       "displayName": "Tony Petkovsek",
       "type": "Person",
-      "shortDescription": "Tony Petkovsek Tony Petkovsek has been on daily polka radio since 1961, an unprecedented 50 years. His popular music and community service show, he produces and announces, is interspersed with interviews of civic, travel and entertainment...",
+      "shortDescription": "Tony Petkovsek has been on daily polka radio since 1961, an unprecedented 50 years. His popular music and community service show, he produces and announces, is interspersed with interviews of civic, travel and entertainment personalities and is heard for two hours, Monday thru Friday from 2 till 4PM...",
       "media": [
         {
           "entityId": "media:primary-image:tony-petkovsek-2011",
@@ -15952,7 +15954,7 @@
         "countryTags": [
           "Slovenian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/tony-petkovsek-2011/",
         "inductedBy": "Terry Stewart",
         "approvalStatus": "draft",
@@ -16026,7 +16028,7 @@
       "id": "person:valarie-mccall-2020",
       "displayName": "Valarie McCall",
       "type": "Person",
-      "shortDescription": "Valarie J. McCall Valarie J. McCall Valarie J. McCall learned to meet leadership demands at an early age. Her first job at a McDonald’s restaurant – and a commute completely reliant on public transportation – began to open her eyes to the...",
+      "shortDescription": "Valarie J. McCall Valarie J. McCall Valarie J. McCall learned to meet leadership demands at an early age. Her first job at a McDonald’s restaurant – and a commute completely reliant on public transportation – began to open her eyes to the injustices and areas for opportunity in...",
       "media": [
         {
           "entityId": "media:primary-image:valarie-mccall-2020",
@@ -16066,7 +16068,7 @@
         "countryTags": [
           "African-American"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/valarie-mccall/",
         "inductedBy": "Albert Ratner",
         "approvalStatus": "draft",
@@ -16126,7 +16128,7 @@
       "id": "person:veronica-dahlberg-2024",
       "displayName": "Veronica Dahlberg",
       "type": "Person",
-      "shortDescription": "Veronica Dahlberg Veronica Isabel Dahlberg was born in Canton, Ohio. She is the daughter of Mexican and Hungarian immigrants who arrived in Cleveland over 60 years ago. Her father was a Hungarian refugee who met her mother in Mexico.",
+      "shortDescription": "Veronica Isabel Dahlberg was born in Canton, Ohio. She is the daughter of Mexican and Hungarian immigrants who arrived in Cleveland over 60 years ago. Her father was a Hungarian refugee who met her mother in Mexico.",
       "media": [
         {
           "entityId": "media:primary-image:veronica-dahlberg-2024",
@@ -16166,7 +16168,7 @@
         "countryTags": [
           "Mexican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees/veronica-dahlberg/",
         "inductedBy": "Jasmin Santana",
         "approvalStatus": "draft",
@@ -16249,7 +16251,7 @@
         "countryTags": [
           "Puerto Rican"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/victor-ruiz/",
         "inductedBy": "Dr. Alex Johnson",
         "approvalStatus": "draft",
@@ -16288,7 +16290,7 @@
       "id": "person:vijaya-l-emani-2011",
       "displayName": "Vijaya L. Emani",
       "type": "Person",
-      "shortDescription": "Vijaya L. Emani “You can have Excellence, You can have Excuses, but you cannot have both!” Vijaya Lakshmi Emani, born in Kurnool, was the daughter of Indurani and G.Venkataramana Reddy.",
+      "shortDescription": "Vijaya L. Emani “You can have Excellence, You can have Excuses, but you cannot have both!” Vijaya Lakshmi Emani, born in Kurnool, was the daughter of Indurani and G.Venkataramana Reddy. She was known to us as a spitfire, but came from a more modest and quiet beginning.",
       "media": [
         {
           "entityId": "media:primary-image:vijaya-l-emani-2011",
@@ -16322,7 +16324,7 @@
         "countryTags": [
           "Indian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/vijaya-l-emani-2011/",
         "inductedBy": "Raj Pillai",
         "approvalStatus": "draft",
@@ -16361,7 +16363,7 @@
       "id": "person:vladimir-rus-2012",
       "displayName": "Vladimir Rus",
       "type": "Person",
-      "shortDescription": "Vladimir Rus Vladimir Rus was born in Rijeka (Flume), Croatia in 1925. He has lived in Croatia, Trieste, Italy and now in Cleveland. He received his extensive education throughout the world.",
+      "shortDescription": "Vladimir Rus was born in Rijeka (Flume), Croatia in 1925. He has lived in Croatia, Trieste, Italy and now in Cleveland.",
       "media": [
         {
           "entityId": "media:primary-image:vladimir-rus-2012",
@@ -16396,7 +16398,7 @@
           "Slovenian",
           "Croatian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/vladimir-rus-2012/",
         "inductedBy": "Councilman Joe Cimperman",
         "approvalStatus": "draft",
@@ -16477,7 +16479,7 @@
         "countryTags": [
           "Syrian"
         ],
-        "countryTagsSource": "inferred",
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/wael-khoury/",
         "inductedBy": "Dr. Nizar Zein",
         "approvalStatus": "draft",

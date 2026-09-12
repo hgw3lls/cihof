@@ -24,6 +24,8 @@ const sourceCurationOutputPath = resolve('public/data/source-curation-packet.jso
 const sourceCurationAddendumPaths = [
   resolve('data/wrhs_exhibition_research_addendum.json'),
 ];
+const archiveLeadsSourcePath = resolve('data/cihof_archive_items.json');
+const archiveLeadsOutputPath = resolve('public/data/archive-leads.json');
 const runtimeDataBundleOutputPath = resolve('public/data/cihof-runtime-data.json');
 const standardsIndexOutputPath = resolve('public/data/standards-index.json');
 const linkedArtOutputPath = resolve('public/data/linked-art-export.json');
@@ -43,6 +45,7 @@ const storyLenses = loadStoryLenses();
 const mediaManifest = loadRuntimeMediaManifest();
 const physicalWallMetadata = loadPhysicalWallMetadata();
 const sourceCurationPacket = loadSourceCurationPacket();
+const archiveLeads = buildArchiveLeads(sourceCurationPacket);
 const standardsExport = buildStandardsExport();
 const runtimeDataBundle = buildRuntimeDataBundle();
 
@@ -59,6 +62,7 @@ writeFileSync(storyLensesOutputPath, `${JSON.stringify(storyLenses.document, nul
 writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document, null, 2)}\n`);
 writeFileSync(physicalWallOutputPath, `${JSON.stringify(physicalWallMetadata, null, 2)}\n`);
 writeFileSync(sourceCurationOutputPath, `${JSON.stringify(sourceCurationPacket.document, null, 2)}\n`);
+writeFileSync(archiveLeadsOutputPath, `${JSON.stringify(archiveLeads.document, null, 2)}\n`);
 writeFileSync(standardsIndexOutputPath, `${JSON.stringify(standardsExport.index, null, 2)}\n`);
 writeFileSync(linkedArtOutputPath, `${JSON.stringify(standardsExport.linkedArt, null, 2)}\n`);
 writeFileSync(cidocCrmOutputPath, `${JSON.stringify(standardsExport.cidocCrm, null, 2)}\n`);
@@ -82,6 +86,7 @@ console.log(`Prepared ${storyLenses.recordCount} story lens records.`);
 console.log(`Prepared ${mediaManifest.recordCount} runtime media manifest records.`);
 console.log(`Prepared ${Object.keys(physicalWallMetadata.positions ?? {}).length} physical wall position records.`);
 console.log(`Prepared ${sourceCurationPacket.recordCount} source curation profile rows.`);
+console.log(`Prepared ${archiveLeads.recordCount} archive leads (${archiveLeads.visitorReadyCount} visitor-ready).`);
 console.log(
   `Prepared standards exports: Linked Art, CIDOC CRM JSON-LD, and ${standardsExport.iiif.manifests.length} IIIF Presentation manifests.`,
 );
@@ -518,6 +523,245 @@ function withRecountedSourceSummary(document) {
   };
 }
 
+function buildArchiveLeads(sourceCurationPacket) {
+  const reviewedDocument = existsSync(archiveLeadsSourcePath)
+    ? normalizeArchiveLeadDocument(JSON.parse(readFileSync(archiveLeadsSourcePath, 'utf8')))
+    : emptyArchiveLeadDocument();
+  const generatedLeads = buildArchiveReviewLeads(sourceCurationPacket.document);
+  const curatedRecords = reviewedDocument.records.map((record, index) => normalizeArchiveLead(record, `curated-${index + 1}`));
+  const records = [...generatedLeads, ...curatedRecords].filter(Boolean);
+  const document = {
+    schemaVersion: 1,
+    generatedAt: runtimeDataGeneratedAt,
+    source: {
+      name: 'CIHOF archive leads',
+      note: 'Staff-review archive leads are generated from source-curation addenda. Visitor-ready records must be manually promoted in data/cihof_archive_items.json.',
+    },
+    guardrails: {
+      publicationBoundary: 'Only records with status visitor-ready and visibility visitor-ready should be displayed in visitor-facing views.',
+      verificationBoundary: 'Catalog and finding-aid leads require item inspection, page/image selection, attribution, loan terms, and reproduction rights before promotion.',
+    },
+    summary: buildArchiveLeadSummary(records),
+    records,
+  };
+
+  return {
+    document,
+    recordCount: records.length,
+    visitorReadyCount: records.filter((record) => record.status === 'visitor-ready' && record.visibility === 'visitor-ready').length,
+  };
+}
+
+function emptyArchiveLeadDocument() {
+  return {
+    schemaVersion: 1,
+    source: {
+      name: 'CIHOF promoted archive items',
+      note: 'No manually promoted archive item source file was found.',
+    },
+    records: [],
+  };
+}
+
+function normalizeArchiveLeadDocument(document) {
+  if (!document || typeof document !== 'object' || Array.isArray(document)) return emptyArchiveLeadDocument();
+  return {
+    ...emptyArchiveLeadDocument(),
+    ...document,
+    source: typeof document.source === 'object' && document.source ? document.source : emptyArchiveLeadDocument().source,
+    records: Array.isArray(document.records) ? document.records : [],
+  };
+}
+
+function buildArchiveReviewLeads(sourceCurationDocument = {}) {
+  const storyLeads = Array.isArray(sourceCurationDocument.storySectionReviewDrafts)
+    ? sourceCurationDocument.storySectionReviewDrafts
+    : [];
+
+  return storyLeads
+    .filter(isArchiveStoryLead)
+    .map((record, index) => normalizeArchiveLead({
+      id: archiveLeadId(record, index),
+      inducteeId: record.inducteeId,
+      inducteeName: record.inducteeName,
+      classYear: record.classYear,
+      title: archiveLeadTitle(record),
+      repository: archiveRepository(record),
+      collectionTitle: record.sourcePageTitle,
+      callNumber: archiveCallNumber(record.sourcePageTitle),
+      sourceUrl: record.sourcePageUrl,
+      sourcePageTitle: record.sourcePageTitle,
+      sourceType: archiveSourceType(record),
+      displayText: record.excerpt,
+      candidateUse: record.candidateUse,
+      rightsNote: record.copyrightNote,
+      reviewAction: record.reviewAction,
+      status: 'catalog-lead',
+      visibility: 'staff-review',
+      connectionStrength: archiveConnectionStrength(record),
+      priority: record.priority,
+      labels: archiveLabels(record),
+    }, `generated-${index + 1}`));
+}
+
+function normalizeArchiveLead(record, fallbackId) {
+  if (!record || typeof record !== 'object' || Array.isArray(record)) return null;
+  const status = archiveStatus(record.status);
+  const visibility = archiveVisibility(record.visibility);
+  const connectionStrength = archiveConnectionValue(record.connectionStrength);
+  const inducteeId = cleanArchiveString(record.inducteeId);
+  const title = cleanArchiveString(record.title);
+  const displayText = cleanArchiveString(record.displayText);
+  if (!inducteeId || !title || !displayText) return null;
+
+  return {
+    id: cleanArchiveString(record.id) || fallbackId,
+    inducteeId,
+    inducteeName: cleanArchiveString(record.inducteeName),
+    classYear: Number.isFinite(record.classYear) ? record.classYear : null,
+    title,
+    repository: cleanArchiveString(record.repository) || 'Archive',
+    collectionTitle: cleanArchiveString(record.collectionTitle),
+    callNumber: cleanArchiveString(record.callNumber),
+    sourceUrl: cleanArchiveString(record.sourceUrl),
+    sourcePageTitle: cleanArchiveString(record.sourcePageTitle),
+    sourceType: cleanArchiveString(record.sourceType),
+    displayText,
+    candidateUse: cleanArchiveString(record.candidateUse),
+    rightsNote: cleanArchiveString(record.rightsNote),
+    creditLine: cleanArchiveString(record.creditLine),
+    reviewAction: cleanArchiveString(record.reviewAction),
+    status,
+    visibility,
+    connectionStrength,
+    priority: cleanArchiveString(record.priority),
+    iiifManifestUrl: cleanArchiveString(record.iiifManifestUrl),
+    imageUrl: cleanArchiveString(record.imageUrl),
+    imageAltText: cleanArchiveString(record.imageAltText),
+    labels: Array.isArray(record.labels) ? record.labels.map(cleanArchiveString).filter(Boolean) : [],
+  };
+}
+
+function buildArchiveLeadSummary(records) {
+  return {
+    total: records.length,
+    visitorReady: records.filter((record) => record.status === 'visitor-ready' && record.visibility === 'visitor-ready').length,
+    staffReview: records.filter((record) => record.visibility !== 'visitor-ready').length,
+    byStatus: countBy(records, (record) => record.status),
+    byConnectionStrength: countBy(records, (record) => record.connectionStrength),
+  };
+}
+
+function isArchiveStoryLead(record) {
+  const text = [
+    record?.sourcePageTitle,
+    record?.suggestedTheme,
+    record?.candidateUse,
+    record?.reviewAction,
+    record?.copyrightNote,
+  ].map(cleanArchiveString).join(' ').toLowerCase();
+  return /\b(wrhs|western reserve historical society|archive|archival|finding-aid|catalog)\b/.test(text);
+}
+
+function archiveLeadId(record, index) {
+  return [
+    cleanArchiveString(record.inducteeId) || 'unknown',
+    'archive',
+    slugifyArchiveText(record.sourcePageTitle || record.suggestedTheme || String(index + 1)),
+  ].filter(Boolean).join('-');
+}
+
+function archiveLeadTitle(record) {
+  const sourceTitle = cleanArchiveString(record.sourcePageTitle);
+  if (!sourceTitle) return cleanArchiveString(record.suggestedTheme) || 'Archive lead';
+  return sourceTitle.replace(/^WRHS\s+/, '').trim();
+}
+
+function archiveRepository(record) {
+  const text = `${record.sourcePageTitle ?? ''} ${record.sourcePageUrl ?? ''}`;
+  return /\bWRHS\b|wrhs\.org|Western Reserve Historical Society/i.test(text)
+    ? 'Western Reserve Historical Society'
+    : 'Archive';
+}
+
+function archiveCallNumber(title) {
+  const value = cleanArchiveString(title);
+  if (!value) return '';
+  const match = value.match(/^WRHS\s+(.+?)\s+-\s+/i);
+  return match?.[1]?.trim() ?? '';
+}
+
+function archiveSourceType(record) {
+  const text = [
+    record.sourcePageTitle,
+    record.suggestedTheme,
+    record.candidateUse,
+    record.excerpt,
+  ].map(cleanArchiveString).join(' ').toLowerCase();
+  if (/photograph|photo|image|contact sheet/.test(text)) return 'image';
+  if (/program|event/.test(text)) return 'program';
+  if (/catalog|volume|handbook|survey|publication/.test(text)) return 'publication';
+  if (/minutes|proposal|grant|documents|papers|records|newsletter/.test(text)) return 'document';
+  return 'archival record';
+}
+
+function archiveConnectionStrength(record) {
+  const text = [
+    record.suggestedTheme,
+    record.candidateUse,
+    record.excerpt,
+  ].map(cleanArchiveString).join(' ').toLowerCase();
+  if (/contextual|context only|not (?:his|her|their) personal|does not establish|not verified/.test(text)) return 'contextual';
+  if (/\bdirect\b/.test(text)) return 'direct';
+  if (/institutional|firm|organization|venue|community memory|center|library/.test(text)) return 'institutional';
+  return 'direct';
+}
+
+function archiveLabels(record) {
+  return [
+    archiveConnectionStrength(record),
+    archiveSourceType(record),
+    cleanArchiveString(record.priority),
+    cleanArchiveString(record.reviewAction),
+  ].filter(Boolean);
+}
+
+function archiveStatus(value) {
+  const allowed = new Set(['catalog-lead', 'requested', 'viewed', 'rights-pending', 'visitor-ready']);
+  const status = cleanArchiveString(value);
+  return allowed.has(status) ? status : 'catalog-lead';
+}
+
+function archiveVisibility(value) {
+  const visibility = cleanArchiveString(value);
+  return visibility === 'visitor-ready' ? 'visitor-ready' : 'staff-review';
+}
+
+function archiveConnectionValue(value) {
+  const connection = cleanArchiveString(value);
+  return ['direct', 'institutional', 'contextual'].includes(connection) ? connection : 'contextual';
+}
+
+function cleanArchiveString(value) {
+  return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '';
+}
+
+function slugifyArchiveText(value) {
+  return cleanArchiveString(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 72);
+}
+
+function countBy(records, selector) {
+  return records.reduce((counts, record) => {
+    const key = selector(record) || 'unknown';
+    counts[key] = (counts[key] ?? 0) + 1;
+    return counts;
+  }, {});
+}
+
 function buildRuntimeDataBundle() {
   return {
     schemaVersion: 1,
@@ -534,6 +778,7 @@ function buildRuntimeDataBundle() {
     storySections: storySections.document,
     storyLenses: storyLenses.document,
     mediaManifest: mediaManifest.document,
+    archiveLeads: archiveLeads.document,
     physicalWall: physicalWallMetadata,
     places: loadOptionalRuntimeJson('public/data/places.json', { schemaVersion: 1, places: [] }),
     cityQuestion: loadOptionalRuntimeJson('public/data/city-question.json', null),

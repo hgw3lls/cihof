@@ -241,6 +241,61 @@ export type StorySectionRecord = {
   beats: StoryBeat[];
 };
 
+export type ArchiveLeadStatus =
+  | 'catalog-lead'
+  | 'requested'
+  | 'viewed'
+  | 'rights-pending'
+  | 'visitor-ready';
+
+export type ArchiveLeadVisibility = 'staff-review' | 'visitor-ready';
+export type ArchiveConnectionStrength = 'direct' | 'institutional' | 'contextual';
+
+export type ArchiveLead = {
+  id: string;
+  inducteeId: string;
+  inducteeName?: string;
+  classYear?: number | null;
+  title: string;
+  repository: string;
+  collectionTitle?: string;
+  callNumber?: string;
+  sourceUrl?: string;
+  sourcePageTitle?: string;
+  sourceType?: string;
+  displayText: string;
+  candidateUse?: string;
+  rightsNote?: string;
+  creditLine?: string;
+  reviewAction?: string;
+  status: ArchiveLeadStatus;
+  visibility: ArchiveLeadVisibility;
+  connectionStrength: ArchiveConnectionStrength;
+  priority?: string;
+  iiifManifestUrl?: string;
+  imageUrl?: string;
+  imageAltText?: string;
+  labels?: string[];
+};
+
+export type ArchiveLeadDocument = {
+  schemaVersion: number;
+  generatedAt?: string;
+  source?: {
+    name?: string;
+    note?: string;
+  };
+  guardrails?: Record<string, string>;
+  summary?: {
+    total?: number;
+    visitorReady?: number;
+    staffReview?: number;
+    byStatus?: Record<string, number>;
+    byConnectionStrength?: Record<string, number>;
+  };
+  records: ArchiveLead[];
+};
+
 export type StoryLensConfig = {
   id: string;
   label: string;

@@ -16,10 +16,12 @@ import type {
   RelationshipProvenance,
   RelationshipRecord,
   RelationshipType,
+  StorySectionRecord,
   StoryLensConfig,
   StoryLensDocument,
 } from '../../data/types';
 import { useRelationships } from '../../data/useRelationships';
+import { useStorySections } from '../../data/useStorySections';
 
 type CountEntry = {
   [key: string]: string | number;
@@ -427,8 +429,8 @@ type QueueMode =
   | 'video-captions'
   | 'accessibility'
   | 'featured';
-type PortalTab = 'workbench' | 'source' | 'lenses' | 'relationships' | 'readiness' | 'exports';
-type SourceQueueMode = 'profiles' | 'media' | 'video' | 'relationships' | 'places' | 'organizations' | 'stories' | 'aliases' | 'classes' | 'unresolved';
+type PortalTab = 'home' | 'workbench' | 'content' | 'source' | 'lenses' | 'relationships' | 'readiness' | 'exports';
+type SourceQueueMode = 'profiles' | 'media' | 'video' | 'relationships' | 'places' | 'organizations' | 'stories' | 'archives' | 'aliases' | 'classes' | 'unresolved';
 type SourceCandidateRow = {
   id: string;
   mode: SourceQueueMode;
@@ -442,11 +444,26 @@ type SourceCandidateRow = {
   confidence?: number;
   action?: string;
   fields: Array<{ label: string; value: string }>;
-  stageKind: 'profile-note' | 'media-image' | 'video-source' | 'relationship-note' | 'place-note' | 'organization-note' | 'story-note' | 'alias-note' | 'class-note' | 'unresolved-note';
+  stageKind: 'profile-note' | 'media-image' | 'video-source' | 'relationship-note' | 'place-note' | 'organization-note' | 'story-note' | 'archive-note' | 'alias-note' | 'class-note' | 'unresolved-note';
   note: string;
   countryCandidates?: string[];
   imageAltText?: string;
   youtubeVideoId?: string;
+};
+type ContentAccessRow = {
+  inductee: Inductee;
+  storyRecord?: StorySectionRecord;
+  storyBeatCount: number;
+  sourceRows: SourceCandidateRow[];
+  archiveRows: SourceCandidateRow[];
+  videoLeadRows: SourceCandidateRow[];
+  manifestVideos: VideoAsset[];
+  approvedVideoCount: number;
+  pendingVideoCount: number;
+  sourceCount: number;
+  focusedCopyReady: boolean;
+  score: number;
+  signals: string[];
 };
 type FocusedCopySuggestion = {
   documentedContextLine: string;
@@ -756,11 +773,12 @@ const sourceQueueLabels: Record<SourceQueueMode, string> = {
   places: 'Places',
   organizations: 'Organizations',
   stories: 'Story Leads',
+  archives: 'Archive Leads',
   aliases: 'Aliases',
   classes: 'Class Evidence',
   unresolved: 'Unresolved',
 };
-const sourceEvidenceModeOrder: SourceQueueMode[] = ['profiles', 'stories', 'relationships', 'places', 'organizations', 'media', 'video', 'aliases', 'classes', 'unresolved'];
+const sourceEvidenceModeOrder: SourceQueueMode[] = ['profiles', 'stories', 'archives', 'relationships', 'places', 'organizations', 'media', 'video', 'aliases', 'classes', 'unresolved'];
 
 const reportUrls = {
   curation: `${import.meta.env.BASE_URL}data/curation-report.json`,
@@ -775,6 +793,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const reports = useReviewReports();
   const sourceCuration = useSourceCurationPacket();
   const relationshipState = useRelationships();
+  const storySections = useStorySections();
   const runner = usePortalRunner();
   const storyLensState = useStoryLensDocument();
   const [query, setQuery] = useState('');
@@ -782,7 +801,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const [relationshipQuery, setRelationshipQuery] = useState('');
   const [relationshipQueue, setRelationshipQueue] = useState<RelationshipQueueMode>('needs-review');
   const [selectedRelationshipId, setSelectedRelationshipId] = useState('');
-  const [tab, setTab] = useState<PortalTab>('workbench');
+  const [tab, setTab] = useState<PortalTab>('home');
+  const [sourceInitialQueue, setSourceInitialQueue] = useState<SourceQueueMode>('profiles');
   const [selectedId, setSelectedId] = useState('');
   const [drafts, setDrafts] = useState<DraftMap>(() => loadStoredDrafts());
   const [relationshipDrafts, setRelationshipDrafts] = useState<RelationshipDraftMap>(() => loadStoredRelationshipDrafts());
@@ -798,6 +818,10 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const queueOptions = useMemo(() => buildQueueOptions(inductees, reports.curation, reports.media, drafts), [drafts, inductees, reports.curation, reports.media]);
   const actionItems = useMemo(() => buildActionItems(summary, draftCount), [draftCount, summary]);
   const sourceRows = useMemo(() => buildSourceCandidateRows(sourceCuration.packet ?? emptySourceCurationPacket()), [sourceCuration.packet]);
+  const contentAccessRows = useMemo(
+    () => buildContentAccessRows(inductees, storySections.records, sourceRows, reports.manifest),
+    [inductees, reports.manifest, sourceRows, storySections.records],
+  );
   const relationshipRows = useMemo(
     () => buildRelationshipReviewRows(inductees, relationshipState.relationships, relationshipDrafts, sourceCuration.packet?.relationshipReviewDrafts ?? []),
     [inductees, relationshipDrafts, relationshipState.relationships, sourceCuration.packet?.relationshipReviewDrafts],
@@ -1174,24 +1198,36 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   return (
     <section className="review-dashboard portal-dashboard" aria-label="Staff portal dashboard">
       <div className="review-dashboard__header portal-dashboard__header">
-        <div>
+        <div className="portal-dashboard__title">
           <p className="eyebrow">Staff Portal</p>
           <h2>Review & Edit</h2>
+          <span>Choose one queue, finish that pass, then move deeper only when needed.</span>
         </div>
-        <div className="review-dashboard__status">
-          <StatusPill label="Curation" value={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} tone={(reports.curation?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'ok'} />
-          <StatusPill label="Media" value={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} tone={(reports.media?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'warn'} />
-          <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
-          <StatusPill label="Sources" value={`${sourceCuration.packet?.curationIndex?.length ?? 0}`} tone={sourceCuration.error ? 'bad' : sourceCuration.loading ? 'warn' : 'ok'} />
-          <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
-          <StatusPill label="Links" value={`${relationshipRows.length}`} tone={relationshipState.error ? 'bad' : relationshipDraftCount > 0 ? 'warn' : 'ok'} />
-          <StatusPill label="Wall Build" value={summary.wallReady ? 'Yes' : 'No'} tone={summary.wallReady ? 'ok' : 'bad'} />
-          <StatusPill label="Kiosk Ready" value={summary.kioskReady ? 'Yes' : 'No'} tone={summary.kioskReady ? 'ok' : 'bad'} />
+        <div className="portal-dashboard__overview">
+          <div className="portal-dashboard__quick-status" aria-label="Portal summary">
+            <span>{draftCount} drafts</span>
+            <span>{contentAccessRows.filter((row) => row.storyBeatCount > 0).length} story profiles</span>
+            <span>{contentAccessRows.reduce((total, row) => total + row.archiveRows.length, 0)} archive leads</span>
+          </div>
+          <details className="portal-status-drawer">
+            <summary>System Status</summary>
+            <div className="review-dashboard__status">
+              <StatusPill label="Curation" value={statusLabel(reports.curation?.validation?.errors?.length ?? 0, reports.curation?.validation?.warnings?.length ?? 0)} tone={(reports.curation?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'ok'} />
+              <StatusPill label="Media" value={statusLabel(reports.media?.validation?.errors?.length ?? 0, reports.media?.validation?.warnings?.length ?? 0)} tone={(reports.media?.validation?.errors?.length ?? 0) > 0 ? 'bad' : 'warn'} />
+              <StatusPill label="Drafts" value={`${draftCount}`} tone={draftCount > 0 ? 'warn' : 'ok'} />
+              <StatusPill label="Sources" value={`${sourceCuration.packet?.curationIndex?.length ?? 0}`} tone={sourceCuration.error ? 'bad' : sourceCuration.loading ? 'warn' : 'ok'} />
+              <StatusPill label="Lenses" value={`${storyLensCount}`} tone={storyLensState.isDirty ? 'warn' : storyLensState.error ? 'bad' : 'ok'} />
+              <StatusPill label="Links" value={`${relationshipRows.length}`} tone={relationshipState.error ? 'bad' : relationshipDraftCount > 0 ? 'warn' : 'ok'} />
+              <StatusPill label="Wall Build" value={summary.wallReady ? 'Yes' : 'No'} tone={summary.wallReady ? 'ok' : 'bad'} />
+              <StatusPill label="Kiosk Ready" value={summary.kioskReady ? 'Yes' : 'No'} tone={summary.kioskReady ? 'ok' : 'bad'} />
+            </div>
+          </details>
         </div>
       </div>
 
       {reports.error && <div className="review-dashboard__alert">Report load error: {reports.error}</div>}
       {sourceCuration.error && <div className="review-dashboard__alert">Source data load warning: {sourceCuration.error}</div>}
+      {storySections.error && <div className="review-dashboard__alert">Story section load warning: {storySections.error}</div>}
       {storyLensState.error && <div className="review-dashboard__alert">Story lens load warning: {storyLensState.error}</div>}
       {relationshipState.error && <div className="review-dashboard__alert">Relationship load warning: {relationshipState.error}</div>}
       {reports.loading && <div className="review-dashboard__alert">Loading review reports...</div>}
@@ -1205,6 +1241,8 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       )}
 
       <div className="portal-tabs" aria-label="Portal sections">
+        <button className={tab === 'home' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('home')}>Start Here</button>
+        <button className={tab === 'content' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('content')}>Best Content</button>
         <button className={tab === 'workbench' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('workbench')}>Workbench</button>
         <button className={tab === 'source' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('source')}>Source Data</button>
         <button className={tab === 'lenses' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('lenses')}>Story Lenses {storyLensState.isDirty ? '*' : ''}</button>
@@ -1213,31 +1251,57 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         <button className={tab === 'exports' ? 'portal-tab portal-tab--active' : 'portal-tab'} type="button" onClick={() => setTab('exports')}>Exports {draftCount > 0 ? `(${draftCount})` : ''}</button>
       </div>
 
-      <div className="review-metrics" aria-label="Review metrics">
-        <MetricCard label="Profiles" value={summary.totalProfiles} detail={`${summary.approvedProfiles} approved / ${summary.draftProfiles} draft`} />
-        <MetricCard label="Open Drafts" value={draftCount} detail={`${summary.draftApprovedProfiles} profile approvals staged`} />
-        <MetricCard label="Nationality" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
-        <MetricCard label="Hall Copy" value={summary.focusedCopyReady} detail={`${summary.focusedCopyNeeded} profile panels need focused copy / ${summary.draftFocusedCopy} staged`} />
-        <MetricCard label="Summaries" value={summary.approvedSummaries} detail={`${summary.summaryDrafts} draft / ${summary.draftApprovedSummaries} staged`} />
-        <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesWallReady} wall-ready / ${summary.primaryImagesReady} cleared`} />
-        <MetricCard label="Videos" value={summary.videosReady} detail={`${summary.videoItems} items / ${summary.missingCaptions} captions needed`} />
-      </div>
+      {tab === 'home' && (
+        <StartHerePanel
+          contentRows={contentAccessRows}
+          draftCount={draftCount}
+          relationshipDraftCount={relationshipDraftCount}
+          sourceLeadCount={sourceRows.length}
+          summary={summary}
+          onOpenContent={() => setTab('content')}
+          onOpenExports={() => setTab('exports')}
+          onOpenReadiness={() => setTab('readiness')}
+          onOpenRelationships={() => setTab('relationships')}
+          onOpenSource={(mode) => {
+            setSourceInitialQueue(mode);
+            setTab('source');
+          }}
+          onOpenWorkbench={(nextQueue) => {
+            setQueue(nextQueue);
+            setTab('workbench');
+          }}
+        />
+      )}
 
-      <div className="portal-action-strip" aria-label="Recommended actions">
-        {actionItems.map((item) => (
-          <button
-            key={item.label}
-            type="button"
-            onClick={() => {
-              setQueue(item.queue);
-              setTab('workbench');
-            }}
-          >
-            <strong>{item.label}</strong>
-            <span>{item.detail}</span>
-          </button>
-        ))}
-      </div>
+      {tab === 'workbench' && (
+        <>
+          <div className="review-metrics" aria-label="Review metrics">
+            <MetricCard label="Profiles" value={summary.totalProfiles} detail={`${summary.approvedProfiles} approved / ${summary.draftProfiles} draft`} />
+            <MetricCard label="Open Drafts" value={draftCount} detail={`${summary.draftApprovedProfiles} profile approvals staged`} />
+            <MetricCard label="Nationality" value={summary.countryNeedsReview} detail={`${summary.inferredCountries} inferred / ${summary.approvedCountries} approved`} />
+            <MetricCard label="Hall Copy" value={summary.focusedCopyReady} detail={`${summary.focusedCopyNeeded} profile panels need focused copy / ${summary.draftFocusedCopy} staged`} />
+            <MetricCard label="Summaries" value={summary.approvedSummaries} detail={`${summary.summaryDrafts} draft / ${summary.draftApprovedSummaries} staged`} />
+            <MetricCard label="Primary Images" value={summary.localPrimaryImages} detail={`${summary.primaryImagesWallReady} wall-ready / ${summary.primaryImagesReady} cleared`} />
+            <MetricCard label="Videos" value={summary.videosReady} detail={`${summary.videoItems} items / ${summary.missingCaptions} captions needed`} />
+          </div>
+
+          <div className="portal-action-strip" aria-label="Recommended actions">
+            {actionItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => {
+                  setQueue(item.queue);
+                  setTab('workbench');
+                }}
+              >
+                <strong>{item.label}</strong>
+                <span>{item.detail}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
       {tab === 'workbench' && (
         <div className="portal-layout">
@@ -1316,10 +1380,27 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
         />
       )}
 
+      {tab === 'content' && (
+        <ContentAccessPanel
+          loading={storySections.loading || sourceCuration.loading || reports.loading}
+          rows={contentAccessRows}
+          onOpenProfile={(personId) => {
+            setSelectedId(personId);
+            setTab('workbench');
+          }}
+          onOpenSource={(mode) => {
+            setSourceInitialQueue(mode);
+            setTab('source');
+          }}
+          onPreviewProfile={(inductee) => onSelect(inductee)}
+        />
+      )}
+
       {tab === 'source' && (
         <SourceCurationPanel
           drafts={drafts}
           inductees={inductees}
+          initialQueue={sourceInitialQueue}
           manifest={reports.manifest}
           packet={sourceCuration.packet}
           loading={sourceCuration.loading}
@@ -1398,12 +1479,257 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   );
 }
 
+function StartHerePanel({
+  contentRows,
+  draftCount,
+  relationshipDraftCount,
+  sourceLeadCount,
+  summary,
+  onOpenContent,
+  onOpenExports,
+  onOpenReadiness,
+  onOpenRelationships,
+  onOpenSource,
+  onOpenWorkbench,
+}: {
+  contentRows: ContentAccessRow[];
+  draftCount: number;
+  relationshipDraftCount: number;
+  sourceLeadCount: number;
+  summary: ReturnType<typeof buildDashboardSummary>;
+  onOpenContent: () => void;
+  onOpenExports: () => void;
+  onOpenReadiness: () => void;
+  onOpenRelationships: () => void;
+  onOpenSource: (mode: SourceQueueMode) => void;
+  onOpenWorkbench: (queue: QueueMode) => void;
+}) {
+  const storyProfiles = contentRows.filter((row) => row.storyBeatCount > 0).length;
+  const archiveLeads = contentRows.reduce((total, row) => total + row.archiveRows.length, 0);
+  const archiveProfiles = contentRows.filter((row) => row.archiveRows.length > 0).length;
+  const sourceProfiles = contentRows.filter((row) => row.sourceCount > 0).length;
+  const pendingVideoLeads = contentRows.reduce((total, row) => total + row.pendingVideoCount + row.videoLeadRows.length, 0);
+
+  return (
+    <section className="portal-start" aria-label="Start here">
+      <div className="portal-start__hero">
+        <div>
+          <p className="eyebrow">Start Here</p>
+          <h3>One clear pass at a time</h3>
+        </div>
+        <p>The portal is strongest when it is treated like a set of short passes: look at the best current material, decide what needs curator work, then export only after review.</p>
+      </div>
+
+      <div className="portal-start__grid">
+        <button className="portal-start-card portal-start-card--primary" type="button" onClick={onOpenContent}>
+          <span>Best Current Content</span>
+          <strong>{storyProfiles} story profiles</strong>
+          <small>{archiveLeads} WRHS archive leads and {sourceProfiles} source-backed profiles are gathered into one review surface.</small>
+        </button>
+        <button className="portal-start-card" type="button" onClick={() => onOpenWorkbench('high')}>
+          <span>Profile Workbench</span>
+          <strong>{summary.totalProfiles} profiles</strong>
+          <small>{summary.highPriority} high-priority records are ready for one-at-a-time review.</small>
+        </button>
+        <button className="portal-start-card" type="button" onClick={() => onOpenSource('archives')}>
+          <span>Archive & Source Leads</span>
+          <strong>{archiveProfiles} archive profiles</strong>
+          <small>Open the WRHS queue first, then move through story, image, and video source leads as needed.</small>
+        </button>
+        <button className="portal-start-card" type="button" onClick={draftCount > 0 || relationshipDraftCount > 0 ? onOpenExports : onOpenReadiness}>
+          <span>{draftCount > 0 || relationshipDraftCount > 0 ? 'Finish Drafts' : 'Readiness Snapshot'}</span>
+          <strong>{draftCount + relationshipDraftCount} local drafts</strong>
+          <small>{pendingVideoLeads} media items still need rights, captions, transcripts, local files, or source review.</small>
+        </button>
+      </div>
+
+      <details className="portal-start__more">
+        <summary>Specialist Tools</summary>
+        <div>
+          <button type="button" onClick={() => onOpenSource('profiles')}>All Source Data</button>
+          <button type="button" onClick={() => onOpenSource('video')}>Video Leads</button>
+          <button type="button" onClick={onOpenRelationships}>Relationships</button>
+          <button type="button" onClick={onOpenReadiness}>Readiness</button>
+          <button type="button" onClick={onOpenExports}>Exports</button>
+        </div>
+        <span>{sourceLeadCount} source rows are available; use these tools when you are doing focused cleanup instead of a first-pass review.</span>
+      </details>
+    </section>
+  );
+}
+
+function ContentAccessPanel({
+  loading,
+  rows,
+  onOpenProfile,
+  onOpenSource,
+  onPreviewProfile,
+}: {
+  loading: boolean;
+  rows: ContentAccessRow[];
+  onOpenProfile: (personId: string) => void;
+  onOpenSource: (mode: SourceQueueMode) => void;
+  onPreviewProfile: (inductee: Inductee) => void;
+}) {
+  const storyRows = rows
+    .filter((row) => row.storyBeatCount > 0)
+    .sort(compareStoryAccessRows)
+    .slice(0, 8);
+  const archiveRows = rows
+    .filter((row) => row.archiveRows.length > 0)
+    .sort(compareArchiveAccessRows)
+    .slice(0, 8);
+  const sourceDenseRows = rows
+    .filter((row) => row.sourceCount > 0)
+    .sort((a, b) => b.sourceCount - a.sourceCount || b.score - a.score || a.inductee.name.localeCompare(b.inductee.name))
+    .slice(0, 10);
+  const mediaLeadRows = rows
+    .filter((row) => row.videoLeadRows.length > 0 || row.manifestVideos.length > 0)
+    .sort((a, b) => (b.videoLeadRows.length + b.manifestVideos.length) - (a.videoLeadRows.length + a.manifestVideos.length) || a.inductee.name.localeCompare(b.inductee.name))
+    .slice(0, 8);
+  const summary = buildContentAccessSummary(rows);
+
+  return (
+    <section className="portal-content" aria-label="Best currently accessible content">
+      <div className="portal-readiness__intro portal-content__intro">
+        <div>
+          <p className="eyebrow">Best Content</p>
+          <h3>Make the strongest current material easy to find</h3>
+          <p>Curated story copy is ready for visitor review. WRHS archive leads, source evidence, and video items are surfaced here as staff review paths until rights, captions, transcripts, and archival permissions are cleared.</p>
+        </div>
+        <div className="portal-source__stamp">
+          <span>{loading ? 'Refreshing content audit' : 'Content audit ready'}</span>
+          <span>{rows.length} profiles scanned</span>
+        </div>
+      </div>
+
+      <div className="portal-lenses__summary portal-content__summary">
+        <MetricCard label="Curated Stories" value={summary.storyProfiles} detail={`${summary.storyBeats} story beats on visitor profiles`} />
+        <MetricCard label="WRHS Archive Paths" value={summary.archiveProfiles} detail={`${summary.archiveLeads} leads / ${summary.directArchiveLeads} direct`} />
+        <MetricCard label="Source Evidence" value={summary.sourceProfiles} detail={`${summary.sourceRows} profile-linked source rows`} />
+        <MetricCard label="Video Access" value={summary.approvedVideos} detail={`${summary.pendingManifestVideos} manifest videos / ${summary.videoLeadRows} source leads pending`} />
+      </div>
+
+      <div className="portal-content-grid">
+        <ContentAccessSection
+          actionLabel="Open Story Review"
+          emptyText="No curated story profiles were loaded."
+          rows={storyRows}
+          sourceMode="stories"
+          title="Visitor Story Copy"
+          tone="ready"
+          onOpenProfile={onOpenProfile}
+          onOpenSource={onOpenSource}
+          onPreviewProfile={onPreviewProfile}
+        />
+        <ContentAccessSection
+          actionLabel="Open Archive Leads"
+          emptyText="No WRHS archive leads were found in the current packet."
+          rows={archiveRows}
+          sourceMode="archives"
+          title="WRHS Archive Leads"
+          tone="review"
+          onOpenProfile={onOpenProfile}
+          onOpenSource={onOpenSource}
+          onPreviewProfile={onPreviewProfile}
+        />
+      </div>
+
+      <div className="portal-content-grid portal-content-grid--wide">
+        <ContentAccessSection
+          actionLabel="Open Source Evidence"
+          emptyText="No profile-linked source evidence was loaded."
+          rows={sourceDenseRows}
+          sourceMode="profiles"
+          title="Highest Source Density"
+          tone="review"
+          onOpenProfile={onOpenProfile}
+          onOpenSource={onOpenSource}
+          onPreviewProfile={onPreviewProfile}
+        />
+        <ContentAccessSection
+          actionLabel="Open Video Leads"
+          emptyText="No video leads or manifest videos were loaded."
+          rows={mediaLeadRows}
+          sourceMode="video"
+          title="Media Access Pending"
+          tone="pending"
+          onOpenProfile={onOpenProfile}
+          onOpenSource={onOpenSource}
+          onPreviewProfile={onPreviewProfile}
+        />
+      </div>
+    </section>
+  );
+}
+
+function ContentAccessSection({
+  title,
+  rows,
+  tone,
+  sourceMode,
+  actionLabel,
+  emptyText,
+  onOpenProfile,
+  onOpenSource,
+  onPreviewProfile,
+}: {
+  title: string;
+  rows: ContentAccessRow[];
+  tone: 'ready' | 'review' | 'pending';
+  sourceMode: SourceQueueMode;
+  actionLabel: string;
+  emptyText: string;
+  onOpenProfile: (personId: string) => void;
+  onOpenSource: (mode: SourceQueueMode) => void;
+  onPreviewProfile: (inductee: Inductee) => void;
+}) {
+  return (
+    <section className={`portal-content-section portal-content-section--${tone}`}>
+      <header className="portal-content-section__header">
+        <div>
+          <span>{contentSectionStatusLabel(tone)}</span>
+          <h4>{title}</h4>
+        </div>
+        <strong>{rows.length}</strong>
+      </header>
+
+      <div className="portal-content-list">
+        {rows.map((row) => (
+          <article className="portal-content-card" key={`${title}-${row.inductee.id}`}>
+            <div className="portal-content-card__top">
+              <div>
+                <span>{row.inductee.classYear ? `Class of ${row.inductee.classYear}` : 'Year review'}</span>
+                <h5>{row.inductee.name}</h5>
+              </div>
+              <strong>{row.score}</strong>
+            </div>
+            <p>{contentAccessDetail(row, sourceMode)}</p>
+            <div className="portal-content-card__chips" aria-label={`${row.inductee.name} content signals`}>
+              {row.signals.slice(0, 5).map((signal) => (
+                <span key={signal}>{signal}</span>
+              ))}
+            </div>
+            <div className="portal-content-card__actions">
+              <button type="button" onClick={() => onOpenProfile(row.inductee.id)}>Open Workbench</button>
+              <button type="button" onClick={() => onOpenSource(sourceMode)}>{actionLabel}</button>
+              {row.storyBeatCount > 0 && <button type="button" onClick={() => onPreviewProfile(row.inductee)}>Preview Profile</button>}
+            </div>
+          </article>
+        ))}
+        {rows.length === 0 && <div className="portal-empty-state">{emptyText}</div>}
+      </div>
+    </section>
+  );
+}
+
 function SourceCurationPanel({
   packet,
   loading,
   error,
   inductees,
   drafts,
+  initialQueue,
   manifest,
   onOpenProfile,
   onStageBulkDrafts,
@@ -1414,12 +1740,13 @@ function SourceCurationPanel({
   error: string;
   inductees: Inductee[];
   drafts: DraftMap;
+  initialQueue: SourceQueueMode;
   manifest: MediaManifest | null;
   onOpenProfile: (personId: string) => void;
   onStageBulkDrafts: (rows: SourceCandidateRow[], stageMode: BulkSourceStageMode, label: string) => void;
   onStageDraft: (personId: string, patch: DraftPatch, notice: string) => void;
 }) {
-  const [queue, setQueue] = useState<SourceQueueMode>('profiles');
+  const [queue, setQueue] = useState<SourceQueueMode>(initialQueue);
   const [query, setQuery] = useState('');
   const [selectedRowId, setSelectedRowId] = useState('');
   const [targetProfileId, setTargetProfileId] = useState('');
@@ -1449,6 +1776,12 @@ function SourceCurationPanel({
   const contextStarterRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'context'), [drafts, peopleById, rows]);
   const storyStarterRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'story'), [drafts, peopleById, rows]);
   const traceNoteRows = useMemo(() => buildSourceBulkRows(rows, peopleById, drafts, 'traces'), [drafts, peopleById, rows]);
+  const archiveRows = useMemo(() => rows.filter((row) => row.mode === 'archives'), [rows]);
+
+  useEffect(() => {
+    setQueue(initialQueue);
+    setSelectedRowId('');
+  }, [initialQueue]);
 
   useEffect(() => {
     if (visibleRows.length === 0) return;
@@ -1476,8 +1809,8 @@ function SourceCurationPanel({
       <div className="portal-readiness__intro portal-source__intro">
         <div>
           <p className="eyebrow">Source Data</p>
-          <h3>Review original-site leads</h3>
-          <p>Source harvest records are review aids. Staged edits remain local drafts until exported or applied through the existing portal runner.</p>
+          <h3>Review source and archive leads</h3>
+          <p>Source harvest and WRHS archive records are review aids. Staged edits remain local drafts until exported or applied through the existing portal runner.</p>
         </div>
         <div className="portal-source__stamp">
           <span>Generated: {formatDate(normalizedPacket.source?.generatedAt)}</span>
@@ -1492,29 +1825,33 @@ function SourceCurationPanel({
         <MetricCard label="Media Leads" value={sourceSummary?.mediaReviewDrafts?.total ?? 0} detail={`${sourceSummary?.mediaReviewDrafts?.newSources ?? 0} new / ${sourceSummary?.mediaReviewDrafts?.highConfidenceNewSources ?? 0} high confidence`} />
         <MetricCard label="Video Leads" value={sourceSummary?.videoReviewDrafts?.total ?? 0} detail={`${sourceSummary?.videoReviewDrafts?.newSources ?? 0} new source leads`} />
         <MetricCard label="Story Leads" value={sourceSummary?.storySectionReviewDrafts?.total ?? 0} detail={`${sourceSummary?.storySectionReviewDrafts?.primaryLeads ?? 0} primary rewrite leads`} />
+        <MetricCard label="Archive Leads" value={archiveRows.length} detail={`${archiveRows.filter((row) => row.subtitle.toLowerCase().includes('direct')).length} direct / ${archiveRows.filter((row) => row.subtitle.toLowerCase().includes('contextual')).length} contextual`} />
       </div>
 
-      <div className="portal-source-guardrails" aria-label="Source curation guardrails">
-        {Object.entries(normalizedPacket.guardrails ?? {}).map(([key, value]) => (
-          <span key={key}><strong>{sourceGuardrailLabel(key)}</strong>{value}</span>
-        ))}
-      </div>
-
-      <div className="portal-source-bulk" aria-label="Bulk source staging">
-        <div>
-          <strong>Bulk staging</strong>
-          <span>Creates browser-local drafts only. Source leads still require review before export/apply.</span>
+      <details className="portal-source-advanced">
+        <summary>Guardrails & Bulk Tools</summary>
+        <div className="portal-source-guardrails" aria-label="Source curation guardrails">
+          {Object.entries(normalizedPacket.guardrails ?? {}).map(([key, value]) => (
+            <span key={key}><strong>{sourceGuardrailLabel(key)}</strong>{value}</span>
+          ))}
         </div>
-        <button disabled={contextStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(contextStarterRows, 'primary', 'context starter drafts')}>
-          Stage Context Starters ({contextStarterRows.length})
-        </button>
-        <button disabled={storyStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(storyStarterRows, 'primary', 'story starter drafts')}>
-          Stage Story Starters ({storyStarterRows.length})
-        </button>
-        <button disabled={traceNoteRows.length === 0} type="button" onClick={() => onStageBulkDrafts(traceNoteRows, 'review-note', 'trace/place review notes')}>
-          Stage Trace/Place Notes ({traceNoteRows.length})
-        </button>
-      </div>
+
+        <div className="portal-source-bulk" aria-label="Bulk source staging">
+          <div>
+            <strong>Bulk staging</strong>
+            <span>Creates browser-local drafts only. Source leads still require review before export/apply.</span>
+          </div>
+          <button disabled={contextStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(contextStarterRows, 'primary', 'context starter drafts')}>
+            Stage Context Starters ({contextStarterRows.length})
+          </button>
+          <button disabled={storyStarterRows.length === 0} type="button" onClick={() => onStageBulkDrafts(storyStarterRows, 'primary', 'story starter drafts')}>
+            Stage Story Starters ({storyStarterRows.length})
+          </button>
+          <button disabled={traceNoteRows.length === 0} type="button" onClick={() => onStageBulkDrafts(traceNoteRows, 'review-note', 'trace/place review notes')}>
+            Stage Trace/Place Notes ({traceNoteRows.length})
+          </button>
+        </div>
+      </details>
 
       <div className="portal-source-layout">
         <aside className="portal-source-queue" aria-label="Source queue">
@@ -1604,6 +1941,205 @@ function SourceCurationPanel({
       </div>
     </section>
   );
+}
+
+function buildContentAccessRows(
+  inductees: Inductee[],
+  storyRecords: StorySectionRecord[],
+  sourceRows: SourceCandidateRow[],
+  manifest: MediaManifest | null,
+): ContentAccessRow[] {
+  const storyById = new Map(storyRecords.map((record) => [record.inducteeId, record]));
+  const sourceRowsByPerson = new Map<string, SourceCandidateRow[]>();
+  sourceRows.forEach((row) => {
+    if (!row.personId) return;
+    const current = sourceRowsByPerson.get(row.personId) ?? [];
+    current.push(row);
+    sourceRowsByPerson.set(row.personId, current);
+  });
+
+  return inductees.map((inductee) => {
+    const storyRecord = storyById.get(inductee.id);
+    const profileSourceRows = sourceRowsByPerson.get(inductee.id) ?? [];
+    const archiveRows = profileSourceRows.filter((row) => row.mode === 'archives');
+    const videoLeadRows = profileSourceRows.filter((row) => row.mode === 'video');
+    const manifestVideos = manifest?.assets?.[inductee.id]?.videos ?? [];
+    const approvedVideoCount = manifestVideos.filter((video) => video.approvedForKiosk).length;
+    const pendingVideoCount = manifestVideos.filter((video) => !isVideoVisitorReady(video)).length;
+    const storyBeatCount = storyRecord?.beats.length ?? 0;
+    const focusedCopyReady = Boolean(inductee.documentedContextLine && inductee.honoredForSummary && inductee.lifeWorkSummary);
+    const sourceCount = profileSourceRows.length;
+    const signals = buildContentAccessSignals({
+      archiveRows,
+      approvedVideoCount,
+      focusedCopyReady,
+      pendingVideoCount,
+      sourceCount,
+      storyBeatCount,
+      videoLeadRows,
+    });
+
+    return {
+      inductee,
+      storyRecord,
+      storyBeatCount,
+      sourceRows: profileSourceRows,
+      archiveRows,
+      videoLeadRows,
+      manifestVideos,
+      approvedVideoCount,
+      pendingVideoCount,
+      sourceCount,
+      focusedCopyReady,
+      signals,
+      score: contentAccessScore({
+        archiveRows,
+        approvedVideoCount,
+        focusedCopyReady,
+        pendingVideoCount,
+        sourceCount,
+        storyBeatCount,
+        videoLeadRows,
+      }),
+    };
+  });
+}
+
+function buildContentAccessSummary(rows: ContentAccessRow[]) {
+  return {
+    storyProfiles: rows.filter((row) => row.storyBeatCount > 0).length,
+    storyBeats: rows.reduce((sum, row) => sum + row.storyBeatCount, 0),
+    archiveProfiles: rows.filter((row) => row.archiveRows.length > 0).length,
+    archiveLeads: rows.reduce((sum, row) => sum + row.archiveRows.length, 0),
+    directArchiveLeads: rows.reduce((sum, row) => sum + row.archiveRows.filter((archiveRow) => archiveConnectionFromRow(archiveRow) === 'direct').length, 0),
+    sourceProfiles: rows.filter((row) => row.sourceCount > 0).length,
+    sourceRows: rows.reduce((sum, row) => sum + row.sourceCount, 0),
+    approvedVideos: rows.reduce((sum, row) => sum + row.approvedVideoCount, 0),
+    pendingManifestVideos: rows.reduce((sum, row) => sum + row.pendingVideoCount, 0),
+    videoLeadRows: rows.reduce((sum, row) => sum + row.videoLeadRows.length, 0),
+  };
+}
+
+function buildContentAccessSignals({
+  archiveRows,
+  approvedVideoCount,
+  focusedCopyReady,
+  pendingVideoCount,
+  sourceCount,
+  storyBeatCount,
+  videoLeadRows,
+}: {
+  archiveRows: SourceCandidateRow[];
+  approvedVideoCount: number;
+  focusedCopyReady: boolean;
+  pendingVideoCount: number;
+  sourceCount: number;
+  storyBeatCount: number;
+  videoLeadRows: SourceCandidateRow[];
+}) {
+  const signals: string[] = [];
+  if (storyBeatCount > 0) signals.push(`${storyBeatCount} story beat${storyBeatCount === 1 ? '' : 's'}`);
+  if (focusedCopyReady) signals.push('Focused copy ready');
+  if (archiveRows.length > 0) {
+    const directCount = archiveRows.filter((row) => archiveConnectionFromRow(row) === 'direct').length;
+    signals.push(`${archiveRows.length} archive lead${archiveRows.length === 1 ? '' : 's'}`);
+    if (directCount > 0) signals.push(`${directCount} direct archive`);
+  }
+  if (sourceCount > 0) signals.push(`${sourceCount} source row${sourceCount === 1 ? '' : 's'}`);
+  if (approvedVideoCount > 0) signals.push(`${approvedVideoCount} approved video${approvedVideoCount === 1 ? '' : 's'}`);
+  if (pendingVideoCount + videoLeadRows.length > 0) signals.push(`${pendingVideoCount + videoLeadRows.length} media pending`);
+  return signals.length > 0 ? signals : ['No surfaced content yet'];
+}
+
+function contentAccessScore({
+  archiveRows,
+  approvedVideoCount,
+  focusedCopyReady,
+  pendingVideoCount,
+  sourceCount,
+  storyBeatCount,
+  videoLeadRows,
+}: {
+  archiveRows: SourceCandidateRow[];
+  approvedVideoCount: number;
+  focusedCopyReady: boolean;
+  pendingVideoCount: number;
+  sourceCount: number;
+  storyBeatCount: number;
+  videoLeadRows: SourceCandidateRow[];
+}) {
+  const directArchiveCount = archiveRows.filter((row) => archiveConnectionFromRow(row) === 'direct').length;
+  const contextualArchiveCount = archiveRows.filter((row) => archiveConnectionFromRow(row) === 'contextual').length;
+  return storyBeatCount * 30
+    + (focusedCopyReady ? 24 : 0)
+    + directArchiveCount * 18
+    + (archiveRows.length - directArchiveCount - contextualArchiveCount) * 12
+    + contextualArchiveCount * 8
+    + Math.min(sourceCount, 20) * 2
+    + approvedVideoCount * 12
+    + Math.min(pendingVideoCount + videoLeadRows.length, 6) * 3;
+}
+
+function compareStoryAccessRows(a: ContentAccessRow, b: ContentAccessRow) {
+  return b.storyBeatCount - a.storyBeatCount
+    || Number(b.focusedCopyReady) - Number(a.focusedCopyReady)
+    || b.score - a.score
+    || a.inductee.name.localeCompare(b.inductee.name);
+}
+
+function compareArchiveAccessRows(a: ContentAccessRow, b: ContentAccessRow) {
+  return b.archiveRows.filter((row) => archiveConnectionFromRow(row) === 'direct').length - a.archiveRows.filter((row) => archiveConnectionFromRow(row) === 'direct').length
+    || b.archiveRows.length - a.archiveRows.length
+    || b.score - a.score
+    || a.inductee.name.localeCompare(b.inductee.name);
+}
+
+function isVideoVisitorReady(video: VideoAsset) {
+  return Boolean(
+    video.approvedForKiosk
+    && video.runtimePath
+    && video.rightsStatus === 'approved'
+    && video.captionStatus === 'ready'
+    && video.transcriptStatus === 'ready',
+  );
+}
+
+function archiveConnectionFromRow(row: SourceCandidateRow) {
+  const text = row.subtitle.toLowerCase();
+  if (text.includes('contextual')) return 'contextual';
+  if (text.includes('institutional')) return 'institutional';
+  return 'direct';
+}
+
+function contentAccessDetail(row: ContentAccessRow, mode: SourceQueueMode) {
+  if (mode === 'stories' && row.storyRecord) {
+    const headlines = row.storyRecord.beats.slice(0, 3).map((beat) => beat.headline).filter(Boolean).join(' / ');
+    return headlines || `${row.storyBeatCount} curated story beat${row.storyBeatCount === 1 ? '' : 's'} ready for profile review.`;
+  }
+
+  if (mode === 'archives') {
+    const firstLead = row.archiveRows[0];
+    return firstLead
+      ? `${firstLead.subtitle}: ${firstLead.detail}`
+      : 'Archive lead path is ready for staff review.';
+  }
+
+  if (mode === 'video') {
+    return row.approvedVideoCount > 0
+      ? `${row.approvedVideoCount} approved video${row.approvedVideoCount === 1 ? '' : 's'} plus ${row.pendingVideoCount + row.videoLeadRows.length} pending item${row.pendingVideoCount + row.videoLeadRows.length === 1 ? '' : 's'}.`
+      : `${row.pendingVideoCount + row.videoLeadRows.length} video item${row.pendingVideoCount + row.videoLeadRows.length === 1 ? '' : 's'} need rights, captions, transcript, or local file review.`;
+  }
+
+  const strongestRow = row.sourceRows[0];
+  return strongestRow
+    ? `${sourceQueueLabels[strongestRow.mode]}: ${strongestRow.detail}`
+    : 'Source evidence is available for staff review.';
+}
+
+function contentSectionStatusLabel(tone: 'ready' | 'review' | 'pending') {
+  if (tone === 'ready') return 'Visitor-visible now';
+  if (tone === 'pending') return 'Access pending';
+  return 'Staff review path';
 }
 
 function emptySourceCurationPacket(): SourceCurationPacket {
@@ -1939,20 +2475,27 @@ function buildSourceCandidateRows(packet: SourceCurationPacket): SourceCandidate
 
   (packet.storySectionReviewDrafts ?? []).forEach((record, index) => {
     const personId = cleanPortalString(record.inducteeId);
+    const archiveLead = isArchiveSourceLead(record);
+    const connectionStrength = archiveSourceConnection(record);
     rows.push({
       id: `story-${personId || 'unknown'}-${index}`,
-      mode: 'stories',
-      label: cleanPortalString(record.inducteeName) || personId || 'Story lead',
-      subtitle: `${cleanPortalString(record.suggestedTheme) || 'story'} / ${cleanPortalString(record.priority) || 'lead'}`,
+      mode: archiveLead ? 'archives' : 'stories',
+      label: cleanPortalString(record.inducteeName) || personId || (archiveLead ? 'Archive lead' : 'Story lead'),
+      subtitle: archiveLead
+        ? `${archiveSourceRepository(record)} / ${connectionStrength} / ${cleanPortalString(record.priority) || 'lead'}`
+        : `${cleanPortalString(record.suggestedTheme) || 'story'} / ${cleanPortalString(record.priority) || 'lead'}`,
       detail: cleanPortalString(record.excerpt) || 'Review source excerpt as a rewrite lead.',
       personId,
       personName: cleanPortalString(record.inducteeName),
       sourceUrl: cleanPortalString(record.sourcePageUrl),
       sourcePageUrl: cleanPortalString(record.sourcePageUrl),
-      confidence: record.priority === 'primary-story-lead' ? 0.9 : 0.58,
+      confidence: archiveLead ? archiveSourceConfidence(record) : record.priority === 'primary-story-lead' ? 0.9 : 0.58,
       action: cleanPortalString(record.reviewAction),
       fields: compactSourceFields(
         ['Source title', record.sourcePageTitle],
+        ['Repository', archiveLead ? archiveSourceRepository(record) : ''],
+        ['Connection', archiveLead ? connectionStrength : ''],
+        ['Status', archiveLead ? 'catalog lead / staff review' : ''],
         ['Suggested theme', record.suggestedTheme],
         ['Block index', record.blockIndex],
         ['Word count', record.wordCount],
@@ -1960,12 +2503,14 @@ function buildSourceCandidateRows(packet: SourceCurationPacket): SourceCandidate
         ['Copyright note', record.copyrightNote],
         ['Review action', record.reviewAction],
       ),
-      stageKind: 'story-note',
-      note: sourceNote('Story rewrite lead', [
+      stageKind: archiveLead ? 'archive-note' : 'story-note',
+      note: sourceNote(archiveLead ? 'Archive source lead' : 'Story rewrite lead', [
         record.suggestedTheme,
         record.excerpt,
         record.sourcePageUrl,
+        record.candidateUse,
         record.copyrightNote,
+        archiveLead ? 'Visitor display requires inspection, attribution, loan, and reproduction clearance.' : '',
       ]),
     });
   });
@@ -2274,7 +2819,7 @@ function buildFocusedCopySuggestion(inductee: Inductee, sourceRows: SourceCandid
   const honoredForSummary = limitPortalWords(cleanProfileCopyText(buildDefaultHonoredForSummary(inductee), inductee.name), 52);
   const lifeWorkSummary = limitPortalWords(cleanProfileCopyText(inductee.lifeWorkSummary || inductee.bioText || inductee.storySummary, inductee.name), 110);
   const sourceLabels = sourceRows
-    .filter((row) => row.mode === 'profiles' || row.mode === 'stories' || row.mode === 'relationships' || row.mode === 'places' || row.mode === 'organizations')
+    .filter((row) => row.mode === 'profiles' || row.mode === 'stories' || row.mode === 'archives' || row.mode === 'relationships' || row.mode === 'places' || row.mode === 'organizations')
     .sort(compareProfileSourceRows)
     .slice(0, 5)
     .map((row) => `${sourceQueueLabels[row.mode]}: ${row.label}`);
@@ -2402,6 +2947,8 @@ function sourcePrimaryActionLabel(row: SourceCandidateRow) {
       return 'Stage Organization Note';
     case 'story-note':
       return 'Stage Story Lead';
+    case 'archive-note':
+      return 'Stage Archive Note';
     case 'alias-note':
       return 'Stage Alias Note';
     case 'class-note':
@@ -2427,6 +2974,8 @@ function sourceStageLabel(stageKind: SourceCandidateRow['stageKind']) {
       return 'organization note';
     case 'story-note':
       return 'story lead';
+    case 'archive-note':
+      return 'archive review note';
     case 'alias-note':
       return 'alias note';
     case 'class-note':
@@ -2453,6 +3002,40 @@ function sourceValueLabel(value: unknown): string {
 
 function sourceYearRegion(classYear?: number, region?: string) {
   return [classYear ? `Class of ${classYear}` : '', cleanPortalString(region)].filter(Boolean).join(' / ') || 'Year review';
+}
+
+function isArchiveSourceLead(record: SourceStorySectionReviewDraft) {
+  return [
+    record.sourcePageTitle,
+    record.suggestedTheme,
+    record.candidateUse,
+    record.reviewAction,
+    record.copyrightNote,
+  ].map(cleanPortalString).join(' ').toLowerCase().match(/\b(wrhs|western reserve historical society|archive|archival|finding-aid|catalog)\b/) !== null;
+}
+
+function archiveSourceRepository(record: SourceStorySectionReviewDraft) {
+  const text = `${record.sourcePageTitle ?? ''} ${record.sourcePageUrl ?? ''}`;
+  return /\bWRHS\b|wrhs\.org|Western Reserve Historical Society/i.test(text)
+    ? 'WRHS'
+    : 'Archive';
+}
+
+function archiveSourceConnection(record: SourceStorySectionReviewDraft) {
+  const text = [
+    record.suggestedTheme,
+    record.candidateUse,
+    record.excerpt,
+  ].map(cleanPortalString).join(' ').toLowerCase();
+  if (/contextual|context only|not (?:his|her|their) personal|does not establish|not verified/.test(text)) return 'contextual';
+  if (/\bdirect\b/.test(text)) return 'direct';
+  if (/institutional|firm|organization|venue|community memory|center|library/.test(text)) return 'institutional';
+  return 'direct';
+}
+
+function archiveSourceConfidence(record: SourceStorySectionReviewDraft) {
+  if (record.priority === 'primary-story-lead') return 0.86;
+  return archiveSourceConnection(record) === 'contextual' ? 0.54 : 0.68;
 }
 
 function sourceNote(label: string, values: Array<unknown>) {
@@ -3091,9 +3674,9 @@ function ProfileSourceEvidencePanel({
       <div className="portal-source-evidence__header">
         <div>
           <strong>Source evidence</strong>
-          <span>{rows.length} original-site lead{rows.length === 1 ? '' : 's'} / {traceRows} trace or place lead{traceRows === 1 ? '' : 's'}</span>
+          <span>{rows.length} source lead{rows.length === 1 ? '' : 's'} / {traceRows} trace or place lead{traceRows === 1 ? '' : 's'}</span>
         </div>
-        <p>Evidence is staged into browser-local drafts. Relationship and place leads stay review notes until staff explicitly approves them elsewhere.</p>
+        <p>Evidence is staged into browser-local drafts. Archive, relationship, and place leads stay review notes until staff explicitly approves them elsewhere.</p>
       </div>
 
       {groups.length > 0 ? (
@@ -3133,7 +3716,7 @@ function ProfileSourceEvidencePanel({
           ))}
         </div>
       ) : (
-        <div className="portal-empty-state">No original-site source leads are linked to this profile yet.</div>
+        <div className="portal-empty-state">No source or archive leads are linked to this profile yet.</div>
       )}
     </section>
   );
@@ -3191,7 +3774,7 @@ function FocusedCopyStarterPanel({
       </div>
       {suggestion.sourceLabels.length > 0 && (
         <div className="portal-focused-copy-starter__sources">
-          {suggestion.sourceLabels.map((label) => <span key={label}>{label}</span>)}
+          {suggestion.sourceLabels.map((label, index) => <span key={`${label}-${index}`}>{label}</span>)}
         </div>
       )}
     </section>

@@ -4,10 +4,12 @@ import { QRCodePanel } from '../../components/QRCodePanel';
 import { RouteLine } from '../../components/RouteLine';
 import { stopMediaElement } from '../../app/mediaControl';
 import { honoredForSummary, inducteeContextLabel } from '../../data/inducteeNarrative';
+import { isVisitorReadyArchiveLead, useArchiveLeads } from '../../data/useArchiveLeads';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
 import { buildPersonGallery, canonicalContinuationUrl, mediaAvailability } from './personDetailModel';
 import type {
+  ArchiveLead,
   Inductee,
   RelationshipProvenance,
   RelationshipRecord,
@@ -40,7 +42,7 @@ type RelatedItem = {
   relationship: RelationshipRecord;
 };
 
-export type DetailAction = 'overview' | 'story' | 'watch' | 'connections' | 'continue';
+export type DetailAction = 'overview' | 'story' | 'watch' | 'connections' | 'archive' | 'continue';
 
 export function InducteeDetail({
   inductee,
@@ -69,6 +71,7 @@ export function InducteeDetail({
   const storySectionMap = useStorySectionMap(storySectionRecords);
   const { records: mediaRecords } = useMediaManifest();
   const mediaRecordMap = useMediaRecordMap(mediaRecords);
+  const { records: archiveLeadRecords } = useArchiveLeads();
 
   const related = useMemo(() => {
     if (!inductee) return [];
@@ -81,6 +84,12 @@ export function InducteeDetail({
     return buildPersonGallery(inductee, mediaRecord);
   }, [inductee, mediaRecord]);
   const storyRecord = inductee ? storySectionMap.get(inductee.id) : undefined;
+  const archiveItems = useMemo(() => {
+    if (!inductee) return [];
+    return archiveLeadRecords
+      .filter((record) => record.inducteeId === inductee.id && isVisitorReadyArchiveLead(record))
+      .slice(0, 4);
+  }, [archiveLeadRecords, inductee]);
 
   useEffect(() => {
     if (!inductee) return;
@@ -117,6 +126,10 @@ export function InducteeDetail({
   }, [inductee?.id, initialAction]);
 
   useEffect(() => {
+    if (activeAction === 'archive' && archiveItems.length === 0) setActiveAction('overview');
+  }, [activeAction, archiveItems.length]);
+
+  useEffect(() => {
     return () => {
       if (actionFocusFrameRef.current !== null) window.cancelAnimationFrame(actionFocusFrameRef.current);
     };
@@ -131,6 +144,7 @@ export function InducteeDetail({
   const watchAvailability = mediaAvailability(inductee, mediaRecord, kioskMode);
   const continuationUrl = qrEnabled ? canonicalContinuationUrl(inductee) : '';
   const detailModeClass = staffMode ? 'detail--staff' : 'detail--visitor';
+  const archiveAvailable = archiveItems.length > 0;
 
   function selectPerson(person: Inductee) {
     stopDetailMedia();
@@ -297,6 +311,14 @@ export function InducteeDetail({
               </section>
             )}
 
+            {activeAction === 'archive' && archiveAvailable && (
+              <ArchiveMode
+                inductee={inductee}
+                items={archiveItems}
+                onExit={() => setAction('overview')}
+              />
+            )}
+
             {activeAction === 'continue' && continuationUrl && (
               <QRCodePanel
                 value={continuationUrl}
@@ -313,6 +335,7 @@ export function InducteeDetail({
           'detail__actionRail',
           continuationUrl ? 'detail__actionRail--with-continuation' : '',
           watchAvailability.playable ? 'detail__actionRail--has-watch' : 'detail__actionRail--no-watch',
+          archiveAvailable ? 'detail__actionRail--has-archive' : '',
         ].filter(Boolean).join(' ')} aria-label="Actions for this inductee">
           <button type="button" className={activeAction === 'story' ? 'detail__actionButton detail__actionButton--story detail__actionButton--active' : 'detail__actionButton detail__actionButton--story'} onClick={() => setAction('story')}>
             <span>LIFE + WORK</span>
@@ -330,6 +353,12 @@ export function InducteeDetail({
           <button type="button" className={activeAction === 'connections' ? 'detail__actionButton detail__actionButton--connections detail__actionButton--active' : 'detail__actionButton detail__actionButton--connections'} onClick={() => setAction('connections')}>
             <span>IN COMMON</span>
           </button>
+          {archiveAvailable && (
+            <button type="button" className={activeAction === 'archive' ? 'detail__actionButton detail__actionButton--archive detail__actionButton--active' : 'detail__actionButton detail__actionButton--archive'} onClick={() => setAction('archive')}>
+              <span>FROM ARCHIVE</span>
+              <small>{archiveItems.length} item{archiveItems.length === 1 ? '' : 's'}</small>
+            </button>
+          )}
           <button type="button" className="detail__actionButton detail__actionButton--accent" onClick={() => onFindConnection(inductee)}>
             <span>FOLLOW THE TRACE -&gt;</span>
           </button>
@@ -379,6 +408,73 @@ function WallDebugPanel({ inductee }: { inductee: Inductee }) {
       <span>{inductee.physicalPortraitPresent ? 'Physical portrait present' : 'Physical portrait not marked present'}</span>
     </div>
   );
+}
+
+function ArchiveMode({
+  inductee,
+  items,
+  onExit,
+}: {
+  inductee: Inductee;
+  items: ArchiveLead[];
+  onExit: () => void;
+}) {
+  return (
+    <section className="person-archive" aria-label={`${inductee.name} archive items`}>
+      <header className="person-archive__header">
+        <div>
+          <p className="museum-kicker">From The Archive</p>
+          <h3>ARCHIVAL RECORDS</h3>
+        </div>
+        <span>{items.length} cleared item{items.length === 1 ? '' : 's'}</span>
+      </header>
+
+      <div className="person-archive__grid">
+        {items.map((item) => (
+          <article className={`person-archive-card person-archive-card--${item.connectionStrength}`} key={item.id}>
+            <div className="person-archive-card__meta">
+              <span>{connectionStrengthLabel(item.connectionStrength)}</span>
+              {item.sourceType && <span>{item.sourceType}</span>}
+            </div>
+            <h4>{item.title}</h4>
+            <p>{item.displayText}</p>
+            <dl>
+              <div>
+                <dt>Repository</dt>
+                <dd>{item.repository}</dd>
+              </div>
+              {item.collectionTitle && (
+                <div>
+                  <dt>Collection</dt>
+                  <dd>{item.collectionTitle}</dd>
+                </div>
+              )}
+              {item.callNumber && (
+                <div>
+                  <dt>Call No.</dt>
+                  <dd>{item.callNumber}</dd>
+                </div>
+              )}
+              {item.creditLine && (
+                <div>
+                  <dt>Credit</dt>
+                  <dd>{item.creditLine}</dd>
+                </div>
+              )}
+            </dl>
+          </article>
+        ))}
+      </div>
+
+      <button className="person-archive__exit" type="button" onClick={onExit}>Back To Record</button>
+    </section>
+  );
+}
+
+function connectionStrengthLabel(value: ArchiveLead['connectionStrength']) {
+  if (value === 'direct') return 'Direct';
+  if (value === 'institutional') return 'Institutional';
+  return 'Context';
 }
 
 function formatCoordinate(value: number) {
