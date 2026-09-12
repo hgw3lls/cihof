@@ -1386,12 +1386,14 @@ export function TracePanel({
   chooserOpen,
   panelSide,
   onOpenChooser,
+  onSelectPerson,
   onTraceFocusChange,
 }: {
   context: TraceContext;
   chooserOpen: boolean;
   panelSide: 'left' | 'right';
   onOpenChooser: () => void;
+  onSelectPerson: (inductee: Inductee) => void;
   onTraceFocusChange?: (focusKey: string) => void;
 }) {
   const activePerson = context.activePerson;
@@ -1405,22 +1407,26 @@ export function TracePanel({
   const choices = traceChooserOptions(context);
   const guideCards = traceGuideCards(context, choices);
   const evidenceItems = traceEvidenceItems(context, activePerson.name);
+  const fabricLanes = traceFabricLanes(context);
+  const fabricThreads = traceFabricThreads(context, activePerson.name);
   const traceMetrics = [
-    { label: 'Direct', value: context.directThreads.length },
-    { label: 'Concept', value: context.conceptChoices.length },
-    { label: 'Nationality', value: context.placeChoices.length },
+    { label: 'People', value: context.directThreads.length },
+    { label: 'Stories', value: context.conceptChoices.length },
+    { label: 'Heritage', value: context.placeChoices.length },
   ];
 
   return (
     <aside
       className={chooserOpen ? 'living-hall__tracePanel living-hall__tracePanel--chooser-open' : 'living-hall__tracePanel'}
       data-side={panelSide}
+      data-fabric-mode={context.mode}
       aria-label={`${activePerson.name} traces`}
       onPointerDown={(event) => event.stopPropagation()}
     >
       <header className="living-hall__traceHeader">
-        <span>TRACES</span>
+        <span>CLEVELAND CIVIC FABRIC</span>
         <h3>{activePerson.name}</h3>
+        <p>{fabricHeaderLine(context)}</p>
         <button
           className="living-hall__traceContextButton"
           type="button"
@@ -1431,6 +1437,21 @@ export function TracePanel({
           {activeTitle}
         </button>
       </header>
+
+      <section className="living-hall__fabricSummary" aria-label="Civic fabric lanes">
+        {fabricLanes.map((lane) => (
+          <span
+            className="living-hall__fabricLane"
+            data-fabric-lane={lane.kind}
+            key={lane.kind}
+            style={{ '--fabric-strength': String(lane.strength) } as CSSProperties & Record<string, string>}
+          >
+            <small>{lane.label}</small>
+            <strong>{lane.value}</strong>
+            <em>{lane.detail}</em>
+          </span>
+        ))}
+      </section>
 
       <div className="living-hall__traceMetrics" aria-label="Trace mode counts">
         {traceMetrics.map((metric) => (
@@ -1462,6 +1483,26 @@ export function TracePanel({
             );
           })}
         </div>
+      )}
+
+      {fabricThreads.length > 0 && (
+        <ol className="living-hall__fabricThreads" aria-label="People woven into this trace">
+          {fabricThreads.map((thread, index) => (
+            <li key={thread.person.id}>
+              <button
+                type="button"
+                data-fabric-thread={thread.person.id}
+                aria-label={`Follow civic fabric thread ${index + 1}: ${thread.person.name}`}
+                onClick={() => onSelectPerson(thread.person)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{thread.person.name}</strong>
+                <small>{thread.label}</small>
+                <em>{thread.source}</em>
+              </button>
+            </li>
+          ))}
+        </ol>
       )}
 
       {evidenceItems.length > 0 && (
@@ -1649,6 +1690,20 @@ type TraceEvidenceItem = {
   detail: string;
 };
 
+type TraceFabricLane = {
+  kind: 'people' | 'story' | 'heritage' | 'evidence';
+  label: string;
+  value: string;
+  detail: string;
+  strength: number;
+};
+
+type TraceFabricThread = {
+  person: Inductee;
+  label: string;
+  source: string;
+};
+
 function traceActiveTitle(context: TraceContext) {
   if (context.mode === 'concept') return context.activeConcept?.lens.label ?? 'Concept Trace';
   if (context.mode === 'place') return context.placeFocus.label;
@@ -1698,6 +1753,71 @@ function traceGuideCards(context: TraceContext, choices: ReturnType<typeof trace
   }
 
   return cards.slice(0, 3);
+}
+
+function fabricHeaderLine(context: TraceContext) {
+  if (context.mode === 'concept') return `Story lane / ${context.activeConcept?.lens.label ?? 'shared civic work'}`;
+  if (context.mode === 'place') return `Heritage lane / ${context.placeFocus.label}`;
+  return 'People lane / reviewed ties, class, story, and heritage';
+}
+
+function traceFabricLanes(context: TraceContext): TraceFabricLane[] {
+  const activeHeritageLabels = context.geography.countries
+    .filter((country) => country.people.some((person) => person.id === context.activePerson?.id))
+    .map((country) => country.label)
+    .slice(0, 2);
+  const visibleReasons = context.visibleThreads.flatMap((thread) => thread.reasons);
+  const documentedCount = visibleReasons.filter((reason) => reason.provenance === 'documented').length;
+  const curatedCount = visibleReasons.filter((reason) => reason.provenance === 'curated').length;
+  const maxCount = Math.max(
+    context.directThreads.length,
+    context.conceptChoices.length,
+    context.placeChoices.length,
+    documentedCount + curatedCount,
+    1,
+  );
+
+  return [
+    {
+      kind: 'people',
+      label: 'People lane',
+      value: String(context.directThreads.length),
+      detail: context.directThreads.length === 1 ? 'reviewed tie' : 'reviewed ties',
+      strength: context.directThreads.length / maxCount,
+    },
+    {
+      kind: 'story',
+      label: 'Story lane',
+      value: String(context.conceptChoices.length),
+      detail: context.activeConcept?.lens.label ?? 'shared themes',
+      strength: context.conceptChoices.length / maxCount,
+    },
+    {
+      kind: 'heritage',
+      label: 'Heritage lane',
+      value: String(context.placeChoices.length),
+      detail: activeHeritageLabels.join(' / ') || context.placeFocus.label || 'nationality paths',
+      strength: context.placeChoices.length / maxCount,
+    },
+    {
+      kind: 'evidence',
+      label: 'Evidence lane',
+      value: String(documentedCount + curatedCount),
+      detail: documentedCount > 0 ? `${documentedCount} documented` : `${curatedCount} curated`,
+      strength: (documentedCount + curatedCount) / maxCount,
+    },
+  ];
+}
+
+function traceFabricThreads(context: TraceContext, activeName: string): TraceFabricThread[] {
+  return context.visibleThreads.slice(0, 5).map((thread) => {
+    const reason = thread.reasons[0];
+    return {
+      person: thread.person,
+      label: compactTraceText(reason ? relationshipLineLabel(reason, activeName) : traceActiveTitle(context), 42),
+      source: reason ? traceEvidenceSource(reason.provenance) : 'Curated',
+    };
+  });
 }
 
 function traceEvidenceItems(context: TraceContext, activeName: string): TraceEvidenceItem[] {

@@ -776,6 +776,7 @@ export function LivingHallView({
             chooserOpen={traceChooserOpen}
             panelSide={tracePanelSide}
             onOpenChooser={openTraceChooser}
+            onSelectPerson={selectPortrait}
             onTraceFocusChange={chooseTraceFocus}
           />
         )}
