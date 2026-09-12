@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import { expectCloseViewTypography } from './close-view-typography';
+import { useLongKioskIdle } from './kiosk-test-settings';
 
 type TargetViolation = {
   label: string;
@@ -35,15 +36,16 @@ type LegacyFocusChromeSnapshot = {
 
 test.describe('state-of-art guardrails', () => {
   test('public kiosk controls expose museum-grade touch targets', async ({ page }) => {
+    await useLongKioskIdle(page);
     await page.goto('./?kiosk=1');
-    await page.mouse.click(960, 540);
     await expect(page.locator('.living-hall')).toBeVisible();
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
+    await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
 
     await expectTouchTargets(page, 'portraits');
 
-    const firstPortrait = page.locator('button.living-portrait').first();
-    await firstPortrait.click();
+    await clickVisiblePortrait(page);
     await expect(page.locator('.living-hall__focusCard')).toBeVisible();
     await expectTouchTargets(page, 'focused portrait');
 

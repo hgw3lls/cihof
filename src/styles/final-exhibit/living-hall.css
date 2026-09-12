@@ -896,6 +896,10 @@
   touch-action: none;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__contentDismissLayer {
+  pointer-events: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusCard {
   position: absolute;
   left: var(--focus-card-x);

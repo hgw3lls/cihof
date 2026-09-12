@@ -110,8 +110,13 @@ function collectImageRecord(image, label) {
 }
 
 function collectStorySectionRefs(storySections) {
-  if (!storySections || typeof storySections !== 'object' || !Array.isArray(storySections.records)) return;
-  storySections.records.forEach((record) => {
+  if (!storySections || typeof storySections !== 'object') return;
+  const records = Array.isArray(storySections.records)
+    ? storySections.records
+    : storySections.records && typeof storySections.records === 'object'
+      ? Object.values(storySections.records)
+      : [];
+  records.forEach((record) => {
     if (!record || typeof record !== 'object' || !Array.isArray(record.beats)) return;
     record.beats.forEach((beat, index) => collectAssetRef(beat?.imageUrl, `${record.personId}.story.beats.${index}.imageUrl`));
   });

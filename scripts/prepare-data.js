@@ -66,7 +66,7 @@ writeFileSync(iiifCollectionOutputPath, `${JSON.stringify(standardsExport.iiif.c
 standardsExport.iiif.manifests.forEach((manifest) => {
   writeFileSync(resolve(iiifManifestOutputDir, `${manifest.slug}.json`), `${JSON.stringify(manifest.document, null, 2)}\n`);
 });
-writeFileSync(runtimeDataBundleOutputPath, `${JSON.stringify(runtimeDataBundle, null, 2)}\n`);
+writeFileSync(runtimeDataBundleOutputPath, `${JSON.stringify(runtimeDataBundle)}\n`);
 
 console.log(
   `Prepared ${report.totalInductees} inductees across ${report.regions.length} regions and ${report.countries.length} nationality/heritage labels. ` +
@@ -538,15 +538,19 @@ function buildRuntimeDataBundle() {
     places: loadOptionalRuntimeJson('public/data/places.json', { schemaVersion: 1, places: [] }),
     cityQuestion: loadOptionalRuntimeJson('public/data/city-question.json', null),
     worldLens: loadOptionalRuntimeJson('public/data/world-lens.json', null),
-    sourceCuration: sourceCurationPacket.document,
+    sourceCuration: buildSourceCurationRuntimeSummary(sourceCurationPacket),
     standards: standardsExport.index,
-    reports: {
-      data: report,
-      entityModel: entityModel.report,
-      curation: loadOptionalRuntimeJson('public/data/curation-report.json', null),
-      media: loadOptionalRuntimeJson('public/data/media-report.json', null),
-      mediaLocalization: loadOptionalRuntimeJson('public/data/media-localization-report.json', null),
-    },
+  };
+}
+
+function buildSourceCurationRuntimeSummary(packet) {
+  const document = packet.document ?? {};
+  return {
+    schemaVersion: typeof document.schemaVersion === 'number' ? document.schemaVersion : 1,
+    source: document.source ?? {},
+    guardrails: document.guardrails ?? {},
+    summary: document.summary ?? {},
+    recordCount: packet.recordCount,
   };
 }
 
