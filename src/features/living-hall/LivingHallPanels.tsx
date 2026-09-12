@@ -110,169 +110,264 @@ export function PortraitFocusCard({
     <aside
       aria-label={lens === 'legacies' ? `${inductee.name} cohort navigator` : `${inductee.name} focused portrait context`}
       aria-modal={lens === 'legacies' ? 'true' : undefined}
-      className="living-hall__focusCard"
+      className="living-hall__focusCard living-hall__focusCard--inspector"
+      data-person-action={profileMode ? action : undefined}
       data-full-text-available={fullTextAvailable ? 'true' : 'false'}
+      data-inspector-lens={lens}
       data-side={placement.side}
       role={lens === 'legacies' ? 'dialog' : undefined}
       style={placement.style}
       onPointerDown={(event) => event.stopPropagation()}
     >
-      <header className="living-hall__focusHeader">
-        <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : 'FOCUSED PORTRAIT'}</span>
-        {onClose && (
-          <button type="button" aria-label={lens === 'legacies' ? 'Close cohort navigator' : 'Close focused portrait'} onClick={onClose}>
-            Close
-          </button>
-        )}
-      </header>
-      <div className="living-hall__focusIdentity">
-        <h3>{inductee.name}</h3>
-        <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
-      </div>
-      {profileMode && context && <p className="living-hall__focusContext">{context}</p>}
-      {lens === 'traces' && (
-        <TraceFocusConnections
-          context={traceContext}
-          onSelectPerson={onSelectPerson}
-        />
-      )}
-      {lens === 'legacies' && (
-        <LegacyFocusNavigator
-          activeLegacyGroup={activeLegacyGroup}
-          activeLegacyYear={activeLegacyYear}
-          chronology={legacyChronology}
-          inductee={inductee}
-          onJump={onLegacyJump}
-          onSelectPerson={onSelectPerson}
-        />
-      )}
-      {profileMode && (
-        <>
-          <section className="living-hall__focusFacts" aria-label="Short facts">
-            <h4>SHORT FACTS</h4>
-            <dl>
-              {shortFacts.map((fact) => (
-                <div key={fact.label}>
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-          <section className="living-hall__focusWhy" aria-label="Honored for">
-            <h4>HONORED FOR</h4>
-            <p>{summary}</p>
-          </section>
-          <PortraitConnectionBrief
-            inductee={inductee}
-            paths={nextSteps}
-            traceContext={traceContext}
-            onExplorePath={onExplorePath}
+      <FocusInspectorHeader
+        inductee={inductee}
+        lens={lens}
+        onClose={onClose}
+      />
+      <div className="living-hall__focusBody">
+        <div className="living-hall__focusIdentity">
+          <h3>{inductee.name}</h3>
+          <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
+        </div>
+        {profileMode && context && <p className="living-hall__focusContext">{context}</p>}
+        {lens === 'traces' && (
+          <TraceFocusConnections
+            context={traceContext}
             onSelectPerson={onSelectPerson}
           />
-          {nextSteps.length > 0 && onExplorePath && (
-            <ContextualNextSteps
-              activePath={linkedPath}
+        )}
+        {lens === 'legacies' && (
+          <LegacyFocusNavigator
+            activeLegacyGroup={activeLegacyGroup}
+            activeLegacyYear={activeLegacyYear}
+            chronology={legacyChronology}
+            inductee={inductee}
+            onJump={onLegacyJump}
+            onSelectPerson={onSelectPerson}
+          />
+        )}
+        {profileMode && (
+          <>
+            <section className="living-hall__focusFacts" aria-label="Short facts">
+              <h4>SHORT FACTS</h4>
+              <dl>
+                {shortFacts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+            <section className="living-hall__focusWhy" aria-label="Honored for">
+              <h4>HONORED FOR</h4>
+              <p>{summary}</p>
+            </section>
+            <PortraitConnectionBrief
               inductee={inductee}
               paths={nextSteps}
+              traceContext={traceContext}
               onExplorePath={onExplorePath}
+              onSelectPerson={onSelectPerson}
             />
-          )}
-        </>
-      )}
+            {nextSteps.length > 0 && onExplorePath && (
+              <ContextualNextSteps
+                activePath={linkedPath}
+                inductee={inductee}
+                paths={nextSteps}
+                onExplorePath={onExplorePath}
+              />
+            )}
+          </>
+        )}
+      </div>
       {profileMode && (
-        <nav className="living-hall__focusActions" aria-label={`Actions for ${inductee.name}`}>
-          <button
-            type="button"
-            aria-label="FOLLOW THE TRACE →"
-            aria-describedby={traceDescriptionId}
-            className="living-hall__focusAction living-hall__focusAction--primary"
-            onClick={onFollowTrace}
-          >
-            <span>FOLLOW THE TRACE →</span>
-            <small id={traceDescriptionId}>People, heritage, and class ties</small>
-          </button>
-          <button
-            type="button"
-            aria-label="LIFE + WORK"
-            aria-controls={panelId}
-            aria-describedby={storyDescriptionId}
-            aria-expanded={action === 'story'}
-            aria-pressed={action === 'story'}
-            className={action === 'story' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
-            onClick={() => onSetAction(action === 'story' ? 'overview' : 'story')}
-          >
-            <span>LIFE + WORK</span>
-            <small id={storyDescriptionId}>Guided highlights</small>
-          </button>
-          {fullTextAvailable && (
-            <button
-              type="button"
-              aria-label="FULL TEXT"
-              aria-controls={panelId}
-              aria-describedby={textDescriptionId}
-              aria-expanded={action === 'text'}
-              aria-pressed={action === 'text'}
-              className={action === 'text' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
-              onClick={() => onSetAction(action === 'text' ? 'overview' : 'text')}
-            >
-              <span>FULL TEXT</span>
-              <small id={textDescriptionId}>{biographyWords ? `${biographyWords} words` : 'Source biography'}</small>
-            </button>
-          )}
-          {mediaPlayable && (
-            <button
-              type="button"
-              aria-label="WATCH INDUCTION"
-              aria-controls={panelId}
-              aria-describedby={watchDescriptionId}
-              aria-expanded={action === 'watch'}
-              aria-pressed={action === 'watch'}
-              className={action === 'watch' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
-              onClick={() => onSetAction(action === 'watch' ? 'overview' : 'watch')}
-            >
-              <span>WATCH INDUCTION</span>
-              <small id={watchDescriptionId}>Recorded media</small>
-            </button>
-          )}
-          {continuationAvailable && (
-            <button
-              type="button"
-              aria-label="TAKE IT WITH YOU"
-              aria-controls={panelId}
-              aria-describedby={continueDescriptionId}
-              aria-expanded={action === 'continue'}
-              aria-pressed={action === 'continue'}
-              className={action === 'continue' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
-              onClick={() => onSetAction(action === 'continue' ? 'overview' : 'continue')}
-            >
-              <span>TAKE IT WITH YOU</span>
-              <small id={continueDescriptionId}>QR continuation</small>
-            </button>
-          )}
-          {visitCollectionEnabled && (
-            <button
-              type="button"
-              aria-label={visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}
-              aria-describedby={saveDescriptionId}
-              aria-pressed={visitCollectionSaved}
-              className={visitCollectionSaved ? 'living-hall__focusAction living-hall__focusAction--active living-hall__focusAction--visit' : 'living-hall__focusAction living-hall__focusAction--visit'}
-              disabled={visitCollectionFull}
-              onClick={onToggleVisitCollection}
-            >
-              <span>{visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}</span>
-              <small id={saveDescriptionId}>
-                {visitCollectionSaved
-                  ? `${Math.max(visitCollectionCount, 1)} saved for session QR`
-                  : visitCollectionFull
-                    ? `${visitCollectionLimit} saved / visit list full`
-                    : 'Add to one session QR'}
-              </small>
-            </button>
-          )}
-        </nav>
+        <FocusActionBar
+          action={action}
+          biographyWords={biographyWords}
+          continuationAvailable={continuationAvailable}
+          continueDescriptionId={continueDescriptionId}
+          fullTextAvailable={fullTextAvailable}
+          mediaPlayable={mediaPlayable}
+          panelId={panelId}
+          saveDescriptionId={saveDescriptionId}
+          storyDescriptionId={storyDescriptionId}
+          textDescriptionId={textDescriptionId}
+          traceDescriptionId={traceDescriptionId}
+          visitCollectionFull={visitCollectionFull}
+          visitCollectionLimit={visitCollectionLimit}
+          visitCollectionSaved={visitCollectionSaved}
+          visitCollectionCount={visitCollectionCount}
+          visitCollectionEnabled={visitCollectionEnabled}
+          watchDescriptionId={watchDescriptionId}
+          inducteeName={inductee.name}
+          onFollowTrace={onFollowTrace}
+          onSetAction={onSetAction}
+          onToggleVisitCollection={onToggleVisitCollection}
+        />
       )}
     </aside>
+  );
+}
+
+function FocusInspectorHeader({
+  inductee,
+  lens,
+  onClose,
+}: {
+  inductee: Inductee;
+  lens: HallLens;
+  onClose?: () => void;
+}) {
+  return (
+    <header className="living-hall__focusHeader">
+      <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : 'FOCUSED PORTRAIT'}</span>
+      <strong>{inductee.classYear ? String(inductee.classYear) : 'Open'}</strong>
+      {onClose && (
+        <button type="button" aria-label={lens === 'legacies' ? 'Close cohort navigator' : 'Close focused portrait'} onClick={onClose}>
+          Close
+        </button>
+      )}
+    </header>
+  );
+}
+
+function FocusActionBar({
+  action,
+  biographyWords,
+  continuationAvailable,
+  continueDescriptionId,
+  fullTextAvailable,
+  inducteeName,
+  mediaPlayable,
+  panelId,
+  saveDescriptionId,
+  storyDescriptionId,
+  textDescriptionId,
+  traceDescriptionId,
+  visitCollectionEnabled,
+  visitCollectionFull,
+  visitCollectionLimit,
+  visitCollectionSaved,
+  visitCollectionCount,
+  watchDescriptionId,
+  onFollowTrace,
+  onSetAction,
+  onToggleVisitCollection,
+}: {
+  action: HallPersonAction;
+  biographyWords: number;
+  continuationAvailable: boolean;
+  continueDescriptionId: string;
+  fullTextAvailable: boolean;
+  inducteeName: string;
+  mediaPlayable: boolean;
+  panelId: string;
+  saveDescriptionId: string;
+  storyDescriptionId: string;
+  textDescriptionId: string;
+  traceDescriptionId: string;
+  visitCollectionEnabled: boolean;
+  visitCollectionFull: boolean;
+  visitCollectionLimit: number;
+  visitCollectionSaved: boolean;
+  visitCollectionCount: number;
+  watchDescriptionId: string;
+  onFollowTrace: () => void;
+  onSetAction: (action: HallPersonAction) => void;
+  onToggleVisitCollection: () => void;
+}) {
+  return (
+    <nav className="living-hall__focusActions" aria-label={`Actions for ${inducteeName}`}>
+      <button
+        type="button"
+        aria-label="FOLLOW THE TRACE →"
+        aria-describedby={traceDescriptionId}
+        className="living-hall__focusAction living-hall__focusAction--primary"
+        onClick={onFollowTrace}
+      >
+        <span>FOLLOW THE TRACE →</span>
+        <small id={traceDescriptionId}>People, heritage, and class ties</small>
+      </button>
+      <button
+        type="button"
+        aria-label="LIFE + WORK"
+        aria-controls={panelId}
+        aria-describedby={storyDescriptionId}
+        aria-expanded={action === 'story'}
+        aria-pressed={action === 'story'}
+        className={action === 'story' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
+        onClick={() => onSetAction(action === 'story' ? 'overview' : 'story')}
+      >
+        <span>LIFE + WORK</span>
+        <small id={storyDescriptionId}>Guided highlights</small>
+      </button>
+      {fullTextAvailable && (
+        <button
+          type="button"
+          aria-label="FULL TEXT"
+          aria-controls={panelId}
+          aria-describedby={textDescriptionId}
+          aria-expanded={action === 'text'}
+          aria-pressed={action === 'text'}
+          className={action === 'text' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
+          onClick={() => onSetAction(action === 'text' ? 'overview' : 'text')}
+        >
+          <span>FULL TEXT</span>
+          <small id={textDescriptionId}>{biographyWords ? `${biographyWords} words` : 'Source biography'}</small>
+        </button>
+      )}
+      {mediaPlayable && (
+        <button
+          type="button"
+          aria-label="WATCH INDUCTION"
+          aria-controls={panelId}
+          aria-describedby={watchDescriptionId}
+          aria-expanded={action === 'watch'}
+          aria-pressed={action === 'watch'}
+          className={action === 'watch' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
+          onClick={() => onSetAction(action === 'watch' ? 'overview' : 'watch')}
+        >
+          <span>WATCH INDUCTION</span>
+          <small id={watchDescriptionId}>Recorded media</small>
+        </button>
+      )}
+      {continuationAvailable && (
+        <button
+          type="button"
+          aria-label="TAKE IT WITH YOU"
+          aria-controls={panelId}
+          aria-describedby={continueDescriptionId}
+          aria-expanded={action === 'continue'}
+          aria-pressed={action === 'continue'}
+          className={action === 'continue' ? 'living-hall__focusAction living-hall__focusAction--active' : 'living-hall__focusAction'}
+          onClick={() => onSetAction(action === 'continue' ? 'overview' : 'continue')}
+        >
+          <span>TAKE IT WITH YOU</span>
+          <small id={continueDescriptionId}>QR continuation</small>
+        </button>
+      )}
+      {visitCollectionEnabled && (
+        <button
+          type="button"
+          aria-label={visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}
+          aria-describedby={saveDescriptionId}
+          aria-pressed={visitCollectionSaved}
+          className={visitCollectionSaved ? 'living-hall__focusAction living-hall__focusAction--active living-hall__focusAction--visit' : 'living-hall__focusAction living-hall__focusAction--visit'}
+          disabled={visitCollectionFull}
+          onClick={onToggleVisitCollection}
+        >
+          <span>{visitCollectionSaved ? 'REMOVE FROM VISIT' : 'SAVE TO VISIT'}</span>
+          <small id={saveDescriptionId}>
+            {visitCollectionSaved
+              ? `${Math.max(visitCollectionCount, 1)} saved for session QR`
+              : visitCollectionFull
+                ? `${visitCollectionLimit} saved / visit list full`
+                : 'Add to one session QR'}
+          </small>
+        </button>
+      )}
+    </nav>
   );
 }
 

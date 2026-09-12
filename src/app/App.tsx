@@ -16,6 +16,8 @@ import { AdminDataPanel } from '../features/admin/AdminDataPanel';
 import { matchesAdminHotkey, readKioskSettings, subscribeKioskSettings, type KioskSettings } from './kioskSettings';
 import { HallSurface } from '../features/hall-surface/HallSurface';
 import { ShellCommandSearch } from './ShellCommandSearch';
+import { ShellStatusStrip } from './ShellStatusStrip';
+import { ExperienceDock } from './ExperienceDock';
 import { commandResultToLinkedPath, commandSearchResults, type CommandSearchResult } from './commandSearch';
 import { onPhysicalPortraitSelected, physicalPortraitSelectionFromInductee } from '../integrations/physicalPortrait';
 import {
@@ -649,15 +651,16 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
           onSelect={selectFromCommand}
           onSubmit={submitCommandSearch}
         />
-        <div className="museum-status" aria-label="Collection summary">
-          <span>{stats.total} profiles</span>
-          <span>{stats.withVideo} media</span>
-          {selected && <span className="museum-status__focus">Focus: {selected.name}</span>}
-          {visitCollectionIds.length > 0 && <span>{visitCollectionIds.length}/{visitCollectionLimit} saved</span>}
-          {!networkOnline && <span>Offline</span>}
-          {kioskMode && <span>Kiosk</span>}
-          {wallDebugEnabled && <span>Wall Debug</span>}
-        </div>
+        <ShellStatusStrip
+          focusName={selected?.name ?? ''}
+          kioskMode={kioskMode}
+          mediaCount={stats.withVideo}
+          networkOnline={networkOnline}
+          profileCount={stats.total}
+          visitCollectionCount={visitCollectionIds.length}
+          visitCollectionLimit={visitCollectionLimit}
+          wallDebugEnabled={wallDebugEnabled}
+        />
         <div className="museum-utilities">
           {kioskToggleVisible && (
             <button
@@ -709,27 +712,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       </section>
 
       {!reviewModeEnabled && !attractActive && (
-        <div className="museum-bottom-nav experience-dock" role="toolbar" aria-label="Ways to explore the Hall of Fame">
-          {visitorExperienceNavItems.map((item) => {
-            const active = hallLens === item.lens;
-
-            return (
-            <button
-              aria-label={item.ariaLabel}
-              aria-pressed={active}
-              className={active ? 'museum-nav-item museum-nav-item--active experience-dock__item' : 'museum-nav-item experience-dock__item'}
-              key={item.lens}
-              type="button"
-              onClick={() => changeLens(item.lens)}
-            >
-              <span className="experience-dock__label">
-                <span>{item.label}</span>
-                <small>{item.sublabel}</small>
-              </span>
-            </button>
-            );
-          })}
-        </div>
+        <ExperienceDock activeLens={hallLens} items={visitorExperienceNavItems} onChange={changeLens} />
       )}
 
       {kioskMode && idleWarningActive && !attractActive && (
