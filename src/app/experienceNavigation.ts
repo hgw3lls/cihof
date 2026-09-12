@@ -13,6 +13,7 @@ export type ExperienceNavItem = {
 export const hallLensOrder: HallLens[] = [
   'portraits',
   'traces',
+  'journeys',
   'legacies',
 ];
 
@@ -28,6 +29,12 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
     label: 'TRACES',
     sublabel: 'HERITAGE & CONNECTIONS',
     ariaLabel: 'Arrange Hall by heritage and connections',
+  },
+  {
+    lens: 'journeys',
+    label: 'JOURNEYS',
+    sublabel: 'CURATED PATHS',
+    ariaLabel: 'Arrange Hall by curated journeys',
   },
   {
     lens: 'legacies',
@@ -66,6 +73,7 @@ export function normalizeViewMode(value: string, allowReview: boolean): ViewMode
 export function normalizeHallLens(value: string): HallLens | null {
   if (value === 'portraits' || value === 'portrait') return 'portraits';
   if (value === 'traces' || value === 'trace') return 'traces';
+  if (value === 'journeys' || value === 'journey') return 'journeys';
   if (value === 'legacies' || value === 'legacy') return 'legacies';
   return null;
 }

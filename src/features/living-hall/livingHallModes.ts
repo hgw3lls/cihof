@@ -16,7 +16,7 @@ import {
   type NetworkThread,
   type PlaceTraceFocus,
 } from '../../data/traceModel';
-import type { HallLens, Inductee, RelationshipRecord, StoryLensConfig } from '../../data/types';
+import type { HallLens, HallLinkedPath, Inductee, RelationshipRecord, StoryLensConfig } from '../../data/types';
 import {
   clamp,
   fallbackPosition,
@@ -105,6 +105,7 @@ const emptyMode: HallMode = {
 
 export function hallDisplayTitle(lens: HallLens) {
   if (lens === 'traces') return 'TRACES';
+  if (lens === 'journeys') return 'JOURNEYS';
   if (lens === 'legacies') return 'LEGACIES';
   return 'PORTRAITS';
 }
@@ -121,6 +122,8 @@ export function selectHallMode({
   traceContext,
   legacyChronology,
   activeLegacyYear,
+  journeyPaths = [],
+  linkedPath = null,
 }: {
   focusedPersonId: string;
   lens: HallLens;
@@ -133,15 +136,19 @@ export function selectHallMode({
   traceContext: TraceContext;
   legacyChronology: LegacyChronology;
   activeLegacyYear: number | null;
+  journeyPaths?: HallLinkedPath[];
+  linkedPath?: HallLinkedPath | null;
 }) {
   const fallback = modes[step % Math.max(modes.length, 1)] ?? emptyMode;
   const baseMode = lens === 'legacies'
     ? buildLegacyHallMode(people, legacyChronology, activeLegacyYear, focusedPersonId, layout)
+    : lens === 'journeys'
+      ? buildJourneyHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, journeyPaths, linkedPath, focusedPersonId, layout)
     : lens === 'traces'
       ? buildTraceHallMode(people, portraitModeFromModes(modes, 0) ?? fallback, traceContext, traceTrailIds, layout)
       : portraitModeFromModes(modes, step) ?? fallback;
 
-  return lens === 'traces' || lens === 'legacies' ? baseMode : applyHallFocus(baseMode, people, relationships, focusedPersonId, layout);
+  return lens === 'traces' || lens === 'legacies' || lens === 'journeys' ? baseMode : applyHallFocus(baseMode, people, relationships, focusedPersonId, layout);
 }
 
 export function buildTraceContext({
@@ -420,6 +427,227 @@ function buildPlaceTraceChoices(geography: GeographyTraceModel, activePerson: In
       detail: `${country.people.length}`,
       kind: 'place',
     }));
+}
+
+function buildJourneyHallMode(
+  inductees: Inductee[],
+  baseMode: HallMode,
+  journeyPaths: HallLinkedPath[],
+  linkedPath: HallLinkedPath | null,
+  focusedPersonId: string,
+  layout: HallLayoutMetrics,
+): HallMode {
+  const peopleById = new Map(inductees.map((person) => [person.id, person]));
+  const activePath = linkedPath && linkedPath.lens === 'journeys'
+    ? linkedPath
+    : journeyPaths.find((path) => focusedPersonId && path.personIds.includes(focusedPersonId)) ?? null;
+
+  if (activePath) {
+    return buildActiveJourneyMode(inductees, baseMode, activePath, focusedPersonId, layout);
+  }
+
+  const positionedIds = new Set<string>();
+  const positions = new Map<string, PortraitPosition>();
+  const labels: HallLabel[] = [];
+  const lines: HallLine[] = [];
+  const visiblePaths = journeyPaths.slice(0, journeyClusterAnchors.length);
+
+  visiblePaths.forEach((path, pathIndex) => {
+    const anchor = journeyClusterAnchors[pathIndex];
+    const pathPeople = path.personIds.map((id) => peopleById.get(id)).filter((person): person is Inductee => Boolean(person)).slice(0, 6);
+    labels.push({
+      id: `journey-${pathIndex}-${normalizeText(path.label)}`,
+      text: journeyModeLabel(path.label),
+      detail: `${pathPeople.length} STOPS`,
+      x: anchor.labelX,
+      y: anchor.labelY,
+    });
+
+    pathPeople.forEach((person, personIndex) => {
+      positionedIds.add(person.id);
+      const orbit = Math.sqrt((personIndex + 1) / Math.max(pathPeople.length, 1));
+      const angle = ((personIndex * 128) + pathIndex * 42) * Math.PI / 180;
+      const current = baseMode.positions.get(person.id) ?? fallbackPosition(personIndex, pathPeople.length);
+      const size = personIndex === 0
+        ? Math.max(layout.portrait.relatedMaxSize, current.size)
+        : clamp(current.size + (personIndex < 3 ? 16 : 6), layout.portrait.relatedMinSize, layout.portrait.emphasisMaxSize);
+      positions.set(person.id, {
+        ...current,
+        x: clamp(anchor.x + Math.cos(angle) * anchor.rx * orbit + wobble(person.id, 503, -0.75, 0.75), 7, 93),
+        y: clamp(anchor.y + Math.sin(angle) * anchor.ry * orbit + wobble(person.name, 509, -0.65, 0.65), layout.portrait.yMin, layout.portrait.yMax),
+        size,
+        z: 1180 - pathIndex * 80 - personIndex,
+        delay: staggerDelay(pathIndex * 3 + personIndex),
+        emphasis: true,
+        muted: false,
+      });
+    });
+
+    pathPeople.forEach((person, personIndex) => {
+      if (personIndex === 0) return;
+      const previous = positions.get(pathPeople[personIndex - 1].id);
+      const current = positions.get(person.id);
+      if (!previous || !current) return;
+      lines.push({
+        id: `journey-cluster-${pathIndex}-${personIndex}`,
+        label: personIndex === 1 ? journeyModeLabel(path.label) : '',
+        detail: path.detail,
+        provenance: 'curated',
+        relationshipType: journeyRelationshipType(path),
+        role: 'trail',
+        x1: previous.x,
+        y1: previous.y,
+        x2: current.x,
+        y2: current.y,
+      });
+    });
+  });
+
+  inductees
+    .filter((person) => !positionedIds.has(person.id))
+    .forEach((person, index, backgroundPeople) => {
+      const current = baseMode.positions.get(person.id) ?? fallbackPosition(index, backgroundPeople.length || 1);
+      positions.set(person.id, {
+        ...current,
+        size: Math.min(current.size, layout.trace.perimeterFarSize),
+        z: 16 + (index % 6),
+        delay: Math.min(current.delay, 120),
+        emphasis: false,
+        muted: true,
+      });
+    });
+
+  return {
+    ...baseMode,
+    id: 'journeys-curated-paths',
+    title: 'JOURNEYS',
+    subtitle: `${visiblePaths.length} curated paths drawn from existing Hall metadata`,
+    positions,
+    labels,
+    lines,
+  };
+}
+
+function buildActiveJourneyMode(
+  inductees: Inductee[],
+  baseMode: HallMode,
+  path: HallLinkedPath,
+  focusedPersonId: string,
+  layout: HallLayoutMetrics,
+): HallMode {
+  const pathIds = path.personIds.slice(0, journeySpineAnchors.length);
+  const pathIdSet = new Set(pathIds);
+  const focusedPathIndex = pathIds.indexOf(focusedPersonId);
+  const activeIndex = focusedPathIndex >= 0 ? focusedPathIndex : 0;
+  const positions = new Map<string, PortraitPosition>();
+  const lines: HallLine[] = [];
+  const labels: HallLabel[] = [
+    {
+      id: `journey-active-${normalizeText(path.label)}`,
+      text: journeyModeLabel(path.label),
+      detail: `${pathIds.length} STOPS / CURATED PATH`,
+      x: 50,
+      y: 14,
+    },
+  ];
+
+  inductees.forEach((person, index) => {
+    const current = baseMode.positions.get(person.id) ?? fallbackPosition(index, inductees.length);
+    const pathIndex = pathIds.indexOf(person.id);
+    if (pathIndex >= 0) {
+      const anchor = journeySpineAnchors[pathIndex];
+      const isFocused = person.id === focusedPersonId || (!focusedPersonId && pathIndex === 0);
+      const distance = Math.abs(pathIndex - activeIndex);
+      positions.set(person.id, {
+        ...current,
+        x: clamp(anchor.x + wobble(person.id, 521, -0.65, 0.65), 6, 94),
+        y: clamp(anchor.y + wobble(person.name, 523, -0.8, 0.8), layout.portrait.yMin, layout.portrait.yMax),
+        size: isFocused
+          ? layout.trace.anchorSize
+          : distance <= 1
+            ? layout.trace.relatedPrimarySize
+            : layout.trace.relatedSecondarySize,
+        z: isFocused ? 2600 : 1680 - pathIndex,
+        delay: staggerDelay(pathIndex),
+        emphasis: true,
+        focused: isFocused,
+        muted: false,
+      });
+      return;
+    }
+
+    const perimeter = tracePerimeterPosition(index, person, current, layout);
+    positions.set(person.id, {
+      ...current,
+      x: perimeter.x,
+      y: perimeter.y,
+      size: Math.min(perimeter.size, layout.trace.perimeterFarSize),
+      z: 18 + (index % 7),
+      delay: Math.min(current.delay, 140),
+      emphasis: false,
+      muted: true,
+    });
+  });
+
+  pathIds.forEach((personId, index) => {
+    if (index === 0) return;
+    const previous = positions.get(pathIds[index - 1]);
+    const current = positions.get(personId);
+    if (!previous || !current) return;
+    lines.push({
+      id: `journey-active-${path.kind}-${index}-${personId}`,
+      label: index === 1 ? journeyModeLabel(path.label) : '',
+      detail: path.detail,
+      provenance: 'curated',
+      relationshipType: journeyRelationshipType(path),
+      role: 'trail',
+      x1: previous.x,
+      y1: previous.y,
+      x2: current.x,
+      y2: current.y,
+    });
+  });
+
+  return {
+    ...baseMode,
+    id: `journeys-active-${path.kind}-${normalizeText(path.label)}`,
+    title: 'JOURNEYS',
+    subtitle: path.detail,
+    positions,
+    labels,
+    lines,
+  };
+}
+
+const journeyClusterAnchors = [
+  { x: 22, y: 31, labelX: 17, labelY: 15, rx: 12, ry: 12 },
+  { x: 58, y: 28, labelX: 60, labelY: 12, rx: 13, ry: 11 },
+  { x: 78, y: 56, labelX: 82, labelY: 38, rx: 11, ry: 13 },
+  { x: 36, y: 68, labelX: 29, labelY: 84, rx: 14, ry: 10 },
+];
+
+const journeySpineAnchors = [
+  { x: 14, y: 36 },
+  { x: 29, y: 56 },
+  { x: 44, y: 36 },
+  { x: 58, y: 59 },
+  { x: 73, y: 38 },
+  { x: 86, y: 57 },
+];
+
+function journeyRelationshipType(path: HallLinkedPath): HallLine['relationshipType'] {
+  if (path.kind === 'class') return 'same_class';
+  if (path.kind === 'heritage') return 'related_place';
+  if (path.kind === 'community') return 'shared_community';
+  if (path.kind === 'theme') return 'shared_theme';
+  return undefined;
+}
+
+function journeyModeLabel(label: string) {
+  return label
+    .replace(/\s+(Heritage|Community|Impact|Legacy)\s+Path$/i, '')
+    .replace(/\s+Path$/i, '')
+    .toUpperCase();
 }
 
 function buildTraceHallMode(

@@ -92,7 +92,7 @@ export function PortraitFocusCard({
   onSetAction: (action: HallPersonAction) => void;
   onToggleVisitCollection: () => void;
 }) {
-  const profileMode = lens === 'portraits';
+  const profileMode = lens === 'portraits' || lens === 'journeys';
   const context = profileMode ? inducteeContextLabel(inductee) : '';
   const summary = profileMode ? honoredForSummary(inductee) : '';
   const shortFacts = profileMode ? portraitShortFacts(inductee) : [];
@@ -108,7 +108,7 @@ export function PortraitFocusCard({
 
   return (
     <aside
-      aria-label={lens === 'legacies' ? `${inductee.name} cohort navigator` : `${inductee.name} focused portrait context`}
+      aria-label={lens === 'legacies' ? `${inductee.name} cohort navigator` : lens === 'journeys' ? `${inductee.name} journey stop context` : `${inductee.name} focused portrait context`}
       aria-modal={lens === 'legacies' ? 'true' : undefined}
       className="living-hall__focusCard living-hall__focusCard--inspector"
       data-person-action={profileMode ? action : undefined}
@@ -221,10 +221,10 @@ function FocusInspectorHeader({
 }) {
   return (
     <header className="living-hall__focusHeader">
-      <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : 'FOCUSED PORTRAIT'}</span>
+      <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : lens === 'journeys' ? 'JOURNEY STOP' : 'FOCUSED PORTRAIT'}</span>
       <strong>{inductee.classYear ? String(inductee.classYear) : 'Open'}</strong>
       {onClose && (
-        <button type="button" aria-label={lens === 'legacies' ? 'Close cohort navigator' : 'Close focused portrait'} onClick={onClose}>
+        <button type="button" aria-label={lens === 'legacies' ? 'Close cohort navigator' : lens === 'journeys' ? 'Close journey stop' : 'Close focused portrait'} onClick={onClose}>
           Close
         </button>
       )}
@@ -504,6 +504,123 @@ function linkedPathKindLabel(kind: HallLinkedPath['kind']) {
   if (kind === 'community') return 'Community';
   if (kind === 'theme') return 'Theme';
   return 'Profile';
+}
+
+type JourneyPathWithSource = HallLinkedPath & {
+  sourceLabel?: string;
+};
+
+export function JourneyGuidePanel({
+  activePath,
+  paths,
+  people,
+  visitCollectionIds,
+  visitCollectionLimit,
+  onOpenPath,
+  onSavePath,
+  onSelectPerson,
+}: {
+  activePath: HallLinkedPath | null;
+  paths: JourneyPathWithSource[];
+  people: Inductee[];
+  visitCollectionIds: string[];
+  visitCollectionLimit: number;
+  onOpenPath: (path: HallLinkedPath) => void;
+  onSavePath: (path: HallLinkedPath) => void;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  if (paths.length === 0) return null;
+
+  const peopleById = new Map(people.map((person) => [person.id, person]));
+  const selectedPath: JourneyPathWithSource = activePath && activePath.lens === 'journeys' ? activePath : paths[0];
+  const selectedPeople = peopleForPath(selectedPath, peopleById);
+
+  return (
+    <aside
+      className="living-hall__journeyGuide"
+      aria-label="Curated journey paths"
+      data-active-path={selectedPath.label}
+      onPointerDown={(event) => event.stopPropagation()}
+    >
+      <header className="living-hall__journeyGuideHeader">
+        <span>JOURNEYS</span>
+        <strong>Choose a path through the Hall</strong>
+        <small>{paths.length} generated from class, nationality, community, and contribution metadata</small>
+      </header>
+
+      <nav className="living-hall__journeyPathList" aria-label="Available curated journeys">
+        {paths.map((path, index) => {
+          const active = selectedPath.kind === path.kind && selectedPath.label === path.label;
+          const saveState = journeySaveState(path, visitCollectionIds, visitCollectionLimit);
+          return (
+            <article
+              className={active ? 'living-hall__journeyPath living-hall__journeyPath--active' : 'living-hall__journeyPath'}
+              data-journey-path={path.label}
+              key={`${path.kind}-${path.label}`}
+            >
+              <button
+                className="living-hall__journeyPathMain"
+                type="button"
+                aria-pressed={active}
+                aria-label={`Open ${path.label}`}
+                onClick={() => onOpenPath(path)}
+              >
+                <span>{String(index + 1).padStart(2, '0')} / {linkedPathKindLabel(path.kind)}</span>
+                <strong>{path.label}</strong>
+                <small>{path.detail}</small>
+                <em>{path.personIds.length} stops</em>
+              </button>
+              <button
+                className="living-hall__journeyPathSave"
+                type="button"
+                disabled={!saveState.enabled}
+                aria-label={`${saveState.label}: ${path.label}`}
+                onClick={() => onSavePath(path)}
+              >
+                {saveState.label}
+              </button>
+            </article>
+          );
+        })}
+      </nav>
+
+      <section className="living-hall__journeyRoutePreview" aria-label={`${selectedPath.label} route preview`}>
+        <header>
+          <span>{linkedPathKindLabel(selectedPath.kind)}</span>
+          <strong>{selectedPath.label}</strong>
+          <small>{selectedPath.sourceLabel ?? 'Curated from Hall metadata'}</small>
+        </header>
+        <ol>
+          {selectedPeople.map((person, index) => (
+            <li key={person.id}>
+              <button
+                type="button"
+                data-journey-stop={person.id}
+                aria-label={`Focus journey stop ${index + 1}: ${person.name}`}
+                onClick={() => onSelectPerson(person)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{person.name}</strong>
+                <small>{journeyPersonLabel(person)}</small>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </aside>
+  );
+}
+
+function peopleForPath(path: HallLinkedPath, peopleById: Map<string, Inductee>) {
+  return path.personIds.map((id) => peopleById.get(id)).filter((person): person is Inductee => Boolean(person));
+}
+
+function journeySaveState(path: HallLinkedPath, visitCollectionIds: string[], visitCollectionLimit: number) {
+  const unsavedCount = path.personIds.filter((id) => !visitCollectionIds.includes(id)).length;
+  const availableSlots = Math.max(visitCollectionLimit - visitCollectionIds.length, 0);
+  if (unsavedCount === 0) return { enabled: false, label: 'Saved' };
+  if (availableSlots <= 0) return { enabled: false, label: 'Visit full' };
+  return { enabled: true, label: `Save ${Math.min(unsavedCount, availableSlots)}` };
 }
 
 function TraceFocusConnections({
@@ -1119,8 +1236,16 @@ function lensStatusItems({
     ];
   }
 
-  const featuredCount = people.filter((person) => person.featured || person.featuredCandidate).length;
   const emphasizedCount = [...activeMode.positions.values()].filter((position) => position.emphasis && !position.focused).length;
+  if (lens === 'journeys') {
+    return [
+      { label: 'Routes', value: String(Math.max(activeMode.labels.length, 1)) },
+      { label: 'Stops', value: String(emphasizedCount) },
+      { label: 'Lines', value: String(activeMode.lines?.length ?? 0) },
+    ];
+  }
+
+  const featuredCount = people.filter((person) => person.featured || person.featuredCandidate).length;
   if (focusedPerson) {
     return [
       { label: 'Focus', value: focusedPerson.classYear ? String(focusedPerson.classYear) : 'Open' },

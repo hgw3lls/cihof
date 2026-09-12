@@ -434,7 +434,7 @@
   height: auto;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
   gap: 8px;
   border: 0;
   border-right: 1px solid rgba(244, 234, 211, 0.14);
@@ -766,7 +766,7 @@
     left: 0;
     width: auto;
     height: var(--experience-dock-height);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: 1fr;
     border-top: 1px solid rgba(244, 234, 211, 0.14);
     border-right: 0;

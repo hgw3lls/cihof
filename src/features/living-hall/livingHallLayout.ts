@@ -118,6 +118,7 @@ export type HallLayoutMetrics = {
   recordThresholds: {
     portraits: number;
     traces: number;
+    journeys: number;
     legacies: number;
   };
   viewport: HallLayoutViewport;
@@ -189,7 +190,7 @@ export function solveHallLayout({
   );
   const foregroundWidthNudge = tier === 'open' ? 0 : tier === 'balanced' ? -0.015 : -0.035;
   const focusWidthRatio = (
-    lens === 'traces'
+    lens === 'traces' || lens === 'journeys'
       ? 0.25
       : lens === 'legacies'
         ? 0.3
@@ -251,9 +252,9 @@ export function solveHallLayout({
     },
     foreground: {
       focusWidthRatio,
-      focusMinWidth: tier === 'compact' ? 300 : lens === 'traces' ? 340 : 410,
+      focusMinWidth: tier === 'compact' ? 300 : lens === 'traces' || lens === 'journeys' ? 340 : 410,
       focusMaxWidth: tier === 'open' ? 580 : tier === 'balanced' ? 540 : 500,
-      focusHeightRatio: lens === 'legacies' ? 0.48 : lens === 'traces' ? 0.32 : 0.42,
+      focusHeightRatio: lens === 'legacies' ? 0.48 : lens === 'traces' || lens === 'journeys' ? 0.32 : 0.42,
       focusMaxHeightRatio: tier === 'open' ? 0.68 : tier === 'balanced' ? 0.64 : 0.58,
       actionWidthRatio: {
         story: 0.42 + foregroundWidthNudge,
@@ -284,6 +285,7 @@ export function solveHallLayout({
     recordThresholds: {
       portraits: tier === 'open' ? 60 : tier === 'balanced' ? 63 : 66,
       traces: tier === 'open' ? 74 : 82,
+      journeys: tier === 'open' ? 70 : tier === 'balanced' ? 76 : 82,
       legacies: tier === 'open' ? 72 : tier === 'balanced' ? 78 : 84,
     },
     viewport: { width, height },
@@ -379,7 +381,7 @@ export function clamp(value: number, min: number, max: number) {
 
 export function portraitFrameState(lens: HallLens, position: PortraitPosition): PortraitFrameState {
   if (position.focused) return 'focus';
-  if (lens === 'traces') return 'trace';
+  if (lens === 'traces' || lens === 'journeys') return 'trace';
   if (lens === 'legacies') return 'legacy';
   return 'standard';
 }
@@ -392,6 +394,7 @@ export function portraitLensBadge(
 ) {
   if (position.focused) return 'FOCUS';
   if (lens === 'traces' && position.emphasis) return 'TRACE';
+  if (lens === 'journeys' && position.emphasis) return 'STOP';
   if (lens === 'legacies' && activeLegacyYear !== null && inductee.classYear === activeLegacyYear) return String(activeLegacyYear);
   if (lens === 'portraits' && (inductee.featured || inductee.featuredCandidate) && position.size >= 58) return 'FEATURED';
   return '';
@@ -406,6 +409,7 @@ export function portraitCategoryForLens(
   if (position.focused) return 'focused';
   if (position.muted) return 'background';
   if (lens === 'traces' && position.emphasis) return 'trace-related';
+  if (lens === 'journeys' && position.emphasis) return 'journey-stop';
   if (lens === 'legacies' && activeLegacyYear !== null && inductee.classYear === activeLegacyYear) return 'active-class';
   if (lens === 'portraits' && (inductee.featured || inductee.featuredCandidate)) return 'featured';
   if (position.emphasis) return 'emphasis';
@@ -430,6 +434,7 @@ export function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition
   if (lens === 'legacies') return position.size >= (layout?.recordThresholds.legacies ?? 72);
   if (lens === 'portraits') return position.size >= (layout?.recordThresholds.portraits ?? 60);
   if (lens === 'traces') return position.size >= (layout?.recordThresholds.traces ?? 82);
+  if (lens === 'journeys') return position.size >= (layout?.recordThresholds.journeys ?? 76);
   return false;
 }
 
@@ -595,7 +600,7 @@ export function hallLabelCollisionRects({
   people: Inductee[];
   settings: KioskSettings;
 }) {
-  if (lens !== 'traces' && lens !== 'legacies') return foregroundRects;
+  if (lens !== 'traces' && lens !== 'legacies' && lens !== 'journeys') return foregroundRects;
 
   const placementLayout = legacyContext
     ? { ...layout, viewport: { ...layout.viewport, width: legacyContext.visibleWidthPx } }
@@ -616,7 +621,9 @@ export function hallLabelCollisionRects({
       ? 1.12
       : lens === 'legacies'
         ? 0.9
-        : 0.98;
+        : lens === 'journeys'
+          ? 0.94
+          : 0.98;
     rects.push(portraitFootprintRect(visiblePosition, lens, placementLayout, settings, frameAspect, paddingScale));
   });
 
@@ -785,10 +792,10 @@ function labelLayoutRect(
     : label.x;
   const width = activeLegacyLabel
     ? 12
-    : lens === 'traces'
+    : lens === 'traces' || lens === 'journeys'
       ? clamp(Math.max(label.text.length * 0.98, (label.detail?.length ?? 0) * 0.56), 9, 22)
       : clamp(Math.max(label.text.length * 0.68, (label.detail?.length ?? 0) * 0.38), 7, lens === 'legacies' ? 12 : 15);
-  const height = activeLegacyLabel ? 6.4 : lens === 'traces' ? 8 : label.detail ? 6.2 : 4.2;
+  const height = activeLegacyLabel ? 6.4 : lens === 'traces' || lens === 'journeys' ? 8 : label.detail ? 6.2 : 4.2;
   return rectFromCenter(x, label.y, width, height);
 }
 
@@ -832,7 +839,7 @@ function focusCardMetrics(lens: HallLens, layout: HallLayoutMetrics) {
     : clamp(viewport.width * layout.foreground.focusWidthRatio, layout.foreground.focusMinWidth, layout.foreground.focusMaxWidth);
   const heightPx = compact
     ? clamp(viewport.height * 0.32, 220, 320)
-    : clamp(viewport.height * layout.foreground.focusHeightRatio, lens === 'traces' ? 260 : 360, lens === 'legacies' ? 680 : 600);
+    : clamp(viewport.height * layout.foreground.focusHeightRatio, lens === 'traces' || lens === 'journeys' ? 260 : 360, lens === 'legacies' ? 680 : 600);
   const maxHeightPx = compact
     ? clamp(viewport.height * 0.34, 220, 320)
     : clamp(viewport.height * layout.foreground.focusMaxHeightRatio, 440, 800);
