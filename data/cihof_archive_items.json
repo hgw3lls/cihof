@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "CIHOF promoted archive items",
+    "note": "Curator-approved archive items for visitor-facing display. Records must use status \"visitor-ready\" and visibility \"visitor-ready\" before the kiosk will show them."
+  },
+  "records": []
+}

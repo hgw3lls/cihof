@@ -11,6 +11,7 @@ const remoteAssetRefs = [];
 requireFile('index.html');
 requireDirectory('assets');
 requireFile('data/cihof-runtime-data.json');
+requireFile('data/archive-leads.json');
 
 const bundlePath = resolve(distDir, 'data/cihof-runtime-data.json');
 const bundle = existsSync(bundlePath) ? readJson(bundlePath, 'runtime data bundle') : null;
@@ -24,6 +25,7 @@ if (bundle) {
 
   collectMediaManifestRefs(bundle.mediaManifest);
   collectStorySectionRefs(bundle.storySections);
+  validateArchiveLeadRefs(bundle.archiveLeads);
 }
 
 collectIndexAssetRefs();
@@ -119,6 +121,32 @@ function collectStorySectionRefs(storySections) {
   records.forEach((record) => {
     if (!record || typeof record !== 'object' || !Array.isArray(record.beats)) return;
     record.beats.forEach((beat, index) => collectAssetRef(beat?.imageUrl, `${record.personId}.story.beats.${index}.imageUrl`));
+  });
+}
+
+function validateArchiveLeadRefs(archiveLeads) {
+  if (!archiveLeads || typeof archiveLeads !== 'object') {
+    errors.push('Runtime data bundle must include archiveLeads.');
+    return;
+  }
+
+  if (!Array.isArray(archiveLeads.records)) {
+    errors.push('Runtime archiveLeads must include a records array.');
+    return;
+  }
+
+  archiveLeads.records.forEach((record, index) => {
+    if (!record || typeof record !== 'object') {
+      errors.push(`Archive lead at index ${index} must be an object.`);
+      return;
+    }
+    const label = record.id || `archive-lead-${index}`;
+    if (typeof record.inducteeId !== 'string' || record.inducteeId.trim().length === 0) errors.push(`${label}: missing inducteeId.`);
+    if (typeof record.title !== 'string' || record.title.trim().length === 0) errors.push(`${label}: missing title.`);
+    if (record.visibility === 'visitor-ready' && record.status !== 'visitor-ready') {
+      errors.push(`${label}: visitor-ready visibility requires visitor-ready status.`);
+    }
+    collectAssetRef(record.imageUrl, `${label}.archive.imageUrl`);
   });
 }
 

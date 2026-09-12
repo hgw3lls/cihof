@@ -329,10 +329,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "abby-mina-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -629,10 +629,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "aklilu-demessie-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -914,10 +914,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "akram-boutros-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -1167,10 +1167,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "albert-b-ratner-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -1437,10 +1437,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "alex-machaskee-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -1722,10 +1722,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ambassador-edward-f-crawford-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -2007,10 +2007,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "anda-cook-2022",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -2276,10 +2276,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "andy-chakalis-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -2561,10 +2561,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "andy-fedynsky-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -2831,10 +2831,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "anthony-yen-yan-yuan-tai-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -3098,10 +3098,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "arnie-de-la-porte-2016-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -3382,10 +3382,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "atul-mehta-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -3652,10 +3652,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "august-pust-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -3937,10 +3937,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "basil-russo-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -4189,10 +4189,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "berj-shakarian-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -4457,10 +4457,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "beverly-kerecman-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -4742,10 +4742,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "bill-miller-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -4964,10 +4964,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "bishop-a-edward-pevec-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -5232,10 +5232,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "bishop-anthony-pilla-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -5517,10 +5517,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "branka-malinar-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -5786,10 +5786,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "carl-robson-2022",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -6085,10 +6085,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "carolyn-balogh-2016-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -6354,10 +6354,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "catherine-jorgensen-mccutcheon-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -6610,6 +6610,22 @@
         "confidence": "curated",
         "sourceRecordId": "david-gilbert-2025",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-david-gilbert-2025:member_of_community:community-jewish",
+      "sourceEntityId": "person:david-gilbert-2025",
+      "targetEntityId": "community:jewish",
+      "type": "member_of_community",
+      "displayLabel": "Nationality / Heritage: Jewish",
+      "shortDescription": "David Gilbert is associated with Jewish.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "david-gilbert-2025",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -7205,10 +7221,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dick-russ-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -7490,10 +7506,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dona-brady-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -7696,10 +7712,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "donna-hom-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -7966,10 +7982,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dr-dieu-thuc-do-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -8203,10 +8219,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dr-eugene-jordan-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -8425,10 +8441,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dr-jaya-shah-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -8695,10 +8711,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dr-maria-pujana-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -8726,10 +8742,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "dr-maria-pujana-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -8995,10 +9011,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "erika-puussaar-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -9233,10 +9249,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ernie-mihaly-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -9503,10 +9519,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "eugene-bak-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -9833,10 +9849,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "eugenia-stolarczyk-2016-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -10039,10 +10055,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "fr-jim-o-donnell-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -10324,10 +10340,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "georgine-welo-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -10530,10 +10546,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "gerald-m-quinn-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -10800,10 +10816,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "giahoa-ryan-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -11070,10 +11086,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "helen-karpinski-1899-2002-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -11340,10 +11356,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "hon-mary-rose-oakar-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -11371,10 +11387,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "hon-mary-rose-oakar-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -11686,10 +11702,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "honorable-jose-a-villanueva-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -11955,10 +11971,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ingrida-bublys-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -12177,10 +12193,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "irene-morrow-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -12431,10 +12447,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "jack-coyne-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -12746,10 +12762,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "jack-kahl-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -13000,10 +13016,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "jeanette-grasselli-brown-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -13253,10 +13269,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "jim-craciun-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -13807,10 +13823,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "joe-valencic-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14092,10 +14108,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "johnny-k-wu-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14377,10 +14393,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "jose-c-feliciano-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14599,10 +14615,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "josef-holzer-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14869,10 +14885,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "joseph-p-meissner-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14885,10 +14901,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "joseph-p-meissner-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -14901,10 +14917,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "joseph-p-meissner-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -15138,10 +15154,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "joyce-mariani-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -15408,10 +15424,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ken-kovach-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -15424,10 +15440,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ken-kovach-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -15739,10 +15755,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "khalid-samad-2016-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -16008,10 +16024,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "le-nguyen-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -16230,10 +16246,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "leo-weidenthal-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -16452,10 +16468,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "lonnie-mccauley-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -16722,10 +16738,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "lucretia-stoica-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -17022,10 +17038,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "lucy-torres-2026",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -17259,10 +17275,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "luis-martinez-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -17481,10 +17497,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "margaret-callander-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -17734,10 +17750,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "margaret-lynch-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -18004,10 +18020,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "margaret-w-wong-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -18289,10 +18305,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "marilyn-madigan-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -18541,10 +18557,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "may-chen-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -18794,10 +18810,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "mayor-frank-jackson-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -18810,10 +18826,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "mayor-frank-jackson-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -19095,10 +19111,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "michael-d-polensek-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -19365,10 +19381,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "milton-maltz-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -19648,10 +19664,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "mohan-bafna-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -19917,10 +19933,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "mona-alag-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -20155,10 +20171,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "monte-ahuja-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -20361,10 +20377,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "nacy-panzica-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -20631,10 +20647,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "paramjit-singh-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -20647,10 +20663,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "paramjit-singh-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -20885,10 +20901,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "pat-dowd-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -21122,10 +21138,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "paul-burik-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -21138,10 +21154,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "paul-burik-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -21408,10 +21424,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "paul-sciria-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -21693,10 +21709,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "pierre-bejjani-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -21993,10 +22009,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "raj-aggarwal-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -22247,10 +22263,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ralph-j-perk-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -22547,10 +22563,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ralph-perk-jr-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -22563,10 +22579,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ralph-perk-jr-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -22863,10 +22879,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ramesh-shah-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23117,10 +23133,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ratanjit-s-sondhe-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23133,10 +23149,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ratanjit-s-sondhe-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23418,10 +23434,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "ray-pianka-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23688,10 +23704,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "rev-mikhail-mikhail-2016",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23973,10 +23989,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "reverend-dr-otis-moss-jr-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -24257,10 +24273,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "richard-a-ganim-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -24493,10 +24509,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "richard-fleischman-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -24763,10 +24779,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "robert-j-haas-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -25000,10 +25016,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "sam-kim-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -25254,10 +25270,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "samuel-h-miller-2013",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -25492,10 +25508,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "senator-george-voinovich-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -25508,10 +25524,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "senator-george-voinovich-2010",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -25808,10 +25824,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "sheila-murphy-crawford-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -26092,10 +26108,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "shiv-k-aggarwal-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -26391,10 +26407,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "sister-alicia-alvarado-2018",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -26676,10 +26692,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "sree-sreenath-2019",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -26960,10 +26976,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "steve-mulloy-2015",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -27229,10 +27245,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "sudarshan-sathe-2023",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -27514,10 +27530,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "svetlana-stolyarova-2025",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -27751,10 +27767,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "taras-szmagala-2022",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -28005,10 +28021,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "thomas-j-scanlon-2014",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -28259,10 +28275,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "tony-petkovsek-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -28544,10 +28560,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "valarie-mccall-2020",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -28844,10 +28860,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "veronica-dahlberg-2024",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -29080,10 +29096,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "victor-ruiz-2022",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -29318,10 +29334,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "vijaya-l-emani-2011",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -29588,10 +29604,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "vladimir-rus-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -29604,10 +29620,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "vladimir-rus-2012",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -29904,10 +29920,10 @@
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
-        "confidence": "inferred",
+        "confidence": "curated",
         "sourceRecordId": "wael-khoury-2017",
         "sourceField": "countryTags",
-        "note": "Generated nationality or heritage metadata; needs curatorial review."
+        "note": "Approved nationality or heritage metadata."
       }
     }
   ]

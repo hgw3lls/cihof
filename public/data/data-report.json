@@ -129,12 +129,12 @@
       "count": 5
     },
     {
-      "country": "Polish",
+      "country": "Jewish",
       "count": 5
     },
     {
-      "country": "Jewish",
-      "count": 4
+      "country": "Polish",
+      "count": 5
     },
     {
       "country": "Lebanese",
@@ -432,8 +432,7 @@
     "withoutThemeTags": [],
     "withoutCountryTags": [
       "jim-foster-2014",
-      "dick-pogue-2015",
-      "david-gilbert-2025"
+      "dick-pogue-2015"
     ]
   },
   "curation": {
@@ -457,10 +456,10 @@
         "count": 1
       }
     ],
-    "approvedSummaries": 0,
+    "approvedSummaries": 111,
     "approvedThemeTags": 0,
-    "approvedCountryTags": 0,
-    "inferredCountryTags": 108,
+    "approvedCountryTags": 109,
+    "inferredCountryTags": 0,
     "approvedCommunityTags": 30,
     "featured": [],
     "featuredCandidates": [
