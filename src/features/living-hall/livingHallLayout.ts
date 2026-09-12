@@ -862,7 +862,7 @@ function actionPanelMetrics(action: HallPersonAction, layout: HallLayoutMetrics)
     ? clamp(viewport.height * 0.58, 360, 620)
     : clamp(viewport.height * layout.foreground.actionMaxHeightRatio, panelAction === 'continue' ? 420 : 560, 820);
 
-  return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : 54 };
+  return { widthPx, heightPx, maxHeightPx, gapPx: compact ? 22 : layout.tier === 'dense' ? 78 : 54 };
 }
 
 function portraitFootprintRect(

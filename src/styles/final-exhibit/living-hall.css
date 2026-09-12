@@ -369,6 +369,33 @@
   overflow: hidden;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::before,
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::before {
+  z-index: 0;
+  background:
+    radial-gradient(circle at 34% 45%, rgba(155, 63, 31, 0.14), transparent 18%),
+    radial-gradient(circle at 72% 34%, rgba(49, 69, 92, 0.1), transparent 22%),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.16), transparent 8%, transparent 84%, rgba(21, 19, 15, 0.2)),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.18), transparent 10%, transparent 88%, rgba(21, 19, 15, 0.16));
+  mix-blend-mode: multiply;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::after {
+  z-index: 260;
+  border: 1px solid rgba(21, 19, 15, 0.22);
+  background:
+    linear-gradient(90deg, transparent 0 2.6%, rgba(155, 63, 31, 0.34) 2.6% 2.75%, transparent 2.75% 97.25%, rgba(155, 63, 31, 0.34) 97.25% 97.4%, transparent 97.4%),
+    linear-gradient(180deg, transparent 0 3.4%, rgba(155, 63, 31, 0.26) 3.4% 3.55%, transparent 3.55% 96.45%, rgba(155, 63, 31, 0.26) 96.45% 96.6%, transparent 96.6%);
+  opacity: 0.72;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__field {
   inset: 0;
   z-index: 1;
@@ -397,6 +424,98 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 96;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionLayer :is(path, circle) {
+  vector-effect: non-scaling-stroke;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionHorizon {
+  fill: none;
+  stroke: rgba(21, 19, 15, 0.12);
+  stroke-dasharray: 1.8 2.4;
+  stroke-width: 0.16;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionHorizon--vertical {
+  stroke-opacity: 0.64;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionRegisters path {
+  fill: none;
+  stroke: rgba(155, 63, 31, 0.5);
+  stroke-linecap: square;
+  stroke-width: 0.32;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionFocus {
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionLayer[data-projection-active="true"] .living-hall__projectionFocus {
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionFocus circle {
+  fill: none;
+  stroke: rgba(155, 63, 31, 0.56);
+  stroke-dasharray: 2.1 1.7;
+  stroke-width: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionFocus circle + circle {
+  stroke: rgba(21, 19, 15, 0.24);
+  stroke-dasharray: 0.6 2.2;
+  stroke-width: 0.18;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionFocus path {
+  fill: none;
+  stroke: rgba(155, 63, 31, 0.72);
+  stroke-width: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionLink {
+  fill: none;
+  stroke: rgba(21, 19, 15, 0.26);
+  stroke-dasharray: 3 2.1;
+  stroke-linecap: round;
+  stroke-width: 0.2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionLink--primary {
+  stroke: rgba(155, 63, 31, 0.72);
+  stroke-dasharray: 6 1.8 1.2 1.8;
+  stroke-width: 0.34;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionNode circle {
+  fill: rgba(244, 234, 211, 0.18);
+  stroke: rgba(21, 19, 15, 0.5);
+  stroke-width: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionNode path {
+  fill: none;
+  stroke: rgba(21, 19, 15, 0.42);
+  stroke-width: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__projectionNode--primary circle {
+  fill: rgba(155, 63, 31, 0.16);
+  stroke: rgba(155, 63, 31, 0.78);
+  stroke-width: 0.34;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__traceLine {
@@ -2096,6 +2215,10 @@
   transform: translate(-100%, -50%);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel[data-side="right"].detail--action-story {
+  transform: translate(clamp(60px, 6vw, 86px), -50%);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel.detail--action-watch {
   width: min(var(--person-action-width, 900px), calc(100vw - 72px));
 }
@@ -3126,19 +3249,46 @@
   max-height: var(--focus-card-max-height, min(86vh, 800px));
   overflow: auto;
   overscroll-behavior: contain;
+  isolation: isolate;
+  border: 1px solid rgba(21, 19, 15, 0.2);
+  border-left: 3px solid rgba(155, 63, 31, 0.86);
   background:
+    linear-gradient(135deg, rgba(155, 63, 31, 0.14) 0 1px, transparent 1px 22px),
     linear-gradient(90deg, rgba(9, 9, 7, 0.032) 1px, transparent 1px),
     linear-gradient(180deg, rgba(9, 9, 7, 0.028) 1px, transparent 1px),
     linear-gradient(90deg, rgba(244, 234, 211, 0.96) 0 82%, rgba(244, 234, 211, 0.72) 100%);
-  background-size: var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
+  background-size: 22px 22px, var(--exhibit-stage-grid), var(--exhibit-stage-grid), auto;
   box-shadow:
     0 0 0 1px rgba(9, 9, 7, 0.08),
+    inset 0 0 0 1px rgba(244, 234, 211, 0.42),
+    inset 16px 0 0 rgba(155, 63, 31, 0.055),
     18px 22px 42px rgba(9, 9, 7, 0.1);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
   padding: clamp(13px, 1.15vw, 20px);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__focusCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, transparent 0 78%, rgba(21, 19, 15, 0.045) 78% 78.4%, transparent 78.4%),
+    linear-gradient(180deg, transparent 0 6%, rgba(155, 63, 31, 0.18) 6% 6.3%, transparent 6.3%),
+    repeating-linear-gradient(180deg, transparent 0 23px, rgba(21, 19, 15, 0.035) 23px 24px);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__focusCard > * {
+  position: relative;
+  z-index: 1;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__focusHeader {
-  border-top-color: rgba(155, 63, 31, 0.86);
+  border-top: 0;
+  border-bottom: 1px solid rgba(21, 19, 15, 0.22);
+  background: rgba(244, 234, 211, 0.2);
+  padding: 0 0 clamp(8px, 0.8vw, 13px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__focusHeader button {
