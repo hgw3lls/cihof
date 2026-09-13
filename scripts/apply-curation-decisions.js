@@ -112,6 +112,7 @@ function applyRow(record, row, rowNumber, errors, warnings) {
   applyString(row, ['documented_context_line', 'context_line'], record, 'documentedContextLine', changed, clearEmpty);
   applyString(row, ['honored_for_summary', 'honored_for'], record, 'honoredForSummary', changed, clearEmpty);
   applyString(row, ['life_work_summary', 'life_and_work_summary'], record, 'lifeWorkSummary', changed, clearEmpty);
+  applyString(row, ['bio_text_override', 'approved_bio_text', 'display_bio_text'], record, 'bioTextOverride', changed, clearEmpty);
   applyList(row, ['approved_theme_tags'], record, 'approvedThemeTags', changed, clearEmpty);
   applyList(row, ['approved_country_tags', 'approved_countries', 'approved_nationality_tags', 'approved_nationality_heritage_tags'], record, 'approvedCountryTags', changed, clearEmpty);
   applyString(row, ['country_note', 'country_notes', 'nationality_note', 'nationality_heritage_note'], record, 'countryNotes', changed, clearEmpty);

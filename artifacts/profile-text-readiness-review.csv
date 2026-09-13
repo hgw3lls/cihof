@@ -1,0 +1,112 @@
+id,name,classYear,decision,criticalIssues,majorIssues,minorIssues,topIssues,needsSubstantiveEditFields,minimalEditFields,optionalPolishFields,recommendedAction
+alex-machaskee-2010,Alex Machaskee,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+august-pust-2010,August Pust,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+dr-dieu-thuc-do-2010,Dr. Dieu Thuc Do,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+helen-karpinski-1899-2002-2010,Helen Karpinski (1899 – 2002),2010,pass-as-is,0,0,1,DISPLAY_NAME_LIFE_DATES,,,displayName; pronunciation,Can pass for current copy triage; optional polish remains for accessibility/internal labels.
+irene-morrow-2010,Irene Morrow,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+jeanette-grasselli-brown-2010,Jeanette Grasselli Brown,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+leo-weidenthal-2010,Leo Weidenthal,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+lonnie-mccauley-2010,Lonnie McCauley,2010,pass-as-is,0,0,0,,,,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+margaret-w-wong-2010,Margaret W. Wong,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+paramjit-singh-2010,Paramjit Singh,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+paul-sciria-2010,Paul Sciria,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+robert-j-haas-2010,Robert J. Haas,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+senator-george-voinovich-2010,Senator George Voinovich,2010,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+albert-b-ratner-2011,Albert B. Ratner,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+gerald-m-quinn-2011,Gerald M. Quinn,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+giahoa-ryan-2011,Giahoa Ryan,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+lucretia-stoica-2011,Lucretia Stoica,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+luis-martinez-2011,Luis Martinez,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+ralph-j-perk-2011,Ralph J. Perk,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+reverend-dr-otis-moss-jr-2011,"Reverend Dr. Otis Moss, Jr.",2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+tony-petkovsek-2011,Tony Petkovsek,2011,pass-as-is,0,0,0,,,,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+vijaya-l-emani-2011,Vijaya L. Emani,2011,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+anthony-yen-yan-yuan-tai-2012,Anthony Yen (Yan Yuan Tai),2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+dr-jaya-shah-2012,Dr. Jaya Shah,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+fr-jim-o-donnell-2012,Fr. Jim O’Donnell,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+hon-mary-rose-oakar-2012,Hon. Mary Rose Oakar,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+jose-c-feliciano-2012,José C. Feliciano,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+ken-kovach-2012,Ken Kovach,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+milton-maltz-2012,Milton Maltz,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+vladimir-rus-2012,Vladimir Rus,2012,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+bishop-a-edward-pevec-2013,Bishop A. Edward Pevec,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+dr-maria-pujana-2013,Dr. Maria Pujana,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+jack-coyne-2013,Jack Coyne,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+josef-holzer-2013,Josef Holzer,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+nacy-panzica-2013,Nacy Panzica,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+ratanjit-s-sondhe-2013,Ratanjit S. Sondhe,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+samuel-h-miller-2013,Samuel H. Miller,2013,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+donna-hom-2014,Donna Hom,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+ernie-mihaly-2014,Ernie Mihaly,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+eugene-bak-2014,Eugene Bak,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+jim-foster-2014,Jim Foster,2014,pass-as-is,0,0,0,,,,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+joseph-p-meissner-2014,Joseph P Meissner,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+margaret-callander-2014,Margaret Callander,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+monte-ahuja-2014,Monte Ahuja,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+thomas-j-scanlon-2014,Thomas J. Scanlon,2014,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+bishop-anthony-pilla-2015,Bishop Anthony Pilla,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+dick-pogue-2015,Dick Pogue,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+dick-russ-2015,Dick Russ,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+honorable-jose-a-villanueva-2015,Honorable José A. Villanueva,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+richard-a-ganim-2015,Richard A. Ganim,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+shiv-k-aggarwal-2015,Shiv K. Aggarwal,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+steve-mulloy-2015,Steve Mulloy,2015,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+arnie-de-la-porte-2016-2016,Arnie de la Porte,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+carolyn-balogh-2016-2016,Carolyn Balogh,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+eugenia-stolarczyk-2016-2016,Eugenia Stolarczyk,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+jack-kahl-2016,Jack Kahl,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+khalid-samad-2016-2016,Khalid Samad,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+mohan-bafna-2016,Mohan Bafna,2016,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+rev-mikhail-mikhail-2016,Rev. Mikhail Mikhail,2016,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+basil-russo-2017,Basil Russo,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+bill-miller-2017,Bill Miller,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+jim-craciun-2017,Jim Craciun,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+mona-alag-2017,Mona Alag,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+sam-kim-2017,Sam Kim,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+wael-khoury-2017,Wael Khoury,2017,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+abby-mina-2018,Abby Mina,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+atul-mehta-2018,Atul Mehta,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+ralph-perk-jr-2018,Ralph Perk Jr.,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+ray-pianka-2018,Ray Pianka,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+sheila-murphy-crawford-2018,Sheila Murphy Crawford,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+sister-alicia-alvarado-2018,Sister Alicia Alvarado,2018,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+akram-boutros-2019,Akram Boutros,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+ingrida-bublys-2019,Ingrida Bublys,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+marilyn-madigan-2019,Marilyn Madigan,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+paul-burik-2019,Paul Burik,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+richard-fleischman-2019,Richard Fleischman,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+sree-sreenath-2019,Sree Sreenath,2019,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+berj-shakarian-2020,Berj Shakarian,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+joe-valencic-2020,Joe Valencic,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+margaret-lynch-2020,Margaret Lynch,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+may-chen-2020,May Chen,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+ramesh-shah-2020,Ramesh Shah,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+valarie-mccall-2020,Valarie McCall,2020,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+anda-cook-2022,Anda Cook,2022,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+carl-robson-2022,Carl Robson,2022,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+taras-szmagala-2022,Taras Szmagala,2022,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+victor-ruiz-2022,Victor Ruiz,2022,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+georgine-welo-2023,Georgine Welo,2023,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+joyce-mariani-2023,Joyce Mariani,2023,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+michael-d-polensek-2023,Michael D. Polensek,2023,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+pat-dowd-2023,Pat Dowd,2023,pass-as-is,0,0,0,,,,pronunciation,Can pass as-is for current copy triage.
+pierre-bejjani-2023,Pierre Bejjani,2023,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+sudarshan-sathe-2023,Sudarshan Sathe,2023,pass-as-is,0,0,0,,,videoCaptionTranscriptText,,Can pass as-is for current copy triage.
+ambassador-edward-f-crawford-2024,Ambassador Edward F. Crawford,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+dona-brady-2024,Dona Brady,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+dr-eugene-jordan-2024,Dr. Eugene Jordan,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+erika-puussaar-2024,Erika Puussaar,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+johnny-k-wu-2024,Johnny K. Wu,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+veronica-dahlberg-2024,Veronica Dahlberg,2024,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+beverly-kerecman-2025,Beverly Kerecman,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+branka-malinar-2025,Branka Malinar,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+david-gilbert-2025,David Gilbert,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+mayor-frank-jackson-2025,Mayor Frank Jackson,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation; storySectionBeats,Can pass as-is for current copy triage.
+raj-aggarwal-2025,Raj Aggarwal,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+svetlana-stolyarova-2025,Svetlana Stolyarova,2025,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+aklilu-demessie-2026,Aklilu Demessie,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+andy-chakalis-2026,Andy Chakalis,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation; archiveLeadText,Can pass as-is for current copy triage.
+andy-fedynsky-2026,Andy Fedynsky,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+catherine-jorgensen-mccutcheon-2026,Catherine Jorgensen McCutcheon,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+le-nguyen-2026,Le Nguyen,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.
+lucy-torres-2026,Lucy Torres,2026,pass-as-is,0,0,0,,,videoCaptionTranscriptText,pronunciation,Can pass as-is for current copy triage.

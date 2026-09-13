@@ -4,12 +4,12 @@
   "type": "Manifest",
   "label": {
     "en": [
-      "Carolyn Balogh – 2016, Class of 2016"
+      "Carolyn Balogh, Class of 2016"
     ]
   },
   "summary": {
     "en": [
-      "Carolyn Balogh Carolyn Balogh Carolyn Balogh was born and raised in Cleveland, Ohio. She earned her B.S. in Education from Ohio University in Athens, Ohio. Following graduation, she taught in Cleveland, Ohio, Euclid, Ohio, and Oakland, California. When Carolyn’s husband established their business, Mar-Bal, Inc. in 1970, Carolyn assumed the role of Human Resource Manager and Chief Financial Officer. She currently manages their real estate company, Balogh Real Estate LLP. You will see Carolyn at all the events and programs for the Cleveland Hungarian..."
+      "Carolyn Balogh joined education, family enterprise, real estate, and Hungarian community service across Northeast Ohio. After earning her education degree from Ohio University, she taught in several cities, helped lead Mar-Bal, Inc. as human resource manager and chief financial officer, managed Balogh Real Estate LLP, and supported Hungarian Cultural Garden programs and events."
     ]
   },
   "metadata": [
@@ -46,6 +46,18 @@
       "value": {
         "en": [
           "Hungarian"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "European Heritage"
         ]
       }
     },

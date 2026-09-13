@@ -6,6 +6,7 @@ const screenshotDir = process.env.CIHOF_FRAME_SCREENSHOT_DIR ?? '/tmp/cihof-port
 
 test.describe('production PortraitFrame system', () => {
   test('the same real inductee frame renders standard, focus, trace, and legacy states', async ({ page }) => {
+    test.setTimeout(45_000);
     mkdirSync(screenshotDir, { recursive: true });
     await page.goto('./');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
@@ -28,9 +29,24 @@ test.describe('production PortraitFrame system', () => {
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
     await waitForGuard(page);
+
+    const initialCohortClose = page.getByRole('button', { name: 'Close cohort navigator' });
+    if (await initialCohortClose.count()) {
+      await initialCohortClose.click();
+      await waitForGuard(page);
+      await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
+    }
+
     await page.waitForTimeout(820);
+    const legacyPortrait = page.locator(`button.living-portrait[data-transition-person="${id}"]`);
+    const legacyClassYear = await legacyPortrait.getAttribute('data-legacy-class-year');
+    if (legacyClassYear) {
+      await page.getByRole('button', { name: new RegExp(`Class of ${legacyClassYear},`) }).click();
+      await waitForGuard(page);
+      await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', legacyClassYear);
+    }
     await expectFrameState(page, id, 'legacy');
-    await expect(page.locator(`button.living-portrait[data-transition-person="${id}"]`)).toHaveCSS('--frame-rotation', '0deg');
+    await expect(legacyPortrait).toHaveCSS('--frame-rotation', '0deg');
     await screenshotFrame(page, id, 'legacy');
 
     const cohortClose = page.getByRole('button', { name: 'Close cohort navigator' });
@@ -38,7 +54,7 @@ test.describe('production PortraitFrame system', () => {
       await cohortClose.click();
       await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', '');
     }
-    await page.locator(`button.living-portrait[data-transition-person="${id}"]`).click();
+    await legacyPortrait.click();
     await expectFrameState(page, id, 'focus');
     await screenshotFrame(page, id, 'focus');
 

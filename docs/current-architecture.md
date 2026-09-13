@@ -164,8 +164,11 @@ Current audit shape:
 - `111` inductees
 - `111/111` primary image paths present
 - `450` generated entities
-- `1,889` generated entity relationships
+- `1,890` generated entity relationships
 - `0` explicit curated relationship records
-- `64` profiles currently have video links in generated runtime data
+- `111/111` curated records have summary, documented context, HONORED FOR, and Life + Work fields populated
+- `111/111` curated records still have overall draft approval status
+- `64` profiles currently have video links in generated runtime data, represented as `94` media-manifest video items
+- `111/111` primary images wall-ready; `0/111` primary images and `0/94` videos kiosk-ready
 - `1,204` remote media references remain in offline validation
 - kiosk-ready media approval/localization is still the main production content gap

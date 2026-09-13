@@ -1,0 +1,1219 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T14:12:16.678Z",
+  "collector": "scripts/filter-external-contributions.js",
+  "sourceInput": "data/external-research/cihof-external-source-candidates.json",
+  "integrationStatus": "not-integrated",
+  "reviewStatus": "needs-curator-approval-before-integration",
+  "qualityPolicy": {
+    "kept": [
+      "Strong identity-matched Wikipedia summaries",
+      "Strong identity-matched Wikidata claim sets",
+      "External official or institutional source leads with usable URLs"
+    ],
+    "dropped": [
+      "Loose Wikipedia candidates",
+      "Loose Wikidata candidates",
+      "Source errors and empty search placeholders",
+      "Generic biography, directory, social, and media domains",
+      "Any URL from the excluded primary source domains"
+    ],
+    "excludedDomains": [
+      "clevelandinternationalhalloffame.com",
+      "clevelandpeople.com"
+    ],
+    "note": "This is still a review file. It contains only contribution candidates and does not promote facts into canonical CIHOF data."
+  },
+  "summary": {
+    "inputRecords": 111,
+    "retainedRecords": 23,
+    "droppedRecords": 88,
+    "retainedContributionItems": 33,
+    "retainedWikipediaSummaries": 4,
+    "retainedWikidataClaimSets": 0,
+    "retainedOfficialSiteLeads": 29,
+    "droppedReasonCounts": {
+      "weak-identity-candidates-only": 43,
+      "no-contributing-external-source": 45
+    },
+    "droppedIds": [
+      "alex-machaskee-2010",
+      "august-pust-2010",
+      "dr-dieu-thuc-do-2010",
+      "irene-morrow-2010",
+      "leo-weidenthal-2010",
+      "lonnie-mccauley-2010",
+      "paramjit-singh-2010",
+      "paul-sciria-2010",
+      "robert-j-haas-2010",
+      "albert-b-ratner-2011",
+      "gerald-m-quinn-2011",
+      "giahoa-ryan-2011",
+      "lucretia-stoica-2011",
+      "luis-martinez-2011",
+      "tony-petkovsek-2011",
+      "vijaya-l-emani-2011",
+      "anthony-yen-yan-yuan-tai-2012",
+      "dr-jaya-shah-2012",
+      "fr-jim-o-donnell-2012",
+      "ken-kovach-2012",
+      "milton-maltz-2012",
+      "vladimir-rus-2012",
+      "bishop-a-edward-pevec-2013",
+      "jack-coyne-2013",
+      "nacy-panzica-2013",
+      "ratanjit-s-sondhe-2013",
+      "donna-hom-2014",
+      "ernie-mihaly-2014",
+      "eugene-bak-2014",
+      "jim-foster-2014",
+      "joseph-p-meissner-2014",
+      "margaret-callander-2014",
+      "thomas-j-scanlon-2014",
+      "bishop-anthony-pilla-2015",
+      "dick-pogue-2015",
+      "dick-russ-2015",
+      "shiv-k-aggarwal-2015",
+      "steve-mulloy-2015",
+      "arnie-de-la-porte-2016-2016",
+      "carolyn-balogh-2016-2016",
+      "eugenia-stolarczyk-2016-2016",
+      "khalid-samad-2016-2016",
+      "mohan-bafna-2016",
+      "rev-mikhail-mikhail-2016",
+      "basil-russo-2017",
+      "bill-miller-2017",
+      "jim-craciun-2017",
+      "mona-alag-2017",
+      "sam-kim-2017",
+      "wael-khoury-2017",
+      "atul-mehta-2018",
+      "ralph-perk-jr-2018",
+      "ray-pianka-2018",
+      "sheila-murphy-crawford-2018",
+      "sister-alicia-alvarado-2018",
+      "akram-boutros-2019",
+      "ingrida-bublys-2019",
+      "marilyn-madigan-2019",
+      "paul-burik-2019",
+      "richard-fleischman-2019",
+      "berj-shakarian-2020",
+      "joe-valencic-2020",
+      "margaret-lynch-2020",
+      "may-chen-2020",
+      "ramesh-shah-2020",
+      "valarie-mccall-2020",
+      "anda-cook-2022",
+      "carl-robson-2022",
+      "michael-d-polensek-2023",
+      "pat-dowd-2023",
+      "pierre-bejjani-2023",
+      "sudarshan-sathe-2023",
+      "dona-brady-2024",
+      "dr-eugene-jordan-2024",
+      "erika-puussaar-2024",
+      "johnny-k-wu-2024",
+      "veronica-dahlberg-2024",
+      "beverly-kerecman-2025",
+      "branka-malinar-2025",
+      "david-gilbert-2025",
+      "raj-aggarwal-2025",
+      "svetlana-stolyarova-2025",
+      "aklilu-demessie-2026",
+      "andy-chakalis-2026",
+      "andy-fedynsky-2026",
+      "catherine-jorgensen-mccutcheon-2026",
+      "le-nguyen-2026",
+      "lucy-torres-2026"
+    ]
+  },
+  "selectedIds": [
+    "helen-karpinski-1899-2002-2010",
+    "jeanette-grasselli-brown-2010",
+    "margaret-w-wong-2010",
+    "senator-george-voinovich-2010",
+    "ralph-j-perk-2011",
+    "reverend-dr-otis-moss-jr-2011",
+    "hon-mary-rose-oakar-2012",
+    "jose-c-feliciano-2012",
+    "dr-maria-pujana-2013",
+    "josef-holzer-2013",
+    "samuel-h-miller-2013",
+    "monte-ahuja-2014",
+    "honorable-jose-a-villanueva-2015",
+    "richard-a-ganim-2015",
+    "jack-kahl-2016",
+    "abby-mina-2018",
+    "sree-sreenath-2019",
+    "taras-szmagala-2022",
+    "victor-ruiz-2022",
+    "georgine-welo-2023",
+    "joyce-mariani-2023",
+    "ambassador-edward-f-crawford-2024",
+    "mayor-frank-jackson-2025"
+  ],
+  "records": {
+    "helen-karpinski-1899-2002-2010": {
+      "id": "helen-karpinski-1899-2002-2010",
+      "name": "Helen Karpinski (1899 – 2002)",
+      "classYear": 2010,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu https:// web.ulib.csuohio.edu › ebooks › karpinski › bio.html",
+          "value": "Helen Karpinski was the first woman to run under the new City Charter and survive a primary. She placed ahead of the incumbent, …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://web.ulib.csuohio.edu/ebooks/karpinski/bio.html",
+          "sourceTitle": "csuohio.edu https:// web.ulib.csuohio.edu › ebooks › karpinski › bio.html",
+          "domain": "web.ulib.csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "web.ulib.csuohio.edu"
+        ],
+        "sourceUrls": [
+          "https://web.ulib.csuohio.edu/ebooks/karpinski/bio.html"
+        ]
+      }
+    },
+    "jeanette-grasselli-brown-2010": {
+      "id": "jeanette-grasselli-brown-2010",
+      "name": "Jeanette Grasselli Brown",
+      "classYear": 2010,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "wikipediaSummary",
+          "label": "Strong Wikipedia identity match",
+          "value": "Jeanette Grasselli Brown was an American analytical chemist and spectroscopist who is known for her work with Standard Oil of Ohio as an industrial researcher in the field of spectroscopy.",
+          "sourceType": "wikipedia",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Jeanette_Grasselli_Brown",
+          "sourceTitle": "Jeanette Grasselli Brown",
+          "domain": "en.wikipedia.org",
+          "confidence": "strong-identity-match",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "score": 0.9,
+            "reasons": [
+              "exact-name-match",
+              "name-token-overlap",
+              "context-token-overlap",
+              "has-wikipedia"
+            ],
+            "contextMatches": [
+              "industrial",
+              "standard"
+            ],
+            "wikidataId": "Q41693011"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "wikipediaSummary"
+        ],
+        "sourceDomains": [
+          "en.wikipedia.org"
+        ],
+        "sourceUrls": [
+          "https://en.wikipedia.org/wiki/Jeanette_Grasselli_Brown"
+        ]
+      }
+    },
+    "margaret-w-wong-2010": {
+      "id": "margaret-w-wong-2010",
+      "name": "Margaret W. Wong",
+      "classYear": 2010,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "wikipediaSummary",
+          "label": "Strong Wikipedia identity match",
+          "value": "Margaret Wai Wong is a naturalized American immigration lawyer who created an immigration and nationality law practice in 1978, of which she is senior and managing partner.",
+          "sourceType": "wikipedia",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Margaret_W._Wong",
+          "sourceTitle": "Margaret W. Wong",
+          "domain": "en.wikipedia.org",
+          "confidence": "strong-identity-match",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "score": 0.903,
+            "reasons": [
+              "exact-name-match",
+              "name-token-overlap",
+              "context-token-overlap",
+              "has-wikipedia"
+            ],
+            "contextMatches": [
+              "practice",
+              "immigration",
+              "nationality"
+            ],
+            "wikidataId": "Q18172382"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "imwong.com https://www.imwong.com › attorneys",
+          "value": "Biography Nour Chammas is an immigration attorney at Margaret W. Wong & Associates, LLC. Based out of the Cleveland, Ohio …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.imwong.com/attorneys/",
+          "sourceTitle": "imwong.com https://www.imwong.com › attorneys",
+          "domain": "imwong.com",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "named-or-personal-domain"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "wikipediaSummary",
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "en.wikipedia.org",
+          "imwong.com"
+        ],
+        "sourceUrls": [
+          "https://en.wikipedia.org/wiki/Margaret_W._Wong",
+          "https://www.imwong.com/attorneys/"
+        ]
+      }
+    },
+    "senator-george-voinovich-2010": {
+      "id": "senator-george-voinovich-2010",
+      "name": "Senator George Voinovich",
+      "classYear": 2010,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 3,
+      "contributions": [
+        {
+          "type": "wikipediaSummary",
+          "label": "Strong Wikipedia identity match",
+          "value": "George Victor Voinovich was an American politician. A member of the Republican Party, he was a United States senator from Ohio from 1999 to 2011, the 65th governor of Ohio from 1991 to 1998, and the 54th mayor of Cleveland from 1980 to 1989. He is the most recent Republican to serve as mayor of Cleveland as of 2026.",
+          "sourceType": "wikipedia",
+          "sourceUrl": "https://en.wikipedia.org/wiki/George_Voinovich",
+          "sourceTitle": "George Voinovich",
+          "domain": "en.wikipedia.org",
+          "confidence": "strong-identity-match",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "score": 0.92,
+            "reasons": [
+              "exact-name-match",
+              "name-token-overlap",
+              "context-token-overlap",
+              "has-wikipedia"
+            ],
+            "contextMatches": [
+              "governor",
+              "mayor",
+              "states"
+            ],
+            "wikidataId": "Q529873"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "ohio.edu https:// www.ohio.edu › voinovich-school › about › george-voinovich",
+          "value": "George Victor Voinovich (July 15, 1936 – June 12, 2016) was a former U.S. Senator. He also served as the 65th Governor of Ohio …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.ohio.edu/voinovich-school/about/george-voinovich",
+          "sourceTitle": "ohio.edu https:// www.ohio.edu › voinovich-school › about › george-voinovich",
+          "domain": "ohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "ohio.edu https://archivesspace.ohio.edu › agents › people",
+          "value": "Papers of Senator George Voinovich of Ohio from 1999 through 2010 and includes some materials from his time as Mayor of …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://archivesspace.ohio.edu/agents/people/1014",
+          "sourceTitle": "ohio.edu https://archivesspace.ohio.edu › agents › people",
+          "domain": "archivesspace.ohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "wikipediaSummary",
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "archivesspace.ohio.edu",
+          "en.wikipedia.org",
+          "ohio.edu"
+        ],
+        "sourceUrls": [
+          "https://en.wikipedia.org/wiki/George_Voinovich",
+          "https://www.ohio.edu/voinovich-school/about/george-voinovich",
+          "https://archivesspace.ohio.edu/agents/people/1014"
+        ]
+      }
+    },
+    "ralph-j-perk-2011": {
+      "id": "ralph-j-perk-2011",
+      "name": "Ralph J. Perk",
+      "classYear": 2011,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "wikipediaSummary",
+          "label": "Strong Wikipedia identity match",
+          "value": "Ralph J. Perk was an American politician who served as the 52nd mayor of Cleveland from 1972 to 1977. A member of the Republican Party, he was Cleveland's first Republican mayor in approximately 30 years. Before becoming mayor, Perk represented the city's 13th Ward on the Cleveland City Council from 1953 to 1961 and served as auditor of Cuyahoga County from 1962 to 1971.",
+          "sourceType": "wikipedia",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Ralph_Perk",
+          "sourceTitle": "Ralph Perk",
+          "domain": "en.wikipedia.org",
+          "confidence": "strong-identity-match",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "score": 0.92,
+            "reasons": [
+              "exact-name-match",
+              "name-token-overlap",
+              "context-token-overlap",
+              "has-wikipedia"
+            ],
+            "contextMatches": [
+              "city",
+              "52nd",
+              "mayor",
+              "before",
+              "becoming"
+            ],
+            "wikidataId": "Q7287953"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "case.edu https://case.edu › ech › articles › perk-ralph-j",
+          "value": "He was re-elected twice and remained the only Republican county official until 1970. In 1971, Perk defeated James M. Carney and …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://case.edu/ech/articles/p/perk-ralph-j",
+          "sourceTitle": "case.edu https://case.edu › ech › articles › perk-ralph-j",
+          "domain": "case.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "wikipediaSummary",
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "case.edu",
+          "en.wikipedia.org"
+        ],
+        "sourceUrls": [
+          "https://en.wikipedia.org/wiki/Ralph_Perk",
+          "https://case.edu/ech/articles/p/perk-ralph-j"
+        ]
+      }
+    },
+    "reverend-dr-otis-moss-jr-2011": {
+      "id": "reverend-dr-otis-moss-jr-2011",
+      "name": "Reverend Dr. Otis Moss, Jr.",
+      "classYear": 2011,
+      "region": "Africa",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "thehistorymakers.org https://www.thehistorymakers.org › biography › reverend-dr-otis-moss-jr",
+          "value": "Mar 18, 2005 &nbsp;&#0183;&#32;In 1975, he was called to pastor Olivet Institutional Baptist Church in Cleveland, Ohio, where he continues today. …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.thehistorymakers.org/biography/reverend-dr-otis-moss-jr",
+          "sourceTitle": "thehistorymakers.org https://www.thehistorymakers.org › biography › reverend-dr-otis-moss-jr",
+          "domain": "thehistorymakers.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "thehistorymakers.org"
+        ],
+        "sourceUrls": [
+          "https://www.thehistorymakers.org/biography/reverend-dr-otis-moss-jr"
+        ]
+      }
+    },
+    "hon-mary-rose-oakar-2012": {
+      "id": "hon-mary-rose-oakar-2012",
+      "name": "Hon. Mary Rose Oakar",
+      "classYear": 2012,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "bw.edu https:// www.bw.edu › centers › women-and-politics-of-ohio › bio s",
+          "value": "When Mary Rose Oakar successfully ran for US House in 1976 at the age of 36, she would become one of the few woman in history …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.bw.edu/centers/women-and-politics-of-ohio/bios/02-oakar-mary-rose/",
+          "sourceTitle": "bw.edu https:// www.bw.edu › centers › women-and-politics-of-ohio › bio s",
+          "domain": "bw.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "bw.edu"
+        ],
+        "sourceUrls": [
+          "https://www.bw.edu/centers/women-and-politics-of-ohio/bios/02-oakar-mary-rose/"
+        ]
+      }
+    },
+    "jose-c-feliciano-2012": {
+      "id": "jose-c-feliciano-2012",
+      "name": "José C. Feliciano",
+      "classYear": 2012,
+      "region": "North America",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu https://business.csuohio.edu › pointsofpride › jose-feliciano",
+          "value": "Mr. Feliciano is a past recipient of both the Cleveland Marshall Law School and Business College Hall of Fame of Cleveland State …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://business.csuohio.edu/pointsofpride/jose-feliciano",
+          "sourceTitle": "csuohio.edu https://business.csuohio.edu › pointsofpride › jose-feliciano",
+          "domain": "business.csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "ohio.gov https://ochla.ohio.gov › wps › portal › gov › ochla › about › ...",
+          "value": "Jose Feliciano, Jr.. Hometown: Aurora Commissioner Feliciano the External Affairs Manager at the Greater Cleveland Regional …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://ochla.ohio.gov/wps/portal/gov/ochla/about/board-of-commissioners/commissioners-bios/05-jose-feliciano",
+          "sourceTitle": "ohio.gov https://ochla.ohio.gov › wps › portal › gov › ochla › about › ...",
+          "domain": "ochla.ohio.gov",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "business.csuohio.edu",
+          "ochla.ohio.gov"
+        ],
+        "sourceUrls": [
+          "https://business.csuohio.edu/pointsofpride/jose-feliciano",
+          "https://ochla.ohio.gov/wps/portal/gov/ochla/about/board-of-commissioners/commissioners-bios/05-jose-feliciano"
+        ]
+      }
+    },
+    "dr-maria-pujana-2013": {
+      "id": "dr-maria-pujana-2013",
+      "name": "Dr. Maria Pujana",
+      "classYear": 2013,
+      "region": "South America",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "clevelandfoundation100.org https://www. cleveland foundation100.org › trustees",
+          "value": "Maria Pujana, M.D., a clinical neurologist and neurophysiologist, is adjunct instructor at Case Western Reserve University’s Center …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.clevelandfoundation100.org/trustees/maria-jose-pujana-2/",
+          "sourceTitle": "clevelandfoundation100.org https://www. cleveland foundation100.org › trustees",
+          "domain": "clevelandfoundation100.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "mariapujanadesigns.com https:// mariapujana designs.com › about-maria",
+          "value": "Maria Pujana, a retired clinical neurologist and neurophysiologist, and was a faculty member at Case Western Reserve University’s …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://mariapujanadesigns.com/about-maria",
+          "sourceTitle": "mariapujanadesigns.com https:// mariapujana designs.com › about-maria",
+          "domain": "mariapujanadesigns.com",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "named-or-personal-domain"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "clevelandfoundation100.org",
+          "mariapujanadesigns.com"
+        ],
+        "sourceUrls": [
+          "https://www.clevelandfoundation100.org/trustees/maria-jose-pujana-2/",
+          "https://mariapujanadesigns.com/about-maria"
+        ]
+      }
+    },
+    "josef-holzer-2013": {
+      "id": "josef-holzer-2013",
+      "name": "Josef Holzer",
+      "classYear": 2013,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu http://flash.ulib.csuohio.edu › cmp › perk › holzer-odonnell.html",
+          "value": "Josef Holzer and the mayor both worked diligently to promote Cleveland's ethnic heritage. Ohio Supreme Court Justice Terrence …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "http://flash.ulib.csuohio.edu/cmp/perk/holzer-odonnell.html",
+          "sourceTitle": "csuohio.edu http://flash.ulib.csuohio.edu › cmp › perk › holzer-odonnell.html",
+          "domain": "flash.ulib.csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "flash.ulib.csuohio.edu"
+        ],
+        "sourceUrls": [
+          "http://flash.ulib.csuohio.edu/cmp/perk/holzer-odonnell.html"
+        ]
+      }
+    },
+    "samuel-h-miller-2013": {
+      "id": "samuel-h-miller-2013",
+      "name": "Samuel H. Miller",
+      "classYear": 2013,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "cpl.org https:// cpl.org › citation › samuel-miller-papers-and-photographs",
+          "value": "Samuel H. “Sam” Miller was born on June 26, 1921 in Cleveland, Ohio. He graduated from Western Reserve University in Cleveland …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://cpl.org/citation/samuel-miller-papers-and-photographs/",
+          "sourceTitle": "cpl.org https:// cpl.org › citation › samuel-miller-papers-and-photographs",
+          "domain": "cpl.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "catholiccommunity.org https:// www.catholiccommunity.org › about › our-impact › sam-miller",
+          "value": "The Samuel H. and Maria Miller Foundation has responded to the great need in our community with a generous gift of $500,000 …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.catholiccommunity.org/about/our-impact/sam-miller",
+          "sourceTitle": "catholiccommunity.org https:// www.catholiccommunity.org › about › our-impact › sam-miller",
+          "domain": "catholiccommunity.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "catholiccommunity.org",
+          "cpl.org"
+        ],
+        "sourceUrls": [
+          "https://cpl.org/citation/samuel-miller-papers-and-photographs/",
+          "https://www.catholiccommunity.org/about/our-impact/sam-miller"
+        ]
+      }
+    },
+    "monte-ahuja-2014": {
+      "id": "monte-ahuja-2014",
+      "name": "Monte Ahuja",
+      "classYear": 2014,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "clevelandvoices.org https:// cleveland voices.org › items › show",
+          "value": "This interview was conducted as part of Cleveland State University's 50th Anniversary Comemmoration effort. Monte Ahuja, currently …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://clevelandvoices.org/items/show/1982",
+          "sourceTitle": "clevelandvoices.org https:// cleveland voices.org › items › show",
+          "domain": "clevelandvoices.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "indiaspora.org https://www.indiaspora.org › philanthropy-leader › monte-ahuja",
+          "value": "Monte has previously served as Trustee of the Cleveland State University Board and its Chairman of the Board. In 2011, University …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.indiaspora.org/philanthropy-leader/monte-ahuja/",
+          "sourceTitle": "indiaspora.org https://www.indiaspora.org › philanthropy-leader › monte-ahuja",
+          "domain": "indiaspora.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "clevelandvoices.org",
+          "indiaspora.org"
+        ],
+        "sourceUrls": [
+          "https://clevelandvoices.org/items/show/1982",
+          "https://www.indiaspora.org/philanthropy-leader/monte-ahuja/"
+        ]
+      }
+    },
+    "honorable-jose-a-villanueva-2015": {
+      "id": "honorable-jose-a-villanueva-2015",
+      "name": "Honorable José A. Villanueva",
+      "classYear": 2015,
+      "region": "North America",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "thehispanicroundtable.org https://thehispanicroundtable.org › user › files › Bio s...",
+          "value": "egal Aid Society (CLAS). As an attorney with the CLAS, Judge Villanueva represented a bilingual clientele on Clev and’s Near West …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://thehispanicroundtable.org/user/files/Bios/Judge%20Jose%20A-%20Villanueva%20Bio.pdf",
+          "sourceTitle": "thehispanicroundtable.org https://thehispanicroundtable.org › user › files › Bio s...",
+          "domain": "thehispanicroundtable.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "thehispanicroundtable.org"
+        ],
+        "sourceUrls": [
+          "https://thehispanicroundtable.org/user/files/Bios/Judge%20Jose%20A-%20Villanueva%20Bio.pdf"
+        ]
+      }
+    },
+    "richard-a-ganim-2015": {
+      "id": "richard-a-ganim-2015",
+      "name": "Richard A. Ganim",
+      "classYear": 2015,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu http:// flash.ulib.csuohio.edu › cmp › perk › akers-camp-ganim.html",
+          "value": "Richard A. Ganim, a close friend of the mayor, campaigned twice for Ralph Perk: first for Cuyahoga County Auditor and then for …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "http://flash.ulib.csuohio.edu/cmp/perk/akers-camp-ganim.html",
+          "sourceTitle": "csuohio.edu http:// flash.ulib.csuohio.edu › cmp › perk › akers-camp-ganim.html",
+          "domain": "flash.ulib.csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "flash.ulib.csuohio.edu"
+        ],
+        "sourceUrls": [
+          "http://flash.ulib.csuohio.edu/cmp/perk/akers-camp-ganim.html"
+        ]
+      }
+    },
+    "jack-kahl-2016": {
+      "id": "jack-kahl-2016",
+      "name": "Jack Kahl",
+      "classYear": 2016,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "clevelandpolicefoundation.org https:// cleveland policefoundation.org › about-the-cpf › jack-kahl",
+          "value": "The Cleveland Police Foundation is an alliance of business and civic leaders, law enforcement organizations and citizens committed …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://clevelandpolicefoundation.org/about-the-cpf/jack-kahl/",
+          "sourceTitle": "clevelandpolicefoundation.org https:// cleveland policefoundation.org › about-the-cpf › jack-kahl",
+          "domain": "clevelandpolicefoundation.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "clevelandpolicefoundation.org"
+        ],
+        "sourceUrls": [
+          "https://clevelandpolicefoundation.org/about-the-cpf/jack-kahl/"
+        ]
+      }
+    },
+    "abby-mina-2018": {
+      "id": "abby-mina-2018",
+      "name": "Abby Mina",
+      "classYear": 2018,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "clevelandvoices.org https:// cleveland voices.org › items › browse",
+          "value": "Abdullah (Abby) Mina, is a radio host for the Arabic program on Cleveland State University's WCSB 89.3. He has served as the past …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://clevelandvoices.org/items/browse?term=citizenship&advanced[0][element_id]=49&advanced[0][type]=contains&advanced[0][terms]=citizenship",
+          "sourceTitle": "clevelandvoices.org https:// cleveland voices.org › items › browse",
+          "domain": "clevelandvoices.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "clevelandvoices.org https:// cleveland voices.org › items › show",
+          "value": "Jun 7, 2016 &nbsp;&#0183;&#32;Abdullah (Abby) Mina, is a radio host for the Arabic program on Cleveland State University's WCSB 89.3. He has …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://clevelandvoices.org/items/show/2634",
+          "sourceTitle": "clevelandvoices.org https:// cleveland voices.org › items › show",
+          "domain": "clevelandvoices.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "clevelandvoices.org"
+        ],
+        "sourceUrls": [
+          "https://clevelandvoices.org/items/browse?term=citizenship&advanced[0][element_id]=49&advanced[0][type]=contains&advanced[0][terms]=citizenship",
+          "https://clevelandvoices.org/items/show/2634"
+        ]
+      }
+    },
+    "sree-sreenath-2019": {
+      "id": "sree-sreenath-2019",
+      "name": "Sree Sreenath",
+      "classYear": 2019,
+      "region": "Asia",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "vayuusa.org https://vayuusa.org › team",
+          "value": "Sree N. Sreenath, PhD President, VaYU Education: Bachelor of Engg., Bangalore University, 1980 Master of Engg., Indian Institute …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://vayuusa.org/team/sree-n-sreenath-1/",
+          "sourceTitle": "vayuusa.org https://vayuusa.org › team",
+          "domain": "vayuusa.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "vayuusa.org"
+        ],
+        "sourceUrls": [
+          "https://vayuusa.org/team/sree-n-sreenath-1/"
+        ]
+      }
+    },
+    "taras-szmagala-2022": {
+      "id": "taras-szmagala-2022",
+      "name": "Taras Szmagala",
+      "classYear": 2022,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu https:// www.csuohio.edu › sites › default › files",
+          "value": "TARAS (TERRY) G. SZMAGALA, JR. TARAS (TERRY) G. SZMAGALA, JR. was appointed to the Cleveland State University Board …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.csuohio.edu/sites/default/files/2026-02/bio-taras_szmagala_a11y.pdf",
+          "sourceTitle": "csuohio.edu https:// www.csuohio.edu › sites › default › files",
+          "domain": "csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "csuohio.edu"
+        ],
+        "sourceUrls": [
+          "https://www.csuohio.edu/sites/default/files/2026-02/bio-taras_szmagala_a11y.pdf"
+        ]
+      }
+    },
+    "victor-ruiz-2022": {
+      "id": "victor-ruiz-2022",
+      "name": "Victor Ruiz",
+      "classYear": 2022,
+      "region": "North America",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "cpl.org https:// cpl.org › onecle › victor-ruiz",
+          "value": "Victor Ruiz helped double the Hispanic high school graduation rate for Cleveland public school students, from 30% to 60%, during …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://cpl.org/onecle/230/victor-ruiz/",
+          "sourceTitle": "cpl.org https:// cpl.org › onecle › victor-ruiz",
+          "domain": "cpl.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "cpl.org"
+        ],
+        "sourceUrls": [
+          "https://cpl.org/onecle/230/victor-ruiz/"
+        ]
+      }
+    },
+    "georgine-welo-2023": {
+      "id": "georgine-welo-2023",
+      "name": "Georgine Welo",
+      "classYear": 2023,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "southeuclid.gov https://southeuclid.gov",
+          "value": "Mayor Georgine Welo In 1979, I left my parent’s farm and moved to South Euclid to marry my husband, Carter, and help start his …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://southeuclid.gov/",
+          "sourceTitle": "southeuclid.gov https://southeuclid.gov",
+          "domain": "southeuclid.gov",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "southeuclid.gov"
+        ],
+        "sourceUrls": [
+          "https://southeuclid.gov/"
+        ]
+      }
+    },
+    "joyce-mariani-2023": {
+      "id": "joyce-mariani-2023",
+      "name": "Joyce Mariani",
+      "classYear": 2023,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "csuohio.edu http://flash.ulib.csuohio.edu › cmp › perk › mariani.html",
+          "value": "Joyce A. Mariani, a highly accomplished soprano opera singer, was a close friend of the mayor. She is currently an influential board …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "http://flash.ulib.csuohio.edu/cmp/perk/mariani.html",
+          "sourceTitle": "csuohio.edu http://flash.ulib.csuohio.edu › cmp › perk › mariani.html",
+          "domain": "flash.ulib.csuohio.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "flash.ulib.csuohio.edu"
+        ],
+        "sourceUrls": [
+          "http://flash.ulib.csuohio.edu/cmp/perk/mariani.html"
+        ]
+      }
+    },
+    "ambassador-edward-f-crawford-2024": {
+      "id": "ambassador-edward-f-crawford-2024",
+      "name": "Ambassador Edward F. Crawford",
+      "classYear": 2024,
+      "region": "Europe",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 1,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "kent.edu https:// www.kent.edu › bot › edward-f-crawford",
+          "value": "Residence: Cleveland, Ohio. The Kent State University Board of Trustees appointed Ambassador Edward F. Crawford as a National …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://www.kent.edu/bot/edward-f-crawford",
+          "sourceTitle": "kent.edu https:// www.kent.edu › bot › edward-f-crawford",
+          "domain": "kent.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "kent.edu"
+        ],
+        "sourceUrls": [
+          "https://www.kent.edu/bot/edward-f-crawford"
+        ]
+      }
+    },
+    "mayor-frank-jackson-2025": {
+      "id": "mayor-frank-jackson-2025",
+      "name": "Mayor Frank Jackson",
+      "classYear": 2025,
+      "region": "Africa",
+      "sourceQualityStatus": "good-contribution-candidate",
+      "integrationStatus": "not-integrated",
+      "reviewStatus": "needs-curator-approval-before-integration",
+      "contributionCount": 2,
+      "contributions": [
+        {
+          "type": "officialSiteLead",
+          "label": "case.edu https:// case.edu › ech › articles › mayoral-administration-frank-g- jackson",
+          "value": "On November 08, 2005, Frank G. Jackson was elected mayor over incumbent Jane Campbell, 54,643 (54.97 percent) to 44,754, …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://case.edu/ech/articles/m/mayoral-administration-frank-g-jackson",
+          "sourceTitle": "case.edu https:// case.edu › ech › articles › mayoral-administration-frank-g- jackson",
+          "domain": "case.edu",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "education-or-government"
+          }
+        },
+        {
+          "type": "officialSiteLead",
+          "label": "csulaw.org https://hof.csulaw.org › hof-member › mayor-frank-g-jackson",
+          "value": "Frank Jackson, the 57th Mayor of Cleveland, grew up in the city’s Kinsman and Central neighborhoods and attended local schools. …",
+          "sourceType": "bing-html-search",
+          "sourceUrl": "https://hof.csulaw.org/hof-member/mayor-frank-g-jackson/",
+          "sourceTitle": "csulaw.org https://hof.csulaw.org › hof-member › mayor-frank-g-jackson",
+          "domain": "hof.csulaw.org",
+          "confidence": "official-site-lead",
+          "reviewStatus": "needs-curator-approval-before-integration",
+          "evidence": {
+            "domainQuality": "trusted-institutional-org"
+          }
+        }
+      ],
+      "summary": {
+        "contributionTypes": [
+          "officialSiteLead"
+        ],
+        "sourceDomains": [
+          "case.edu",
+          "hof.csulaw.org"
+        ],
+        "sourceUrls": [
+          "https://case.edu/ech/articles/m/mayoral-administration-frank-g-jackson",
+          "https://hof.csulaw.org/hof-member/mayor-frank-g-jackson/"
+        ]
+      }
+    }
+  }
+}

@@ -32,12 +32,12 @@ export function loadInductees(options = {}) {
     const localImagePaths = splitList(record.local_image_paths);
     const hasVideo = youtubeVideoIds.length > 0 || localVideoPaths.length > 0;
     const hasGallery = imageUrls.length > 1 || localImagePaths.length > 1;
-    const bioText = record.bio_text.trim().replace(/\s+/g, ' ');
+    const bioText = normalizeBioText(record.bio_text, name);
     const metadataText = [name, region, record.inducted_by, bioText].filter(Boolean).join(' ');
     const themeTags = extractThemeTags(metadataText);
     const countryTags = extractCountryTags(metadataText);
     const storySummary = summarizeText(bioText);
-    const storyHighlights = extractHighlights(bioText);
+    const storyHighlights = extractHighlights(bioText, name);
 
     return {
       id: `${slugify(name)}-${Number.isFinite(classYear) ? classYear : 'unknown'}`,
@@ -70,7 +70,7 @@ export function loadInductees(options = {}) {
       communityTags: [],
       sortName: buildSortName(name),
       pronunciation: '',
-      imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null),
+      imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null, themeTags),
       approvalStatus: 'unreviewed',
       reviewPriority: 'standard',
       featured: false,
@@ -239,6 +239,7 @@ export function validateCuratedMetadata(metadata, expectedIds = []) {
     checkString(record, id, 'documentedContextLine', errors);
     checkString(record, id, 'honoredForSummary', errors);
     checkString(record, id, 'lifeWorkSummary', errors);
+    checkString(record, id, 'bioTextOverride', errors);
     checkStringArray(record, id, 'themeTagCandidates', errors);
     checkStringArray(record, id, 'approvedThemeTags', errors);
     checkStringArray(record, id, 'countryTagCandidates', errors);
@@ -598,6 +599,251 @@ export function splitList(value) {
     .filter(Boolean);
 }
 
+function normalizeBioText(value, name) {
+  const text = cleanString(value);
+  const aliases = buildBioNameAliases(name);
+  let cleaned = text;
+  let removedHeading = false;
+
+  while (true) {
+    const first = matchLeadingBioNameAlias(cleaned, aliases);
+    if (!first) break;
+
+    const afterFirst = cleaned.slice(first.length).trimStart();
+    const second = matchLeadingBioNameAlias(afterFirst, aliases);
+    if (!second) break;
+
+    cleaned = afterFirst;
+    removedHeading = true;
+  }
+
+  const remainingHeading = matchLeadingBioNameAlias(cleaned, aliases);
+  if (remainingHeading) {
+    const afterHeading = cleaned.slice(remainingHeading.length).trimStart();
+    if (removedHeading || looksLikeStandaloneBioHeading(afterHeading)) {
+      cleaned = afterHeading;
+    }
+  }
+
+  return cleanBioSpacing(stripBioScrapeTail(normalizeBioContactDetails(normalizeBioUrlReferences(normalizeBioEllipses(normalizeBioTemporalWording(cleaned))))));
+}
+
+function buildBioNameAliases(name) {
+  const cleanName = stripDisplayNameArtifacts(name);
+  const noHonorific = cleanName.replace(/^(Honorable|Hon\.|Dr\.|Rev\.|Reverend|Senator|Sister|Mayor|Judge|Bishop|Fr\.)\s+/i, '').trim();
+  const withoutParenthetical = cleanName.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  return Array.from(new Set([cleanName, noHonorific, withoutParenthetical].filter(Boolean)))
+    .sort((a, b) => b.length - a.length);
+}
+
+function matchLeadingBioNameAlias(text, aliases) {
+  for (const alias of aliases) {
+    const pattern = alias
+      .split(/\s+/)
+      .map(escapeRegExp)
+      .join('\\s+');
+    const match = text.match(new RegExp(`^${pattern}(?=\\s|[,.:;!?]|[’']s\\b|$)`, 'iu'));
+    if (match) return { alias, length: match[0].length };
+  }
+  return null;
+}
+
+function looksLikeStandaloneBioHeading(afterHeading) {
+  const text = afterHeading.trimStart();
+  if (!text) return false;
+  if (/^[,.:;!?)]/.test(text)) return false;
+  if (/^[’']s\b/i.test(text)) return false;
+  return !/^(?:is|was|has|had|serves|served|became|become|built|founded|co-founded|created|joined|received|earned|graduated|emigrated|immigrated|came|moved|grew|spent|led|represented|worked|attended|retired|trained|practiced|published|organized|opened|began|started|made|carried|combined)\b/i.test(text);
+}
+
+function normalizeBioTemporalWording(value) {
+  return cleanString(value)
+    .replace(
+      /\bShe also hosted her own television and radio shows entitled [“"]Issues Today[”"] and [“"]Senior Forum[”"]\./g,
+      'She also hosted television and radio programming on current affairs and senior issues.',
+    )
+    .replace(/\bUSA Today\b/g, 'a national newspaper')
+    .replace(/[“"]Issues Today[”"]/g, 'current-affairs programming')
+    .replace(/\bToday'?s?\s+([A-Z][\w-]*(?:\s+[A-Z][\w-]*){0,4})\b/g, '$1')
+    .replace(/\bToday,\s+([^.!?]{1,80}?)\s+continues\b/g, '$1 continued')
+    .replace(/\bToday,\s+([^.!?]{1,80}?)\s+is\b/g, '$1 was')
+    .replace(/\bToday,\s+([^.!?]{1,80}?)\s+serves\b/g, '$1 served')
+    .replace(/\bToday,\s+([^.!?]{1,80}?)\s+represents\b/g, '$1 represented')
+    .replace(/\bToday,\s+([^.!?]{1,80}?)\s+has\b/g, '$1 had')
+    .replace(/\bToday and for the past\b/g, 'For the following')
+    .replace(/\bFrom that day,\s*till today\b/gi, 'From that day forward')
+    .replace(/\bthat brings her here today\b/gi, 'that led to this recognition')
+    .replace(/\bthat brings him here today\b/gi, 'that led to this recognition')
+    .replace(/\bwhat it is today,\s*/gi, '')
+    .replace(/\btoday has become\b/gi, 'became')
+    .replace(/\btoday there (?:are|may be)\b/gi, 'at the time, there were')
+    .replace(/\bJim,\s+today is honored to serve\b/g, 'Jim was honored to serve')
+    .replace(/\bWell,\s+today her triplet daughters are all grown\b/g, 'By then, her triplet daughters were grown')
+    .replace(/\bcontinues? ((?:his|her|their)\s+)?legacy\b/gi, 'carried $1legacy')
+    .replace(/\bcontinues? (?:in that role|to do so) today\b/gi, 'continued in that work')
+    .replace(/\bcontinues? to ([^.!?]{1,80}?) today\b/gi, 'continued to $1')
+    .replace(/\bstill holds today\b/gi, 'held')
+    .replace(/\bused in ([^.!?]{1,80}?) today\b/gi, 'used in $1')
+    .replace(/\beven today\b/gi, 'even years later')
+    .replace(/\btoday\b/gi, 'at the time')
+    .replace(/\bCurrently,\s+([^.!?]{1,80}?)\s+(?:is|are)\b/g, '$1 has been')
+    .replace(/\bCurrently,\s+([^.!?]{1,80}?)\s+serves\b/g, '$1 served')
+    .replace(/\bCurrently,\s+([^.!?]{1,80}?)\s+plans\b/g, '$1 planned')
+    .replace(/\bCurrently,\s+/g, '')
+    .replace(/\bis currently serving as\b/gi, 'has served as')
+    .replace(/\bis currently serving on\b/gi, 'has served on')
+    .replace(/\bis currently serving\b/gi, 'has served')
+    .replace(/\bare currently serving as\b/gi, 'have served as')
+    .replace(/\bcurrently serves as\b/gi, 'served as')
+    .replace(/\bcurrently serves on\b/gi, 'served on')
+    .replace(/\bcurrently serves\b/gi, 'served')
+    .replace(/\bcurrently sits on\b/gi, 'has served on')
+    .replace(/\bcurrently is\b/gi, 'has been')
+    .replace(/\bis currently\b/gi, 'has been')
+    .replace(/\bare currently\b/gi, 'have been')
+    .replace(/\bcurrently has\b/gi, 'has had')
+    .replace(/\bcurrently manages\b/gi, 'has managed')
+    .replace(/\bcurrently features\b/gi, 'has featured')
+    .replace(/\bcurrently doing\b/gi, 'has done')
+    .replace(/\bcurrently writing\b/gi, 'has written')
+    .replace(/\bcurrently screening\b/gi, 'screened')
+    .replace(/\bcurrently in post-production\b/gi, 'was in post-production')
+    .replace(/\bcurrently plans to\b/gi, 'planned to')
+    .replace(/\bcurrently resides in\b/gi, 'has resided in')
+    .replace(/\bcurrently living in\b/gi, 'lived in')
+    .replace(/\bcurrently regarded as\b/gi, 'regarded as')
+    .replace(/\bcurrently\b/gi, '')
+    .replace(/\bPresently,\s+([^.!?]{1,80}?)\s+(?:is|are)\b/g, '$1 has been')
+    .replace(/\bPresently\s+([^.!?]{1,80}?)\s+serves\b/g, '$1 served')
+    .replace(/\bpresently serves as\b/gi, 'served as')
+    .replace(/\bpresently serves on\b/gi, 'served on')
+    .replace(/\bpresently serves\b/gi, 'served')
+    .replace(/\bpresently the\b/gi, 'served as the')
+    .replace(/\bis presently the\b/gi, 'served as the')
+    .replace(/\bis presently working on\b/gi, 'worked on')
+    .replace(/\bpresently working on\b/gi, 'worked on')
+    .replace(/\bpresently resides at\b/gi, 'resided at')
+    .replace(/\bpresently\b/gi, '')
+    .replace(/\bat present\b/gi, 'at the time of the source profile')
+    .replace(/\bThen as now\b/g, 'Then and in later years')
+    .replace(/\bthen as now\b/g, 'then and in later years')
+    .replace(/\bin what is now\b/gi, 'in present-day')
+    .replace(/\bwhat is now\b/gi, 'present-day')
+    .replace(/\bnow known as\b/gi, 'later known as')
+    .replace(/\bnow part of\b/gi, 'later part of')
+    .replace(/\bnow a Division of\b/gi, 'later a division of')
+    .replace(/\bnow in its ([^.!?]{1,40}? year)\b/gi, 'then in its $1')
+    .replace(/\bby now was\b/gi, 'by then was')
+    .replace(/\bis now rated\b/gi, 'was rated')
+    .replace(/\bis now designing\b/gi, 'worked on designing')
+    .replace(/\bis now the oldest\b/gi, 'became the oldest')
+    .replace(/\bis now one of\b/gi, 'became one of')
+    .replace(/\bis now a\b/gi, 'became a')
+    .replace(/\bis now an\b/gi, 'became an')
+    .replace(/\bis now\b/gi, 'became')
+    .replace(/\bare now\b/gi, 'became')
+    .replace(/\bhas now\b/gi, 'had')
+    .replace(/\bhave now\b/gi, 'had')
+    .replace(/\bnow resides in\b/gi, 'came to reside in')
+    .replace(/\bnow reside in\b/gi, 'came to reside in')
+    .replace(/\bnow holds\b/gi, 'held')
+    .replace(/\bnow regarded as\b/gi, 'regarded as')
+    .replace(/\bnow from\b/gi, 'later from')
+    .replace(/\bnow joining\b/gi, 'being inducted with')
+    .replace(/\bwho is now deceased\b/gi, 'who later died')
+    .replace(/\bnow deceased\b/gi, 'later deceased')
+    .replace(/\bDoctors now say\b/g, 'Doctors said')
+    .replace(/\bnow say\b/gi, 'said')
+    .replace(/\bnow\b/gi, 'then')
+    .replace(/\bwhere he is served as the\b/gi, 'where he served as the')
+    .replace(/\bat the time is honored to serve\b/gi, 'was honored to serve')
+    .replace(/\bat the time her triplet daughters are all grown\b/gi, 'by then, her triplet daughters were grown')
+    .replace(/\bat the time became one of\b/gi, 'became one of')
+    .replace(/\bat the time is the centerpiece\b/gi, 'became the centerpiece')
+    .replace(/\bat the time,\s+Mr\. Maltz is using\b/g, 'Mr. Maltz used')
+    .replace(/\bIn between the beginning of this special career in his life and at the time came\b/gi, 'In the years that followed came')
+    .replace(/\bthen a more than ([^,]+),\s+/gi, 'As a more than $1, ')
+    .replace(/\bwhich then comprise\b/gi, 'which came to comprise')
+    .replace(/\bthen Juenteenth is\b/g, 'Juneteenth became')
+    .replace(/\bJuenteenth\b/g, 'Juneteenth')
+    .replace(/([.!?]\s+)at the time,/g, '$1At the time,')
+    .replace(/([.!?]\s+)then\s+/g, '$1Then ');
+}
+
+function normalizeBioContactDetails(value) {
+  return cleanString(value)
+    .replace(
+      /\bMr\. Machaskee is President of Alex Machaskee and Associates, LLC at Key Tower,\s*127 Public Square,\s*Cleveland,\s*Ohio\s*44114,\s*1-216-344-2013\.\s*AM&A specializes in\b/g,
+      'Alex Machaskee and Associates, LLC specializes in',
+    )
+    .replace(
+      /\bthe \$11\.0 million Collinwood Recreation Center,\s*located at 16300 Lakeshore Boulevard,\s*in the community\./g,
+      'the $11.0 million Collinwood Recreation Center in the community.',
+    );
+}
+
+function normalizeBioEllipses(value) {
+  return cleanString(value)
+    .replace(/([a-z0-9])\s*(?:\.{3,}|…+)\.?\s*([A-Z])/g, '$1. $2')
+    .replace(/([a-z0-9])\s*(?:\.{3,}|…+)\.?\s*([a-z0-9])/gi, '$1, $2')
+    .replace(/(?:\.{3,}|…+)\.?/g, '.');
+}
+
+function normalizeBioUrlReferences(value) {
+  return cleanString(value)
+    .replace(/\s+and also simulcasts worldwide on the internet at\s+WWW\.\s*247PolkaHeaven\.Com\.?/i, ' and also simulcasts online')
+    .replace(/\s*\(website:\s*www\.[^)]+\)/gi, '')
+    .replace(/\s*\(www\.sewausa\.org\),?/gi, '')
+    .replace(/\s*\(www\.ethioseed\.org\)\.?/gi, '')
+    .replace(/\bPlease visit\s+www\.\s*eyes\.\s*foundation\s+for detail\.?\s*/gi, '')
+    .replace(/\band also online at\s+www\.newstalkcleveland\.com\s+and\s+wcpn\.org\b/gi, 'and also online')
+    .replace(/\bwww\.\s*[^\s).]+(?:\.[^\s).]+)+\)?\.?/gi, '')
+    .replace(/\s+,/g, ',');
+}
+
+function stripBioScrapeTail(value) {
+  const text = cleanString(value);
+  const markers = [
+    /\s+Watch the video\b/,
+    /\s+Here is a video\b/,
+    /\s+View photos\b/,
+    /\s+See more photos\b/,
+    /\s+See more from\b/,
+    /\s+Click on the white arrow\b/,
+    /\s+Back to\b/,
+    /\s+Congratulations\b/,
+  ];
+  const indexes = markers
+    .map((marker) => {
+      const match = text.match(marker);
+      return match?.index ?? -1;
+    })
+    .filter((index) => index > 600);
+  if (indexes.length === 0) return text;
+  return ensureTerminalPunctuation(text.slice(0, Math.min(...indexes)));
+}
+
+function cleanBioSpacing(value) {
+  return cleanString(value)
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/\s+\./g, '.')
+    .replace(/\.{2,}/g, '.')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\(\s+/g, '(')
+    .replace(/\s+\)/g, ')');
+}
+
+function stripDisplayNameArtifacts(name) {
+  return cleanString(name)
+    .replace(/\s+[–-]\s*\d{4}$/u, '')
+    .replace(/\s*\(\d{4}\s*[–-]\s*\d{4}\)\s*$/u, '')
+    .trim();
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function applyCuratedMetadata(inductee, curated) {
   if (!curated) return inductee;
 
@@ -607,16 +853,18 @@ function applyCuratedMetadata(inductee, curated) {
   const approvedSummary = cleanString(curated.approvedSummary);
   const documentedContextLine = cleanString(curated.documentedContextLine);
   const honoredForSummary = cleanString(curated.honoredForSummary);
+  const bioText = cleanString(curated.bioTextOverride) || inductee.bioText;
   const lifeWorkSummary = cleanString(curated.lifeWorkSummary);
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
   const approvedCountryTags = toStringArray(curated.approvedCountryTags);
   const countryNotes = cleanString(curated.countryNotes);
   const approvedCommunityTags = normalizeCommunityTags(toStringArray(curated.approvedCommunityTags));
-  const storySummary = approvedSummary || inductee.storySummary;
+  const storySummary = approvedSummary || summarizeText(bioText);
+  const storyHighlights = extractHighlights(bioText, name);
   const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
   const countryTags = approvedCountryTags.length > 0 ? approvedCountryTags : inductee.countryTags;
   const communityTags = approvedCommunityTags;
-  const imageAltText = cleanString(curated.image?.primaryAltText) || defaultImageAltText(name, inductee.classYear);
+  const imageAltText = cleanString(curated.image?.primaryAltText) || defaultImageAltText(name, inductee.classYear, themeTags);
   const mediaReviewStatus = cleanString(curated.video?.reviewStatus) || inductee.mediaReviewStatus;
   const imageRightsStatus = cleanString(curated.image?.rightsStatus) || inductee.imageRightsStatus;
   const videoRightsStatus = cleanString(curated.video?.rightsStatus) || inductee.videoRightsStatus;
@@ -626,11 +874,13 @@ function applyCuratedMetadata(inductee, curated) {
     name,
     sortName,
     pronunciation,
+    bioText,
     storySummary,
     storySummarySource: approvedSummary ? 'curated' : 'generated',
     documentedContextLine,
     honoredForSummary,
     lifeWorkSummary,
+    storyHighlights,
     themeTags,
     themeTagsSource: approvedThemeTags.length > 0 ? 'curated' : 'generated',
     countryTags,
@@ -646,7 +896,7 @@ function applyCuratedMetadata(inductee, curated) {
     mediaReviewStatus,
     imageRightsStatus,
     videoRightsStatus,
-    searchText: [name, pronunciation, inductee.classYear, inductee.region, inductee.inductedBy, inductee.bioText, storySummary, documentedContextLine, honoredForSummary, lifeWorkSummary, ...themeTags, ...countryTags, ...communityTags]
+    searchText: [name, pronunciation, inductee.classYear, inductee.region, inductee.inductedBy, bioText, storySummary, documentedContextLine, honoredForSummary, lifeWorkSummary, ...themeTags, ...countryTags, ...communityTags]
       .filter(Boolean)
       .join(' ')
       .toLowerCase(),
@@ -782,6 +1032,11 @@ function cleanString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function wordCount(value) {
+  const text = cleanString(value);
+  return text ? text.split(/\s+/).filter(Boolean).length : 0;
+}
+
 function toStringArray(value) {
   if (!Array.isArray(value)) return [];
   return value.map((item) => cleanString(item)).filter(Boolean);
@@ -803,8 +1058,31 @@ function normalizeCommunityTags(tags) {
   return normalized;
 }
 
-function defaultImageAltText(name, classYear) {
-  return `Portrait or archival image of ${name}, ${classYear ? `Class of ${classYear}` : 'Cleveland International Hall of Fame inductee'}.`;
+function defaultImageAltText(name, classYear, themeTags = []) {
+  const yearText = classYear ? `Class of ${classYear}` : 'Cleveland International Hall of Fame inductee';
+  const themeText = primaryAltThemeText(themeTags);
+  return `CIHOF profile portrait of ${name}, ${yearText}${themeText ? `; connected to ${themeText}` : ''}.`;
+}
+
+function primaryAltThemeText(themeTags) {
+  const labels = {
+    'Arts and Culture': 'arts and culture',
+    'Business and Entrepreneurship': 'business leadership',
+    'Civic Leadership': 'civic leadership',
+    'Community Leadership': 'community leadership',
+    'Community Organizing': 'community organizing',
+    'Diplomacy and Global Affairs': 'global affairs',
+    Education: 'education',
+    'Faith and Service': 'faith and service',
+    'Immigrant Advocacy': 'immigrant advocacy',
+    'Law and Justice': 'law and justice',
+    'Media and Storytelling': 'media storytelling',
+    'Medicine and Health': 'medicine and health',
+    Philanthropy: 'philanthropy',
+    'Public Safety and Military': 'public safety',
+    'Science and Technology': 'science and technology',
+  };
+  return themeTags.map((tag) => labels[tag] ?? String(tag).toLowerCase()).find(Boolean) ?? '';
 }
 
 function buildSortName(name) {
@@ -1203,11 +1481,18 @@ function summarizeText(text, limit = 245) {
   return `${slice.slice(0, wordEnd > 120 ? wordEnd : limit).trim()}...`;
 }
 
-function extractHighlights(text) {
+function extractHighlights(text, name = '') {
+  const seen = new Set();
   return splitSentences(text)
-    .filter((sentence) => sentence.length >= 45)
-    .slice(0, 4)
-    .map((sentence) => summarizeText(sentence, 150));
+    .map((sentence) => formatHighlightSentence(sentence, name))
+    .filter((sentence) => sentence.length >= 45 && wordCount(sentence) >= 4)
+    .filter((sentence) => {
+      const key = highlightKey(sentence);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 4);
 }
 
 function splitSentences(text) {
@@ -1215,6 +1500,76 @@ function splitSentences(text) {
     .split(/(?<=[.!?])\s+/)
     .map((sentence) => sentence.trim())
     .filter(Boolean);
+}
+
+function formatHighlightSentence(sentence, name) {
+  const withoutHeading = stripLeadingBioNameHeading(cleanString(sentence), name);
+  return ensureTerminalPunctuation(shortenHighlight(withoutHeading));
+}
+
+function stripLeadingBioNameHeading(text, name) {
+  const aliases = buildBioNameAliases(name);
+  let cleaned = cleanString(text);
+
+  while (true) {
+    const heading = matchLeadingBioNameAlias(cleaned, aliases);
+    if (!heading) break;
+    const afterHeading = cleaned.slice(heading.length).trimStart();
+    const duplicate = matchLeadingBioNameAlias(afterHeading, aliases);
+    if (duplicate || looksLikeStandaloneBioHeading(afterHeading)) {
+      cleaned = afterHeading;
+      continue;
+    }
+    break;
+  }
+
+  return cleaned;
+}
+
+function shortenHighlight(sentence) {
+  const cleaned = cleanBioSpacing(normalizeBioEllipses(sentence));
+  if (wordCount(cleaned) <= 32) return cleaned;
+
+  const completeClause = firstCompleteHighlightClause(cleaned);
+  if (completeClause && wordCount(completeClause) >= 4 && wordCount(completeClause) <= 32) {
+    return completeClause;
+  }
+
+  const words = cleaned.split(/\s+/).filter(Boolean);
+  return words.slice(0, 32).join(' ');
+}
+
+function firstCompleteHighlightClause(sentence) {
+  const boundaryPatterns = [
+    /([;:])\s+/,
+    /\s[-\u2013\u2014]\s/,
+    /,\s+(?=(?:and|as|before|but|including|while|where|which|with)\b)/i,
+  ];
+
+  for (const pattern of boundaryPatterns) {
+    const match = sentence.match(pattern);
+    if (!match?.index || match.index < 35) continue;
+    const clause = sentence.slice(0, match.index).trim();
+    if (wordCount(clause) >= 4) return clause;
+  }
+
+  return '';
+}
+
+function ensureTerminalPunctuation(text) {
+  const trimmed = cleanString(text);
+  if (!trimmed) return '';
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`;
+}
+
+function highlightKey(value) {
+  return cleanString(value)
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function getDecade(year) {

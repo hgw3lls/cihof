@@ -67,6 +67,7 @@ const metadata = {
     documentedContextLine: 'Optional concise source-grounded context line shown next to a focused portrait.',
     honoredForSummary: 'Optional curator-written HONORED FOR text. Falls back to existing biography summary when blank.',
     lifeWorkSummary: 'Optional curator-written Life + Work overview. Falls back to source biography text when blank.',
+    bioTextOverride: 'Optional cleaned visitor-facing biography copy. Falls back to source biography text when blank.',
     themeTagCandidates: 'Generated from biography keywords. Copy only curator-approved tags into approvedThemeTags.',
     countryTagCandidates: 'Generated from nationality and heritage references in source text. Copy only reviewed labels into approvedCountryTags.',
     countryNotes: 'Evidence note for generated or inferred nationality/heritage candidates. Rewrite or clear after curator review.',
@@ -99,6 +100,7 @@ function buildCuratedRecord(inductee, featuredCandidate) {
     documentedContextLine: '',
     honoredForSummary: '',
     lifeWorkSummary: '',
+    bioTextOverride: '',
     themeTagCandidates: inductee.themeTags,
     approvedThemeTags: [],
     countryTagCandidates: inductee.countryTags,
@@ -169,7 +171,29 @@ function sortName(name) {
 
 function buildPrimaryAltText(inductee) {
   const year = inductee.classYear ? `Class of ${inductee.classYear}` : 'Cleveland International Hall of Fame inductee';
-  return `Portrait or archival image of ${inductee.name}, ${year}.`;
+  const theme = primaryAltThemeText(inductee.themeTags);
+  return `CIHOF profile portrait of ${inductee.name}, ${year}${theme ? `; connected to ${theme}` : ''}.`;
+}
+
+function primaryAltThemeText(themeTags) {
+  const labels = {
+    'Arts and Culture': 'arts and culture',
+    'Business and Entrepreneurship': 'business leadership',
+    'Civic Leadership': 'civic leadership',
+    'Community Leadership': 'community leadership',
+    'Community Organizing': 'community organizing',
+    'Diplomacy and Global Affairs': 'global affairs',
+    Education: 'education',
+    'Faith and Service': 'faith and service',
+    'Immigrant Advocacy': 'immigrant advocacy',
+    'Law and Justice': 'law and justice',
+    'Media and Storytelling': 'media storytelling',
+    'Medicine and Health': 'medicine and health',
+    Philanthropy: 'philanthropy',
+    'Public Safety and Military': 'public safety',
+    'Science and Technology': 'science and technology',
+  };
+  return themeTags.map((tag) => labels[tag] ?? String(tag).toLowerCase()).find(Boolean) ?? '';
 }
 
 function journeySuggestions(inductee) {

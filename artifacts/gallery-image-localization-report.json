@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T20:38:04.357Z",
+  "dryRun": true,
+  "source": "data/media_manifest.json",
+  "outputManifest": "data/media_manifest.json",
+  "outputRoot": "public/media/images",
+  "normalizer": "magick",
+  "options": {
+    "ids": [],
+    "limit": null,
+    "force": false,
+    "concurrency": 4,
+    "timeoutMs": 15000,
+    "retries": 2,
+    "delayMs": 150,
+    "maxBytes": 20971520,
+    "maxWidth": 1600,
+    "maxHeight": 1200,
+    "format": "jpg",
+    "quality": 84,
+    "approveForKiosk": true,
+    "requireApprovedRights": true
+  },
+  "summary": {
+    "remoteOnlyGalleryCandidates": 0,
+    "selectedTargets": 0,
+    "downloaded": 0,
+    "normalized": 0,
+    "reusedExistingFiles": 0,
+    "skipped": 0,
+    "errors": 0,
+    "bytesDownloaded": 0
+  },
+  "records": []
+}

@@ -1,0 +1,761 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T16:39:22.881Z",
+  "dryRun": false,
+  "source": {
+    "updatedFile": "data/cihof_curated_metadata.json",
+    "basis": "Curated local rewrites based on existing CIHOF profile text and current honored-for summaries, with bio sentence and honored-for fallbacks for future flagged records.",
+    "excluded": [
+      "data/external-research/*"
+    ],
+    "note": "This repairs text shape/readability only. It does not verify facts or mark records approved."
+  },
+  "summary": {
+    "repairedRecords": 52,
+    "byReason": {
+      "truncated": 46,
+      "time-sensitive wording": 7,
+      "duplicated leading name": 5
+    },
+    "byStrategy": {
+      "curated-local-override": 52
+    },
+    "unresolved": []
+  },
+  "repairs": [
+    {
+      "id": "august-pust-2010",
+      "name": "August Pust",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "August B. Pust, during his more than thirty-year career in U.S. public service, not only coordinated multicultural relations, but also participated, organized, and led various trade, humanitarian, educational, cultural, and goodwill missions abroad. His specialty was focused on the development of programs and initiatives in the non-governmental sector...",
+      "after": "August B. Pust built a career in public service, cultural diplomacy, and citizen exchange, coordinating trade, humanitarian, educational, cultural, and goodwill missions while advancing people-to-people international partnerships.",
+      "afterWordCount": 27,
+      "sourceExcerpt": "Contributions to arts and culture, civic leadership, and diplomacy and global affairs within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "irene-morrow-2010",
+      "name": "Irene Morrow",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Irene Morrow is married to Edward and has six children (Jeffrey, Patrick (deceased), Martin, Roberta, Lorraine and Christine) and six grandchildren (Matthew, Ryan, Nathan, Michaela, Aaron and Justin) Irene has an impressive resume of twenty-five years of public service. She served as Deputy Auditor in charge of Cuyahoga...",
+      "after": "Irene Morrow served Cleveland and Cuyahoga County for 25 years, helping modernize public payroll, civil-service testing, and record systems before continuing her civic and ethnic community involvement.",
+      "afterWordCount": 27,
+      "sourceExcerpt": "Contributions to civic leadership and community organizing within Polish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "jeanette-grasselli-brown-2010",
+      "name": "Jeanette Grasselli Brown",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Jeanette Grasselli Brown spent 38 years in industrial research, retiring in 1989 as Director of Corporate Research for BP America (formerly The Standard Oil Co.), From 1989 to 1995 she served as Distinguished Visiting Professor and Director, Research Enhancement at Ohio University, Athens, Ohio. In 1995 she was...",
+      "after": "Jeanette Grasselli Brown spent 38 years in industrial research, became BP America's Director of Corporate Research, and later served Ohio education through university and Board of Regents leadership.",
+      "afterWordCount": 28,
+      "sourceExcerpt": "Contributions to education, science and technology, and civic leadership within Hungarian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "leo-weidenthal-2010",
+      "name": "Leo Weidenthal",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Leo Weidenthal (1878-1967) was editor of the Jewish Independent and founder of the Cleveland Cultural Garden Federation. Born in Cleveland to Emanuel and Julia (Kretch) Weidenthal, he began his newspaper career as a reporter for the Cleveland World; then for the Cleveland Leader and in 1906, for the...",
+      "after": "Leo Weidenthal was a Cleveland journalist, Jewish Independent editor, and founder of the Cleveland Cultural Garden Federation whose civic work helped shape the city's cultural-garden movement.",
+      "afterWordCount": 26,
+      "sourceExcerpt": "Contributions to business and entrepreneurship and civic leadership within Jewish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "margaret-w-wong-2010",
+      "name": "Margaret W. Wong",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Margaret W. Wong In more than 30 years of practice, Margaret Wong built Margaret W. Wong & Associates Co., L.P.A. into a law firm nationally and internationally renowned for its knowledge and expertise in immigration and nationality law. Ms. Wong is licensed to practice in Ohio, Michigan, New...",
+      "after": "Margaret W. Wong built a nationally recognized immigration and nationality law practice and became a prominent advocate, civic leader, and mentor in Cleveland's Chinese and immigrant communities.",
+      "afterWordCount": 27,
+      "sourceExcerpt": "Contributions to law and justice, education, and immigrant advocacy within Chinese heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "paul-sciria-2010",
+      "name": "Paul Sciria",
+      "classYear": 2010,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Paul Sciria Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3, 1928, Paul Angelo Sciria was welcomed to the world in their family home at 151st and Kinsman. He grew up in the Kinsman area where he attended A.J. Rickoff Elementary, A. Hamilton Junior High and...",
+      "after": "Paul Sciria carried Italian American stories through journalism and community service, acquiring La Gazzetta Italiana in 1992 and becoming a steady voice for Italian heritage in Cleveland.",
+      "afterWordCount": 27,
+      "sourceExcerpt": "Contributions to arts and culture, business and entrepreneurship, and education within Italian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "senator-george-voinovich-2010",
+      "name": "Senator George Voinovich",
+      "classYear": 2010,
+      "reasons": [
+        "truncated",
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Senator George Voinovich From his time as member of the Ohio House of Representatives, Cuyahoga County Commissioner, Lieutenant Governor of Ohio, Mayor of Cleveland and Governor of Ohio, to his present role as Ohio’s senior United States Senator, George V. Voinovich has strived for more than 40 years...",
+      "after": "George Voinovich served Ohio as Cleveland mayor, governor, and United States senator, earning recognition for public-sector reform, urban recovery work, and foreign-policy engagement.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to civic leadership, diplomacy and global affairs, and arts and culture within Serbian and Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "gerald-m-quinn-2011",
+      "name": "Gerald M. Quinn",
+      "classYear": 2011,
+      "reasons": [
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Gerald M. Quinn, an award winning broadcaster and community leader born in Garracloon, County Mayo (pop. 44) and now living in Euclid, has played a decisive part in keeping Cleveland area Irish in touch with their heritage.",
+      "after": "Gerald M. Quinn connected Cleveland's Irish community through broadcasting and civic organizing, helping found the Irish American Club East Side and the Mayo Society.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to community leadership within Irish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "lucretia-stoica-2011",
+      "name": "Lucretia Stoica",
+      "classYear": 2011,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Lucretia Stoica was born in Youngstown, Ohio. As a young child she travelled to Romania where she grew up and completed her University studies obtaining a Master Degree in Law, Literature and Philosophy. As an American abroad, she was among the first to be repatriated by the American...",
+      "after": "Lucretia Stoica led refugee and immigrant service work in Cleveland for decades, serving the International Institute of the YWCA and helping organize cultural and refugee-support initiatives.",
+      "afterWordCount": 26,
+      "sourceExcerpt": "Contributions to immigrant advocacy, business and entrepreneurship, and arts and culture within Romanian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "tony-petkovsek-2011",
+      "name": "Tony Petkovsek",
+      "classYear": 2011,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Tony Petkovsek has been on daily polka radio since 1961, an unprecedented 50 years. His popular music and community service show, he produces and announces, is interspersed with interviews of civic, travel and entertainment personalities and is heard for two hours, Monday thru Friday from 2 till 4PM...",
+      "after": "Tony Petkovsek became one of Cleveland's defining polka broadcasters and cultural ambassadors, linking Slovenian music, travel, and community life through decades of radio and public events.",
+      "afterWordCount": 26,
+      "sourceExcerpt": "Contributions to arts and culture, civic leadership, and community organizing within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "hon-mary-rose-oakar-2012",
+      "name": "Hon. Mary Rose Oakar",
+      "classYear": 2012,
+      "reasons": [
+        "truncated",
+        "duplicated leading name"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Hon. Mary Rose Oakar Hon. Mary Rose Oakar, received her B.A. at Ursuline College, M.A. at John Carroll University, studied at Westham Adult College-Warwickshire, England, and had further study at Cleveland-Marshall College of Law. She has also received numerous Honorary Doctorate Degrees of Law and Humane Letters from...",
+      "after": "Mary Rose Oakar represented Cleveland in city, state, and federal office, serving sixteen years in Congress while advancing civic leadership, education, and international-policy work.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to education, civic leadership, and community organizing within Syrian and Lebanese heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "milton-maltz-2012",
+      "name": "Milton Maltz",
+      "classYear": 2012,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Milton Maltz founded Malrite Communications Group, Inc. in 1956 and served as its Chairman and CEO until the Company was sold in 1998. Under his direction, Malrite became one of the most successful operators of radio and television properties in the country with stations stretching from New York...",
+      "after": "Milton Maltz founded Malrite Communications Group and built a national broadcasting career while supporting cultural, civic, and Jewish community institutions in Greater Cleveland.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to arts and culture, civic leadership, and media and storytelling within Jewish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "vladimir-rus-2012",
+      "name": "Vladimir Rus",
+      "classYear": 2012,
+      "reasons": [
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Vladimir Rus was born in Rijeka (Flume), Croatia in 1925. He has lived in Croatia, Trieste, Italy and now in Cleveland.",
+      "after": "Vladimir Rus brought Slovenian and Croatian heritage into Cleveland civic life through teaching, cultural history, sister-city work, and leadership in Slovenian American organizations.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to civic leadership, education, and business and entrepreneurship within Slovenian and Croatian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "dr-maria-pujana-2013",
+      "name": "Dr. Maria Pujana",
+      "classYear": 2013,
+      "reasons": [
+        "duplicated leading name"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Dr. Maria Pujana Dr. Maria Pujana, a physician, a clinical neurologist and neurophysiologist, is a faculty member at Case Western Reserve University’s Global Health in the School of Medicine. Her fields of concentrations are Economic Development, Public Health, Education Arts and Culture and International Affairs.",
+      "after": "Dr. Maria Pujana combined medicine, global health, public service, and arts leadership through roles with Case Western Reserve University, civic boards, and cultural initiatives.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, medicine and health, and arts and culture within Spanish and Colombian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "josef-holzer-2013",
+      "name": "Josef Holzer",
+      "classYear": 2013,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Josef Holzer was born in September of 1926 in Apatin, Batschka, in the former Yugoslavia, where he attended elementary school, high school, and then studied to become an electrician. He eventually met and married Franziska Kufner, a union that would last 62 years until Franziska’s passing in November...",
+      "after": "Josef Holzer helped build and sustain Cleveland's Donauschwaben community, serving as a long-term organizational leader, mentor, and advocate for German cultural heritage.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to arts and culture and education within German heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "nacy-panzica-2013",
+      "name": "Nacy Panzica",
+      "classYear": 2013,
+      "reasons": [
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Nacy Panzica has been in the construction industry for over 60 years. Through his guidance and leadership, Panzica Construction Company has grown from simple residential remodeling projects to what it is today, a multi-million dollar construction company.",
+      "after": "Nacy Panzica grew Panzica Construction from residential remodeling into a major construction company while supporting Catholic, civic, educational, and health-related community causes.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to business and entrepreneurship within Italian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "ratanjit-s-sondhe-2013",
+      "name": "Ratanjit S. Sondhe",
+      "classYear": 2013,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Ratanjit S. Sondhe emigrated from India in 1968 with two Masters’ degrees and $8 in his pocket to complete his Ph.D. in polymer chemistry at Akron University. In 1973, he founded POLY-CARB, Inc., a materials science company, which he ran as its CEO for 34 years until it...",
+      "after": "Ratanjit S. Sondhe founded POLY-CARB, built an internationally recognized materials-science company, and developed a leadership philosophy centered on values, service, and personal growth.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to media and storytelling, business and entrepreneurship, and community organizing within Indian and Sikh heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "joseph-p-meissner-2014",
+      "name": "Joseph P Meissner",
+      "classYear": 2014,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Joseph P Meissner LTC Joseph Patrick Meissner first became interested in the military at the age of eleven when he followed the epic battle of Dien Bien Phu in the daily Plain Dealer accounts in 1954. In this lengthy battle a series of French strong points were slowly...",
+      "after": "Joseph P. Meissner built a career in law, military service, education, and community advocacy, linking his public work to Cleveland's Irish and German heritage communities.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to law and justice, education, and arts and culture within Irish and German heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "bishop-anthony-pilla-2015",
+      "name": "Bishop Anthony Pilla",
+      "classYear": 2015,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Bishop Anthony Pilla Anthony Michael Pilla, the son of Italian immigrants, was born in Cleveland and was educated in public schools until high school that he began at Cathedral Latin and completed at St. Gregory Seminary in Cincinnati, Ohio. He continued in college until Borromeo College Seminary opened...",
+      "after": "Bishop Anthony Pilla served the Catholic Diocese of Cleveland through parish, seminary, and diocesan leadership, becoming a major faith and civic figure in the region.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to faith and service, education, and law and justice within Italian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "dick-pogue-2015",
+      "name": "Dick Pogue",
+      "classYear": 2015,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Dick Pogue Richard W. (“Dick”) Pogue is Senior Advisor (i.e., full-time independent consultant) at Jones Day in Cleveland, Ohio. A graduate of Cornell University (1950) and the University of Michigan Law School (1953), he served three years (1954-1957) in the Patents Division, Office of The Judge Advocate General...",
+      "after": "Dick Pogue helped shape Cleveland's legal, civic, educational, and international business communities through leadership at Jones Day and many regional institutions.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to education, law and justice, and diplomacy and global affairs and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "dick-russ-2015",
+      "name": "Dick Russ",
+      "classYear": 2015,
+      "reasons": [
+        "truncated",
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Dick Russ has been serving the people of Northeast Ohio for some 40 years, both as a professional journalist and as a leader in the community’s civic life. He is currently Vice President of North Coast Community Homes, a non-profit organization which develops and maintains housing for people...",
+      "after": "Dick Russ built a career in broadcast journalism and community leadership, earning major media honors while supporting Slovenian, religious, housing, and cultural organizations.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to media and storytelling, business and entrepreneurship, and arts and culture within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "steve-mulloy-2015",
+      "name": "Steve Mulloy",
+      "classYear": 2015,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Steve Mulloy When Stephen L. Mulloy arrived in Cleveland in May 1954 to start a new life thousands of miles from home, he was lucky enough to have three aunts and an uncle to welcome him to West Park. He also had a strong Irish community that helped...",
+      "after": "Steve Mulloy carried Irish heritage into Cleveland civic life through community organizing, public service, and support for Irish cultural and faith-based institutions.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to community organizing, civic leadership, and faith and service within Irish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "arnie-de-la-porte-2016-2016",
+      "name": "Arnie de la Porte",
+      "classYear": 2016,
+      "reasons": [
+        "truncated",
+        "duplicated leading name"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Arnie de la Porte Arnie de la Porte Charles A. Andre de la Porte, or Arnie de la Porte as he is known, was born and raised in the Netherlands. He is a graduate of de Kweekschool voor de Zeevaart, the oldest Nautical Academy in Europe, and a...",
+      "after": "Arnie de la Porte brought Dutch maritime training and entrepreneurial experience to Cleveland, building business ventures and serving as an active connector in international community life.",
+      "afterWordCount": 26,
+      "sourceExcerpt": "Contributions to business and entrepreneurship and diplomacy and global affairs within Dutch heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "carolyn-balogh-2016-2016",
+      "name": "Carolyn Balogh",
+      "classYear": 2016,
+      "reasons": [
+        "truncated",
+        "duplicated leading name"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Carolyn Balogh Carolyn Balogh Carolyn Balogh was born and raised in Cleveland, Ohio. She earned her B.S. in Education from Ohio University in Athens, Ohio. Following graduation, she taught in Cleveland, Ohio, Euclid, Ohio, and Oakland, California. When Carolyn’s husband established their business, Mar-Bal, Inc. in 1970, Carolyn...",
+      "after": "Carolyn Balogh joined education, business, and community service, supporting Mar-Bal, Inc. and many civic, cultural, and philanthropic efforts in Greater Cleveland.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, education, and arts and culture within Hungarian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "eugenia-stolarczyk-2016-2016",
+      "name": "Eugenia Stolarczyk",
+      "classYear": 2016,
+      "reasons": [
+        "duplicated leading name"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Eugenia Stolarczyk Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk has been an active member of the Polish community. She married Jerzy Stolarczyk in 1957 and with a special love for Polish music and folklore, the ambitious and hardworking couple began their radio career in 1961.",
+      "after": "Eugenia Stolarczyk strengthened Cleveland's Polish community through cultural organizing, publicity work, music, folklore, and leadership in the Polish American Congress.",
+      "afterWordCount": 20,
+      "sourceExcerpt": "Contributions to arts and culture, media and storytelling, and business and entrepreneurship within Polish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "khalid-samad-2016-2016",
+      "name": "Khalid Samad",
+      "classYear": 2016,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "El Hajj Amir Khalid A. Samad Khalid Samad El Hajj Amir Khalid A. Samad is an internationally known and recognized Community Activist and leader who formerly served as the Assistant to the Public Safety Director for the City of Cleveland for youth gang intervention (Jane Campbell administration). He...",
+      "after": "Khalid Samad became a Cleveland community activist and public-safety leader, co-founding Peace in the Hood and organizing around peace, justice, and empowerment.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, civic leadership, and public safety and military within African-American heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "rev-mikhail-mikhail-2016",
+      "name": "Rev. Mikhail Mikhail",
+      "classYear": 2016,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Rev. Mikhail Mikhail The Very Rev. Fr. Mikhail Edward Mikhail, D. Min. was born in Cairo, Egypt on August 2, 1949. From an early age, he was active in church life, and was fortunate to have several mentors who clearly influenced his life and guided him to a...",
+      "after": "Rev. Mikhail Mikhail helped establish Coptic Orthodox theological education in America and served Cleveland's faith community as a priest, teacher, dean, and pastoral leader.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to education, faith and service, and law and justice within Egyptian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "bill-miller-2017",
+      "name": "Bill Miller",
+      "classYear": 2017,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "William (Bill) Miller Bill Miller Bill Miller You would be hard-pressed to find anybody in this world who was more fascinated by and curious about the people of Cleveland. And William F. Miller possessed a passion for telling their stories throughout his four-decade career as a reporter for...",
+      "after": "Bill Miller used storytelling, civic curiosity, and public engagement to connect Cleveland communities, making people and neighborhood stories central to his public life.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to arts and culture, education, and media and storytelling within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "jim-craciun-2017",
+      "name": "Jim Craciun",
+      "classYear": 2017,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Jim Craciun James M. (“Jim”) Craciun was born on August 31, 1951, and raised in Cleveland, Ohio. He graduated cum laude from St. Edward’s High School 1969. In 1973, he graduated from Cleveland State University with a Bachelor’s degree in business with a major in labor and industrial...",
+      "after": "Jim Craciun combined law, writing, arts leadership, and refugee-service work, serving Cleveland cultural institutions and the International Services Center.",
+      "afterWordCount": 19,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, civic leadership, and education within Romanian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "mona-alag-2017",
+      "name": "Mona Alag",
+      "classYear": 2017,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Mona Alag On a hot August night, the seventeenth day of August, in 1970, as the Air France airliner circled around the boroughs of New York, a sea of lights glittering and twinkling brought me to the magical land called America. I was going to be in the...",
+      "after": "Mona Alag became a leader in Cleveland's Indian community, organizing cultural, youth, and intergenerational programs that strengthened understanding across communities.",
+      "afterWordCount": 20,
+      "sourceExcerpt": "Contributions to law and justice, business and entrepreneurship, and community organizing within Indian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "atul-mehta-2018",
+      "name": "Atul Mehta",
+      "classYear": 2018,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Dr. Atul C. Mehta, M.D. Dr. Atul C. Mehta, M.D Dr. Atul C. Mehta is a world-renowned pulmonary clinician and academic authority/teacher with a strong track record of hospital administrative and medical staff leadership over a 37-year career with Cleveland Clinic in the U.S. and abroad. He has...",
+      "after": "Dr. Atul Mehta became an internationally respected pulmonary physician and teacher, helping train medical professionals and serving Cleveland's Indian community through health and civic work.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to medicine and health, education, and community organizing within Indian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "ray-pianka-2018",
+      "name": "Ray Pianka",
+      "classYear": 2018,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Judge Ray Pianka Judge Ray Pianka “Dla chcacego nic trudnego” is Polish for “Where there’s a will, there’s a way”. Judge Raymond L. Pianka often quoted this Polish phrase when explaining how he was able to accomplish so much for the people of his Cleveland neighborhood, other city...",
+      "after": "Judge Ray Pianka devoted his career to Cleveland neighborhoods, community development, historic preservation, and housing-court service rooted in Polish heritage and civic fairness.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to civic leadership, law and justice, and education within Polish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "sheila-murphy-crawford-2018",
+      "name": "Sheila Murphy Crawford",
+      "classYear": 2018,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Sheila Murphy was born to Ollie and Betty Murphy in Cleveland, Ohio. She was the youngest of four children including her brother, Ollie, and her two sisters, Joan and Maureen. With grandparents from County Cork and West Meath, she grew up in a loving Irish-American family where the...",
+      "after": "Sheila Murphy Crawford advanced Irish cultural heritage through decades of volunteer leadership with the Cleveland Cultural Gardens and restoration work in the Irish Cultural Garden.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to arts and culture, education, and faith and service within Irish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "sister-alicia-alvarado-2018",
+      "name": "Sister Alicia Alvarado",
+      "classYear": 2018,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Sister Alicia Alvarado, OP Sister Alicia Alvarado, OP Sister Alicia Alvarado was born in Villalba, Puerto Rico on December 31, 1948, the second child of Felipe J. Alvarado and Rosa Maria Rodriquez Alvarado. She immigrated to the United States of America as a 6 year old child with...",
+      "after": "Sister Alicia Alvarado linked faith, education, social work, and community service, becoming a leader for Puerto Rican heritage and Catholic service in Cleveland.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, faith and service, and education within Puerto Rican heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "akram-boutros-2019",
+      "name": "Akram Boutros",
+      "classYear": 2019,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Akram Boutros, MD, FACHE Akram Boutros Akram Boutros, MD, FACHE In his five years as the President and CEO of MetroHealth, the public health system in Cleveland, Akram Boutros, MD, FACHE, has galvanized political leaders, entrepreneurs and the public around supporting community-wide health care many had taken for...",
+      "after": "Akram Boutros led MetroHealth through major transformation, using public-health leadership, community investment, and institutional rebuilding to expand care in Cuyahoga County.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to medicine and health, business and entrepreneurship, and education within Egyptian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "ingrida-bublys-2019",
+      "name": "Ingrida Bublys",
+      "classYear": 2019,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Ingrida Bublys, President of IB International Inc., shares 30 years in business development and company representation between the Baltic States and the US and lately has expanded business development to other surrounding countries. IBInternational represents a number of US companies in various industry sectors, while also representing and...",
+      "after": "Ingrida Bublys built international business ties between the Baltic States and the United States, supporting trade development, Lithuanian companies, and civic connections in Northeast Ohio.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, community organizing, and diplomacy and global affairs within Lithuanian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "paul-burik-2019",
+      "name": "Paul Burik",
+      "classYear": 2019,
+      "reasons": [
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Paul Burik was born in the city of Budvar – yes, the namesake of Budweiser Beer, in what is now the Czech Republic. He escaped with his father from Czechoslovakia in 1968 after the Soviet invasion.",
+      "after": "Paul Burik brought architecture, city service, and cultural-garden leadership together, supporting Cleveland's Czech and Carpatho-Rusyn communities through civic and heritage work.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to arts and culture and civic leadership within Czech and Carpatho-Rusyn heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "richard-fleischman-2019",
+      "name": "Richard Fleischman",
+      "classYear": 2019,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Richard Fleischman Born in Cleveland in 1928, Richard Fleischman was encouraged to study architecture at a young age by an uncle who noticed his avid interest in drawing and building models. During his senior year at East Tech High School, Fleischman won an academic scholarship to Carnegie Tech...",
+      "after": "Richard Fleischman became an award-winning Cleveland architect known for sculpted space, major regional projects, church design, and contributions to architectural education.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to education within Hungarian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "sree-sreenath-2019",
+      "name": "Sree Sreenath",
+      "classYear": 2019,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO, is a tenured full professor in the Electrical Engineering and Computer Science Department at Case Western Reserve University, Cleveland, Ohio. He is the Director of Case GEMNI (Graduate Engineering & Management National and...",
+      "after": "Sree Sreenath built a career in engineering, systems research, global development, and education at Case Western Reserve University while organizing Indian community initiatives.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to education, community organizing, and science and technology within Indian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "may-chen-2020",
+      "name": "May Chen",
+      "classYear": 2020,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "May J. Chen May Chen May J. Chen, is co-founder and executive director emeritus of Asian Services in Action, Inc., whose mission is to empower and advocate for Asian Americans/Pacific Islanders(AAPIs); and to provide AAPIs access to quality, culturally, and linguistically appropriate information and services, has changed the...",
+      "after": "May Chen co-founded Asian Services in Action and spent her career expanding advocacy, culturally appropriate services, and community capacity for Asian American and Pacific Islander communities.",
+      "afterWordCount": 26,
+      "sourceExcerpt": "Contributions to community organizing and business and entrepreneurship within Chinese heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "valarie-mccall-2020",
+      "name": "Valarie McCall",
+      "classYear": 2020,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Valarie J. McCall Valarie J. McCall Valarie J. McCall learned to meet leadership demands at an early age. Her first job at a McDonald’s restaurant – and a commute completely reliant on public transportation – began to open her eyes to the injustices and areas for opportunity in...",
+      "after": "Valarie McCall shaped Cleveland civic life through public service, communications, transportation leadership, Sister Cities work, and community and economic development.",
+      "afterWordCount": 20,
+      "sourceExcerpt": "Contributions to civic leadership, business and entrepreneurship, and community organizing within African-American heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "georgine-welo-2023",
+      "name": "Georgine Welo",
+      "classYear": 2023,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Georgine Welo As a young woman being raised in a Serbian Orthodox home, Georgine Welo (maiden name Coso), would be spotted on Friday nights at Saint Sava Serbian Orthodox Cathedral’s Cultural classes, attending Sunday School, reading the Epistle and working at all the Church banquets at Saint Sava...",
+      "after": "Georgine Welo strengthened Serbian cultural and civic life in Northeast Ohio through Saint Sava, Serbian community organizations, and broader cultural leadership.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to civic leadership, arts and culture, and business and entrepreneurship within Serbian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "joyce-mariani-2023",
+      "name": "Joyce Mariani",
+      "classYear": 2023,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Joyce Mariani has a deep love for the culture of Italy handed down from her family which is of Florentine origin and Roman origin. Upon her return to Cleveland from Italy where she studied and worked, she founded the Cleveland Italian Film Festival in 2006 and the first...",
+      "after": "Joyce Mariani founded the Cleveland Italian Film Festival and led major Italian Cultural Garden restoration and cultural programming efforts in Rockefeller Park.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to arts and culture and civic leadership within Italian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "michael-d-polensek-2023",
+      "name": "Michael D. Polensek",
+      "classYear": 2023,
+      "reasons": [
+        "truncated",
+        "time-sensitive wording"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Michael D. Polensek, the “Dean” of City Council, and Councilman representing Cleveland’s 8th Ward, has served the neighborhoods of northeast Cleveland since 1978, making him the longest-serving Council member in the city’s history. Currently he serves as the Chair of the Public Safety Committee and sits on the...",
+      "after": "Michael D. Polensek built a decades-long career representing northeast Cleveland neighborhoods, focusing on public safety, neighborhood development, fair housing, and grassroots community leadership.",
+      "afterWordCount": 23,
+      "sourceExcerpt": "Contributions to faith and service, business and entrepreneurship, and civic leadership within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "pat-dowd-2023",
+      "name": "Pat Dowd",
+      "classYear": 2023,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Pat Dowd is the daughter of the late Tom and Millie Dowd and the oldest in her family of five siblings: Judy Wade, Kathy Dowd, Ginny Gaskill, Maureen Dowd, and Joe Dowd. She attended St. Agnes and St. Aloysius grade schools in Cleveland, Ursuline Academy of the Sacred...",
+      "after": "Pat Dowd promoted Irish culture through education, business, and community activity, building Irish Moments and supporting Irish American events, festivals, and organizations.",
+      "afterWordCount": 22,
+      "sourceExcerpt": "Contributions to arts and culture, business and entrepreneurship, and education within Irish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "sudarshan-sathe-2023",
+      "name": "Sudarshan Sathe",
+      "classYear": 2023,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Sudarshan ( su- dar- shun) Sathe ( Saa-the) earned a bachelor’s degree in chemical engineering, with first division honors, from the world famous IIT engineering school in India. He arrived in the U.S at a young age of 22 to join University of Akron’s master’s in chemical engineering...",
+      "after": "Sudarshan Sathe founded NewConcepts after a career in chemical and metals industries, supporting education, hunger relief, and philanthropic causes in Indian and Cleveland communities.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to education, business and entrepreneurship, and civic leadership within Indian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "david-gilbert-2025",
+      "name": "David Gilbert",
+      "classYear": 2025,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "David Gilbert serves as president and CEO of Greater Cleveland Sports Commission (GCSC), an organization dedicated to making Greater Cleveland the nation’s foremost destination for amateur sporting events and activities, and Destination Cleveland, the region’s destination marketing and management organization. He re-established the Sports Commission in 2000 and...",
+      "after": "David Gilbert helped make Greater Cleveland a major destination for sports and civic events through leadership of the Greater Cleveland Sports Commission and Destination Cleveland.",
+      "afterWordCount": 25,
+      "sourceExcerpt": "Contributions to business and entrepreneurship, diplomacy and global affairs, and civic leadership within Jewish heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "svetlana-stolyarova-2025",
+      "name": "Svetlana Stolyarova",
+      "classYear": 2025,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Svetlana Stolyarova, born in the USSR in 1962, is a visionary leader dedicated to cultural heritage, community development, and international collaboration. Her lifelong passion for music, philosophy, and civic engagement has shaped her remarkable journey-from championing democratic reforms during Perestroika to becoming a key figure in Cleveland’s multicultural...",
+      "after": "Svetlana Stolyarova strengthened Russian cultural life in Cleveland through business leadership, the Russian Cultural Garden, music programming, and cross-cultural civic work.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to arts and culture, business and entrepreneurship, and civic leadership within Russian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "aklilu-demessie-2026",
+      "name": "Aklilu Demessie",
+      "classYear": 2026,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Aklilu Demessie Mr. Aklilu Demessie first came to the United States from Ethiopia for a year as part of an American Field Service, AFS, student scholarship program from Menelik High in Addis Ababa, Ethiopia, while a senior in high school in the 1970s. After graduating from Oberlin High...",
+      "after": "Aklilu Demessie built a life of engineering, education, faith, and Ethiopian community service after arriving in Ohio through an American Field Service student program.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to education, business and entrepreneurship, and faith and service within Ethiopian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "andy-chakalis-2026",
+      "name": "Andy Chakalis",
+      "classYear": 2026,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Andy Chakalis A native Clevelander, Andrew Chakalis attended Brush High School and Case Western Reserve University, where his Italian language studies earned him the Italian Fellowship to the Academy of Fine Arts in Florence in 1966. The school term breaks provided him the opportunity to assist at the...",
+      "after": "Andy Chakalis connected art, education, and Greek heritage through decades of museum work, exhibition leadership, and support for Cleveland cultural organizations.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to arts and culture, education, and community organizing within Greek heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "andy-fedynsky-2026",
+      "name": "Andy Fedynsky",
+      "classYear": 2026,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Andy Fedynsky was born in 1947 in Innsbruck, Austria to Ukrainian refugee parents who had fled communist tyranny. He was eight months old when his family immigrated to the United States and soon after settled in Cleveland where he became immersed in the Ukrainian community as a scout...",
+      "after": "Andy Fedynsky connected Ukrainian heritage, education, journalism, and civic advocacy, teaching community history while supporting cultural and political rights for Ukraine.",
+      "afterWordCount": 21,
+      "sourceExcerpt": "Contributions to education, civic leadership, and immigrant advocacy within Ukrainian heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    },
+    {
+      "id": "le-nguyen-2026",
+      "name": "Le Nguyen",
+      "classYear": 2026,
+      "reasons": [
+        "truncated"
+      ],
+      "strategy": "curated-local-override",
+      "before": "Le Nguyen For decades, when Cleveland’s Asian communities needed help navigating a new country, resolving conflict, or putting on a program, Le Nguyen was the person they turned to. As a connector and trusted presence, he spent more than 40 years building bridges between cultures, neighborhoods, and City...",
+      "after": "Le Nguyen became a trusted connector for Cleveland's Asian and Vietnamese communities, helping newcomers, resolving conflicts, and building bridges with neighborhood and city leadership.",
+      "afterWordCount": 24,
+      "sourceExcerpt": "Contributions to civic leadership, arts and culture, and community organizing within Vietnamese heritage communities and to Greater Cleveland's multicultural civic life.",
+      "reviewFlags": []
+    }
+  ]
+}

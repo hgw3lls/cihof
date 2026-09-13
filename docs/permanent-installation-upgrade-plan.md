@@ -38,8 +38,8 @@ The current project already has a strong application base:
 - Generated `public/data/cihof-runtime-data.json` as the preferred runtime bundle, with split runtime files retained as fallbacks.
 - 111 inductees from 2010-2026.
 - 111 primary image paths and 0 missing primary images.
-- 443 generated entities and 1,869 generated entity relationships.
-- 94 video items in media data.
+- 450 generated entities and 1,890 generated entity relationships.
+- 64 profiles with video links, represented as 94 video items in media data.
 - Kiosk mode, idle reset/attract behavior, media stop on reset, viewport lock, content protection, and runtime error handling.
 - Browser acceptance tests for the persistent Hall, portrait frame system, hidden admin settings, portal readiness, and kiosk smoke behavior.
 

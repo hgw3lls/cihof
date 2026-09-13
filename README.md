@@ -116,9 +116,11 @@ npm run audit:data
 npm run curate:report
 npm run media:validate
 npm run validate:entities
+npm run launch:readiness
 ```
 
 `public/data/data-audit.local.json` is local ignored audit output.
+`artifacts/launch-readiness.local.json` is local ignored launch-gate output.
 
 ## Current Data Status
 
@@ -129,15 +131,21 @@ Latest audit snapshot, September 12, 2026:
 - `0` duplicate IDs
 - `0` generic image candidates
 - `450` generated entities
-- `1,889` generated entity relationships
+- `1,890` generated entity relationships
 - `0` explicit curated relationship records
 - `111/111` curated metadata records structurally present
-- `0` public-approved profile summaries/context/HONORED FOR/Life + Work fields
-- `64` profiles currently have video links in generated runtime data
+- `111/111` summary, documented context, HONORED FOR, and Life + Work fields populated in curated metadata
+- `111/111` curated records still have overall draft approval status
+- `64` profiles currently have video links in generated runtime data, represented as `94` media-manifest video items
+- `111/111` primary images wall-ready; `0/111` primary images and `0/94` videos kiosk-ready
 - `1,204` remote media references remain in the offline validation report
 - kiosk-ready media approval/localization remains the main production content gap
 
 The architecture is ahead of the approved content. The next major work should move source-derived suggestions into curator-approved canonical data.
+
+Launch planning for the October 12, 2026 target lives in:
+
+- `docs/launch-readiness-plan.md`
 
 ## Project Structure
 
