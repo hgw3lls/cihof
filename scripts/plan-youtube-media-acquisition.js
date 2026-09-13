@@ -1,6 +1,6 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, extname, join, relative, resolve } from 'node:path';
 
 const args = parseArgs(process.argv.slice(2));
 const manifestPath = resolve(args.manifest ?? 'data/media_manifest.json');
@@ -36,7 +36,7 @@ function buildPlan() {
       if (!video.youtubeVideoId) return;
       upsertRecord(recordsByKey, {
         personId,
-        personName: '',
+        personName: assetRecord.name || '',
         youtubeVideoId: video.youtubeVideoId,
         sourceUrl: video.sourceUrl || youtubeWatchUrl(video.youtubeVideoId),
         sourcePageUrl: '',
@@ -71,11 +71,19 @@ function buildPlan() {
   });
 
   const records = Array.from(recordsByKey.values())
-    .map((record) => ({
-      ...record,
-      rightsConfirmed: rightsAllowlist.has(record.youtubeVideoId) || rightsAllowlist.has(`${record.personId}:${record.youtubeVideoId}`),
-      downloadCommand: buildDownloadCommand(record),
-    }))
+    .map((record) => {
+      const downloadedFiles = findDownloadedFiles(record.outputFilePath);
+      const next = {
+        ...record,
+        rightsConfirmed: rightsAllowlist.has(record.youtubeVideoId) || rightsAllowlist.has(`${record.personId}:${record.youtubeVideoId}`),
+        alreadyDownloaded: downloadedFiles.length > 0,
+        downloadedFiles,
+      };
+      return {
+        ...next,
+        downloadCommand: buildDownloadCommand(next),
+      };
+    })
     .sort((a, b) => a.personId.localeCompare(b.personId) || a.youtubeVideoId.localeCompare(b.youtubeVideoId));
 
   return {
@@ -91,6 +99,7 @@ function buildPlan() {
       uniqueYoutubeIds: new Set(records.map((record) => record.youtubeVideoId)).size,
       rightsConfirmed: records.filter((record) => record.rightsConfirmed).length,
       needsRightsReview: records.filter((record) => !record.rightsConfirmed).length,
+      alreadyDownloaded: records.filter((record) => record.alreadyDownloaded).length,
       manifestRecords: records.filter((record) => record.provenance.includes('data/media_manifest.json')).length,
       sourceReviewRecords: records.filter((record) => record.provenance.includes('source-curation videoReviewDrafts')).length,
     },
@@ -135,10 +144,69 @@ function buildCommandFile(plan) {
     '# Commands are commented out unless rightsConfirmed is true in the plan.',
     '# Requires yt-dlp and ffmpeg on PATH.',
     '',
+    'SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"',
+    'REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"',
+    'ACQUISITION_DIR="$REPO_ROOT/data/media-acquisition"',
+    'cd "$REPO_ROOT"',
+    '',
+    'first_downloaded_file() {',
+    '  local output_file="$1"',
+    '  if [[ -s "$output_file" ]]; then',
+    '    printf \'%s\\n\' "$output_file"',
+    '    return 0',
+    '  fi',
+    '  local output_stem="${output_file%.*}"',
+    '  local candidate',
+    '  for candidate in "${output_stem}".mp4 "${output_stem}".m4v "${output_stem}".mov "${output_stem}".webm "${output_stem}".mkv; do',
+    '    if [[ -s "$candidate" ]]; then',
+    '      printf \'%s\\n\' "$candidate"',
+    '      return 0',
+    '    fi',
+    '  done',
+    '  return 1',
+    '}',
+    '',
+    'download_youtube() {',
+    '  local person_id="$1"',
+    '  local youtube_id="$2"',
+    '  local output_file="$3"',
+    '  local output_template="$4"',
+    '  local url="$5"',
+    '  local downloaded_file',
+    '',
+    '  if downloaded_file="$(first_downloaded_file "$output_file")"; then',
+    '    echo "Skipping ${person_id} / ${youtube_id}; already downloaded at ${downloaded_file}."',
+    '    return 0',
+    '  fi',
+    '',
+    '  if [[ "$output_file" != /* ]] && downloaded_file="$(first_downloaded_file "$SCRIPT_DIR/$output_file")"; then',
+    '    echo "Skipping ${person_id} / ${youtube_id}; already downloaded at ${downloaded_file}."',
+    '    return 0',
+    '  fi',
+    '',
+    '  if [[ "$output_file" != /* ]] && downloaded_file="$(first_downloaded_file "$ACQUISITION_DIR/$output_file")"; then',
+    '    echo "Skipping ${person_id} / ${youtube_id}; already downloaded at ${downloaded_file}."',
+    '    return 0',
+    '  fi',
+    '',
+    '  mkdir -p "$(dirname "$output_file")"',
+    '  yt-dlp \\',
+    '    --no-playlist \\',
+    '    --merge-output-format mp4 \\',
+    '    --write-subs \\',
+    '    --write-auto-subs \\',
+    '    --sub-langs "en.*" \\',
+    '    --write-thumbnail \\',
+    '    --output "$output_template" \\',
+    '    "$url"',
+    '}',
+    '',
   ];
 
   plan.records.forEach((record) => {
-    lines.push(`# ${record.personId} / ${record.youtubeVideoId} / ${record.rightsConfirmed ? 'RIGHTS CONFIRMED' : 'NEEDS RIGHTS REVIEW'}`);
+    const status = [record.rightsConfirmed ? 'RIGHTS CONFIRMED' : 'NEEDS RIGHTS REVIEW'];
+    if (record.alreadyDownloaded) status.push('ALREADY DOWNLOADED');
+    lines.push(`# ${record.personId} / ${record.youtubeVideoId} / ${status.join(' / ')}`);
     lines.push(record.rightsConfirmed ? record.downloadCommand : `# ${record.downloadCommand}`);
     lines.push('');
   });
@@ -149,14 +217,11 @@ function buildCommandFile(plan) {
 function buildDownloadCommand(record) {
   const outputTemplate = record.outputFilePath.replace(/\.mp4$/i, '.%(ext)s');
   return [
-    'yt-dlp',
-    '--no-playlist',
-    '--merge-output-format mp4',
-    '--write-subs',
-    '--write-auto-subs',
-    '--sub-langs "en.*"',
-    '--write-thumbnail',
-    `--output ${shellQuote(outputTemplate)}`,
+    'download_youtube',
+    shellQuote(record.personId),
+    shellQuote(record.youtubeVideoId),
+    shellQuote(record.outputFilePath),
+    shellQuote(outputTemplate),
     shellQuote(youtubeWatchUrl(record.youtubeVideoId)),
   ].join(' ');
 }
@@ -167,6 +232,11 @@ function executeDownloads(records) {
     return;
   }
   records.forEach((record) => {
+    const downloadedFile = findDownloadedFiles(record.outputFilePath)[0];
+    if (downloadedFile) {
+      console.log(`Skipping ${record.personId}:${record.youtubeVideoId}; already downloaded at ${downloadedFile}.`);
+      return;
+    }
     mkdirSync(dirname(resolve(record.outputFilePath)), { recursive: true });
     const result = spawnSync('yt-dlp', [
       '--no-playlist',
@@ -184,6 +254,43 @@ function executeDownloads(records) {
 
 function defaultOutputPath(personId, youtubeVideoId) {
   return `public/media/videos/${personId}/${personId}_${youtubeVideoId}.mp4`;
+}
+
+function findDownloadedFiles(outputFilePath) {
+  const roots = [process.cwd(), dirname(outputCommandPath), resolve('data/media-acquisition')];
+  const files = [];
+  roots.forEach((root) => {
+    findMatchingDownloads(resolve(root, outputFilePath)).forEach((path) => files.push(displayPath(path)));
+  });
+  return Array.from(new Set(files));
+}
+
+function findMatchingDownloads(outputFilePath) {
+  const files = [];
+  if (isDownloadedMediaFile(outputFilePath)) files.push(outputFilePath);
+
+  const directory = dirname(outputFilePath);
+  if (!existsSync(directory)) return files;
+
+  const stem = basename(outputFilePath, extname(outputFilePath));
+  readdirSync(directory).forEach((fileName) => {
+    if (!fileName.startsWith(`${stem}.`)) return;
+    const candidate = join(directory, fileName);
+    if (isDownloadedMediaFile(candidate)) files.push(candidate);
+  });
+
+  return files;
+}
+
+function isDownloadedMediaFile(path) {
+  if (!existsSync(path)) return false;
+  const mediaExtensions = new Set(['.m4v', '.mkv', '.mov', '.mp4', '.webm']);
+  return statSync(path).isFile() && statSync(path).size > 0 && mediaExtensions.has(extname(path).toLowerCase());
+}
+
+function displayPath(path) {
+  const relativePath = relative(process.cwd(), path);
+  return relativePath && !relativePath.startsWith('..') ? relativePath : path;
 }
 
 function youtubeWatchUrl(youtubeVideoId) {

@@ -12,6 +12,7 @@ dist-portal/
 
 # Local generated audit output
 artifacts/data-audit.local.json
+artifacts/launch-readiness.local.json
 
 # Local staff portal runner scratch files
 .portal/

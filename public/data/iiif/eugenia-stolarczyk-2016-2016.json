@@ -4,12 +4,12 @@
   "type": "Manifest",
   "label": {
     "en": [
-      "Eugenia Stolarczyk – 2016, Class of 2016"
+      "Eugenia Stolarczyk, Class of 2016"
     ]
   },
   "summary": {
     "en": [
-      "Eugenia Stolarczyk Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk has been an active member of the Polish community. She married Jerzy Stolarczyk in 1957 and with a special love for Polish music and folklore, the ambitious and hardworking couple began their radio career in 1961. During her broadcast career, Eugenia interviewed many outstanding Polish artists and scholars. Along with raising three daughters, Eugenia devoted herself nearly full-time to the popularization of Polish culture. She continues to do so today."
+      "Eugenia Stolarczyk devoted her Cleveland life to Polish music, radio, folklore, and community connection. After marrying Jerzy Stolarczyk in 1957, she helped build long-running Polish American radio programs, interviewed artists and scholars, raised three daughters, and became a steady cultural voice preserving Polish heritage for local listeners."
     ]
   },
   "metadata": [
@@ -46,6 +46,18 @@
       "value": {
         "en": [
           "Polish"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Communities"
+        ]
+      },
+      "value": {
+        "en": [
+          "European Heritage"
         ]
       }
     },

@@ -158,14 +158,14 @@ The staff/curation portal has been separated from the public visitor app. The ma
 - Primary image coverage: 111 profiles have primary image paths and 0 missing primary images.
 - Duplicate ID count: 0.
 - Generic image candidate count: 0.
-- Runtime media data includes 94 video items.
+- Runtime media data includes 64 profiles with video links and 94 media-manifest video items.
 - Kiosk-ready primary images: 0.
 - Kiosk-ready videos: 0.
 - Generated entity count: 450 entities.
-- Generated entity relationship count: 1,889 relationships.
+- Generated entity relationship count: 1,890 relationships.
 - Explicit curated relationship records currently remain a curation area to expand from source-derived candidates.
 - Curated story section records currently remain limited and should be expanded through portal review.
-- Curated metadata records exist for all 111 inductees, but public-approved context/HONORED FOR/Life + Work fields remain empty.
+- Curated metadata records exist for all 111 inductees, with summary, context, HONORED FOR, and Life + Work fields populated; overall curated record approval status remains draft.
 - Runtime bundle exists and is used as the preferred public data source.
 - Hidden admin settings are browser-local kiosk settings, not canonical curation data.
 - The architecture is ahead of the approved content. The next phase should prioritize curation and media readiness over new visitor features.

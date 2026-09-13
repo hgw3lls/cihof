@@ -45,7 +45,7 @@ The current architecture is ready for content-integration review, but the conten
 
 Known production-readiness gaps:
 
-- `0` public-approved profile summaries/context/HONORED FOR/Life + Work fields in curated metadata.
+- Curated profile summaries/context/HONORED FOR/Life + Work fields are populated for all 111 records, but overall record approval status remains draft.
 - Explicit curated relationship records still need expansion from source-derived candidates.
 - Primary images are present, but kiosk-ready image/media approval and localization are not complete.
 - Videos require rights, captions, transcripts, posters, and local/offline packaging before production kiosk use.

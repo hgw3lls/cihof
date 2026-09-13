@@ -1,0 +1,293 @@
+{
+  "generatedAt": "2026-09-13T20:51:50Z",
+  "scope": "Fresh local automated audit after Week 1 cleanup passes. External research remains separate and is not integrated.",
+  "overallStatus": "content-data-images-localized-launch-blocked-browser-green",
+  "targetDate": "2026-10-12",
+  "counts": {
+    "profiles": 111,
+    "regions": 5,
+    "nationalityHeritageLabels": 38,
+    "curatedRecords": 111,
+    "approvedCuratedRecords": 0,
+    "entities": 451,
+    "generatedEntityRelationships": 1948,
+    "explicitRelationships": 0,
+    "storySections": 3,
+    "storyLenses": 6,
+    "physicalWallPositions": 0,
+    "primaryImages": 111,
+    "primaryImagesWallReady": 111,
+    "primaryImagesKioskReady": 111,
+    "galleryImages": 999,
+    "galleryImagesKioskReady": 999,
+    "imageAssets": 1110,
+    "approvedImageAssets": 1110,
+    "galleryImagesRemoteOnly": 0,
+    "videoProfiles": 64,
+    "videoItems": 94,
+    "videosKioskReady": 0,
+    "profilesWithoutVideo": 47,
+    "remoteMediaReferences": 1204,
+    "localAssetReferencesCheckedOffline": 1112,
+    "youtubeAcquisitionRecords": 633,
+    "uniqueYoutubeIds": 140,
+    "youtubeAlreadyDownloaded": 62,
+    "youtubeRightsConfirmed": 0
+  },
+  "contentReadiness": {
+    "profileDecisions": {
+      "pass-as-is": 111,
+      "minimal-edits": 0,
+      "needs-editorial-review": 0
+    },
+    "profilesPassingOrMinimal": 111,
+    "textSurfaceTotals": {
+      "all": {
+        "total": 2109,
+        "passAsIs": 1665,
+        "passWithOptionalPolish": 119,
+        "minimalEdit": 64,
+        "needsEdit": 0,
+        "notApplicable": 261
+      },
+      "visitorFacing": {
+        "total": 1554,
+        "passAsIs": 1221,
+        "passWithOptionalPolish": 112,
+        "minimalEdit": 64,
+        "needsEdit": 0,
+        "notApplicable": 157
+      },
+      "coreProfileCopy": {
+        "total": 666,
+        "passAsIs": 666,
+        "passWithOptionalPolish": 0,
+        "minimalEdit": 0,
+        "needsEdit": 0,
+        "notApplicable": 0
+      }
+    },
+    "fieldSummaries": {
+      "bioText": {
+        "pass-as-is": 111
+      },
+      "lifeWorkSummary": {
+        "pass-as-is": 111
+      },
+      "storySummary": {
+        "pass-as-is": 111
+      },
+      "storyHighlights": {
+        "pass-as-is": 111
+      },
+      "imageAltText": {
+        "pass-as-is": 111
+      },
+      "themeTags": {
+        "pass-as-is": 111
+      },
+      "communityTags": {
+        "pass-as-is": 111
+      },
+      "countryTags": {
+        "pass-as-is": 109,
+        "not-applicable": 2
+      },
+      "pronunciation": {
+        "pass-as-is": 1,
+        "pass-with-optional-polish": 110
+      },
+      "videoCaptionTranscriptText": {
+        "not-applicable": 47,
+        "minimal-edit": 64
+      }
+    }
+  },
+  "cleanupChecksNowClear": {
+    "ALT_TEXT_GENERIC_TEMPLATE": 0,
+    "GENERIC_IMAGE_ALT_TEXT": 0,
+    "BIO_LEADING_NAME_DUPLICATION": 0,
+    "BIO_TEXT_TEMPORAL_WORDING": 0,
+    "DISPLAY_NAME_YEAR_ARTIFACT": 0,
+    "CLASS_YEAR_IN_DISPLAY_NAME": 0,
+    "BIO_TEXT_CONTACT_OR_ADDRESS": 0,
+    "LIFE_WORK_SUMMARY_FLAGS": 0,
+    "HIGHLIGHT_TRUNCATED": 0,
+    "STORY_SUMMARY_FLAGS": 0
+  },
+  "remainingIssueQueues": {
+    "PROFILE_APPROVAL_DRAFT": 111,
+    "ACCESSIBILITY_REVIEW_NEEDED": 111,
+    "IMAGE_RIGHTS_REVIEW_NEEDED_PROFILE_RECORDS": 0,
+    "IMAGE_RIGHTS_REVIEW_NEEDED_ASSETS": 0,
+    "PRIMARY_IMAGE_KIOSK_APPROVAL": 0,
+    "GALLERY_IMAGE_LOCALIZATION_NEEDED": 0,
+    "PHYSICAL_WALL_POSITION_MISSING": 111,
+    "RELATIONSHIP_REVIEW_QUEUE": 101,
+    "EXPLICIT_TRACES_RELATIONSHIPS_NEEDED": 30,
+    "ORGANIZATION_REVIEW_QUEUE": 105,
+    "PRONUNCIATION_MISSING": 110,
+    "VIDEO_RIGHTS_REVIEW_NEEDED": 64,
+    "VIDEO_CAPTIONS_TRANSCRIPTS_NEEDED": 64,
+    "VIDEO_LOCAL_FILE_MISSING": 7,
+    "NO_VIDEO_LINKED": 47,
+    "PLACE_REVIEW_QUEUE": 39,
+    "PROFILE_ALIAS_OR_DUPLICATE_REVIEW": 13,
+    "ARCHIVE_LEAD_STAFF_ONLY": 11,
+    "COUNTRY_HERITAGE_LOCAL_COMMUNITY_EXCEPTIONS": 2,
+    "DISPLAY_NAME_LIFE_DATES": 1
+  },
+  "launchReadiness": {
+    "status": "blocked",
+    "passing": 6,
+    "blockers": 3,
+    "warnings": 2,
+    "blockerGates": {
+      "curated_records_approved": "0/111",
+      "explicit_traces_relationships": "0/30",
+      "physical_wall_positions": "0/111"
+    },
+    "warningGates": {
+      "remote_media_references": "1204/0",
+      "caption_transcript_review": "0/94"
+    }
+  },
+  "mediaClearance": {
+    "strictProfile": "full",
+    "schemaErrors": 0,
+    "warnings": 261,
+    "strictFailures": 94,
+    "primaryImagesReady": 111,
+    "galleryImagesReady": 999,
+    "videosReady": 0,
+    "missingVideoLocalFiles": 7,
+    "missingVideoPosters": 94,
+    "missingCaptions": 94,
+    "missingTranscripts": 94
+  },
+  "browserTests": {
+    "portal": {
+      "result": "pass",
+      "passed": 2,
+      "failed": 0,
+      "notes": "Ran with localhost permission; Playwright portal suite passed 2/2."
+    },
+    "kiosk": {
+      "result": "pass",
+      "passed": 36,
+      "failed": 0,
+      "notes": "Ran with localhost permission; Playwright kiosk suite passed 36/36.",
+      "failures": []
+    }
+  },
+  "highestPriorityRecords": [
+    {
+      "id": "dick-pogue-2015",
+      "name": "Dick Pogue",
+      "nextBestAction": "Review relationship evidence and labels."
+    },
+    {
+      "id": "jim-foster-2014",
+      "name": "Jim Foster",
+      "nextBestAction": "Review relationship evidence and labels."
+    }
+  ],
+  "commands": [
+    {
+      "command": "npm run prepare:data",
+      "result": "pass",
+      "entities": 451,
+      "generatedEntityRelationships": 1948
+    },
+    {
+      "command": "npm run content:text-readiness",
+      "result": "pass"
+    },
+    {
+      "command": "npm run content:review",
+      "result": "pass"
+    },
+    {
+      "command": "npm run curate:report",
+      "result": "pass"
+    },
+    {
+      "command": "npm run validate:entities",
+      "result": "pass",
+      "entities": 451,
+      "generatedEntityRelationships": 1948
+    },
+    {
+      "command": "npm run audit:data",
+      "result": "pass"
+    },
+    {
+      "command": "npm run media:youtube-plan",
+      "result": "pass",
+      "totalRecords": 633,
+      "uniqueYoutubeIds": 140,
+      "alreadyDownloaded": 62,
+      "rightsConfirmed": 0
+    },
+    {
+      "command": "npm run media:gallery-localize",
+      "result": "pass-dry-run",
+      "remoteOnlyGalleryCandidates": 0
+    },
+    {
+      "command": "bash -n data/media-acquisition/youtube-download-commands.sh",
+      "result": "pass"
+    },
+    {
+      "command": "npm run validate:kiosk",
+      "result": "pass",
+      "primaryImagesReady": 111,
+      "strictFailures": 0
+    },
+    {
+      "command": "npm run validate:media-clearance",
+      "result": "expected-fail",
+      "strictFailures": 94
+    },
+    {
+      "command": "npm run launch:readiness:strict",
+      "result": "expected-fail"
+    },
+    {
+      "command": "npm run launch:readiness",
+      "result": "blocked-status"
+    },
+    {
+      "command": "npm run build:public",
+      "result": "pass"
+    },
+    {
+      "command": "npm run build:portal",
+      "result": "pass"
+    },
+    {
+      "command": "npm run validate:offline",
+      "result": "pass-with-warning"
+    },
+    {
+      "command": "node --check scripts/*.js",
+      "result": "pass"
+    },
+    {
+      "command": "npm run test:portal",
+      "result": "pass-with-localhost-permission",
+      "testsPassed": 2,
+      "testsFailed": 0
+    },
+    {
+      "command": "npm run test:kiosk",
+      "result": "pass-with-localhost-permission",
+      "testsPassed": 36,
+      "testsFailed": 0
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ]
+}

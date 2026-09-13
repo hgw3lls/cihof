@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T16:45:10.503Z",
+  "dryRun": false,
+  "source": {
+    "updatedFile": "data/cihof_curated_metadata.json",
+    "basis": "Applies curated local rewrites to known optional-polish story summaries, then synchronizes draft and approved summary fields.",
+    "excluded": [
+      "data/external-research/*"
+    ],
+    "note": "This clears optional story-summary polish from local CIHOF profile material. It does not mark factual approval complete."
+  },
+  "summary": {
+    "polishedRecords": 34,
+    "byAction": {
+      "curated-polish": 34
+    },
+    "skippedForReadiness": []
+  },
+  "records": [
+    {
+      "id": "dr-dieu-thuc-do-2010",
+      "displayName": "Dr. Dieu Thuc Do",
+      "classYear": 2010,
+      "action": "curated-polish",
+      "beforeDraft": "Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of 5 children.",
+      "beforeApproved": "Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of 5 children.",
+      "afterSummary": "Dr. Dieu Thuc Do brought medical training, military service, and civic leadership from Vietnam to Cleveland, where he practiced medicine and supported Vietnamese community life."
+    },
+    {
+      "id": "lonnie-mccauley-2010",
+      "displayName": "Lonnie McCauley",
+      "classYear": 2010,
+      "action": "curated-polish",
+      "beforeDraft": "Lonnie Davis McCauley was born in Cleveland on September 19th, 1947. She attended high school at Lourdes Academy, received a B.A. in sociology from Cleveland State University, and a Master’s Degree in Library Science from Kent State University in 1999.",
+      "beforeApproved": "Lonnie Davis McCauley was born in Cleveland on September 19th, 1947. She attended high school at Lourdes Academy, received a B.A. in sociology from Cleveland State University, and a Master’s Degree in Library Science from Kent State University in 1999.",
+      "afterSummary": "Lonnie McCauley promoted Irish culture and history in Cleveland through library research, community leadership, Irish American organizations, and public heritage projects."
+    },
+    {
+      "id": "robert-j-haas-2010",
+      "displayName": "Robert J. Haas",
+      "classYear": 2010,
+      "action": "curated-polish",
+      "beforeDraft": "Robert (Bob) Haas was born and raised on Cleveland’s west side. Married for 17 years to his wife Barbara, Bob has two sons and three grand children.",
+      "beforeApproved": "Robert (Bob) Haas was born and raised on Cleveland’s west side. Married for 17 years to his wife Barbara, Bob has two sons and three grand children.",
+      "afterSummary": "Robert J. Haas combined Berea public safety work, German cultural leadership, and community organizing through decades of police service, festivals, and civic involvement."
+    },
+    {
+      "id": "luis-martinez-2011",
+      "displayName": "Luis Martinez",
+      "classYear": 2011,
+      "action": "curated-polish",
+      "beforeDraft": "Luis Martinez was born in Bayamon, Puerto Rico and moved with his family from Puerto Rico to Lorain, Ohio when he was 3 years old. He graduated from Lorain Admiral King High School in 1966.",
+      "beforeApproved": "Luis Martinez was born in Bayamon, Puerto Rico and moved with his family from Puerto Rico to Lorain, Ohio when he was 3 years old. He graduated from Lorain Admiral King High School in 1966.",
+      "afterSummary": "Luis Martinez linked military service, education, and Puerto Rican civic leadership through work in recruitment, training, community programs, and Cleveland public service."
+    },
+    {
+      "id": "ralph-j-perk-2011",
+      "displayName": "Ralph J. Perk",
+      "classYear": 2011,
+      "action": "curated-polish",
+      "beforeDraft": "Ralph J. Perk The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for his human rights advocacy and his anti-communist, anti-totalitarian stance. Before becoming Mayor, Perk served Ward 13 (Broadway/East 55th area) as its council member for five terms.",
+      "beforeApproved": "Ralph J. Perk The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for his human rights advocacy and his anti-communist, anti-totalitarian stance. Before becoming Mayor, Perk served Ward 13 (Broadway/East 55th area) as its council member for five terms.",
+      "afterSummary": "Ralph J. Perk served as Cleveland's mayor after city and county office, becoming known for human-rights advocacy, Czech heritage pride, and anti-totalitarian civic leadership."
+    },
+    {
+      "id": "reverend-dr-otis-moss-jr-2011",
+      "displayName": "Reverend Dr. Otis Moss, Jr.",
+      "classYear": 2011,
+      "action": "curated-polish",
+      "beforeDraft": "Reverend Dr. Otis Moss, Jr. Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr. is one of America’s most influential leaders.",
+      "beforeApproved": "Reverend Dr. Otis Moss, Jr. Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr. is one of America’s most influential leaders.",
+      "afterSummary": "Rev. Dr. Otis Moss Jr. became a nationally influential pastor, theologian, and civil-rights leader through ministry, education, and civic leadership in Cleveland and beyond."
+    },
+    {
+      "id": "vijaya-l-emani-2011",
+      "displayName": "Vijaya L. Emani",
+      "classYear": 2011,
+      "action": "curated-polish",
+      "beforeDraft": "Vijaya L. Emani “You can have Excellence, You can have Excuses, but you cannot have both!” Vijaya Lakshmi Emani, born in Kurnool, was the daughter of Indurani and G.Venkataramana Reddy. She was known to us as a spitfire, but came from a more modest and quiet beginning.",
+      "beforeApproved": "Vijaya L. Emani “You can have Excellence, You can have Excuses, but you cannot have both!” Vijaya Lakshmi Emani, born in Kurnool, was the daughter of Indurani and G.Venkataramana Reddy. She was known to us as a spitfire, but came from a more modest and quiet beginning.",
+      "afterSummary": "Vijaya L. Emani turned engineering, entrepreneurship, and personal resilience into community leadership, mentoring, advocacy, and service within Cleveland's Indian American community."
+    },
+    {
+      "id": "anthony-yen-yan-yuan-tai-2012",
+      "displayName": "Anthony Yen (Yan Yuan Tai)",
+      "classYear": 2012,
+      "action": "curated-polish",
+      "beforeDraft": "Anthony Yen (Yan Yuan Tai) is an internationally recognized expert in business and trade. His work with the World Trade Center Cleveland and other businesses and organizations have earned him numerous business associations, consultancies, speaking engagements and awards and accolades as listed below.",
+      "beforeApproved": "Anthony Yen (Yan Yuan Tai) is an internationally recognized expert in business and trade. His work with the World Trade Center Cleveland and other businesses and organizations have earned him numerous business associations, consultancies, speaking engagements and awards and accolades as listed below.",
+      "afterSummary": "Anthony Yen advanced international business and trade through World Trade Center Cleveland work, export-development leadership, and decades of service linking Chinese and American business communities."
+    },
+    {
+      "id": "jose-c-feliciano-2012",
+      "displayName": "José C. Feliciano",
+      "classYear": 2012,
+      "action": "curated-polish",
+      "beforeDraft": "José C. Feliciano was born in Yauco, Puerto Rico and was reared on the near west side of Cleveland. He has been a Partner in the Litigation Group in the Cleveland office of the national law firm of Baker & Hostetler LLP since 1987.",
+      "beforeApproved": "José C. Feliciano was born in Yauco, Puerto Rico and was reared on the near west side of Cleveland. He has been a Partner in the Litigation Group in the Cleveland office of the national law firm of Baker & Hostetler LLP since 1987.",
+      "afterSummary": "Jose C. Feliciano made history in Cleveland law and public service, becoming the city's first Hispanic public official and a leader in civic, legal, and business circles."
+    },
+    {
+      "id": "ken-kovach-2012",
+      "displayName": "Ken Kovach",
+      "classYear": 2012,
+      "action": "curated-polish",
+      "beforeDraft": "Ken Kovach has built upon his advanced studies in sociology to develop a 30-year-plus professional practice in the fields of human resources development and organization development. He has special expertise in the fields of: coaching, creativity and innovation, leadership development, ethnic/minority group relations, and strategic planning.",
+      "beforeApproved": "Ken Kovach has built upon his advanced studies in sociology to develop a 30-year-plus professional practice in the fields of human resources development and organization development. He has special expertise in the fields of: coaching, creativity and innovation, leadership development, ethnic/minority group relations, and strategic planning.",
+      "afterSummary": "Ken Kovach built a professional practice in human resources, organization development, coaching, and leadership training while supporting Russian, Hungarian, and broader civic communities."
+    },
+    {
+      "id": "jack-coyne-2013",
+      "displayName": "Jack Coyne",
+      "classYear": 2013,
+      "action": "curated-polish",
+      "beforeDraft": "Jack Coyne John (“Jack”) P. Coyne was born in Cleveland, Ohio. John is a graduate of Benedictine High School, and he received his accounting degree and law degree from the University of Notre Dame. John has practiced law in Cleveland for fifty six years.",
+      "beforeApproved": "Jack Coyne John (“Jack”) P. Coyne was born in Cleveland, Ohio. John is a graduate of Benedictine High School, and he received his accounting degree and law degree from the University of Notre Dame. John has practiced law in Cleveland for fifty six years.",
+      "afterSummary": "Jack Coyne combined law, military service, parking-industry leadership, and philanthropy, supporting Irish heritage, education, and civic organizations across Greater Cleveland."
+    },
+    {
+      "id": "donna-hom-2014",
+      "displayName": "Donna Hom",
+      "classYear": 2014,
+      "action": "curated-polish",
+      "beforeDraft": "Donna was born in Guangdong province in southern China. She married her husband Willie Hom in 1960 and emigrated to the U.S. (settling in Youngstown, Ohio).",
+      "beforeApproved": "Donna was born in Guangdong province in southern China. She married her husband Willie Hom in 1960 and emigrated to the U.S. (settling in Youngstown, Ohio).",
+      "afterSummary": "Donna Hom built a Chinese restaurant business with her family and became a visible supporter of Chinese heritage, entrepreneurship, and community life in Cleveland."
+    },
+    {
+      "id": "eugene-bak-2014",
+      "displayName": "Eugene Bak",
+      "classYear": 2014,
+      "action": "curated-polish",
+      "beforeDraft": "Eugene Bak Gene Bak was born in Poland. In February 1940 the Soviets deported his entire village, including his family to Siberia.",
+      "beforeApproved": "Eugene Bak Gene Bak was born in Poland. In February 1940 the Soviets deported his entire village, including his family to Siberia.",
+      "afterSummary": "Eugene Bak carried a Polish refugee story into Cleveland civic life, building business ventures while preserving memory, culture, and immigrant experience through community service."
+    },
+    {
+      "id": "jim-foster-2014",
+      "displayName": "Jim Foster",
+      "classYear": 2014,
+      "action": "curated-polish",
+      "beforeDraft": "Jim Foster James H. Foster joined The City Club of Cleveland in 1993, as Managing Director and was named Executive Director July 1, 1994. Mr. Foster significantly expanded programming initiatives and strengthened City Club television and radio broadcasts, both locally and nationally.",
+      "beforeApproved": "Jim Foster James H. Foster joined The City Club of Cleveland in 1993, as Managing Director and was named Executive Director July 1, 1994. Mr. Foster significantly expanded programming initiatives and strengthened City Club television and radio broadcasts, both locally and nationally.",
+      "afterSummary": "Jim Foster expanded The City Club of Cleveland's programming, broadcasts, student forums, and civic reach, strengthening public dialogue and education in the region."
+    },
+    {
+      "id": "margaret-callander-2014",
+      "displayName": "Margaret Callander",
+      "classYear": 2014,
+      "action": "curated-polish",
+      "beforeDraft": "Margaret was born on July 28, 1932 in Cleveland to Scottish Emigrant parents from Glasgow, Scotland. She graduated from Shaw High School in 1950 as a member of the National Honor Society.",
+      "beforeApproved": "Margaret was born on July 28, 1932 in Cleveland to Scottish Emigrant parents from Glasgow, Scotland. She graduated from Shaw High School in 1950 as a member of the National Honor Society.",
+      "afterSummary": "Margaret Callander taught and promoted Scottish Highland dance for generations, preserving Scottish culture through performance, adjudication, instruction, and community leadership in Cleveland."
+    },
+    {
+      "id": "thomas-j-scanlon-2014",
+      "displayName": "Thomas J. Scanlon",
+      "classYear": 2014,
+      "action": "curated-polish",
+      "beforeDraft": "Thomas J. Scanlon received a Bachelor of Arts, Business Administration from John Carroll University in 1959. He then graduated from Cleveland State University – Cleveland Marshall College of Law – J.D., cum laude in 1963 and was a Member Board of Editors – Cleveland Marshall Law Review.",
+      "beforeApproved": "Thomas J. Scanlon received a Bachelor of Arts, Business Administration from John Carroll University in 1959. He then graduated from Cleveland State University – Cleveland Marshall College of Law – J.D., cum laude in 1963 and was a Member Board of Editors – Cleveland Marshall Law Review.",
+      "afterSummary": "Thomas J. Scanlon built a long legal career in real estate and nonprofit work while supporting Irish heritage, education, arts, and civic institutions."
+    },
+    {
+      "id": "shiv-k-aggarwal-2015",
+      "displayName": "Shiv K. Aggarwal",
+      "classYear": 2015,
+      "action": "curated-polish",
+      "beforeDraft": "Shiv Aggarwal was born in India, received degrees of B.A (Hons) from University of Delhi and Master of Social Work from M.S. University of Baroda. He came to USA in 1956 for further studies, and received MBA from University of Missouri.",
+      "beforeApproved": "Shiv Aggarwal was born in India, received degrees of B.A (Hons) from University of Delhi and Master of Social Work from M.S. University of Baroda. He came to USA in 1956 for further studies, and received MBA from University of Missouri.",
+      "afterSummary": "Shiv K. Aggarwal linked social work, business education, real estate, and civic service, becoming a leader in Cleveland's Indian community and broader nonprofit life."
+    },
+    {
+      "id": "jack-kahl-2016",
+      "displayName": "Jack Kahl",
+      "classYear": 2016,
+      "action": "curated-polish",
+      "beforeDraft": "Jack Kahl has been recognized globally for his innovative approach to business. He was named one of “America’s Most Admired CEOs” by Industry Week magazine in 1993.",
+      "beforeApproved": "Jack Kahl has been recognized globally for his innovative approach to business. He was named one of “America’s Most Admired CEOs” by Industry Week magazine in 1993.",
+      "afterSummary": "Jack Kahl built Manco and Duck brand duct tape into a global business while championing employee-centered management, entrepreneurship, and Cleveland civic causes."
+    },
+    {
+      "id": "basil-russo-2017",
+      "displayName": "Basil Russo",
+      "classYear": 2017,
+      "action": "curated-polish",
+      "beforeDraft": "Basil Russo Basil M. Russo is the National President of the Order Italian Sons and Daughters of America (ISDA), having been first elected at the organizations biennial convention in Chicago in 2014. The ISDA is one of the largest Italian American organizations in the United States.",
+      "beforeApproved": "Basil Russo Basil M. Russo is the National President of the Order Italian Sons and Daughters of America (ISDA), having been first elected at the organizations biennial convention in Chicago in 2014. The ISDA is one of the largest Italian American organizations in the United States.",
+      "afterSummary": "Basil Russo combined law, business, and Italian American cultural leadership, strengthening the Order Italian Sons and Daughters of America and broader Cleveland civic life."
+    },
+    {
+      "id": "sam-kim-2017",
+      "displayName": "Sam Kim",
+      "classYear": 2017,
+      "action": "curated-polish",
+      "beforeDraft": "Sam Kim Seung K Kim was born October 30, 1947 in Kimhea, South Korea. As a young man, he served in the Vietnam War in 1969 and fought for the South Korean army as a proxy for the US military.",
+      "beforeApproved": "Sam Kim Seung K Kim was born October 30, 1947 in Kimhea, South Korea. As a young man, he served in the Vietnam War in 1969 and fought for the South Korean army as a proxy for the US military.",
+      "afterSummary": "Sam Kim brought military service, skilled trade, and entrepreneurship from Korea to Northeast Ohio, building businesses while serving Cleveland's Korean American community."
+    },
+    {
+      "id": "ralph-perk-jr-2018",
+      "displayName": "Ralph Perk Jr.",
+      "classYear": 2018,
+      "action": "curated-polish",
+      "beforeDraft": "Ralph Perk, Jr was born during World War II in Cleveland, Ohio as the eldest son to Lucy (Gagliardi) and Mayor Emeritus Ralph Perk. He has 5 brothers and one sister.",
+      "beforeApproved": "Ralph Perk, Jr was born during World War II in Cleveland, Ohio as the eldest son to Lucy (Gagliardi) and Mayor Emeritus Ralph Perk. He has 5 brothers and one sister.",
+      "afterSummary": "Ralph Perk Jr. carried a family legacy of public service into law, education, and civic leadership, supporting Czech and Italian heritage communities."
+    },
+    {
+      "id": "marilyn-madigan-2019",
+      "displayName": "Marilyn Madigan",
+      "classYear": 2019,
+      "action": "curated-polish",
+      "beforeDraft": "Marilyn Madigan is the daughter of the late Jack and Catherine Finn Madigan. She is a lifelong resident of the West Park area of Cleveland.",
+      "beforeApproved": "Marilyn Madigan is the daughter of the late Jack and Catherine Finn Madigan. She is a lifelong resident of the West Park area of Cleveland.",
+      "afterSummary": "Marilyn Madigan strengthened Irish heritage in Cleveland through parish advocacy, cultural leadership, health-related service, and education rooted in the West Park community."
+    },
+    {
+      "id": "margaret-lynch-2020",
+      "displayName": "Margaret Lynch",
+      "classYear": 2020,
+      "action": "curated-polish",
+      "beforeDraft": "Margaret Lynch has served as Executive Director of the Irish American Archives Society since 2008. She had been a founding Board member of the Society since its inception in 1994.",
+      "beforeApproved": "Margaret Lynch has served as Executive Director of the Irish American Archives Society since 2008. She had been a founding Board member of the Society since its inception in 1994.",
+      "afterSummary": "Margaret Lynch preserved and interpreted Cleveland's Irish history through archives, talks, walking tours, public programs, and leadership with the Irish American Archives Society."
+    },
+    {
+      "id": "ramesh-shah-2020",
+      "displayName": "Ramesh Shah",
+      "classYear": 2020,
+      "action": "curated-polish",
+      "beforeDraft": "Ramesh Shah’s humanitarian work in health and education illustrates what happens when someone is passionate and ever-focused on lifting others up. Over the past 20 years, he has organized teams of physicians and volunteers for medical missions in underdeveloped countries around the world.",
+      "beforeApproved": "Ramesh Shah’s humanitarian work in health and education illustrates what happens when someone is passionate and ever-focused on lifting others up. Over the past 20 years, he has organized teams of physicians and volunteers for medical missions in underdeveloped countries around the world.",
+      "afterSummary": "Ramesh Shah organized medical missions, education projects, and humanitarian support across multiple countries, linking Indian community leadership with practical service to people in need."
+    },
+    {
+      "id": "anda-cook-2022",
+      "displayName": "Anda Cook",
+      "classYear": 2022,
+      "action": "curated-polish",
+      "beforeDraft": "Anda Cook was born in Riga, capitol of Latvia, but when she was 9 years old, left with family to escape the advancing Soviet army. The family expected to return back home after the war, but it was not to be.",
+      "beforeApproved": "Anda Cook was born in Riga, capitol of Latvia, but when she was 9 years old, left with family to escape the advancing Soviet army. The family expected to return back home after the war, but it was not to be.",
+      "afterSummary": "Anda Cook carried Latvian refugee experience into a life of cultural preservation, civic leadership, education, and service to Cleveland's Latvian community."
+    },
+    {
+      "id": "carl-robson-2022",
+      "displayName": "Carl Robson",
+      "classYear": 2022,
+      "action": "curated-polish",
+      "beforeDraft": "Carl Robson, M.D. Carl Robson Carl Robson was raised in Hinsdale, Illinois. He attended College of Wooster, Ohio, then Case-Western Reserve Medical School.",
+      "beforeApproved": "Carl Robson, M.D. Carl Robson Carl Robson was raised in Hinsdale, Illinois. He attended College of Wooster, Ohio, then Case-Western Reserve Medical School.",
+      "afterSummary": "Dr. Carl Robson devoted decades to family medicine in underserved Cleveland neighborhoods while building ties with Ethiopian communities through health, education, and cultural service."
+    },
+    {
+      "id": "taras-szmagala-2022",
+      "displayName": "Taras Szmagala",
+      "classYear": 2022,
+      "action": "curated-polish",
+      "beforeDraft": "Taras Szmagala Midge and Taras Szmagala Taras Gregory Szmagala, Sr. was born in Cleveland, Ohio in 1933. The son of Ukrainian immigrants Dmytro and Bronislawa Szmagala, Taras (known as “Tary”) grew up immersed in Cleveland’s rich Ukrainian-American community.",
+      "beforeApproved": "Taras Szmagala Midge and Taras Szmagala Taras Gregory Szmagala, Sr. was born in Cleveland, Ohio in 1933. The son of Ukrainian immigrants Dmytro and Bronislawa Szmagala, Taras (known as “Tary”) grew up immersed in Cleveland’s rich Ukrainian-American community.",
+      "afterSummary": "Taras Szmagala preserved Ukrainian American history through education, civic advocacy, and cultural leadership, helping sustain Cleveland's Ukrainian Museum-Archives and community memory."
+    },
+    {
+      "id": "pierre-bejjani-2023",
+      "displayName": "Pierre Bejjani",
+      "classYear": 2023,
+      "action": "curated-polish",
+      "beforeDraft": "Pierre Bejjani is the Managing Director and Executive Editor of Profile News Ohio and the Senior Partner of Diversity Advertising Agency. In addition to running the region’s largest Arabic/English newspaper, Profile News Ohio, Pierre actively promotes Middle Eastern culture.",
+      "beforeApproved": "Pierre Bejjani is the Managing Director and Executive Editor of Profile News Ohio and the Senior Partner of Diversity Advertising Agency. In addition to running the region’s largest Arabic/English newspaper, Profile News Ohio, Pierre actively promotes Middle Eastern culture.",
+      "afterSummary": "Pierre Bejjani used journalism, advertising, and civic leadership to promote Middle Eastern culture, diversity, and Lebanese community visibility in Northeast Ohio."
+    },
+    {
+      "id": "ambassador-edward-f-crawford-2024",
+      "displayName": "Ambassador Edward F. Crawford",
+      "classYear": 2024,
+      "action": "curated-polish",
+      "beforeDraft": "Ambassador Edward F. Crawford is the former Chairman and Chief Executive Officer of Park-Ohio Holdings Corp. (NASDAQ Symbol PKOH) (1992 to 2019). This Cleveland, Ohio based industrial enterprise has annual revenues of approximately $2 billion and employs 8,000 associates worldwide.",
+      "beforeApproved": "Ambassador Edward F. Crawford is the former Chairman and Chief Executive Officer of Park-Ohio Holdings Corp. (NASDAQ Symbol PKOH) (1992 to 2019). This Cleveland, Ohio based industrial enterprise has annual revenues of approximately $2 billion and employs 8,000 associates worldwide.",
+      "afterSummary": "Ambassador Edward F. Crawford built major manufacturing and logistics businesses while supporting education, Irish heritage, civic leadership, and international service."
+    },
+    {
+      "id": "dr-eugene-jordan-2024",
+      "displayName": "Dr. Eugene Jordan",
+      "classYear": 2024,
+      "action": "curated-polish",
+      "beforeDraft": "Dr. Eugene Jordan was many things in his life which ended, sadly, in 2020 at the age of 83. He served the communities of Cleveland and East Cleveland by providing quality, professional dental services to those who couldn’t afford care.",
+      "beforeApproved": "Dr. Eugene Jordan was many things in his life which ended, sadly, in 2020 at the age of 83. He served the communities of Cleveland and East Cleveland by providing quality, professional dental services to those who couldn’t afford care.",
+      "afterSummary": "Dr. Eugene Jordan expanded access to dental care in Cleveland and East Cleveland while mentoring students, leading professional organizations, and supporting African American community advancement."
+    },
+    {
+      "id": "erika-puussaar-2024",
+      "displayName": "Erika Puussaar",
+      "classYear": 2024,
+      "action": "curated-polish",
+      "beforeDraft": "Erika Kikut Puussaar was born in a small village named Vandra in central Estonia. Artur and Elmire Kikut, along with their children Silva, Aksi, and Erika (Villi born later) escaped their homeland to avoid Soviet occupation.",
+      "beforeApproved": "Erika Kikut Puussaar was born in a small village named Vandra in central Estonia. Artur and Elmire Kikut, along with their children Silva, Aksi, and Erika (Villi born later) escaped their homeland to avoid Soviet occupation.",
+      "afterSummary": "Erika Puussaar carried Estonian refugee experience into education, faith-based service, and cultural diplomacy, strengthening Estonian heritage connections in Cleveland."
+    },
+    {
+      "id": "veronica-dahlberg-2024",
+      "displayName": "Veronica Dahlberg",
+      "classYear": 2024,
+      "action": "curated-polish",
+      "beforeDraft": "Veronica Isabel Dahlberg was born in Canton, Ohio. She is the daughter of Mexican and Hungarian immigrants who arrived in Cleveland over 60 years ago. Her father was a Hungarian refugee who met her mother in Mexico.",
+      "beforeApproved": "Veronica Isabel Dahlberg was born in Canton, Ohio. She is the daughter of Mexican and Hungarian immigrants who arrived in Cleveland over 60 years ago. Her father was a Hungarian refugee who met her mother in Mexico.",
+      "afterSummary": "Veronica Dahlberg became an advocate for immigrant families, community organizing, and Mexican American civic life, grounding her work in family history and neighborhood service."
+    },
+    {
+      "id": "beverly-kerecman-2025",
+      "displayName": "Beverly Kerecman",
+      "classYear": 2025,
+      "action": "curated-polish",
+      "beforeDraft": "Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated from Cleveland Heights High School. She earned her Bachelor of Science in Special Education from Kent State University.",
+      "beforeApproved": "Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated from Cleveland Heights High School. She earned her Bachelor of Science in Special Education from Kent State University.",
+      "afterSummary": "Beverly Kerecman connected Japanese American history, education, and faith-based service, sharing family internment history while supporting cultural understanding and community learning."
+    },
+    {
+      "id": "lucy-torres-2026",
+      "displayName": "Lucy Torres",
+      "classYear": 2026,
+      "action": "curated-polish",
+      "beforeDraft": "Lucy Torres is a Puerto Rican community leader whose life has been defined by service, resilience, and an unwavering commitment to uplifting others. Born and raised in Comerío, Puerto Rico, Lucy is the daughter of Amparo Rodríguez and Luis Bonilla.",
+      "beforeApproved": "Lucy Torres is a Puerto Rican community leader whose life has been defined by service, resilience, and an unwavering commitment to uplifting others. Born and raised in Comerío, Puerto Rico, Lucy is the daughter of Amparo Rodríguez and Luis Bonilla.",
+      "afterSummary": "Lucy Torres built a life of Puerto Rican community leadership through nursing, education, advocacy, cultural work, and service to families across Cleveland."
+    }
+  ]
+}
