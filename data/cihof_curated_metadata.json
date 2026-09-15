@@ -7912,8 +7912,7 @@
         "audioDescriptionStatus": "review-needed",
         "rightsStatus": "needs-review",
         "sourceUrls": [
-          "https://www.youtube.com/embed/P34omi5XUiY?feature=oembed",
-          "https://www.youtube.com/mdifilm"
+          "https://www.youtube.com/embed/P34omi5XUiY?feature=oembed"
         ],
         "youtubeVideoIds": [
           "P34omi5XUiY"
@@ -7930,6 +7929,7 @@
       "curatorNotes": [
         "First-pass visitor copy generated from CIHOF official profile text on 2026-09-12.",
         "Treat CIHOF profile text as the baseline source of truth for this pass.",
+        "CIHOF profile includes https://www.youtube.com/mdifilm as Johnny K. Wu's YouTube channel; excluded from playable media because it is not a specific video. The embedded induction ceremony video is P34omi5XUiY, with the Johnny Wu segment noted on the CIHOF page at about 1:37:11.",
         "Media rights, video captions/transcripts, and WRHS archival permissions remain separate review tracks."
       ],
       "countryTagCandidates": [

@@ -93,7 +93,7 @@ As of September 13, 2026:
 - Primary image approval queue: 111 records in `data/media_manifest.json`.
 - Explicit TRACES relationship queue: 30 records needed in `data/cihof_relationships.json`.
 - Physical wall queue: 111 positions needed in `data/physical_wall_positions.json`.
-- Hidden video backlog: 94 video items stay hidden until rights, local files, posters, captions, and transcripts are complete.
+- Hidden video backlog: 93 video items stay hidden until rights, local files, posters, captions, and transcripts are complete.
 
 Source-derived relationship candidates already exist:
 

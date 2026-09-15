@@ -608,20 +608,36 @@ async function closePersonActionPanel(page: Page) {
 }
 
 async function readForegroundCandidateData(page: Page) {
-  const response = await page.request.get('data/inductees.json');
-  expect(response.ok()).toBe(true);
-  const inductees = await response.json() as Array<{
+  const inductees = await readJsonWithRetry<Array<{
     id: string;
     name: string;
     localVideoPaths?: string[];
     youtubeVideoIds?: string[];
-  }>;
+  }>>(page, 'data/inductees.json');
   const candidate = inductees.find((inductee) => {
     const mediaCount = (inductee.youtubeVideoIds?.length ?? 0) + (inductee.localVideoPaths?.length ?? 0);
     return Boolean(inductee.id && mediaCount > 0);
   });
   if (!candidate) throw new Error('No inductee with media found in test data.');
   return { id: candidate.id, name: candidate.name };
+}
+
+async function readJsonWithRetry<T>(page: Page, url: string): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await page.request.get(url);
+      if (response.ok()) return await response.json() as T;
+      lastError = new Error(`${url} returned ${response.status()} ${response.statusText()}`);
+    } catch (error) {
+      lastError = error;
+    }
+
+    await page.waitForTimeout(250 * attempt);
+  }
+
+  throw lastError instanceof Error ? lastError : new Error(String(lastError));
 }
 
 async function clickVisiblePortrait(page: Page, skipIds: string[] = []) {

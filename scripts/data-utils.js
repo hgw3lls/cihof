@@ -24,7 +24,7 @@ export function loadInductees(options = {}) {
       .sort((a, b) => imageScore(b, name) - imageScore(a, name));
     const rawPrimary = record.primary_image_url.trim();
     const primaryImageUrl = rawPrimary && !isGenericImage(rawPrimary) ? rawPrimary : imageUrls[0] ?? '';
-    const videoUrls = Array.from(new Set(splitList(record.video_urls).filter((url) => !url.includes('/results?'))));
+    const videoUrls = Array.from(new Set(splitList(record.video_urls).filter(isPlayableVideoUrl)));
     const youtubeVideoIds = Array.from(
       new Set([...splitList(record.youtube_video_ids), ...videoUrls.map(extractYoutubeId)].filter(Boolean)),
     );
@@ -838,6 +838,13 @@ function stripDisplayNameArtifacts(name) {
     .replace(/\s+[–-]\s*\d{4}$/u, '')
     .replace(/\s*\(\d{4}\s*[–-]\s*\d{4}\)\s*$/u, '')
     .trim();
+}
+
+function isPlayableVideoUrl(url) {
+  const value = cleanString(url);
+  if (!value) return false;
+  if (!/youtube(?:-nocookie)?\.com|youtu\.be/i.test(value)) return true;
+  return Boolean(extractYoutubeId(value));
 }
 
 function escapeRegExp(value) {

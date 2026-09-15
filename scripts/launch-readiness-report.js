@@ -28,6 +28,7 @@ const physicalWall = loadPhysicalWallMetadata();
 const relationships = readJson('data/cihof_relationships.json', []);
 const storySections = readJson('data/cihof_story_sections.json', { records: {} });
 const runtimeBundle = readJson('public/data/cihof-runtime-data.json', null);
+const offlineMediaReferences = runtimeBundle ? collectOfflineMediaReferences(runtimeBundle) : { runtime: [], provenance: [] };
 
 const expectedInducteeIds = inductees.map((item) => item.id);
 const inducteeById = new Map(inductees.map((item) => [item.id, item]));
@@ -45,7 +46,7 @@ const approvedVideoIssues = approvedVideos.filter((entry) => !isKioskReadyVideo(
 const explicitRelationshipCount = countRecords(relationships);
 const storySectionCount = countRecords(storySections.records ?? storySections);
 const physicalWallPositionCount = Object.keys(physicalWall.positions ?? {}).length;
-const remoteMediaReferenceCount = runtimeBundle ? collectOfflineMediaReferences(runtimeBundle).length : 0;
+const remoteMediaReferenceCount = offlineMediaReferences.runtime.length;
 const statusCounts = countBy(curatedRecords.map((record) => record.approvalStatus || 'unreviewed'));
 const profileFieldCoverage = Object.fromEntries(
   requiredProfileFields.map((field) => [field, curatedRecords.filter((record) => hasText(record[field])).length]),
@@ -77,6 +78,7 @@ const counts = {
   physicalWallPositions: physicalWallPositionCount,
   storySections: storySectionCount,
   remoteMediaReferences: remoteMediaReferenceCount,
+  provenanceRemoteMediaReferences: offlineMediaReferences.provenance.length,
 };
 
 const queues = buildQueues();
@@ -315,8 +317,6 @@ function buildQueues() {
       nextAction: 'Measure final wall panel/row/column or x/y coordinates and add this id to data/physical_wall_positions.json.',
     }));
 
-  const remoteMediaReferences = runtimeBundle ? collectOfflineMediaReferences(runtimeBundle) : [];
-
   return {
     curatedRecordApproval: {
       count: curatedRecordApproval.length,
@@ -358,9 +358,11 @@ function buildQueues() {
       note: 'These videos should stay hidden until every kiosk-ready requirement is satisfied.',
     },
     remoteMediaReferences: {
-      count: remoteMediaReferences.length,
-      examples: remoteMediaReferences.slice(0, 25),
-      note: 'This mirrors the offline package validator and intentionally excludes non-media provenance URLs.',
+      count: offlineMediaReferences.runtime.length,
+      examples: offlineMediaReferences.runtime.slice(0, 25),
+      provenanceCount: offlineMediaReferences.provenance.length,
+      provenanceExamples: offlineMediaReferences.provenance.slice(0, 25),
+      note: 'Runtime references are visitor-loadable media paths. Provenance/source URLs are retained for traceability and non-kiosk streaming fallback fields.',
     },
   };
 }
@@ -449,7 +451,10 @@ function missingKioskVideoRequirements(asset) {
 }
 
 function collectOfflineMediaReferences(bundle) {
-  const refs = [];
+  const refs = {
+    runtime: [],
+    provenance: [],
+  };
 
   if (Array.isArray(bundle.inductees)) {
     bundle.inductees.forEach((person, index) => {
@@ -457,7 +462,7 @@ function collectOfflineMediaReferences(bundle) {
       collectRemoteAssetRef(refs, person?.primaryImageUrl, `${label}.primaryImageUrl`);
       collectRemoteArrayRefs(refs, person?.imageUrls, `${label}.imageUrls`);
       collectRemoteArrayRefs(refs, person?.localImagePaths, `${label}.localImagePaths`);
-      collectRemoteArrayRefs(refs, person?.videoUrls, `${label}.videoUrls`);
+      collectRemoteArrayRefs(refs, person?.videoUrls, `${label}.videoUrls`, { runtime: false });
       collectRemoteArrayRefs(refs, person?.localVideoPaths, `${label}.localVideoPaths`);
     });
   }
@@ -503,16 +508,19 @@ function collectOfflineMediaReferences(bundle) {
 function collectRemoteImageRecord(refs, image, label) {
   if (!image || typeof image !== 'object') return;
   collectRemoteAssetRef(refs, image.runtimePath, `${label}.runtimePath`);
-  collectRemoteAssetRef(refs, image.sourceUrl, `${label}.sourceUrl`);
+  collectRemoteAssetRef(refs, image.sourceUrl, `${label}.sourceUrl`, { runtime: false });
 }
 
-function collectRemoteArrayRefs(refs, value, label) {
+function collectRemoteArrayRefs(refs, value, label, options) {
   if (!Array.isArray(value)) return;
-  value.forEach((item, index) => collectRemoteAssetRef(refs, item, `${label}.${index}`));
+  value.forEach((item, index) => collectRemoteAssetRef(refs, item, `${label}.${index}`, options));
 }
 
-function collectRemoteAssetRef(refs, value, label) {
+function collectRemoteAssetRef(refs, value, label, options = {}) {
   if (typeof value !== 'string') return;
   const reference = value.trim();
-  if (/^https?:\/\//i.test(reference)) refs.push({ label, reference });
+  if (/^https?:\/\//i.test(reference)) {
+    const target = options.runtime === false ? refs.provenance : refs.runtime;
+    target.push({ label, reference });
+  }
 }

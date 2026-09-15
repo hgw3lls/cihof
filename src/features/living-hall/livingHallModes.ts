@@ -536,7 +536,6 @@ function buildActiveJourneyMode(
   layout: HallLayoutMetrics,
 ): HallMode {
   const pathIds = path.personIds.slice(0, journeySpineAnchors.length);
-  const pathIdSet = new Set(pathIds);
   const focusedPathIndex = pathIds.indexOf(focusedPersonId);
   const activeIndex = focusedPathIndex >= 0 ? focusedPathIndex : 0;
   const positions = new Map<string, PortraitPosition>();
@@ -762,7 +761,7 @@ function buildTraceHallMode(
     title: 'TRACES',
     subtitle: traceModeSubtitle(context),
     positions,
-    labels: buildTraceLabels(context, lines),
+    labels: buildTraceLabels(context),
     lines: [
       ...buildTraceTrailLines(context, positions, traceTrailIds),
       ...lines,
@@ -872,7 +871,7 @@ function traceModeSubtitle(context: TraceContext) {
   return `Reviewed ties around ${context.activePerson.name}`;
 }
 
-function buildTraceLabels(context: TraceContext, lines: HallLine[]): HallLabel[] {
+function buildTraceLabels(context: TraceContext): HallLabel[] {
   if (!context.activePerson) return [];
   const modeLabel = context.mode === 'concept'
     ? context.activeConcept?.lens.label.toUpperCase() ?? 'CONCEPT TRACE'

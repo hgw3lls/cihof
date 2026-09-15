@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { copyFileSync, existsSync, linkSync, lstatSync, mkdirSync, readFileSync, readdirSync, unlinkSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -9,9 +10,11 @@ const defaultBase = process.env.NODE_ENV === 'production' ? '/cihof/' : '/';
 const base = process.env.CIHOF_BASE_PATH || defaultBase;
 const outDir = process.env.CIHOF_OUT_DIR || (buildTarget === 'portal' ? 'dist-portal' : 'dist');
 const buildInfo = createBuildInfo();
+const kioskMediaPublicPaths = buildTarget === 'kiosk' ? readKioskMediaPublicPaths() : null;
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   base,
+  publicDir: command === 'build' ? false : 'public',
   build: {
     outDir,
     rollupOptions: {
@@ -21,8 +24,8 @@ export default defineConfig({
   define: {
     __CIHOF_BUILD_INFO__: JSON.stringify(buildInfo),
   },
-  plugins: [react(), buildInfoPlugin()],
-});
+  plugins: [react(), buildInfoPlugin(), selectivePublicCopyPlugin()],
+}));
 
 function buildInfoPlugin(): Plugin {
   return {
@@ -35,6 +38,116 @@ function buildInfoPlugin(): Plugin {
       });
     },
   };
+}
+
+function selectivePublicCopyPlugin(): Plugin {
+  return {
+    name: 'cihof-selective-public-copy',
+    apply: 'build',
+    writeBundle() {
+      const publicRoot = resolve('public');
+      if (!existsSync(publicRoot)) return;
+
+      const stats = copyPublicAssets(publicRoot, resolve(outDir));
+      this.info(
+        `copied public assets: ${stats.copiedFiles} copied (${formatBytes(stats.copiedBytes)}), ` +
+          `${stats.hardlinkedFiles} hardlinked (${formatBytes(stats.hardlinkedBytes)}), ` +
+          `${stats.skippedFiles} skipped for ${buildTarget}`,
+      );
+    },
+  };
+}
+
+type CopyStats = {
+  copiedFiles: number;
+  copiedBytes: number;
+  hardlinkedFiles: number;
+  hardlinkedBytes: number;
+  skippedFiles: number;
+};
+
+function copyPublicAssets(publicRoot: string, outputRoot: string) {
+  const stats: CopyStats = {
+    copiedFiles: 0,
+    copiedBytes: 0,
+    hardlinkedFiles: 0,
+    hardlinkedBytes: 0,
+    skippedFiles: 0,
+  };
+
+  copyPublicDirectory(publicRoot, outputRoot, publicRoot, stats);
+  return stats;
+}
+
+function copyPublicDirectory(sourceDirectory: string, outputRoot: string, publicRoot: string, stats: CopyStats) {
+  for (const entry of readdirSync(sourceDirectory, { withFileTypes: true })) {
+    const sourcePath = join(sourceDirectory, entry.name);
+    const publicPath = toPublicPath(relative(publicRoot, sourcePath));
+
+    if (shouldSkipPublicPath(publicPath, entry.isDirectory())) {
+      stats.skippedFiles += entry.isDirectory() ? countFiles(sourcePath) : 1;
+      continue;
+    }
+
+    if (entry.isDirectory()) {
+      copyPublicDirectory(sourcePath, outputRoot, publicRoot, stats);
+      continue;
+    }
+
+    if (!entry.isFile()) continue;
+    copyPublicFile(sourcePath, join(outputRoot, publicPath), publicPath, stats);
+  }
+}
+
+function copyPublicFile(sourcePath: string, targetPath: string, publicPath: string, stats: CopyStats) {
+  const sourceStat = lstatSync(sourcePath);
+  if (!sourceStat.isFile()) return;
+
+  mkdirSync(dirname(targetPath), { recursive: true });
+  if (existsSync(targetPath)) unlinkSync(targetPath);
+
+  if (buildTarget === 'kiosk' && publicPath.startsWith('media/videos/')) {
+    try {
+      linkSync(sourcePath, targetPath);
+      stats.hardlinkedFiles += 1;
+      stats.hardlinkedBytes += sourceStat.size;
+      return;
+    } catch {
+      // Fall back to a normal copy when hardlinks are not supported by the filesystem.
+    }
+  }
+
+  copyFileSync(sourcePath, targetPath);
+  stats.copiedFiles += 1;
+  stats.copiedBytes += sourceStat.size;
+}
+
+function shouldSkipPublicPath(publicPath: string, isDirectory = false) {
+  if (!publicPath || publicPath.endsWith('/.DS_Store') || publicPath === '.DS_Store') return true;
+  if (publicPath === 'fonts/exhibit' || publicPath.startsWith('fonts/exhibit/')) return true;
+  if (publicPath === 'media/videos' || publicPath.startsWith('media/videos/')) {
+    if (buildTarget === 'portal') return true;
+    return Boolean(kioskMediaPublicPaths && !isDirectory && !kioskMediaPublicPaths.has(publicPath));
+  }
+  return false;
+}
+
+function countFiles(path: string): number {
+  const stat = lstatSync(path);
+  if (stat.isFile()) return 1;
+  if (!stat.isDirectory()) return 0;
+  return readdirSync(path, { withFileTypes: true }).reduce((count, entry) => count + countFiles(join(path, entry.name)), 0);
+}
+
+function toPublicPath(path: string) {
+  return path.split(/[\\/]+/).filter(Boolean).join('/');
+}
+
+function formatBytes(bytes: number) {
+  if (bytes > 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(1)} GiB`;
+  if (bytes > 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} MiB`;
+  if (bytes > 1024) return `${(bytes / 1024).toFixed(1)} KiB`;
+  return `${bytes} bytes`;
 }
 
 function createBuildInfo() {
@@ -63,6 +176,29 @@ function readPackageJson(): { name?: string; version?: string } {
     return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
   } catch {
     return {};
+  }
+}
+
+function readKioskMediaPublicPaths() {
+  try {
+    const manifest = JSON.parse(readFileSync(resolve('data/media_manifest.json'), 'utf8')) as {
+      assets?: Record<string, { videos?: Array<Record<string, unknown>> }>;
+    };
+    const paths = new Set<string>();
+
+    for (const record of Object.values(manifest.assets ?? {})) {
+      for (const video of record.videos ?? []) {
+        for (const [key, value] of Object.entries(video)) {
+          if ((key !== 'filePath' && !key.endsWith('FilePath')) || typeof value !== 'string') continue;
+          const publicPath = toPublicPath(value.replace(/^public\//, ''));
+          if (publicPath.startsWith('media/videos/')) paths.add(publicPath);
+        }
+      }
+    }
+
+    return paths;
+  } catch {
+    return null;
   }
 }
 

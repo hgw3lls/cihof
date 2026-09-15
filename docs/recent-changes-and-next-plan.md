@@ -158,7 +158,7 @@ The staff/curation portal has been separated from the public visitor app. The ma
 - Primary image coverage: 111 profiles have primary image paths and 0 missing primary images.
 - Duplicate ID count: 0.
 - Generic image candidate count: 0.
-- Runtime media data includes 64 profiles with video links and 94 media-manifest video items.
+- Runtime media data includes 64 profiles with video links and 93 media-manifest video items.
 - Kiosk-ready primary images: 0.
 - Kiosk-ready videos: 0.
 - Generated entity count: 450 entities.

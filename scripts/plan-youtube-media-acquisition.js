@@ -1,6 +1,12 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { basename, dirname, extname, join, relative, resolve } from 'node:path';
+import { basename, dirname, extname, join, resolve } from 'node:path';
+import {
+  VIDEO_EXTENSIONS,
+  defaultVideoOutputPath,
+  displayPath,
+  youtubeWatchUrl,
+} from './media-utils.js';
 
 const args = parseArgs(process.argv.slice(2));
 const manifestPath = resolve(args.manifest ?? 'data/media_manifest.json');
@@ -45,7 +51,7 @@ function buildPlan() {
         captionStatus: video.captionStatus || 'needed',
         transcriptStatus: video.transcriptStatus || 'needed',
         existingFilePath: video.filePath || '',
-        outputFilePath: video.filePath || defaultOutputPath(personId, video.youtubeVideoId),
+        outputFilePath: video.filePath || defaultVideoOutputPath(personId, video.youtubeVideoId),
         provenance: ['data/media_manifest.json'],
       });
     });
@@ -65,7 +71,7 @@ function buildPlan() {
       captionStatus: 'needed',
       transcriptStatus: 'needed',
       existingFilePath: '',
-      outputFilePath: defaultOutputPath(personId, video.youtubeVideoId),
+      outputFilePath: defaultVideoOutputPath(personId, video.youtubeVideoId),
       provenance: ['source-curation videoReviewDrafts'],
     });
   });
@@ -252,10 +258,6 @@ function executeDownloads(records) {
   });
 }
 
-function defaultOutputPath(personId, youtubeVideoId) {
-  return `public/media/videos/${personId}/${personId}_${youtubeVideoId}.mp4`;
-}
-
 function findDownloadedFiles(outputFilePath) {
   const roots = [process.cwd(), dirname(outputCommandPath), resolve('data/media-acquisition')];
   const files = [];
@@ -284,17 +286,7 @@ function findMatchingDownloads(outputFilePath) {
 
 function isDownloadedMediaFile(path) {
   if (!existsSync(path)) return false;
-  const mediaExtensions = new Set(['.m4v', '.mkv', '.mov', '.mp4', '.webm']);
-  return statSync(path).isFile() && statSync(path).size > 0 && mediaExtensions.has(extname(path).toLowerCase());
-}
-
-function displayPath(path) {
-  const relativePath = relative(process.cwd(), path);
-  return relativePath && !relativePath.startsWith('..') ? relativePath : path;
-}
-
-function youtubeWatchUrl(youtubeVideoId) {
-  return `https://www.youtube.com/watch?v=${youtubeVideoId}`;
+  return statSync(path).isFile() && statSync(path).size > 0 && VIDEO_EXTENSIONS.has(extname(path).toLowerCase());
 }
 
 function readJson(path, fallback) {

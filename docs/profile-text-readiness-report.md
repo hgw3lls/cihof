@@ -1,6 +1,6 @@
 # CIHOF Profile Text Readiness Review
 
-Generated: 2026-09-13T20:37:53.351Z
+Generated: 2026-09-14T19:09:48.564Z
 
 ## Scope
 
@@ -10,7 +10,7 @@ This review checks local text surfaces only and explicitly excludes `data/extern
 
 111/111 profiles can pass as-is for current text triage, and 0/111 can likely pass with minimal edits. 0/111 need substantive text review before they should be treated as clean copy.
 
-The recurring issues are not mysterious: truncated summaries/life-work copy, duplicated scraped headings, time-sensitive wording, generic alt text, missing pronunciation guidance, missing video caption/transcript text, and a small number of display-name or contact/address artifacts.
+The remaining recurring issues are 64 video caption/transcript approval queues, 110 missing pronunciation entries, 11 staff-only archive leads, 1 display-name life-date review, and 1 story-section wording review.
 
 ## Decision Counts
 
@@ -54,14 +54,13 @@ The recurring issues are not mysterious: truncated summaries/life-work copy, dup
 | Story summary | pass-as-is: 111 | none |
 | Theme tags | pass-as-is: 111 | none |
 
-## Highest-Value Minimal Edits
+## Highest-Value Open Follow-Ups
 
-- Strip duplicated scraped names at the beginning of biographies/highlights where present.
-- Rewrite text ending in ellipses instead of approving truncated summaries or Life + Work copy.
-- Replace contact/address fragments with stable institutional context.
-- Clean the four display names that still carry class-year artifacts.
-- Personalize primary portrait alt text beyond the current generic template before final accessibility approval.
-- Keep video caption/transcript work separate from profile-copy approval unless WATCH media is being enabled.
+- Review 1 display name with life dates and confirm the dates belong in the compact portrait label.
+- Revise 1 story-section beat with meta language.
+- Keep 11 staff-only archive leads out of visitor display until reviewed.
+- Add 110 missing pronunciation entries when final accessibility polish begins.
+- Keep 64 video caption/transcript approval queues separate from profile-copy approval unless WATCH media is being enabled.
 
 ## Per-Profile Text Decision Matrix
 
