@@ -535,6 +535,7 @@ export function LivingHallView({
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyTimeline.pan) : ''}
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}
+      data-visit-qr-open={visitQrOpen ? 'true' : 'false'}
       style={hallStyle}
       onPointerDown={() => onEngage?.()}
     >
