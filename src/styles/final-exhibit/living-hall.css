@@ -359,6 +359,11 @@
   cursor: default;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall[data-visit-qr-open="true"] .living-hall__pathRibbon {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport {
   position: absolute;
   top: var(--kiosk-field-inset, 0vmin);
@@ -1728,6 +1733,12 @@
   overflow: auto;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray[data-qr-open="true"] {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
 .museum-shell:not(.museum-shell--staff) .living-hall__visitTray[data-journey-active="true"] .living-hall__visitList {
   max-height: min(18vh, 180px);
 }
@@ -2122,26 +2133,30 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
   position: absolute;
-  left: clamp(18px, 2vw, 36px);
-  bottom: calc(var(--experience-dock-height) + clamp(60px, 8vh, 126px));
-  z-index: 3600;
-  width: min(660px, 44vw);
+  left: clamp(34px, 5.6vw, 92px);
+  bottom: calc(var(--experience-dock-height) + clamp(46px, 6vh, 104px));
+  z-index: 3800;
+  width: min(560px, calc(100% - var(--app-inspector-reserve) - clamp(110px, 12vw, 210px)));
   border-top: 2px solid rgba(155, 63, 31, 0.72);
   background:
-    linear-gradient(90deg, rgba(242, 232, 209, 0.97) 0 88%, rgba(242, 232, 209, 0.78) 88% 100%),
+    linear-gradient(90deg, rgba(242, 232, 209, 0.98), rgba(242, 232, 209, 0.94)),
     linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px);
   background-size: auto, var(--exhibit-stage-grid);
+  box-shadow:
+    0 0 0 1px rgba(9, 9, 7, 0.1),
+    0 20px 36px rgba(9, 9, 7, 0.16);
   color: var(--exhibit-ink);
-  padding-top: clamp(10px, 1vw, 16px);
+  padding: clamp(12px, 1.1vw, 18px) clamp(13px, 1.2vw, 20px) clamp(14px, 1.3vw, 22px);
   pointer-events: auto;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 0 0 clamp(16px, 1.6vw, 28px);
+  gap: 12px;
+  border-bottom: 1px solid rgba(21, 19, 15, 0.16);
+  padding: 0 0 clamp(9px, 0.9vw, 14px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrHeader span {
@@ -2152,12 +2167,12 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(190px, 0.42fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: clamp(20px, 2.3vw, 44px);
+  gap: clamp(14px, 1.6vw, 28px);
   border: 0;
   background: transparent;
-  padding: 0;
+  padding: clamp(12px, 1.2vw, 20px) 0 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy {
@@ -2169,37 +2184,40 @@
   margin: 0;
   color: rgba(9, 9, 7, 0.84);
   font-family: var(--font-exhibit-display);
-  font-size: clamp(2.3rem, 3.4vw, 5rem);
+  font-size: clamp(1.9rem, 2.55vw, 3.6rem);
   font-stretch: var(--type-width-display);
   font-variation-settings: "opsz" var(--type-opsz-display);
   font-weight: 400;
   letter-spacing: 0;
-  line-height: 0.9;
+  line-height: 0.92;
   text-transform: uppercase;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy span {
-  max-width: 28ch;
+  max-width: 24ch;
   color: rgba(9, 9, 7, 0.76);
   font-family: var(--font-exhibit-body);
-  font-size: clamp(1rem, 1.16vw, 1.46rem);
+  font-size: clamp(0.86rem, 0.95vw, 1.14rem);
   line-height: 1.2;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__copy small {
-  max-width: 34ch;
+  max-width: 30ch;
+  max-height: 68px;
+  overflow: hidden;
   color: rgba(9, 9, 7, 0.46);
-  font-size: clamp(0.58rem, 0.66vw, 0.82rem);
+  font-size: clamp(0.48rem, 0.54vw, 0.66rem);
   white-space: normal;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel .qr-continuation__code {
-  width: clamp(180px, 15vw, 260px);
-  height: clamp(180px, 15vw, 260px);
+  box-sizing: border-box;
+  width: clamp(168px, 13vw, 220px);
+  height: clamp(168px, 13vw, 220px);
   display: grid;
   place-items: center;
   background: #fff;
-  padding: clamp(12px, 1.1vw, 20px);
+  padding: clamp(10px, 0.9vw, 16px);
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide {

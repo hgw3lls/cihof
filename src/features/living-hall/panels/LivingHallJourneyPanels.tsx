@@ -172,6 +172,7 @@ export function VisitCollectionTray({
         data-journey-active={journeyActive ? 'true' : 'false'}
         data-journey-index={journeyActive ? activeJourneyIndex : ''}
         data-route-title={journey.title}
+        data-qr-open={qrOpen ? 'true' : 'false'}
         data-saved-count={people.length}
         data-suggested-next={activeSuggestion?.person.id ?? ''}
         onPointerDown={(event) => event.stopPropagation()}
