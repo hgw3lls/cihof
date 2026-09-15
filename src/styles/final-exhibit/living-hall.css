@@ -1019,6 +1019,7 @@
   line-height: 1.12;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocus,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocus {
   display: grid;
   gap: clamp(10px, 0.92vw, 15px);
@@ -1027,12 +1028,19 @@
   padding-top: clamp(9px, 0.86vw, 14px);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader {
   display: grid;
   gap: 0.28rem;
   min-width: 0;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader span,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader small,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader em,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionIndex,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection em,
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionReasons b,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader span,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader small,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyStep,
@@ -1048,11 +1056,13 @@
   text-transform: uppercase;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader span,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader span {
   color: rgba(168, 75, 37, 0.7);
   font-size: clamp(0.56rem, 0.58vw, 0.74rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader strong,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader strong {
   min-width: 0;
   overflow: hidden;
@@ -1068,11 +1078,22 @@
   white-space: nowrap;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader small,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyFocusHeader small {
   color: rgba(21, 19, 15, 0.46);
   font-size: clamp(0.52rem, 0.54vw, 0.68rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusHeader em {
+  overflow: hidden;
+  color: rgba(21, 19, 15, 0.56);
+  font-size: clamp(0.5rem, 0.52vw, 0.66rem);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionList,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohort {
   display: grid;
   gap: clamp(6px, 0.56vw, 9px);
@@ -1081,6 +1102,7 @@
   list-style: none;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson {
   position: relative;
   display: grid;
@@ -1097,22 +1119,31 @@
   cursor: pointer;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection:focus-visible,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyStep:focus-visible,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson:focus-visible {
   outline: 3px solid rgba(168, 75, 37, 0.74);
   outline-offset: 4px;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionIndex,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson span {
   color: rgba(168, 75, 37, 0.62);
   font-size: clamp(0.52rem, 0.54vw, 0.68rem);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson strong,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson small {
   min-width: 0;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionBody strong,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson strong {
   overflow: hidden;
   color: rgba(21, 19, 15, 0.88);
@@ -1127,6 +1158,16 @@
   white-space: nowrap;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection em {
+  overflow: hidden;
+  color: rgba(168, 75, 37, 0.7);
+  font-size: clamp(0.52rem, 0.56vw, 0.7rem);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection small,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson small {
   overflow: hidden;
   color: rgba(21, 19, 15, 0.5);
@@ -1138,6 +1179,34 @@
   white-space: nowrap;
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionReasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionReasons b {
+  max-width: min(128px, 100%);
+  overflow: hidden;
+  border-top: 1px solid rgba(168, 75, 37, 0.24);
+  color: rgba(21, 19, 15, 0.52);
+  font-size: clamp(0.45rem, 0.48vw, 0.6rem);
+  font-weight: 680;
+  padding-top: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnectionWeight {
+  grid-column: 1 / -1;
+  width: calc(var(--trace-weight, 0.4) * 100%);
+  height: 2px;
+  background: rgba(168, 75, 37, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceConnection:is(:hover, :focus-visible),
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson:is(:hover, :focus-visible),
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson--active,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyCohortPerson[aria-pressed="true"] {
@@ -1145,6 +1214,7 @@
   color: var(--exhibit-ink);
 }
 
+.museum-shell:not(.museum-shell--staff) .living-hall__traceFocusEmpty,
 .museum-shell:not(.museum-shell--staff) .living-hall__legacySwipeHint {
   margin: 0;
   color: rgba(21, 19, 15, 0.5);
@@ -2562,492 +2632,6 @@
   min-height: 170px;
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__tracePanel {
-  position: absolute;
-  right: clamp(24px, 3vw, 62px);
-  top: clamp(74px, 10vh, 128px);
-  z-index: 3100;
-  width: min(280px, 20vw);
-  border-top: 1px solid rgba(168, 75, 37, 0.36);
-  background: transparent;
-  color: rgba(21, 19, 15, 0.56);
-  padding: clamp(7px, 0.65vw, 11px) 0 0;
-  pointer-events: auto;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__tracePanel[data-side="left"] {
-  right: auto;
-  left: clamp(24px, 3vw, 62px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__tracePanel--chooser-open {
-  z-index: 3600;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader {
-  display: grid;
-  gap: 0.1rem;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader span,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader p,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl {
-  font-family: var(--font-exhibit-label);
-  font-stretch: var(--type-width-label);
-  font-variation-settings: "opsz" var(--type-opsz-text);
-  letter-spacing: 0.02em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader span,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader p {
-  margin: 0;
-  color: rgba(168, 75, 37, 0.62);
-  font-size: clamp(0.54rem, 0.56vw, 0.7rem);
-  font-weight: 650;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceHeader h3 {
-  margin: 0;
-  font-family: var(--font-exhibit-display);
-  font-size: clamp(1.35rem, 1.5vw, 2.5rem);
-  font-stretch: var(--type-width-display);
-  font-variation-settings: "opsz" var(--type-opsz-display);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.9;
-  text-transform: uppercase;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceContextButton {
-  min-width: 0;
-  min-height: clamp(46px, 5.8vh, 78px);
-  border: 0;
-  background: transparent;
-  color: rgba(21, 19, 15, 0.66);
-  padding: clamp(5px, 0.5vw, 8px) 0 0;
-  font-family: var(--font-exhibit-label);
-  font-size: clamp(0.98rem, 1.22vw, 1.75rem);
-  font-stretch: var(--type-width-label);
-  font-variation-settings: "opsz" var(--type-opsz-text);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 0.9;
-  text-align: left;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceContextButton:focus-visible {
-  outline: 3px solid rgba(168, 75, 37, 0.72);
-  outline-offset: 6px;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceSummary {
-  display: none;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricSummary {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  margin-top: clamp(7px, 0.72vw, 11px);
-  border-top: 1px solid rgba(21, 19, 15, 0.15);
-  padding-top: clamp(7px, 0.72vw, 11px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane {
-  --fabric-strength: 0.45;
-  position: relative;
-  min-width: 0;
-  display: grid;
-  gap: 3px;
-  overflow: hidden;
-  border-left: 2px solid rgba(155, 63, 31, calc(0.28 + var(--fabric-strength) * 0.44));
-  background:
-    linear-gradient(90deg, rgba(155, 63, 31, calc(0.08 + var(--fabric-strength) * 0.12)), transparent 72%),
-    rgba(244, 234, 211, 0.18);
-  padding: 7px 8px;
-  color: rgba(21, 19, 15, 0.7);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background:
-    linear-gradient(90deg, rgba(155, 63, 31, 0.62) calc(var(--fabric-strength) * 100%), rgba(21, 19, 15, 0.12) 0);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane small,
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane strong,
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane em {
-  min-width: 0;
-  overflow: hidden;
-  font-family: var(--font-exhibit-label);
-  font-stretch: var(--type-width-label);
-  font-variation-settings: "opsz" var(--type-opsz-text);
-  letter-spacing: 0.02em;
-  line-height: 1;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane small {
-  color: rgba(155, 63, 31, 0.58);
-  font-size: clamp(0.42rem, 0.45vw, 0.56rem);
-  font-weight: 700;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane strong {
-  color: rgba(9, 9, 7, 0.82);
-  font-size: clamp(0.78rem, 0.84vw, 1.02rem);
-  font-weight: 780;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricLane em {
-  color: rgba(21, 19, 15, 0.5);
-  font-size: clamp(0.48rem, 0.52vw, 0.64rem);
-  font-style: normal;
-  font-weight: 640;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  margin-top: clamp(6px, 0.7vw, 10px);
-  border-top: 1px solid rgba(21, 19, 15, 0.14);
-  padding-top: clamp(6px, 0.62vw, 10px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics span {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-  color: rgba(21, 19, 15, 0.62);
-  font-family: var(--font-exhibit-label);
-  font-stretch: var(--type-width-label);
-  font-variation-settings: "opsz" var(--type-opsz-text);
-  letter-spacing: 0.02em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics small {
-  color: rgba(168, 75, 37, 0.54);
-  font-size: clamp(0.42rem, 0.45vw, 0.56rem);
-  font-weight: 650;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceMetrics strong {
-  font-size: clamp(0.66rem, 0.72vw, 0.9rem);
-  font-weight: 750;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuide {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  margin-top: clamp(7px, 0.72vw, 11px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard {
-  display: grid;
-  align-content: start;
-  gap: 4px;
-  min-width: 0;
-  min-height: 72px;
-  border: 0;
-  border-top: 1px solid rgba(21, 19, 15, 0.18);
-  background: rgba(242, 232, 209, 0.22);
-  color: rgba(21, 19, 15, 0.58);
-  padding: 7px 6px 6px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard--active,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard[aria-pressed="true"] {
-  border-top-color: rgba(168, 75, 37, 0.72);
-  background: rgba(168, 75, 37, 0.12);
-  color: rgba(21, 19, 15, 0.84);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard:focus-visible {
-  outline: 3px solid rgba(168, 75, 37, 0.74);
-  outline-offset: 4px;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard span,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard strong,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard small,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard em {
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard span {
-  color: rgba(168, 75, 37, 0.58);
-  font-size: clamp(0.42rem, 0.45vw, 0.56rem);
-  font-weight: 680;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard strong {
-  color: currentColor;
-  font-size: clamp(0.58rem, 0.62vw, 0.78rem);
-  font-weight: 760;
-  line-height: 0.95;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard small {
-  color: rgba(21, 19, 15, 0.5);
-  font-size: clamp(0.46rem, 0.48vw, 0.6rem);
-  font-weight: 600;
-  line-height: 1.05;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceGuideCard em {
-  align-self: end;
-  color: rgba(168, 75, 37, 0.66);
-  font-size: clamp(0.44rem, 0.48vw, 0.6rem);
-  font-style: normal;
-  font-weight: 760;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidence {
-  display: grid;
-  gap: 6px;
-  margin-top: clamp(7px, 0.72vw, 11px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads {
-  display: grid;
-  gap: 0;
-  margin: clamp(7px, 0.72vw, 11px) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads li {
-  border-top: 1px solid rgba(21, 19, 15, 0.13);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads button {
-  width: 100%;
-  min-height: 48px;
-  display: grid;
-  grid-template-columns: 2.5ch minmax(0, 1fr) auto;
-  grid-template-areas:
-    "index name source"
-    "index label source";
-  align-items: center;
-  column-gap: 8px;
-  border: 0;
-  background: transparent;
-  color: rgba(21, 19, 15, 0.7);
-  padding: 7px 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads button:focus-visible {
-  outline: 3px solid rgba(155, 63, 31, 0.72);
-  outline-offset: 4px;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads span,
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads strong,
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads small,
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads em {
-  min-width: 0;
-  overflow: hidden;
-  font-family: var(--font-exhibit-label);
-  font-stretch: var(--type-width-label);
-  font-variation-settings: "opsz" var(--type-opsz-text);
-  letter-spacing: 0.02em;
-  line-height: 1;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads span {
-  grid-area: index;
-  color: rgba(155, 63, 31, 0.64);
-  font-size: clamp(0.58rem, 0.62vw, 0.76rem);
-  font-weight: 760;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads strong {
-  grid-area: name;
-  color: rgba(9, 9, 7, 0.82);
-  font-size: clamp(0.66rem, 0.72vw, 0.88rem);
-  font-weight: 760;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads small {
-  grid-area: label;
-  color: rgba(21, 19, 15, 0.5);
-  font-size: clamp(0.48rem, 0.52vw, 0.64rem);
-  font-weight: 620;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__fabricThreads em {
-  grid-area: source;
-  justify-self: end;
-  border-top: 1px solid rgba(155, 63, 31, 0.42);
-  color: rgba(155, 63, 31, 0.72);
-  padding-top: 5px;
-  font-size: clamp(0.44rem, 0.48vw, 0.58rem);
-  font-style: normal;
-  font-weight: 760;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem {
-  min-height: 38px;
-  display: grid;
-  align-content: center;
-  gap: 3px;
-  border-left: 2px solid rgba(21, 19, 15, 0.28);
-  border-bottom: 1px solid rgba(21, 19, 15, 0.16);
-  background: transparent;
-  padding: 7px 8px;
-  color: rgba(21, 19, 15, 0.76);
-  font-size: clamp(0.62rem, 0.66vw, 0.82rem);
-  font-weight: 650;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem--documented {
-  border-left-color: var(--exhibit-route);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem--curated {
-  border-left-color: rgba(168, 75, 37, 0.58);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem--inferred {
-  border-left-color: rgba(21, 19, 15, 0.22);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem strong,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem small,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem em {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem small {
-  color: rgba(21, 19, 15, 0.5);
-  font-size: 0.78em;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceEvidenceItem em {
-  color: rgba(21, 19, 15, 0.46);
-  font-size: 0.72em;
-  font-style: normal;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControls {
-  position: absolute;
-  z-index: 1;
-  top: clamp(54px, 7vh, 94px);
-  right: calc(100% + clamp(36px, 5vw, 92px));
-  width: min(560px, 42vw);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(150px, 1fr));
-  gap: clamp(18px, 2.5vw, 44px) clamp(22px, 3vw, 58px);
-  max-height: none;
-  margin: 0;
-  overflow: visible;
-  border: 0;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease,
-    visibility 0s linear 180ms;
-  visibility: hidden;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__tracePanel--chooser-open .living-hall__traceControls {
-  opacity: 1;
-  pointer-events: auto;
-  transform: none;
-  transition-delay: 0s;
-  visibility: visible;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__tracePanel[data-side="left"] .living-hall__traceControls {
-  right: auto;
-  left: calc(100% + clamp(36px, 5vw, 92px));
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl {
-  position: relative;
-  z-index: 1;
-  min-height: clamp(76px, 9vh, 122px);
-  border: 0;
-  border-top: 1px solid rgba(21, 19, 15, 0.13);
-  background: transparent;
-  color: rgba(20, 19, 15, 0.42);
-  padding: clamp(8px, 0.7vw, 12px) 0 0;
-  text-align: left;
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl[aria-pressed="true"],
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl--active {
-  border-top-color: rgba(168, 75, 37, 0.72);
-  background: transparent;
-  color: rgba(21, 19, 15, 0.82);
-  opacity: 1;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl span,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl strong,
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl small {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl span {
-  color: rgba(168, 75, 37, 0.58);
-  font-size: clamp(0.48rem, 0.5vw, 0.62rem);
-  font-weight: 650;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl strong {
-  margin-top: clamp(0.28rem, 0.45vw, 0.58rem);
-  color: currentColor;
-  font-size: clamp(1.06rem, 1.38vw, 2rem);
-  font-weight: 700;
-  line-height: 0.9;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__traceControl small {
-  margin-top: clamp(0.34rem, 0.42vw, 0.52rem);
-  color: rgba(21, 19, 15, 0.44);
-  font-size: clamp(0.48rem, 0.52vw, 0.66rem);
-  font-weight: 600;
-  line-height: 1.05;
-}
-
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyControls {
   position: absolute;
   inset: 0;
@@ -3803,83 +3387,6 @@
   font-size: clamp(0.62rem, 0.66vw, 0.82rem);
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel {
-  top: clamp(74px, 9vh, 110px);
-  right: clamp(28px, 3.2vw, 64px);
-  z-index: 1850;
-  width: min(390px, 27vw);
-  border-top: 2px solid rgba(155, 63, 31, 0.62);
-  background:
-    linear-gradient(90deg, rgba(244, 234, 211, 0.84), rgba(244, 234, 211, 0.58)),
-    linear-gradient(90deg, rgba(9, 9, 7, 0.028) 1px, transparent 1px);
-  background-size: auto, var(--exhibit-stage-grid);
-  box-shadow: 0 18px 32px rgba(9, 9, 7, 0.08);
-  opacity: 0.96;
-  padding: clamp(8px, 0.7vw, 12px) clamp(10px, 0.9vw, 14px) clamp(10px, 0.9vw, 14px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel--chooser-open {
-  z-index: 3600;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] {
-  left: clamp(28px, 3.2vw, 64px);
-  right: auto;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceHeader h3 {
-  display: block;
-  max-width: 15ch;
-  overflow: hidden;
-  color: rgba(9, 9, 7, 0.74);
-  font-family: var(--font-exhibit-label);
-  font-size: clamp(0.9rem, 1.02vw, 1.32rem);
-  font-weight: 760;
-  line-height: 0.92;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceContextButton {
-  min-height: clamp(44px, 5vh, 66px);
-  color: rgba(9, 9, 7, 0.74);
-  font-size: clamp(0.78rem, 0.9vw, 1.14rem);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControls {
-  top: calc(100% + clamp(16px, 1.8vh, 26px));
-  right: auto;
-  left: 0;
-  width: min(430px, 31vw);
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: clamp(10px, 1.1vw, 18px);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] .living-hall__traceControls {
-  left: 0;
-  right: auto;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl {
-  min-height: clamp(64px, 7vh, 92px);
-  border-top-color: rgba(9, 9, 7, 0.22);
-  background: rgba(244, 234, 211, 0.38);
-  color: rgba(9, 9, 7, 0.52);
-  padding: clamp(8px, 0.72vw, 12px) clamp(9px, 0.78vw, 13px);
-  opacity: 0.86;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl[aria-pressed="true"],
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl--active {
-  border-top-color: rgba(155, 63, 31, 0.82);
-  background: rgba(155, 63, 31, 0.12);
-  color: rgba(9, 9, 7, 0.86);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControl strong {
-  font-size: clamp(0.8rem, 0.98vw, 1.32rem);
-}
-
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-portrait--muted {
   opacity: 0.12;
 }
@@ -4267,35 +3774,6 @@
   .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel .story-mode__media,
   .museum-shell:not(.museum-shell--staff) .living-hall__personActionPanel .media-gallery {
     display: none;
-  }
-
-  .museum-shell:not(.museum-shell--staff) .living-hall__tracePanel,
-  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel,
-  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] {
-    left: clamp(18px, 5vw, 34px);
-    right: clamp(18px, 5vw, 34px);
-    top: auto;
-    bottom: calc(var(--experience-dock-height) + 18px);
-    width: auto;
-    max-height: none;
-    overflow: visible;
-  }
-
-  .museum-shell:not(.museum-shell--staff) .living-hall__traceControls,
-  .museum-shell:not(.museum-shell--staff) .living-hall__tracePanel[data-side="left"] .living-hall__traceControls,
-  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceControls,
-  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__tracePanel[data-side="left"] .living-hall__traceControls {
-    top: auto;
-    right: 0;
-    bottom: calc(100% + 18px);
-    left: 0;
-    width: auto;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-  }
-
-  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__traceEvidence {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .museum-shell:not(.museum-shell--staff) .living-hall__legacyControls {

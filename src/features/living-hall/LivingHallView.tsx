@@ -23,7 +23,6 @@ import {
   LivingHallPlaceholders,
   PersonFocusActionPanel,
   PortraitFocusCard,
-  TracePanel,
   VisitCollectionTray,
 } from './LivingHallPanels';
 import { eventTargetInsideContentWindow } from './livingHallDom';
@@ -73,7 +72,6 @@ import {
   useLatestClassSequence,
   useReducedMotion,
   useResetFocusedPersonExperience,
-  useTraceChooserTimeout,
   useTraceTrail,
   useVisitQrAvailability,
 } from './livingHallRuntime';
@@ -136,7 +134,6 @@ export function LivingHallView({
 }: LivingHallViewProps) {
   const [activePersonAction, setActivePersonAction] = useState<HallPersonAction>('overview');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [traceChooserOpen, setTraceChooserOpen] = useState(false);
   const [visitQrOpen, setVisitQrOpen] = useState(false);
   const [visitJourneyOpen, setVisitJourneyOpen] = useState(false);
   const [visitJourneyIndex, setVisitJourneyIndex] = useState(0);
@@ -300,7 +297,7 @@ export function LivingHallView({
   );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
-  const focusContentWindowOpen = Boolean(focusedPerson) && !attractActive && (lens !== 'traces' || activePersonAction !== 'overview');
+  const focusContentWindowOpen = Boolean(focusedPerson) && !attractActive;
   const legacyFocusModalOpen = lens === 'legacies' && focusContentWindowOpen;
   const legacyTimeline = useLegacyTimelineNavigation({
     activeYear: activeLegacyYear,
@@ -320,9 +317,7 @@ export function LivingHallView({
     lens,
     setActivePersonAction,
     setLightboxIndex,
-    setTraceChooserOpen,
   });
-  useTraceChooserTimeout(traceChooserOpen, setTraceChooserOpen);
   useVisitQrAvailability({
     attractActive,
     savedPeopleCount: visitCollectionPeople.length,
@@ -395,21 +390,10 @@ export function LivingHallView({
   });
 
   function openTraceChooser() {
-    if (lens === 'traces' && traceContext.activePerson) {
-      onEngage?.();
-      setTraceChooserOpen(true);
-      return;
-    }
     onTraceFocusChange?.('');
   }
 
-  function chooseTraceFocus(focusKey: string) {
-    setTraceChooserOpen(false);
-    onTraceFocusChange?.(focusKey);
-  }
-
   function selectPortrait(inductee: Inductee) {
-    if (traceChooserOpen) setTraceChooserOpen(false);
     onSelect(inductee);
   }
 
@@ -500,7 +484,7 @@ export function LivingHallView({
     : null;
   const labelForegroundRects = foregroundLabelRects({
     actionPlacement: focusedActionPlacement,
-    cardPlacement: activePersonAction === 'overview' && lens !== 'traces' ? focusedCardPlacement : null,
+    cardPlacement: activePersonAction === 'overview' ? focusedCardPlacement : null,
     frameAspect: focusedFrameAspect,
     layout: hallLayout,
     lens,
@@ -518,7 +502,6 @@ export function LivingHallView({
     people,
     settings,
   });
-  const tracePanelSide = focusedCardPlacement?.side === 'right' ? 'left' : 'right';
   const hallStyle = hallLayoutStyle(hallLayout, settings);
 
   return (
@@ -770,17 +753,6 @@ export function LivingHallView({
           );
         })}
 
-        {!loading && !error && lens === 'traces' && traceContext.activePerson && (
-          <TracePanel
-            context={traceContext}
-            chooserOpen={traceChooserOpen}
-            panelSide={tracePanelSide}
-            onOpenChooser={openTraceChooser}
-            onSelectPerson={selectPortrait}
-            onTraceFocusChange={chooseTraceFocus}
-          />
-        )}
-
         {!loading && !error && focusContentWindowOpen && (
           <button
             type="button"
@@ -821,7 +793,7 @@ export function LivingHallView({
         </div>
       </div>
 
-      {!loading && !error && focusedPerson && focusedCardPlacement && lens !== 'traces' && !attractActive && (
+      {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
         <PortraitFocusCard
           activeLegacyGroup={activeLegacyGroup}
           activeLegacyYear={activeLegacyYear}

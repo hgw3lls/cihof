@@ -30,9 +30,9 @@ test.describe('Cleveland-derived TRACES line language', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
     await expect(page.locator('.cleveland-trace-field--traces[data-runtime-gis="false"]')).toBeVisible();
-    await expect(page.locator('.living-hall__tracePanel')).toContainText('CLEVELAND CIVIC FABRIC');
-    await expect(page.locator('.living-hall__fabricLane')).toHaveCount(4);
-    await expect(page.locator('.living-hall__fabricThreads [data-fabric-thread]').first()).toBeVisible();
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
+    await expect(page.locator('.living-hall__traceConnection').first()).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     const initialRelationshipPaths = page.locator('.cleveland-trace--relationship .cleveland-trace__path--main');
     await expect(initialRelationshipPaths.first()).toBeVisible();
     expect(await initialRelationshipPaths.count()).toBeGreaterThanOrEqual(4);
@@ -48,13 +48,6 @@ test.describe('Cleveland-derived TRACES line language', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', secondPersonId ?? '');
     await expect(page.locator('.cleveland-trace-field--traces[data-runtime-gis="false"]')).toBeVisible();
     await page.screenshot({ path: `${screenshotDir}/03-traces-redraw-second-focus.png` });
-
-    await openTraceChooser(page);
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
-    await expect(conceptControl).toBeVisible();
-    await conceptControl.click();
-    await waitForGuard(page);
-    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^concept:/);
 
     for (let index = 0; index < 3; index += 1) {
       const nextPortrait = page.locator('button.living-portrait--emphasis:not(.living-portrait--focused)').first();
@@ -79,11 +72,4 @@ test.describe('Cleveland-derived TRACES line language', () => {
 
 async function waitForGuard(page: Page) {
   await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
-}
-
-async function openTraceChooser(page: Page) {
-  const chooser = page.locator('.living-hall__traceContextButton');
-  await expect(chooser).toBeVisible();
-  await chooser.click();
-  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }

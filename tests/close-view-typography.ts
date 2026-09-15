@@ -25,7 +25,7 @@ const CLOSE_VIEW_TYPOGRAPHY_CHECKS: TypographyCheck[] = [
   { selector: '.living-hall__focusContext', max: 18 },
   { selector: '.living-hall__focusLens p', max: 18 },
   { selector: '.living-hall__focusWhy p', max: 18 },
-  { selector: '.living-hall__tracePanel strong', max: 34 },
+  { selector: '.living-hall__traceFocus strong', max: 34 },
   { selector: '.living-hall__legacyFocus strong', max: 34 },
   { selector: '.living-hall__fullTextHeader h3', max: 46 },
   { selector: '.living-hall__visitQrPanel .qr-continuation__copy h3', max: 46 },

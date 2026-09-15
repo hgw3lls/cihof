@@ -272,28 +272,17 @@ export function useResetFocusedPersonExperience({
   lens,
   setActivePersonAction,
   setLightboxIndex,
-  setTraceChooserOpen,
 }: {
   focusedPersonId: string;
   lens: HallLens;
   setActivePersonAction: Dispatch<SetStateAction<HallPersonAction>>;
   setLightboxIndex: Dispatch<SetStateAction<number | null>>;
-  setTraceChooserOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   useEffect(() => {
     setActivePersonAction('overview');
     setLightboxIndex(null);
-    setTraceChooserOpen(false);
     stopHallFocusMedia();
-  }, [focusedPersonId, lens, setActivePersonAction, setLightboxIndex, setTraceChooserOpen]);
-}
-
-export function useTraceChooserTimeout(traceChooserOpen: boolean, setTraceChooserOpen: Dispatch<SetStateAction<boolean>>) {
-  useEffect(() => {
-    if (!traceChooserOpen) return undefined;
-    const timeout = window.setTimeout(() => setTraceChooserOpen(false), 7_000);
-    return () => window.clearTimeout(timeout);
-  }, [setTraceChooserOpen, traceChooserOpen]);
+  }, [focusedPersonId, lens, setActivePersonAction, setLightboxIndex]);
 }
 
 export function useVisitQrAvailability({
