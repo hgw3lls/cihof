@@ -355,7 +355,11 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function selectInductee(inductee: Inductee, source = 'select-person') {
-    if (!beginInteractionTransition()) return;
+    const immediateTraceRefocus = shouldRefocusTraceImmediately(inductee.id);
+    const transitionStarted = beginInteractionTransition(
+      immediateTraceRefocus ? Math.min(transitionInputGuardMs, 180) : transitionInputGuardMs,
+    );
+    if (!transitionStarted && !immediateTraceRefocus) return;
     recordKioskInteraction(source);
     stopActiveMedia();
     onPhysicalPortraitSelected(inductee.id, physicalPortraitSelectionFromInductee(inductee));
@@ -367,6 +371,12 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setLinkedPath((current) => current && current.personIds.includes(inductee.id) ? current : null);
     if (hallLens === 'legacies' && inductee.classYear) setTimelineYear(String(inductee.classYear));
     if (!reviewModeEnabled) setExperienceMode(viewModeForHallLens(hallLens), 'switch');
+  }
+
+  function shouldRefocusTraceImmediately(nextPersonId: string) {
+    if (reviewModeEnabled) return false;
+    if (hallLens !== 'traces' || viewMode !== 'living-hall') return false;
+    return Boolean(selectedId && selectedId !== nextPersonId);
   }
 
   function updateCommandQuery(query: string) {
