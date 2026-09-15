@@ -166,7 +166,7 @@ export function LegacyControls({
   const activeLabel = activeYear === null ? `${chronology.firstYear ?? ''}` : String(activeYear);
   const activeGroup = legacyGroupForYear(chronology, activeYear);
   const activePeople = activeGroup?.people ?? [];
-  const visibleClassPeople = activePeople.slice(0, 6);
+  const visibleClassPeople = activePeople.slice(0, 3);
   const hiddenClassPeople = Math.max(0, activePeople.length - visibleClassPeople.length);
   const range = chronology.firstYear && chronology.lastYear
     ? `${chronology.firstYear} - ${chronology.lastYear}`
