@@ -29,16 +29,11 @@ test.describe('final installation choreography screenshots', () => {
     await expectHall(page, 'traces', candidateId);
     await screenshotHall(page, '03-traces');
 
-    await ensureConceptTraceAvailable(page);
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
-    await expect(conceptControl).toBeVisible();
-    await conceptControl.click();
-    await waitForGuard(page);
     for (let index = 0; index < 3; index += 1) {
       await clickVisibleRelatedPortrait(page);
       await waitForGuard(page);
     }
-    await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^concept:/);
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.cleveland-trace--trail .cleveland-trace__path--main').first()).toBeVisible();
     await screenshotHall(page, '04-follow-the-trace');
 
@@ -131,20 +126,4 @@ async function clickFirstPortrait(page: Page) {
   expect(personId).toBeTruthy();
   await portrait.click();
   return personId ?? '';
-}
-
-async function ensureConceptTraceAvailable(page: Page) {
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    await openTraceChooser(page);
-    if (await page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first().count()) return;
-    await clickVisibleRelatedPortrait(page);
-    await waitForGuard(page);
-  }
-}
-
-async function openTraceChooser(page: Page) {
-  const chooser = page.locator('.living-hall__traceContextButton');
-  await expect(chooser).toBeVisible();
-  await chooser.click();
-  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }

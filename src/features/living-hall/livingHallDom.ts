@@ -13,5 +13,5 @@ export function eventTargetInsideFocusCard(target: EventTarget | null) {
 }
 
 export function eventTargetInsideContentWindow(target: EventTarget | null) {
-  return eventTargetClosest(target, '.living-hall__focusCard, .living-hall__personActionPanel, .living-hall__tracePanel');
+  return eventTargetClosest(target, '.living-hall__focusCard, .living-hall__personActionPanel');
 }

@@ -48,7 +48,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', 'country:chinese');
     await expect(page.locator('.living-hall')).toHaveAttribute('data-linked-path-label', 'Chinese');
     await expect(page.locator('.living-portrait--linked')).toHaveCount(5);
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
     await search.fill('2024');
@@ -89,18 +89,10 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveCount(1);
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('button.living-portrait').first()).toBeVisible();
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.world-lens')).toHaveCount(0);
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
-
-    await openTraceChooser(page);
-    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Nationality' }).first();
-    if (await placeControl.count()) {
-      await placeControl.click();
-      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
-      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
-    }
 
     const lockState = await page.evaluate(() => {
       const stage = document.querySelector<HTMLElement>('.museum-stage');
@@ -185,7 +177,7 @@ test.describe('museum kiosk smoke', () => {
       const health = await waitForKioskHealth(page, (snapshot) => snapshot.currentView === 'living-hall');
       expect(health.lastInteractionSource).toBe(`nav:${item.lens}`);
       if (item.lens === 'traces') {
-        await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+        await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
         await expect(page.locator('.living-hall__traceLine').first()).toBeAttached();
         await expect(page.locator('.world-lens')).toHaveCount(0);
         await expect(page.locator('.human-network')).toHaveCount(0);
@@ -229,7 +221,9 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', deepLink.id);
     await waitForHallData(page);
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page).toHaveURL(/lens=traces/);
@@ -304,19 +298,18 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', firstPersonId ?? '');
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toHaveClass(/living-portrait--focused/);
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.living-hall__traceLine').first()).toBeAttached();
-    await expect(page.locator('.living-hall__traceGuideCard')).toHaveCount(3);
-    await expect(page.locator('.living-hall__traceEvidenceItem').first()).toBeVisible();
-    await expect(page.locator('.living-hall__traceControl').first()).toBeHidden();
     await expect(page.locator('.world-lens')).toHaveCount(0);
     await expect(page.locator('.human-network')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
-    const relatedConnection = page.locator('.living-hall__fabricThreads [data-fabric-thread]').first();
+    const relatedConnection = page.locator('.living-hall__traceConnection').first();
     await expect(relatedConnection).toBeVisible();
-    const relatedPersonId = await relatedConnection.getAttribute('data-fabric-thread');
+    const relatedPersonId = await relatedConnection.getAttribute('data-trace-person');
     expect(relatedPersonId).toBeTruthy();
     await relatedConnection.click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
@@ -325,22 +318,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator(`button.living-portrait[data-transition-person="${firstPersonId}"]`)).toBeVisible();
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
 
-    await openTraceChooser(page);
-    const conceptControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Concept' }).first();
-    if (await conceptControl.count()) {
-      await conceptControl.click();
-      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^concept:/);
-      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
-    }
-
-    await openTraceChooser(page);
-    const placeControl = page.locator('.living-hall__traceControl').filter({ hasText: 'Nationality' }).first();
-    if (await placeControl.count()) {
-      await placeControl.click();
-      await expect(page.locator('.living-hall')).toHaveAttribute('data-trace-focus-key', /^country:/);
-      await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
-      await expect(page.locator('.world-lens')).toHaveCount(0);
-    }
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
   });
 
   test('keeps person actions anchored to the focused portrait and lens', async ({ page }) => {
@@ -372,8 +350,7 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
     await expectPortraitActionsHidden(page);
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
-    await expect(page.locator('.living-hall__focusCard')).toHaveCount(0);
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
 
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
@@ -453,7 +430,8 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', visiblePortrait.id);
     await expect(page.locator(`button.living-portrait[data-transition-person="${visiblePortrait.id}"]`)).toHaveClass(/living-portrait--focused/);
-    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toHaveCount(0);
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
   });
 
@@ -834,13 +812,6 @@ function totalCityQuestionResponses(options: Array<{ id: string }>, counts: Reco
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-async function openTraceChooser(page: Page) {
-  const chooser = page.locator('.living-hall__traceContextButton');
-  await expect(chooser).toBeVisible();
-  await chooser.click();
-  await expect(page.locator('.living-hall__traceControl').first()).toBeVisible();
 }
 
 type KioskHealthForTest = {

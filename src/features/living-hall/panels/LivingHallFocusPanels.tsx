@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { QRCodePanel } from '../../../components/QRCodePanel';
 import { honoredForSummary, inducteeContextLabel } from '../../../data/inducteeNarrative';
 import {
@@ -29,7 +30,7 @@ import {
   type FocusCardPlacement,
   type HallPersonAction,
 } from '../livingHallLayout';
-import { compactTraceText } from './LivingHallTracePanel';
+import { compactTraceText, traceActiveTitle, traceReasonChipLabel } from './LivingHallTracePanel';
 
 export function PortraitFocusCard({
   activeLegacyGroup,
@@ -120,6 +121,12 @@ export function PortraitFocusCard({
           <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
         </div>
         {profileMode && context && <p className="living-hall__focusContext">{context}</p>}
+        {lens === 'traces' && (
+          <TraceFocusConnections
+            context={traceContext}
+            onSelectPerson={onSelectPerson}
+          />
+        )}
         {lens === 'legacies' && (
           <LegacyFocusNavigator
             activeLegacyGroup={activeLegacyGroup}
@@ -488,6 +495,86 @@ function linkedPathKindLabel(kind: HallLinkedPath['kind']) {
   if (kind === 'community') return 'Community';
   if (kind === 'theme') return 'Theme';
   return 'Profile';
+}
+
+function TraceFocusConnections({
+  context,
+  onSelectPerson,
+}: {
+  context: TraceContext;
+  onSelectPerson: (inductee: Inductee) => void;
+}) {
+  const activePerson = context.activePerson;
+  if (!activePerson) return null;
+
+  const activeTitle = traceActiveTitle(context);
+  const visibleThreads = context.visibleThreads.slice(0, 5);
+  const totalConnections = context.visibleThreads.length;
+  const directCount = context.directThreads.length;
+  const modeLabel = context.mode === 'direct'
+    ? 'Direct ties'
+    : context.mode === 'concept'
+      ? 'Shared concept'
+      : 'Nationality trace';
+  const leadingReason = visibleThreads[0]?.reasons[0] ?? null;
+  const leadingSupport = leadingReason
+    ? relationshipSupportLabel(leadingReason, activePerson.name) || leadingReason.detail
+    : '';
+
+  return (
+    <section className="living-hall__traceFocus" aria-label={`${activePerson.name} connection context`}>
+      <header className="living-hall__traceFocusHeader">
+        <span>{modeLabel}</span>
+        <strong>{activeTitle}</strong>
+        <small>{totalConnections} shown / {directCount} direct</small>
+        {leadingSupport && <em>{leadingSupport}</em>}
+      </header>
+      {visibleThreads.length > 0 ? (
+        <ol className="living-hall__traceConnectionList" aria-label="Visible connected portraits">
+          {visibleThreads.map((thread, index) => {
+            const reason = thread.reasons[0] ?? null;
+            const label = reason ? relationshipLineLabel(reason, activePerson.name) : activeTitle;
+            const detail = reason ? relationshipSupportLabel(reason, activePerson.name) || reason.detail : '';
+            const supportingReasons = thread.reasons.slice(0, 2);
+            return (
+              <li key={thread.person.id}>
+                <button
+                  className="living-hall__traceConnection"
+                  type="button"
+                  data-trace-person={thread.person.id}
+                  aria-label={`Focus ${thread.person.name}, connected by ${label}`}
+                  onClick={() => onSelectPerson(thread.person)}
+                >
+                  <span className="living-hall__traceConnectionIndex">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="living-hall__traceConnectionBody">
+                    <strong>{thread.person.name}</strong>
+                    <em>{label}</em>
+                    {detail && <small>{detail}</small>}
+                    {supportingReasons.length > 1 && (
+                      <span className="living-hall__traceConnectionReasons" aria-label={`${thread.person.name} supporting trace reasons`}>
+                        {supportingReasons.map((supportingReason) => (
+                          <b key={`${supportingReason.type}-${supportingReason.label}`}>
+                            {traceReasonChipLabel(supportingReason, activePerson.name)}
+                          </b>
+                        ))}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="living-hall__traceConnectionWeight"
+                    style={{ '--trace-weight': String(clamp(thread.score / 220, 0.2, 1)) } as CSSProperties & Record<string, string>}
+                  />
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      ) : (
+        <p className="living-hall__traceFocusEmpty">Choose a trace mode to reveal nearby documented people, communities, and concepts.</p>
+      )}
+    </section>
+  );
 }
 
 function LegacyFocusNavigator({
