@@ -430,8 +430,8 @@ export function portraitFrameAspect(record: RuntimeMediaRecord | undefined): Por
 }
 
 export function shouldShowFrameRecord(lens: HallLens, position: PortraitPosition, layout?: HallLayoutMetrics) {
+  if (lens === 'legacies') return position.focused;
   if (position.focused || position.emphasis) return true;
-  if (lens === 'legacies') return position.size >= (layout?.recordThresholds.legacies ?? 72);
   if (lens === 'portraits') return position.size >= (layout?.recordThresholds.portraits ?? 60);
   if (lens === 'traces') return position.size >= (layout?.recordThresholds.traces ?? 82);
   if (lens === 'journeys') return position.size >= (layout?.recordThresholds.journeys ?? 76);

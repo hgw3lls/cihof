@@ -171,7 +171,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field--legacies {
-  opacity: 0.34;
+  opacity: 0.14;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace {
@@ -195,7 +195,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--legacy-register {
-  color: rgba(9, 9, 7, 0.16);
+  color: rgba(9, 9, 7, 0.075);
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace__path {
@@ -220,7 +220,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace--legacy-register .cleveland-trace__path {
-  stroke-width: 0.8;
+  stroke-width: 0.42;
 }
 
 .museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label {

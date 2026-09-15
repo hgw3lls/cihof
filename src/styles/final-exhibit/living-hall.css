@@ -2843,20 +2843,20 @@
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassShelf {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--experience-dock-height) + clamp(124px, 13.5vh, 188px));
-  z-index: 5;
+  bottom: calc(var(--experience-dock-height) + clamp(118px, 12.5vh, 170px));
+  z-index: 70;
   display: grid;
-  grid-template-columns: minmax(130px, 0.32fr) minmax(0, 1fr);
-  gap: clamp(10px, 1vw, 18px);
-  width: min(760px, 54vw);
-  border-top: 2px solid rgba(155, 63, 31, 0.62);
+  grid-template-columns: minmax(104px, 0.28fr) minmax(0, 1fr);
+  gap: clamp(7px, 0.72vw, 12px);
+  width: min(510px, 38vw);
+  border-top: 1px solid rgba(155, 63, 31, 0.46);
   background:
-    linear-gradient(90deg, rgba(244, 234, 211, 0.84), rgba(244, 234, 211, 0.56)),
+    linear-gradient(90deg, rgba(244, 234, 211, 0.9), rgba(244, 234, 211, 0.74)),
     linear-gradient(90deg, rgba(9, 9, 7, 0.03) 1px, transparent 1px);
   background-size: auto, var(--exhibit-stage-grid);
-  box-shadow: 0 18px 32px rgba(9, 9, 7, 0.08);
+  box-shadow: none;
   color: rgba(9, 9, 7, 0.78);
-  padding: clamp(9px, 0.82vw, 13px);
+  padding: clamp(6px, 0.58vw, 9px);
   pointer-events: auto;
   transform: translateX(-50%);
 }
@@ -2901,7 +2901,7 @@
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassRoster {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
   margin: 0;
   padding: 0;
@@ -2916,13 +2916,13 @@
   display: grid;
   grid-template-columns: 2.35ch minmax(0, 1fr);
   align-content: center;
-  gap: 7px;
+  gap: 5px;
   width: 100%;
   min-height: 44px;
   border-top-color: rgba(9, 9, 7, 0.18);
-  background: rgba(244, 234, 211, 0.24);
+  background: rgba(244, 234, 211, 0.12);
   color: rgba(9, 9, 7, 0.7);
-  padding: 7px 8px 6px;
+  padding: 5px 6px 4px;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson:is(:hover, :focus-visible) {
@@ -2946,7 +2946,7 @@
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__legacyClassPerson strong {
-  font-size: clamp(0.62rem, 0.68vw, 0.84rem);
+  font-size: clamp(0.56rem, 0.62vw, 0.76rem);
   font-weight: 750;
 }
 
@@ -3818,6 +3818,106 @@
   .museum-shell:not(.museum-shell--staff) .living-hall__recordNote {
     display: none;
   }
+}
+
+/* LEGACIES clarity pass: one readable chronology, quieter archival field. */
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__statusRail {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__title,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__vocabulary {
+  opacity: 0.035;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__field::before {
+  top: 45%;
+  height: 1px;
+  background:
+    linear-gradient(90deg, transparent, rgba(9, 9, 7, 0.14) 5%, rgba(9, 9, 7, 0.14) 95%, transparent),
+    repeating-linear-gradient(90deg, transparent 0 112px, rgba(155, 63, 31, 0.12) 112px 113px, transparent 113px 224px);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__projectionLink,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__projectionHorizon {
+  opacity: 0.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait[data-portrait-category="active-class"]::after,
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-portrait[data-lens-badge]::after {
+  opacity: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel {
+  z-index: 18;
+  width: 22px;
+  min-width: 22px;
+  max-width: 22px;
+  height: 24px;
+  border-top: 0;
+  border-left: 1px solid rgba(9, 9, 7, 0.16);
+  background: transparent;
+  overflow: hidden;
+  padding: 0;
+  color: transparent;
+  opacity: 0.14;
+  text-align: left;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel::before {
+  opacity: 0.28;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel strong {
+  font-size: clamp(0.56rem, 0.62vw, 0.8rem);
+  line-height: 1;
+  opacity: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel small {
+  margin-inline: 0;
+  color: rgba(155, 63, 31, 0.24);
+  font-size: clamp(0.4rem, 0.44vw, 0.54rem);
+  opacity: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active {
+  z-index: 26;
+  width: 30px;
+  min-width: 30px;
+  max-width: 30px;
+  height: 32px;
+  border-left-color: rgba(155, 63, 31, 0.52);
+  background: transparent;
+  color: rgba(9, 9, 7, 0.5);
+  opacity: 0.24;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active strong {
+  font-size: clamp(0.78rem, 0.88vw, 1.08rem);
+  line-height: 0.95;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait:not(.living-portrait--focused):not(.living-portrait--emphasis) {
+  filter: grayscale(1) contrast(0.74) brightness(0.98) sepia(0.08);
+  opacity: 0.18;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait--emphasis:not(.living-portrait--focused) {
+  filter: grayscale(1) contrast(0.9) brightness(0.96) sepia(0.06);
+  opacity: 0.64;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-portrait--emphasis:not(.living-portrait--focused) {
+  opacity: 0.36;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-portrait:not(.living-portrait--focused):not(.living-portrait--emphasis) {
+  opacity: 0.08;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-portrait--focused {
+  filter: contrast(1.16) brightness(0.98);
 }
 
 @media (prefers-reduced-motion: reduce) {
