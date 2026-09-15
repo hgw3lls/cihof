@@ -1094,6 +1094,87 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-0kjhqywfjdi-mp4",
+      "displayName": "Abby Mina local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Abby Mina.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-1kftdd1w3lg-mp4",
+      "displayName": "Abby Mina local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Abby Mina.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-fwv6dxkuhnc-mp4",
+      "displayName": "Abby Mina local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Abby Mina.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:abby-mina-2018",
       "displayName": "Abby Mina primary portrait",
       "type": "Media",
@@ -1203,6 +1284,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-aklilu-demessie-2026-aklilu-demessie-2026-nlcx5vac37i-mp4",
+      "displayName": "Aklilu Demessie local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Aklilu Demessie.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "aklilu-demessie-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:aklilu-demessie-2026",
       "displayName": "Aklilu Demessie primary portrait",
       "type": "Media",
@@ -1253,6 +1361,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "Nlcx5vaC37I",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-akram-boutros-2019-akram-boutros-2019-c6eunqgzh5e-mp4",
+      "displayName": "Akram Boutros local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Akram Boutros.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "akram-boutros-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -1369,6 +1504,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-ambassador-edward-f-crawford-2024-ambassador-edward-f-crawford-2024-p34omi5xuiy-mp4",
+      "displayName": "Ambassador Edward F. Crawford local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ambassador Edward F. Crawford.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ambassador-edward-f-crawford-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:ambassador-edward-f-crawford-2024",
       "displayName": "Ambassador Edward F. Crawford primary portrait",
       "type": "Media",
@@ -1419,6 +1581,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "P34omi5XUiY",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-anda-cook-2022-anda-cook-2022-jbd-goy7hk-mp4",
+      "displayName": "Anda Cook local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Anda Cook.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "anda-cook-2022",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -1479,6 +1668,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-andy-chakalis-2026-andy-chakalis-2026-bs3656smmfm-mp4",
+      "displayName": "Andy Chakalis local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Andy Chakalis.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "andy-chakalis-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:andy-chakalis-2026",
       "displayName": "Andy Chakalis primary portrait",
       "type": "Media",
@@ -1529,6 +1745,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "bS3656smMfM",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-andy-fedynsky-2026-andy-fedynsky-2026-kp2ore3w1em-mp4",
+      "displayName": "Andy Fedynsky local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Andy Fedynsky.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "andy-fedynsky-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -1614,6 +1857,87 @@
         "url": "/media/images/anthony-yen-yan-yuan-tai-2012/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-hmsfn1-1kpg-mp4",
+      "displayName": "Arnie de la Porte local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Arnie de la Porte.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-jxo9xewz4jq-mp4",
+      "displayName": "Arnie de la Porte local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Arnie de la Porte.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-qedxti9t8je-mp4",
+      "displayName": "Arnie de la Porte local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Arnie de la Porte.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -1721,6 +2045,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "QEdXti9t8jE",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-atul-mehta-2018-atul-mehta-2018-4pafixyd1zu-mp4",
+      "displayName": "Atul Mehta local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Atul Mehta.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "atul-mehta-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-atul-mehta-2018-atul-mehta-2018-eatzgx8chui-mp4",
+      "displayName": "Atul Mehta local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Atul Mehta.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "atul-mehta-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -1836,6 +2214,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-basil-russo-2017-basil-russo-2017-rzy-lrl0hwo-mp4",
+      "displayName": "Basil Russo local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Basil Russo.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "basil-russo-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:basil-russo-2017",
       "displayName": "Basil Russo primary portrait",
       "type": "Media",
@@ -1886,6 +2291,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "RzY-lrL0HWo",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-berj-shakarian-2020-berj-shakarian-2020-2kbxzdgiqjm-mp4",
+      "displayName": "Berj Shakarian local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Berj Shakarian.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "berj-shakarian-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-berj-shakarian-2020-berj-shakarian-2020-engy3m5efcc-mp4",
+      "displayName": "Berj Shakarian local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Berj Shakarian.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "berj-shakarian-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -1973,6 +2432,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-beverly-kerecman-2025-beverly-kerecman-2025-4jjbyrcwk3y-mp4",
+      "displayName": "Beverly Kerecman local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Beverly Kerecman.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "beverly-kerecman-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:beverly-kerecman-2025",
       "displayName": "Beverly Kerecman primary portrait",
       "type": "Media",
@@ -2023,6 +2509,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "4jjbyRcwk3Y",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-bill-miller-2017-bill-miller-2017-7ajuc16ao90-mp4",
+      "displayName": "Bill Miller local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Bill Miller.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bill-miller-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -2111,6 +2624,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-kmvo49zi-94-mp4",
+      "displayName": "Bishop Anthony Pilla local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Bishop Anthony Pilla.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bishop-anthony-pilla-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-ppxivzkq49u-mp4",
+      "displayName": "Bishop Anthony Pilla local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Bishop Anthony Pilla.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bishop-anthony-pilla-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:bishop-anthony-pilla-2015",
       "displayName": "Bishop Anthony Pilla primary portrait",
       "type": "Media",
@@ -2193,6 +2760,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-branka-malinar-2025-branka-malinar-2025-bkuccygsdek-mp4",
+      "displayName": "Branka Malinar local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Branka Malinar.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "branka-malinar-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:branka-malinar-2025",
       "displayName": "Branka Malinar primary portrait",
       "type": "Media",
@@ -2248,6 +2842,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-carl-robson-2022-carl-robson-2022-3zl6-hyv89q-mp4",
+      "displayName": "Carl Robson local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Carl Robson.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carl-robson-2022",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:carl-robson-2022",
       "displayName": "Carl Robson primary portrait",
       "type": "Media",
@@ -2298,6 +2919,87 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "3Zl6-HYV89Q",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-e-c-ypiwjt8-mp4",
+      "displayName": "Carolyn Balogh local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Carolyn Balogh.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-o-r4oypcuyc-mp4",
+      "displayName": "Carolyn Balogh local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Carolyn Balogh.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-qzhokedkxqc-mp4",
+      "displayName": "Carolyn Balogh local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Carolyn Balogh.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -2412,6 +3114,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-catherine-jorgensen-mccutcheon-2026-catherine-jorgensen-mccutcheon-2026-e3gwq-kdef4-mp4",
+      "displayName": "Catherine Jorgensen McCutcheon local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Catherine Jorgensen McCutcheon.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "catherine-jorgensen-mccutcheon-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:catherine-jorgensen-mccutcheon-2026",
       "displayName": "Catherine Jorgensen McCutcheon primary portrait",
       "type": "Media",
@@ -2467,6 +3196,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-david-gilbert-2025-david-gilbert-2025-xeheg0igics-mp4",
+      "displayName": "David Gilbert local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with David Gilbert.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "david-gilbert-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:david-gilbert-2025",
       "displayName": "David Gilbert primary portrait",
       "type": "Media",
@@ -2517,6 +3273,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "XeheG0iGICs",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-dick-pogue-2015-dick-pogue-2015-7mkib5fnq-g-mp4",
+      "displayName": "Dick Pogue local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dick Pogue.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-dick-pogue-2015-dick-pogue-2015-qtbu6qlpxre-mp4",
+      "displayName": "Dick Pogue local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dick Pogue.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -2604,6 +3414,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-dick-russ-2015-dick-russ-2015-ivlrvgm81r8-mp4",
+      "displayName": "Dick Russ local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dick Russ.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-russ-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-dick-russ-2015-dick-russ-2015-xj9n1qouafg-mp4",
+      "displayName": "Dick Russ local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dick Russ.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-russ-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:dick-russ-2015",
       "displayName": "Dick Russ primary portrait",
       "type": "Media",
@@ -2681,6 +3545,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "xJ9n1QOUafg",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-dona-brady-2024-dona-brady-2024-p34omi5xuiy-mp4",
+      "displayName": "Dona Brady local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dona Brady.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dona-brady-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -2770,6 +3661,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-dr-eugene-jordan-2024-dr-eugene-jordan-2024-p34omi5xuiy-mp4",
+      "displayName": "Dr. Eugene Jordan local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Dr. Eugene Jordan.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dr-eugene-jordan-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:dr-eugene-jordan-2024",
       "displayName": "Dr. Eugene Jordan primary portrait",
       "type": "Media",
@@ -2854,6 +3772,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-erika-puussaar-2024-erika-puussaar-2024-p34omi5xuiy-mp4",
+      "displayName": "Erika Puussaar local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Erika Puussaar.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "erika-puussaar-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:erika-puussaar-2024",
       "displayName": "Erika Puussaar primary portrait",
       "type": "Media",
@@ -2935,6 +3880,114 @@
         "url": "/media/images/eugene-bak-2014/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-7lmk-kcujs-mp4",
+      "displayName": "Eugenia Stolarczyk local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Eugenia Stolarczyk.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-ibjbwbphwgs-mp4",
+      "displayName": "Eugenia Stolarczyk local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Eugenia Stolarczyk.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-tsl-t9x0ub0-mp4",
+      "displayName": "Eugenia Stolarczyk local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Eugenia Stolarczyk.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-uw-nypsccxm-mp4",
+      "displayName": "Eugenia Stolarczyk local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Eugenia Stolarczyk.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -3099,6 +4152,33 @@
         "url": "/media/images/fr-jim-o-donnell-2012/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-georgine-welo-2023-georgine-welo-2023-jawjktg5nrg-mp4",
+      "displayName": "Georgine Welo local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Georgine Welo.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "georgine-welo-2023",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -3269,6 +4349,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-7jj4sizisom-mp4",
+      "displayName": "Honorable José A. Villanueva local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Honorable José A. Villanueva.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "honorable-jose-a-villanueva-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-i5fjexabnhi-mp4",
+      "displayName": "Honorable José A. Villanueva local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Honorable José A. Villanueva.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "honorable-jose-a-villanueva-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:honorable-jose-a-villanueva-2015",
       "displayName": "Honorable José A. Villanueva primary portrait",
       "type": "Media",
@@ -3346,6 +4480,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "i5FJexABnHI",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-ingrida-bublys-2019-ingrida-bublys-2019-obii5vxcp7q-mp4",
+      "displayName": "Ingrida Bublys local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ingrida Bublys.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ingrida-bublys-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -3459,6 +4620,87 @@
         "url": "/media/images/jack-coyne-2013/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-dw7qmiullko-mp4",
+      "displayName": "Jack Kahl local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Jack Kahl.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-ekdfg3zz9os-mp4",
+      "displayName": "Jack Kahl local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Jack Kahl.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-l0flgzezwtw-mp4",
+      "displayName": "Jack Kahl local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Jack Kahl.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -3599,6 +4841,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-jim-craciun-2017-jim-craciun-2017-xzh7vcfsuns-mp4",
+      "displayName": "Jim Craciun local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Jim Craciun.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jim-craciun-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:jim-craciun-2017",
       "displayName": "Jim Craciun primary portrait",
       "type": "Media",
@@ -3682,6 +4951,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-joe-valencic-2020-joe-valencic-2020-k8t6koylcge-mp4",
+      "displayName": "Joe Valencic local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Joe Valencic.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "joe-valencic-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:joe-valencic-2020",
       "displayName": "Joe Valencic primary portrait",
       "type": "Media",
@@ -3732,6 +5028,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "k8t6kOylcgE",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-johnny-k-wu-2024-johnny-k-wu-2024-p34omi5xuiy-mp4",
+      "displayName": "Johnny K. Wu local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Johnny K. Wu.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "johnny-k-wu-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -3849,6 +5172,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-joyce-mariani-2023-joyce-mariani-2023-khfzlbasw0o-mp4",
+      "displayName": "Joyce Mariani local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Joyce Mariani.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "joyce-mariani-2023",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:joyce-mariani-2023",
       "displayName": "Joyce Mariani primary portrait",
       "type": "Media",
@@ -3929,6 +5279,87 @@
         "url": "/media/images/ken-kovach-2012/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-kkjaauzr2ps-mp4",
+      "displayName": "Khalid Samad local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Khalid Samad.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-mqcqvmzsu88-mp4",
+      "displayName": "Khalid Samad local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Khalid Samad.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-yt9dtizdjpq-mp4",
+      "displayName": "Khalid Samad local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Khalid Samad.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -4036,6 +5467,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "YT9DTiZdJpQ",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-le-nguyen-2026-le-nguyen-2026-t5peedc8me8-mp4",
+      "displayName": "Le Nguyen local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Le Nguyen.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "le-nguyen-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -4180,6 +5638,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-lucy-torres-2026-lucy-torres-2026-tu54lnscxz4-mp4",
+      "displayName": "Lucy Torres local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Lucy Torres.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "lucy-torres-2026",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:lucy-torres-2026",
       "displayName": "Lucy Torres primary portrait",
       "type": "Media",
@@ -4291,6 +5776,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-margaret-lynch-2020-margaret-lynch-2020-mtjmmiuk5ni-mp4",
+      "displayName": "Margaret Lynch local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Margaret Lynch.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "margaret-lynch-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:margaret-lynch-2020",
       "displayName": "Margaret Lynch primary portrait",
       "type": "Media",
@@ -4374,6 +5886,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-marilyn-madigan-2019-marilyn-madigan-2019-pgusrtblhj4-mp4",
+      "displayName": "Marilyn Madigan local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Marilyn Madigan.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "marilyn-madigan-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:marilyn-madigan-2019",
       "displayName": "Marilyn Madigan primary portrait",
       "type": "Media",
@@ -4424,6 +5963,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "PgUsrTbLHJ4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-may-chen-2020-may-chen-2020-qde5bveynkg-mp4",
+      "displayName": "May Chen local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with May Chen.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "may-chen-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-may-chen-2020-may-chen-2020-yxyhzjyqyt0-mp4",
+      "displayName": "May Chen local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with May Chen.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "may-chen-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -4511,6 +6104,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-mayor-frank-jackson-2025-mayor-frank-jackson-2025-divkkjkn0sy-mp4",
+      "displayName": "Mayor Frank Jackson local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Mayor Frank Jackson.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mayor-frank-jackson-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:mayor-frank-jackson-2025",
       "displayName": "Mayor Frank Jackson primary portrait",
       "type": "Media",
@@ -4561,6 +6181,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "diVkkJkn0sY",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-michael-d-polensek-2023-michael-d-polensek-2023-iyv4tycj3m8-mp4",
+      "displayName": "Michael D. Polensek local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Michael D. Polensek.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "michael-d-polensek-2023",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -4646,6 +6293,87 @@
         "url": "/media/images/milton-maltz-2012/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-ix7-ecpzvy4-mp4",
+      "displayName": "Mohan Bafna local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Mohan Bafna.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-kahozmrbzna-mp4",
+      "displayName": "Mohan Bafna local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Mohan Bafna.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-kusmhq-yg-k-mp4",
+      "displayName": "Mohan Bafna local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Mohan Bafna.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -4753,6 +6481,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "KuSMhQ_yG_k",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-mona-alag-2017-mona-alag-2017-2mg5gmqxuzq-mp4",
+      "displayName": "Mona Alag local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Mona Alag.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mona-alag-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -4925,6 +6680,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-paul-burik-2019-paul-burik-2019-b-zp9vqxjby-mp4",
+      "displayName": "Paul Burik local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Paul Burik.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "paul-burik-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:paul-burik-2019",
       "displayName": "Paul Burik primary portrait",
       "type": "Media",
@@ -5008,6 +6790,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-pierre-bejjani-2023-pierre-bejjani-2023-11fqd7mq8fs-mp4",
+      "displayName": "Pierre Bejjani local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Pierre Bejjani.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "pierre-bejjani-2023",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:pierre-bejjani-2023",
       "displayName": "Pierre Bejjani primary portrait",
       "type": "Media",
@@ -5058,6 +6867,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "11fqd7MQ8Fs",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-raj-aggarwal-2025-raj-aggarwal-2025-dozuzteefmu-mp4",
+      "displayName": "Raj Aggarwal local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Raj Aggarwal.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "raj-aggarwal-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -5146,6 +6982,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-8cpulovefwa-mp4",
+      "displayName": "Ralph Perk Jr. local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ralph Perk Jr..",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-perk-jr-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-qxg7vrfkyxo-mp4",
+      "displayName": "Ralph Perk Jr. local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ralph Perk Jr..",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-perk-jr-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:ralph-perk-jr-2018",
       "displayName": "Ralph Perk Jr. primary portrait",
       "type": "Media",
@@ -5223,6 +7113,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "QxG7VrfKyXo",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-ramesh-shah-2020-ramesh-shah-2020-5gdfakdaxm-mp4",
+      "displayName": "Ramesh Shah local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ramesh Shah.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ramesh-shah-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-ramesh-shah-2020-ramesh-shah-2020-feho9uwgb9g-mp4",
+      "displayName": "Ramesh Shah local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ramesh Shah.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ramesh-shah-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -5338,6 +7282,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-ray-pianka-2018-ray-pianka-2018-d1rgv29apuk-mp4",
+      "displayName": "Ray Pianka local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Ray Pianka.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ray-pianka-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:ray-pianka-2018",
       "displayName": "Ray Pianka primary portrait",
       "type": "Media",
@@ -5449,6 +7420,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-richard-a-ganim-2015-richard-a-ganim-2015-kofoh1cykbq-mp4",
+      "displayName": "Richard A. Ganim local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Richard A. Ganim.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-a-ganim-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-richard-a-ganim-2015-richard-a-ganim-2015-m384uvg0bh8-mp4",
+      "displayName": "Richard A. Ganim local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Richard A. Ganim.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-a-ganim-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:richard-a-ganim-2015",
       "displayName": "Richard A. Ganim primary portrait",
       "type": "Media",
@@ -5526,6 +7551,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "M384Uvg0bh8",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-richard-fleischman-2019-richard-fleischman-2019-5bysperyd3o-mp4",
+      "displayName": "Richard Fleischman local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Richard Fleischman.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-fleischman-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -5611,6 +7663,33 @@
         "url": "/media/images/robert-j-haas-2010/primary.png",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-sam-kim-2017-sam-kim-2017-f78jlqajnqm-mp4",
+      "displayName": "Sam Kim local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sam Kim.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sam-kim-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -5725,6 +7804,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-i-ib8sadv8q-mp4",
+      "displayName": "Sheila Murphy Crawford local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sheila Murphy Crawford.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sheila-murphy-crawford-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-nc0wst9j-j0-mp4",
+      "displayName": "Sheila Murphy Crawford local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sheila Murphy Crawford.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sheila-murphy-crawford-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:sheila-murphy-crawford-2018",
       "displayName": "Sheila Murphy Crawford primary portrait",
       "type": "Media",
@@ -5802,6 +7935,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "nC0wST9j-J0",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-2ompdy2pfw-mp4",
+      "displayName": "Shiv K. Aggarwal local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Shiv K. Aggarwal.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "shiv-k-aggarwal-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-tx9bppgj-3w-mp4",
+      "displayName": "Shiv K. Aggarwal local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Shiv K. Aggarwal.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "shiv-k-aggarwal-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -5889,6 +8076,60 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-9e7dwwd6-l0-mp4",
+      "displayName": "Sister Alicia Alvarado local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sister Alicia Alvarado.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sister-alicia-alvarado-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-soprjwdqwfw-mp4",
+      "displayName": "Sister Alicia Alvarado local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sister Alicia Alvarado.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sister-alicia-alvarado-2018",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:sister-alicia-alvarado-2018",
       "displayName": "Sister Alicia Alvarado primary portrait",
       "type": "Media",
@@ -5971,6 +8212,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-sree-sreenath-2019-sree-sreenath-2019-ixo79dbde-m-mp4",
+      "displayName": "Sree Sreenath local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sree Sreenath.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sree-sreenath-2019",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:sree-sreenath-2019",
       "displayName": "Sree Sreenath primary portrait",
       "type": "Media",
@@ -6021,6 +8289,60 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "IXo79dbDE_M",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-steve-mulloy-2015-steve-mulloy-2015-gdfhvkv-pfy-mp4",
+      "displayName": "Steve Mulloy local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Steve Mulloy.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "steve-mulloy-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-steve-mulloy-2015-steve-mulloy-2015-nink-d8bi54-mp4",
+      "displayName": "Steve Mulloy local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Steve Mulloy.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "steve-mulloy-2015",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -6108,6 +8430,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-sudarshan-sathe-2023-sudarshan-sathe-2023-q4nkyvztzru-mp4",
+      "displayName": "Sudarshan Sathe local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Sudarshan Sathe.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sudarshan-sathe-2023",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:sudarshan-sathe-2023",
       "displayName": "Sudarshan Sathe primary portrait",
       "type": "Media",
@@ -6163,6 +8512,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-svetlana-stolyarova-2025-svetlana-stolyarova-2025-zt80-brciyk-mp4",
+      "displayName": "Svetlana Stolyarova local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Svetlana Stolyarova.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "svetlana-stolyarova-2025",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:svetlana-stolyarova-2025",
       "displayName": "Svetlana Stolyarova primary portrait",
       "type": "Media",
@@ -6213,6 +8589,33 @@
       "attributes": {
         "mediaType": "video",
         "youtubeVideoId": "ZT80-BrCIyk",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-taras-szmagala-2022-taras-szmagala-2022-ypc3hutsgl8-mp4",
+      "displayName": "Taras Szmagala local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Taras Szmagala.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "taras-szmagala-2022",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.mp4",
         "rightsStatus": "needs-review",
         "approvedForKiosk": false
       }
@@ -6329,6 +8732,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-valarie-mccall-2020-valarie-mccall-2020-tb2fcpsakka-mp4",
+      "displayName": "Valarie McCall local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Valarie McCall.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "valarie-mccall-2020",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:valarie-mccall-2020",
       "displayName": "Valarie McCall primary portrait",
       "type": "Media",
@@ -6384,6 +8814,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-veronica-dahlberg-2024-veronica-dahlberg-2024-p34omi5xuiy-mp4",
+      "displayName": "Veronica Dahlberg local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Veronica Dahlberg.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "veronica-dahlberg-2024",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:veronica-dahlberg-2024",
       "displayName": "Veronica Dahlberg primary portrait",
       "type": "Media",
@@ -6409,6 +8866,33 @@
         "url": "/media/images/veronica-dahlberg-2024/primary.jpg",
         "rightsStatus": "approved",
         "approvedForKiosk": true
+      }
+    },
+    {
+      "id": "media:local-video:media-videos-victor-ruiz-2022-victor-ruiz-2022-b9-ad6gyt14-mp4",
+      "displayName": "Victor Ruiz local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Victor Ruiz.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "victor-ruiz-2022",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
       }
     },
     {
@@ -6523,6 +9007,33 @@
       }
     },
     {
+      "id": "media:local-video:media-videos-wael-khoury-2017-wael-khoury-2017-oaz7t2i1w10-mp4",
+      "displayName": "Wael Khoury local video",
+      "type": "Media",
+      "shortDescription": "Localized video currently associated with Wael Khoury.",
+      "media": [
+        {
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.mp4"
+        }
+      ],
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "wael-khoury-2017",
+        "sourceField": "localVideoPaths",
+        "note": "Generated from current localized video metadata."
+      },
+      "attributes": {
+        "mediaType": "video",
+        "runtimePath": "/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.mp4",
+        "rightsStatus": "needs-review",
+        "approvedForKiosk": false
+      }
+    },
+    {
       "id": "media:primary-image:wael-khoury-2017",
       "displayName": "Wael Khoury primary portrait",
       "type": "Media",
@@ -6607,6 +9118,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=FwV6dXkUhnc"
+        },
+        {
+          "entityId": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-1kftdd1w3lg-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-0kjhqywfjdi-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-abby-mina-2018-abby-mina-2018-fwv6dxkuhnc-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.mp4"
         }
       ],
       "dateRange": {
@@ -6707,6 +9236,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=Nlcx5vaC37I"
+        },
+        {
+          "entityId": "media:local-video:media-videos-aklilu-demessie-2026-aklilu-demessie-2026-nlcx5vac37i-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.mp4"
         }
       ],
       "dateRange": {
@@ -6790,6 +9325,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=C6EuNqGZH5E"
+        },
+        {
+          "entityId": "media:local-video:media-videos-akram-boutros-2019-akram-boutros-2019-c6eunqgzh5e-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.mp4"
         }
       ],
       "dateRange": {
@@ -7059,6 +9600,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ambassador-edward-f-crawford-2024-ambassador-edward-f-crawford-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -7142,6 +9689,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=-jbd_GOy7hk"
+        },
+        {
+          "entityId": "media:local-video:media-videos-anda-cook-2022-anda-cook-2022-jbd-goy7hk-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.mp4"
         }
       ],
       "dateRange": {
@@ -7259,6 +9812,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=bS3656smMfM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-andy-chakalis-2026-andy-chakalis-2026-bs3656smmfm-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.mp4"
         }
       ],
       "dateRange": {
@@ -7341,6 +9900,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=Kp2oRe3w1EM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-andy-fedynsky-2026-andy-fedynsky-2026-kp2ore3w1em-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.mp4"
         }
       ],
       "dateRange": {
@@ -7564,6 +10129,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=hmsfn1_1Kpg"
+        },
+        {
+          "entityId": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-jxo9xewz4jq-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-qedxti9t8je-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-hmsfn1-1kpg-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.mp4"
         }
       ],
       "dateRange": {
@@ -7650,6 +10233,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=EATzGX8chuI"
+        },
+        {
+          "entityId": "media:local-video:media-videos-atul-mehta-2018-atul-mehta-2018-4pafixyd1zu-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-atul-mehta-2018-atul-mehta-2018-eatzgx8chui-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.mp4"
         }
       ],
       "dateRange": {
@@ -7826,6 +10421,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=RzY-lrL0HWo"
+        },
+        {
+          "entityId": "media:local-video:media-videos-basil-russo-2017-basil-russo-2017-rzy-lrl0hwo-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.mp4"
         }
       ],
       "dateRange": {
@@ -7932,6 +10533,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=2KBxzdgiqJM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-berj-shakarian-2020-berj-shakarian-2020-engy3m5efcc-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-berj-shakarian-2020-berj-shakarian-2020-2kbxzdgiqjm-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.mp4"
         }
       ],
       "dateRange": {
@@ -8012,6 +10625,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=4jjbyRcwk3Y"
+        },
+        {
+          "entityId": "media:local-video:media-videos-beverly-kerecman-2025-beverly-kerecman-2025-4jjbyrcwk3y-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.mp4"
         }
       ],
       "dateRange": {
@@ -8093,6 +10712,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=7AjUc16ao90"
+        },
+        {
+          "entityId": "media:local-video:media-videos-bill-miller-2017-bill-miller-2017-7ajuc16ao90-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.mp4"
         }
       ],
       "dateRange": {
@@ -8256,6 +10881,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=KMVo49Zi-94"
+        },
+        {
+          "entityId": "media:local-video:media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-ppxivzkq49u-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-kmvo49zi-94-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.mp4"
         }
       ],
       "dateRange": {
@@ -8354,6 +10991,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=BKuCcyGsdek"
+        },
+        {
+          "entityId": "media:local-video:media-videos-branka-malinar-2025-branka-malinar-2025-bkuccygsdek-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.mp4"
         }
       ],
       "dateRange": {
@@ -8437,6 +11080,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=3Zl6-HYV89Q"
+        },
+        {
+          "entityId": "media:local-video:media-videos-carl-robson-2022-carl-robson-2022-3zl6-hyv89q-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.mp4"
         }
       ],
       "dateRange": {
@@ -8531,6 +11180,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=e_C-YpIWjt8"
+        },
+        {
+          "entityId": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-o-r4oypcuyc-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-qzhokedkxqc-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-e-c-ypiwjt8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.mp4"
         }
       ],
       "dateRange": {
@@ -8613,6 +11280,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=e3gWQ-kdEF4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-catherine-jorgensen-mccutcheon-2026-catherine-jorgensen-mccutcheon-2026-e3gwq-kdef4-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.mp4"
         }
       ],
       "dateRange": {
@@ -8780,6 +11453,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=XeheG0iGICs"
+        },
+        {
+          "entityId": "media:local-video:media-videos-david-gilbert-2025-david-gilbert-2025-xeheg0igics-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.mp4"
         }
       ],
       "dateRange": {
@@ -8867,6 +11546,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=qtbU6qlpxRE"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dick-pogue-2015-dick-pogue-2015-7mkib5fnq-g-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dick-pogue-2015-dick-pogue-2015-qtbu6qlpxre-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.mp4"
         }
       ],
       "dateRange": {
@@ -8954,6 +11645,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=xJ9n1QOUafg"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dick-russ-2015-dick-russ-2015-ivlrvgm81r8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dick-russ-2015-dick-russ-2015-xj9n1qouafg-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.mp4"
         }
       ],
       "dateRange": {
@@ -9037,6 +11740,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dona-brady-2024-dona-brady-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -9321,6 +12030,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-dr-eugene-jordan-2024-dr-eugene-jordan-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -9621,6 +12336,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-erika-puussaar-2024-erika-puussaar-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -9873,6 +12594,30 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=uw_NYpsccxM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-7lmk-kcujs-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-ibjbwbphwgs-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-tsl-t9x0ub0-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-uw-nypsccxm-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.mp4"
         }
       ],
       "dateRange": {
@@ -10097,6 +12842,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=JAWjKTg5nRg"
+        },
+        {
+          "entityId": "media:local-video:media-videos-georgine-welo-2023-georgine-welo-2023-jawjktg5nrg-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.mp4"
         }
       ],
       "dateRange": {
@@ -10508,6 +13259,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=i5FJexABnHI"
+        },
+        {
+          "entityId": "media:local-video:media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-7jj4sizisom-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-i5fjexabnhi-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.mp4"
         }
       ],
       "dateRange": {
@@ -10591,6 +13354,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=ObIi5VXcP7Q"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ingrida-bublys-2019-ingrida-bublys-2019-obii5vxcp7q-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.mp4"
         }
       ],
       "dateRange": {
@@ -10835,6 +13604,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=eKdfG3zz9Os"
+        },
+        {
+          "entityId": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-l0flgzezwtw-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-dw7qmiullko-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-jack-kahl-2016-jack-kahl-2016-ekdfg3zz9os-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.mp4"
         }
       ],
       "dateRange": {
@@ -11028,6 +13815,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=XZh7vcFsUns"
+        },
+        {
+          "entityId": "media:local-video:media-videos-jim-craciun-2017-jim-craciun-2017-xzh7vcfsuns-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.mp4"
         }
       ],
       "dateRange": {
@@ -11201,6 +13994,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=k8t6kOylcgE"
+        },
+        {
+          "entityId": "media:local-video:media-videos-joe-valencic-2020-joe-valencic-2020-k8t6koylcge-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.mp4"
         }
       ],
       "dateRange": {
@@ -11318,6 +14117,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-johnny-k-wu-2024-johnny-k-wu-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -11632,6 +14437,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=khFzLbaSw0o"
+        },
+        {
+          "entityId": "media:local-video:media-videos-joyce-mariani-2023-joyce-mariani-2023-khfzlbasw0o-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.mp4"
         }
       ],
       "dateRange": {
@@ -11870,6 +14681,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=mqCQvmZsu88"
+        },
+        {
+          "entityId": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-yt9dtizdjpq-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-kkjaauzr2ps-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-mqcqvmzsu88-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.mp4"
         }
       ],
       "dateRange": {
@@ -11987,6 +14816,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=T5peEDc8mE8"
+        },
+        {
+          "entityId": "media:local-video:media-videos-le-nguyen-2026-le-nguyen-2026-t5peedc8me8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.mp4"
         }
       ],
       "dateRange": {
@@ -12379,6 +15214,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=TU54lNScxz4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-lucy-torres-2026-lucy-torres-2026-tu54lnscxz4-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.mp4"
         }
       ],
       "dateRange": {
@@ -12610,6 +15451,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=mTJMMiUk5nI"
+        },
+        {
+          "entityId": "media:local-video:media-videos-margaret-lynch-2020-margaret-lynch-2020-mtjmmiuk5ni-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.mp4"
         }
       ],
       "dateRange": {
@@ -12785,6 +15632,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=PgUsrTbLHJ4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-marilyn-madigan-2019-marilyn-madigan-2019-pgusrtblhj4-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.mp4"
         }
       ],
       "dateRange": {
@@ -12891,6 +15744,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=QDE5BVEyNKg"
+        },
+        {
+          "entityId": "media:local-video:media-videos-may-chen-2020-may-chen-2020-yxyhzjyqyt0-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-may-chen-2020-may-chen-2020-qde5bveynkg-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.mp4"
         }
       ],
       "dateRange": {
@@ -12971,6 +15836,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=diVkkJkn0sY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-mayor-frank-jackson-2025-mayor-frank-jackson-2025-divkkjkn0sy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.mp4"
         }
       ],
       "dateRange": {
@@ -13104,6 +15975,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=IYv4tYCJ3m8"
+        },
+        {
+          "entityId": "media:local-video:media-videos-michael-d-polensek-2023-michael-d-polensek-2023-iyv4tycj3m8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.mp4"
         }
       ],
       "dateRange": {
@@ -13310,6 +16187,24 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=iX7-ecPZvy4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-kusmhq-yg-k-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-kahozmrbzna-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-mohan-bafna-2016-mohan-bafna-2016-ix7-ecpzvy4-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.mp4"
         }
       ],
       "dateRange": {
@@ -13391,6 +16286,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=2mG5GMQXUZQ"
+        },
+        {
+          "entityId": "media:local-video:media-videos-mona-alag-2017-mona-alag-2017-2mg5gmqxuzq-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.mp4"
         }
       ],
       "dateRange": {
@@ -13774,6 +16675,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=b_zP9VqXJbY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-paul-burik-2019-paul-burik-2019-b-zp9vqxjby-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.mp4"
         }
       ],
       "dateRange": {
@@ -13949,6 +16856,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=11fqd7MQ8Fs"
+        },
+        {
+          "entityId": "media:local-video:media-videos-pierre-bejjani-2023-pierre-bejjani-2023-11fqd7mq8fs-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.mp4"
         }
       ],
       "dateRange": {
@@ -14032,6 +16945,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=DoZUzteeFMU"
+        },
+        {
+          "entityId": "media:local-video:media-videos-raj-aggarwal-2025-raj-aggarwal-2025-dozuzteefmu-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.mp4"
         }
       ],
       "dateRange": {
@@ -14214,6 +17133,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=8CPuLovefwA"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-qxg7vrfkyxo-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-8cpulovefwa-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.mp4"
         }
       ],
       "dateRange": {
@@ -14304,6 +17235,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=-5gDFAKdaXM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ramesh-shah-2020-ramesh-shah-2020-feho9uwgb9g-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ramesh-shah-2020-ramesh-shah-2020-5gdfakdaxm-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.mp4"
         }
       ],
       "dateRange": {
@@ -14464,6 +17407,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=D1Rgv29APUk"
+        },
+        {
+          "entityId": "media:local-video:media-videos-ray-pianka-2018-ray-pianka-2018-d1rgv29apuk-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.mp4"
         }
       ],
       "dateRange": {
@@ -14707,6 +17656,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=kofOH1CYKBQ"
+        },
+        {
+          "entityId": "media:local-video:media-videos-richard-a-ganim-2015-richard-a-ganim-2015-m384uvg0bh8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-richard-a-ganim-2015-richard-a-ganim-2015-kofoh1cykbq-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.mp4"
         }
       ],
       "dateRange": {
@@ -14806,6 +17767,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=5BYSPErYD3o"
+        },
+        {
+          "entityId": "media:local-video:media-videos-richard-fleischman-2019-richard-fleischman-2019-5bysperyd3o-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.mp4"
         }
       ],
       "dateRange": {
@@ -14979,6 +17946,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=f78jlqAJnqM"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sam-kim-2017-sam-kim-2017-f78jlqajnqm-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.mp4"
         }
       ],
       "dateRange": {
@@ -15251,6 +18224,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=i-iB8SADV8Q"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-nc0wst9j-j0-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-i-ib8sadv8q-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.mp4"
         }
       ],
       "dateRange": {
@@ -15340,6 +18325,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=-2OMPdY2pfw"
+        },
+        {
+          "entityId": "media:local-video:media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-tx9bppgj-3w-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-2ompdy2pfw-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.mp4"
         }
       ],
       "dateRange": {
@@ -15428,6 +18425,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=soPrjwdQWfw"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-9e7dwwd6-l0-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-soprjwdqwfw-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.mp4"
         }
       ],
       "dateRange": {
@@ -15510,6 +18519,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=IXo79dbDE_M"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sree-sreenath-2019-sree-sreenath-2019-ixo79dbde-m-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.mp4"
         }
       ],
       "dateRange": {
@@ -15599,6 +18614,18 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=GDfhVKV-PfY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-steve-mulloy-2015-steve-mulloy-2015-nink-d8bi54-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.mp4"
+        },
+        {
+          "entityId": "media:local-video:media-videos-steve-mulloy-2015-steve-mulloy-2015-gdfhvkv-pfy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.mp4"
         }
       ],
       "dateRange": {
@@ -15698,6 +18725,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=q4nkyvZtzRU"
+        },
+        {
+          "entityId": "media:local-video:media-videos-sudarshan-sathe-2023-sudarshan-sathe-2023-q4nkyvztzru-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.mp4"
         }
       ],
       "dateRange": {
@@ -15797,6 +18830,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=ZT80-BrCIyk"
+        },
+        {
+          "entityId": "media:local-video:media-videos-svetlana-stolyarova-2025-svetlana-stolyarova-2025-zt80-brciyk-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.mp4"
         }
       ],
       "dateRange": {
@@ -15880,6 +18919,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=YPC3hutSgL8"
+        },
+        {
+          "entityId": "media:local-video:media-videos-taras-szmagala-2022-taras-szmagala-2022-ypc3hutsgl8-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.mp4"
         }
       ],
       "dateRange": {
@@ -16214,6 +19259,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=tB2FCpsakkA"
+        },
+        {
+          "entityId": "media:local-video:media-videos-valarie-mccall-2020-valarie-mccall-2020-tb2fcpsakka-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.mp4"
         }
       ],
       "dateRange": {
@@ -16314,6 +19365,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=P34omi5XUiY"
+        },
+        {
+          "entityId": "media:local-video:media-videos-veronica-dahlberg-2024-veronica-dahlberg-2024-p34omi5xuiy-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.mp4"
         }
       ],
       "dateRange": {
@@ -16397,6 +19454,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=b9-AD6gYt14"
+        },
+        {
+          "entityId": "media:local-video:media-videos-victor-ruiz-2022-victor-ruiz-2022-b9-ad6gyt14-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.mp4"
         }
       ],
       "dateRange": {
@@ -16629,6 +19692,12 @@
           "kind": "video",
           "role": "source",
           "url": "https://www.youtube.com/watch?v=OAZ7t2i1W10"
+        },
+        {
+          "entityId": "media:local-video:media-videos-wael-khoury-2017-wael-khoury-2017-oaz7t2i1w10-mp4",
+          "kind": "video",
+          "role": "runtime",
+          "url": "/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.mp4"
         }
       ],
       "dateRange": {

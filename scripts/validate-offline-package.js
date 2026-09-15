@@ -6,7 +6,8 @@ const distDir = resolve(args.find((arg) => !arg.startsWith('--')) ?? 'dist');
 const errors = [];
 const warnings = [];
 const localAssetRefs = new Map();
-const remoteAssetRefs = [];
+const runtimeRemoteAssetRefs = [];
+const provenanceRemoteAssetRefs = [];
 
 requireFile('index.html');
 requireDirectory('assets');
@@ -31,9 +32,9 @@ if (bundle) {
 collectIndexAssetRefs();
 validateLocalAssetRefs();
 
-if (remoteAssetRefs.length > 0) {
+if (runtimeRemoteAssetRefs.length > 0) {
   warnings.push(
-    `${remoteAssetRefs.length} remote media reference${remoteAssetRefs.length === 1 ? '' : 's'} remain in the runtime bundle. These are allowed but require cache or imported local data for fully offline playback.`,
+    `${runtimeRemoteAssetRefs.length} runtime remote media reference${runtimeRemoteAssetRefs.length === 1 ? '' : 's'} remain in the runtime bundle. These are allowed but require cache or imported local data for fully offline playback.`,
   );
 }
 
@@ -51,6 +52,11 @@ const inducteeCount = Array.isArray(bundle?.inductees) ? bundle.inductees.length
 const relationshipCount = Array.isArray(bundle?.relationships) ? bundle.relationships.length : 0;
 console.log(`CIHOF offline package validation passed for ${distDir}.`);
 console.log(`${inducteeCount} profiles, ${relationshipCount} relationships, ${localAssetRefs.size} local asset references checked.`);
+if (provenanceRemoteAssetRefs.length > 0) {
+  console.log(
+    `${provenanceRemoteAssetRefs.length} provenance/streaming remote reference${provenanceRemoteAssetRefs.length === 1 ? '' : 's'} remain for source traceability and non-kiosk fallback fields.`,
+  );
+}
 
 function requireFile(path) {
   const filePath = resolve(distDir, path);
@@ -81,7 +87,7 @@ function collectPersonAssetRefs(person, index) {
   collectAssetRef(person.primaryImageUrl, `${label}.primaryImageUrl`);
   collectArrayRefs(person.imageUrls, `${label}.imageUrls`);
   collectArrayRefs(person.localImagePaths, `${label}.localImagePaths`);
-  collectArrayRefs(person.videoUrls, `${label}.videoUrls`);
+  collectArrayRefs(person.videoUrls, `${label}.videoUrls`, { runtime: false });
   collectArrayRefs(person.localVideoPaths, `${label}.localVideoPaths`);
 }
 
@@ -108,7 +114,7 @@ function collectMediaManifestRefs(mediaManifest) {
 function collectImageRecord(image, label) {
   if (!image || typeof image !== 'object') return;
   collectAssetRef(image.runtimePath, `${label}.runtimePath`);
-  collectAssetRef(image.sourceUrl, `${label}.sourceUrl`);
+  collectAssetRef(image.sourceUrl, `${label}.sourceUrl`, { runtime: false });
 }
 
 function collectStorySectionRefs(storySections) {
@@ -160,17 +166,18 @@ function collectIndexAssetRefs() {
   }
 }
 
-function collectArrayRefs(value, label) {
+function collectArrayRefs(value, label, options) {
   if (!Array.isArray(value)) return;
-  value.forEach((item, index) => collectAssetRef(item, `${label}.${index}`));
+  value.forEach((item, index) => collectAssetRef(item, `${label}.${index}`, options));
 }
 
-function collectAssetRef(value, label) {
+function collectAssetRef(value, label, options = {}) {
   if (typeof value !== 'string') return;
   const reference = value.trim();
   if (!reference || reference.startsWith('data:') || reference.startsWith('mailto:') || reference.startsWith('tel:')) return;
   if (/^https?:\/\//i.test(reference)) {
-    remoteAssetRefs.push({ label, reference });
+    const target = options.runtime === false ? provenanceRemoteAssetRefs : runtimeRemoteAssetRefs;
+    target.push({ label, reference });
     return;
   }
 

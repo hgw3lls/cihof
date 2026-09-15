@@ -3447,7 +3447,10 @@
       "PpXIVZKq49U",
       "KMVo49Zi-94"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.mp4",
+      "media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.mp4"
+    ],
     "localImagePaths": [
       "media/images/bishop-anthony-pilla-2015/primary.jpg",
       "media/images/bishop-anthony-pilla-2015/gallery-1.jpg",
@@ -3559,7 +3562,10 @@
       "7MkiB5FNQ_g",
       "qtbU6qlpxRE"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.mp4",
+      "media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.mp4"
+    ],
     "localImagePaths": [
       "media/images/dick-pogue-2015/primary.jpg",
       "media/images/dick-pogue-2015/gallery-1.jpg",
@@ -3677,7 +3683,10 @@
       "ivlrvgM81r8",
       "xJ9n1QOUafg"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.mp4",
+      "media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.mp4"
+    ],
     "localImagePaths": [
       "media/images/dick-russ-2015/primary.jpg",
       "media/images/dick-russ-2015/gallery-1.jpg",
@@ -3790,7 +3799,10 @@
       "7Jj4sizisoM",
       "i5FJexABnHI"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.mp4",
+      "media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.mp4"
+    ],
     "localImagePaths": [
       "media/images/honorable-jose-a-villanueva-2015/primary.jpg",
       "media/images/honorable-jose-a-villanueva-2015/gallery-1.jpg",
@@ -3891,7 +3903,10 @@
       "M384Uvg0bh8",
       "kofOH1CYKBQ"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.mp4",
+      "media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.mp4"
+    ],
     "localImagePaths": [
       "media/images/richard-a-ganim-2015/primary.jpg",
       "media/images/richard-a-ganim-2015/gallery-1.jpg",
@@ -3988,7 +4003,10 @@
       "tX9BPpgJ_3w",
       "-2OMPdY2pfw"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.mp4",
+      "media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.mp4"
+    ],
     "localImagePaths": [
       "media/images/shiv-k-aggarwal-2015/primary.jpg",
       "media/images/shiv-k-aggarwal-2015/gallery-1.jpg",
@@ -4086,7 +4104,10 @@
       "nINk_D8bi54",
       "GDfhVKV-PfY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.mp4",
+      "media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.mp4"
+    ],
     "localImagePaths": [
       "media/images/steve-mulloy-2015/primary.jpg",
       "media/images/steve-mulloy-2015/gallery-1.jpg",
@@ -4186,7 +4207,11 @@
       "QEdXti9t8jE",
       "hmsfn1_1Kpg"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.mp4",
+      "media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.mp4",
+      "media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.mp4"
+    ],
     "localImagePaths": [
       "media/images/arnie-de-la-porte-2016-2016/primary.jpg",
       "media/images/arnie-de-la-porte-2016-2016/gallery-1.jpg",
@@ -4288,7 +4313,11 @@
       "qzHokEDkXQc",
       "e_C-YpIWjt8"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.mp4",
+      "media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.mp4",
+      "media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.mp4"
+    ],
     "localImagePaths": [
       "media/images/carolyn-balogh-2016-2016/primary.jpg",
       "media/images/carolyn-balogh-2016-2016/gallery-1.jpg",
@@ -4403,7 +4432,12 @@
       "Tsl-t9x0Ub0",
       "uw_NYpsccxM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.mp4",
+      "media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.mp4",
+      "media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.mp4",
+      "media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.mp4"
+    ],
     "localImagePaths": [
       "media/images/eugenia-stolarczyk-2016-2016/primary.jpg",
       "media/images/eugenia-stolarczyk-2016-2016/gallery-1.jpg",
@@ -4523,7 +4557,11 @@
       "dW7qMIULLko",
       "eKdfG3zz9Os"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.mp4",
+      "media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.mp4",
+      "media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.mp4"
+    ],
     "localImagePaths": [
       "media/images/jack-kahl-2016/primary.jpg",
       "media/images/jack-kahl-2016/gallery-1.jpg",
@@ -4641,7 +4679,11 @@
       "kkjaaUZr2ps",
       "mqCQvmZsu88"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.mp4",
+      "media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.mp4",
+      "media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.mp4"
+    ],
     "localImagePaths": [
       "media/images/khalid-samad-2016-2016/primary.jpg",
       "media/images/khalid-samad-2016-2016/gallery-1.jpg",
@@ -4791,7 +4833,11 @@
       "KAhoZMRbZnA",
       "iX7-ecPZvy4"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.mp4",
+      "media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.mp4",
+      "media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.mp4"
+    ],
     "localImagePaths": [
       "media/images/mohan-bafna-2016/primary.jpg",
       "media/images/mohan-bafna-2016/gallery-1.jpg",
@@ -5013,7 +5059,9 @@
     "youtubeVideoIds": [
       "RzY-lrL0HWo"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.mp4"
+    ],
     "localImagePaths": [
       "media/images/basil-russo-2017/primary.jpg",
       "media/images/basil-russo-2017/gallery-1.jpg",
@@ -5122,7 +5170,9 @@
     "youtubeVideoIds": [
       "7AjUc16ao90"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.mp4"
+    ],
     "localImagePaths": [
       "media/images/bill-miller-2017/primary.jpg",
       "media/images/bill-miller-2017/gallery-1.jpg",
@@ -5234,7 +5284,9 @@
     "youtubeVideoIds": [
       "XZh7vcFsUns"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.mp4"
+    ],
     "localImagePaths": [
       "media/images/jim-craciun-2017/primary.jpg",
       "media/images/jim-craciun-2017/gallery-1.jpg",
@@ -5375,7 +5427,9 @@
     "youtubeVideoIds": [
       "2mG5GMQXUZQ"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.mp4"
+    ],
     "localImagePaths": [
       "media/images/mona-alag-2017/primary.jpg",
       "media/images/mona-alag-2017/gallery-1.jpg",
@@ -5517,7 +5571,9 @@
     "youtubeVideoIds": [
       "f78jlqAJnqM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.mp4"
+    ],
     "localImagePaths": [
       "media/images/sam-kim-2017/primary.jpg",
       "media/images/sam-kim-2017/gallery-1.jpg",
@@ -5633,7 +5689,9 @@
     "youtubeVideoIds": [
       "OAZ7t2i1W10"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.mp4"
+    ],
     "localImagePaths": [
       "media/images/wael-khoury-2017/primary.jpg",
       "media/images/wael-khoury-2017/gallery-1.jpg",
@@ -5759,7 +5817,11 @@
       "0KJhQyWFjDI",
       "FwV6dXkUhnc"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.mp4",
+      "media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.mp4",
+      "media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.mp4"
+    ],
     "localImagePaths": [
       "media/images/abby-mina-2018/primary.jpg",
       "media/images/abby-mina-2018/gallery-1.jpg",
@@ -5899,7 +5961,10 @@
       "4pafixyd1zU",
       "EATzGX8chuI"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.mp4",
+      "media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.mp4"
+    ],
     "localImagePaths": [
       "media/images/atul-mehta-2018/primary.jpg",
       "media/images/atul-mehta-2018/gallery-1.jpg",
@@ -6031,7 +6096,10 @@
       "QxG7VrfKyXo",
       "8CPuLovefwA"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.mp4",
+      "media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.mp4"
+    ],
     "localImagePaths": [
       "media/images/ralph-perk-jr-2018/primary.jpg",
       "media/images/ralph-perk-jr-2018/gallery-1.jpg",
@@ -6143,7 +6211,9 @@
     "youtubeVideoIds": [
       "D1Rgv29APUk"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.mp4"
+    ],
     "localImagePaths": [
       "media/images/ray-pianka-2018/primary.jpg",
       "media/images/ray-pianka-2018/gallery-1.jpg",
@@ -6266,7 +6336,10 @@
       "nC0wST9j-J0",
       "i-iB8SADV8Q"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.mp4",
+      "media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.mp4"
+    ],
     "localImagePaths": [
       "media/images/sheila-murphy-crawford-2018/primary.jpg",
       "media/images/sheila-murphy-crawford-2018/gallery-1.jpg",
@@ -6391,7 +6464,10 @@
       "9e7DWWD6_l0",
       "soPrjwdQWfw"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.mp4",
+      "media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.mp4"
+    ],
     "localImagePaths": [
       "media/images/sister-alicia-alvarado-2018/primary.jpg",
       "media/images/sister-alicia-alvarado-2018/gallery-1.jpg",
@@ -6494,7 +6570,9 @@
     "youtubeVideoIds": [
       "C6EuNqGZH5E"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.mp4"
+    ],
     "localImagePaths": [
       "media/images/akram-boutros-2019/primary.jpg",
       "media/images/akram-boutros-2019/gallery-1.jpg",
@@ -6590,7 +6668,9 @@
     "youtubeVideoIds": [
       "ObIi5VXcP7Q"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.mp4"
+    ],
     "localImagePaths": [
       "media/images/ingrida-bublys-2019/primary.jpg",
       "media/images/ingrida-bublys-2019/gallery-1.jpg",
@@ -6684,7 +6764,9 @@
     "youtubeVideoIds": [
       "PgUsrTbLHJ4"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.mp4"
+    ],
     "localImagePaths": [
       "media/images/marilyn-madigan-2019/primary.jpg",
       "media/images/marilyn-madigan-2019/gallery-1.jpg",
@@ -6777,7 +6859,9 @@
     "youtubeVideoIds": [
       "b_zP9VqXJbY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.mp4"
+    ],
     "localImagePaths": [
       "media/images/paul-burik-2019/primary.jpg",
       "media/images/paul-burik-2019/gallery-1.jpg",
@@ -6870,7 +6954,9 @@
     "youtubeVideoIds": [
       "5BYSPErYD3o"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.mp4"
+    ],
     "localImagePaths": [
       "media/images/richard-fleischman-2019/primary.jpg",
       "media/images/richard-fleischman-2019/gallery-1.jpg",
@@ -6965,7 +7051,9 @@
     "youtubeVideoIds": [
       "IXo79dbDE_M"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.mp4"
+    ],
     "localImagePaths": [
       "media/images/sree-sreenath-2019/primary.jpg",
       "media/images/sree-sreenath-2019/gallery-1.jpg",
@@ -7066,7 +7154,10 @@
       "Engy3m5Efcc",
       "2KBxzdgiqJM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.mp4",
+      "media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.mp4"
+    ],
     "localImagePaths": [
       "media/images/berj-shakarian-2020/primary.jpg",
       "media/images/berj-shakarian-2020/gallery-1.jpg",
@@ -7162,7 +7253,9 @@
     "youtubeVideoIds": [
       "k8t6kOylcgE"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.mp4"
+    ],
     "localImagePaths": [
       "media/images/joe-valencic-2020/primary.jpg",
       "media/images/joe-valencic-2020/gallery-1.jpg",
@@ -7266,7 +7359,9 @@
     "youtubeVideoIds": [
       "mTJMMiUk5nI"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.mp4"
+    ],
     "localImagePaths": [
       "media/images/margaret-lynch-2020/primary.jpg",
       "media/images/margaret-lynch-2020/gallery-1.jpg",
@@ -7372,7 +7467,10 @@
       "yxyHzJyqYt0",
       "QDE5BVEyNKg"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.mp4",
+      "media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.mp4"
+    ],
     "localImagePaths": [
       "media/images/may-chen-2020/primary.jpg",
       "media/images/may-chen-2020/gallery-1.jpg",
@@ -7484,7 +7582,10 @@
       "fEHO9Uwgb9g",
       "-5gDFAKdaXM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.mp4",
+      "media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.mp4"
+    ],
     "localImagePaths": [
       "media/images/ramesh-shah-2020/primary.jpg",
       "media/images/ramesh-shah-2020/gallery-1.jpg",
@@ -7597,7 +7698,9 @@
     "youtubeVideoIds": [
       "tB2FCpsakkA"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.mp4"
+    ],
     "localImagePaths": [
       "media/images/valarie-mccall-2020/primary.jpg",
       "media/images/valarie-mccall-2020/gallery-1.jpg",
@@ -7699,7 +7802,9 @@
     "youtubeVideoIds": [
       "-jbd_GOy7hk"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.mp4"
+    ],
     "localImagePaths": [
       "media/images/anda-cook-2022/primary.jpg",
       "media/images/anda-cook-2022/gallery-1.jpg",
@@ -7800,7 +7905,9 @@
     "youtubeVideoIds": [
       "3Zl6-HYV89Q"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.mp4"
+    ],
     "localImagePaths": [
       "media/images/carl-robson-2022/primary.jpg",
       "media/images/carl-robson-2022/gallery-1.jpg",
@@ -7902,7 +8009,9 @@
     "youtubeVideoIds": [
       "YPC3hutSgL8"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.mp4"
+    ],
     "localImagePaths": [
       "media/images/taras-szmagala-2022/primary.jpg",
       "media/images/taras-szmagala-2022/gallery-1.jpg",
@@ -8004,7 +8113,9 @@
     "youtubeVideoIds": [
       "b9-AD6gYt14"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.mp4"
+    ],
     "localImagePaths": [
       "media/images/victor-ruiz-2022/primary.png",
       "media/images/victor-ruiz-2022/gallery-1.jpg",
@@ -8098,7 +8209,9 @@
     "youtubeVideoIds": [
       "JAWjKTg5nRg"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.mp4"
+    ],
     "localImagePaths": [
       "media/images/georgine-welo-2023/primary.jpg",
       "media/images/georgine-welo-2023/gallery-1.jpg",
@@ -8186,7 +8299,9 @@
     "youtubeVideoIds": [
       "khFzLbaSw0o"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.mp4"
+    ],
     "localImagePaths": [
       "media/images/joyce-mariani-2023/primary.jpg",
       "media/images/joyce-mariani-2023/gallery-1.jpg",
@@ -8272,7 +8387,9 @@
     "youtubeVideoIds": [
       "IYv4tYCJ3m8"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.mp4"
+    ],
     "localImagePaths": [
       "media/images/michael-d-polensek-2023/primary.jpg",
       "media/images/michael-d-polensek-2023/gallery-1.jpg",
@@ -8444,7 +8561,9 @@
     "youtubeVideoIds": [
       "11fqd7MQ8Fs"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.mp4"
+    ],
     "localImagePaths": [
       "media/images/pierre-bejjani-2023/primary.jpg",
       "media/images/pierre-bejjani-2023/gallery-1.jpg",
@@ -8533,7 +8652,9 @@
     "youtubeVideoIds": [
       "q4nkyvZtzRU"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.mp4"
+    ],
     "localImagePaths": [
       "media/images/sudarshan-sathe-2023/primary.jpg",
       "media/images/sudarshan-sathe-2023/gallery-1.jpg",
@@ -8644,7 +8765,9 @@
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/ambassador-edward-f-crawford-2024/primary.jpg",
       "media/images/ambassador-edward-f-crawford-2024/gallery-1.jpg",
@@ -8772,7 +8895,9 @@
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/dona-brady-2024/primary.jpg",
       "media/images/dona-brady-2024/gallery-1.jpg",
@@ -8898,7 +9023,9 @@
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/dr-eugene-jordan-2024/primary.jpg",
       "media/images/dr-eugene-jordan-2024/gallery-1.jpg",
@@ -9028,7 +9155,9 @@
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/erika-puussaar-2024/primary.jpg",
       "media/images/erika-puussaar-2024/gallery-1.jpg",
@@ -9168,13 +9297,14 @@
       "/media/images/johnny-k-wu-2024/gallery-39.jpg"
     ],
     "videoUrls": [
-      "https://www.youtube.com/embed/P34omi5XUiY?feature=oembed",
-      "https://www.youtube.com/mdifilm"
+      "https://www.youtube.com/embed/P34omi5XUiY?feature=oembed"
     ],
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/johnny-k-wu-2024/primary.jpg",
       "media/images/johnny-k-wu-2024/gallery-1.jpg",
@@ -9312,7 +9442,9 @@
     "youtubeVideoIds": [
       "P34omi5XUiY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.mp4"
+    ],
     "localImagePaths": [
       "media/images/veronica-dahlberg-2024/primary.jpg",
       "media/images/veronica-dahlberg-2024/gallery-1.jpg",
@@ -9423,7 +9555,9 @@
     "youtubeVideoIds": [
       "4jjbyRcwk3Y"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.mp4"
+    ],
     "localImagePaths": [
       "media/images/beverly-kerecman-2025/primary.jpg",
       "media/images/beverly-kerecman-2025/gallery-1.jpg",
@@ -9530,7 +9664,9 @@
     "youtubeVideoIds": [
       "BKuCcyGsdek"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.mp4"
+    ],
     "localImagePaths": [
       "media/images/branka-malinar-2025/primary.jpg",
       "media/images/branka-malinar-2025/gallery-1.jpg",
@@ -9645,7 +9781,9 @@
     "youtubeVideoIds": [
       "XeheG0iGICs"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.mp4"
+    ],
     "localImagePaths": [
       "media/images/david-gilbert-2025/primary.jpg",
       "media/images/david-gilbert-2025/gallery-1.jpg",
@@ -9772,7 +9910,9 @@
     "youtubeVideoIds": [
       "diVkkJkn0sY"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.mp4"
+    ],
     "localImagePaths": [
       "media/images/mayor-frank-jackson-2025/primary.jpg",
       "media/images/mayor-frank-jackson-2025/gallery-1.jpg",
@@ -9886,7 +10026,9 @@
     "youtubeVideoIds": [
       "DoZUzteeFMU"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.mp4"
+    ],
     "localImagePaths": [
       "media/images/raj-aggarwal-2025/primary.jpg",
       "media/images/raj-aggarwal-2025/gallery-1.jpg",
@@ -10000,7 +10142,9 @@
     "youtubeVideoIds": [
       "ZT80-BrCIyk"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.mp4"
+    ],
     "localImagePaths": [
       "media/images/svetlana-stolyarova-2025/primary.jpg",
       "media/images/svetlana-stolyarova-2025/gallery-1.jpg",
@@ -10131,7 +10275,9 @@
     "youtubeVideoIds": [
       "Nlcx5vaC37I"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.mp4"
+    ],
     "localImagePaths": [
       "media/images/aklilu-demessie-2026/primary.jpg",
       "media/images/aklilu-demessie-2026/gallery-1.jpg",
@@ -10247,7 +10393,9 @@
     "youtubeVideoIds": [
       "bS3656smMfM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.mp4"
+    ],
     "localImagePaths": [
       "media/images/andy-chakalis-2026/primary.jpg",
       "media/images/andy-chakalis-2026/gallery-1.jpg",
@@ -10357,7 +10505,9 @@
     "youtubeVideoIds": [
       "Kp2oRe3w1EM"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.mp4"
+    ],
     "localImagePaths": [
       "media/images/andy-fedynsky-2026/primary.jpg",
       "media/images/andy-fedynsky-2026/gallery-1.jpg",
@@ -10464,7 +10614,9 @@
     "youtubeVideoIds": [
       "e3gWQ-kdEF4"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.mp4"
+    ],
     "localImagePaths": [
       "media/images/catherine-jorgensen-mccutcheon-2026/primary.jpg",
       "media/images/catherine-jorgensen-mccutcheon-2026/gallery-1.jpg",
@@ -10567,7 +10719,9 @@
     "youtubeVideoIds": [
       "T5peEDc8mE8"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.mp4"
+    ],
     "localImagePaths": [
       "media/images/le-nguyen-2026/primary.jpg",
       "media/images/le-nguyen-2026/gallery-1.jpg",
@@ -10673,7 +10827,9 @@
     "youtubeVideoIds": [
       "TU54lNScxz4"
     ],
-    "localVideoPaths": [],
+    "localVideoPaths": [
+      "media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.mp4"
+    ],
     "localImagePaths": [
       "media/images/lucy-torres-2026/primary.jpg",
       "media/images/lucy-torres-2026/gallery-1.jpg",

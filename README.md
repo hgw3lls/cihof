@@ -119,33 +119,37 @@ npm run validate:entities
 npm run launch:readiness
 ```
 
-`public/data/data-audit.local.json` is local ignored audit output.
+`artifacts/data-audit.local.json` is local ignored audit output.
 `artifacts/launch-readiness.local.json` is local ignored launch-gate output.
+Generated video acquisition, sync, caption, and transcription reports under `artifacts/video-*` are local ignored working outputs. Keep durable summaries in `docs/` when they need to travel with a handoff.
+Downloaded kiosk video payloads live under `public/media/videos/` and are intentionally ignored except for `.gitkeep`.
+Production kiosk builds package only the media files referenced by `data/media_manifest.json`; extra local acquisition files stay in the working tree and are skipped. Portal builds exclude local video payloads.
 
 ## Current Data Status
 
-Latest audit snapshot, September 12, 2026:
+Latest audit snapshot, September 14, 2026:
 
 - `111` inductees
 - `111/111` primary image paths present
 - `0` duplicate IDs
 - `0` generic image candidates
-- `450` generated entities
-- `1,890` generated entity relationships
+- `544` generated entities
+- `2,041` generated entity relationships
 - `0` explicit curated relationship records
 - `111/111` curated metadata records structurally present
 - `111/111` summary, documented context, HONORED FOR, and Life + Work fields populated in curated metadata
 - `111/111` curated records still have overall draft approval status
-- `64` profiles currently have video links in generated runtime data, represented as `94` media-manifest video items
-- `111/111` primary images wall-ready; `0/111` primary images and `0/94` videos kiosk-ready
-- `1,204` remote media references remain in the offline validation report
-- kiosk-ready media approval/localization remains the main production content gap
+- `64` profiles currently have video links in generated runtime data, represented as `93` media-manifest video items
+- `111/111` primary images wall-ready and kiosk-ready; `0/93` videos kiosk-ready
+- `0` runtime remote media references remain in the offline validation report; `1,203` provenance/streaming fallback references remain for source traceability
+- kiosk-ready video rights/caption/transcript approval remains the main production media gap
 
 The architecture is ahead of the approved content. The next major work should move source-derived suggestions into curator-approved canonical data.
 
 Launch planning for the October 12, 2026 target lives in:
 
 - `docs/launch-readiness-plan.md`
+- `docs/release-handoff-checklist.md`
 
 ## Project Structure
 
@@ -228,10 +232,17 @@ These build outputs are ignored by git.
 
 ## Validation
 
+Handoff check:
+
+```sh
+npm run check:handoff
+```
+
 Core checks:
 
 ```sh
 npm run prepare:data
+npm run typecheck
 npm run validate:entities
 npm run validate:offline
 npm run build:public
@@ -274,7 +285,7 @@ Internal route note:
 1. Finish the portal curation workflow for approving profile text fields.
 2. Promote documented source-derived relationship candidates into explicit curated relationship records.
 3. Localize and approve kiosk-ready primary images and media.
-4. Split large active modules after the curation workflow stabilizes, especially `LivingHallView.tsx` and `ReviewDashboardView.tsx`.
+4. Continue splitting large active modules after the curation workflow stabilizes, especially `LivingHallView.tsx` and `LivingHallPanels.tsx`.
 5. Keep older plan docs marked as historical when they refer to the pre-Hall page architecture.
 
 See [docs/current-architecture.md](docs/current-architecture.md) and [docs/recent-changes-and-next-plan.md](docs/recent-changes-and-next-plan.md) for the current architecture summary and next plan.

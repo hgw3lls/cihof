@@ -62,14 +62,14 @@ download_youtube() {
     "$url"
 }
 
-# abby-mina-2018 / 0KJhQyWFjDI / NEEDS RIGHTS REVIEW
-# download_youtube 'abby-mina-2018' '0KJhQyWFjDI' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_0KJhQyWFjDI.mp4' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_0KJhQyWFjDI.%(ext)s' 'https://www.youtube.com/watch?v=0KJhQyWFjDI'
+# abby-mina-2018 / 0KJhQyWFjDI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'abby-mina-2018' '0KJhQyWFjDI' 'public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.mp4' 'public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.%(ext)s' 'https://www.youtube.com/watch?v=0KJhQyWFjDI'
 
-# abby-mina-2018 / 1KFtDD1w3lg / NEEDS RIGHTS REVIEW
-# download_youtube 'abby-mina-2018' '1KFtDD1w3lg' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_1KFtDD1w3lg.mp4' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_1KFtDD1w3lg.%(ext)s' 'https://www.youtube.com/watch?v=1KFtDD1w3lg'
+# abby-mina-2018 / 1KFtDD1w3lg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'abby-mina-2018' '1KFtDD1w3lg' 'public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.mp4' 'public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.%(ext)s' 'https://www.youtube.com/watch?v=1KFtDD1w3lg'
 
-# abby-mina-2018 / FwV6dXkUhnc / NEEDS RIGHTS REVIEW
-# download_youtube 'abby-mina-2018' 'FwV6dXkUhnc' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_FwV6dXkUhnc.mp4' 'public/videos/2018_Abby_Mina/2018_Abby_Mina_FwV6dXkUhnc.%(ext)s' 'https://www.youtube.com/watch?v=FwV6dXkUhnc'
+# abby-mina-2018 / FwV6dXkUhnc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'abby-mina-2018' 'FwV6dXkUhnc' 'public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.mp4' 'public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.%(ext)s' 'https://www.youtube.com/watch?v=FwV6dXkUhnc'
 
 # aklilu-demessie-2026 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'aklilu-demessie-2026' '_JXBIYSnWB0' 'public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026__JXBIYSnWB0.mp4' 'public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
@@ -113,8 +113,8 @@ download_youtube() {
 # akram-boutros-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'akram-boutros-2019' '_ifygk1bw5Q' 'public/media/videos/akram-boutros-2019/akram-boutros-2019__ifygk1bw5Q.mp4' 'public/media/videos/akram-boutros-2019/akram-boutros-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# akram-boutros-2019 / C6EuNqGZH5E / NEEDS RIGHTS REVIEW
-# download_youtube 'akram-boutros-2019' 'C6EuNqGZH5E' 'public/videos/2019_Akram_Boutros/2019_Akram_Boutros_C6EuNqGZH5E.mp4' 'public/videos/2019_Akram_Boutros/2019_Akram_Boutros_C6EuNqGZH5E.%(ext)s' 'https://www.youtube.com/watch?v=C6EuNqGZH5E'
+# akram-boutros-2019 / C6EuNqGZH5E / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'akram-boutros-2019' 'C6EuNqGZH5E' 'public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.mp4' 'public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.%(ext)s' 'https://www.youtube.com/watch?v=C6EuNqGZH5E'
 
 # akram-boutros-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'akram-boutros-2019' 'eCOSePkWnFY' 'public/media/videos/akram-boutros-2019/akram-boutros-2019_eCOSePkWnFY.mp4' 'public/media/videos/akram-boutros-2019/akram-boutros-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
@@ -221,14 +221,14 @@ download_youtube() {
 # alex-machaskee-2010 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'alex-machaskee-2010' 'zWJEroGvQUg' 'public/media/videos/alex-machaskee-2010/alex-machaskee-2010_zWJEroGvQUg.mp4' 'public/media/videos/alex-machaskee-2010/alex-machaskee-2010_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# ambassador-edward-f-crawford-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'ambassador-edward-f-crawford-2024' 'P34omi5XUiY' 'public/videos/2024_Ambassador_Edward_F_Crawford/2024_Ambassador_Edward_F_Crawford_P34omi5XUiY.mp4' 'public/videos/2024_Ambassador_Edward_F_Crawford/2024_Ambassador_Edward_F_Crawford_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# ambassador-edward-f-crawford-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ambassador-edward-f-crawford-2024' 'P34omi5XUiY' 'public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.mp4' 'public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
 # anda-cook-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'anda-cook-2022' '_JXBIYSnWB0' 'public/media/videos/anda-cook-2022/anda-cook-2022__JXBIYSnWB0.mp4' 'public/media/videos/anda-cook-2022/anda-cook-2022__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# anda-cook-2022 / -jbd_GOy7hk / NEEDS RIGHTS REVIEW
-# download_youtube 'anda-cook-2022' '-jbd_GOy7hk' 'public/videos/2022_Anda_Cook/2022_Anda_Cook_-jbd_GOy7hk.mp4' 'public/videos/2022_Anda_Cook/2022_Anda_Cook_-jbd_GOy7hk.%(ext)s' 'https://www.youtube.com/watch?v=-jbd_GOy7hk'
+# anda-cook-2022 / -jbd_GOy7hk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'anda-cook-2022' '-jbd_GOy7hk' 'public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.mp4' 'public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.%(ext)s' 'https://www.youtube.com/watch?v=-jbd_GOy7hk'
 
 # anda-cook-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'anda-cook-2022' '36YHkoqo-Fk' 'public/media/videos/anda-cook-2022/anda-cook-2022_36YHkoqo-Fk.mp4' 'public/media/videos/anda-cook-2022/anda-cook-2022_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
@@ -266,1698 +266,1698 @@ download_youtube() {
 # andy-chakalis-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-chakalis-2026' 'e-wqDqAmYP8' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_e-wqDqAmYP8.mp4' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# andy-chakalis-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# andy-chakalis-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-chakalis-2026' 'eWsy8Ctigm0' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_eWsy8Ctigm0.mp4' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# andy-chakalis-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# andy-chakalis-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-chakalis-2026' 'Pyty_Fo8cFs' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_Pyty_Fo8cFs.mp4' 'public/media/videos/andy-chakalis-2026/andy-chakalis-2026_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# andy-fedynsky-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW
+# andy-fedynsky-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-fedynsky-2026' 'e-wqDqAmYP8' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_e-wqDqAmYP8.mp4' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# andy-fedynsky-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# andy-fedynsky-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-fedynsky-2026' 'eWsy8Ctigm0' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_eWsy8Ctigm0.mp4' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# andy-fedynsky-2026 / Kp2oRe3w1EM / NEEDS RIGHTS REVIEW
+# andy-fedynsky-2026 / Kp2oRe3w1EM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-fedynsky-2026' 'Kp2oRe3w1EM' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.mp4' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.%(ext)s' 'https://www.youtube.com/watch?v=Kp2oRe3w1EM'
 
-# andy-fedynsky-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# andy-fedynsky-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'andy-fedynsky-2026' 'Pyty_Fo8cFs' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Pyty_Fo8cFs.mp4' 'public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# arnie-de-la-porte-2016-2016 / hmsfn1_1Kpg / NEEDS RIGHTS REVIEW
-# download_youtube 'arnie-de-la-porte-2016-2016' 'hmsfn1_1Kpg' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_hmsfn1_1Kpg.mp4' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_hmsfn1_1Kpg.%(ext)s' 'https://www.youtube.com/watch?v=hmsfn1_1Kpg'
+# arnie-de-la-porte-2016-2016 / hmsfn1_1Kpg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'arnie-de-la-porte-2016-2016' 'hmsfn1_1Kpg' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.mp4' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.%(ext)s' 'https://www.youtube.com/watch?v=hmsfn1_1Kpg'
 
-# arnie-de-la-porte-2016-2016 / jXo9xEwZ4JQ / NEEDS RIGHTS REVIEW
-# download_youtube 'arnie-de-la-porte-2016-2016' 'jXo9xEwZ4JQ' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_jXo9xEwZ4JQ.mp4' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_jXo9xEwZ4JQ.%(ext)s' 'https://www.youtube.com/watch?v=jXo9xEwZ4JQ'
+# arnie-de-la-porte-2016-2016 / jXo9xEwZ4JQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'arnie-de-la-porte-2016-2016' 'jXo9xEwZ4JQ' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.mp4' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.%(ext)s' 'https://www.youtube.com/watch?v=jXo9xEwZ4JQ'
 
-# arnie-de-la-porte-2016-2016 / QEdXti9t8jE / NEEDS RIGHTS REVIEW
-# download_youtube 'arnie-de-la-porte-2016-2016' 'QEdXti9t8jE' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_QEdXti9t8jE.mp4' 'public/videos/2016_Arnie_de_la_Porte_2016/2016_Arnie_de_la_Porte_2016_QEdXti9t8jE.%(ext)s' 'https://www.youtube.com/watch?v=QEdXti9t8jE'
+# arnie-de-la-porte-2016-2016 / QEdXti9t8jE / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'arnie-de-la-porte-2016-2016' 'QEdXti9t8jE' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.mp4' 'public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.%(ext)s' 'https://www.youtube.com/watch?v=QEdXti9t8jE'
 
-# atul-mehta-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW
+# atul-mehta-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'atul-mehta-2018' '_uTf8G8a6b0' 'public/media/videos/atul-mehta-2018/atul-mehta-2018__uTf8G8a6b0.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018__uTf8G8a6b0.%(ext)s' 'https://www.youtube.com/watch?v=_uTf8G8a6b0'
 
-# atul-mehta-2018 / 4pafixyd1zU / NEEDS RIGHTS REVIEW
-# download_youtube 'atul-mehta-2018' '4pafixyd1zU' 'public/videos/2018_Atul_Mehta/2018_Atul_Mehta_4pafixyd1zU.mp4' 'public/videos/2018_Atul_Mehta/2018_Atul_Mehta_4pafixyd1zU.%(ext)s' 'https://www.youtube.com/watch?v=4pafixyd1zU'
+# atul-mehta-2018 / 4pafixyd1zU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'atul-mehta-2018' '4pafixyd1zU' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.%(ext)s' 'https://www.youtube.com/watch?v=4pafixyd1zU'
 
-# atul-mehta-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW
+# atul-mehta-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'atul-mehta-2018' 'bsoEDM5cG2s' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_bsoEDM5cG2s.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_bsoEDM5cG2s.%(ext)s' 'https://www.youtube.com/watch?v=bsoEDM5cG2s'
 
-# atul-mehta-2018 / EATzGX8chuI / NEEDS RIGHTS REVIEW
-# download_youtube 'atul-mehta-2018' 'EATzGX8chuI' 'public/videos/2018_Atul_Mehta/2018_Atul_Mehta_EATzGX8chuI.mp4' 'public/videos/2018_Atul_Mehta/2018_Atul_Mehta_EATzGX8chuI.%(ext)s' 'https://www.youtube.com/watch?v=EATzGX8chuI'
+# atul-mehta-2018 / EATzGX8chuI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'atul-mehta-2018' 'EATzGX8chuI' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.%(ext)s' 'https://www.youtube.com/watch?v=EATzGX8chuI'
 
-# atul-mehta-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW
+# atul-mehta-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'atul-mehta-2018' 'o_9k7ZtTvas' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_o_9k7ZtTvas.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_o_9k7ZtTvas.%(ext)s' 'https://www.youtube.com/watch?v=o_9k7ZtTvas'
 
-# atul-mehta-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW
+# atul-mehta-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'atul-mehta-2018' 'Pg4Uqs_wZRY' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_Pg4Uqs_wZRY.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_Pg4Uqs_wZRY.%(ext)s' 'https://www.youtube.com/watch?v=Pg4Uqs_wZRY'
 
-# atul-mehta-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW
+# atul-mehta-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'atul-mehta-2018' 'YCV-PL-GOuk' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_YCV-PL-GOuk.mp4' 'public/media/videos/atul-mehta-2018/atul-mehta-2018_YCV-PL-GOuk.%(ext)s' 'https://www.youtube.com/watch?v=YCV-PL-GOuk'
 
-# august-pust-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# august-pust-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' '_ifygk1bw5Q' 'public/media/videos/august-pust-2010/august-pust-2010__ifygk1bw5Q.mp4' 'public/media/videos/august-pust-2010/august-pust-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# august-pust-2010 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# august-pust-2010 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' '14YLHrGlU-4' 'public/media/videos/august-pust-2010/august-pust-2010_14YLHrGlU-4.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# august-pust-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# august-pust-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'Do7atH9353s' 'public/media/videos/august-pust-2010/august-pust-2010_Do7atH9353s.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# august-pust-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# august-pust-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'eCOSePkWnFY' 'public/media/videos/august-pust-2010/august-pust-2010_eCOSePkWnFY.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# august-pust-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# august-pust-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'I133bhcNqgo' 'public/media/videos/august-pust-2010/august-pust-2010_I133bhcNqgo.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# august-pust-2010 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# august-pust-2010 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'IblVlQoTrtc' 'public/media/videos/august-pust-2010/august-pust-2010_IblVlQoTrtc.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# august-pust-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# august-pust-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'jE7WSnYhKN0' 'public/media/videos/august-pust-2010/august-pust-2010_jE7WSnYhKN0.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# august-pust-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# august-pust-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'lHHN_zd8O8k' 'public/media/videos/august-pust-2010/august-pust-2010_lHHN_zd8O8k.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# august-pust-2010 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# august-pust-2010 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'NcCM_1SAQek' 'public/media/videos/august-pust-2010/august-pust-2010_NcCM_1SAQek.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# august-pust-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# august-pust-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'P34omi5XUiY' 'public/media/videos/august-pust-2010/august-pust-2010_P34omi5XUiY.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# august-pust-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# august-pust-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'Ssb2SQ6HPoo' 'public/media/videos/august-pust-2010/august-pust-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# august-pust-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# august-pust-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'vwTIgQpdBEo' 'public/media/videos/august-pust-2010/august-pust-2010_vwTIgQpdBEo.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# august-pust-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# august-pust-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'w2Xq5luKGCU' 'public/media/videos/august-pust-2010/august-pust-2010_w2Xq5luKGCU.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# august-pust-2010 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# august-pust-2010 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'august-pust-2010' 'wBzBVH4kBkg' 'public/media/videos/august-pust-2010/august-pust-2010_wBzBVH4kBkg.mp4' 'public/media/videos/august-pust-2010/august-pust-2010_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 
-# basil-russo-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' '14YLHrGlU-4' 'public/media/videos/basil-russo-2017/basil-russo-2017_14YLHrGlU-4.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# basil-russo-2017 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' '7im99WF6Sfw' 'public/media/videos/basil-russo-2017/basil-russo-2017_7im99WF6Sfw.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_7im99WF6Sfw.%(ext)s' 'https://www.youtube.com/watch?v=7im99WF6Sfw'
 
-# basil-russo-2017 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'DhCiFpCsGFk' 'public/media/videos/basil-russo-2017/basil-russo-2017_DhCiFpCsGFk.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_DhCiFpCsGFk.%(ext)s' 'https://www.youtube.com/watch?v=DhCiFpCsGFk'
 
-# basil-russo-2017 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'EtHbvT_s4NY' 'public/media/videos/basil-russo-2017/basil-russo-2017_EtHbvT_s4NY.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_EtHbvT_s4NY.%(ext)s' 'https://www.youtube.com/watch?v=EtHbvT_s4NY'
 
-# basil-russo-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'IblVlQoTrtc' 'public/media/videos/basil-russo-2017/basil-russo-2017_IblVlQoTrtc.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# basil-russo-2017 / lF42eHsGdFc / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / lF42eHsGdFc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'lF42eHsGdFc' 'public/media/videos/basil-russo-2017/basil-russo-2017_lF42eHsGdFc.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_lF42eHsGdFc.%(ext)s' 'https://www.youtube.com/watch?v=lF42eHsGdFc'
 
-# basil-russo-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'NcCM_1SAQek' 'public/media/videos/basil-russo-2017/basil-russo-2017_NcCM_1SAQek.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# basil-russo-2017 / RImDK_lpjFM / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / RImDK_lpjFM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'RImDK_lpjFM' 'public/media/videos/basil-russo-2017/basil-russo-2017_RImDK_lpjFM.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_RImDK_lpjFM.%(ext)s' 'https://www.youtube.com/watch?v=RImDK_lpjFM'
 
-# basil-russo-2017 / RzY-lrL0HWo / NEEDS RIGHTS REVIEW
-# download_youtube 'basil-russo-2017' 'RzY-lrL0HWo' 'public/videos/2017_Basil_Russo/2017_Basil_Russo_RzY-lrL0HWo.mp4' 'public/videos/2017_Basil_Russo/2017_Basil_Russo_RzY-lrL0HWo.%(ext)s' 'https://www.youtube.com/watch?v=RzY-lrL0HWo'
+# basil-russo-2017 / RzY-lrL0HWo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'basil-russo-2017' 'RzY-lrL0HWo' 'public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.%(ext)s' 'https://www.youtube.com/watch?v=RzY-lrL0HWo'
 
-# basil-russo-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'wBzBVH4kBkg' 'public/media/videos/basil-russo-2017/basil-russo-2017_wBzBVH4kBkg.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 
-# basil-russo-2017 / ynzDfs0graM / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / ynzDfs0graM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'ynzDfs0graM' 'public/media/videos/basil-russo-2017/basil-russo-2017_ynzDfs0graM.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_ynzDfs0graM.%(ext)s' 'https://www.youtube.com/watch?v=ynzDfs0graM'
 
-# basil-russo-2017 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW
+# basil-russo-2017 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'basil-russo-2017' 'yR18WkgJ_tQ' 'public/media/videos/basil-russo-2017/basil-russo-2017_yR18WkgJ_tQ.mp4' 'public/media/videos/basil-russo-2017/basil-russo-2017_yR18WkgJ_tQ.%(ext)s' 'https://www.youtube.com/watch?v=yR18WkgJ_tQ'
 
-# berj-shakarian-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' '_JXBIYSnWB0' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020__JXBIYSnWB0.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# berj-shakarian-2020 / 2KBxzdgiqJM / NEEDS RIGHTS REVIEW
-# download_youtube 'berj-shakarian-2020' '2KBxzdgiqJM' 'public/videos/2020_Berj_Shakarian/2020_Berj_Shakarian_2KBxzdgiqJM.mp4' 'public/videos/2020_Berj_Shakarian/2020_Berj_Shakarian_2KBxzdgiqJM.%(ext)s' 'https://www.youtube.com/watch?v=2KBxzdgiqJM'
+# berj-shakarian-2020 / 2KBxzdgiqJM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'berj-shakarian-2020' '2KBxzdgiqJM' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.%(ext)s' 'https://www.youtube.com/watch?v=2KBxzdgiqJM'
 
-# berj-shakarian-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' '36YHkoqo-Fk' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_36YHkoqo-Fk.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# berj-shakarian-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'EfAP31kBlsM' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_EfAP31kBlsM.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# berj-shakarian-2020 / Engy3m5Efcc / NEEDS RIGHTS REVIEW
-# download_youtube 'berj-shakarian-2020' 'Engy3m5Efcc' 'public/videos/2020_Berj_Shakarian/2020_Berj_Shakarian_Engy3m5Efcc.mp4' 'public/videos/2020_Berj_Shakarian/2020_Berj_Shakarian_Engy3m5Efcc.%(ext)s' 'https://www.youtube.com/watch?v=Engy3m5Efcc'
+# berj-shakarian-2020 / Engy3m5Efcc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'berj-shakarian-2020' 'Engy3m5Efcc' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.%(ext)s' 'https://www.youtube.com/watch?v=Engy3m5Efcc'
 
-# berj-shakarian-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'EZ92Q341gm4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_EZ92Q341gm4.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# berj-shakarian-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'MzvxeSsag0w' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_MzvxeSsag0w.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# berj-shakarian-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'ovFsNwqqQNc' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_ovFsNwqqQNc.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# berj-shakarian-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'XrKxMkfQALI' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_XrKxMkfQALI.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# berj-shakarian-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'YDThFb2kPdA' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_YDThFb2kPdA.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# berj-shakarian-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# berj-shakarian-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'berj-shakarian-2020' 'zWJEroGvQUg' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_zWJEroGvQUg.mp4' 'public/media/videos/berj-shakarian-2020/berj-shakarian-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# beverly-kerecman-2025 / 4jjbyRcwk3Y / NEEDS RIGHTS REVIEW
-# download_youtube 'beverly-kerecman-2025' '4jjbyRcwk3Y' 'public/videos/2025_Beverly_Kerecman/2025_Beverly_Kerecman_4jjbyRcwk3Y.mp4' 'public/videos/2025_Beverly_Kerecman/2025_Beverly_Kerecman_4jjbyRcwk3Y.%(ext)s' 'https://www.youtube.com/watch?v=4jjbyRcwk3Y'
+# beverly-kerecman-2025 / 4jjbyRcwk3Y / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'beverly-kerecman-2025' '4jjbyRcwk3Y' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.mp4' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.%(ext)s' 'https://www.youtube.com/watch?v=4jjbyRcwk3Y'
 
-# beverly-kerecman-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW
+# beverly-kerecman-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'beverly-kerecman-2025' '63hL5GG_0dA' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_63hL5GG_0dA.mp4' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_63hL5GG_0dA.%(ext)s' 'https://www.youtube.com/watch?v=63hL5GG_0dA'
 
-# beverly-kerecman-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW
+# beverly-kerecman-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'beverly-kerecman-2025' 'HQz1pWe_-wM' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_HQz1pWe_-wM.mp4' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_HQz1pWe_-wM.%(ext)s' 'https://www.youtube.com/watch?v=HQz1pWe_-wM'
 
-# beverly-kerecman-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW
+# beverly-kerecman-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'beverly-kerecman-2025' 'S6l7MKK7RWg' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_S6l7MKK7RWg.mp4' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_S6l7MKK7RWg.%(ext)s' 'https://www.youtube.com/watch?v=S6l7MKK7RWg'
 
-# beverly-kerecman-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW
+# beverly-kerecman-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'beverly-kerecman-2025' 'XJbjDVgzCzc' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_XJbjDVgzCzc.mp4' 'public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_XJbjDVgzCzc.%(ext)s' 'https://www.youtube.com/watch?v=XJbjDVgzCzc'
 
-# bill-miller-2017 / 7AjUc16ao90 / NEEDS RIGHTS REVIEW
-# download_youtube 'bill-miller-2017' '7AjUc16ao90' 'public/videos/2017_Bill_Miller/2017_Bill_Miller_7AjUc16ao90.mp4' 'public/videos/2017_Bill_Miller/2017_Bill_Miller_7AjUc16ao90.%(ext)s' 'https://www.youtube.com/watch?v=7AjUc16ao90'
+# bill-miller-2017 / 7AjUc16ao90 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'bill-miller-2017' '7AjUc16ao90' 'public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.mp4' 'public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.%(ext)s' 'https://www.youtube.com/watch?v=7AjUc16ao90'
 
-# bishop-a-edward-pevec-2013 / LLkc_JGAW6M / NEEDS RIGHTS REVIEW
+# bishop-a-edward-pevec-2013 / LLkc_JGAW6M / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'bishop-a-edward-pevec-2013' 'LLkc_JGAW6M' 'public/media/videos/bishop-a-edward-pevec-2013/bishop-a-edward-pevec-2013_LLkc_JGAW6M.mp4' 'public/media/videos/bishop-a-edward-pevec-2013/bishop-a-edward-pevec-2013_LLkc_JGAW6M.%(ext)s' 'https://www.youtube.com/watch?v=LLkc_JGAW6M'
 
-# bishop-a-edward-pevec-2013 / mrnRSQgQi1k / NEEDS RIGHTS REVIEW
+# bishop-a-edward-pevec-2013 / mrnRSQgQi1k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'bishop-a-edward-pevec-2013' 'mrnRSQgQi1k' 'public/media/videos/bishop-a-edward-pevec-2013/bishop-a-edward-pevec-2013_mrnRSQgQi1k.mp4' 'public/media/videos/bishop-a-edward-pevec-2013/bishop-a-edward-pevec-2013_mrnRSQgQi1k.%(ext)s' 'https://www.youtube.com/watch?v=mrnRSQgQi1k'
 
-# bishop-anthony-pilla-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# bishop-anthony-pilla-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'bishop-anthony-pilla-2015' 'I133bhcNqgo' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_I133bhcNqgo.mp4' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# bishop-anthony-pilla-2015 / KMVo49Zi-94 / NEEDS RIGHTS REVIEW
-# download_youtube 'bishop-anthony-pilla-2015' 'KMVo49Zi-94' 'public/videos/2015_Bishop_Anthony_Pilla/2015_Bishop_Anthony_Pilla_KMVo49Zi-94.mp4' 'public/videos/2015_Bishop_Anthony_Pilla/2015_Bishop_Anthony_Pilla_KMVo49Zi-94.%(ext)s' 'https://www.youtube.com/watch?v=KMVo49Zi-94'
+# bishop-anthony-pilla-2015 / KMVo49Zi-94 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'bishop-anthony-pilla-2015' 'KMVo49Zi-94' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.mp4' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.%(ext)s' 'https://www.youtube.com/watch?v=KMVo49Zi-94'
 
-# bishop-anthony-pilla-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# bishop-anthony-pilla-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'bishop-anthony-pilla-2015' 'P34omi5XUiY' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_P34omi5XUiY.mp4' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# bishop-anthony-pilla-2015 / PpXIVZKq49U / NEEDS RIGHTS REVIEW
-# download_youtube 'bishop-anthony-pilla-2015' 'PpXIVZKq49U' 'public/videos/2015_Bishop_Anthony_Pilla/2015_Bishop_Anthony_Pilla_PpXIVZKq49U.mp4' 'public/videos/2015_Bishop_Anthony_Pilla/2015_Bishop_Anthony_Pilla_PpXIVZKq49U.%(ext)s' 'https://www.youtube.com/watch?v=PpXIVZKq49U'
+# bishop-anthony-pilla-2015 / PpXIVZKq49U / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'bishop-anthony-pilla-2015' 'PpXIVZKq49U' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.mp4' 'public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.%(ext)s' 'https://www.youtube.com/watch?v=PpXIVZKq49U'
 
-# branka-malinar-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW
+# branka-malinar-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'branka-malinar-2025' '63hL5GG_0dA' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_63hL5GG_0dA.mp4' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_63hL5GG_0dA.%(ext)s' 'https://www.youtube.com/watch?v=63hL5GG_0dA'
 
-# branka-malinar-2025 / BKuCcyGsdek / NEEDS RIGHTS REVIEW
-# download_youtube 'branka-malinar-2025' 'BKuCcyGsdek' 'public/videos/2025_Branka_Malinar/2025_Branka_Malinar_BKuCcyGsdek.mp4' 'public/videos/2025_Branka_Malinar/2025_Branka_Malinar_BKuCcyGsdek.%(ext)s' 'https://www.youtube.com/watch?v=BKuCcyGsdek'
+# branka-malinar-2025 / BKuCcyGsdek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'branka-malinar-2025' 'BKuCcyGsdek' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.mp4' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.%(ext)s' 'https://www.youtube.com/watch?v=BKuCcyGsdek'
 
-# branka-malinar-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW
+# branka-malinar-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'branka-malinar-2025' 'HQz1pWe_-wM' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_HQz1pWe_-wM.mp4' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_HQz1pWe_-wM.%(ext)s' 'https://www.youtube.com/watch?v=HQz1pWe_-wM'
 
-# branka-malinar-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW
+# branka-malinar-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'branka-malinar-2025' 'S6l7MKK7RWg' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_S6l7MKK7RWg.mp4' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_S6l7MKK7RWg.%(ext)s' 'https://www.youtube.com/watch?v=S6l7MKK7RWg'
 
-# branka-malinar-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW
+# branka-malinar-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'branka-malinar-2025' 'XJbjDVgzCzc' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_XJbjDVgzCzc.mp4' 'public/media/videos/branka-malinar-2025/branka-malinar-2025_XJbjDVgzCzc.%(ext)s' 'https://www.youtube.com/watch?v=XJbjDVgzCzc'
 
-# carl-robson-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' '_JXBIYSnWB0' 'public/media/videos/carl-robson-2022/carl-robson-2022__JXBIYSnWB0.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# carl-robson-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' '36YHkoqo-Fk' 'public/media/videos/carl-robson-2022/carl-robson-2022_36YHkoqo-Fk.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# carl-robson-2022 / 3Zl6-HYV89Q / NEEDS RIGHTS REVIEW
-# download_youtube 'carl-robson-2022' '3Zl6-HYV89Q' 'public/videos/2022_Carl_Robson/2022_Carl_Robson_3Zl6-HYV89Q.mp4' 'public/videos/2022_Carl_Robson/2022_Carl_Robson_3Zl6-HYV89Q.%(ext)s' 'https://www.youtube.com/watch?v=3Zl6-HYV89Q'
+# carl-robson-2022 / 3Zl6-HYV89Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'carl-robson-2022' '3Zl6-HYV89Q' 'public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.%(ext)s' 'https://www.youtube.com/watch?v=3Zl6-HYV89Q'
 
-# carl-robson-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'EfAP31kBlsM' 'public/media/videos/carl-robson-2022/carl-robson-2022_EfAP31kBlsM.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# carl-robson-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'EZ92Q341gm4' 'public/media/videos/carl-robson-2022/carl-robson-2022_EZ92Q341gm4.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# carl-robson-2022 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'I133bhcNqgo' 'public/media/videos/carl-robson-2022/carl-robson-2022_I133bhcNqgo.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# carl-robson-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'MzvxeSsag0w' 'public/media/videos/carl-robson-2022/carl-robson-2022_MzvxeSsag0w.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# carl-robson-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'ovFsNwqqQNc' 'public/media/videos/carl-robson-2022/carl-robson-2022_ovFsNwqqQNc.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# carl-robson-2022 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'P34omi5XUiY' 'public/media/videos/carl-robson-2022/carl-robson-2022_P34omi5XUiY.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# carl-robson-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'XrKxMkfQALI' 'public/media/videos/carl-robson-2022/carl-robson-2022_XrKxMkfQALI.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# carl-robson-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'YDThFb2kPdA' 'public/media/videos/carl-robson-2022/carl-robson-2022_YDThFb2kPdA.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# carl-robson-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# carl-robson-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'carl-robson-2022' 'zWJEroGvQUg' 'public/media/videos/carl-robson-2022/carl-robson-2022_zWJEroGvQUg.mp4' 'public/media/videos/carl-robson-2022/carl-robson-2022_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# carolyn-balogh-2016-2016 / e_C-YpIWjt8 / NEEDS RIGHTS REVIEW
-# download_youtube 'carolyn-balogh-2016-2016' 'e_C-YpIWjt8' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_e_C-YpIWjt8.mp4' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_e_C-YpIWjt8.%(ext)s' 'https://www.youtube.com/watch?v=e_C-YpIWjt8'
+# carolyn-balogh-2016-2016 / e_C-YpIWjt8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'carolyn-balogh-2016-2016' 'e_C-YpIWjt8' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.mp4' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.%(ext)s' 'https://www.youtube.com/watch?v=e_C-YpIWjt8'
 
-# carolyn-balogh-2016-2016 / O-r4oYPcUYc / NEEDS RIGHTS REVIEW
-# download_youtube 'carolyn-balogh-2016-2016' 'O-r4oYPcUYc' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_O-r4oYPcUYc.mp4' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_O-r4oYPcUYc.%(ext)s' 'https://www.youtube.com/watch?v=O-r4oYPcUYc'
+# carolyn-balogh-2016-2016 / O-r4oYPcUYc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'carolyn-balogh-2016-2016' 'O-r4oYPcUYc' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.mp4' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.%(ext)s' 'https://www.youtube.com/watch?v=O-r4oYPcUYc'
 
-# carolyn-balogh-2016-2016 / qzHokEDkXQc / NEEDS RIGHTS REVIEW
-# download_youtube 'carolyn-balogh-2016-2016' 'qzHokEDkXQc' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_qzHokEDkXQc.mp4' 'public/videos/2016_Carolyn_Balogh_2016/2016_Carolyn_Balogh_2016_qzHokEDkXQc.%(ext)s' 'https://www.youtube.com/watch?v=qzHokEDkXQc'
+# carolyn-balogh-2016-2016 / qzHokEDkXQc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'carolyn-balogh-2016-2016' 'qzHokEDkXQc' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.mp4' 'public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.%(ext)s' 'https://www.youtube.com/watch?v=qzHokEDkXQc'
 
-# catherine-jorgensen-mccutcheon-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW
+# catherine-jorgensen-mccutcheon-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'catherine-jorgensen-mccutcheon-2026' 'e-wqDqAmYP8' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e-wqDqAmYP8.mp4' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# catherine-jorgensen-mccutcheon-2026 / e3gWQ-kdEF4 / NEEDS RIGHTS REVIEW
+# catherine-jorgensen-mccutcheon-2026 / e3gWQ-kdEF4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'catherine-jorgensen-mccutcheon-2026' 'e3gWQ-kdEF4' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.mp4' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.%(ext)s' 'https://www.youtube.com/watch?v=e3gWQ-kdEF4'
 
-# catherine-jorgensen-mccutcheon-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# catherine-jorgensen-mccutcheon-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'catherine-jorgensen-mccutcheon-2026' 'eWsy8Ctigm0' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_eWsy8Ctigm0.mp4' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# catherine-jorgensen-mccutcheon-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# catherine-jorgensen-mccutcheon-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'catherine-jorgensen-mccutcheon-2026' 'Pyty_Fo8cFs' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_Pyty_Fo8cFs.mp4' 'public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# david-gilbert-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW
+# david-gilbert-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'david-gilbert-2025' '63hL5GG_0dA' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_63hL5GG_0dA.mp4' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_63hL5GG_0dA.%(ext)s' 'https://www.youtube.com/watch?v=63hL5GG_0dA'
 
-# david-gilbert-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW
+# david-gilbert-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'david-gilbert-2025' 'HQz1pWe_-wM' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_HQz1pWe_-wM.mp4' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_HQz1pWe_-wM.%(ext)s' 'https://www.youtube.com/watch?v=HQz1pWe_-wM'
 
-# david-gilbert-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW
+# david-gilbert-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'david-gilbert-2025' 'S6l7MKK7RWg' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_S6l7MKK7RWg.mp4' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_S6l7MKK7RWg.%(ext)s' 'https://www.youtube.com/watch?v=S6l7MKK7RWg'
 
-# david-gilbert-2025 / XeheG0iGICs / NEEDS RIGHTS REVIEW
-# download_youtube 'david-gilbert-2025' 'XeheG0iGICs' 'public/videos/2025_David_Gilbert/2025_David_Gilbert_XeheG0iGICs.mp4' 'public/videos/2025_David_Gilbert/2025_David_Gilbert_XeheG0iGICs.%(ext)s' 'https://www.youtube.com/watch?v=XeheG0iGICs'
+# david-gilbert-2025 / XeheG0iGICs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'david-gilbert-2025' 'XeheG0iGICs' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.mp4' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.%(ext)s' 'https://www.youtube.com/watch?v=XeheG0iGICs'
 
-# david-gilbert-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW
+# david-gilbert-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'david-gilbert-2025' 'XJbjDVgzCzc' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_XJbjDVgzCzc.mp4' 'public/media/videos/david-gilbert-2025/david-gilbert-2025_XJbjDVgzCzc.%(ext)s' 'https://www.youtube.com/watch?v=XJbjDVgzCzc'
 
-# dick-pogue-2015 / 7MkiB5FNQ_g / NEEDS RIGHTS REVIEW
-# download_youtube 'dick-pogue-2015' '7MkiB5FNQ_g' 'public/videos/2015_Dick_Pogue/2015_Dick_Pogue_7MkiB5FNQ_g.mp4' 'public/videos/2015_Dick_Pogue/2015_Dick_Pogue_7MkiB5FNQ_g.%(ext)s' 'https://www.youtube.com/watch?v=7MkiB5FNQ_g'
+# dick-pogue-2015 / 7MkiB5FNQ_g / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dick-pogue-2015' '7MkiB5FNQ_g' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.mp4' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.%(ext)s' 'https://www.youtube.com/watch?v=7MkiB5FNQ_g'
 
-# dick-pogue-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# dick-pogue-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-pogue-2015' 'I133bhcNqgo' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_I133bhcNqgo.mp4' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# dick-pogue-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# dick-pogue-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-pogue-2015' 'P34omi5XUiY' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_P34omi5XUiY.mp4' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# dick-pogue-2015 / qtbU6qlpxRE / NEEDS RIGHTS REVIEW
-# download_youtube 'dick-pogue-2015' 'qtbU6qlpxRE' 'public/videos/2015_Dick_Pogue/2015_Dick_Pogue_qtbU6qlpxRE.mp4' 'public/videos/2015_Dick_Pogue/2015_Dick_Pogue_qtbU6qlpxRE.%(ext)s' 'https://www.youtube.com/watch?v=qtbU6qlpxRE'
+# dick-pogue-2015 / qtbU6qlpxRE / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dick-pogue-2015' 'qtbU6qlpxRE' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.mp4' 'public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.%(ext)s' 'https://www.youtube.com/watch?v=qtbU6qlpxRE'
 
-# dick-russ-2015 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# dick-russ-2015 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-russ-2015' 'a0gi3EmNU00' 'public/media/videos/dick-russ-2015/dick-russ-2015_a0gi3EmNU00.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# dick-russ-2015 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# dick-russ-2015 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-russ-2015' 'b3EUjRTsbQI' 'public/media/videos/dick-russ-2015/dick-russ-2015_b3EUjRTsbQI.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# dick-russ-2015 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# dick-russ-2015 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-russ-2015' 'Do7atH9353s' 'public/media/videos/dick-russ-2015/dick-russ-2015_Do7atH9353s.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# dick-russ-2015 / ivlrvgM81r8 / NEEDS RIGHTS REVIEW
-# download_youtube 'dick-russ-2015' 'ivlrvgM81r8' 'public/videos/2015_Dick_Russ/2015_Dick_Russ_ivlrvgM81r8.mp4' 'public/videos/2015_Dick_Russ/2015_Dick_Russ_ivlrvgM81r8.%(ext)s' 'https://www.youtube.com/watch?v=ivlrvgM81r8'
+# dick-russ-2015 / ivlrvgM81r8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dick-russ-2015' 'ivlrvgM81r8' 'public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.%(ext)s' 'https://www.youtube.com/watch?v=ivlrvgM81r8'
 
-# dick-russ-2015 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# dick-russ-2015 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dick-russ-2015' 'jE7WSnYhKN0' 'public/media/videos/dick-russ-2015/dick-russ-2015_jE7WSnYhKN0.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# dick-russ-2015 / xJ9n1QOUafg / NEEDS RIGHTS REVIEW
-# download_youtube 'dick-russ-2015' 'xJ9n1QOUafg' 'public/videos/2015_Dick_Russ/2015_Dick_Russ_xJ9n1QOUafg.mp4' 'public/videos/2015_Dick_Russ/2015_Dick_Russ_xJ9n1QOUafg.%(ext)s' 'https://www.youtube.com/watch?v=xJ9n1QOUafg'
+# dick-russ-2015 / xJ9n1QOUafg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dick-russ-2015' 'xJ9n1QOUafg' 'public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.mp4' 'public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.%(ext)s' 'https://www.youtube.com/watch?v=xJ9n1QOUafg'
 
-# dona-brady-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'dona-brady-2024' 'P34omi5XUiY' 'public/videos/2024_Dona_Brady/2024_Dona_Brady_P34omi5XUiY.mp4' 'public/videos/2024_Dona_Brady/2024_Dona_Brady_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# dona-brady-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dona-brady-2024' 'P34omi5XUiY' 'public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.mp4' 'public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# donna-hom-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# donna-hom-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'donna-hom-2014' 'I133bhcNqgo' 'public/media/videos/donna-hom-2014/donna-hom-2014_I133bhcNqgo.mp4' 'public/media/videos/donna-hom-2014/donna-hom-2014_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# donna-hom-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# donna-hom-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'donna-hom-2014' 'P34omi5XUiY' 'public/media/videos/donna-hom-2014/donna-hom-2014_P34omi5XUiY.mp4' 'public/media/videos/donna-hom-2014/donna-hom-2014_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# dr-dieu-thuc-do-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' '_ifygk1bw5Q' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010__ifygk1bw5Q.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# dr-dieu-thuc-do-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'Do7atH9353s' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_Do7atH9353s.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# dr-dieu-thuc-do-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'eCOSePkWnFY' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_eCOSePkWnFY.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# dr-dieu-thuc-do-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'I133bhcNqgo' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_I133bhcNqgo.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# dr-dieu-thuc-do-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'jE7WSnYhKN0' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_jE7WSnYhKN0.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# dr-dieu-thuc-do-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'lHHN_zd8O8k' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_lHHN_zd8O8k.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# dr-dieu-thuc-do-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'P34omi5XUiY' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_P34omi5XUiY.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# dr-dieu-thuc-do-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'Ssb2SQ6HPoo' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# dr-dieu-thuc-do-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'vwTIgQpdBEo' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_vwTIgQpdBEo.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# dr-dieu-thuc-do-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# dr-dieu-thuc-do-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-dieu-thuc-do-2010' 'w2Xq5luKGCU' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_w2Xq5luKGCU.mp4' 'public/media/videos/dr-dieu-thuc-do-2010/dr-dieu-thuc-do-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# dr-eugene-jordan-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'dr-eugene-jordan-2024' 'P34omi5XUiY' 'public/videos/2024_Dr_Eugene_Jordan/2024_Dr_Eugene_Jordan_P34omi5XUiY.mp4' 'public/videos/2024_Dr_Eugene_Jordan/2024_Dr_Eugene_Jordan_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# dr-eugene-jordan-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'dr-eugene-jordan-2024' 'P34omi5XUiY' 'public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.mp4' 'public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# dr-jaya-shah-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# dr-jaya-shah-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-jaya-shah-2012' 'a0gi3EmNU00' 'public/media/videos/dr-jaya-shah-2012/dr-jaya-shah-2012_a0gi3EmNU00.mp4' 'public/media/videos/dr-jaya-shah-2012/dr-jaya-shah-2012_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# dr-jaya-shah-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# dr-jaya-shah-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'dr-jaya-shah-2012' 'b3EUjRTsbQI' 'public/media/videos/dr-jaya-shah-2012/dr-jaya-shah-2012_b3EUjRTsbQI.mp4' 'public/media/videos/dr-jaya-shah-2012/dr-jaya-shah-2012_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# erika-puussaar-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'erika-puussaar-2024' 'P34omi5XUiY' 'public/videos/2024_Erika_Puussaar/2024_Erika_Puussaar_P34omi5XUiY.mp4' 'public/videos/2024_Erika_Puussaar/2024_Erika_Puussaar_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# erika-puussaar-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'erika-puussaar-2024' 'P34omi5XUiY' 'public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.mp4' 'public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# ernie-mihaly-2014 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' '_ifygk1bw5Q' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014__ifygk1bw5Q.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# ernie-mihaly-2014 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'eCOSePkWnFY' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_eCOSePkWnFY.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# ernie-mihaly-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'I133bhcNqgo' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_I133bhcNqgo.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# ernie-mihaly-2014 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'lHHN_zd8O8k' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_lHHN_zd8O8k.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# ernie-mihaly-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'P34omi5XUiY' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_P34omi5XUiY.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# ernie-mihaly-2014 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'Ssb2SQ6HPoo' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_Ssb2SQ6HPoo.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# ernie-mihaly-2014 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'vwTIgQpdBEo' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_vwTIgQpdBEo.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# ernie-mihaly-2014 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# ernie-mihaly-2014 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ernie-mihaly-2014' 'w2Xq5luKGCU' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_w2Xq5luKGCU.mp4' 'public/media/videos/ernie-mihaly-2014/ernie-mihaly-2014_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# eugenia-stolarczyk-2016-2016 / 7LmK-_kcUJs / NEEDS RIGHTS REVIEW
-# download_youtube 'eugenia-stolarczyk-2016-2016' '7LmK-_kcUJs' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_7LmK-_kcUJs.mp4' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_7LmK-_kcUJs.%(ext)s' 'https://www.youtube.com/watch?v=7LmK-_kcUJs'
+# eugenia-stolarczyk-2016-2016 / 7LmK-_kcUJs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'eugenia-stolarczyk-2016-2016' '7LmK-_kcUJs' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.mp4' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.%(ext)s' 'https://www.youtube.com/watch?v=7LmK-_kcUJs'
 
-# eugenia-stolarczyk-2016-2016 / IbJbwBpHWgs / NEEDS RIGHTS REVIEW
-# download_youtube 'eugenia-stolarczyk-2016-2016' 'IbJbwBpHWgs' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_IbJbwBpHWgs.mp4' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_IbJbwBpHWgs.%(ext)s' 'https://www.youtube.com/watch?v=IbJbwBpHWgs'
+# eugenia-stolarczyk-2016-2016 / IbJbwBpHWgs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'eugenia-stolarczyk-2016-2016' 'IbJbwBpHWgs' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.mp4' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.%(ext)s' 'https://www.youtube.com/watch?v=IbJbwBpHWgs'
 
-# eugenia-stolarczyk-2016-2016 / Tsl-t9x0Ub0 / NEEDS RIGHTS REVIEW
-# download_youtube 'eugenia-stolarczyk-2016-2016' 'Tsl-t9x0Ub0' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_Tsl-t9x0Ub0.mp4' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_Tsl-t9x0Ub0.%(ext)s' 'https://www.youtube.com/watch?v=Tsl-t9x0Ub0'
+# eugenia-stolarczyk-2016-2016 / Tsl-t9x0Ub0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'eugenia-stolarczyk-2016-2016' 'Tsl-t9x0Ub0' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.mp4' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.%(ext)s' 'https://www.youtube.com/watch?v=Tsl-t9x0Ub0'
 
-# eugenia-stolarczyk-2016-2016 / uw_NYpsccxM / NEEDS RIGHTS REVIEW
-# download_youtube 'eugenia-stolarczyk-2016-2016' 'uw_NYpsccxM' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_uw_NYpsccxM.mp4' 'public/videos/2016_Eugenia_Stolarczyk_2016/2016_Eugenia_Stolarczyk_2016_uw_NYpsccxM.%(ext)s' 'https://www.youtube.com/watch?v=uw_NYpsccxM'
+# eugenia-stolarczyk-2016-2016 / uw_NYpsccxM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'eugenia-stolarczyk-2016-2016' 'uw_NYpsccxM' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.mp4' 'public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.%(ext)s' 'https://www.youtube.com/watch?v=uw_NYpsccxM'
 
-# georgine-welo-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' '7im99WF6Sfw' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_7im99WF6Sfw.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_7im99WF6Sfw.%(ext)s' 'https://www.youtube.com/watch?v=7im99WF6Sfw'
 
-# georgine-welo-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'DhCiFpCsGFk' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_DhCiFpCsGFk.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_DhCiFpCsGFk.%(ext)s' 'https://www.youtube.com/watch?v=DhCiFpCsGFk'
 
-# georgine-welo-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'EtHbvT_s4NY' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_EtHbvT_s4NY.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_EtHbvT_s4NY.%(ext)s' 'https://www.youtube.com/watch?v=EtHbvT_s4NY'
 
-# georgine-welo-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'I133bhcNqgo' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_I133bhcNqgo.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# georgine-welo-2023 / JAWjKTg5nRg / NEEDS RIGHTS REVIEW
-# download_youtube 'georgine-welo-2023' 'JAWjKTg5nRg' 'public/videos/2023_Georgine_Welo/2023_Georgine_Welo_JAWjKTg5nRg.mp4' 'public/videos/2023_Georgine_Welo/2023_Georgine_Welo_JAWjKTg5nRg.%(ext)s' 'https://www.youtube.com/watch?v=JAWjKTg5nRg'
+# georgine-welo-2023 / JAWjKTg5nRg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'georgine-welo-2023' 'JAWjKTg5nRg' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.%(ext)s' 'https://www.youtube.com/watch?v=JAWjKTg5nRg'
 
-# georgine-welo-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'lF42eHsGdFc' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_lF42eHsGdFc.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_lF42eHsGdFc.%(ext)s' 'https://www.youtube.com/watch?v=lF42eHsGdFc'
 
-# georgine-welo-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'P34omi5XUiY' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_P34omi5XUiY.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# georgine-welo-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'RImDK_lpjFM' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_RImDK_lpjFM.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_RImDK_lpjFM.%(ext)s' 'https://www.youtube.com/watch?v=RImDK_lpjFM'
 
-# georgine-welo-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'ynzDfs0graM' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_ynzDfs0graM.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_ynzDfs0graM.%(ext)s' 'https://www.youtube.com/watch?v=ynzDfs0graM'
 
-# georgine-welo-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW
+# georgine-welo-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'georgine-welo-2023' 'yR18WkgJ_tQ' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_yR18WkgJ_tQ.mp4' 'public/media/videos/georgine-welo-2023/georgine-welo-2023_yR18WkgJ_tQ.%(ext)s' 'https://www.youtube.com/watch?v=yR18WkgJ_tQ'
 
-# gerald-m-quinn-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# gerald-m-quinn-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'gerald-m-quinn-2011' 'A_IJEnnuyYg' 'public/media/videos/gerald-m-quinn-2011/gerald-m-quinn-2011_A_IJEnnuyYg.mp4' 'public/media/videos/gerald-m-quinn-2011/gerald-m-quinn-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# gerald-m-quinn-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# gerald-m-quinn-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'gerald-m-quinn-2011' 'rlg546_0pC4' 'public/media/videos/gerald-m-quinn-2011/gerald-m-quinn-2011_rlg546_0pC4.mp4' 'public/media/videos/gerald-m-quinn-2011/gerald-m-quinn-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# giahoa-ryan-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# giahoa-ryan-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'giahoa-ryan-2011' 'A_IJEnnuyYg' 'public/media/videos/giahoa-ryan-2011/giahoa-ryan-2011_A_IJEnnuyYg.mp4' 'public/media/videos/giahoa-ryan-2011/giahoa-ryan-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# giahoa-ryan-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# giahoa-ryan-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'giahoa-ryan-2011' 'rlg546_0pC4' 'public/media/videos/giahoa-ryan-2011/giahoa-ryan-2011_rlg546_0pC4.mp4' 'public/media/videos/giahoa-ryan-2011/giahoa-ryan-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# honorable-jose-a-villanueva-2015 / 7Jj4sizisoM / NEEDS RIGHTS REVIEW
-# download_youtube 'honorable-jose-a-villanueva-2015' '7Jj4sizisoM' 'public/videos/2015_Honorable_José_A_Villanueva/2015_Honorable_José_A_Villanueva_7Jj4sizisoM.mp4' 'public/videos/2015_Honorable_José_A_Villanueva/2015_Honorable_José_A_Villanueva_7Jj4sizisoM.%(ext)s' 'https://www.youtube.com/watch?v=7Jj4sizisoM'
+# honorable-jose-a-villanueva-2015 / 7Jj4sizisoM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'honorable-jose-a-villanueva-2015' '7Jj4sizisoM' 'public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.mp4' 'public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.%(ext)s' 'https://www.youtube.com/watch?v=7Jj4sizisoM'
 
-# honorable-jose-a-villanueva-2015 / i5FJexABnHI / NEEDS RIGHTS REVIEW
-# download_youtube 'honorable-jose-a-villanueva-2015' 'i5FJexABnHI' 'public/videos/2015_Honorable_José_A_Villanueva/2015_Honorable_José_A_Villanueva_i5FJexABnHI.mp4' 'public/videos/2015_Honorable_José_A_Villanueva/2015_Honorable_José_A_Villanueva_i5FJexABnHI.%(ext)s' 'https://www.youtube.com/watch?v=i5FJexABnHI'
+# honorable-jose-a-villanueva-2015 / i5FJexABnHI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'honorable-jose-a-villanueva-2015' 'i5FJexABnHI' 'public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.mp4' 'public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.%(ext)s' 'https://www.youtube.com/watch?v=i5FJexABnHI'
 
-# ingrida-bublys-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' '_ifygk1bw5Q' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019__ifygk1bw5Q.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# ingrida-bublys-2019 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'Do7atH9353s' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_Do7atH9353s.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# ingrida-bublys-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'eCOSePkWnFY' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_eCOSePkWnFY.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# ingrida-bublys-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'I133bhcNqgo' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_I133bhcNqgo.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# ingrida-bublys-2019 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'jE7WSnYhKN0' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_jE7WSnYhKN0.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# ingrida-bublys-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'lHHN_zd8O8k' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_lHHN_zd8O8k.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# ingrida-bublys-2019 / ObIi5VXcP7Q / NEEDS RIGHTS REVIEW
-# download_youtube 'ingrida-bublys-2019' 'ObIi5VXcP7Q' 'public/videos/2019_Ingrida_Bublys/2019_Ingrida_Bublys_ObIi5VXcP7Q.mp4' 'public/videos/2019_Ingrida_Bublys/2019_Ingrida_Bublys_ObIi5VXcP7Q.%(ext)s' 'https://www.youtube.com/watch?v=ObIi5VXcP7Q'
+# ingrida-bublys-2019 / ObIi5VXcP7Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ingrida-bublys-2019' 'ObIi5VXcP7Q' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.%(ext)s' 'https://www.youtube.com/watch?v=ObIi5VXcP7Q'
 
-# ingrida-bublys-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'P34omi5XUiY' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_P34omi5XUiY.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# ingrida-bublys-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'Ssb2SQ6HPoo' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_Ssb2SQ6HPoo.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# ingrida-bublys-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'vwTIgQpdBEo' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_vwTIgQpdBEo.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# ingrida-bublys-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# ingrida-bublys-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ingrida-bublys-2019' 'w2Xq5luKGCU' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_w2Xq5luKGCU.mp4' 'public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# irene-morrow-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' '_ifygk1bw5Q' 'public/media/videos/irene-morrow-2010/irene-morrow-2010__ifygk1bw5Q.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# irene-morrow-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'Do7atH9353s' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_Do7atH9353s.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# irene-morrow-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'eCOSePkWnFY' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_eCOSePkWnFY.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# irene-morrow-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'I133bhcNqgo' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_I133bhcNqgo.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# irene-morrow-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'jE7WSnYhKN0' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_jE7WSnYhKN0.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# irene-morrow-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'lHHN_zd8O8k' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_lHHN_zd8O8k.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# irene-morrow-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'P34omi5XUiY' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_P34omi5XUiY.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# irene-morrow-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'Ssb2SQ6HPoo' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# irene-morrow-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'vwTIgQpdBEo' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_vwTIgQpdBEo.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# irene-morrow-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# irene-morrow-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'irene-morrow-2010' 'w2Xq5luKGCU' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_w2Xq5luKGCU.mp4' 'public/media/videos/irene-morrow-2010/irene-morrow-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# jack-kahl-2016 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# jack-kahl-2016 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jack-kahl-2016' 'a0gi3EmNU00' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_a0gi3EmNU00.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# jack-kahl-2016 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# jack-kahl-2016 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jack-kahl-2016' 'b3EUjRTsbQI' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_b3EUjRTsbQI.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# jack-kahl-2016 / dW7qMIULLko / NEEDS RIGHTS REVIEW
-# download_youtube 'jack-kahl-2016' 'dW7qMIULLko' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_dW7qMIULLko.mp4' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_dW7qMIULLko.%(ext)s' 'https://www.youtube.com/watch?v=dW7qMIULLko'
+# jack-kahl-2016 / dW7qMIULLko / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'jack-kahl-2016' 'dW7qMIULLko' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.%(ext)s' 'https://www.youtube.com/watch?v=dW7qMIULLko'
 
-# jack-kahl-2016 / eKdfG3zz9Os / NEEDS RIGHTS REVIEW
-# download_youtube 'jack-kahl-2016' 'eKdfG3zz9Os' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_eKdfG3zz9Os.mp4' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_eKdfG3zz9Os.%(ext)s' 'https://www.youtube.com/watch?v=eKdfG3zz9Os'
+# jack-kahl-2016 / eKdfG3zz9Os / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'jack-kahl-2016' 'eKdfG3zz9Os' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.%(ext)s' 'https://www.youtube.com/watch?v=eKdfG3zz9Os'
 
-# jack-kahl-2016 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# jack-kahl-2016 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jack-kahl-2016' 'I133bhcNqgo' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_I133bhcNqgo.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# jack-kahl-2016 / L0fLgzezWTw / NEEDS RIGHTS REVIEW
-# download_youtube 'jack-kahl-2016' 'L0fLgzezWTw' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_L0fLgzezWTw.mp4' 'public/videos/2016_Jack_Kahl/2016_Jack_Kahl_L0fLgzezWTw.%(ext)s' 'https://www.youtube.com/watch?v=L0fLgzezWTw'
+# jack-kahl-2016 / L0fLgzezWTw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'jack-kahl-2016' 'L0fLgzezWTw' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.%(ext)s' 'https://www.youtube.com/watch?v=L0fLgzezWTw'
 
-# jack-kahl-2016 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# jack-kahl-2016 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jack-kahl-2016' 'P34omi5XUiY' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_P34omi5XUiY.mp4' 'public/media/videos/jack-kahl-2016/jack-kahl-2016_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# jeanette-grasselli-brown-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# jeanette-grasselli-brown-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jeanette-grasselli-brown-2010' 'Do7atH9353s' 'public/media/videos/jeanette-grasselli-brown-2010/jeanette-grasselli-brown-2010_Do7atH9353s.mp4' 'public/media/videos/jeanette-grasselli-brown-2010/jeanette-grasselli-brown-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# jeanette-grasselli-brown-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# jeanette-grasselli-brown-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jeanette-grasselli-brown-2010' 'jE7WSnYhKN0' 'public/media/videos/jeanette-grasselli-brown-2010/jeanette-grasselli-brown-2010_jE7WSnYhKN0.mp4' 'public/media/videos/jeanette-grasselli-brown-2010/jeanette-grasselli-brown-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# jim-craciun-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' '14YLHrGlU-4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_14YLHrGlU-4.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# jim-craciun-2017 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' 'I133bhcNqgo' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_I133bhcNqgo.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# jim-craciun-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' 'IblVlQoTrtc' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_IblVlQoTrtc.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# jim-craciun-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' 'NcCM_1SAQek' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_NcCM_1SAQek.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# jim-craciun-2017 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' 'P34omi5XUiY' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_P34omi5XUiY.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# jim-craciun-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# jim-craciun-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'jim-craciun-2017' 'wBzBVH4kBkg' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_wBzBVH4kBkg.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 
-# jim-craciun-2017 / XZh7vcFsUns / NEEDS RIGHTS REVIEW
-# download_youtube 'jim-craciun-2017' 'XZh7vcFsUns' 'public/videos/2017_Jim_Craciun/2017_Jim_Craciun_XZh7vcFsUns.mp4' 'public/videos/2017_Jim_Craciun/2017_Jim_Craciun_XZh7vcFsUns.%(ext)s' 'https://www.youtube.com/watch?v=XZh7vcFsUns'
+# jim-craciun-2017 / XZh7vcFsUns / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'jim-craciun-2017' 'XZh7vcFsUns' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.mp4' 'public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.%(ext)s' 'https://www.youtube.com/watch?v=XZh7vcFsUns'
 
-# joe-valencic-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' '_JXBIYSnWB0' 'public/media/videos/joe-valencic-2020/joe-valencic-2020__JXBIYSnWB0.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# joe-valencic-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' '36YHkoqo-Fk' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_36YHkoqo-Fk.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# joe-valencic-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'EfAP31kBlsM' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_EfAP31kBlsM.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# joe-valencic-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'EZ92Q341gm4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_EZ92Q341gm4.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# joe-valencic-2020 / k8t6kOylcgE / NEEDS RIGHTS REVIEW
-# download_youtube 'joe-valencic-2020' 'k8t6kOylcgE' 'public/videos/2020_Joe_Valencic/2020_Joe_Valencic_k8t6kOylcgE.mp4' 'public/videos/2020_Joe_Valencic/2020_Joe_Valencic_k8t6kOylcgE.%(ext)s' 'https://www.youtube.com/watch?v=k8t6kOylcgE'
+# joe-valencic-2020 / k8t6kOylcgE / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'joe-valencic-2020' 'k8t6kOylcgE' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.%(ext)s' 'https://www.youtube.com/watch?v=k8t6kOylcgE'
 
-# joe-valencic-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'MzvxeSsag0w' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_MzvxeSsag0w.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# joe-valencic-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'ovFsNwqqQNc' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_ovFsNwqqQNc.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# joe-valencic-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'XrKxMkfQALI' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_XrKxMkfQALI.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# joe-valencic-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'YDThFb2kPdA' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_YDThFb2kPdA.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# joe-valencic-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# joe-valencic-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joe-valencic-2020' 'zWJEroGvQUg' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_zWJEroGvQUg.mp4' 'public/media/videos/joe-valencic-2020/joe-valencic-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# johnny-k-wu-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'johnny-k-wu-2024' 'P34omi5XUiY' 'public/videos/2024_Johnny_K_Wu/2024_Johnny_K_Wu_P34omi5XUiY.mp4' 'public/videos/2024_Johnny_K_Wu/2024_Johnny_K_Wu_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# johnny-k-wu-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'johnny-k-wu-2024' 'P34omi5XUiY' 'public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.mp4' 'public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# joyce-mariani-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' '7im99WF6Sfw' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_7im99WF6Sfw.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_7im99WF6Sfw.%(ext)s' 'https://www.youtube.com/watch?v=7im99WF6Sfw'
 
-# joyce-mariani-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'DhCiFpCsGFk' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_DhCiFpCsGFk.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_DhCiFpCsGFk.%(ext)s' 'https://www.youtube.com/watch?v=DhCiFpCsGFk'
 
-# joyce-mariani-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'EtHbvT_s4NY' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_EtHbvT_s4NY.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_EtHbvT_s4NY.%(ext)s' 'https://www.youtube.com/watch?v=EtHbvT_s4NY'
 
-# joyce-mariani-2023 / khFzLbaSw0o / NEEDS RIGHTS REVIEW
-# download_youtube 'joyce-mariani-2023' 'khFzLbaSw0o' 'public/videos/2023_Joyce_Mariani/2023_Joyce_Mariani_khFzLbaSw0o.mp4' 'public/videos/2023_Joyce_Mariani/2023_Joyce_Mariani_khFzLbaSw0o.%(ext)s' 'https://www.youtube.com/watch?v=khFzLbaSw0o'
+# joyce-mariani-2023 / khFzLbaSw0o / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'joyce-mariani-2023' 'khFzLbaSw0o' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.%(ext)s' 'https://www.youtube.com/watch?v=khFzLbaSw0o'
 
-# joyce-mariani-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'lF42eHsGdFc' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_lF42eHsGdFc.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_lF42eHsGdFc.%(ext)s' 'https://www.youtube.com/watch?v=lF42eHsGdFc'
 
-# joyce-mariani-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'RImDK_lpjFM' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_RImDK_lpjFM.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_RImDK_lpjFM.%(ext)s' 'https://www.youtube.com/watch?v=RImDK_lpjFM'
 
-# joyce-mariani-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'ynzDfs0graM' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_ynzDfs0graM.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_ynzDfs0graM.%(ext)s' 'https://www.youtube.com/watch?v=ynzDfs0graM'
 
-# joyce-mariani-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW
+# joyce-mariani-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'joyce-mariani-2023' 'yR18WkgJ_tQ' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_yR18WkgJ_tQ.mp4' 'public/media/videos/joyce-mariani-2023/joyce-mariani-2023_yR18WkgJ_tQ.%(ext)s' 'https://www.youtube.com/watch?v=yR18WkgJ_tQ'
 
-# ken-kovach-2012 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' '_ifygk1bw5Q' 'public/media/videos/ken-kovach-2012/ken-kovach-2012__ifygk1bw5Q.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# ken-kovach-2012 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'A_IJEnnuyYg' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_A_IJEnnuyYg.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# ken-kovach-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'a0gi3EmNU00' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_a0gi3EmNU00.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# ken-kovach-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'b3EUjRTsbQI' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_b3EUjRTsbQI.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# ken-kovach-2012 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'eCOSePkWnFY' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_eCOSePkWnFY.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# ken-kovach-2012 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'I133bhcNqgo' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_I133bhcNqgo.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# ken-kovach-2012 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'lHHN_zd8O8k' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_lHHN_zd8O8k.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# ken-kovach-2012 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'P34omi5XUiY' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_P34omi5XUiY.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# ken-kovach-2012 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'rlg546_0pC4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_rlg546_0pC4.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# ken-kovach-2012 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'Ssb2SQ6HPoo' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_Ssb2SQ6HPoo.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# ken-kovach-2012 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'vwTIgQpdBEo' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_vwTIgQpdBEo.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# ken-kovach-2012 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# ken-kovach-2012 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ken-kovach-2012' 'w2Xq5luKGCU' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_w2Xq5luKGCU.mp4' 'public/media/videos/ken-kovach-2012/ken-kovach-2012_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# khalid-samad-2016-2016 / kkjaaUZr2ps / NEEDS RIGHTS REVIEW
-# download_youtube 'khalid-samad-2016-2016' 'kkjaaUZr2ps' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_kkjaaUZr2ps.mp4' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_kkjaaUZr2ps.%(ext)s' 'https://www.youtube.com/watch?v=kkjaaUZr2ps'
+# khalid-samad-2016-2016 / kkjaaUZr2ps / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'khalid-samad-2016-2016' 'kkjaaUZr2ps' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.mp4' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.%(ext)s' 'https://www.youtube.com/watch?v=kkjaaUZr2ps'
 
-# khalid-samad-2016-2016 / mqCQvmZsu88 / NEEDS RIGHTS REVIEW
-# download_youtube 'khalid-samad-2016-2016' 'mqCQvmZsu88' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_mqCQvmZsu88.mp4' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_mqCQvmZsu88.%(ext)s' 'https://www.youtube.com/watch?v=mqCQvmZsu88'
+# khalid-samad-2016-2016 / mqCQvmZsu88 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'khalid-samad-2016-2016' 'mqCQvmZsu88' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.mp4' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.%(ext)s' 'https://www.youtube.com/watch?v=mqCQvmZsu88'
 
-# khalid-samad-2016-2016 / YT9DTiZdJpQ / NEEDS RIGHTS REVIEW
-# download_youtube 'khalid-samad-2016-2016' 'YT9DTiZdJpQ' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_YT9DTiZdJpQ.mp4' 'public/videos/2016_Khalid_Samad_2016/2016_Khalid_Samad_2016_YT9DTiZdJpQ.%(ext)s' 'https://www.youtube.com/watch?v=YT9DTiZdJpQ'
+# khalid-samad-2016-2016 / YT9DTiZdJpQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'khalid-samad-2016-2016' 'YT9DTiZdJpQ' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.mp4' 'public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.%(ext)s' 'https://www.youtube.com/watch?v=YT9DTiZdJpQ'
 
-# le-nguyen-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW
+# le-nguyen-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'le-nguyen-2026' 'e-wqDqAmYP8' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_e-wqDqAmYP8.mp4' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# le-nguyen-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# le-nguyen-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'le-nguyen-2026' 'eWsy8Ctigm0' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_eWsy8Ctigm0.mp4' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# le-nguyen-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# le-nguyen-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'le-nguyen-2026' 'Pyty_Fo8cFs' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_Pyty_Fo8cFs.mp4' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# le-nguyen-2026 / T5peEDc8mE8 / NEEDS RIGHTS REVIEW
+# le-nguyen-2026 / T5peEDc8mE8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'le-nguyen-2026' 'T5peEDc8mE8' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.mp4' 'public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.%(ext)s' 'https://www.youtube.com/watch?v=T5peEDc8mE8'
 
-# leo-weidenthal-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' '_ifygk1bw5Q' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010__ifygk1bw5Q.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# leo-weidenthal-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'Do7atH9353s' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_Do7atH9353s.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# leo-weidenthal-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'eCOSePkWnFY' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_eCOSePkWnFY.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# leo-weidenthal-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'I133bhcNqgo' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_I133bhcNqgo.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# leo-weidenthal-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'jE7WSnYhKN0' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_jE7WSnYhKN0.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# leo-weidenthal-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'lHHN_zd8O8k' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_lHHN_zd8O8k.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# leo-weidenthal-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'P34omi5XUiY' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_P34omi5XUiY.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# leo-weidenthal-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'Ssb2SQ6HPoo' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# leo-weidenthal-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'vwTIgQpdBEo' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_vwTIgQpdBEo.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# leo-weidenthal-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# leo-weidenthal-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'leo-weidenthal-2010' 'w2Xq5luKGCU' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_w2Xq5luKGCU.mp4' 'public/media/videos/leo-weidenthal-2010/leo-weidenthal-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# lonnie-mccauley-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' '_ifygk1bw5Q' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010__ifygk1bw5Q.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# lonnie-mccauley-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'Do7atH9353s' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_Do7atH9353s.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# lonnie-mccauley-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'eCOSePkWnFY' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_eCOSePkWnFY.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# lonnie-mccauley-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'I133bhcNqgo' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_I133bhcNqgo.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# lonnie-mccauley-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'jE7WSnYhKN0' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_jE7WSnYhKN0.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# lonnie-mccauley-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'lHHN_zd8O8k' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_lHHN_zd8O8k.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# lonnie-mccauley-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'P34omi5XUiY' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_P34omi5XUiY.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# lonnie-mccauley-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'Ssb2SQ6HPoo' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# lonnie-mccauley-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'vwTIgQpdBEo' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_vwTIgQpdBEo.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# lonnie-mccauley-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# lonnie-mccauley-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lonnie-mccauley-2010' 'w2Xq5luKGCU' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_w2Xq5luKGCU.mp4' 'public/media/videos/lonnie-mccauley-2010/lonnie-mccauley-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# lucretia-stoica-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# lucretia-stoica-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucretia-stoica-2011' 'A_IJEnnuyYg' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_A_IJEnnuyYg.mp4' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# lucretia-stoica-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# lucretia-stoica-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucretia-stoica-2011' 'I133bhcNqgo' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_I133bhcNqgo.mp4' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# lucretia-stoica-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# lucretia-stoica-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucretia-stoica-2011' 'P34omi5XUiY' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_P34omi5XUiY.mp4' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# lucretia-stoica-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# lucretia-stoica-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucretia-stoica-2011' 'rlg546_0pC4' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_rlg546_0pC4.mp4' 'public/media/videos/lucretia-stoica-2011/lucretia-stoica-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# lucy-torres-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW
+# lucy-torres-2026 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucy-torres-2026' 'e-wqDqAmYP8' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_e-wqDqAmYP8.mp4' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# lucy-torres-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# lucy-torres-2026 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucy-torres-2026' 'eWsy8Ctigm0' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_eWsy8Ctigm0.mp4' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# lucy-torres-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# lucy-torres-2026 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucy-torres-2026' 'Pyty_Fo8cFs' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_Pyty_Fo8cFs.mp4' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# lucy-torres-2026 / TU54lNScxz4 / NEEDS RIGHTS REVIEW
+# lucy-torres-2026 / TU54lNScxz4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'lucy-torres-2026' 'TU54lNScxz4' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.mp4' 'public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.%(ext)s' 'https://www.youtube.com/watch?v=TU54lNScxz4'
 
-# luis-martinez-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# luis-martinez-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'luis-martinez-2011' 'A_IJEnnuyYg' 'public/media/videos/luis-martinez-2011/luis-martinez-2011_A_IJEnnuyYg.mp4' 'public/media/videos/luis-martinez-2011/luis-martinez-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# luis-martinez-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# luis-martinez-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'luis-martinez-2011' 'rlg546_0pC4' 'public/media/videos/luis-martinez-2011/luis-martinez-2011_rlg546_0pC4.mp4' 'public/media/videos/luis-martinez-2011/luis-martinez-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# margaret-callander-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# margaret-callander-2014 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-callander-2014' 'I133bhcNqgo' 'public/media/videos/margaret-callander-2014/margaret-callander-2014_I133bhcNqgo.mp4' 'public/media/videos/margaret-callander-2014/margaret-callander-2014_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# margaret-callander-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# margaret-callander-2014 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-callander-2014' 'P34omi5XUiY' 'public/media/videos/margaret-callander-2014/margaret-callander-2014_P34omi5XUiY.mp4' 'public/media/videos/margaret-callander-2014/margaret-callander-2014_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# margaret-lynch-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' '_JXBIYSnWB0' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020__JXBIYSnWB0.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# margaret-lynch-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' '36YHkoqo-Fk' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_36YHkoqo-Fk.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# margaret-lynch-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'EfAP31kBlsM' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_EfAP31kBlsM.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# margaret-lynch-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'EZ92Q341gm4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_EZ92Q341gm4.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# margaret-lynch-2020 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'I133bhcNqgo' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_I133bhcNqgo.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# margaret-lynch-2020 / mTJMMiUk5nI / NEEDS RIGHTS REVIEW
-# download_youtube 'margaret-lynch-2020' 'mTJMMiUk5nI' 'public/videos/2020_Margaret_Lynch/2020_Margaret_Lynch_mTJMMiUk5nI.mp4' 'public/videos/2020_Margaret_Lynch/2020_Margaret_Lynch_mTJMMiUk5nI.%(ext)s' 'https://www.youtube.com/watch?v=mTJMMiUk5nI'
+# margaret-lynch-2020 / mTJMMiUk5nI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'margaret-lynch-2020' 'mTJMMiUk5nI' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.%(ext)s' 'https://www.youtube.com/watch?v=mTJMMiUk5nI'
 
-# margaret-lynch-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'MzvxeSsag0w' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_MzvxeSsag0w.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# margaret-lynch-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'ovFsNwqqQNc' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_ovFsNwqqQNc.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# margaret-lynch-2020 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'P34omi5XUiY' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_P34omi5XUiY.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# margaret-lynch-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'XrKxMkfQALI' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_XrKxMkfQALI.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# margaret-lynch-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'YDThFb2kPdA' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_YDThFb2kPdA.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# margaret-lynch-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# margaret-lynch-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-lynch-2020' 'zWJEroGvQUg' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_zWJEroGvQUg.mp4' 'public/media/videos/margaret-lynch-2020/margaret-lynch-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# margaret-w-wong-2010 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' '_JXBIYSnWB0' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010__JXBIYSnWB0.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# margaret-w-wong-2010 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' '36YHkoqo-Fk' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_36YHkoqo-Fk.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# margaret-w-wong-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'Do7atH9353s' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_Do7atH9353s.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# margaret-w-wong-2010 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'EfAP31kBlsM' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_EfAP31kBlsM.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# margaret-w-wong-2010 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'EZ92Q341gm4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_EZ92Q341gm4.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# margaret-w-wong-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'I133bhcNqgo' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_I133bhcNqgo.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# margaret-w-wong-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'jE7WSnYhKN0' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_jE7WSnYhKN0.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# margaret-w-wong-2010 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'MzvxeSsag0w' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_MzvxeSsag0w.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# margaret-w-wong-2010 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'ovFsNwqqQNc' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_ovFsNwqqQNc.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# margaret-w-wong-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'P34omi5XUiY' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_P34omi5XUiY.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# margaret-w-wong-2010 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'XrKxMkfQALI' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_XrKxMkfQALI.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# margaret-w-wong-2010 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'YDThFb2kPdA' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_YDThFb2kPdA.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# margaret-w-wong-2010 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# margaret-w-wong-2010 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'margaret-w-wong-2010' 'zWJEroGvQUg' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_zWJEroGvQUg.mp4' 'public/media/videos/margaret-w-wong-2010/margaret-w-wong-2010_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# marilyn-madigan-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' '_ifygk1bw5Q' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019__ifygk1bw5Q.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# marilyn-madigan-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' 'eCOSePkWnFY' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_eCOSePkWnFY.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# marilyn-madigan-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' 'lHHN_zd8O8k' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_lHHN_zd8O8k.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# marilyn-madigan-2019 / PgUsrTbLHJ4 / NEEDS RIGHTS REVIEW
-# download_youtube 'marilyn-madigan-2019' 'PgUsrTbLHJ4' 'public/videos/2019_Marilyn_Madigan/2019_Marilyn_Madigan_PgUsrTbLHJ4.mp4' 'public/videos/2019_Marilyn_Madigan/2019_Marilyn_Madigan_PgUsrTbLHJ4.%(ext)s' 'https://www.youtube.com/watch?v=PgUsrTbLHJ4'
+# marilyn-madigan-2019 / PgUsrTbLHJ4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'marilyn-madigan-2019' 'PgUsrTbLHJ4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.%(ext)s' 'https://www.youtube.com/watch?v=PgUsrTbLHJ4'
 
-# marilyn-madigan-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' 'Ssb2SQ6HPoo' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_Ssb2SQ6HPoo.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# marilyn-madigan-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' 'vwTIgQpdBEo' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_vwTIgQpdBEo.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# marilyn-madigan-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# marilyn-madigan-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'marilyn-madigan-2019' 'w2Xq5luKGCU' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_w2Xq5luKGCU.mp4' 'public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# may-chen-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# may-chen-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' '_JXBIYSnWB0' 'public/media/videos/may-chen-2020/may-chen-2020__JXBIYSnWB0.mp4' 'public/media/videos/may-chen-2020/may-chen-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# may-chen-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# may-chen-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' '36YHkoqo-Fk' 'public/media/videos/may-chen-2020/may-chen-2020_36YHkoqo-Fk.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# may-chen-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# may-chen-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'EfAP31kBlsM' 'public/media/videos/may-chen-2020/may-chen-2020_EfAP31kBlsM.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# may-chen-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# may-chen-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'EZ92Q341gm4' 'public/media/videos/may-chen-2020/may-chen-2020_EZ92Q341gm4.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# may-chen-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# may-chen-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'MzvxeSsag0w' 'public/media/videos/may-chen-2020/may-chen-2020_MzvxeSsag0w.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# may-chen-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# may-chen-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'ovFsNwqqQNc' 'public/media/videos/may-chen-2020/may-chen-2020_ovFsNwqqQNc.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# may-chen-2020 / QDE5BVEyNKg / NEEDS RIGHTS REVIEW
-# download_youtube 'may-chen-2020' 'QDE5BVEyNKg' 'public/videos/2020_May_Chen/2020_May_Chen_QDE5BVEyNKg.mp4' 'public/videos/2020_May_Chen/2020_May_Chen_QDE5BVEyNKg.%(ext)s' 'https://www.youtube.com/watch?v=QDE5BVEyNKg'
+# may-chen-2020 / QDE5BVEyNKg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'may-chen-2020' 'QDE5BVEyNKg' 'public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.%(ext)s' 'https://www.youtube.com/watch?v=QDE5BVEyNKg'
 
-# may-chen-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# may-chen-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'XrKxMkfQALI' 'public/media/videos/may-chen-2020/may-chen-2020_XrKxMkfQALI.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# may-chen-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# may-chen-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'YDThFb2kPdA' 'public/media/videos/may-chen-2020/may-chen-2020_YDThFb2kPdA.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# may-chen-2020 / yxyHzJyqYt0 / NEEDS RIGHTS REVIEW
-# download_youtube 'may-chen-2020' 'yxyHzJyqYt0' 'public/videos/2020_May_Chen/2020_May_Chen_yxyHzJyqYt0.mp4' 'public/videos/2020_May_Chen/2020_May_Chen_yxyHzJyqYt0.%(ext)s' 'https://www.youtube.com/watch?v=yxyHzJyqYt0'
+# may-chen-2020 / yxyHzJyqYt0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'may-chen-2020' 'yxyHzJyqYt0' 'public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.%(ext)s' 'https://www.youtube.com/watch?v=yxyHzJyqYt0'
 
-# may-chen-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# may-chen-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'may-chen-2020' 'zWJEroGvQUg' 'public/media/videos/may-chen-2020/may-chen-2020_zWJEroGvQUg.mp4' 'public/media/videos/may-chen-2020/may-chen-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# mayor-frank-jackson-2025 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' '_ifygk1bw5Q' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025__ifygk1bw5Q.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# mayor-frank-jackson-2025 / diVkkJkn0sY / NEEDS RIGHTS REVIEW
-# download_youtube 'mayor-frank-jackson-2025' 'diVkkJkn0sY' 'public/videos/2025_Mayor_Frank_Jackson/2025_Mayor_Frank_Jackson_diVkkJkn0sY.mp4' 'public/videos/2025_Mayor_Frank_Jackson/2025_Mayor_Frank_Jackson_diVkkJkn0sY.%(ext)s' 'https://www.youtube.com/watch?v=diVkkJkn0sY'
+# mayor-frank-jackson-2025 / diVkkJkn0sY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'mayor-frank-jackson-2025' 'diVkkJkn0sY' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.%(ext)s' 'https://www.youtube.com/watch?v=diVkkJkn0sY'
 
-# mayor-frank-jackson-2025 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' 'eCOSePkWnFY' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_eCOSePkWnFY.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# mayor-frank-jackson-2025 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' 'lHHN_zd8O8k' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_lHHN_zd8O8k.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# mayor-frank-jackson-2025 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' 'Ssb2SQ6HPoo' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_Ssb2SQ6HPoo.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# mayor-frank-jackson-2025 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' 'vwTIgQpdBEo' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_vwTIgQpdBEo.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# mayor-frank-jackson-2025 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# mayor-frank-jackson-2025 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mayor-frank-jackson-2025' 'w2Xq5luKGCU' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_w2Xq5luKGCU.mp4' 'public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# michael-d-polensek-2023 / IYv4tYCJ3m8 / NEEDS RIGHTS REVIEW
-# download_youtube 'michael-d-polensek-2023' 'IYv4tYCJ3m8' 'public/videos/2023_Michael_D_Polensek/2023_Michael_D_Polensek_IYv4tYCJ3m8.mp4' 'public/videos/2023_Michael_D_Polensek/2023_Michael_D_Polensek_IYv4tYCJ3m8.%(ext)s' 'https://www.youtube.com/watch?v=IYv4tYCJ3m8'
+# michael-d-polensek-2023 / IYv4tYCJ3m8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'michael-d-polensek-2023' 'IYv4tYCJ3m8' 'public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.mp4' 'public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.%(ext)s' 'https://www.youtube.com/watch?v=IYv4tYCJ3m8'
 
-# milton-maltz-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# milton-maltz-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'milton-maltz-2012' 'a0gi3EmNU00' 'public/media/videos/milton-maltz-2012/milton-maltz-2012_a0gi3EmNU00.mp4' 'public/media/videos/milton-maltz-2012/milton-maltz-2012_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# milton-maltz-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# milton-maltz-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'milton-maltz-2012' 'b3EUjRTsbQI' 'public/media/videos/milton-maltz-2012/milton-maltz-2012_b3EUjRTsbQI.mp4' 'public/media/videos/milton-maltz-2012/milton-maltz-2012_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# mohan-bafna-2016 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# mohan-bafna-2016 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mohan-bafna-2016' 'I133bhcNqgo' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_I133bhcNqgo.mp4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# mohan-bafna-2016 / iX7-ecPZvy4 / NEEDS RIGHTS REVIEW
-# download_youtube 'mohan-bafna-2016' 'iX7-ecPZvy4' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_iX7-ecPZvy4.mp4' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_iX7-ecPZvy4.%(ext)s' 'https://www.youtube.com/watch?v=iX7-ecPZvy4'
+# mohan-bafna-2016 / iX7-ecPZvy4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'mohan-bafna-2016' 'iX7-ecPZvy4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.mp4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.%(ext)s' 'https://www.youtube.com/watch?v=iX7-ecPZvy4'
 
-# mohan-bafna-2016 / KAhoZMRbZnA / NEEDS RIGHTS REVIEW
-# download_youtube 'mohan-bafna-2016' 'KAhoZMRbZnA' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_KAhoZMRbZnA.mp4' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_KAhoZMRbZnA.%(ext)s' 'https://www.youtube.com/watch?v=KAhoZMRbZnA'
+# mohan-bafna-2016 / KAhoZMRbZnA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'mohan-bafna-2016' 'KAhoZMRbZnA' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.mp4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.%(ext)s' 'https://www.youtube.com/watch?v=KAhoZMRbZnA'
 
-# mohan-bafna-2016 / KuSMhQ_yG_k / NEEDS RIGHTS REVIEW
-# download_youtube 'mohan-bafna-2016' 'KuSMhQ_yG_k' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_KuSMhQ_yG_k.mp4' 'public/videos/2016_Mohan_Bafna/2016_Mohan_Bafna_KuSMhQ_yG_k.%(ext)s' 'https://www.youtube.com/watch?v=KuSMhQ_yG_k'
+# mohan-bafna-2016 / KuSMhQ_yG_k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'mohan-bafna-2016' 'KuSMhQ_yG_k' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.mp4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.%(ext)s' 'https://www.youtube.com/watch?v=KuSMhQ_yG_k'
 
-# mohan-bafna-2016 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# mohan-bafna-2016 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mohan-bafna-2016' 'P34omi5XUiY' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_P34omi5XUiY.mp4' 'public/media/videos/mohan-bafna-2016/mohan-bafna-2016_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# mona-alag-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' '14YLHrGlU-4' 'public/media/videos/mona-alag-2017/mona-alag-2017_14YLHrGlU-4.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# mona-alag-2017 / 2mG5GMQXUZQ / NEEDS RIGHTS REVIEW
-# download_youtube 'mona-alag-2017' '2mG5GMQXUZQ' 'public/videos/2017_Mona_Alag/2017_Mona_Alag_2mG5GMQXUZQ.mp4' 'public/videos/2017_Mona_Alag/2017_Mona_Alag_2mG5GMQXUZQ.%(ext)s' 'https://www.youtube.com/watch?v=2mG5GMQXUZQ'
+# mona-alag-2017 / 2mG5GMQXUZQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'mona-alag-2017' '2mG5GMQXUZQ' 'public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.%(ext)s' 'https://www.youtube.com/watch?v=2mG5GMQXUZQ'
 
-# mona-alag-2017 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' 'Do7atH9353s' 'public/media/videos/mona-alag-2017/mona-alag-2017_Do7atH9353s.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# mona-alag-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' 'IblVlQoTrtc' 'public/media/videos/mona-alag-2017/mona-alag-2017_IblVlQoTrtc.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# mona-alag-2017 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' 'jE7WSnYhKN0' 'public/media/videos/mona-alag-2017/mona-alag-2017_jE7WSnYhKN0.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# mona-alag-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' 'NcCM_1SAQek' 'public/media/videos/mona-alag-2017/mona-alag-2017_NcCM_1SAQek.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# mona-alag-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# mona-alag-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'mona-alag-2017' 'wBzBVH4kBkg' 'public/media/videos/mona-alag-2017/mona-alag-2017_wBzBVH4kBkg.mp4' 'public/media/videos/mona-alag-2017/mona-alag-2017_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 
-# nacy-panzica-2013 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# nacy-panzica-2013 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'nacy-panzica-2013' 'I133bhcNqgo' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_I133bhcNqgo.mp4' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# nacy-panzica-2013 / LLkc_JGAW6M / NEEDS RIGHTS REVIEW
+# nacy-panzica-2013 / LLkc_JGAW6M / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'nacy-panzica-2013' 'LLkc_JGAW6M' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_LLkc_JGAW6M.mp4' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_LLkc_JGAW6M.%(ext)s' 'https://www.youtube.com/watch?v=LLkc_JGAW6M'
 
-# nacy-panzica-2013 / mrnRSQgQi1k / NEEDS RIGHTS REVIEW
+# nacy-panzica-2013 / mrnRSQgQi1k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'nacy-panzica-2013' 'mrnRSQgQi1k' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_mrnRSQgQi1k.mp4' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_mrnRSQgQi1k.%(ext)s' 'https://www.youtube.com/watch?v=mrnRSQgQi1k'
 
-# nacy-panzica-2013 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# nacy-panzica-2013 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'nacy-panzica-2013' 'P34omi5XUiY' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_P34omi5XUiY.mp4' 'public/media/videos/nacy-panzica-2013/nacy-panzica-2013_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# paramjit-singh-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' '_ifygk1bw5Q' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010__ifygk1bw5Q.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# paramjit-singh-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'Do7atH9353s' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_Do7atH9353s.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# paramjit-singh-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'eCOSePkWnFY' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_eCOSePkWnFY.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# paramjit-singh-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'I133bhcNqgo' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_I133bhcNqgo.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# paramjit-singh-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'jE7WSnYhKN0' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_jE7WSnYhKN0.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# paramjit-singh-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'lHHN_zd8O8k' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_lHHN_zd8O8k.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# paramjit-singh-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'P34omi5XUiY' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_P34omi5XUiY.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# paramjit-singh-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'Ssb2SQ6HPoo' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# paramjit-singh-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'vwTIgQpdBEo' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_vwTIgQpdBEo.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# paramjit-singh-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# paramjit-singh-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paramjit-singh-2010' 'w2Xq5luKGCU' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_w2Xq5luKGCU.mp4' 'public/media/videos/paramjit-singh-2010/paramjit-singh-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# pat-dowd-2023 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# pat-dowd-2023 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pat-dowd-2023' 'Do7atH9353s' 'public/media/videos/pat-dowd-2023/pat-dowd-2023_Do7atH9353s.mp4' 'public/media/videos/pat-dowd-2023/pat-dowd-2023_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# pat-dowd-2023 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# pat-dowd-2023 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pat-dowd-2023' 'jE7WSnYhKN0' 'public/media/videos/pat-dowd-2023/pat-dowd-2023_jE7WSnYhKN0.mp4' 'public/media/videos/pat-dowd-2023/pat-dowd-2023_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# paul-burik-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' '_ifygk1bw5Q' 'public/media/videos/paul-burik-2019/paul-burik-2019__ifygk1bw5Q.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# paul-burik-2019 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' '_JXBIYSnWB0' 'public/media/videos/paul-burik-2019/paul-burik-2019__JXBIYSnWB0.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# paul-burik-2019 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' '36YHkoqo-Fk' 'public/media/videos/paul-burik-2019/paul-burik-2019_36YHkoqo-Fk.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# paul-burik-2019 / b_zP9VqXJbY / NEEDS RIGHTS REVIEW
-# download_youtube 'paul-burik-2019' 'b_zP9VqXJbY' 'public/videos/2019_Paul_Burik/2019_Paul_Burik_b_zP9VqXJbY.mp4' 'public/videos/2019_Paul_Burik/2019_Paul_Burik_b_zP9VqXJbY.%(ext)s' 'https://www.youtube.com/watch?v=b_zP9VqXJbY'
+# paul-burik-2019 / b_zP9VqXJbY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'paul-burik-2019' 'b_zP9VqXJbY' 'public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.%(ext)s' 'https://www.youtube.com/watch?v=b_zP9VqXJbY'
 
-# paul-burik-2019 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'Do7atH9353s' 'public/media/videos/paul-burik-2019/paul-burik-2019_Do7atH9353s.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# paul-burik-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'eCOSePkWnFY' 'public/media/videos/paul-burik-2019/paul-burik-2019_eCOSePkWnFY.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# paul-burik-2019 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'EfAP31kBlsM' 'public/media/videos/paul-burik-2019/paul-burik-2019_EfAP31kBlsM.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# paul-burik-2019 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'EZ92Q341gm4' 'public/media/videos/paul-burik-2019/paul-burik-2019_EZ92Q341gm4.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# paul-burik-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'I133bhcNqgo' 'public/media/videos/paul-burik-2019/paul-burik-2019_I133bhcNqgo.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# paul-burik-2019 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'jE7WSnYhKN0' 'public/media/videos/paul-burik-2019/paul-burik-2019_jE7WSnYhKN0.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# paul-burik-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'lHHN_zd8O8k' 'public/media/videos/paul-burik-2019/paul-burik-2019_lHHN_zd8O8k.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# paul-burik-2019 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'MzvxeSsag0w' 'public/media/videos/paul-burik-2019/paul-burik-2019_MzvxeSsag0w.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# paul-burik-2019 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'ovFsNwqqQNc' 'public/media/videos/paul-burik-2019/paul-burik-2019_ovFsNwqqQNc.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# paul-burik-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'P34omi5XUiY' 'public/media/videos/paul-burik-2019/paul-burik-2019_P34omi5XUiY.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# paul-burik-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'Ssb2SQ6HPoo' 'public/media/videos/paul-burik-2019/paul-burik-2019_Ssb2SQ6HPoo.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# paul-burik-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'vwTIgQpdBEo' 'public/media/videos/paul-burik-2019/paul-burik-2019_vwTIgQpdBEo.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# paul-burik-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'w2Xq5luKGCU' 'public/media/videos/paul-burik-2019/paul-burik-2019_w2Xq5luKGCU.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# paul-burik-2019 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'XrKxMkfQALI' 'public/media/videos/paul-burik-2019/paul-burik-2019_XrKxMkfQALI.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# paul-burik-2019 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'YDThFb2kPdA' 'public/media/videos/paul-burik-2019/paul-burik-2019_YDThFb2kPdA.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# paul-burik-2019 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# paul-burik-2019 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-burik-2019' 'zWJEroGvQUg' 'public/media/videos/paul-burik-2019/paul-burik-2019_zWJEroGvQUg.mp4' 'public/media/videos/paul-burik-2019/paul-burik-2019_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# paul-sciria-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' '_ifygk1bw5Q' 'public/media/videos/paul-sciria-2010/paul-sciria-2010__ifygk1bw5Q.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# paul-sciria-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'Do7atH9353s' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_Do7atH9353s.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# paul-sciria-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'eCOSePkWnFY' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_eCOSePkWnFY.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# paul-sciria-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'I133bhcNqgo' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_I133bhcNqgo.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# paul-sciria-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'jE7WSnYhKN0' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_jE7WSnYhKN0.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# paul-sciria-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'lHHN_zd8O8k' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_lHHN_zd8O8k.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# paul-sciria-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'P34omi5XUiY' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_P34omi5XUiY.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# paul-sciria-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'Ssb2SQ6HPoo' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# paul-sciria-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'vwTIgQpdBEo' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_vwTIgQpdBEo.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# paul-sciria-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# paul-sciria-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'paul-sciria-2010' 'w2Xq5luKGCU' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_w2Xq5luKGCU.mp4' 'public/media/videos/paul-sciria-2010/paul-sciria-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# pierre-bejjani-2023 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' '_uTf8G8a6b0' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023__uTf8G8a6b0.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023__uTf8G8a6b0.%(ext)s' 'https://www.youtube.com/watch?v=_uTf8G8a6b0'
 
-# pierre-bejjani-2023 / 11fqd7MQ8Fs / NEEDS RIGHTS REVIEW
-# download_youtube 'pierre-bejjani-2023' '11fqd7MQ8Fs' 'public/videos/2023_Pierre_Bejjani/2023_Pierre_Bejjani_11fqd7MQ8Fs.mp4' 'public/videos/2023_Pierre_Bejjani/2023_Pierre_Bejjani_11fqd7MQ8Fs.%(ext)s' 'https://www.youtube.com/watch?v=11fqd7MQ8Fs'
+# pierre-bejjani-2023 / 11fqd7MQ8Fs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'pierre-bejjani-2023' '11fqd7MQ8Fs' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.%(ext)s' 'https://www.youtube.com/watch?v=11fqd7MQ8Fs'
 
-# pierre-bejjani-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' '7im99WF6Sfw' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_7im99WF6Sfw.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_7im99WF6Sfw.%(ext)s' 'https://www.youtube.com/watch?v=7im99WF6Sfw'
 
-# pierre-bejjani-2023 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'bsoEDM5cG2s' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_bsoEDM5cG2s.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_bsoEDM5cG2s.%(ext)s' 'https://www.youtube.com/watch?v=bsoEDM5cG2s'
 
-# pierre-bejjani-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'DhCiFpCsGFk' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_DhCiFpCsGFk.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_DhCiFpCsGFk.%(ext)s' 'https://www.youtube.com/watch?v=DhCiFpCsGFk'
 
-# pierre-bejjani-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'EtHbvT_s4NY' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_EtHbvT_s4NY.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_EtHbvT_s4NY.%(ext)s' 'https://www.youtube.com/watch?v=EtHbvT_s4NY'
 
-# pierre-bejjani-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'I133bhcNqgo' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_I133bhcNqgo.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# pierre-bejjani-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'lF42eHsGdFc' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_lF42eHsGdFc.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_lF42eHsGdFc.%(ext)s' 'https://www.youtube.com/watch?v=lF42eHsGdFc'
 
-# pierre-bejjani-2023 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'o_9k7ZtTvas' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_o_9k7ZtTvas.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_o_9k7ZtTvas.%(ext)s' 'https://www.youtube.com/watch?v=o_9k7ZtTvas'
 
-# pierre-bejjani-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'P34omi5XUiY' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_P34omi5XUiY.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# pierre-bejjani-2023 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'Pg4Uqs_wZRY' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_Pg4Uqs_wZRY.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_Pg4Uqs_wZRY.%(ext)s' 'https://www.youtube.com/watch?v=Pg4Uqs_wZRY'
 
-# pierre-bejjani-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'RImDK_lpjFM' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_RImDK_lpjFM.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_RImDK_lpjFM.%(ext)s' 'https://www.youtube.com/watch?v=RImDK_lpjFM'
 
-# pierre-bejjani-2023 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'YCV-PL-GOuk' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_YCV-PL-GOuk.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_YCV-PL-GOuk.%(ext)s' 'https://www.youtube.com/watch?v=YCV-PL-GOuk'
 
-# pierre-bejjani-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'ynzDfs0graM' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_ynzDfs0graM.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_ynzDfs0graM.%(ext)s' 'https://www.youtube.com/watch?v=ynzDfs0graM'
 
-# pierre-bejjani-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW
+# pierre-bejjani-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'pierre-bejjani-2023' 'yR18WkgJ_tQ' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_yR18WkgJ_tQ.mp4' 'public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_yR18WkgJ_tQ.%(ext)s' 'https://www.youtube.com/watch?v=yR18WkgJ_tQ'
 
-# raj-aggarwal-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW
+# raj-aggarwal-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'raj-aggarwal-2025' '63hL5GG_0dA' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_63hL5GG_0dA.mp4' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_63hL5GG_0dA.%(ext)s' 'https://www.youtube.com/watch?v=63hL5GG_0dA'
 
-# raj-aggarwal-2025 / DoZUzteeFMU / NEEDS RIGHTS REVIEW
-# download_youtube 'raj-aggarwal-2025' 'DoZUzteeFMU' 'public/videos/2025_Raj_Aggarwal/2025_Raj_Aggarwal_DoZUzteeFMU.mp4' 'public/videos/2025_Raj_Aggarwal/2025_Raj_Aggarwal_DoZUzteeFMU.%(ext)s' 'https://www.youtube.com/watch?v=DoZUzteeFMU'
+# raj-aggarwal-2025 / DoZUzteeFMU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'raj-aggarwal-2025' 'DoZUzteeFMU' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.mp4' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.%(ext)s' 'https://www.youtube.com/watch?v=DoZUzteeFMU'
 
-# raj-aggarwal-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW
+# raj-aggarwal-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'raj-aggarwal-2025' 'HQz1pWe_-wM' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_HQz1pWe_-wM.mp4' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_HQz1pWe_-wM.%(ext)s' 'https://www.youtube.com/watch?v=HQz1pWe_-wM'
 
-# raj-aggarwal-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW
+# raj-aggarwal-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'raj-aggarwal-2025' 'S6l7MKK7RWg' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_S6l7MKK7RWg.mp4' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_S6l7MKK7RWg.%(ext)s' 'https://www.youtube.com/watch?v=S6l7MKK7RWg'
 
-# raj-aggarwal-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW
+# raj-aggarwal-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'raj-aggarwal-2025' 'XJbjDVgzCzc' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_XJbjDVgzCzc.mp4' 'public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_XJbjDVgzCzc.%(ext)s' 'https://www.youtube.com/watch?v=XJbjDVgzCzc'
 
-# ralph-perk-jr-2018 / 8CPuLovefwA / NEEDS RIGHTS REVIEW
-# download_youtube 'ralph-perk-jr-2018' '8CPuLovefwA' 'public/videos/2018_Ralph_Perk_Jr_/2018_Ralph_Perk_Jr__8CPuLovefwA.mp4' 'public/videos/2018_Ralph_Perk_Jr_/2018_Ralph_Perk_Jr__8CPuLovefwA.%(ext)s' 'https://www.youtube.com/watch?v=8CPuLovefwA'
+# ralph-perk-jr-2018 / 8CPuLovefwA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ralph-perk-jr-2018' '8CPuLovefwA' 'public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.mp4' 'public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.%(ext)s' 'https://www.youtube.com/watch?v=8CPuLovefwA'
 
-# ralph-perk-jr-2018 / QxG7VrfKyXo / NEEDS RIGHTS REVIEW
-# download_youtube 'ralph-perk-jr-2018' 'QxG7VrfKyXo' 'public/videos/2018_Ralph_Perk_Jr_/2018_Ralph_Perk_Jr__QxG7VrfKyXo.mp4' 'public/videos/2018_Ralph_Perk_Jr_/2018_Ralph_Perk_Jr__QxG7VrfKyXo.%(ext)s' 'https://www.youtube.com/watch?v=QxG7VrfKyXo'
+# ralph-perk-jr-2018 / QxG7VrfKyXo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ralph-perk-jr-2018' 'QxG7VrfKyXo' 'public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.mp4' 'public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.%(ext)s' 'https://www.youtube.com/watch?v=QxG7VrfKyXo'
 
-# ramesh-shah-2020 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' '_ifygk1bw5Q' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020__ifygk1bw5Q.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# ramesh-shah-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' '_JXBIYSnWB0' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020__JXBIYSnWB0.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# ramesh-shah-2020 / -5gDFAKdaXM / NEEDS RIGHTS REVIEW
-# download_youtube 'ramesh-shah-2020' '-5gDFAKdaXM' 'public/videos/2020_Ramesh_Shah/2020_Ramesh_Shah_-5gDFAKdaXM.mp4' 'public/videos/2020_Ramesh_Shah/2020_Ramesh_Shah_-5gDFAKdaXM.%(ext)s' 'https://www.youtube.com/watch?v=-5gDFAKdaXM'
+# ramesh-shah-2020 / -5gDFAKdaXM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ramesh-shah-2020' '-5gDFAKdaXM' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.%(ext)s' 'https://www.youtube.com/watch?v=-5gDFAKdaXM'
 
-# ramesh-shah-2020 / 0voVPcRDeyU / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / 0voVPcRDeyU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' '0voVPcRDeyU' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_0voVPcRDeyU.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_0voVPcRDeyU.%(ext)s' 'https://www.youtube.com/watch?v=0voVPcRDeyU'
 
-# ramesh-shah-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' '36YHkoqo-Fk' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_36YHkoqo-Fk.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# ramesh-shah-2020 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'eCOSePkWnFY' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_eCOSePkWnFY.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# ramesh-shah-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'EfAP31kBlsM' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_EfAP31kBlsM.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# ramesh-shah-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'EZ92Q341gm4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_EZ92Q341gm4.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# ramesh-shah-2020 / fEHO9Uwgb9g / NEEDS RIGHTS REVIEW
-# download_youtube 'ramesh-shah-2020' 'fEHO9Uwgb9g' 'public/videos/2020_Ramesh_Shah/2020_Ramesh_Shah_fEHO9Uwgb9g.mp4' 'public/videos/2020_Ramesh_Shah/2020_Ramesh_Shah_fEHO9Uwgb9g.%(ext)s' 'https://www.youtube.com/watch?v=fEHO9Uwgb9g'
+# ramesh-shah-2020 / fEHO9Uwgb9g / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ramesh-shah-2020' 'fEHO9Uwgb9g' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.%(ext)s' 'https://www.youtube.com/watch?v=fEHO9Uwgb9g'
 
-# ramesh-shah-2020 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'lHHN_zd8O8k' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_lHHN_zd8O8k.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# ramesh-shah-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'MzvxeSsag0w' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_MzvxeSsag0w.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# ramesh-shah-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'ovFsNwqqQNc' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_ovFsNwqqQNc.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# ramesh-shah-2020 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'Ssb2SQ6HPoo' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_Ssb2SQ6HPoo.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# ramesh-shah-2020 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'vwTIgQpdBEo' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_vwTIgQpdBEo.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# ramesh-shah-2020 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'w2Xq5luKGCU' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_w2Xq5luKGCU.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# ramesh-shah-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'XrKxMkfQALI' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_XrKxMkfQALI.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# ramesh-shah-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'YDThFb2kPdA' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_YDThFb2kPdA.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# ramesh-shah-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# ramesh-shah-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ramesh-shah-2020' 'zWJEroGvQUg' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_zWJEroGvQUg.mp4' 'public/media/videos/ramesh-shah-2020/ramesh-shah-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# ray-pianka-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' '_uTf8G8a6b0' 'public/media/videos/ray-pianka-2018/ray-pianka-2018__uTf8G8a6b0.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018__uTf8G8a6b0.%(ext)s' 'https://www.youtube.com/watch?v=_uTf8G8a6b0'
 
-# ray-pianka-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'bsoEDM5cG2s' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_bsoEDM5cG2s.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_bsoEDM5cG2s.%(ext)s' 'https://www.youtube.com/watch?v=bsoEDM5cG2s'
 
-# ray-pianka-2018 / D1Rgv29APUk / NEEDS RIGHTS REVIEW
-# download_youtube 'ray-pianka-2018' 'D1Rgv29APUk' 'public/videos/2018_Ray_Pianka/2018_Ray_Pianka_D1Rgv29APUk.mp4' 'public/videos/2018_Ray_Pianka/2018_Ray_Pianka_D1Rgv29APUk.%(ext)s' 'https://www.youtube.com/watch?v=D1Rgv29APUk'
+# ray-pianka-2018 / D1Rgv29APUk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'ray-pianka-2018' 'D1Rgv29APUk' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.%(ext)s' 'https://www.youtube.com/watch?v=D1Rgv29APUk'
 
-# ray-pianka-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'I133bhcNqgo' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_I133bhcNqgo.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# ray-pianka-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'o_9k7ZtTvas' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_o_9k7ZtTvas.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_o_9k7ZtTvas.%(ext)s' 'https://www.youtube.com/watch?v=o_9k7ZtTvas'
 
-# ray-pianka-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'P34omi5XUiY' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_P34omi5XUiY.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# ray-pianka-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'Pg4Uqs_wZRY' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_Pg4Uqs_wZRY.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_Pg4Uqs_wZRY.%(ext)s' 'https://www.youtube.com/watch?v=Pg4Uqs_wZRY'
 
-# ray-pianka-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW
+# ray-pianka-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'ray-pianka-2018' 'YCV-PL-GOuk' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_YCV-PL-GOuk.mp4' 'public/media/videos/ray-pianka-2018/ray-pianka-2018_YCV-PL-GOuk.%(ext)s' 'https://www.youtube.com/watch?v=YCV-PL-GOuk'
 
-# rev-mikhail-mikhail-2016 / ix03H0nVr4g / NEEDS RIGHTS REVIEW
+# rev-mikhail-mikhail-2016 / ix03H0nVr4g / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'rev-mikhail-mikhail-2016' 'ix03H0nVr4g' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_ix03H0nVr4g.mp4' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_ix03H0nVr4g.%(ext)s' 'https://www.youtube.com/watch?v=ix03H0nVr4g'
 
-# rev-mikhail-mikhail-2016 / kBr4SVfZ_Ec / NEEDS RIGHTS REVIEW
+# rev-mikhail-mikhail-2016 / kBr4SVfZ_Ec / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'rev-mikhail-mikhail-2016' 'kBr4SVfZ_Ec' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_kBr4SVfZ_Ec.mp4' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_kBr4SVfZ_Ec.%(ext)s' 'https://www.youtube.com/watch?v=kBr4SVfZ_Ec'
 
-# rev-mikhail-mikhail-2016 / OBuRGUXC-Cw / NEEDS RIGHTS REVIEW
+# rev-mikhail-mikhail-2016 / OBuRGUXC-Cw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'rev-mikhail-mikhail-2016' 'OBuRGUXC-Cw' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_OBuRGUXC-Cw.mp4' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_OBuRGUXC-Cw.%(ext)s' 'https://www.youtube.com/watch?v=OBuRGUXC-Cw'
 
-# rev-mikhail-mikhail-2016 / qCjr03YRJR0 / NEEDS RIGHTS REVIEW
+# rev-mikhail-mikhail-2016 / qCjr03YRJR0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'rev-mikhail-mikhail-2016' 'qCjr03YRJR0' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_qCjr03YRJR0.mp4' 'public/media/videos/rev-mikhail-mikhail-2016/rev-mikhail-mikhail-2016_qCjr03YRJR0.%(ext)s' 'https://www.youtube.com/watch?v=qCjr03YRJR0'
 
-# richard-a-ganim-2015 / kofOH1CYKBQ / NEEDS RIGHTS REVIEW
-# download_youtube 'richard-a-ganim-2015' 'kofOH1CYKBQ' 'public/videos/2015_Richard_A_Ganim/2015_Richard_A_Ganim_kofOH1CYKBQ.mp4' 'public/videos/2015_Richard_A_Ganim/2015_Richard_A_Ganim_kofOH1CYKBQ.%(ext)s' 'https://www.youtube.com/watch?v=kofOH1CYKBQ'
+# richard-a-ganim-2015 / kofOH1CYKBQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'richard-a-ganim-2015' 'kofOH1CYKBQ' 'public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.mp4' 'public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.%(ext)s' 'https://www.youtube.com/watch?v=kofOH1CYKBQ'
 
-# richard-a-ganim-2015 / M384Uvg0bh8 / NEEDS RIGHTS REVIEW
-# download_youtube 'richard-a-ganim-2015' 'M384Uvg0bh8' 'public/videos/2015_Richard_A_Ganim/2015_Richard_A_Ganim_M384Uvg0bh8.mp4' 'public/videos/2015_Richard_A_Ganim/2015_Richard_A_Ganim_M384Uvg0bh8.%(ext)s' 'https://www.youtube.com/watch?v=M384Uvg0bh8'
+# richard-a-ganim-2015 / M384Uvg0bh8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'richard-a-ganim-2015' 'M384Uvg0bh8' 'public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.mp4' 'public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.%(ext)s' 'https://www.youtube.com/watch?v=M384Uvg0bh8'
 
-# richard-fleischman-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' '_ifygk1bw5Q' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019__ifygk1bw5Q.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# richard-fleischman-2019 / 5BYSPErYD3o / NEEDS RIGHTS REVIEW
-# download_youtube 'richard-fleischman-2019' '5BYSPErYD3o' 'public/videos/2019_Richard_Fleischman/2019_Richard_Fleischman_5BYSPErYD3o.mp4' 'public/videos/2019_Richard_Fleischman/2019_Richard_Fleischman_5BYSPErYD3o.%(ext)s' 'https://www.youtube.com/watch?v=5BYSPErYD3o'
+# richard-fleischman-2019 / 5BYSPErYD3o / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'richard-fleischman-2019' '5BYSPErYD3o' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.%(ext)s' 'https://www.youtube.com/watch?v=5BYSPErYD3o'
 
-# richard-fleischman-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'eCOSePkWnFY' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_eCOSePkWnFY.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# richard-fleischman-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'I133bhcNqgo' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_I133bhcNqgo.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# richard-fleischman-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'lHHN_zd8O8k' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_lHHN_zd8O8k.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# richard-fleischman-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'P34omi5XUiY' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_P34omi5XUiY.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# richard-fleischman-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'Ssb2SQ6HPoo' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_Ssb2SQ6HPoo.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# richard-fleischman-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'vwTIgQpdBEo' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_vwTIgQpdBEo.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# richard-fleischman-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# richard-fleischman-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'richard-fleischman-2019' 'w2Xq5luKGCU' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_w2Xq5luKGCU.mp4' 'public/media/videos/richard-fleischman-2019/richard-fleischman-2019_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# robert-j-haas-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW
+# robert-j-haas-2010 / Do7atH9353s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'robert-j-haas-2010' 'Do7atH9353s' 'public/media/videos/robert-j-haas-2010/robert-j-haas-2010_Do7atH9353s.mp4' 'public/media/videos/robert-j-haas-2010/robert-j-haas-2010_Do7atH9353s.%(ext)s' 'https://www.youtube.com/watch?v=Do7atH9353s'
 
-# robert-j-haas-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW
+# robert-j-haas-2010 / jE7WSnYhKN0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'robert-j-haas-2010' 'jE7WSnYhKN0' 'public/media/videos/robert-j-haas-2010/robert-j-haas-2010_jE7WSnYhKN0.mp4' 'public/media/videos/robert-j-haas-2010/robert-j-haas-2010_jE7WSnYhKN0.%(ext)s' 'https://www.youtube.com/watch?v=jE7WSnYhKN0'
 
-# sam-kim-2017 / f78jlqAJnqM / NEEDS RIGHTS REVIEW
-# download_youtube 'sam-kim-2017' 'f78jlqAJnqM' 'public/videos/2017_Sam_Kim/2017_Sam_Kim_f78jlqAJnqM.mp4' 'public/videos/2017_Sam_Kim/2017_Sam_Kim_f78jlqAJnqM.%(ext)s' 'https://www.youtube.com/watch?v=f78jlqAJnqM'
+# sam-kim-2017 / f78jlqAJnqM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sam-kim-2017' 'f78jlqAJnqM' 'public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.mp4' 'public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.%(ext)s' 'https://www.youtube.com/watch?v=f78jlqAJnqM'
 
-# senator-george-voinovich-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' '_ifygk1bw5Q' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010__ifygk1bw5Q.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# senator-george-voinovich-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'eCOSePkWnFY' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_eCOSePkWnFY.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# senator-george-voinovich-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'I133bhcNqgo' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_I133bhcNqgo.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# senator-george-voinovich-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'lHHN_zd8O8k' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_lHHN_zd8O8k.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# senator-george-voinovich-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'P34omi5XUiY' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_P34omi5XUiY.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# senator-george-voinovich-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'Ssb2SQ6HPoo' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_Ssb2SQ6HPoo.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# senator-george-voinovich-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'vwTIgQpdBEo' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_vwTIgQpdBEo.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# senator-george-voinovich-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# senator-george-voinovich-2010 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'senator-george-voinovich-2010' 'w2Xq5luKGCU' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_w2Xq5luKGCU.mp4' 'public/media/videos/senator-george-voinovich-2010/senator-george-voinovich-2010_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# sheila-murphy-crawford-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' '_uTf8G8a6b0' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018__uTf8G8a6b0.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018__uTf8G8a6b0.%(ext)s' 'https://www.youtube.com/watch?v=_uTf8G8a6b0'
 
-# sheila-murphy-crawford-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'bsoEDM5cG2s' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_bsoEDM5cG2s.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_bsoEDM5cG2s.%(ext)s' 'https://www.youtube.com/watch?v=bsoEDM5cG2s'
 
-# sheila-murphy-crawford-2018 / i-iB8SADV8Q / NEEDS RIGHTS REVIEW
-# download_youtube 'sheila-murphy-crawford-2018' 'i-iB8SADV8Q' 'public/videos/2018_Sheila_Murphy_Crawford/2018_Sheila_Murphy_Crawford_i-iB8SADV8Q.mp4' 'public/videos/2018_Sheila_Murphy_Crawford/2018_Sheila_Murphy_Crawford_i-iB8SADV8Q.%(ext)s' 'https://www.youtube.com/watch?v=i-iB8SADV8Q'
+# sheila-murphy-crawford-2018 / i-iB8SADV8Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sheila-murphy-crawford-2018' 'i-iB8SADV8Q' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.%(ext)s' 'https://www.youtube.com/watch?v=i-iB8SADV8Q'
 
-# sheila-murphy-crawford-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'I133bhcNqgo' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_I133bhcNqgo.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# sheila-murphy-crawford-2018 / nC0wST9j-J0 / NEEDS RIGHTS REVIEW
-# download_youtube 'sheila-murphy-crawford-2018' 'nC0wST9j-J0' 'public/videos/2018_Sheila_Murphy_Crawford/2018_Sheila_Murphy_Crawford_nC0wST9j-J0.mp4' 'public/videos/2018_Sheila_Murphy_Crawford/2018_Sheila_Murphy_Crawford_nC0wST9j-J0.%(ext)s' 'https://www.youtube.com/watch?v=nC0wST9j-J0'
+# sheila-murphy-crawford-2018 / nC0wST9j-J0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sheila-murphy-crawford-2018' 'nC0wST9j-J0' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.%(ext)s' 'https://www.youtube.com/watch?v=nC0wST9j-J0'
 
-# sheila-murphy-crawford-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'o_9k7ZtTvas' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_o_9k7ZtTvas.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_o_9k7ZtTvas.%(ext)s' 'https://www.youtube.com/watch?v=o_9k7ZtTvas'
 
-# sheila-murphy-crawford-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'P34omi5XUiY' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_P34omi5XUiY.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# sheila-murphy-crawford-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'Pg4Uqs_wZRY' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_Pg4Uqs_wZRY.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_Pg4Uqs_wZRY.%(ext)s' 'https://www.youtube.com/watch?v=Pg4Uqs_wZRY'
 
-# sheila-murphy-crawford-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW
+# sheila-murphy-crawford-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sheila-murphy-crawford-2018' 'YCV-PL-GOuk' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_YCV-PL-GOuk.mp4' 'public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_YCV-PL-GOuk.%(ext)s' 'https://www.youtube.com/watch?v=YCV-PL-GOuk'
 
-# shiv-k-aggarwal-2015 / -2OMPdY2pfw / NEEDS RIGHTS REVIEW
-# download_youtube 'shiv-k-aggarwal-2015' '-2OMPdY2pfw' 'public/videos/2015_Shiv_K_Aggarwal/2015_Shiv_K_Aggarwal_-2OMPdY2pfw.mp4' 'public/videos/2015_Shiv_K_Aggarwal/2015_Shiv_K_Aggarwal_-2OMPdY2pfw.%(ext)s' 'https://www.youtube.com/watch?v=-2OMPdY2pfw'
+# shiv-k-aggarwal-2015 / -2OMPdY2pfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'shiv-k-aggarwal-2015' '-2OMPdY2pfw' 'public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.mp4' 'public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.%(ext)s' 'https://www.youtube.com/watch?v=-2OMPdY2pfw'
 
-# shiv-k-aggarwal-2015 / tX9BPpgJ_3w / NEEDS RIGHTS REVIEW
-# download_youtube 'shiv-k-aggarwal-2015' 'tX9BPpgJ_3w' 'public/videos/2015_Shiv_K_Aggarwal/2015_Shiv_K_Aggarwal_tX9BPpgJ_3w.mp4' 'public/videos/2015_Shiv_K_Aggarwal/2015_Shiv_K_Aggarwal_tX9BPpgJ_3w.%(ext)s' 'https://www.youtube.com/watch?v=tX9BPpgJ_3w'
+# shiv-k-aggarwal-2015 / tX9BPpgJ_3w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'shiv-k-aggarwal-2015' 'tX9BPpgJ_3w' 'public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.mp4' 'public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.%(ext)s' 'https://www.youtube.com/watch?v=tX9BPpgJ_3w'
 
-# sister-alicia-alvarado-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / _uTf8G8a6b0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' '_uTf8G8a6b0' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018__uTf8G8a6b0.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018__uTf8G8a6b0.%(ext)s' 'https://www.youtube.com/watch?v=_uTf8G8a6b0'
 
-# sister-alicia-alvarado-2018 / 9e7DWWD6_l0 / NEEDS RIGHTS REVIEW
-# download_youtube 'sister-alicia-alvarado-2018' '9e7DWWD6_l0' 'public/videos/2018_Sister_Alicia_Alvarado/2018_Sister_Alicia_Alvarado_9e7DWWD6_l0.mp4' 'public/videos/2018_Sister_Alicia_Alvarado/2018_Sister_Alicia_Alvarado_9e7DWWD6_l0.%(ext)s' 'https://www.youtube.com/watch?v=9e7DWWD6_l0'
+# sister-alicia-alvarado-2018 / 9e7DWWD6_l0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sister-alicia-alvarado-2018' '9e7DWWD6_l0' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.%(ext)s' 'https://www.youtube.com/watch?v=9e7DWWD6_l0'
 
-# sister-alicia-alvarado-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / bsoEDM5cG2s / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'bsoEDM5cG2s' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_bsoEDM5cG2s.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_bsoEDM5cG2s.%(ext)s' 'https://www.youtube.com/watch?v=bsoEDM5cG2s'
 
-# sister-alicia-alvarado-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'I133bhcNqgo' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_I133bhcNqgo.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# sister-alicia-alvarado-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / o_9k7ZtTvas / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'o_9k7ZtTvas' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_o_9k7ZtTvas.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_o_9k7ZtTvas.%(ext)s' 'https://www.youtube.com/watch?v=o_9k7ZtTvas'
 
-# sister-alicia-alvarado-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'P34omi5XUiY' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_P34omi5XUiY.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# sister-alicia-alvarado-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / Pg4Uqs_wZRY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'Pg4Uqs_wZRY' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_Pg4Uqs_wZRY.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_Pg4Uqs_wZRY.%(ext)s' 'https://www.youtube.com/watch?v=Pg4Uqs_wZRY'
 
-# sister-alicia-alvarado-2018 / soPrjwdQWfw / NEEDS RIGHTS REVIEW
-# download_youtube 'sister-alicia-alvarado-2018' 'soPrjwdQWfw' 'public/videos/2018_Sister_Alicia_Alvarado/2018_Sister_Alicia_Alvarado_soPrjwdQWfw.mp4' 'public/videos/2018_Sister_Alicia_Alvarado/2018_Sister_Alicia_Alvarado_soPrjwdQWfw.%(ext)s' 'https://www.youtube.com/watch?v=soPrjwdQWfw'
+# sister-alicia-alvarado-2018 / soPrjwdQWfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sister-alicia-alvarado-2018' 'soPrjwdQWfw' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.%(ext)s' 'https://www.youtube.com/watch?v=soPrjwdQWfw'
 
-# sister-alicia-alvarado-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW
+# sister-alicia-alvarado-2018 / YCV-PL-GOuk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sister-alicia-alvarado-2018' 'YCV-PL-GOuk' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_YCV-PL-GOuk.mp4' 'public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_YCV-PL-GOuk.%(ext)s' 'https://www.youtube.com/watch?v=YCV-PL-GOuk'
 
-# sree-sreenath-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' '_ifygk1bw5Q' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019__ifygk1bw5Q.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# sree-sreenath-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' 'eCOSePkWnFY' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_eCOSePkWnFY.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# sree-sreenath-2019 / IXo79dbDE_M / NEEDS RIGHTS REVIEW
-# download_youtube 'sree-sreenath-2019' 'IXo79dbDE_M' 'public/videos/2019_Sree_Sreenath/2019_Sree_Sreenath_IXo79dbDE_M.mp4' 'public/videos/2019_Sree_Sreenath/2019_Sree_Sreenath_IXo79dbDE_M.%(ext)s' 'https://www.youtube.com/watch?v=IXo79dbDE_M'
+# sree-sreenath-2019 / IXo79dbDE_M / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sree-sreenath-2019' 'IXo79dbDE_M' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.%(ext)s' 'https://www.youtube.com/watch?v=IXo79dbDE_M'
 
-# sree-sreenath-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' 'lHHN_zd8O8k' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_lHHN_zd8O8k.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# sree-sreenath-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' 'Ssb2SQ6HPoo' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_Ssb2SQ6HPoo.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# sree-sreenath-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' 'vwTIgQpdBEo' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_vwTIgQpdBEo.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# sree-sreenath-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# sree-sreenath-2019 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sree-sreenath-2019' 'w2Xq5luKGCU' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_w2Xq5luKGCU.mp4' 'public/media/videos/sree-sreenath-2019/sree-sreenath-2019_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# steve-mulloy-2015 / GDfhVKV-PfY / NEEDS RIGHTS REVIEW
-# download_youtube 'steve-mulloy-2015' 'GDfhVKV-PfY' 'public/videos/2015_Steve_Mulloy/2015_Steve_Mulloy_GDfhVKV-PfY.mp4' 'public/videos/2015_Steve_Mulloy/2015_Steve_Mulloy_GDfhVKV-PfY.%(ext)s' 'https://www.youtube.com/watch?v=GDfhVKV-PfY'
+# steve-mulloy-2015 / GDfhVKV-PfY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'steve-mulloy-2015' 'GDfhVKV-PfY' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.mp4' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.%(ext)s' 'https://www.youtube.com/watch?v=GDfhVKV-PfY'
 
-# steve-mulloy-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# steve-mulloy-2015 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'steve-mulloy-2015' 'I133bhcNqgo' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_I133bhcNqgo.mp4' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# steve-mulloy-2015 / nINk_D8bi54 / NEEDS RIGHTS REVIEW
-# download_youtube 'steve-mulloy-2015' 'nINk_D8bi54' 'public/videos/2015_Steve_Mulloy/2015_Steve_Mulloy_nINk_D8bi54.mp4' 'public/videos/2015_Steve_Mulloy/2015_Steve_Mulloy_nINk_D8bi54.%(ext)s' 'https://www.youtube.com/watch?v=nINk_D8bi54'
+# steve-mulloy-2015 / nINk_D8bi54 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'steve-mulloy-2015' 'nINk_D8bi54' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.mp4' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.%(ext)s' 'https://www.youtube.com/watch?v=nINk_D8bi54'
 
-# steve-mulloy-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# steve-mulloy-2015 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'steve-mulloy-2015' 'P34omi5XUiY' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_P34omi5XUiY.mp4' 'public/media/videos/steve-mulloy-2015/steve-mulloy-2015_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# sudarshan-sathe-2023 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' '_JXBIYSnWB0' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023__JXBIYSnWB0.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# sudarshan-sathe-2023 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' '14YLHrGlU-4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_14YLHrGlU-4.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# sudarshan-sathe-2023 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' '36YHkoqo-Fk' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_36YHkoqo-Fk.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# sudarshan-sathe-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / 7im99WF6Sfw / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' '7im99WF6Sfw' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_7im99WF6Sfw.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_7im99WF6Sfw.%(ext)s' 'https://www.youtube.com/watch?v=7im99WF6Sfw'
 
-# sudarshan-sathe-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / DhCiFpCsGFk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'DhCiFpCsGFk' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_DhCiFpCsGFk.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_DhCiFpCsGFk.%(ext)s' 'https://www.youtube.com/watch?v=DhCiFpCsGFk'
 
-# sudarshan-sathe-2023 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'EfAP31kBlsM' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EfAP31kBlsM.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# sudarshan-sathe-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / EtHbvT_s4NY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'EtHbvT_s4NY' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EtHbvT_s4NY.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EtHbvT_s4NY.%(ext)s' 'https://www.youtube.com/watch?v=EtHbvT_s4NY'
 
-# sudarshan-sathe-2023 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'EZ92Q341gm4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EZ92Q341gm4.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# sudarshan-sathe-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'I133bhcNqgo' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_I133bhcNqgo.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# sudarshan-sathe-2023 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'IblVlQoTrtc' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_IblVlQoTrtc.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# sudarshan-sathe-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / lF42eHsGdFc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'lF42eHsGdFc' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_lF42eHsGdFc.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_lF42eHsGdFc.%(ext)s' 'https://www.youtube.com/watch?v=lF42eHsGdFc'
 
-# sudarshan-sathe-2023 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'MzvxeSsag0w' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_MzvxeSsag0w.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# sudarshan-sathe-2023 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'NcCM_1SAQek' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_NcCM_1SAQek.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# sudarshan-sathe-2023 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'ovFsNwqqQNc' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_ovFsNwqqQNc.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# sudarshan-sathe-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'P34omi5XUiY' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_P34omi5XUiY.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# sudarshan-sathe-2023 / q4nkyvZtzRU / NEEDS RIGHTS REVIEW
-# download_youtube 'sudarshan-sathe-2023' 'q4nkyvZtzRU' 'public/videos/2023_Sudarshan_Sathe/2023_Sudarshan_Sathe_q4nkyvZtzRU.mp4' 'public/videos/2023_Sudarshan_Sathe/2023_Sudarshan_Sathe_q4nkyvZtzRU.%(ext)s' 'https://www.youtube.com/watch?v=q4nkyvZtzRU'
+# sudarshan-sathe-2023 / q4nkyvZtzRU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'sudarshan-sathe-2023' 'q4nkyvZtzRU' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.%(ext)s' 'https://www.youtube.com/watch?v=q4nkyvZtzRU'
 
-# sudarshan-sathe-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / RImDK_lpjFM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'RImDK_lpjFM' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_RImDK_lpjFM.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_RImDK_lpjFM.%(ext)s' 'https://www.youtube.com/watch?v=RImDK_lpjFM'
 
-# sudarshan-sathe-2023 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'wBzBVH4kBkg' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_wBzBVH4kBkg.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 
-# sudarshan-sathe-2023 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'XrKxMkfQALI' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_XrKxMkfQALI.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# sudarshan-sathe-2023 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'YDThFb2kPdA' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_YDThFb2kPdA.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# sudarshan-sathe-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / ynzDfs0graM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'ynzDfs0graM' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_ynzDfs0graM.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_ynzDfs0graM.%(ext)s' 'https://www.youtube.com/watch?v=ynzDfs0graM'
 
-# sudarshan-sathe-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / yR18WkgJ_tQ / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'yR18WkgJ_tQ' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_yR18WkgJ_tQ.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_yR18WkgJ_tQ.%(ext)s' 'https://www.youtube.com/watch?v=yR18WkgJ_tQ'
 
-# sudarshan-sathe-2023 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# sudarshan-sathe-2023 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'sudarshan-sathe-2023' 'zWJEroGvQUg' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_zWJEroGvQUg.mp4' 'public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# svetlana-stolyarova-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW
+# svetlana-stolyarova-2025 / 63hL5GG_0dA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'svetlana-stolyarova-2025' '63hL5GG_0dA' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_63hL5GG_0dA.mp4' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_63hL5GG_0dA.%(ext)s' 'https://www.youtube.com/watch?v=63hL5GG_0dA'
 
-# svetlana-stolyarova-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW
+# svetlana-stolyarova-2025 / HQz1pWe_-wM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'svetlana-stolyarova-2025' 'HQz1pWe_-wM' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_HQz1pWe_-wM.mp4' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_HQz1pWe_-wM.%(ext)s' 'https://www.youtube.com/watch?v=HQz1pWe_-wM'
 
-# svetlana-stolyarova-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW
+# svetlana-stolyarova-2025 / S6l7MKK7RWg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'svetlana-stolyarova-2025' 'S6l7MKK7RWg' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_S6l7MKK7RWg.mp4' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_S6l7MKK7RWg.%(ext)s' 'https://www.youtube.com/watch?v=S6l7MKK7RWg'
 
-# svetlana-stolyarova-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW
+# svetlana-stolyarova-2025 / XJbjDVgzCzc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'svetlana-stolyarova-2025' 'XJbjDVgzCzc' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_XJbjDVgzCzc.mp4' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_XJbjDVgzCzc.%(ext)s' 'https://www.youtube.com/watch?v=XJbjDVgzCzc'
 
-# svetlana-stolyarova-2025 / ZT80-BrCIyk / NEEDS RIGHTS REVIEW
-# download_youtube 'svetlana-stolyarova-2025' 'ZT80-BrCIyk' 'public/videos/2025_Svetlana_Stolyarova/2025_Svetlana_Stolyarova_ZT80-BrCIyk.mp4' 'public/videos/2025_Svetlana_Stolyarova/2025_Svetlana_Stolyarova_ZT80-BrCIyk.%(ext)s' 'https://www.youtube.com/watch?v=ZT80-BrCIyk'
+# svetlana-stolyarova-2025 / ZT80-BrCIyk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'svetlana-stolyarova-2025' 'ZT80-BrCIyk' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.mp4' 'public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.%(ext)s' 'https://www.youtube.com/watch?v=ZT80-BrCIyk'
 
-# taras-szmagala-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' '_JXBIYSnWB0' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022__JXBIYSnWB0.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# taras-szmagala-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' '36YHkoqo-Fk' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_36YHkoqo-Fk.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# taras-szmagala-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'EfAP31kBlsM' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_EfAP31kBlsM.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# taras-szmagala-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'EZ92Q341gm4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_EZ92Q341gm4.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# taras-szmagala-2022 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'I133bhcNqgo' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_I133bhcNqgo.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# taras-szmagala-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'MzvxeSsag0w' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_MzvxeSsag0w.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# taras-szmagala-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'ovFsNwqqQNc' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_ovFsNwqqQNc.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# taras-szmagala-2022 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'P34omi5XUiY' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_P34omi5XUiY.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# taras-szmagala-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'XrKxMkfQALI' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_XrKxMkfQALI.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# taras-szmagala-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'YDThFb2kPdA' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YDThFb2kPdA.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# taras-szmagala-2022 / YPC3hutSgL8 / NEEDS RIGHTS REVIEW
-# download_youtube 'taras-szmagala-2022' 'YPC3hutSgL8' 'public/videos/2022_Taras_Szmagala/2022_Taras_Szmagala_YPC3hutSgL8.mp4' 'public/videos/2022_Taras_Szmagala/2022_Taras_Szmagala_YPC3hutSgL8.%(ext)s' 'https://www.youtube.com/watch?v=YPC3hutSgL8'
+# taras-szmagala-2022 / YPC3hutSgL8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'taras-szmagala-2022' 'YPC3hutSgL8' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.%(ext)s' 'https://www.youtube.com/watch?v=YPC3hutSgL8'
 
-# taras-szmagala-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# taras-szmagala-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'taras-szmagala-2022' 'zWJEroGvQUg' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_zWJEroGvQUg.mp4' 'public/media/videos/taras-szmagala-2022/taras-szmagala-2022_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# tony-petkovsek-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# tony-petkovsek-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'tony-petkovsek-2011' 'A_IJEnnuyYg' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_A_IJEnnuyYg.mp4' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# tony-petkovsek-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# tony-petkovsek-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'tony-petkovsek-2011' 'I133bhcNqgo' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_I133bhcNqgo.mp4' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# tony-petkovsek-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# tony-petkovsek-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'tony-petkovsek-2011' 'P34omi5XUiY' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_P34omi5XUiY.mp4' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# tony-petkovsek-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# tony-petkovsek-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'tony-petkovsek-2011' 'rlg546_0pC4' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_rlg546_0pC4.mp4' 'public/media/videos/tony-petkovsek-2011/tony-petkovsek-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# valarie-mccall-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' '_JXBIYSnWB0' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020__JXBIYSnWB0.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# valarie-mccall-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' '36YHkoqo-Fk' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_36YHkoqo-Fk.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# valarie-mccall-2020 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / e-wqDqAmYP8 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'e-wqDqAmYP8' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_e-wqDqAmYP8.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_e-wqDqAmYP8.%(ext)s' 'https://www.youtube.com/watch?v=e-wqDqAmYP8'
 
-# valarie-mccall-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'EfAP31kBlsM' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_EfAP31kBlsM.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# valarie-mccall-2020 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / eWsy8Ctigm0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'eWsy8Ctigm0' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_eWsy8Ctigm0.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_eWsy8Ctigm0.%(ext)s' 'https://www.youtube.com/watch?v=eWsy8Ctigm0'
 
-# valarie-mccall-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'EZ92Q341gm4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_EZ92Q341gm4.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# valarie-mccall-2020 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'I133bhcNqgo' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_I133bhcNqgo.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# valarie-mccall-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'MzvxeSsag0w' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_MzvxeSsag0w.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# valarie-mccall-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'ovFsNwqqQNc' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_ovFsNwqqQNc.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# valarie-mccall-2020 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'P34omi5XUiY' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_P34omi5XUiY.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# valarie-mccall-2020 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / Pyty_Fo8cFs / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'Pyty_Fo8cFs' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_Pyty_Fo8cFs.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_Pyty_Fo8cFs.%(ext)s' 'https://www.youtube.com/watch?v=Pyty_Fo8cFs'
 
-# valarie-mccall-2020 / tB2FCpsakkA / NEEDS RIGHTS REVIEW
-# download_youtube 'valarie-mccall-2020' 'tB2FCpsakkA' 'public/videos/2020_Valarie_McCall/2020_Valarie_McCall_tB2FCpsakkA.mp4' 'public/videos/2020_Valarie_McCall/2020_Valarie_McCall_tB2FCpsakkA.%(ext)s' 'https://www.youtube.com/watch?v=tB2FCpsakkA'
+# valarie-mccall-2020 / tB2FCpsakkA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'valarie-mccall-2020' 'tB2FCpsakkA' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.%(ext)s' 'https://www.youtube.com/watch?v=tB2FCpsakkA'
 
-# valarie-mccall-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'XrKxMkfQALI' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_XrKxMkfQALI.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# valarie-mccall-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'YDThFb2kPdA' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_YDThFb2kPdA.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# valarie-mccall-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# valarie-mccall-2020 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'valarie-mccall-2020' 'zWJEroGvQUg' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_zWJEroGvQUg.mp4' 'public/media/videos/valarie-mccall-2020/valarie-mccall-2020_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# veronica-dahlberg-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW
-# download_youtube 'veronica-dahlberg-2024' 'P34omi5XUiY' 'public/videos/2024_Veronica_Dahlberg/2024_Veronica_Dahlberg_P34omi5XUiY.mp4' 'public/videos/2024_Veronica_Dahlberg/2024_Veronica_Dahlberg_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
+# veronica-dahlberg-2024 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'veronica-dahlberg-2024' 'P34omi5XUiY' 'public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.mp4' 'public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# victor-ruiz-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / _JXBIYSnWB0 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' '_JXBIYSnWB0' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022__JXBIYSnWB0.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022__JXBIYSnWB0.%(ext)s' 'https://www.youtube.com/watch?v=_JXBIYSnWB0'
 
-# victor-ruiz-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / 36YHkoqo-Fk / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' '36YHkoqo-Fk' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_36YHkoqo-Fk.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_36YHkoqo-Fk.%(ext)s' 'https://www.youtube.com/watch?v=36YHkoqo-Fk'
 
-# victor-ruiz-2022 / b9-AD6gYt14 / NEEDS RIGHTS REVIEW
-# download_youtube 'victor-ruiz-2022' 'b9-AD6gYt14' 'public/videos/2022_Victor_Ruiz/2022_Victor_Ruiz_b9-AD6gYt14.mp4' 'public/videos/2022_Victor_Ruiz/2022_Victor_Ruiz_b9-AD6gYt14.%(ext)s' 'https://www.youtube.com/watch?v=b9-AD6gYt14'
+# victor-ruiz-2022 / b9-AD6gYt14 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'victor-ruiz-2022' 'b9-AD6gYt14' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.%(ext)s' 'https://www.youtube.com/watch?v=b9-AD6gYt14'
 
-# victor-ruiz-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / EfAP31kBlsM / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'EfAP31kBlsM' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_EfAP31kBlsM.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_EfAP31kBlsM.%(ext)s' 'https://www.youtube.com/watch?v=EfAP31kBlsM'
 
-# victor-ruiz-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / EZ92Q341gm4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'EZ92Q341gm4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_EZ92Q341gm4.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_EZ92Q341gm4.%(ext)s' 'https://www.youtube.com/watch?v=EZ92Q341gm4'
 
-# victor-ruiz-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / MzvxeSsag0w / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'MzvxeSsag0w' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_MzvxeSsag0w.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_MzvxeSsag0w.%(ext)s' 'https://www.youtube.com/watch?v=MzvxeSsag0w'
 
-# victor-ruiz-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / ovFsNwqqQNc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'ovFsNwqqQNc' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_ovFsNwqqQNc.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_ovFsNwqqQNc.%(ext)s' 'https://www.youtube.com/watch?v=ovFsNwqqQNc'
 
-# victor-ruiz-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / XrKxMkfQALI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'XrKxMkfQALI' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_XrKxMkfQALI.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_XrKxMkfQALI.%(ext)s' 'https://www.youtube.com/watch?v=XrKxMkfQALI'
 
-# victor-ruiz-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / YDThFb2kPdA / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'YDThFb2kPdA' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_YDThFb2kPdA.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_YDThFb2kPdA.%(ext)s' 'https://www.youtube.com/watch?v=YDThFb2kPdA'
 
-# victor-ruiz-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW
+# victor-ruiz-2022 / zWJEroGvQUg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'victor-ruiz-2022' 'zWJEroGvQUg' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_zWJEroGvQUg.mp4' 'public/media/videos/victor-ruiz-2022/victor-ruiz-2022_zWJEroGvQUg.%(ext)s' 'https://www.youtube.com/watch?v=zWJEroGvQUg'
 
-# vijaya-l-emani-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW
+# vijaya-l-emani-2011 / A_IJEnnuyYg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vijaya-l-emani-2011' 'A_IJEnnuyYg' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_A_IJEnnuyYg.mp4' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_A_IJEnnuyYg.%(ext)s' 'https://www.youtube.com/watch?v=A_IJEnnuyYg'
 
-# vijaya-l-emani-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# vijaya-l-emani-2011 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vijaya-l-emani-2011' 'I133bhcNqgo' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_I133bhcNqgo.mp4' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# vijaya-l-emani-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# vijaya-l-emani-2011 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vijaya-l-emani-2011' 'P34omi5XUiY' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_P34omi5XUiY.mp4' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# vijaya-l-emani-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW
+# vijaya-l-emani-2011 / rlg546_0pC4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vijaya-l-emani-2011' 'rlg546_0pC4' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_rlg546_0pC4.mp4' 'public/media/videos/vijaya-l-emani-2011/vijaya-l-emani-2011_rlg546_0pC4.%(ext)s' 'https://www.youtube.com/watch?v=rlg546_0pC4'
 
-# vladimir-rus-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# vladimir-rus-2012 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vladimir-rus-2012' 'a0gi3EmNU00' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_a0gi3EmNU00.mp4' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# vladimir-rus-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# vladimir-rus-2012 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vladimir-rus-2012' 'b3EUjRTsbQI' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_b3EUjRTsbQI.mp4' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# vladimir-rus-2012 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# vladimir-rus-2012 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vladimir-rus-2012' 'I133bhcNqgo' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_I133bhcNqgo.mp4' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# vladimir-rus-2012 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# vladimir-rus-2012 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'vladimir-rus-2012' 'P34omi5XUiY' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_P34omi5XUiY.mp4' 'public/media/videos/vladimir-rus-2012/vladimir-rus-2012_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# wael-khoury-2017 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / _ifygk1bw5Q / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' '_ifygk1bw5Q' 'public/media/videos/wael-khoury-2017/wael-khoury-2017__ifygk1bw5Q.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017__ifygk1bw5Q.%(ext)s' 'https://www.youtube.com/watch?v=_ifygk1bw5Q'
 
-# wael-khoury-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / 14YLHrGlU-4 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' '14YLHrGlU-4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_14YLHrGlU-4.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_14YLHrGlU-4.%(ext)s' 'https://www.youtube.com/watch?v=14YLHrGlU-4'
 
-# wael-khoury-2017 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / a0gi3EmNU00 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'a0gi3EmNU00' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_a0gi3EmNU00.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_a0gi3EmNU00.%(ext)s' 'https://www.youtube.com/watch?v=a0gi3EmNU00'
 
-# wael-khoury-2017 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / b3EUjRTsbQI / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'b3EUjRTsbQI' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_b3EUjRTsbQI.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_b3EUjRTsbQI.%(ext)s' 'https://www.youtube.com/watch?v=b3EUjRTsbQI'
 
-# wael-khoury-2017 / eCOSePkWnFY / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / eCOSePkWnFY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'eCOSePkWnFY' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_eCOSePkWnFY.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_eCOSePkWnFY.%(ext)s' 'https://www.youtube.com/watch?v=eCOSePkWnFY'
 
-# wael-khoury-2017 / I133bhcNqgo / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / I133bhcNqgo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'I133bhcNqgo' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_I133bhcNqgo.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_I133bhcNqgo.%(ext)s' 'https://www.youtube.com/watch?v=I133bhcNqgo'
 
-# wael-khoury-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / IblVlQoTrtc / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'IblVlQoTrtc' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_IblVlQoTrtc.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_IblVlQoTrtc.%(ext)s' 'https://www.youtube.com/watch?v=IblVlQoTrtc'
 
-# wael-khoury-2017 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / lHHN_zd8O8k / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'lHHN_zd8O8k' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_lHHN_zd8O8k.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_lHHN_zd8O8k.%(ext)s' 'https://www.youtube.com/watch?v=lHHN_zd8O8k'
 
-# wael-khoury-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / NcCM_1SAQek / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'NcCM_1SAQek' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_NcCM_1SAQek.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_NcCM_1SAQek.%(ext)s' 'https://www.youtube.com/watch?v=NcCM_1SAQek'
 
-# wael-khoury-2017 / OAZ7t2i1W10 / NEEDS RIGHTS REVIEW
-# download_youtube 'wael-khoury-2017' 'OAZ7t2i1W10' 'public/videos/2017_Wael_Khoury/2017_Wael_Khoury_OAZ7t2i1W10.mp4' 'public/videos/2017_Wael_Khoury/2017_Wael_Khoury_OAZ7t2i1W10.%(ext)s' 'https://www.youtube.com/watch?v=OAZ7t2i1W10'
+# wael-khoury-2017 / OAZ7t2i1W10 / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
+# download_youtube 'wael-khoury-2017' 'OAZ7t2i1W10' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.%(ext)s' 'https://www.youtube.com/watch?v=OAZ7t2i1W10'
 
-# wael-khoury-2017 / P34omi5XUiY / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / P34omi5XUiY / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'P34omi5XUiY' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_P34omi5XUiY.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_P34omi5XUiY.%(ext)s' 'https://www.youtube.com/watch?v=P34omi5XUiY'
 
-# wael-khoury-2017 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / Ssb2SQ6HPoo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'Ssb2SQ6HPoo' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_Ssb2SQ6HPoo.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_Ssb2SQ6HPoo.%(ext)s' 'https://www.youtube.com/watch?v=Ssb2SQ6HPoo'
 
-# wael-khoury-2017 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / vwTIgQpdBEo / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'vwTIgQpdBEo' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_vwTIgQpdBEo.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_vwTIgQpdBEo.%(ext)s' 'https://www.youtube.com/watch?v=vwTIgQpdBEo'
 
-# wael-khoury-2017 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / w2Xq5luKGCU / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'w2Xq5luKGCU' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_w2Xq5luKGCU.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_w2Xq5luKGCU.%(ext)s' 'https://www.youtube.com/watch?v=w2Xq5luKGCU'
 
-# wael-khoury-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW
+# wael-khoury-2017 / wBzBVH4kBkg / NEEDS RIGHTS REVIEW / ALREADY DOWNLOADED
 # download_youtube 'wael-khoury-2017' 'wBzBVH4kBkg' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_wBzBVH4kBkg.mp4' 'public/media/videos/wael-khoury-2017/wael-khoury-2017_wBzBVH4kBkg.%(ext)s' 'https://www.youtube.com/watch?v=wBzBVH4kBkg'
 

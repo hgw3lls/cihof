@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T20:37:53.351Z",
+  "generatedAt": "2026-09-14T19:09:48.564Z",
   "title": "CIHOF Profile Text Readiness Review",
   "scope": {
     "included": [
@@ -16487,20 +16487,20 @@
           "value": [
             {
               "youtubeVideoId": "PpXIVZKq49U",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.en.vtt",
+              "transcriptFilePath": "public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.transcript.txt"
             },
             {
               "youtubeVideoId": "KMVo49Zi-94",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.en.vtt",
+              "transcriptFilePath": "public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"PpXIVZKq49U\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"KMVo49Zi-94\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"PpXIVZKq49U\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.en.vtt\",\"transcriptFilePath\":\"public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_PpXIVZKq49U.transcript.txt\"}, {\"youtubeVideoId\":\"KMVo49Zi-94\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.en.vtt\",\"transcriptFilePath\":\"public/media/videos/bishop-anthony-pilla-2015/bishop-anthony-pilla-2015_KMVo49Zi-94.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -16841,20 +16841,20 @@
           "value": [
             {
               "youtubeVideoId": "7MkiB5FNQ_g",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.en.vtt",
+              "transcriptFilePath": "public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.transcript.txt"
             },
             {
               "youtubeVideoId": "qtbU6qlpxRE",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.en.vtt",
+              "transcriptFilePath": "public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"7MkiB5FNQ_g\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"qtbU6qlpxRE\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"7MkiB5FNQ_g\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dick-pogue-2015/dick-pogue-2015_7MkiB5FNQ_g.transcript.txt\"}, {\"youtubeVideoId\":\"qtbU6qlpxRE\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dick-pogue-2015/dick-pogue-2015_qtbU6qlpxRE.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -17196,20 +17196,20 @@
           "value": [
             {
               "youtubeVideoId": "ivlrvgM81r8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.en.vtt",
+              "transcriptFilePath": "public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.transcript.txt"
             },
             {
               "youtubeVideoId": "xJ9n1QOUafg",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.en.vtt",
+              "transcriptFilePath": "public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"ivlrvgM81r8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"xJ9n1QOUafg\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"ivlrvgM81r8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dick-russ-2015/dick-russ-2015_ivlrvgM81r8.transcript.txt\"}, {\"youtubeVideoId\":\"xJ9n1QOUafg\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dick-russ-2015/dick-russ-2015_xJ9n1QOUafg.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -17551,20 +17551,20 @@
           "value": [
             {
               "youtubeVideoId": "7Jj4sizisoM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.en.vtt",
+              "transcriptFilePath": "public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.transcript.txt"
             },
             {
               "youtubeVideoId": "i5FJexABnHI",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.en.vtt",
+              "transcriptFilePath": "public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"7Jj4sizisoM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"i5FJexABnHI\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"7Jj4sizisoM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_7Jj4sizisoM.transcript.txt\"}, {\"youtubeVideoId\":\"i5FJexABnHI\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.en.vtt\",\"transcriptFilePath\":\"public/media/videos/honorable-jose-a-villanueva-2015/honorable-jose-a-villanueva-2015_i5FJexABnHI.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -17902,20 +17902,20 @@
           "value": [
             {
               "youtubeVideoId": "M384Uvg0bh8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.en.vtt",
+              "transcriptFilePath": "public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.transcript.txt"
             },
             {
               "youtubeVideoId": "kofOH1CYKBQ",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.en.vtt",
+              "transcriptFilePath": "public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"M384Uvg0bh8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"kofOH1CYKBQ\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"M384Uvg0bh8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_M384Uvg0bh8.transcript.txt\"}, {\"youtubeVideoId\":\"kofOH1CYKBQ\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.en.vtt\",\"transcriptFilePath\":\"public/media/videos/richard-a-ganim-2015/richard-a-ganim-2015_kofOH1CYKBQ.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -18254,20 +18254,20 @@
           "value": [
             {
               "youtubeVideoId": "tX9BPpgJ_3w",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.en.vtt",
+              "transcriptFilePath": "public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.transcript.txt"
             },
             {
               "youtubeVideoId": "-2OMPdY2pfw",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.en.vtt",
+              "transcriptFilePath": "public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"tX9BPpgJ_3w\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"-2OMPdY2pfw\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"tX9BPpgJ_3w\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.en.vtt\",\"transcriptFilePath\":\"public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_tX9BPpgJ_3w.transcript.txt\"}, {\"youtubeVideoId\":\"-2OMPdY2pfw\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.en.vtt\",\"transcriptFilePath\":\"public/media/videos/shiv-k-aggarwal-2015/shiv-k-aggarwal-2015_-2OMPdY2pfw.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -18608,20 +18608,20 @@
           "value": [
             {
               "youtubeVideoId": "nINk_D8bi54",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.en.vtt",
+              "transcriptFilePath": "public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.transcript.txt"
             },
             {
               "youtubeVideoId": "GDfhVKV-PfY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.en.vtt",
+              "transcriptFilePath": "public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"nINk_D8bi54\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"GDfhVKV-PfY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"nINk_D8bi54\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.en.vtt\",\"transcriptFilePath\":\"public/media/videos/steve-mulloy-2015/steve-mulloy-2015_nINk_D8bi54.transcript.txt\"}, {\"youtubeVideoId\":\"GDfhVKV-PfY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/steve-mulloy-2015/steve-mulloy-2015_GDfhVKV-PfY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -18973,27 +18973,27 @@
           "value": [
             {
               "youtubeVideoId": "jXo9xEwZ4JQ",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.en.vtt",
+              "transcriptFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.transcript.txt"
             },
             {
               "youtubeVideoId": "QEdXti9t8jE",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.en.vtt",
+              "transcriptFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.transcript.txt"
             },
             {
               "youtubeVideoId": "hmsfn1_1Kpg",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.en.vtt",
+              "transcriptFilePath": "public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"jXo9xEwZ4JQ\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"QEdXti9t8jE\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"hmsfn1_1Kpg\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"jXo9xEwZ4JQ\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.en.vtt\",\"transcriptFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_jXo9xEwZ4JQ.transcript.txt\"}, {\"youtubeVideoId\":\"QEdXti9t8jE\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.en.vtt\",\"transcriptFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_QEdXti9t8jE.transcript.txt\"}, {\"youtubeVideoId\":\"hmsfn1_1Kpg\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.en.vtt\",\"transcriptFilePath\":\"public/media/videos/arnie-de-la-porte-2016-2016/arnie-de-la-porte-2016-2016_hmsfn1_1Kpg.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -19333,27 +19333,27 @@
           "value": [
             {
               "youtubeVideoId": "O-r4oYPcUYc",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.en.vtt",
+              "transcriptFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.transcript.txt"
             },
             {
               "youtubeVideoId": "qzHokEDkXQc",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.en.vtt",
+              "transcriptFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.transcript.txt"
             },
             {
               "youtubeVideoId": "e_C-YpIWjt8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.en.vtt",
+              "transcriptFilePath": "public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"O-r4oYPcUYc\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"qzHokEDkXQc\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"e_C-YpIWjt8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"O-r4oYPcUYc\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.en.vtt\",\"transcriptFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_O-r4oYPcUYc.transcript.txt\"}, {\"youtubeVideoId\":\"qzHokEDkXQc\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.en.vtt\",\"transcriptFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_qzHokEDkXQc.transcript.txt\"}, {\"youtubeVideoId\":\"e_C-YpIWjt8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/carolyn-balogh-2016-2016/carolyn-balogh-2016-2016_e_C-YpIWjt8.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -19694,34 +19694,34 @@
           "value": [
             {
               "youtubeVideoId": "7LmK-_kcUJs",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.en.vtt",
+              "transcriptFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.transcript.txt"
             },
             {
               "youtubeVideoId": "IbJbwBpHWgs",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.en.vtt",
+              "transcriptFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.transcript.txt"
             },
             {
               "youtubeVideoId": "Tsl-t9x0Ub0",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.en.vtt",
+              "transcriptFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.transcript.txt"
             },
             {
               "youtubeVideoId": "uw_NYpsccxM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.en.vtt",
+              "transcriptFilePath": "public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_uw_NYpsccxM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"7LmK-_kcUJs\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"IbJbwBpHWgs\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"Tsl-t9x0Ub0\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, +1 more",
+          "excerpt": "{\"youtubeVideoId\":\"7LmK-_kcUJs\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.en.vtt\",\"transcriptFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_7LmK-_kcUJs.transcript.txt\"}, {\"youtubeVideoId\":\"IbJbwBpHWgs\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.en.vtt\",\"transcriptFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_IbJbwBpHWgs.transcript.txt\"}, {\"youtubeVideoId\":\"Tsl-t9x0Ub0\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.en.vtt\",\"transcriptFilePath\":\"public/media/videos/eugenia-stolarczyk-2016-2016/eugenia-stolarczyk-2016-2016_Tsl-t9x0Ub0.transcript.txt\"}, +1 more",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -20062,27 +20062,27 @@
           "value": [
             {
               "youtubeVideoId": "L0fLgzezWTw",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.en.vtt",
+              "transcriptFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.transcript.txt"
             },
             {
               "youtubeVideoId": "dW7qMIULLko",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.en.vtt",
+              "transcriptFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.transcript.txt"
             },
             {
               "youtubeVideoId": "eKdfG3zz9Os",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.en.vtt",
+              "transcriptFilePath": "public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"L0fLgzezWTw\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"dW7qMIULLko\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"eKdfG3zz9Os\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"L0fLgzezWTw\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.en.vtt\",\"transcriptFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_L0fLgzezWTw.transcript.txt\"}, {\"youtubeVideoId\":\"dW7qMIULLko\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.en.vtt\",\"transcriptFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_dW7qMIULLko.transcript.txt\"}, {\"youtubeVideoId\":\"eKdfG3zz9Os\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.en.vtt\",\"transcriptFilePath\":\"public/media/videos/jack-kahl-2016/jack-kahl-2016_eKdfG3zz9Os.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -20424,27 +20424,27 @@
           "value": [
             {
               "youtubeVideoId": "YT9DTiZdJpQ",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.en.vtt",
+              "transcriptFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.transcript.txt"
             },
             {
               "youtubeVideoId": "kkjaaUZr2ps",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.en.vtt",
+              "transcriptFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.transcript.txt"
             },
             {
               "youtubeVideoId": "mqCQvmZsu88",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.en.vtt",
+              "transcriptFilePath": "public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"YT9DTiZdJpQ\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"kkjaaUZr2ps\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"mqCQvmZsu88\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"YT9DTiZdJpQ\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.en.vtt\",\"transcriptFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_YT9DTiZdJpQ.transcript.txt\"}, {\"youtubeVideoId\":\"kkjaaUZr2ps\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.en.vtt\",\"transcriptFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_kkjaaUZr2ps.transcript.txt\"}, {\"youtubeVideoId\":\"mqCQvmZsu88\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.en.vtt\",\"transcriptFilePath\":\"public/media/videos/khalid-samad-2016-2016/khalid-samad-2016-2016_mqCQvmZsu88.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -20782,27 +20782,27 @@
           "value": [
             {
               "youtubeVideoId": "KuSMhQ_yG_k",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.en.vtt",
+              "transcriptFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.transcript.txt"
             },
             {
               "youtubeVideoId": "KAhoZMRbZnA",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.en.vtt",
+              "transcriptFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.transcript.txt"
             },
             {
               "youtubeVideoId": "iX7-ecPZvy4",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.en.vtt",
+              "transcriptFilePath": "public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"KuSMhQ_yG_k\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"KAhoZMRbZnA\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"iX7-ecPZvy4\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"KuSMhQ_yG_k\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.en.vtt\",\"transcriptFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KuSMhQ_yG_k.transcript.txt\"}, {\"youtubeVideoId\":\"KAhoZMRbZnA\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.en.vtt\",\"transcriptFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_KAhoZMRbZnA.transcript.txt\"}, {\"youtubeVideoId\":\"iX7-ecPZvy4\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.en.vtt\",\"transcriptFilePath\":\"public/media/videos/mohan-bafna-2016/mohan-bafna-2016_iX7-ecPZvy4.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -21468,13 +21468,13 @@
           "value": [
             {
               "youtubeVideoId": "RzY-lrL0HWo",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.en.vtt",
+              "transcriptFilePath": "public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"RzY-lrL0HWo\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"RzY-lrL0HWo\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.en.vtt\",\"transcriptFilePath\":\"public/media/videos/basil-russo-2017/basil-russo-2017_RzY-lrL0HWo.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -21818,13 +21818,13 @@
           "value": [
             {
               "youtubeVideoId": "7AjUc16ao90",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.en.vtt",
+              "transcriptFilePath": "public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"7AjUc16ao90\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"7AjUc16ao90\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.en.vtt\",\"transcriptFilePath\":\"public/media/videos/bill-miller-2017/bill-miller-2017_7AjUc16ao90.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -22164,13 +22164,13 @@
           "value": [
             {
               "youtubeVideoId": "XZh7vcFsUns",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.en.vtt",
+              "transcriptFilePath": "public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"XZh7vcFsUns\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"XZh7vcFsUns\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.en.vtt\",\"transcriptFilePath\":\"public/media/videos/jim-craciun-2017/jim-craciun-2017_XZh7vcFsUns.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -22509,13 +22509,13 @@
           "value": [
             {
               "youtubeVideoId": "2mG5GMQXUZQ",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.en.vtt",
+              "transcriptFilePath": "public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"2mG5GMQXUZQ\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"2mG5GMQXUZQ\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.en.vtt\",\"transcriptFilePath\":\"public/media/videos/mona-alag-2017/mona-alag-2017_2mG5GMQXUZQ.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -22850,13 +22850,13 @@
           "value": [
             {
               "youtubeVideoId": "f78jlqAJnqM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.en.vtt",
+              "transcriptFilePath": "public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"f78jlqAJnqM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"f78jlqAJnqM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sam-kim-2017/sam-kim-2017_f78jlqAJnqM.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -23198,13 +23198,13 @@
           "value": [
             {
               "youtubeVideoId": "OAZ7t2i1W10",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.en.vtt",
+              "transcriptFilePath": "public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"OAZ7t2i1W10\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"OAZ7t2i1W10\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.en.vtt\",\"transcriptFilePath\":\"public/media/videos/wael-khoury-2017/wael-khoury-2017_OAZ7t2i1W10.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -23546,27 +23546,27 @@
           "value": [
             {
               "youtubeVideoId": "1KFtDD1w3lg",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.en.vtt",
+              "transcriptFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.transcript.txt"
             },
             {
               "youtubeVideoId": "0KJhQyWFjDI",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.en.vtt",
+              "transcriptFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.transcript.txt"
             },
             {
               "youtubeVideoId": "FwV6dXkUhnc",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.en.vtt",
+              "transcriptFilePath": "public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"1KFtDD1w3lg\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"0KJhQyWFjDI\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"FwV6dXkUhnc\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"1KFtDD1w3lg\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.en.vtt\",\"transcriptFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_1KFtDD1w3lg.transcript.txt\"}, {\"youtubeVideoId\":\"0KJhQyWFjDI\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.en.vtt\",\"transcriptFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_0KJhQyWFjDI.transcript.txt\"}, {\"youtubeVideoId\":\"FwV6dXkUhnc\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.en.vtt\",\"transcriptFilePath\":\"public/media/videos/abby-mina-2018/abby-mina-2018_FwV6dXkUhnc.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -23905,20 +23905,20 @@
           "value": [
             {
               "youtubeVideoId": "4pafixyd1zU",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.en.vtt",
+              "transcriptFilePath": "public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.transcript.txt"
             },
             {
               "youtubeVideoId": "EATzGX8chuI",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.en.vtt",
+              "transcriptFilePath": "public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"4pafixyd1zU\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"EATzGX8chuI\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"4pafixyd1zU\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.en.vtt\",\"transcriptFilePath\":\"public/media/videos/atul-mehta-2018/atul-mehta-2018_4pafixyd1zU.transcript.txt\"}, {\"youtubeVideoId\":\"EATzGX8chuI\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.en.vtt\",\"transcriptFilePath\":\"public/media/videos/atul-mehta-2018/atul-mehta-2018_EATzGX8chuI.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -24261,20 +24261,20 @@
           "value": [
             {
               "youtubeVideoId": "QxG7VrfKyXo",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.en.vtt",
+              "transcriptFilePath": "public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.transcript.txt"
             },
             {
               "youtubeVideoId": "8CPuLovefwA",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.en.vtt",
+              "transcriptFilePath": "public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"QxG7VrfKyXo\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"8CPuLovefwA\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"QxG7VrfKyXo\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_QxG7VrfKyXo.transcript.txt\"}, {\"youtubeVideoId\":\"8CPuLovefwA\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ralph-perk-jr-2018/ralph-perk-jr-2018_8CPuLovefwA.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -24617,13 +24617,13 @@
           "value": [
             {
               "youtubeVideoId": "D1Rgv29APUk",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.en.vtt",
+              "transcriptFilePath": "public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"D1Rgv29APUk\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"D1Rgv29APUk\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ray-pianka-2018/ray-pianka-2018_D1Rgv29APUk.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -24966,20 +24966,20 @@
           "value": [
             {
               "youtubeVideoId": "nC0wST9j-J0",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.en.vtt",
+              "transcriptFilePath": "public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.transcript.txt"
             },
             {
               "youtubeVideoId": "i-iB8SADV8Q",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.en.vtt",
+              "transcriptFilePath": "public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"nC0wST9j-J0\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"i-iB8SADV8Q\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"nC0wST9j-J0\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_nC0wST9j-J0.transcript.txt\"}, {\"youtubeVideoId\":\"i-iB8SADV8Q\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sheila-murphy-crawford-2018/sheila-murphy-crawford-2018_i-iB8SADV8Q.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -25320,20 +25320,20 @@
           "value": [
             {
               "youtubeVideoId": "9e7DWWD6_l0",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.en.vtt",
+              "transcriptFilePath": "public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.transcript.txt"
             },
             {
               "youtubeVideoId": "soPrjwdQWfw",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.en.vtt",
+              "transcriptFilePath": "public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"9e7DWWD6_l0\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"soPrjwdQWfw\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"9e7DWWD6_l0\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_9e7DWWD6_l0.transcript.txt\"}, {\"youtubeVideoId\":\"soPrjwdQWfw\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sister-alicia-alvarado-2018/sister-alicia-alvarado-2018_soPrjwdQWfw.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -25675,13 +25675,13 @@
           "value": [
             {
               "youtubeVideoId": "C6EuNqGZH5E",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.en.vtt",
+              "transcriptFilePath": "public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"C6EuNqGZH5E\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"C6EuNqGZH5E\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.en.vtt\",\"transcriptFilePath\":\"public/media/videos/akram-boutros-2019/akram-boutros-2019_C6EuNqGZH5E.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -26022,13 +26022,13 @@
           "value": [
             {
               "youtubeVideoId": "ObIi5VXcP7Q",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.en.vtt",
+              "transcriptFilePath": "public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"ObIi5VXcP7Q\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"ObIi5VXcP7Q\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ingrida-bublys-2019/ingrida-bublys-2019_ObIi5VXcP7Q.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -26370,13 +26370,13 @@
           "value": [
             {
               "youtubeVideoId": "PgUsrTbLHJ4",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.en.vtt",
+              "transcriptFilePath": "public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"PgUsrTbLHJ4\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"PgUsrTbLHJ4\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.en.vtt\",\"transcriptFilePath\":\"public/media/videos/marilyn-madigan-2019/marilyn-madigan-2019_PgUsrTbLHJ4.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -26716,13 +26716,13 @@
           "value": [
             {
               "youtubeVideoId": "b_zP9VqXJbY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.en.vtt",
+              "transcriptFilePath": "public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"b_zP9VqXJbY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"b_zP9VqXJbY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/paul-burik-2019/paul-burik-2019_b_zP9VqXJbY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -27057,13 +27057,13 @@
           "value": [
             {
               "youtubeVideoId": "5BYSPErYD3o",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.en.vtt",
+              "transcriptFilePath": "public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"5BYSPErYD3o\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"5BYSPErYD3o\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.en.vtt\",\"transcriptFilePath\":\"public/media/videos/richard-fleischman-2019/richard-fleischman-2019_5BYSPErYD3o.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -27446,13 +27446,13 @@
           "value": [
             {
               "youtubeVideoId": "IXo79dbDE_M",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.en.vtt",
+              "transcriptFilePath": "public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"IXo79dbDE_M\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"IXo79dbDE_M\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sree-sreenath-2019/sree-sreenath-2019_IXo79dbDE_M.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -27791,20 +27791,20 @@
           "value": [
             {
               "youtubeVideoId": "Engy3m5Efcc",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.en.vtt",
+              "transcriptFilePath": "public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.transcript.txt"
             },
             {
               "youtubeVideoId": "2KBxzdgiqJM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.en.vtt",
+              "transcriptFilePath": "public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"Engy3m5Efcc\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"2KBxzdgiqJM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"Engy3m5Efcc\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.en.vtt\",\"transcriptFilePath\":\"public/media/videos/berj-shakarian-2020/berj-shakarian-2020_Engy3m5Efcc.transcript.txt\"}, {\"youtubeVideoId\":\"2KBxzdgiqJM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/berj-shakarian-2020/berj-shakarian-2020_2KBxzdgiqJM.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -28144,13 +28144,13 @@
           "value": [
             {
               "youtubeVideoId": "k8t6kOylcgE",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.en.vtt",
+              "transcriptFilePath": "public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"k8t6kOylcgE\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"k8t6kOylcgE\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.en.vtt\",\"transcriptFilePath\":\"public/media/videos/joe-valencic-2020/joe-valencic-2020_k8t6kOylcgE.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -28489,13 +28489,13 @@
           "value": [
             {
               "youtubeVideoId": "mTJMMiUk5nI",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.en.vtt",
+              "transcriptFilePath": "public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"mTJMMiUk5nI\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"mTJMMiUk5nI\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.en.vtt\",\"transcriptFilePath\":\"public/media/videos/margaret-lynch-2020/margaret-lynch-2020_mTJMMiUk5nI.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -28832,20 +28832,20 @@
           "value": [
             {
               "youtubeVideoId": "yxyHzJyqYt0",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.en.vtt",
+              "transcriptFilePath": "public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.transcript.txt"
             },
             {
               "youtubeVideoId": "QDE5BVEyNKg",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.en.vtt",
+              "transcriptFilePath": "public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"yxyHzJyqYt0\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"QDE5BVEyNKg\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"yxyHzJyqYt0\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.en.vtt\",\"transcriptFilePath\":\"public/media/videos/may-chen-2020/may-chen-2020_yxyHzJyqYt0.transcript.txt\"}, {\"youtubeVideoId\":\"QDE5BVEyNKg\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.en.vtt\",\"transcriptFilePath\":\"public/media/videos/may-chen-2020/may-chen-2020_QDE5BVEyNKg.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -29187,20 +29187,20 @@
           "value": [
             {
               "youtubeVideoId": "fEHO9Uwgb9g",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.en.vtt",
+              "transcriptFilePath": "public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.transcript.txt"
             },
             {
               "youtubeVideoId": "-5gDFAKdaXM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.en.vtt",
+              "transcriptFilePath": "public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"fEHO9Uwgb9g\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"-5gDFAKdaXM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"fEHO9Uwgb9g\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ramesh-shah-2020/ramesh-shah-2020_fEHO9Uwgb9g.transcript.txt\"}, {\"youtubeVideoId\":\"-5gDFAKdaXM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ramesh-shah-2020/ramesh-shah-2020_-5gDFAKdaXM.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -29542,13 +29542,13 @@
           "value": [
             {
               "youtubeVideoId": "tB2FCpsakkA",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.en.vtt",
+              "transcriptFilePath": "public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"tB2FCpsakkA\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"tB2FCpsakkA\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.en.vtt\",\"transcriptFilePath\":\"public/media/videos/valarie-mccall-2020/valarie-mccall-2020_tB2FCpsakkA.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -29891,13 +29891,13 @@
           "value": [
             {
               "youtubeVideoId": "-jbd_GOy7hk",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.en.vtt",
+              "transcriptFilePath": "public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"-jbd_GOy7hk\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"-jbd_GOy7hk\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.en.vtt\",\"transcriptFilePath\":\"public/media/videos/anda-cook-2022/anda-cook-2022_-jbd_GOy7hk.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -30239,13 +30239,13 @@
           "value": [
             {
               "youtubeVideoId": "3Zl6-HYV89Q",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.en.vtt",
+              "transcriptFilePath": "public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"3Zl6-HYV89Q\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"3Zl6-HYV89Q\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.en.vtt\",\"transcriptFilePath\":\"public/media/videos/carl-robson-2022/carl-robson-2022_3Zl6-HYV89Q.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -30584,13 +30584,13 @@
           "value": [
             {
               "youtubeVideoId": "YPC3hutSgL8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.en.vtt",
+              "transcriptFilePath": "public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"YPC3hutSgL8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"YPC3hutSgL8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/taras-szmagala-2022/taras-szmagala-2022_YPC3hutSgL8.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -30927,13 +30927,13 @@
           "value": [
             {
               "youtubeVideoId": "b9-AD6gYt14",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.en.vtt",
+              "transcriptFilePath": "public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"b9-AD6gYt14\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"b9-AD6gYt14\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.en.vtt\",\"transcriptFilePath\":\"public/media/videos/victor-ruiz-2022/victor-ruiz-2022_b9-AD6gYt14.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -31275,13 +31275,13 @@
           "value": [
             {
               "youtubeVideoId": "JAWjKTg5nRg",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.en.vtt",
+              "transcriptFilePath": "public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"JAWjKTg5nRg\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"JAWjKTg5nRg\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.en.vtt\",\"transcriptFilePath\":\"public/media/videos/georgine-welo-2023/georgine-welo-2023_JAWjKTg5nRg.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -31620,13 +31620,13 @@
           "value": [
             {
               "youtubeVideoId": "khFzLbaSw0o",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.en.vtt",
+              "transcriptFilePath": "public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"khFzLbaSw0o\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"khFzLbaSw0o\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.en.vtt\",\"transcriptFilePath\":\"public/media/videos/joyce-mariani-2023/joyce-mariani-2023_khFzLbaSw0o.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -31968,13 +31968,13 @@
           "value": [
             {
               "youtubeVideoId": "IYv4tYCJ3m8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.en.vtt",
+              "transcriptFilePath": "public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"IYv4tYCJ3m8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"IYv4tYCJ3m8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/michael-d-polensek-2023/michael-d-polensek-2023_IYv4tYCJ3m8.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -32639,13 +32639,13 @@
           "value": [
             {
               "youtubeVideoId": "11fqd7MQ8Fs",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.en.vtt",
+              "transcriptFilePath": "public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"11fqd7MQ8Fs\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"11fqd7MQ8Fs\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.en.vtt\",\"transcriptFilePath\":\"public/media/videos/pierre-bejjani-2023/pierre-bejjani-2023_11fqd7MQ8Fs.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -32978,13 +32978,13 @@
           "value": [
             {
               "youtubeVideoId": "q4nkyvZtzRU",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.en.vtt",
+              "transcriptFilePath": "public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"q4nkyvZtzRU\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"q4nkyvZtzRU\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.en.vtt\",\"transcriptFilePath\":\"public/media/videos/sudarshan-sathe-2023/sudarshan-sathe-2023_q4nkyvZtzRU.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -33329,13 +33329,13 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/ambassador-edward-f-crawford-2024/ambassador-edward-f-crawford-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -33679,13 +33679,13 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dona-brady-2024/dona-brady-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -34022,13 +34022,13 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/dr-eugene-jordan-2024/dr-eugene-jordan-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -34372,13 +34372,13 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/erika-puussaar-2024/erika-puussaar-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -34722,31 +34722,24 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
-            },
-            {
-              "youtubeVideoId": "",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}, {\"youtubeVideoId\":\"\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/johnny-k-wu-2024/johnny-k-wu-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
               "severity": "major",
-              "message": "2/2 video caption text assets are not approved.",
+              "message": "1/1 video caption text assets are not approved.",
               "affectsProfileDecision": false
             },
             {
               "code": "VIDEO_TRANSCRIPTS_NOT_READY",
               "severity": "major",
-              "message": "2/2 video transcript text assets are not approved.",
+              "message": "1/1 video transcript text assets are not approved.",
               "affectsProfileDecision": false
             }
           ],
@@ -34778,9 +34771,10 @@
           "value": [
             "First-pass visitor copy generated from CIHOF official profile text on 2026-09-12.",
             "Treat CIHOF profile text as the baseline source of truth for this pass.",
+            "CIHOF profile includes https://www.youtube.com/mdifilm as Johnny K. Wu's YouTube channel; excluded from playable media because it is not a specific video. The embedded induction ceremony video is P34omi5XUiY, with the Johnny Wu segment noted on the CIHOF page at about 1:37:11.",
             "Media rights, video captions/transcripts, and WRHS archival permissions remain separate review tracks."
           ],
-          "excerpt": "First-pass visitor copy generated from CIHOF official profile text on 2026-09-12., Treat CIHOF profile text as the baseline source of truth for this pass., Media rights, video captions/transcripts, and WRHS archival permissions remain separate review tracks.",
+          "excerpt": "First-pass visitor copy generated from CIHOF official profile text on 2026-09-12., Treat CIHOF profile text as the baseline source of truth for this pass., CIHOF profile includes https://www.youtube.com/mdifilm as Johnny K. Wu's YouTube channel; excluded from playable media because it is not a specific video. The embedded induction ceremony video is P34omi5XUiY, with the Johnny Wu segment noted on the CIHOF page at about 1:37:11., +1 more",
           "issues": [],
           "affectsProfileDecision": false
         },
@@ -35076,13 +35070,13 @@
           "value": [
             {
               "youtubeVideoId": "P34omi5XUiY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.en.vtt",
+              "transcriptFilePath": "public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"P34omi5XUiY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/veronica-dahlberg-2024/veronica-dahlberg-2024_P34omi5XUiY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -35423,13 +35417,13 @@
           "value": [
             {
               "youtubeVideoId": "4jjbyRcwk3Y",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.en.vtt",
+              "transcriptFilePath": "public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"4jjbyRcwk3Y\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"4jjbyRcwk3Y\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.en.vtt\",\"transcriptFilePath\":\"public/media/videos/beverly-kerecman-2025/beverly-kerecman-2025_4jjbyRcwk3Y.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -35774,13 +35768,13 @@
           "value": [
             {
               "youtubeVideoId": "BKuCcyGsdek",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.en.vtt",
+              "transcriptFilePath": "public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"BKuCcyGsdek\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"BKuCcyGsdek\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.en.vtt\",\"transcriptFilePath\":\"public/media/videos/branka-malinar-2025/branka-malinar-2025_BKuCcyGsdek.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -36134,13 +36128,13 @@
           "value": [
             {
               "youtubeVideoId": "XeheG0iGICs",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.en.vtt",
+              "transcriptFilePath": "public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"XeheG0iGICs\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"XeheG0iGICs\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.en.vtt\",\"transcriptFilePath\":\"public/media/videos/david-gilbert-2025/david-gilbert-2025_XeheG0iGICs.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -36481,13 +36475,13 @@
           "value": [
             {
               "youtubeVideoId": "diVkkJkn0sY",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.en.vtt",
+              "transcriptFilePath": "public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"diVkkJkn0sY\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"diVkkJkn0sY\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.en.vtt\",\"transcriptFilePath\":\"public/media/videos/mayor-frank-jackson-2025/mayor-frank-jackson-2025_diVkkJkn0sY.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -36887,13 +36881,13 @@
           "value": [
             {
               "youtubeVideoId": "DoZUzteeFMU",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.en.vtt",
+              "transcriptFilePath": "public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"DoZUzteeFMU\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"DoZUzteeFMU\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.en.vtt\",\"transcriptFilePath\":\"public/media/videos/raj-aggarwal-2025/raj-aggarwal-2025_DoZUzteeFMU.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -37235,13 +37229,13 @@
           "value": [
             {
               "youtubeVideoId": "ZT80-BrCIyk",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.en.vtt",
+              "transcriptFilePath": "public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"ZT80-BrCIyk\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"ZT80-BrCIyk\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.en.vtt\",\"transcriptFilePath\":\"public/media/videos/svetlana-stolyarova-2025/svetlana-stolyarova-2025_ZT80-BrCIyk.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -37631,13 +37625,13 @@
           "value": [
             {
               "youtubeVideoId": "Nlcx5vaC37I",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.en.vtt",
+              "transcriptFilePath": "public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"Nlcx5vaC37I\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"Nlcx5vaC37I\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.en.vtt\",\"transcriptFilePath\":\"public/media/videos/aklilu-demessie-2026/aklilu-demessie-2026_Nlcx5vaC37I.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -37980,13 +37974,13 @@
           "value": [
             {
               "youtubeVideoId": "bS3656smMfM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.en.vtt",
+              "transcriptFilePath": "public/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"bS3656smMfM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"bS3656smMfM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/andy-chakalis-2026/andy-chakalis-2026_bS3656smMfM.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -38345,13 +38339,13 @@
           "value": [
             {
               "youtubeVideoId": "Kp2oRe3w1EM",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.en.vtt",
+              "transcriptFilePath": "public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"Kp2oRe3w1EM\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"Kp2oRe3w1EM\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.en.vtt\",\"transcriptFilePath\":\"public/media/videos/andy-fedynsky-2026/andy-fedynsky-2026_Kp2oRe3w1EM.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -38694,13 +38688,13 @@
           "value": [
             {
               "youtubeVideoId": "e3gWQ-kdEF4",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.en.vtt",
+              "transcriptFilePath": "public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"e3gWQ-kdEF4\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"e3gWQ-kdEF4\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.en.vtt\",\"transcriptFilePath\":\"public/media/videos/catherine-jorgensen-mccutcheon-2026/catherine-jorgensen-mccutcheon-2026_e3gWQ-kdEF4.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -39040,13 +39034,13 @@
           "value": [
             {
               "youtubeVideoId": "T5peEDc8mE8",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.en.vtt",
+              "transcriptFilePath": "public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"T5peEDc8mE8\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"T5peEDc8mE8\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.en.vtt\",\"transcriptFilePath\":\"public/media/videos/le-nguyen-2026/le-nguyen-2026_T5peEDc8mE8.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",
@@ -39436,13 +39430,13 @@
           "value": [
             {
               "youtubeVideoId": "TU54lNScxz4",
-              "captionStatus": "needed",
-              "transcriptStatus": "needed",
-              "captionFilePath": "",
-              "transcriptFilePath": ""
+              "captionStatus": "needs-review",
+              "transcriptStatus": "needs-review",
+              "captionFilePath": "public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.en.vtt",
+              "transcriptFilePath": "public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.transcript.txt"
             }
           ],
-          "excerpt": "{\"youtubeVideoId\":\"TU54lNScxz4\",\"captionStatus\":\"needed\",\"transcriptStatus\":\"needed\",\"captionFilePath\":\"\",\"transcriptFilePath\":\"\"}",
+          "excerpt": "{\"youtubeVideoId\":\"TU54lNScxz4\",\"captionStatus\":\"needs-review\",\"transcriptStatus\":\"needs-review\",\"captionFilePath\":\"public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.en.vtt\",\"transcriptFilePath\":\"public/media/videos/lucy-torres-2026/lucy-torres-2026_TU54lNScxz4.transcript.txt\"}",
           "issues": [
             {
               "code": "VIDEO_CAPTIONS_NOT_READY",

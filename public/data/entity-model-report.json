@@ -7,15 +7,15 @@
     "curatedSource": "data/cihof_curated_entities.json"
   },
   "totals": {
-    "entities": 451,
-    "relationships": 1948,
+    "entities": 544,
+    "relationships": 2041,
     "curatedEntities": 0,
     "curatedRelationships": 0
   },
   "entityTypes": [
     {
       "type": "Media",
-      "count": 199
+      "count": 292
     },
     {
       "type": "Person",
@@ -45,7 +45,7 @@
     },
     {
       "type": "has_media",
-      "count": 204
+      "count": 297
     },
     {
       "type": "member_of_community",
@@ -63,7 +63,7 @@
   "provenance": [
     {
       "confidence": "curated",
-      "count": 1148
+      "count": 1334
     },
     {
       "confidence": "inferred",

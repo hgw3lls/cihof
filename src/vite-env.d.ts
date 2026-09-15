@@ -25,6 +25,7 @@ interface ImportMetaEnv {
   readonly VITE_CIHOF_HEARTBEAT_MS?: string;
   readonly VITE_CIHOF_QR_AUTO_CLOSE_MS?: string;
   readonly VITE_CIHOF_ANIMATION_INTENSITY?: string;
+  readonly VITE_CIHOF_ADMIN_PASSCODE?: string;
 }
 
 interface ImportMeta {

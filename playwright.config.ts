@@ -21,7 +21,7 @@ export default defineConfig({
   webServer: skipWebServer
     ? undefined
     : {
-      command: `VITE_CIHOF_KIOSK_IDLE_MS=1600 VITE_CIHOF_KIOSK_RESET_WARNING_MS=500 VITE_CIHOF_QR_AUTO_CLOSE_MS=900 npm run build:public && npm run preview -- --host 127.0.0.1 --port ${port}`,
+      command: `VITE_CIHOF_ADMIN_PASSCODE=cihof-admin VITE_CIHOF_KIOSK_IDLE_MS=1600 VITE_CIHOF_KIOSK_RESET_WARNING_MS=500 VITE_CIHOF_QR_AUTO_CLOSE_MS=900 npm run build:public && npm run preview -- --host 127.0.0.1 --port ${port}`,
       url: baseURL,
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,

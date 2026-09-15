@@ -56,8 +56,6 @@ export type Inductee = {
   searchText: string;
 };
 
-export type SortMode = 'year-asc' | 'year-desc' | 'name-asc' | 'country-asc' | 'region-asc' | 'physical-wall';
-export type MediaFilter = 'all' | 'with-video' | 'with-gallery';
 export type HallLens = 'portraits' | 'traces' | 'journeys' | 'legacies';
 export type HallFocus = { personId: string } | null;
 export type HallLinkedPathKind = 'class' | 'heritage' | 'community' | 'theme' | 'person';
@@ -159,52 +157,6 @@ export type EntityRelationshipRecord = {
   shortDescription?: string;
   provenance: EntityProvenance;
   attributes?: Record<string, unknown>;
-};
-
-export type PlaceType =
-  | 'neighborhood'
-  | 'cultural_center'
-  | 'church'
-  | 'school'
-  | 'civic_building'
-  | 'cultural_garden'
-  | 'business'
-  | 'festival_location'
-  | 'community_organization'
-  | 'historic_address';
-
-export type PlaceMarker = {
-  x: number;
-  y: number;
-  labelOffsetX?: number;
-  labelOffsetY?: number;
-};
-
-export type PlaceMedia = {
-  kind: 'image';
-  url: string;
-  altText: string;
-  caption?: string;
-};
-
-export type PlaceRelationship = {
-  people?: string[];
-  communities?: string[];
-  organizations?: string[];
-};
-
-export type PlaceRecord = {
-  id: string;
-  name: string;
-  type: PlaceType;
-  shortHistory: string;
-  marker: PlaceMarker;
-  neighborhood?: string;
-  address?: string;
-  dateRange?: EntityDateRange;
-  related: PlaceRelationship;
-  media?: PlaceMedia[];
-  provenance: EntityProvenance;
 };
 
 export type StoryBeatType =
@@ -416,14 +368,4 @@ export type RuntimeMediaRecord = {
   audio?: RuntimeAudioAsset[];
   oralHistories?: RuntimeAudioAsset[];
   provenance?: MediaAssetProvenance;
-};
-
-export type ExploreState = {
-  query: string;
-  region: string;
-  country: string;
-  year: string;
-  theme: string;
-  media: MediaFilter;
-  sortMode: SortMode;
 };

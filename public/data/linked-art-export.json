@@ -9553,6 +9553,48 @@
   ],
   "_cihof_relationship_assertions": [
     {
+      "id": "rel:person-abby-mina-2018:has_media:media-local-video-media-videos-abby-mina-2018-abby-mina-2018-0kjhqywfjdi-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=abby-mina-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-abby-mina-2018-abby-mina-2018-0kjhqywfjdi-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-abby-mina-2018:has_media:media-local-video-media-videos-abby-mina-2018-abby-mina-2018-1kftdd1w3lg-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=abby-mina-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-abby-mina-2018-abby-mina-2018-1kftdd1w3lg-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-abby-mina-2018:has_media:media-local-video-media-videos-abby-mina-2018-abby-mina-2018-fwv6dxkuhnc-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=abby-mina-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-abby-mina-2018-abby-mina-2018-fwv6dxkuhnc-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "abby-mina-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-abby-mina-2018:has_media:media-primary-image-abby-mina-2018",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=abby-mina-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aabby-mina-2018",
@@ -9862,6 +9904,20 @@
       }
     },
     {
+      "id": "rel:person-aklilu-demessie-2026:has_media:media-local-video-media-videos-aklilu-demessie-2026-aklilu-demessie-2026-nlcx5vac37i-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=aklilu-demessie-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-aklilu-demessie-2026-aklilu-demessie-2026-nlcx5vac37i-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "aklilu-demessie-2026",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-aklilu-demessie-2026:has_media:media-primary-image-aklilu-demessie-2026",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=aklilu-demessie-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aaklilu-demessie-2026",
@@ -10126,6 +10182,20 @@
         "sourceRecordId": "aklilu-demessie-2026",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-akram-boutros-2019:has_media:media-local-video-media-videos-akram-boutros-2019-akram-boutros-2019-c6eunqgzh5e-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=akram-boutros-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-akram-boutros-2019-akram-boutros-2019-c6eunqgzh5e-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "akram-boutros-2019",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -10900,6 +10970,20 @@
       }
     },
     {
+      "id": "rel:person-ambassador-edward-f-crawford-2024:has_media:media-local-video-media-videos-ambassador-edward-f-crawford-2024-ambassador-edward-f-crawford-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ambassador-edward-f-crawford-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ambassador-edward-f-crawford-2024-ambassador-edward-f-crawford-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ambassador-edward-f-crawford-2024",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-ambassador-edward-f-crawford-2024:has_media:media-primary-image-ambassador-edward-f-crawford-2024",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ambassador-edward-f-crawford-2024",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aambassador-edward-f-crawford-2024",
@@ -11178,6 +11262,20 @@
         "sourceRecordId": "ambassador-edward-f-crawford-2024",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-anda-cook-2022:has_media:media-local-video-media-videos-anda-cook-2022-anda-cook-2022-jbd-goy7hk-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=anda-cook-2022",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-anda-cook-2022-anda-cook-2022-jbd-goy7hk-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "anda-cook-2022",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -11462,6 +11560,20 @@
       }
     },
     {
+      "id": "rel:person-andy-chakalis-2026:has_media:media-local-video-media-videos-andy-chakalis-2026-andy-chakalis-2026-bs3656smmfm-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-chakalis-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-andy-chakalis-2026-andy-chakalis-2026-bs3656smmfm-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "andy-chakalis-2026",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-andy-chakalis-2026:has_media:media-primary-image-andy-chakalis-2026",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-chakalis-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aandy-chakalis-2026",
@@ -11725,6 +11837,20 @@
         "sourceRecordId": "andy-chakalis-2026",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-andy-fedynsky-2026:has_media:media-local-video-media-videos-andy-fedynsky-2026-andy-fedynsky-2026-kp2ore3w1em-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=andy-fedynsky-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-andy-fedynsky-2026-andy-fedynsky-2026-kp2ore3w1em-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "andy-fedynsky-2026",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -12262,6 +12388,48 @@
       }
     },
     {
+      "id": "rel:person-arnie-de-la-porte-2016-2016:has_media:media-local-video-media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-hmsfn1-1kpg-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=arnie-de-la-porte-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-hmsfn1-1kpg-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-arnie-de-la-porte-2016-2016:has_media:media-local-video-media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-jxo9xewz4jq-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=arnie-de-la-porte-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-jxo9xewz4jq-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-arnie-de-la-porte-2016-2016:has_media:media-local-video-media-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-qedxti9t8je-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=arnie-de-la-porte-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-arnie-de-la-porte-2016-2016-arnie-de-la-porte-2016-2016-qedxti9t8je-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "arnie-de-la-porte-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-arnie-de-la-porte-2016-2016:has_media:media-primary-image-arnie-de-la-porte-2016-2016",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=arnie-de-la-porte-2016-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aarnie-de-la-porte-2016-2016",
@@ -12523,6 +12691,34 @@
         "confidence": "curated",
         "sourceRecordId": "arnie-de-la-porte-2016-2016",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-atul-mehta-2018:has_media:media-local-video-media-videos-atul-mehta-2018-atul-mehta-2018-4pafixyd1zu-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=atul-mehta-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-atul-mehta-2018-atul-mehta-2018-4pafixyd1zu-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "atul-mehta-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-atul-mehta-2018:has_media:media-local-video-media-videos-atul-mehta-2018-atul-mehta-2018-eatzgx8chui-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=atul-mehta-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-atul-mehta-2018-atul-mehta-2018-eatzgx8chui-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "atul-mehta-2018",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -13059,6 +13255,20 @@
       }
     },
     {
+      "id": "rel:person-basil-russo-2017:has_media:media-local-video-media-videos-basil-russo-2017-basil-russo-2017-rzy-lrl0hwo-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=basil-russo-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-basil-russo-2017-basil-russo-2017-rzy-lrl0hwo-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "basil-russo-2017",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-basil-russo-2017:has_media:media-primary-image-basil-russo-2017",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=basil-russo-2017",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Abasil-russo-2017",
@@ -13340,6 +13550,34 @@
       }
     },
     {
+      "id": "rel:person-berj-shakarian-2020:has_media:media-local-video-media-videos-berj-shakarian-2020-berj-shakarian-2020-2kbxzdgiqjm-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=berj-shakarian-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-berj-shakarian-2020-berj-shakarian-2020-2kbxzdgiqjm-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "berj-shakarian-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-berj-shakarian-2020:has_media:media-local-video-media-videos-berj-shakarian-2020-berj-shakarian-2020-engy3m5efcc-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=berj-shakarian-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-berj-shakarian-2020-berj-shakarian-2020-engy3m5efcc-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "berj-shakarian-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-berj-shakarian-2020:has_media:media-primary-image-berj-shakarian-2020",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=berj-shakarian-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aberj-shakarian-2020",
@@ -13590,6 +13828,20 @@
       }
     },
     {
+      "id": "rel:person-beverly-kerecman-2025:has_media:media-local-video-media-videos-beverly-kerecman-2025-beverly-kerecman-2025-4jjbyrcwk3y-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=beverly-kerecman-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-beverly-kerecman-2025-beverly-kerecman-2025-4jjbyrcwk3y-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "beverly-kerecman-2025",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-beverly-kerecman-2025:has_media:media-primary-image-beverly-kerecman-2025",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=beverly-kerecman-2025",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Abeverly-kerecman-2025",
@@ -13824,6 +14076,20 @@
         "sourceRecordId": "beverly-kerecman-2025",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-bill-miller-2017:has_media:media-local-video-media-videos-bill-miller-2017-bill-miller-2017-7ajuc16ao90-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-bill-miller-2017-bill-miller-2017-7ajuc16ao90-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bill-miller-2017",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -14330,6 +14596,34 @@
       }
     },
     {
+      "id": "rel:person-bishop-anthony-pilla-2015:has_media:media-local-video-media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-kmvo49zi-94-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bishop-anthony-pilla-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-kmvo49zi-94-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bishop-anthony-pilla-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-bishop-anthony-pilla-2015:has_media:media-local-video-media-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-ppxivzkq49u-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bishop-anthony-pilla-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-bishop-anthony-pilla-2015-bishop-anthony-pilla-2015-ppxivzkq49u-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bishop-anthony-pilla-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-bishop-anthony-pilla-2015:has_media:media-primary-image-bishop-anthony-pilla-2015",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bishop-anthony-pilla-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Abishop-anthony-pilla-2015",
@@ -14592,6 +14886,20 @@
         "sourceRecordId": "bishop-anthony-pilla-2015",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-branka-malinar-2025:has_media:media-local-video-media-videos-branka-malinar-2025-branka-malinar-2025-bkuccygsdek-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=branka-malinar-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-branka-malinar-2025-branka-malinar-2025-bkuccygsdek-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "branka-malinar-2025",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -14876,6 +15184,20 @@
       }
     },
     {
+      "id": "rel:person-carl-robson-2022:has_media:media-local-video-media-videos-carl-robson-2022-carl-robson-2022-3zl6-hyv89q-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carl-robson-2022",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-carl-robson-2022-carl-robson-2022-3zl6-hyv89q-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carl-robson-2022",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-carl-robson-2022:has_media:media-primary-image-carl-robson-2022",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carl-robson-2022",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Acarl-robson-2022",
@@ -15125,6 +15447,48 @@
         "sourceRecordId": "carl-robson-2022",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-carolyn-balogh-2016-2016:has_media:media-local-video-media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-e-c-ypiwjt8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carolyn-balogh-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-e-c-ypiwjt8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-carolyn-balogh-2016-2016:has_media:media-local-video-media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-o-r4oypcuyc-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carolyn-balogh-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-o-r4oypcuyc-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-carolyn-balogh-2016-2016:has_media:media-local-video-media-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-qzhokedkxqc-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=carolyn-balogh-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-carolyn-balogh-2016-2016-carolyn-balogh-2016-2016-qzhokedkxqc-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "carolyn-balogh-2016-2016",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -15422,6 +15786,20 @@
       }
     },
     {
+      "id": "rel:person-catherine-jorgensen-mccutcheon-2026:has_media:media-local-video-media-videos-catherine-jorgensen-mccutcheon-2026-catherine-jorgensen-mccutcheon-2026-e3gwq-kdef4-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=catherine-jorgensen-mccutcheon-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-catherine-jorgensen-mccutcheon-2026-catherine-jorgensen-mccutcheon-2026-e3gwq-kdef4-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "catherine-jorgensen-mccutcheon-2026",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-catherine-jorgensen-mccutcheon-2026:has_media:media-primary-image-catherine-jorgensen-mccutcheon-2026",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=catherine-jorgensen-mccutcheon-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Acatherine-jorgensen-mccutcheon-2026",
@@ -15688,6 +16066,20 @@
       }
     },
     {
+      "id": "rel:person-david-gilbert-2025:has_media:media-local-video-media-videos-david-gilbert-2025-david-gilbert-2025-xeheg0igics-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=david-gilbert-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-david-gilbert-2025-david-gilbert-2025-xeheg0igics-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "david-gilbert-2025",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-david-gilbert-2025:has_media:media-primary-image-david-gilbert-2025",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=david-gilbert-2025",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Adavid-gilbert-2025",
@@ -15936,6 +16328,34 @@
         "sourceRecordId": "david-gilbert-2025",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-dick-pogue-2015:has_media:media-local-video-media-videos-dick-pogue-2015-dick-pogue-2015-7mkib5fnq-g-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-pogue-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dick-pogue-2015-dick-pogue-2015-7mkib5fnq-g-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-dick-pogue-2015:has_media:media-local-video-media-videos-dick-pogue-2015-dick-pogue-2015-qtbu6qlpxre-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-pogue-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dick-pogue-2015-dick-pogue-2015-qtbu6qlpxre-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -16216,6 +16636,34 @@
         "confidence": "curated",
         "sourceRecordId": "dick-pogue-2015",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-dick-russ-2015:has_media:media-local-video-media-videos-dick-russ-2015-dick-russ-2015-ivlrvgm81r8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-russ-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dick-russ-2015-dick-russ-2015-ivlrvgm81r8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-russ-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-dick-russ-2015:has_media:media-local-video-media-videos-dick-russ-2015-dick-russ-2015-xj9n1qouafg-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-russ-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dick-russ-2015-dick-russ-2015-xj9n1qouafg-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-russ-2015",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -16511,6 +16959,20 @@
         "sourceRecordId": "dick-russ-2015",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-dona-brady-2024:has_media:media-local-video-media-videos-dona-brady-2024-dona-brady-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dona-brady-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dona-brady-2024-dona-brady-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dona-brady-2024",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -17241,6 +17703,20 @@
       }
     },
     {
+      "id": "rel:person-dr-eugene-jordan-2024:has_media:media-local-video-media-videos-dr-eugene-jordan-2024-dr-eugene-jordan-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dr-eugene-jordan-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-dr-eugene-jordan-2024-dr-eugene-jordan-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dr-eugene-jordan-2024",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-dr-eugene-jordan-2024:has_media:media-primary-image-dr-eugene-jordan-2024",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dr-eugene-jordan-2024",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Adr-eugene-jordan-2024",
@@ -17950,6 +18426,20 @@
         "sourceRecordId": "dr-maria-pujana-2013",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-erika-puussaar-2024:has_media:media-local-video-media-videos-erika-puussaar-2024-erika-puussaar-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=erika-puussaar-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-erika-puussaar-2024-erika-puussaar-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "erika-puussaar-2024",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -18723,6 +19213,62 @@
       }
     },
     {
+      "id": "rel:person-eugenia-stolarczyk-2016-2016:has_media:media-local-video-media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-7lmk-kcujs-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-7lmk-kcujs-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-eugenia-stolarczyk-2016-2016:has_media:media-local-video-media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-ibjbwbphwgs-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-ibjbwbphwgs-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-eugenia-stolarczyk-2016-2016:has_media:media-local-video-media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-tsl-t9x0ub0-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-tsl-t9x0ub0-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-eugenia-stolarczyk-2016-2016:has_media:media-local-video-media-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-uw-nypsccxm-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-eugenia-stolarczyk-2016-2016-eugenia-stolarczyk-2016-2016-uw-nypsccxm-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "eugenia-stolarczyk-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-eugenia-stolarczyk-2016-2016:has_media:media-primary-image-eugenia-stolarczyk-2016-2016",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=eugenia-stolarczyk-2016-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aeugenia-stolarczyk-2016-2016",
@@ -19250,6 +19796,20 @@
         "sourceRecordId": "fr-jim-o-donnell-2012",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-georgine-welo-2023:has_media:media-local-video-media-videos-georgine-welo-2023-georgine-welo-2023-jawjktg5nrg-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=georgine-welo-2023",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-georgine-welo-2023-georgine-welo-2023-jawjktg5nrg-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "georgine-welo-2023",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -20543,6 +21103,34 @@
       }
     },
     {
+      "id": "rel:person-honorable-jose-a-villanueva-2015:has_media:media-local-video-media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-7jj4sizisom-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=honorable-jose-a-villanueva-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-7jj4sizisom-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "honorable-jose-a-villanueva-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-honorable-jose-a-villanueva-2015:has_media:media-local-video-media-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-i5fjexabnhi-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=honorable-jose-a-villanueva-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-honorable-jose-a-villanueva-2015-honorable-jose-a-villanueva-2015-i5fjexabnhi-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "honorable-jose-a-villanueva-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-honorable-jose-a-villanueva-2015:has_media:media-primary-image-honorable-jose-a-villanueva-2015",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=honorable-jose-a-villanueva-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ahonorable-jose-a-villanueva-2015",
@@ -20835,6 +21423,20 @@
         "sourceRecordId": "honorable-jose-a-villanueva-2015",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-ingrida-bublys-2019:has_media:media-local-video-media-videos-ingrida-bublys-2019-ingrida-bublys-2019-obii5vxcp7q-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ingrida-bublys-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ingrida-bublys-2019-ingrida-bublys-2019-obii5vxcp7q-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ingrida-bublys-2019",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -21578,6 +22180,48 @@
       }
     },
     {
+      "id": "rel:person-jack-kahl-2016:has_media:media-local-video-media-videos-jack-kahl-2016-jack-kahl-2016-dw7qmiullko-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-jack-kahl-2016-jack-kahl-2016-dw7qmiullko-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-jack-kahl-2016:has_media:media-local-video-media-videos-jack-kahl-2016-jack-kahl-2016-ekdfg3zz9os-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-jack-kahl-2016-jack-kahl-2016-ekdfg3zz9os-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-jack-kahl-2016:has_media:media-local-video-media-videos-jack-kahl-2016-jack-kahl-2016-l0flgzezwtw-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-jack-kahl-2016-jack-kahl-2016-l0flgzezwtw-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jack-kahl-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-jack-kahl-2016:has_media:media-primary-image-jack-kahl-2016",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jack-kahl-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ajack-kahl-2016",
@@ -22139,6 +22783,20 @@
       }
     },
     {
+      "id": "rel:person-jim-craciun-2017:has_media:media-local-video-media-videos-jim-craciun-2017-jim-craciun-2017-xzh7vcfsuns-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jim-craciun-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-jim-craciun-2017-jim-craciun-2017-xzh7vcfsuns-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "jim-craciun-2017",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-jim-craciun-2017:has_media:media-primary-image-jim-craciun-2017",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=jim-craciun-2017",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ajim-craciun-2017",
@@ -22642,6 +23300,20 @@
       }
     },
     {
+      "id": "rel:person-joe-valencic-2020:has_media:media-local-video-media-videos-joe-valencic-2020-joe-valencic-2020-k8t6koylcge-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joe-valencic-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-joe-valencic-2020-joe-valencic-2020-k8t6koylcge-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "joe-valencic-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-joe-valencic-2020:has_media:media-primary-image-joe-valencic-2020",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joe-valencic-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ajoe-valencic-2020",
@@ -22920,6 +23592,20 @@
         "sourceRecordId": "joe-valencic-2020",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-johnny-k-wu-2024:has_media:media-local-video-media-videos-johnny-k-wu-2024-johnny-k-wu-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=johnny-k-wu-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-johnny-k-wu-2024-johnny-k-wu-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "johnny-k-wu-2024",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -23976,6 +24662,20 @@
       }
     },
     {
+      "id": "rel:person-joyce-mariani-2023:has_media:media-local-video-media-videos-joyce-mariani-2023-joyce-mariani-2023-khfzlbasw0o-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joyce-mariani-2023",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-joyce-mariani-2023-joyce-mariani-2023-khfzlbasw0o-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "joyce-mariani-2023",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-joyce-mariani-2023:has_media:media-primary-image-joyce-mariani-2023",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=joyce-mariani-2023",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ajoyce-mariani-2023",
@@ -24494,6 +25194,48 @@
       }
     },
     {
+      "id": "rel:person-khalid-samad-2016-2016:has_media:media-local-video-media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-kkjaauzr2ps-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=khalid-samad-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-kkjaauzr2ps-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-khalid-samad-2016-2016:has_media:media-local-video-media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-mqcqvmzsu88-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=khalid-samad-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-mqcqvmzsu88-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-khalid-samad-2016-2016:has_media:media-local-video-media-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-yt9dtizdjpq-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=khalid-samad-2016-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-khalid-samad-2016-2016-khalid-samad-2016-2016-yt9dtizdjpq-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "khalid-samad-2016-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-khalid-samad-2016-2016:has_media:media-primary-image-khalid-samad-2016-2016",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=khalid-samad-2016-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Akhalid-samad-2016-2016",
@@ -24786,6 +25528,20 @@
         "sourceRecordId": "khalid-samad-2016-2016",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-le-nguyen-2026:has_media:media-local-video-media-videos-le-nguyen-2026-le-nguyen-2026-t5peedc8me8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=le-nguyen-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-le-nguyen-2026-le-nguyen-2026-t5peedc8me8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "le-nguyen-2026",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -25738,6 +26494,20 @@
       }
     },
     {
+      "id": "rel:person-lucy-torres-2026:has_media:media-local-video-media-videos-lucy-torres-2026-lucy-torres-2026-tu54lnscxz4-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=lucy-torres-2026",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-lucy-torres-2026-lucy-torres-2026-tu54lnscxz4-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "lucy-torres-2026",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-lucy-torres-2026:has_media:media-primary-image-lucy-torres-2026",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=lucy-torres-2026",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Alucy-torres-2026",
@@ -26463,6 +27233,20 @@
       }
     },
     {
+      "id": "rel:person-margaret-lynch-2020:has_media:media-local-video-media-videos-margaret-lynch-2020-margaret-lynch-2020-mtjmmiuk5ni-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-lynch-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-margaret-lynch-2020-margaret-lynch-2020-mtjmmiuk5ni-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "margaret-lynch-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-margaret-lynch-2020:has_media:media-primary-image-margaret-lynch-2020",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=margaret-lynch-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Amargaret-lynch-2020",
@@ -26967,6 +27751,20 @@
       }
     },
     {
+      "id": "rel:person-marilyn-madigan-2019:has_media:media-local-video-media-videos-marilyn-madigan-2019-marilyn-madigan-2019-pgusrtblhj4-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=marilyn-madigan-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-marilyn-madigan-2019-marilyn-madigan-2019-pgusrtblhj4-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "marilyn-madigan-2019",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-marilyn-madigan-2019:has_media:media-primary-image-marilyn-madigan-2019",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=marilyn-madigan-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Amarilyn-madigan-2019",
@@ -27248,6 +28046,34 @@
       }
     },
     {
+      "id": "rel:person-may-chen-2020:has_media:media-local-video-media-videos-may-chen-2020-may-chen-2020-qde5bveynkg-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=may-chen-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-may-chen-2020-may-chen-2020-qde5bveynkg-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "may-chen-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-may-chen-2020:has_media:media-local-video-media-videos-may-chen-2020-may-chen-2020-yxyhzjyqyt0-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=may-chen-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-may-chen-2020-may-chen-2020-yxyhzjyqyt0-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "may-chen-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-may-chen-2020:has_media:media-primary-image-may-chen-2020",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=may-chen-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Amay-chen-2020",
@@ -27481,6 +28307,20 @@
         "sourceRecordId": "may-chen-2020",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-mayor-frank-jackson-2025:has_media:media-local-video-media-videos-mayor-frank-jackson-2025-mayor-frank-jackson-2025-divkkjkn0sy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mayor-frank-jackson-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-mayor-frank-jackson-2025-mayor-frank-jackson-2025-divkkjkn0sy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mayor-frank-jackson-2025",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -27733,6 +28573,20 @@
         "sourceRecordId": "mayor-frank-jackson-2025",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-michael-d-polensek-2023:has_media:media-local-video-media-videos-michael-d-polensek-2023-michael-d-polensek-2023-iyv4tycj3m8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=michael-d-polensek-2023",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-michael-d-polensek-2023-michael-d-polensek-2023-iyv4tycj3m8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "michael-d-polensek-2023",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -28270,6 +29124,48 @@
       }
     },
     {
+      "id": "rel:person-mohan-bafna-2016:has_media:media-local-video-media-videos-mohan-bafna-2016-mohan-bafna-2016-ix7-ecpzvy4-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-mohan-bafna-2016-mohan-bafna-2016-ix7-ecpzvy4-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-mohan-bafna-2016:has_media:media-local-video-media-videos-mohan-bafna-2016-mohan-bafna-2016-kahozmrbzna-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-mohan-bafna-2016-mohan-bafna-2016-kahozmrbzna-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-mohan-bafna-2016:has_media:media-local-video-media-videos-mohan-bafna-2016-mohan-bafna-2016-kusmhq-yg-k-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-mohan-bafna-2016-mohan-bafna-2016-kusmhq-yg-k-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mohan-bafna-2016",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-mohan-bafna-2016:has_media:media-primary-image-mohan-bafna-2016",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mohan-bafna-2016",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Amohan-bafna-2016",
@@ -28532,6 +29428,20 @@
         "sourceRecordId": "mohan-bafna-2016",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-mona-alag-2017:has_media:media-local-video-media-videos-mona-alag-2017-mona-alag-2017-2mg5gmqxuzq-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=mona-alag-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-mona-alag-2017-mona-alag-2017-2mg5gmqxuzq-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "mona-alag-2017",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -29722,6 +30632,20 @@
       }
     },
     {
+      "id": "rel:person-paul-burik-2019:has_media:media-local-video-media-videos-paul-burik-2019-paul-burik-2019-b-zp9vqxjby-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paul-burik-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-paul-burik-2019-paul-burik-2019-b-zp9vqxjby-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "paul-burik-2019",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-paul-burik-2019:has_media:media-primary-image-paul-burik-2019",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=paul-burik-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Apaul-burik-2019",
@@ -30240,6 +31164,20 @@
       }
     },
     {
+      "id": "rel:person-pierre-bejjani-2023:has_media:media-local-video-media-videos-pierre-bejjani-2023-pierre-bejjani-2023-11fqd7mq8fs-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=pierre-bejjani-2023",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-pierre-bejjani-2023-pierre-bejjani-2023-11fqd7mq8fs-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "pierre-bejjani-2023",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-pierre-bejjani-2023:has_media:media-primary-image-pierre-bejjani-2023",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=pierre-bejjani-2023",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Apierre-bejjani-2023",
@@ -30518,6 +31456,20 @@
         "confidence": "curated",
         "sourceRecordId": "pierre-bejjani-2023",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-raj-aggarwal-2025:has_media:media-local-video-media-videos-raj-aggarwal-2025-raj-aggarwal-2025-dozuzteefmu-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=raj-aggarwal-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-raj-aggarwal-2025-raj-aggarwal-2025-dozuzteefmu-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "raj-aggarwal-2025",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -31040,6 +31992,34 @@
       }
     },
     {
+      "id": "rel:person-ralph-perk-jr-2018:has_media:media-local-video-media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-8cpulovefwa-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-perk-jr-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-8cpulovefwa-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-perk-jr-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-ralph-perk-jr-2018:has_media:media-local-video-media-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-qxg7vrfkyxo-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-perk-jr-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ralph-perk-jr-2018-ralph-perk-jr-2018-qxg7vrfkyxo-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-perk-jr-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-ralph-perk-jr-2018:has_media:media-primary-image-ralph-perk-jr-2018",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-perk-jr-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Aralph-perk-jr-2018",
@@ -31347,6 +32327,34 @@
         "sourceRecordId": "ralph-perk-jr-2018",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-ramesh-shah-2020:has_media:media-local-video-media-videos-ramesh-shah-2020-ramesh-shah-2020-5gdfakdaxm-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ramesh-shah-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ramesh-shah-2020-ramesh-shah-2020-5gdfakdaxm-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ramesh-shah-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-ramesh-shah-2020:has_media:media-local-video-media-videos-ramesh-shah-2020-ramesh-shah-2020-feho9uwgb9g-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ramesh-shah-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ramesh-shah-2020-ramesh-shah-2020-feho9uwgb9g-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ramesh-shah-2020",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -31881,6 +32889,20 @@
         "sourceRecordId": "ratanjit-s-sondhe-2013",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-ray-pianka-2018:has_media:media-local-video-media-videos-ray-pianka-2018-ray-pianka-2018-d1rgv29apuk-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ray-pianka-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-ray-pianka-2018-ray-pianka-2018-d1rgv29apuk-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ray-pianka-2018",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -32685,6 +33707,34 @@
       }
     },
     {
+      "id": "rel:person-richard-a-ganim-2015:has_media:media-local-video-media-videos-richard-a-ganim-2015-richard-a-ganim-2015-kofoh1cykbq-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-a-ganim-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-richard-a-ganim-2015-richard-a-ganim-2015-kofoh1cykbq-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-a-ganim-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-richard-a-ganim-2015:has_media:media-local-video-media-videos-richard-a-ganim-2015-richard-a-ganim-2015-m384uvg0bh8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-a-ganim-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-richard-a-ganim-2015-richard-a-ganim-2015-m384uvg0bh8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-a-ganim-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-richard-a-ganim-2015:has_media:media-primary-image-richard-a-ganim-2015",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-a-ganim-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Arichard-a-ganim-2015",
@@ -32962,6 +34012,20 @@
         "confidence": "curated",
         "sourceRecordId": "richard-a-ganim-2015",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-richard-fleischman-2019:has_media:media-local-video-media-videos-richard-fleischman-2019-richard-fleischman-2019-5bysperyd3o-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=richard-fleischman-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-richard-fleischman-2019-richard-fleischman-2019-5bysperyd3o-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "richard-fleischman-2019",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -33450,6 +34514,20 @@
         "sourceRecordId": "robert-j-haas-2010",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-sam-kim-2017:has_media:media-local-video-media-videos-sam-kim-2017-sam-kim-2017-f78jlqajnqm-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sam-kim-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sam-kim-2017-sam-kim-2017-f78jlqajnqm-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sam-kim-2017",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -34165,6 +35243,34 @@
       }
     },
     {
+      "id": "rel:person-sheila-murphy-crawford-2018:has_media:media-local-video-media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-i-ib8sadv8q-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sheila-murphy-crawford-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-i-ib8sadv8q-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sheila-murphy-crawford-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-sheila-murphy-crawford-2018:has_media:media-local-video-media-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-nc0wst9j-j0-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sheila-murphy-crawford-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sheila-murphy-crawford-2018-sheila-murphy-crawford-2018-nc0wst9j-j0-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sheila-murphy-crawford-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-sheila-murphy-crawford-2018:has_media:media-primary-image-sheila-murphy-crawford-2018",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sheila-murphy-crawford-2018",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Asheila-murphy-crawford-2018",
@@ -34460,6 +35566,34 @@
       }
     },
     {
+      "id": "rel:person-shiv-k-aggarwal-2015:has_media:media-local-video-media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-2ompdy2pfw-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=shiv-k-aggarwal-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-2ompdy2pfw-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "shiv-k-aggarwal-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-shiv-k-aggarwal-2015:has_media:media-local-video-media-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-tx9bppgj-3w-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=shiv-k-aggarwal-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-shiv-k-aggarwal-2015-shiv-k-aggarwal-2015-tx9bppgj-3w-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "shiv-k-aggarwal-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-shiv-k-aggarwal-2015:has_media:media-primary-image-shiv-k-aggarwal-2015",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=shiv-k-aggarwal-2015",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Ashiv-k-aggarwal-2015",
@@ -34723,6 +35857,34 @@
         "sourceRecordId": "shiv-k-aggarwal-2015",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-sister-alicia-alvarado-2018:has_media:media-local-video-media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-9e7dwwd6-l0-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sister-alicia-alvarado-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-9e7dwwd6-l0-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sister-alicia-alvarado-2018",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-sister-alicia-alvarado-2018:has_media:media-local-video-media-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-soprjwdqwfw-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sister-alicia-alvarado-2018",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sister-alicia-alvarado-2018-sister-alicia-alvarado-2018-soprjwdqwfw-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sister-alicia-alvarado-2018",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -35006,6 +36168,20 @@
       }
     },
     {
+      "id": "rel:person-sree-sreenath-2019:has_media:media-local-video-media-videos-sree-sreenath-2019-sree-sreenath-2019-ixo79dbde-m-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sree-sreenath-2019",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sree-sreenath-2019-sree-sreenath-2019-ixo79dbde-m-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sree-sreenath-2019",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-sree-sreenath-2019:has_media:media-primary-image-sree-sreenath-2019",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sree-sreenath-2019",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Asree-sreenath-2019",
@@ -35270,6 +36446,34 @@
         "sourceRecordId": "sree-sreenath-2019",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-steve-mulloy-2015:has_media:media-local-video-media-videos-steve-mulloy-2015-steve-mulloy-2015-gdfhvkv-pfy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=steve-mulloy-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-steve-mulloy-2015-steve-mulloy-2015-gdfhvkv-pfy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "steve-mulloy-2015",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
+      "id": "rel:person-steve-mulloy-2015:has_media:media-local-video-media-videos-steve-mulloy-2015-steve-mulloy-2015-nink-d8bi54-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=steve-mulloy-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-steve-mulloy-2015-steve-mulloy-2015-nink-d8bi54-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "steve-mulloy-2015",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -35553,6 +36757,20 @@
       }
     },
     {
+      "id": "rel:person-sudarshan-sathe-2023:has_media:media-local-video-media-videos-sudarshan-sathe-2023-sudarshan-sathe-2023-q4nkyvztzru-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sudarshan-sathe-2023",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-sudarshan-sathe-2023-sudarshan-sathe-2023-q4nkyvztzru-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "sudarshan-sathe-2023",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-sudarshan-sathe-2023:has_media:media-primary-image-sudarshan-sathe-2023",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=sudarshan-sathe-2023",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Asudarshan-sathe-2023",
@@ -35802,6 +37020,20 @@
         "sourceRecordId": "sudarshan-sathe-2023",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-svetlana-stolyarova-2025:has_media:media-local-video-media-videos-svetlana-stolyarova-2025-svetlana-stolyarova-2025-zt80-brciyk-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=svetlana-stolyarova-2025",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-svetlana-stolyarova-2025-svetlana-stolyarova-2025-zt80-brciyk-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "svetlana-stolyarova-2025",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -36083,6 +37315,20 @@
         "sourceRecordId": "svetlana-stolyarova-2025",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-taras-szmagala-2022:has_media:media-local-video-media-videos-taras-szmagala-2022-taras-szmagala-2022-ypc3hutsgl8-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=taras-szmagala-2022",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-taras-szmagala-2022-taras-szmagala-2022-ypc3hutsgl8-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "taras-szmagala-2022",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -36826,6 +38072,20 @@
       }
     },
     {
+      "id": "rel:person-valarie-mccall-2020:has_media:media-local-video-media-videos-valarie-mccall-2020-valarie-mccall-2020-tb2fcpsakka-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=valarie-mccall-2020",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-valarie-mccall-2020-valarie-mccall-2020-tb2fcpsakka-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "valarie-mccall-2020",
+        "sourceField": "localVideoPaths"
+      }
+    },
+    {
       "id": "rel:person-valarie-mccall-2020:has_media:media-primary-image-valarie-mccall-2020",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=valarie-mccall-2020",
       "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Aprimary-image%3Avalarie-mccall-2020",
@@ -37090,6 +38350,20 @@
         "sourceRecordId": "valarie-mccall-2020",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-veronica-dahlberg-2024:has_media:media-local-video-media-videos-veronica-dahlberg-2024-veronica-dahlberg-2024-p34omi5xuiy-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=veronica-dahlberg-2024",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-veronica-dahlberg-2024-veronica-dahlberg-2024-p34omi5xuiy-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "veronica-dahlberg-2024",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -37371,6 +38645,20 @@
         "sourceRecordId": "veronica-dahlberg-2024",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-victor-ruiz-2022:has_media:media-local-video-media-videos-victor-ruiz-2022-victor-ruiz-2022-b9-ad6gyt14-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=victor-ruiz-2022",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-victor-ruiz-2022-victor-ruiz-2022-b9-ad6gyt14-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "victor-ruiz-2022",
+        "sourceField": "localVideoPaths"
       }
     },
     {
@@ -38097,6 +39385,20 @@
         "sourceRecordId": "vladimir-rus-2012",
         "sourceField": "countryTags",
         "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-wael-khoury-2017:has_media:media-local-video-media-videos-wael-khoury-2017-wael-khoury-2017-oaz7t2i1w10-mp4",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=wael-khoury-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#media%3Alocal-video%3Amedia-videos-wael-khoury-2017-wael-khoury-2017-oaz7t2i1w10-mp4",
+      "type": "has_media",
+      "label": "Localized video",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "wael-khoury-2017",
+        "sourceField": "localVideoPaths"
       }
     },
     {

@@ -13,6 +13,22 @@ dist-portal/
 # Local generated audit output
 artifacts/data-audit.local.json
 artifacts/launch-readiness.local.json
+artifacts/video-caption-transcript-report*.csv
+artifacts/video-caption-transcript-report*.json
+artifacts/video-file-download-queue.csv
+artifacts/video-file-download-queue.json
+artifacts/video-file-sync-report*.csv
+artifacts/video-file-sync-report*.json
+artifacts/video-manifest-normalization-report*.json
+artifacts/video-whisper-transcription-report*.json
+
+# Local downloaded video payloads are too large for normal Git storage.
+public/videos/
+public/media/videos/*
+!public/media/videos/.gitkeep
+data/media-acquisition/youtube-download-archive.txt
+tools/whisper-models/*.bin
+artifacts/whisper-audio-cache/
 
 # Local staff portal runner scratch files
 .portal/

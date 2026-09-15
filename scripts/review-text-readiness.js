@@ -735,7 +735,7 @@ function buildMarkdown(data) {
   lines.push('');
   lines.push(`${s.profileDecisions['pass-as-is'] ?? 0}/${s.totalProfiles} profiles can pass as-is for current text triage, and ${s.profileDecisions['minimal-edits'] ?? 0}/${s.totalProfiles} can likely pass with minimal edits. ${s.profileDecisions['needs-editorial-review'] ?? 0}/${s.totalProfiles} need substantive text review before they should be treated as clean copy.`);
   lines.push('');
-  lines.push('The recurring issues are not mysterious: truncated summaries/life-work copy, duplicated scraped headings, time-sensitive wording, generic alt text, missing pronunciation guidance, missing video caption/transcript text, and a small number of display-name or contact/address artifacts.');
+  lines.push(buildRecurringIssueSentence(s));
   lines.push('');
   lines.push('## Decision Counts');
   lines.push('');
@@ -763,14 +763,9 @@ function buildMarkdown(data) {
     lines.push(`| ${escapeCell(field.label)} | ${escapeCell(formatCountMap(field.statuses))} | ${escapeCell(formatTopCounts(field.mostCommonIssues))} |`);
   });
   lines.push('');
-  lines.push('## Highest-Value Minimal Edits');
+  lines.push('## Highest-Value Open Follow-Ups');
   lines.push('');
-  lines.push('- Strip duplicated scraped names at the beginning of biographies/highlights where present.');
-  lines.push('- Rewrite text ending in ellipses instead of approving truncated summaries or Life + Work copy.');
-  lines.push('- Replace contact/address fragments with stable institutional context.');
-  lines.push('- Clean the four display names that still carry class-year artifacts.');
-  lines.push('- Personalize primary portrait alt text beyond the current generic template before final accessibility approval.');
-  lines.push('- Keep video caption/transcript work separate from profile-copy approval unless WATCH media is being enabled.');
+  buildOpenTextFollowUps(s).forEach((line) => lines.push(line));
   lines.push('');
   lines.push('## Per-Profile Text Decision Matrix');
   lines.push('');
@@ -785,6 +780,152 @@ function buildMarkdown(data) {
   lines.push(`Full field-by-field details, including excerpts and the checked values, are in \`${jsonOutputPath.replace(`${process.cwd()}/`, '')}\`.`);
   lines.push(`A triage spreadsheet-style export is in \`${csvOutputPath.replace(`${process.cwd()}/`, '')}\`.`);
   return lines.join('\n');
+}
+
+function buildRecurringIssueSentence(summary) {
+  const issueGroups = [
+    {
+      count: videoApprovalQueueCount(summary),
+      label: 'video caption/transcript approval queue',
+      pluralLabel: 'video caption/transcript approval queues',
+    },
+    {
+      count: issueTotal(summary, /^PRONUNCIATION_MISSING$/),
+      label: 'missing pronunciation entry',
+      pluralLabel: 'missing pronunciation entries',
+    },
+    {
+      count: issueTotal(summary, /^ARCHIVE_LEAD_STAFF_ONLY$/),
+      label: 'staff-only archive lead',
+      pluralLabel: 'staff-only archive leads',
+    },
+    {
+      count: issueTotal(summary, /^DISPLAY_NAME_LIFE_DATES$/),
+      label: 'display-name life-date review',
+      pluralLabel: 'display-name life-date reviews',
+    },
+    {
+      count: issueTotal(summary, /^STORY_BEAT_META_LANGUAGE$/),
+      label: 'story-section wording review',
+      pluralLabel: 'story-section wording reviews',
+    },
+    {
+      count: issueTotal(summary, /TRUNCATED$/),
+      label: 'truncation flag',
+      pluralLabel: 'truncation flags',
+    },
+    {
+      count: issueTotal(summary, /LEADING_NAME_DUPLICATION$/),
+      label: 'duplicated scraped heading',
+      pluralLabel: 'duplicated scraped headings',
+    },
+    {
+      count: issueTotal(summary, /TEMPORAL_WORDING$/),
+      label: 'time-sensitive wording flag',
+      pluralLabel: 'time-sensitive wording flags',
+    },
+    {
+      count: issueTotal(summary, /CONTACT_OR_ADDRESS$|URL_OR_EMAIL$/),
+      label: 'contact/address or URL fragment',
+      pluralLabel: 'contact/address or URL fragments',
+    },
+    {
+      count: issueTotal(summary, /^DISPLAY_NAME_YEAR_ARTIFACT$/),
+      label: 'display-name class-year artifact',
+      pluralLabel: 'display-name class-year artifacts',
+    },
+    {
+      count: issueTotal(summary, /^ALT_TEXT_GENERIC_TEMPLATE$/),
+      label: 'generic primary portrait alt text entry',
+      pluralLabel: 'generic primary portrait alt text entries',
+    },
+  ].filter((item) => item.count > 0);
+
+  if (issueGroups.length === 0) {
+    return 'The automated pass does not show recurring text-cleanup issues beyond final curator approval.';
+  }
+
+  return `The remaining recurring issues are ${formatProseList(issueGroups.map(formatIssueCount))}.`;
+}
+
+function buildOpenTextFollowUps(summary) {
+  const followUps = [];
+  const videoCount = videoApprovalQueueCount(summary);
+  const pronunciationCount = issueTotal(summary, /^PRONUNCIATION_MISSING$/);
+  const archiveStaffOnlyCount = issueTotal(summary, /^ARCHIVE_LEAD_STAFF_ONLY$/);
+  const lifeDateCount = issueTotal(summary, /^DISPLAY_NAME_LIFE_DATES$/);
+  const storyBeatMetaCount = issueTotal(summary, /^STORY_BEAT_META_LANGUAGE$/);
+  const truncationCount = issueTotal(summary, /TRUNCATED$/);
+  const duplicateHeadingCount = issueTotal(summary, /LEADING_NAME_DUPLICATION$/);
+  const temporalCount = issueTotal(summary, /TEMPORAL_WORDING$/);
+  const contactOrUrlCount = issueTotal(summary, /CONTACT_OR_ADDRESS$|URL_OR_EMAIL$/);
+  const displayYearArtifactCount = issueTotal(summary, /^DISPLAY_NAME_YEAR_ARTIFACT$/);
+  const genericAltCount = issueTotal(summary, /^ALT_TEXT_GENERIC_TEMPLATE$/);
+
+  if (truncationCount > 0) {
+    followUps.push(`- Rewrite ${formatIssueCount({ count: truncationCount, label: 'truncated text field', pluralLabel: 'truncated text fields' })} before approving related profile copy.`);
+  }
+  if (duplicateHeadingCount > 0) {
+    followUps.push(`- Strip ${formatIssueCount({ count: duplicateHeadingCount, label: 'duplicated scraped heading', pluralLabel: 'duplicated scraped headings' })} from biographies or highlights.`);
+  }
+  if (temporalCount > 0) {
+    followUps.push(`- Replace ${formatIssueCount({ count: temporalCount, label: 'time-sensitive wording flag', pluralLabel: 'time-sensitive wording flags' })} with stable dated or role-based language.`);
+  }
+  if (contactOrUrlCount > 0) {
+    followUps.push(`- Remove ${formatIssueCount({ count: contactOrUrlCount, label: 'contact/address or URL fragment', pluralLabel: 'contact/address or URL fragments' })} from visitor-facing copy.`);
+  }
+  if (displayYearArtifactCount > 0) {
+    followUps.push(`- Clean ${formatIssueCount({ count: displayYearArtifactCount, label: 'display-name class-year artifact', pluralLabel: 'display-name class-year artifacts' })}.`);
+  }
+  if (genericAltCount > 0) {
+    followUps.push(`- Personalize ${formatIssueCount({ count: genericAltCount, label: 'generic primary portrait alt text entry', pluralLabel: 'generic primary portrait alt text entries' })} before final accessibility approval.`);
+  }
+  if (lifeDateCount > 0) {
+    followUps.push(`- Review ${formatIssueCount({ count: lifeDateCount, label: 'display name with life dates', pluralLabel: 'display names with life dates' })} and confirm the dates belong in the compact portrait label.`);
+  }
+  if (storyBeatMetaCount > 0) {
+    followUps.push(`- Revise ${formatIssueCount({ count: storyBeatMetaCount, label: 'story-section beat with meta language', pluralLabel: 'story-section beats with meta language' })}.`);
+  }
+  if (archiveStaffOnlyCount > 0) {
+    followUps.push(`- Keep ${formatIssueCount({ count: archiveStaffOnlyCount, label: 'staff-only archive lead', pluralLabel: 'staff-only archive leads' })} out of visitor display until reviewed.`);
+  }
+  if (pronunciationCount > 0) {
+    followUps.push(`- Add ${formatIssueCount({ count: pronunciationCount, label: 'missing pronunciation entry', pluralLabel: 'missing pronunciation entries' })} when final accessibility polish begins.`);
+  }
+  if (videoCount > 0) {
+    followUps.push(`- Keep ${formatIssueCount({ count: videoCount, label: 'video caption/transcript approval queue', pluralLabel: 'video caption/transcript approval queues' })} separate from profile-copy approval unless WATCH media is being enabled.`);
+  }
+
+  if (followUps.length === 0) {
+    followUps.push('- No automated text cleanup queues remain beyond final curator approval.');
+  }
+
+  return followUps;
+}
+
+function issueTotal(summary, pattern) {
+  return Object.entries(summary.issueCounts ?? {}).reduce((total, [code, count]) => (
+    pattern.test(code) ? total + Number(count || 0) : total
+  ), 0);
+}
+
+function videoApprovalQueueCount(summary) {
+  return Math.max(
+    issueTotal(summary, /^VIDEO_CAPTIONS_NOT_READY$/),
+    issueTotal(summary, /^VIDEO_TRANSCRIPTS_NOT_READY$/),
+    issueTotal(summary, /^VIDEO_TEXT_ASSETS_MISSING$/),
+  );
+}
+
+function formatIssueCount({ count, label, pluralLabel }) {
+  return `${count} ${count === 1 ? label : pluralLabel}`;
+}
+
+function formatProseList(items) {
+  if (items.length === 0) return 'none';
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
 }
 
 function buildCsv(data) {
