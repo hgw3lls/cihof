@@ -300,7 +300,7 @@ export function LivingHallView({
   );
   const focusedFullTextAvailable = focusedPerson ? Boolean(fullBiographyText(focusedPerson)) : false;
   const activeLightboxUrl = lightboxIndex === null ? '' : focusedGallery[lightboxIndex] ?? '';
-  const focusContentWindowOpen = Boolean(focusedPerson) && !attractActive;
+  const focusContentWindowOpen = Boolean(focusedPerson) && !attractActive && (lens !== 'traces' || activePersonAction !== 'overview');
   const legacyFocusModalOpen = lens === 'legacies' && focusContentWindowOpen;
   const legacyTimeline = useLegacyTimelineNavigation({
     activeYear: activeLegacyYear,
@@ -500,7 +500,7 @@ export function LivingHallView({
     : null;
   const labelForegroundRects = foregroundLabelRects({
     actionPlacement: focusedActionPlacement,
-    cardPlacement: activePersonAction === 'overview' ? focusedCardPlacement : null,
+    cardPlacement: activePersonAction === 'overview' && lens !== 'traces' ? focusedCardPlacement : null,
     frameAspect: focusedFrameAspect,
     layout: hallLayout,
     lens,
@@ -821,7 +821,7 @@ export function LivingHallView({
         </div>
       </div>
 
-      {!loading && !error && focusedPerson && focusedCardPlacement && !attractActive && (
+      {!loading && !error && focusedPerson && focusedCardPlacement && lens !== 'traces' && !attractActive && (
         <PortraitFocusCard
           activeLegacyGroup={activeLegacyGroup}
           activeLegacyYear={activeLegacyYear}
