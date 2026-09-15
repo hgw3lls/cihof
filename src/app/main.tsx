@@ -5,6 +5,7 @@ import { ErrorBoundary } from './ErrorBoundary';
 import { registerServiceWorker } from './serviceWorkerRegistration';
 import '../styles/styles.css';
 import '../styles/final-exhibit/index.css';
+import '../styles/visual-grammar.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
