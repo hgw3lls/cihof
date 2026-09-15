@@ -29,15 +29,15 @@ test.describe('persistent Hall final acceptance', () => {
 
     await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
     await expectHall(page, 'traces', firstPersonId);
-    const traceInfo = page.locator('.living-hall__traceFocus');
+    const traceInfo = page.locator('.living-hall__tracePanel');
     await expect(traceInfo).toBeVisible();
-    await expect(traceInfo.locator('.living-hall__traceConnection').first()).toBeVisible();
+    await expect(traceInfo.locator('.living-hall__fabricThreads [data-fabric-thread]').first()).toBeVisible();
     await screenshotHall(page, 'traces');
 
     const secondPersonId = await clickRelatedPortrait(page, firstPersonId);
     await expectHall(page, 'traces', secondPersonId);
     await expect(traceInfo).toBeVisible();
-    await expect(traceInfo.locator('.living-hall__traceConnection').first()).toBeVisible();
+    await expect(traceInfo.locator('.living-hall__fabricThreads [data-fabric-thread]').first()).toBeVisible();
     await waitForGuard(page);
 
     const thirdPersonId = await clickRelatedPortrait(page, secondPersonId);
@@ -214,10 +214,10 @@ async function clickFirstPortrait(page: Page) {
 }
 
 async function clickRelatedPortrait(page: Page, currentPersonId: string) {
-  const connection = page.locator(`.living-hall__traceConnection:not([data-trace-person="${currentPersonId}"])`).first();
+  const connection = page.locator(`.living-hall__fabricThreads [data-fabric-thread]:not([data-fabric-thread="${currentPersonId}"])`).first();
   if (await connection.count()) {
     await expect(connection).toBeVisible();
-    const personId = await connection.getAttribute('data-trace-person');
+    const personId = await connection.getAttribute('data-fabric-thread');
     expect(personId).toBeTruthy();
     await connection.click();
     return personId ?? '';

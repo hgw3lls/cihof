@@ -314,9 +314,9 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.detail--visitor')).toHaveCount(0);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
 
-    const relatedConnection = page.locator('.living-hall__traceConnection').first();
+    const relatedConnection = page.locator('.living-hall__fabricThreads [data-fabric-thread]').first();
     await expect(relatedConnection).toBeVisible();
-    const relatedPersonId = await relatedConnection.getAttribute('data-trace-person');
+    const relatedPersonId = await relatedConnection.getAttribute('data-fabric-thread');
     expect(relatedPersonId).toBeTruthy();
     await relatedConnection.click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
@@ -372,7 +372,8 @@ test.describe('museum kiosk smoke', () => {
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-focused-person-id', watchPerson.id);
     await expect(page.locator('.transition-input-guard')).toBeHidden({ timeout: 2_500 });
     await expectPortraitActionsHidden(page);
-    await expect(page.locator('.living-hall__traceFocus')).toBeVisible();
+    await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+    await expect(page.locator('.living-hall__focusCard')).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Arrange Hall by induction history' }).click();
     await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');

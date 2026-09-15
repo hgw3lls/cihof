@@ -66,10 +66,10 @@ async function clickFirstPortrait(page: Page) {
 }
 
 async function clickRelatedPortrait(page: Page, currentPersonId: string) {
-  const connection = page.locator(`.living-hall__traceConnection:not([data-trace-person="${currentPersonId}"])`).first();
+  const connection = page.locator(`.living-hall__fabricThreads [data-fabric-thread]:not([data-fabric-thread="${currentPersonId}"])`).first();
   if (await connection.count()) {
     await expect(connection).toBeVisible();
-    const personId = await connection.getAttribute('data-trace-person');
+    const personId = await connection.getAttribute('data-fabric-thread');
     expect(personId).toBeTruthy();
     await connection.click();
     await waitForGuard(page);

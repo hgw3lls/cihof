@@ -142,7 +142,8 @@ test.describe('state-of-art guardrails', () => {
         await waitForGuard(page);
         await page.getByRole('button', { name: 'Arrange Hall by heritage and connections' }).click();
         await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
-        await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+        await expect(page.locator('.living-hall__tracePanel')).toBeVisible();
+        await expect(page.locator('.living-hall__focusCard')).toHaveCount(0);
         await expectForegroundGeometry(page, `traces focus ${viewport.width}x${viewport.height}`);
         await expectCloseViewTypography(page, `traces focus ${viewport.width}x${viewport.height}`);
 
