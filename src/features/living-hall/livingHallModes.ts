@@ -104,9 +104,9 @@ const emptyMode: HallMode = {
 };
 
 export function hallDisplayTitle(lens: HallLens) {
-  if (lens === 'traces' || lens === 'journeys') return 'ROUTES';
-  if (lens === 'legacies') return 'TIME';
-  return 'CLEVELAND INTERNATIONAL HALL OF FAME';
+  if (lens === 'traces' || lens === 'journeys') return 'CONNECTION FIELD';
+  if (lens === 'legacies') return 'YEAR FIELD';
+  return 'LIVING HALL';
 }
 
 export function selectHallMode({

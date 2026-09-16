@@ -21,19 +21,19 @@ export const visitorExperienceNavItems: ExperienceNavItem[] = [
   {
     lens: 'portraits',
     label: 'PEOPLE',
-    sublabel: 'ALL PEOPLE',
+    sublabel: 'LIVES',
     ariaLabel: 'Arrange Hall by portraits',
   },
   {
     lens: 'traces',
-    label: 'ROUTES',
-    sublabel: 'PLACES & CONNECTIONS',
+    label: 'LINKS',
+    sublabel: 'TIES',
     ariaLabel: 'Arrange Hall by heritage and connections',
   },
   {
     lens: 'legacies',
-    label: 'TIME',
-    sublabel: 'YEARS & CLASSES',
+    label: 'YEARS',
+    sublabel: 'CLASSES',
     ariaLabel: 'Arrange Hall by induction history',
   },
 ];
