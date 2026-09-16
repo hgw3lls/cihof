@@ -20,20 +20,20 @@ export const hallLensOrder: HallLens[] = [
 export const visitorExperienceNavItems: ExperienceNavItem[] = [
   {
     lens: 'portraits',
-    label: 'PORTRAITS',
-    sublabel: 'Honored Lives',
+    label: 'PEOPLE',
+    sublabel: 'ALL PEOPLE',
     ariaLabel: 'Arrange Hall by portraits',
   },
   {
     lens: 'traces',
-    label: 'TRACES',
-    sublabel: 'HERITAGE & CONNECTIONS',
+    label: 'ROUTES',
+    sublabel: 'PLACES & CONNECTIONS',
     ariaLabel: 'Arrange Hall by heritage and connections',
   },
   {
     lens: 'legacies',
-    label: 'LEGACIES',
-    sublabel: 'CLASSES THROUGH TIME',
+    label: 'TIME',
+    sublabel: 'YEARS & CLASSES',
     ariaLabel: 'Arrange Hall by induction history',
   },
 ];

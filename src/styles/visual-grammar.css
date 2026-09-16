@@ -1,61 +1,74 @@
 /*
-  CIHOF visual grammar finishing layer.
-  Shared by the public kiosk and staff portal so the project has one authored
-  exhibit language: atlas fields, ledger panels, evidence marks, and signal color.
+  CIHOF archive-map visual system.
+  Based on the provided reference: warm paper, black condensed type,
+  orange route marks, floating monochrome portraits, and sparse navigation.
 */
 
 :root {
-  --grammar-night: #10110d;
-  --grammar-night-2: #181913;
-  --grammar-ink: #13130f;
-  --grammar-paper: #efe0bb;
-  --grammar-paper-2: #f7ecd2;
-  --grammar-paper-3: #d9c494;
-  --grammar-rust: #a44723;
-  --grammar-signal: #d2a439;
-  --grammar-teal: #315f5a;
-  --grammar-violet: #53405e;
-  --grammar-line: rgba(19, 19, 15, 0.22);
-  --grammar-line-soft: rgba(19, 19, 15, 0.1);
-  --grammar-light-line: rgba(247, 236, 210, 0.16);
-  --grammar-font-display: "League Gothic Exhibit", "Mona Sans VF", "Arial Narrow", Arial, sans-serif;
-  --grammar-font: "Mona Sans VF", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --grammar-shadow-hard: 8px 8px 0 rgba(0, 0, 0, 0.34);
-  --grammar-shadow-soft: 0 18px 48px rgba(0, 0, 0, 0.22);
+  --map-paper: #d8bb83;
+  --map-paper-light: #ead3a5;
+  --map-paper-pale: #f2dfb9;
+  --map-paper-deep: #b99155;
+  --map-ink: #15130f;
+  --map-ink-soft: rgba(21, 19, 15, 0.68);
+  --map-pencil: rgba(76, 68, 55, 0.25);
+  --map-pencil-soft: rgba(76, 68, 55, 0.12);
+  --map-route: #cf562a;
+  --map-route-dark: #9f3f23;
+  --map-route-soft: rgba(207, 86, 42, 0.28);
+  --map-shadow: 7px 7px 0 rgba(45, 31, 16, 0.2);
+  --map-shadow-soft: 0 22px 58px rgba(58, 42, 22, 0.22);
+  --map-font-display: "League Gothic Exhibit", "Mona Sans VF", "Arial Narrow", Arial, sans-serif;
+  --map-font: "Mona Sans VF", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body {
   background:
-    linear-gradient(90deg, rgba(247, 236, 210, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(247, 236, 210, 0.035) 1px, transparent 1px),
-    repeating-linear-gradient(135deg, rgba(164, 71, 35, 0.08) 0 1px, transparent 1px 32px),
-    var(--grammar-night);
-  background-size: 64px 64px, 64px 64px, auto, auto;
-  font-family: var(--grammar-font);
+    radial-gradient(circle at 22% 18%, rgba(255, 239, 202, 0.48), transparent 30%),
+    radial-gradient(circle at 72% 40%, rgba(178, 132, 72, 0.28), transparent 36%),
+    linear-gradient(90deg, rgba(58, 42, 22, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(58, 42, 22, 0.045) 1px, transparent 1px),
+    var(--map-paper);
+  background-size: auto, auto, 78px 78px, 78px 78px, auto;
+  color: var(--map-ink);
+  font-family: var(--map-font);
 }
 
 button,
 input,
 select,
 textarea {
-  font-family: var(--grammar-font);
+  font-family: var(--map-font);
 }
 
 .museum-shell:not(.museum-shell--staff),
 .museum-shell:not(.museum-shell--staff).app-shell--kiosk {
-  --exhibit-field: #e0c785;
-  --exhibit-field-2: #c9b071;
-  --exhibit-field-3: #f0ddb0;
-  --exhibit-paper: var(--grammar-paper-2);
-  --exhibit-paper-highlight: #fff5dc;
-  --exhibit-ink: var(--grammar-ink);
-  --exhibit-route: var(--grammar-rust);
-  --exhibit-sage: var(--grammar-teal);
-  --app-topbar-height: clamp(76px, 8.5vh, 104px);
+  --app-topbar-height: clamp(54px, 6.6vh, 74px);
+  --app-shell-gap: clamp(14px, 1.6vw, 28px);
+  --app-rail-width: 0px;
+  --app-inspector-width: clamp(340px, 28vw, 455px);
+  --experience-dock-height: clamp(82px, 10.5vh, 116px);
+  --exhibit-field: var(--map-paper);
+  --exhibit-field-2: var(--map-paper-light);
+  --exhibit-field-3: var(--map-paper-pale);
+  --exhibit-paper: var(--map-paper-pale);
+  --exhibit-paper-highlight: #f8e6bd;
+  --exhibit-ink: var(--map-ink);
+  --exhibit-route: var(--map-route);
+  --exhibit-sage: #6d7656;
+  width: 100%;
+  height: var(--cihof-vh, 100dvh);
+  max-height: var(--cihof-vh, 100dvh);
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
   background:
-    linear-gradient(90deg, transparent 0 68px, rgba(247, 236, 210, 0.045) 68px 69px, transparent 69px),
-    linear-gradient(180deg, rgba(16, 17, 13, 0.98), rgba(9, 10, 8, 0.99)),
-    var(--grammar-night);
+    linear-gradient(90deg, rgba(69, 48, 25, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(69, 48, 25, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 48% 30%, rgba(247, 225, 184, 0.68), transparent 34%),
+    linear-gradient(90deg, rgba(226, 196, 144, 0.98), rgba(211, 176, 118, 0.98));
+  background-size: 92px 92px, 92px 92px, auto, auto;
+  color: var(--map-ink);
+  padding: 0 0 var(--experience-dock-height);
 }
 
 .museum-shell:not(.museum-shell--staff)::before {
@@ -64,95 +77,182 @@ textarea {
   inset: 0;
   z-index: 0;
   background:
-    repeating-linear-gradient(90deg, transparent 0 31px, rgba(247, 236, 210, 0.035) 31px 32px),
-    repeating-linear-gradient(0deg, transparent 0 31px, rgba(247, 236, 210, 0.03) 31px 32px);
-  opacity: 0.42;
+    linear-gradient(90deg, rgba(21, 19, 15, 0.08) 0 1px, transparent 1px calc(25% - 1px), rgba(21, 19, 15, 0.06) 25%, transparent calc(25% + 1px) calc(50% - 1px), rgba(21, 19, 15, 0.06) 50%, transparent calc(50% + 1px) calc(75% - 1px), rgba(21, 19, 15, 0.06) 75%, transparent calc(75% + 1px)),
+    repeating-linear-gradient(0deg, transparent 0 34px, rgba(21, 19, 15, 0.035) 34px 35px),
+    repeating-linear-gradient(145deg, rgba(207, 86, 42, 0.08) 0 1px, transparent 1px 48px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff)::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 18% 24%, transparent 0 15%, rgba(80, 54, 24, 0.08) 15.2%, transparent 15.6%),
+    linear-gradient(90deg, rgba(255, 244, 220, 0.2), transparent 18%, transparent 78%, rgba(83, 54, 23, 0.1)),
+    radial-gradient(circle at 45% 102%, rgba(74, 44, 15, 0.22), transparent 46%);
+  mix-blend-mode: multiply;
+  opacity: 0.58;
   pointer-events: none;
 }
 
 .museum-shell:not(.museum-shell--staff) > :not(.city-question--open) {
   position: relative;
+  z-index: 2;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-rail,
 .museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
-  border-bottom: 1px solid rgba(239, 224, 187, 0.18);
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 4300;
+  height: var(--app-topbar-height);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(114px, 170px) minmax(280px, 520px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(8px, 1vw, 16px);
+  border: 0;
   background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.88) 0 5px, transparent 5px),
-    linear-gradient(90deg, rgba(239, 224, 187, 0.05) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(30, 31, 23, 0.98), rgba(14, 15, 12, 0.99)),
-    var(--grammar-night-2);
-  background-size: auto, 36px 100%, auto, auto;
-  box-shadow:
-    0 18px 42px rgba(0, 0, 0, 0.34),
-    inset 0 -1px 0 rgba(164, 71, 35, 0.34);
+    linear-gradient(180deg, rgba(233, 205, 154, 0.94), rgba(215, 177, 115, 0.72) 72%, transparent);
+  box-shadow: none;
+  color: var(--map-ink);
+  padding: 8px var(--app-shell-gap) 13px;
+  pointer-events: auto;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-brand {
-  position: relative;
-  padding-left: 13px;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding-left: 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-brand::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 3px;
-  bottom: 2px;
-  width: 3px;
-  background: linear-gradient(180deg, var(--grammar-signal), var(--grammar-rust));
+  content: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-brand span {
-  color: rgba(239, 224, 187, 0.64);
-  font-weight: 780;
+  width: max-content;
+  border: 2px solid var(--map-ink);
+  background: var(--map-ink);
+  color: var(--map-paper-pale);
+  padding: 2px 5px;
+  font-family: var(--map-font-display);
+  font-size: clamp(1.08rem, 1.5vw, 1.5rem);
+  font-weight: 400;
+  line-height: 0.9;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-brand strong {
-  color: var(--grammar-paper-2);
-  font-family: var(--grammar-font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 0.9;
+  overflow: hidden;
+  color: var(--map-ink-soft);
+  font-family: var(--map-font);
+  font-size: 0.62rem;
+  font-weight: 900;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.museum-command {
+  width: min(520px, 100%);
+  gap: 3px;
+}
+
+.museum-command__label {
+  color: rgba(21, 19, 15, 0.54);
+  font-size: 0.58rem;
+  font-weight: 900;
 }
 
 .museum-command__box,
 .museum-shell:not(.museum-shell--staff) .museum-status__item,
 .museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
 .museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
-  border-color: rgba(239, 224, 187, 0.2);
-  border-radius: 4px;
+  border: 1px solid rgba(21, 19, 15, 0.3);
+  border-radius: 0;
   background:
-    linear-gradient(180deg, rgba(247, 236, 210, 0.12), rgba(247, 236, 210, 0.055)),
-    rgba(247, 236, 210, 0.06);
+    linear-gradient(180deg, rgba(246, 225, 185, 0.9), rgba(216, 187, 131, 0.62));
+  box-shadow: none;
+  color: var(--map-ink);
+}
+
+.museum-command__box {
+  padding: 4px;
 }
 
 .museum-command__box:focus-within {
-  border-color: rgba(210, 164, 57, 0.82);
-  box-shadow: 0 0 0 2px rgba(210, 164, 57, 0.16);
+  border-color: var(--map-route);
+  box-shadow: 0 0 0 2px rgba(207, 86, 42, 0.16);
+}
+
+.museum-command input {
+  min-height: 32px;
+  color: var(--map-ink);
+  font-size: 0.84rem;
+}
+
+.museum-command input::placeholder {
+  color: rgba(21, 19, 15, 0.44);
 }
 
 .museum-command__box button,
 .museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button--active {
-  border-color: rgba(210, 164, 57, 0.48);
+  min-height: 30px;
+  border: 0;
+  border-left: 1px solid rgba(21, 19, 15, 0.2);
+  border-radius: 0;
+  background: var(--map-route);
+  color: #fff1cf;
+}
+
+.museum-command__results {
+  border: 1px solid rgba(21, 19, 15, 0.42);
+  border-radius: 0;
   background:
-    linear-gradient(180deg, rgba(210, 164, 57, 0.94), rgba(164, 71, 35, 0.88)),
-    var(--grammar-rust);
-  color: #fff3d1;
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.03) 1px, transparent 1px),
+    var(--map-paper-pale);
+  background-size: 24px 24px, 24px 24px, auto;
+  box-shadow: var(--map-shadow-soft);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status {
+  opacity: 0.72;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status__item small,
+.museum-shell:not(.museum-shell--staff) .museum-status__item strong {
+  color: var(--map-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-status__item--focus {
+  border-color: rgba(207, 86, 42, 0.46);
+  background: rgba(246, 225, 185, 0.74);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  min-height: 34px;
+  color: var(--map-ink);
+  font-size: 0.68rem;
+  font-weight: 900;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-stage,
 .museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-stage {
-  position: relative;
+  grid-row: 1;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
-  border: 1px solid rgba(239, 224, 187, 0.2);
-  background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.18), transparent 12%, transparent 88%, rgba(19, 19, 15, 0.18)),
-    var(--exhibit-field);
-  box-shadow:
-    0 28px 72px rgba(0, 0, 0, 0.32),
-    0 0 0 1px rgba(0, 0, 0, 0.42),
-    inset 0 0 0 1px rgba(255, 245, 220, 0.28);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-stage::before,
@@ -163,123 +263,540 @@ textarea {
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-stage::before {
-  inset: 0;
+  inset: var(--app-shell-gap);
   z-index: 3900;
+  border: 1px solid rgba(21, 19, 15, 0.16);
+  border-bottom-color: rgba(21, 19, 15, 0.28);
   background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.24) 0 1px, transparent 1px calc(100% - 1px), rgba(19, 19, 15, 0.24) calc(100% - 1px)),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.24) 0 1px, transparent 1px calc(100% - 1px), rgba(19, 19, 15, 0.24) calc(100% - 1px)),
-    repeating-linear-gradient(90deg, rgba(19, 19, 15, 0.22) 0 1px, transparent 1px 22px);
-  background-size: auto, auto, 100% 11px;
-  mix-blend-mode: multiply;
-  opacity: 0.18;
+    linear-gradient(90deg, transparent 0 14%, rgba(207, 86, 42, 0.18) 14% calc(14% + 1px), transparent calc(14% + 1px) 72%, rgba(21, 19, 15, 0.12) 72% calc(72% + 1px), transparent calc(72% + 1px)),
+    linear-gradient(180deg, transparent 0 32%, rgba(21, 19, 15, 0.1) 32% calc(32% + 1px), transparent calc(32% + 1px) 76%, rgba(207, 86, 42, 0.16) 76% calc(76% + 1px), transparent calc(76% + 1px));
+  opacity: 0.65;
 }
 
 .museum-shell:not(.museum-shell--staff) .museum-stage::after {
-  left: 0;
-  right: 0;
-  top: 0;
+  inset: 0;
   z-index: 3901;
-  height: 7px;
-  background: linear-gradient(90deg, var(--grammar-rust), var(--grammar-signal) 36%, var(--grammar-teal) 70%, transparent);
-  opacity: 0.88;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.22), transparent 5%, transparent 95%, rgba(21, 19, 15, 0.18)),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.1), transparent 18%, transparent 82%, rgba(21, 19, 15, 0.14));
+  mix-blend-mode: multiply;
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface {
+  position: relative;
   background:
-    linear-gradient(90deg, rgba(49, 95, 90, 0.08) 0 14%, transparent 14% 72%, rgba(83, 64, 94, 0.08) 72%),
-    linear-gradient(180deg, rgba(255, 245, 220, 0.26), rgba(187, 151, 83, 0.14)),
-    var(--exhibit-field);
+    linear-gradient(90deg, rgba(255, 242, 214, 0.3), transparent 16%, transparent 84%, rgba(108, 72, 30, 0.09)),
+    radial-gradient(circle at 52% 36%, rgba(246, 225, 185, 0.8), transparent 36%),
+    var(--map-paper);
+  color: var(--map-ink);
 }
 
 .museum-shell:not(.museum-shell--staff) .hall-surface::before {
   content: "";
   position: absolute;
-  inset: clamp(18px, 2vw, 30px);
-  z-index: 4;
-  border: 1px solid rgba(19, 19, 15, 0.12);
+  inset: 0;
+  z-index: 3;
   background:
-    linear-gradient(90deg, transparent 0 20%, rgba(19, 19, 15, 0.08) 20% calc(20% + 1px), transparent calc(20% + 1px) 82%, rgba(164, 71, 35, 0.16) 82% calc(82% + 1px), transparent calc(82% + 1px)),
-    linear-gradient(180deg, transparent 0 28%, rgba(19, 19, 15, 0.07) 28% calc(28% + 1px), transparent calc(28% + 1px) 74%, rgba(49, 95, 90, 0.14) 74% calc(74% + 1px), transparent calc(74% + 1px));
-  opacity: 0.46;
+    linear-gradient(11deg, transparent 0 20%, rgba(207, 86, 42, 0.34) 20.15% 20.35%, transparent 20.5% 48%, rgba(207, 86, 42, 0.28) 48.12% 48.32%, transparent 48.5%),
+    linear-gradient(154deg, transparent 0 31%, rgba(207, 86, 42, 0.2) 31.1% 31.35%, transparent 31.5% 68%, rgba(207, 86, 42, 0.22) 68.1% 68.3%, transparent 68.5%),
+    repeating-linear-gradient(90deg, rgba(21, 19, 15, 0.04) 0 1px, transparent 1px 92px),
+    repeating-linear-gradient(0deg, rgba(21, 19, 15, 0.035) 0 1px, transparent 1px 92px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface::after {
+  content: "Card No.  21011\AArchive notes\AClass routing\APlace records\AIndex";
+  position: absolute;
+  right: clamp(38px, 6vw, 118px);
+  top: clamp(78px, 11vh, 132px);
+  z-index: 5;
+  max-width: 170px;
+  color: rgba(21, 19, 15, 0.32);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.6rem, 0.7vw, 0.76rem);
+  font-weight: 800;
+  line-height: 1.75;
+  text-transform: uppercase;
+  white-space: pre;
   pointer-events: none;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport {
+  top: 0;
+  right: max(var(--kiosk-field-inset, 0vmin), var(--app-inspector-reserve, 0px));
+  bottom: 0;
+  left: 0;
   background:
-    repeating-linear-gradient(90deg, rgba(19, 19, 15, 0.025) 0 1px, transparent 1px 38px),
-    repeating-linear-gradient(0deg, rgba(19, 19, 15, 0.022) 0 1px, transparent 1px 38px),
-    linear-gradient(120deg, rgba(255, 245, 220, 0.38), rgba(210, 164, 57, 0.06) 42%, rgba(49, 95, 90, 0.08) 100%),
-    var(--exhibit-field);
+    radial-gradient(circle at 48% 44%, rgba(244, 219, 172, 0.72), transparent 37%),
+    repeating-linear-gradient(90deg, rgba(21, 19, 15, 0.025) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(0deg, rgba(21, 19, 15, 0.02) 0 1px, transparent 1px 64px),
+    transparent;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::before {
   background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.2), transparent 7%, transparent 87%, rgba(19, 19, 15, 0.24)),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.2), transparent 10%, transparent 88%, rgba(19, 19, 15, 0.18)),
-    repeating-linear-gradient(135deg, rgba(164, 71, 35, 0.055) 0 1px, transparent 1px 36px);
+    repeating-linear-gradient(135deg, rgba(207, 86, 42, 0.06) 0 1px, transparent 1px 42px),
+    radial-gradient(circle at 80% 50%, rgba(82, 57, 27, 0.12), transparent 38%);
   mix-blend-mode: multiply;
-  opacity: 0.82;
+  opacity: 0.7;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::after {
-  border-color: rgba(19, 19, 15, 0.26);
-  background:
-    linear-gradient(90deg, transparent 0 2.8%, rgba(164, 71, 35, 0.48) 2.8% calc(2.8% + 2px), transparent calc(2.8% + 2px) 97%, rgba(49, 95, 90, 0.42) 97% calc(97% + 2px), transparent calc(97% + 2px)),
-    linear-gradient(180deg, transparent 0 3.6%, rgba(210, 164, 57, 0.44) 3.6% calc(3.6% + 2px), transparent calc(3.6% + 2px) 96.4%, rgba(164, 71, 35, 0.36) 96.4% calc(96.4% + 2px), transparent calc(96.4% + 2px));
-  opacity: 0.8;
+  border: 0;
+  background: none;
 }
 
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__fieldViewport {
+  right: max(
+    var(--kiosk-field-inset, 0vmin),
+    var(--app-inspector-reserve, 0px),
+    calc(var(--app-inspector-width) + clamp(62px, 5vw, 96px))
+  );
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__title {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 2600;
+  width: min(650px, 52vw);
+  display: grid;
+  gap: clamp(8px, 1vw, 14px);
+  color: var(--map-ink);
+  text-align: left;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+  margin: 0;
+  max-width: 12ch;
+  color: var(--map-ink);
+  font-family: var(--map-font-display);
+  font-size: 52px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.86;
+  text-shadow:
+    0 2px 0 rgba(255, 234, 196, 0.34),
+    5px 5px 0 rgba(74, 49, 22, 0.08);
+  text-transform: uppercase;
+  transform: scale(2.55);
+  transform-origin: left top;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era {
+  position: absolute;
+  left: clamp(-360px, -31vw, -190px);
+  top: 62%;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--map-route);
+  font-family: var(--map-font-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 0.9;
+  transform: scale(2.15);
+  transform-origin: left center;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era::after {
+  content: "";
+  width: clamp(52px, 6vw, 102px);
+  height: 3px;
+  background: var(--map-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__mode {
+  max-width: 360px;
+  color: rgba(21, 19, 15, 0.46);
+  font-size: clamp(0.66rem, 0.78vw, 0.82rem);
+  font-weight: 900;
+  line-height: 1.28;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__title,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-hall__title,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__title {
+  left: clamp(160px, 19vw, 320px);
+  top: clamp(145px, 19vh, 220px);
+  z-index: 72;
+  width: min(380px, 30vw);
+  opacity: 0.28;
+  transform: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__title h2,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-hall__title h2,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__title h2 {
+  font-size: 52px;
+  transform: scale(1.35);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__era,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-hall__era,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__era {
+  position: static;
+  font-size: 22px;
+  transform: scale(1.55);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-hall__title {
+  opacity: 0.045;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__vocabulary {
+  position: absolute;
+  left: clamp(32px, 4vw, 74px);
+  top: 60%;
+  z-index: 26;
+  display: grid;
+  gap: 6px;
+  color: rgba(21, 19, 15, 0.66);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.88rem, 1.05vw, 1.22rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
+  position: absolute;
+  right: clamp(70px, 9vw, 180px);
+  bottom: clamp(98px, 14vh, 156px);
+  z-index: 26;
+  max-width: 210px;
+  color: var(--map-route);
+  font-family: var(--map-font-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 0.92;
+  text-align: left;
+  text-transform: uppercase;
+  transform: scale(1.9);
+  transform-origin: left bottom;
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-hall__vocabulary,
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-hall__touchCue,
 .museum-shell:not(.museum-shell--staff) .living-hall:is(
   [data-person-action="story"],
   [data-person-action="text"],
   [data-person-action="watch"],
   [data-person-action="continue"]
-) .living-hall__fieldViewport {
-  right: var(--kiosk-field-inset, 0vmin);
+) .living-hall__vocabulary,
+.museum-shell:not(.museum-shell--staff) .living-hall:is(
+  [data-person-action="story"],
+  [data-person-action="text"],
+  [data-person-action="watch"],
+  [data-person-action="continue"]
+) .living-hall__touchCue {
+  opacity: 0;
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story {
-  border: 1px solid rgba(19, 19, 15, 0.2);
-  border-top: 5px solid rgba(164, 71, 35, 0.76);
-  background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.024) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 245, 220, 0.78), rgba(239, 224, 187, 0.68)),
-    var(--grammar-paper);
-  background-size: 28px 28px, 28px 28px, auto, auto;
+.museum-shell:not(.museum-shell--staff) .living-portrait {
+  filter: grayscale(1) sepia(0.18) contrast(1.05);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--attract .living-portrait {
+  pointer-events: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__imageWrap {
+  border: 0;
+  background: rgba(21, 19, 15, 0.28);
   box-shadow:
-    8px 8px 0 rgba(19, 19, 15, 0.18),
-    0 24px 58px rgba(19, 19, 15, 0.18);
-  padding: clamp(12px, 1vw, 18px);
-  width: min(var(--person-action-width, 820px), clamp(620px, 48vw, 820px), calc(100vw - 72px));
+    0 0 0 1px rgba(21, 19, 15, 0.24),
+    6px 6px 0 rgba(83, 57, 28, 0.16),
+    0 12px 22px rgba(68, 44, 18, 0.2);
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story[data-side="right"] {
-  transform: translate(24px, -50%);
+.museum-shell:not(.museum-shell--staff) .living-portrait__image {
+  filter: grayscale(1) sepia(0.28) contrast(1.05);
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-watch {
-  width: min(var(--person-action-width, 900px), clamp(620px, 50vw, 900px), calc(100vw - 72px));
+.museum-shell:not(.museum-shell--staff) .living-portrait__label {
+  border: 0;
+  border-top: 2px solid rgba(21, 19, 15, 0.5);
+  background: rgba(231, 204, 158, 0.78);
+  box-shadow: none;
+  color: var(--map-ink);
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode {
-  gap: clamp(10px, 1vw, 16px);
+.museum-shell:not(.museum-shell--staff) .living-portrait__label strong {
+  color: var(--map-ink);
+  font-family: var(--map-font-display);
+  font-size: clamp(0.92rem, 1.05vw, 1.22rem);
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__media {
-  background: rgba(19, 19, 15, 0.1);
+.museum-shell:not(.museum-shell--staff) .living-portrait__label small {
+  color: rgba(21, 19, 15, 0.58);
+  font-weight: 900;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--focused {
+  filter: grayscale(1) sepia(0.12) contrast(1.12);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--focused .living-portrait__imageWrap {
   box-shadow:
-    0 0 0 1px rgba(19, 19, 15, 0.12),
-    6px 6px 0 rgba(19, 19, 15, 0.12);
+    0 0 0 5px var(--map-ink),
+    0 0 0 8px rgba(232, 207, 158, 0.9),
+    11px 11px 0 rgba(65, 42, 18, 0.28),
+    0 24px 42px rgba(60, 39, 16, 0.25);
 }
 
-.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--action-story .story-mode__copy {
-  align-self: start;
-  border-left: 4px solid rgba(164, 71, 35, 0.72);
+.museum-shell:not(.museum-shell--staff) .living-portrait--linked .living-portrait__imageWrap,
+.museum-shell:not(.museum-shell--staff) .living-portrait--emphasis .living-portrait__imageWrap {
+  box-shadow:
+    0 0 0 2px rgba(207, 86, 42, 0.7),
+    7px 7px 0 rgba(83, 57, 28, 0.18),
+    0 16px 26px rgba(68, 44, 18, 0.2);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--documented,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--relationship,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--curated {
+  color: var(--map-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace__path--main {
+  stroke-width: 2.4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label {
+  border: 0;
+  border-left: 3px solid var(--map-route);
+  background: rgba(231, 204, 158, 0.74);
+  color: rgba(21, 19, 15, 0.72);
+  box-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__groupLabel {
+  color: rgba(21, 19, 15, 0.3);
+  font-family: var(--map-font-display);
+  font-weight: 400;
+  text-shadow: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__groupLabel small {
+  color: rgba(21, 19, 15, 0.22);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock {
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  z-index: 4200;
+  width: min(760px, calc(100vw - 110px));
+  height: var(--experience-dock-height);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1fr;
+  gap: 0;
+  border: 0;
+  border-top: 0;
+  border-right: 0;
   background:
-    linear-gradient(180deg, rgba(255, 245, 220, 0.72), rgba(239, 224, 187, 0.46));
-  box-shadow: 0 0 0 1px rgba(19, 19, 15, 0.08);
-  padding: clamp(14px, 1.25vw, 22px);
+    linear-gradient(180deg, transparent, rgba(219, 186, 128, 0.86) 28%, rgba(219, 186, 128, 0.96));
+  box-shadow: none;
+  padding: 0;
+  transform: translateX(-50%);
+  backdrop-filter: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+  min-height: 72px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-content: center;
+  justify-items: start;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--map-ink);
+  padding: clamp(12px, 1.3vw, 18px) clamp(22px, 2.6vw, 40px);
+  font-family: var(--map-font-display);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  bottom: 18%;
+  left: 0;
+  width: 2px;
+  background: var(--map-route);
+  opacity: 0.76;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:first-child::before {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__index,
+.museum-shell:not(.museum-shell--staff) .experience-dock__state {
+  display: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label {
+  align-self: center;
+  display: grid;
+  gap: 4px;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label small {
+  color: rgba(21, 19, 15, 0.62);
+  font-family: var(--map-font);
+  font-size: clamp(0.7rem, 0.74vw, 0.86rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item--active {
+  border: 0;
+  background: transparent;
+  color: var(--map-ink);
+  transform: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active .experience-dock__label {
+  color: var(--map-route);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:is(:hover, :focus-visible) {
+  outline: 0;
+  background: rgba(246, 225, 185, 0.34);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard[data-side="left"],
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"] {
+  top: calc(var(--app-topbar-height) + 8px);
+  right: clamp(18px, 2vw, 36px);
+  bottom: calc(var(--experience-dock-height) + 16px);
+  left: auto;
+  z-index: 4150;
+  width: var(--app-inspector-width);
+  max-width: calc(100vw - 72px);
+  height: auto;
+  max-height: none;
+  overflow: hidden;
+  border: 0;
+  border-left: 4px solid var(--map-route);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.03) 1px, transparent 1px),
+    rgba(238, 215, 176, 0.96);
+  background-size: 28px 28px, 28px 28px, auto;
+  box-shadow: var(--map-shadow);
+  clip-path: none;
+  color: var(--map-ink);
+  padding: 0;
+  pointer-events: auto;
+  transform: none;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusHeader {
+  border: 0;
+  border-bottom: 1px solid rgba(21, 19, 15, 0.28);
+  background:
+    linear-gradient(180deg, rgba(244, 224, 186, 0.98), rgba(225, 195, 145, 0.98));
+  color: var(--map-ink);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusHeader span,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusIdentity p,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusFacts dt,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusLens h4,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__traceFocusHeader span,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__traceFocusHeader small {
+  color: rgba(21, 19, 15, 0.58);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusIdentity h3,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__traceFocusHeader strong {
+  color: var(--map-ink);
+  font-family: var(--map-font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__traceConnection,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__connectionBrief,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__nextStep {
+  border: 0;
+  border-top: 1px solid rgba(21, 19, 15, 0.22);
+  border-radius: 0;
+  background: rgba(246, 225, 185, 0.48);
+  box-shadow: none;
+  color: var(--map-ink);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--primary,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--active,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction[aria-pressed="true"] {
+  background:
+    linear-gradient(90deg, rgba(207, 86, 42, 0.18), transparent 54%),
+    rgba(246, 225, 185, 0.72);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--jump,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyReadout,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide,
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
+  border: 1px solid rgba(21, 19, 15, 0.34);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.025) 1px, transparent 1px),
+    rgba(238, 215, 176, 0.95);
+  background-size: 24px 24px, 24px 24px, auto;
+  box-shadow: var(--map-shadow);
+  color: var(--map-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__groupLabel {
+  opacity: 0.05;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__legacyControl--edge {
+  visibility: hidden;
 }
 
 .museum-shell:not(.museum-shell--staff) .living-hall:is(
@@ -292,208 +809,56 @@ textarea {
   pointer-events: none;
 }
 
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor {
+  border: 0;
+  border-top: 5px solid var(--map-route);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(21, 19, 15, 0.026) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.024) 1px, transparent 1px),
+    rgba(238, 215, 176, 0.97);
+  background-size: 28px 28px, 28px 28px, auto;
+  box-shadow: var(--map-shadow-soft), var(--map-shadow);
+  color: var(--map-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story {
+  width: min(var(--person-action-width, 780px), clamp(540px, 44vw, 780px), calc(100vw - 72px));
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-story[data-side="right"] {
+  transform: translate(64px, -50%);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor.detail--action-watch {
+  width: min(var(--person-action-width, 900px), clamp(620px, 50vw, 900px), calc(100vw - 72px));
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .story-mode__media,
+.museum-shell:not(.museum-shell--staff) .hall-surface .story-mode__copy {
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .museum-shell:not(.museum-shell--staff) .city-question--open {
   z-index: 4600;
 }
 
-.museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
-  color: rgba(19, 19, 15, 0.18);
-  text-shadow: 0 1px 0 rgba(255, 245, 220, 0.34);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__era,
-.museum-shell:not(.museum-shell--staff) .living-hall__vocabulary,
-.museum-shell:not(.museum-shell--staff) .living-hall__recordNote {
-  color: rgba(19, 19, 15, 0.18);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
-  color: rgba(164, 71, 35, 0.42);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric {
-  border-top-color: rgba(19, 19, 15, 0.24);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-portrait__imageWrap {
-  border-color: rgba(19, 19, 15, 0.56);
-  background: #0f0f0c;
-  box-shadow:
-    0 0 0 4px rgba(255, 245, 220, 0.48),
-    7px 7px 0 rgba(19, 19, 15, 0.22),
-    0 14px 24px rgba(19, 19, 15, 0.18);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-portrait__label {
-  border-left-color: var(--grammar-rust);
-  background:
-    linear-gradient(90deg, rgba(255, 245, 220, 0.95), rgba(239, 224, 187, 0.78)),
-    var(--grammar-paper);
-  box-shadow: 0 0 0 1px rgba(19, 19, 15, 0.08);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-portrait--focused .living-portrait__imageWrap {
-  border-color: var(--grammar-rust);
-  box-shadow:
-    0 0 0 5px rgba(255, 245, 220, 0.58),
-    0 0 0 9px rgba(164, 71, 35, 0.18),
-    10px 10px 0 rgba(19, 19, 15, 0.28),
-    0 22px 40px rgba(19, 19, 15, 0.25);
-}
-
-.museum-shell:not(.museum-shell--staff) .cleveland-trace--documented,
-.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail {
-  color: rgba(164, 71, 35, 0.78);
-}
-
-.museum-shell:not(.museum-shell--staff) .cleveland-trace--curated {
-  color: rgba(49, 95, 90, 0.58);
-}
-
-.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label {
-  border-left: 3px solid rgba(164, 71, 35, 0.62);
-  background:
-    linear-gradient(90deg, rgba(255, 245, 220, 0.76), rgba(239, 224, 187, 0.4));
-  box-shadow:
-    0 0 0 1px rgba(19, 19, 15, 0.08),
-    4px 4px 0 rgba(19, 19, 15, 0.08);
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
-.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
-.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock {
-  border-right-color: rgba(239, 224, 187, 0.18);
-  background:
-    linear-gradient(180deg, rgba(239, 224, 187, 0.045), transparent 26%),
-    linear-gradient(180deg, rgba(25, 26, 19, 0.99), rgba(9, 10, 8, 0.99)),
-    var(--grammar-night);
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-nav-item,
-.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
-  overflow: hidden;
-  border-color: rgba(239, 224, 187, 0.14);
-  border-radius: 4px;
-  background:
-    linear-gradient(180deg, rgba(247, 236, 210, 0.075), rgba(247, 236, 210, 0.025)),
-    rgba(247, 236, 210, 0.04);
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-nav-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: rgba(247, 236, 210, 0.16);
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-nav-item::after {
-  content: "";
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 12px;
-  height: 12px;
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  opacity: 0.22;
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-nav-item--active,
-.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item--active {
-  border-color: rgba(210, 164, 57, 0.48);
-  background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.98) 0 5px, transparent 5px),
-    linear-gradient(180deg, rgba(247, 236, 210, 0.18), rgba(247, 236, 210, 0.08)),
-    rgba(247, 236, 210, 0.1);
-  color: #fff3d1;
-}
-
-.museum-shell:not(.museum-shell--staff) .museum-nav-item--active::before {
-  background: var(--grammar-signal);
-}
-
-.museum-shell:not(.museum-shell--staff) .experience-dock__state {
-  border-radius: 4px;
-}
-
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard {
-  border-radius: 2px;
-  background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.025) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.025) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 245, 220, 0.985), rgba(226, 207, 164, 0.985));
-  background-size: 28px 28px, 28px 28px, auto;
-  box-shadow:
-    var(--grammar-shadow-hard),
-    0 28px 70px rgba(0, 0, 0, 0.34);
-}
-
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusHeader {
-  background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.94) 0 5px, transparent 5px),
-    linear-gradient(180deg, rgba(31, 32, 24, 0.99), rgba(14, 15, 12, 0.99)),
-    var(--grammar-night);
-}
-
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction {
-  border-radius: 4px;
-  background:
-    linear-gradient(180deg, rgba(255, 245, 220, 0.64), rgba(239, 224, 187, 0.38));
-}
-
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--primary,
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--active,
-.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction[aria-pressed="true"] {
-  border-color: rgba(164, 71, 35, 0.44);
-  background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.16), transparent 42%),
-    rgba(255, 245, 220, 0.72);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__field::before {
-  height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(49, 95, 90, 0.28) 8%, rgba(164, 71, 35, 0.32) 50%, rgba(49, 95, 90, 0.26) 92%, transparent);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__groupLabel--active {
-  border-top-color: var(--grammar-rust);
-  background:
-    linear-gradient(180deg, rgba(255, 245, 220, 0.56), rgba(255, 245, 220, 0.12));
-  box-shadow: 0 -2px 0 rgba(210, 164, 57, 0.32);
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall--focused[data-hall-lens="legacies"] .living-hall__groupLabel {
-  opacity: 0.04;
-}
-
-.museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--jump,
-.museum-shell:not(.museum-shell--staff) .living-hall__legacyReadout,
-.museum-shell:not(.museum-shell--staff) .living-hall__visitTray,
-.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide {
-  border-radius: 4px;
-  box-shadow:
-    0 0 0 1px rgba(19, 19, 15, 0.1),
-    5px 5px 0 rgba(19, 19, 15, 0.12);
-}
-
 .portal-app {
   background:
-    linear-gradient(90deg, rgba(247, 236, 210, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(247, 236, 210, 0.038) 1px, transparent 1px),
-    repeating-linear-gradient(135deg, rgba(164, 71, 35, 0.065) 0 1px, transparent 1px 34px),
-    linear-gradient(180deg, #13140f, #080907);
-  background-size: 56px 56px, 56px 56px, auto, auto;
-  color: var(--grammar-paper-2);
-  font-family: var(--grammar-font);
+    radial-gradient(circle at 18% 12%, rgba(255, 239, 202, 0.52), transparent 30%),
+    linear-gradient(13deg, transparent 0 24%, rgba(207, 86, 42, 0.16) 24.1% 24.3%, transparent 24.45% 66%, rgba(207, 86, 42, 0.12) 66.1% 66.3%, transparent 66.45%),
+    linear-gradient(90deg, rgba(69, 48, 25, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(69, 48, 25, 0.05) 1px, transparent 1px),
+    var(--map-paper);
+  background-size: auto, auto, 72px 72px, 72px 72px, auto;
+  color: var(--map-ink);
+  font-family: var(--map-font);
+  padding: clamp(12px, 1.4vw, 22px);
 }
 
 .portal-dashboard {
-  max-width: 1760px;
+  max-width: 1780px;
   gap: 14px;
 }
 
@@ -509,16 +874,15 @@ textarea {
 .portal-exports {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(19, 19, 15, 0.76);
-  border-radius: 3px;
+  border: 1px solid rgba(21, 19, 15, 0.55);
+  border-radius: 0;
   background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.034) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.03) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 245, 220, 0.98), rgba(236, 221, 184, 0.98)),
-    var(--grammar-paper);
-  background-size: 30px 30px, 30px 30px, auto, auto;
-  box-shadow: var(--grammar-shadow-hard);
-  color: var(--grammar-ink);
+    linear-gradient(90deg, rgba(21, 19, 15, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.028) 1px, transparent 1px),
+    rgba(238, 215, 176, 0.96);
+  background-size: 30px 30px, 30px 30px, auto;
+  box-shadow: var(--map-shadow);
+  color: var(--map-ink);
 }
 
 .review-dashboard__header::before,
@@ -534,18 +898,20 @@ textarea {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 6px;
-  background: linear-gradient(90deg, var(--grammar-rust), var(--grammar-signal) 32%, var(--grammar-teal) 66%, var(--grammar-violet));
+  height: 4px;
+  background: var(--map-route);
   pointer-events: none;
 }
 
 .portal-dashboard__header {
-  padding: 16px 18px 14px;
+  align-items: start;
+  min-height: 126px;
+  padding: 18px;
 }
 
 .portal-dashboard__title {
-  padding-left: 14px;
-  border-left: 4px solid var(--grammar-rust);
+  padding-left: 12px;
+  border-left: 5px solid var(--map-route);
 }
 
 .portal-dashboard__title .eyebrow,
@@ -554,14 +920,15 @@ textarea {
 .museum-kicker {
   width: max-content;
   max-width: 100%;
-  border: 1px solid rgba(19, 19, 15, 0.28);
-  background: var(--grammar-signal);
-  color: var(--grammar-ink);
-  padding: 4px 7px;
-  font-family: var(--grammar-font);
-  font-size: 0.68rem;
-  font-weight: 850;
+  border: 2px solid var(--map-ink);
+  background: var(--map-ink);
+  color: var(--map-paper-pale);
+  padding: 3px 6px;
+  font-family: var(--map-font);
+  font-size: 0.62rem;
+  font-weight: 950;
   line-height: 1;
+  text-transform: uppercase;
 }
 
 .portal-dashboard__header h2,
@@ -574,13 +941,16 @@ textarea {
 .portal-source-detail__header h4,
 .portal-content-section__header h4,
 .portal-content-card__top h5 {
-  font-family: var(--grammar-font-display);
+  color: var(--map-ink);
+  font-family: var(--map-font-display);
   font-weight: 400;
   letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .portal-dashboard__header h2 {
-  font-size: 3.6rem;
+  font-size: clamp(4.2rem, 7.4vw, 8.6rem);
+  line-height: 0.78;
 }
 
 .portal-dashboard__title span,
@@ -600,52 +970,25 @@ textarea {
 .portal-relationship-row em,
 .portal-relationship-row small,
 .portal-relationship-row > span:last-child {
-  font-family: var(--grammar-font);
-  letter-spacing: 0.02em;
-}
-
-.portal-dashboard__quick-status span,
-.portal-status-drawer,
-.review-status,
-.review-chip,
-.review-dashboard__generated span,
-.portal-save-state,
-.portal-source-data div,
-.portal-source-guardrails span {
-  border-color: rgba(19, 19, 15, 0.18);
-  border-radius: 3px;
-}
-
-.review-status--ok,
-.review-chip--ok {
-  background: rgba(49, 95, 90, 0.9);
-  color: #fff5dc;
-}
-
-.review-status--warn,
-.review-chip--warn {
-  background: rgba(210, 164, 57, 0.62);
-  color: var(--grammar-ink);
-}
-
-.review-status--bad,
-.review-chip--bad {
-  background: rgba(164, 71, 35, 0.88);
-  color: #fff5dc;
+  color: rgba(21, 19, 15, 0.66);
+  font-family: var(--map-font);
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .portal-tabs {
-  top: -1px;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 6px;
-  border: 1px solid rgba(239, 224, 187, 0.14);
-  border-radius: 3px;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 0;
+  border: 0;
+  border-bottom: 2px solid rgba(21, 19, 15, 0.74);
+  border-radius: 0;
   background:
-    linear-gradient(90deg, rgba(239, 224, 187, 0.06) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(30, 31, 23, 0.98), rgba(12, 13, 10, 0.98));
-  background-size: 36px 100%, auto;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-  padding: 7px;
+    linear-gradient(180deg, rgba(218, 185, 128, 0.96), rgba(218, 185, 128, 0.9));
+  box-shadow: none;
+  padding: 0;
 }
 
 .portal-tab,
@@ -669,46 +1012,48 @@ textarea {
 .portal-lens-preview-person__actions button,
 .portal-lens-preview__hidden button,
 .portal-runner-access button {
-  border: 1px solid rgba(19, 19, 15, 0.42);
-  border-radius: 3px;
-  background:
-    linear-gradient(180deg, rgba(255, 245, 220, 0.9), rgba(231, 214, 174, 0.82));
-  color: var(--grammar-ink);
+  border: 1px solid rgba(21, 19, 15, 0.44);
+  border-radius: 0;
+  background: rgba(238, 215, 176, 0.78);
+  color: var(--map-ink);
   box-shadow: none;
-  font-family: var(--grammar-font);
-  font-weight: 820;
-  letter-spacing: 0.02em;
+  font-family: var(--map-font);
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .portal-tab {
   position: relative;
   min-height: 42px;
-  border-color: rgba(239, 224, 187, 0.2);
-  background: rgba(247, 236, 210, 0.075);
-  color: rgba(247, 236, 210, 0.74);
+  border: 0;
+  border-left: 1px solid rgba(21, 19, 15, 0.28);
+  background: transparent;
+  color: rgba(21, 19, 15, 0.76);
+}
+
+.portal-tab:first-child {
+  border-left: 0;
 }
 
 .portal-tab::before {
   content: "";
   position: absolute;
-  left: 9px;
-  right: 9px;
-  bottom: 6px;
+  left: 12px;
+  right: 12px;
+  bottom: 7px;
   height: 2px;
   background: currentColor;
-  opacity: 0.24;
+  opacity: 0.22;
 }
 
 .portal-tab--active {
-  border-color: rgba(210, 164, 57, 0.62);
-  background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.95) 0 4px, transparent 4px),
-    rgba(247, 236, 210, 0.16);
-  color: #fff5dc;
+  background: rgba(207, 86, 42, 0.14);
+  color: var(--map-route-dark);
 }
 
 .portal-tab--active::before {
-  background: var(--grammar-signal);
+  background: var(--map-route);
   opacity: 1;
 }
 
@@ -722,7 +1067,7 @@ textarea {
 }
 
 .review-metrics {
-  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
 }
 
 .review-metric,
@@ -745,14 +1090,15 @@ textarea {
 .portal-relationship-node,
 .portal-relationship-editor__link,
 .portal-runner-access {
-  border: 1px solid rgba(19, 19, 15, 0.35);
-  border-radius: 3px;
+  border: 1px solid rgba(21, 19, 15, 0.36);
+  border-radius: 0;
   background:
-    linear-gradient(90deg, rgba(19, 19, 15, 0.022) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(19, 19, 15, 0.02) 1px, transparent 1px),
-    rgba(255, 245, 220, 0.68);
+    linear-gradient(90deg, rgba(21, 19, 15, 0.022) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(21, 19, 15, 0.02) 1px, transparent 1px),
+    rgba(246, 225, 185, 0.66);
   background-size: 24px 24px, 24px 24px, auto;
   box-shadow: none;
+  color: var(--map-ink);
 }
 
 .review-metric,
@@ -771,26 +1117,26 @@ textarea {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 5px;
-  background: linear-gradient(180deg, var(--grammar-rust), var(--grammar-signal));
-  opacity: 0.78;
+  width: 4px;
+  background: var(--map-route);
+  opacity: 0.82;
 }
 
 .review-metric {
-  min-height: 104px;
+  min-height: 98px;
   padding: 12px 12px 12px 16px;
 }
 
 .review-metric strong,
 .portal-readiness-card strong {
-  font-family: var(--grammar-font-display);
+  color: var(--map-ink);
+  font-family: var(--map-font-display);
   font-weight: 400;
   letter-spacing: 0;
 }
 
 .review-metric strong {
-  color: var(--grammar-ink);
-  font-size: 3.25rem;
+  font-size: 3.35rem;
 }
 
 .review-metric span,
@@ -799,7 +1145,7 @@ textarea {
 .portal-start-card small,
 .portal-readiness-card span,
 .portal-readiness-card small {
-  color: rgba(19, 19, 15, 0.62);
+  color: rgba(21, 19, 15, 0.62);
 }
 
 .portal-start-card--primary,
@@ -809,11 +1155,10 @@ textarea {
 .portal-lenses__actions button:last-child,
 .portal-content-card__actions button:first-child,
 .portal-runner-access button {
-  border-color: rgba(164, 71, 35, 0.48);
+  border-color: rgba(207, 86, 42, 0.62);
   background:
-    linear-gradient(135deg, rgba(210, 164, 57, 0.74), rgba(164, 71, 35, 0.28)),
-    var(--grammar-paper);
-  color: var(--grammar-ink);
+    linear-gradient(90deg, rgba(207, 86, 42, 0.22), transparent 56%),
+    rgba(246, 225, 185, 0.84);
 }
 
 .portal-layout,
@@ -825,10 +1170,8 @@ textarea {
 .portal-queue,
 .portal-source-queue,
 .portal-relationship-queue {
-  top: 76px;
-  box-shadow:
-    5px 5px 0 rgba(0, 0, 0, 0.24),
-    0 18px 36px rgba(0, 0, 0, 0.16);
+  top: 58px;
+  box-shadow: var(--map-shadow);
 }
 
 .portal-queue-row,
@@ -847,74 +1190,84 @@ textarea {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
-  background: rgba(19, 19, 15, 0.18);
+  width: 3px;
+  background: rgba(21, 19, 15, 0.18);
 }
 
 .portal-queue-row--active,
 .portal-source-row--active,
 .portal-relationship-row--active {
-  border-color: rgba(164, 71, 35, 0.62);
+  border-color: rgba(207, 86, 42, 0.62);
   background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.14), transparent 52%),
-    rgba(255, 245, 220, 0.82);
-  box-shadow: inset 0 -3px 0 rgba(210, 164, 57, 0.52);
+    linear-gradient(90deg, rgba(207, 86, 42, 0.16), transparent 58%),
+    rgba(246, 225, 185, 0.86);
+  box-shadow: inset 0 -3px 0 rgba(207, 86, 42, 0.34);
 }
 
 .portal-queue-row--active::before,
 .portal-source-row--active::before,
 .portal-relationship-row--active::before {
-  background: var(--grammar-rust);
+  background: var(--map-route);
 }
 
-.portal-editor__hero,
-.portal-readiness__intro,
-.portal-start__hero,
-.portal-lenses__intro,
-.portal-relationships__intro,
-.portal-content__intro,
-.portal-source__intro,
-.portal-lens-card__header,
-.portal-source-detail__header,
-.portal-content-section__header {
-  border-bottom-color: rgba(19, 19, 15, 0.24);
+.portal-dashboard__quick-status span,
+.portal-status-drawer,
+.review-status,
+.review-chip,
+.review-dashboard__generated span,
+.portal-save-state,
+.portal-source-data div,
+.portal-source-guardrails span,
+.portal-progress,
+.portal-notice,
+.review-dashboard__alert {
+  border-color: rgba(21, 19, 15, 0.3);
+  border-radius: 0;
+}
+
+.review-status--ok,
+.review-chip--ok {
+  background: rgba(109, 118, 86, 0.88);
+  color: #fff1cf;
+}
+
+.review-status--warn,
+.review-chip--warn {
+  background: rgba(216, 187, 131, 0.98);
+  color: var(--map-ink);
+}
+
+.review-status--bad,
+.review-chip--bad {
+  background: rgba(207, 86, 42, 0.9);
+  color: #fff1cf;
 }
 
 .portal-progress {
   overflow: hidden;
-  border: 1px solid rgba(19, 19, 15, 0.36);
-  border-radius: 999px;
-  background: rgba(19, 19, 15, 0.08);
+  background: rgba(21, 19, 15, 0.08);
 }
 
 .portal-progress i {
-  background: linear-gradient(90deg, var(--grammar-rust), var(--grammar-signal), var(--grammar-teal));
+  background: linear-gradient(90deg, var(--map-route), var(--map-route-dark), #6d7656);
 }
 
 .portal-notice,
 .review-dashboard__alert {
-  border: 1px solid rgba(19, 19, 15, 0.42);
-  border-radius: 3px;
   background:
-    linear-gradient(90deg, rgba(164, 71, 35, 0.22), rgba(210, 164, 57, 0.34)),
-    var(--grammar-paper);
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
-}
-
-.portal-source-detail__links a,
-.portal-source-evidence-row__actions a {
-  text-decoration: none;
+    linear-gradient(90deg, rgba(207, 86, 42, 0.22), rgba(246, 225, 185, 0.62)),
+    var(--map-paper-pale);
+  box-shadow: var(--map-shadow);
 }
 
 input,
 select,
 textarea {
-  border: 1px solid rgba(19, 19, 15, 0.46);
-  border-radius: 3px;
-  background:
-    linear-gradient(180deg, rgba(255, 245, 220, 0.98), rgba(244, 232, 203, 0.98));
-  color: var(--grammar-ink);
-  font-weight: 650;
+  border: 1px solid rgba(21, 19, 15, 0.44);
+  border-radius: 0;
+  background: rgba(246, 225, 185, 0.86);
+  color: var(--map-ink);
+  font-weight: 750;
 }
 
 input:focus,
@@ -939,18 +1292,84 @@ textarea:focus,
 .portal-action-strip button:focus-visible,
 .portal-notice button:focus-visible {
   outline: 0;
-  box-shadow: 0 0 0 3px rgba(210, 164, 57, 0.34);
+  box-shadow: 0 0 0 3px rgba(207, 86, 42, 0.28);
+}
+
+@media (max-width: 1120px) {
+  .museum-shell:not(.museum-shell--staff),
+  .museum-shell:not(.museum-shell--staff).app-shell--kiosk {
+    --experience-dock-height: clamp(76px, 10vh, 96px);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-rail,
+  .museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
+    grid-template-columns: minmax(88px, 120px) minmax(180px, 1fr) auto;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-status {
+    display: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__title {
+    width: min(560px, 62vw);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+    font-size: 52px;
+    transform: scale(2.05);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__era {
+    left: clamp(-220px, -22vw, -130px);
+  }
+
+  .review-metric {
+    min-height: 78px;
+    gap: 3px;
+    padding: 10px 10px 10px 14px;
+  }
+
+  .review-metric strong {
+    font-size: 2.65rem;
+  }
+
+  .review-metric span,
+  .review-metric small {
+    font-size: 0.62rem;
+    line-height: 1.12;
+  }
 }
 
 @media (max-width: 920px) {
   .museum-shell:not(.museum-shell--staff) .museum-stage::before {
-    opacity: 0.12;
+    inset: 10px;
+    opacity: 0.42;
   }
 
   .museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
   .museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock {
-    border-top-color: rgba(239, 224, 187, 0.2);
-    border-right: 0;
+    width: 100%;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .museum-nav-item,
+  .museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+    padding-inline: 16px;
+    font-size: 28px;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__vocabulary,
+  .museum-shell:not(.museum-shell--staff) .hall-surface::after {
+    display: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard[data-side="left"],
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: none;
   }
 
   .portal-dashboard__header,
@@ -964,35 +1383,40 @@ textarea:focus,
   }
 }
 
-@media (max-width: 1120px) {
-  .review-metric {
-    min-height: 78px;
-    gap: 3px;
-    padding: 10px 10px 10px 14px;
-  }
-
-  .review-metric strong {
-    font-size: 2.6rem;
-  }
-
-  .review-metric span,
-  .review-metric small {
-    font-size: 0.62rem;
-    line-height: 1.12;
-  }
-
-  .portal-action-strip button {
-    min-height: 56px;
-  }
-}
-
 @media (max-width: 680px) {
+  .museum-shell:not(.museum-shell--staff) .museum-command {
+    display: none;
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__title {
+    left: 48%;
+    width: min(420px, 78vw);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+    font-size: 52px;
+    transform: scale(1.25);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__era {
+    position: static;
+    font-size: 22px;
+    transform: scale(1.35);
+  }
+
+  .museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
+    right: 22px;
+    bottom: calc(var(--experience-dock-height) + 18px);
+    font-size: 22px;
+    transform: scale(1.35);
+  }
+
   .portal-dashboard__header h2 {
-    font-size: 2.7rem;
+    font-size: 3.4rem;
   }
 
   .review-metric strong,
   .portal-readiness-card strong {
-    font-size: 2.6rem;
+    font-size: 2.45rem;
   }
 }
