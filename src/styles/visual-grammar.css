@@ -1467,3 +1467,638 @@ textarea:focus,
     font-size: 2.35rem;
   }
 }
+
+/*
+  Flat brutalist override.
+
+  This deliberately removes the material vocabulary: no soft depth, no glass,
+  no glow, no rounded cards. The interface becomes printed matter: hard slabs,
+  thick borders, dense labels, and high-contrast exhibit controls.
+*/
+
+:root {
+  --br-ink: #050505;
+  --br-paper: #f3ead7;
+  --br-paper-2: #e3d2aa;
+  --br-red: #e6462e;
+  --br-yellow: #f2c230;
+  --br-blue: #1487b8;
+  --br-green: #4c8b5f;
+  --br-border: 3px solid var(--br-ink);
+  --gi-shadow: none;
+  --gi-shadow-tight: none;
+}
+
+body {
+  background: var(--br-ink);
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) *,
+.museum-shell:not(.museum-shell--staff) *::before,
+.museum-shell:not(.museum-shell--staff) *::after,
+.portal-app *,
+.portal-app *::before,
+.portal-app *::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.museum-shell:not(.museum-shell--staff),
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk {
+  --app-topbar-height: clamp(56px, 6.5vh, 76px);
+  --app-inspector-width: clamp(350px, 27vw, 440px);
+  --experience-dock-height: clamp(78px, 9.5vh, 106px);
+  --exhibit-field: var(--br-paper);
+  --exhibit-field-2: var(--br-paper-2);
+  --exhibit-field-3: #fff7e6;
+  --exhibit-paper: var(--br-paper);
+  --exhibit-paper-highlight: #fff7e6;
+  --exhibit-ink: var(--br-ink);
+  --exhibit-route: var(--br-red);
+  --exhibit-sage: var(--br-green);
+  background:
+    linear-gradient(90deg, var(--br-ink) 0 5.5vw, var(--br-paper) 5.5vw calc(100% - 5.5vw), var(--br-ink) calc(100% - 5.5vw)),
+    var(--br-paper);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff)::before {
+  z-index: 0;
+  background:
+    linear-gradient(90deg, transparent 0 21%, var(--br-yellow) 21% calc(21% + 18px), transparent calc(21% + 18px) 73%, var(--br-red) 73% calc(73% + 18px), transparent calc(73% + 18px)),
+    linear-gradient(180deg, transparent 0 74%, var(--br-blue) 74% calc(74% + 16px), transparent calc(74% + 16px));
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff)::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-rail,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-rail {
+  grid-template-columns: minmax(118px, 180px) minmax(260px, 410px) minmax(0, 1fr) auto;
+  border-bottom: var(--br-border);
+  background: var(--br-ink);
+  color: var(--br-paper);
+  padding: 6px clamp(12px, 1.6vw, 28px);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand span {
+  border: var(--br-border);
+  background: var(--br-yellow);
+  color: var(--br-ink);
+  padding: 4px 7px 3px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-brand strong {
+  color: var(--br-paper);
+}
+
+.museum-command {
+  opacity: 1;
+}
+
+.museum-command__label {
+  color: var(--br-paper);
+}
+
+.museum-command__box,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+}
+
+.museum-command__box {
+  min-height: 48px;
+  padding: 0;
+}
+
+.museum-command input {
+  min-height: 44px;
+  color: var(--br-ink);
+  font-weight: 900;
+}
+
+.museum-command input::placeholder {
+  color: rgba(5, 5, 5, 0.55);
+}
+
+.museum-command__box button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button--active {
+  min-height: 44px;
+  border-left: var(--br-border);
+  background: var(--br-red);
+  color: var(--br-paper);
+}
+
+.museum-command__results {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-utilities .home-button,
+.museum-shell:not(.museum-shell--staff) .museum-utilities .kiosk-button {
+  min-height: 44px;
+  color: var(--br-ink);
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-stage::before {
+  inset: calc(var(--app-topbar-height) + 14px) clamp(18px, 2.2vw, 44px) calc(var(--experience-dock-height) + 18px);
+  z-index: 0;
+  border: var(--br-border);
+  background:
+    linear-gradient(90deg, transparent 0 50%, rgba(5, 5, 5, 0.08) 50% calc(50% + 3px), transparent calc(50% + 3px)),
+    linear-gradient(180deg, transparent 0 50%, rgba(5, 5, 5, 0.08) 50% calc(50% + 3px), transparent calc(50% + 3px)),
+    var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-stage::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface {
+  background: transparent;
+  color: var(--br-ink);
+  z-index: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface::before {
+  left: clamp(18px, 2.2vw, 44px);
+  top: calc(var(--app-topbar-height) + 14px);
+  bottom: calc(var(--experience-dock-height) + 18px);
+  width: 18px;
+  background: var(--br-red);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface::after {
+  right: clamp(18px, 2.2vw, 44px);
+  top: calc(var(--app-topbar-height) + 14px);
+  bottom: calc(var(--experience-dock-height) + 18px);
+  width: 18px;
+  background: var(--br-blue);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport {
+  top: calc(var(--app-topbar-height) + 14px);
+  right: clamp(18px, 2.2vw, 44px);
+  bottom: calc(var(--experience-dock-height) + 18px);
+  left: clamp(18px, 2.2vw, 44px);
+  border: var(--br-border);
+  background:
+    linear-gradient(90deg, transparent 0 23%, rgba(230, 70, 46, 0.18) 23% calc(23% + 18px), transparent calc(23% + 18px) 64%, rgba(20, 135, 184, 0.18) 64% calc(64% + 18px), transparent calc(64% + 18px)),
+    linear-gradient(180deg, transparent 0 36%, rgba(242, 194, 48, 0.3) 36% calc(36% + 22px), transparent calc(36% + 22px)),
+    var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::before,
+.museum-shell:not(.museum-shell--staff) .living-hall__fieldViewport::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__fieldViewport {
+  right: max(
+    clamp(18px, 2.2vw, 44px),
+    calc(var(--app-inspector-width) + clamp(56px, 5vw, 92px))
+  );
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__title {
+  left: clamp(44px, 5vw, 96px);
+  top: clamp(94px, 12vh, 138px);
+  width: min(430px, 32vw);
+  gap: 6px;
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__title h2 {
+  max-width: 10ch;
+  color: var(--br-ink);
+  font-size: 52px;
+  line-height: 0.82;
+  background: var(--br-yellow);
+  box-decoration-break: clone;
+  padding: 4px 8px 2px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era {
+  width: max-content;
+  border: var(--br-border);
+  background: var(--br-red);
+  color: var(--br-paper);
+  padding: 4px 8px;
+  font-size: 22px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__era::after {
+  content: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__mode {
+  width: max-content;
+  max-width: 340px;
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+  padding: 5px 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="traces"] .living-hall__title,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="journeys"] .living-hall__title,
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens="legacies"] .living-hall__title {
+  opacity: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall--focused .living-hall__title {
+  opacity: 0.2;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__vocabulary,
+.museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+  padding: 7px 9px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__touchCue {
+  background: var(--br-red);
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusRail {
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric {
+  min-width: 74px;
+  border: var(--br-border);
+  background: var(--br-paper);
+  padding: 5px 8px;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric small,
+.museum-shell:not(.museum-shell--staff) .living-hall__statusMetric strong {
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait {
+  opacity: 0.86;
+  filter: none;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__imageWrap {
+  border: var(--br-border);
+  background: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__image {
+  filter: grayscale(1) contrast(1.25);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__fallback {
+  border: 0;
+  background: var(--br-yellow);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__label {
+  border-top: var(--br-border);
+  background: var(--br-ink);
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait__label strong,
+.museum-shell:not(.museum-shell--staff) .living-portrait__label small {
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--focused .living-portrait__imageWrap {
+  border: 5px solid var(--br-ink);
+  outline: 7px solid var(--br-red);
+  outline-offset: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-portrait--linked .living-portrait__imageWrap,
+.museum-shell:not(.museum-shell--staff) .living-portrait--emphasis .living-portrait__imageWrap {
+  border-color: var(--br-red);
+  outline: 4px solid var(--br-yellow);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__traceLines {
+  opacity: 0.72;
+  mix-blend-mode: normal;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--documented,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--relationship,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--trail,
+.museum-shell:not(.museum-shell--staff) .cleveland-trace--curated {
+  color: var(--br-red);
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace__path--main {
+  stroke-width: 3px;
+}
+
+.museum-shell:not(.museum-shell--staff) .cleveland-trace-field__label,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyControl--jump,
+.museum-shell:not(.museum-shell--staff) .living-hall__legacyReadout,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitTray,
+.museum-shell:not(.museum-shell--staff) .living-hall__journeyGuide,
+.museum-shell:not(.museum-shell--staff) .living-hall__pathRibbon,
+.museum-shell:not(.museum-shell--staff) .living-hall__visitQrPanel {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__groupLabel {
+  color: var(--br-ink);
+  opacity: 0.42;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall__groupLabel small {
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-bottom-nav.experience-dock,
+.museum-shell:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff).app-shell--kiosk .museum-bottom-nav.experience-dock {
+  bottom: 16px;
+  width: min(760px, calc(100vw - 70px));
+  min-height: 66px;
+  gap: 0;
+  border: var(--br-border);
+  background: var(--br-ink);
+  padding: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item {
+  min-height: 60px;
+  border: 0;
+  border-right: var(--br-border);
+  background: var(--br-ink);
+  color: var(--br-paper);
+  padding: 8px 18px;
+  font-size: 28px;
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:last-child,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item:last-child {
+  border-right: 0;
+}
+
+.museum-shell:not(.museum-shell--staff) .experience-dock__label small {
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active,
+.museum-shell.experience-shell--living-hall:not(.museum-shell--staff) .museum-nav-item--active {
+  background: var(--br-yellow);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item--active .experience-dock__label small {
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff) .museum-nav-item:is(:hover, :focus-visible) {
+  background: var(--br-red);
+  color: var(--br-paper);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard[data-side="left"],
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="traces"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall[data-hall-lens="legacies"] .living-hall__focusCard[data-side="left"],
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusCard::before,
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall__personActionPanel.detail--visitor::before {
+  height: 16px;
+  background: var(--br-red);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusHeader,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__traceConnection,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__connectionBrief,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__nextStep {
+  border-color: var(--br-ink);
+  background: #fff7e6;
+  color: var(--br-ink);
+}
+
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--primary,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction--active,
+.museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall__focusAction[aria-pressed="true"] {
+  background: var(--br-yellow);
+}
+
+.museum-shell:not(.museum-shell--staff) .hall-surface .story-mode__media,
+.museum-shell:not(.museum-shell--staff) .hall-surface .story-mode__copy,
+.museum-shell:not(.museum-shell--staff) .hall-surface .media-stage__screen,
+.museum-shell:not(.museum-shell--staff) .hall-surface .media-gallery {
+  border: var(--br-border);
+}
+
+.portal-app {
+  background:
+    linear-gradient(90deg, var(--br-ink) 0 34px, var(--br-paper) 34px calc(100% - 34px), var(--br-red) calc(100% - 34px)),
+    var(--br-paper);
+  color: var(--br-ink);
+}
+
+.review-dashboard__header,
+.portal-queue,
+.portal-editor-shell,
+.portal-start,
+.portal-readiness,
+.portal-lenses,
+.portal-relationships,
+.portal-content,
+.portal-source,
+.portal-exports {
+  border: var(--br-border);
+  background: var(--br-paper);
+  color: var(--br-ink);
+}
+
+.review-dashboard__header::before,
+.portal-queue::before,
+.portal-editor-shell::before,
+.portal-start::before,
+.portal-readiness::before,
+.portal-lenses::before,
+.portal-relationships::before,
+.portal-content::before,
+.portal-source::before,
+.portal-exports::before {
+  height: 14px;
+  background: var(--br-red);
+}
+
+.portal-dashboard__title .eyebrow,
+.portal-editor__eyebrow,
+.portal-readiness__intro .eyebrow,
+.museum-kicker {
+  border: var(--br-border);
+  background: var(--br-yellow);
+  color: var(--br-ink);
+}
+
+.portal-tabs {
+  gap: 0;
+  border: var(--br-border);
+  background: var(--br-ink);
+}
+
+.portal-tab {
+  min-height: 46px;
+  border: 0;
+  border-right: var(--br-border);
+  background: var(--br-ink);
+  color: var(--br-paper);
+}
+
+.portal-tab:last-child {
+  border-right: 0;
+}
+
+.portal-tab--active {
+  background: var(--br-yellow);
+  color: var(--br-ink);
+}
+
+.portal-tab,
+.portal-start-card,
+.portal-start__more button,
+.portal-export-actions button,
+.portal-relationship-actions button,
+.portal-source-bulk button,
+.portal-source-detail__actions button,
+.portal-source-evidence-row__actions button,
+.portal-source-evidence-row__actions a,
+.portal-content-card__actions button,
+.portal-focused-copy-starter__actions button,
+.portal-quick-actions button,
+.portal-editor__actions button,
+.portal-readiness-card button,
+.portal-action-strip button,
+.portal-notice button,
+.portal-lenses__actions button,
+.portal-lens-card__actions button,
+.portal-lens-preview-person__actions button,
+.portal-lens-preview__hidden button,
+.portal-runner-access button {
+  border: 2px solid var(--br-ink);
+  background: #fff7e6;
+  color: var(--br-ink);
+}
+
+.review-metric,
+.portal-start-card,
+.portal-readiness-card,
+.portal-lens-card,
+.portal-content-section,
+.portal-source-bulk,
+.portal-relationship-queue,
+.portal-relationship-editor,
+.portal-source-queue,
+.portal-source-detail,
+.portal-content-card,
+.portal-source-row,
+.portal-queue-row,
+.portal-relationship-row,
+.portal-source-evidence,
+.portal-source-evidence-group,
+.portal-source-evidence-row,
+.portal-relationship-node,
+.portal-relationship-editor__link,
+.portal-runner-access {
+  border: 2px solid var(--br-ink);
+  background: #fff7e6;
+  color: var(--br-ink);
+}
+
+.review-metric::before,
+.portal-start-card::before,
+.portal-readiness-card::before,
+.portal-content-section::before,
+.portal-queue-row::before,
+.portal-source-row::before,
+.portal-relationship-row::before {
+  background: var(--br-red);
+}
+
+.portal-start-card--primary,
+.portal-action-strip button:first-child,
+.portal-export-actions button:first-child,
+.portal-quick-actions button:last-child,
+.portal-lenses__actions button:last-child,
+.portal-content-card__actions button:first-child,
+.portal-runner-access button {
+  background: var(--br-yellow);
+}
+
+.portal-queue-row--active,
+.portal-source-row--active,
+.portal-relationship-row--active {
+  border-color: var(--br-ink);
+  background: var(--br-yellow);
+}
+
+.review-status--ok,
+.review-chip--ok {
+  background: var(--br-green);
+  color: var(--br-paper);
+}
+
+.review-status--warn,
+.review-chip--warn {
+  background: var(--br-yellow);
+  color: var(--br-ink);
+}
+
+.review-status--bad,
+.review-chip--bad {
+  background: var(--br-red);
+  color: var(--br-paper);
+}
+
+.portal-progress {
+  border: 2px solid var(--br-ink);
+  background: var(--br-paper-2);
+}
+
+.portal-progress i {
+  background: var(--br-blue);
+}
+
+.portal-notice,
+.review-dashboard__alert {
+  border: var(--br-border);
+  background: var(--br-yellow);
+}
+
+input,
+select,
+textarea {
+  border: 2px solid var(--br-ink);
+  background: #fff7e6;
+  color: var(--br-ink);
+}
