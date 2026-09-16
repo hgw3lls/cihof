@@ -448,7 +448,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function closeHallFocus() {
-    if (!beginInteractionTransition()) return;
+    const transitionStarted = beginInteractionTransition();
+    if (!transitionStarted && !selectedId) return;
     recordKioskInteraction('close-portrait-focus');
     stopActiveMedia();
     setSelectedId('');
@@ -600,7 +601,8 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function changeLens(lens: HallLens) {
-    if (!beginInteractionTransition()) return;
+    const transitionStarted = beginInteractionTransition();
+    if (!transitionStarted && lens === hallLens) return;
     recordKioskInteraction(`nav:${lens}`);
     const transition = hallLensTransitionFor(hallLens, lens);
     stopActiveMedia();
@@ -632,7 +634,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   const activeExperienceLabel = isVisitorExperienceMode(activeShellMode)
-    ? visitorExperienceNavItems.find((item) => item.lens === hallLens)?.label ?? internalHallLensLabel(hallLens)
+    ? internalHallLensLabel(hallLens)
     : 'Staff Portal';
 
   return (
@@ -884,7 +886,9 @@ function hallLensTransitionFor(current: HallLens, next: HallLens): ExperienceTra
 }
 
 function internalHallLensLabel(lens: HallLens) {
+  if (lens === 'traces') return 'TRACES';
   if (lens === 'journeys') return 'VISIT PATHS';
+  if (lens === 'legacies') return 'LEGACIES';
   return 'PORTRAITS';
 }
 
