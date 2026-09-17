@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { FallbackImage, initials } from '../../../components/FallbackImage';
 import { QRCodePanel } from '../../../components/QRCodePanel';
 import { honoredForSummary, inducteeContextLabel } from '../../../data/inducteeNarrative';
 import {
@@ -116,11 +117,29 @@ export function PortraitFocusCard({
         onClose={onClose}
       />
       <div className="living-hall__focusBody">
+        {lens === 'portraits' && (
+          <div className="living-hall__focusPortrait">
+            <FallbackImage
+              alt={inductee.imageAltText || `Portrait of ${inductee.name}`}
+              className="living-hall__focusPortraitImage"
+              fallbackClassName="living-hall__focusPortraitFallback"
+              fallbackLabel={initials(inductee.name)}
+              loading="eager"
+              src={inductee.primaryImageUrl}
+            />
+          </div>
+        )}
         <div className="living-hall__focusIdentity">
           <h3>{inductee.name}</h3>
           <p>{inductee.classYear ? `Class of ${inductee.classYear}` : 'Class year unknown'}</p>
         </div>
         {profileMode && context && <p className="living-hall__focusContext">{context}</p>}
+        {lens === 'portraits' && (inductee.lifeWorkSummary || inductee.storySummary) && (
+          <section className="living-hall__storySummary" aria-label="Story summary">
+            <h4>STORY SUMMARY</h4>
+            <p>{storyExcerpt(inductee.lifeWorkSummary || inductee.storySummary)}</p>
+          </section>
+        )}
         {lens === 'traces' && (
           <TraceFocusConnections
             context={traceContext}
@@ -201,6 +220,13 @@ export function PortraitFocusCard({
   );
 }
 
+function storyExcerpt(summary: string) {
+  const sentence = summary.match(/^.{70,210}?[.!?](?=\s|$)/)?.[0];
+  if (sentence) return sentence;
+  if (summary.length <= 190) return summary;
+  return `${summary.slice(0, 187).replace(/\s+\S*$/, '')}...`;
+}
+
 function FocusInspectorHeader({
   inductee,
   lens,
@@ -212,7 +238,7 @@ function FocusInspectorHeader({
 }) {
   return (
     <header className="living-hall__focusHeader">
-      <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : lens === 'journeys' ? 'JOURNEY STOP' : 'FOCUSED PORTRAIT'}</span>
+      <span>{lens === 'legacies' ? 'COHORT NAVIGATION' : lens === 'journeys' ? 'JOURNEY STOP' : lens === 'portraits' ? 'SELECTED RECORD' : 'FOCUSED PORTRAIT'}</span>
       <strong>{inductee.classYear ? String(inductee.classYear) : 'Open'}</strong>
       {onClose && (
         <button type="button" aria-label={lens === 'legacies' ? 'Close cohort navigator' : lens === 'journeys' ? 'Close journey stop' : 'Close focused portrait'} onClick={onClose}>

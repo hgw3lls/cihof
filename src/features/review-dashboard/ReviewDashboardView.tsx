@@ -152,15 +152,18 @@ import {
 import type {
   SourceCurationPacket,
 } from './models/portalSourcePacket';
+import type { ColorMode } from '../../app/useColorMode';
 
 type PortalTab = 'home' | 'workbench' | 'content' | 'source' | 'lenses' | 'relationships' | 'readiness' | 'exports';
 
 type ReviewDashboardViewProps = {
   inductees: Inductee[];
   onSelect: (inductee: Inductee) => void;
+  colorMode: ColorMode;
+  onToggleColorMode: () => void;
 };
 
-export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardViewProps) {
+export function ReviewDashboardView({ inductees, onSelect, colorMode, onToggleColorMode }: ReviewDashboardViewProps) {
   const reports = useReviewReports();
   const sourceCuration = useSourceCurationPacket();
   const relationshipState = useRelationships();
@@ -172,7 +175,7 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
   const [relationshipQuery, setRelationshipQuery] = useState('');
   const [relationshipQueue, setRelationshipQueue] = useState<RelationshipQueueMode>('needs-review');
   const [selectedRelationshipId, setSelectedRelationshipId] = useState('');
-  const [tab, setTab] = useState<PortalTab>('home');
+  const [tab, setTab] = useState<PortalTab>('workbench');
   const [sourceInitialQueue, setSourceInitialQueue] = useState<SourceQueueMode>('profiles');
   const [selectedId, setSelectedId] = useState('');
   const [drafts, setDrafts] = useState<DraftMap>(() => loadStoredDrafts());
@@ -555,10 +558,11 @@ export function ReviewDashboardView({ inductees, onSelect }: ReviewDashboardView
       <div className="review-dashboard__header portal-dashboard__header">
         <div className="portal-dashboard__title">
           <p className="eyebrow">Staff Portal</p>
-          <h2>Review & Edit</h2>
+          <h2>CIHOF / Review & Edit</h2>
           <span>Choose one queue, finish that pass, then move deeper only when needed.</span>
         </div>
         <div className="portal-dashboard__overview">
+          <button className="portal-mode-toggle" type="button" onClick={onToggleColorMode} aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}>{colorMode === 'light' ? 'Dark' : 'Light'}</button>
           <div className="portal-dashboard__quick-status" aria-label="Portal summary">
             <span>{draftCount} drafts</span>
             <span>{contentAccessRows.filter((row) => row.storyBeatCount > 0).length} story profiles</span>
