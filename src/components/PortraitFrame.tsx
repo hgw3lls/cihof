@@ -12,6 +12,7 @@ type PortraitFrameProps = {
   state?: PortraitFrameState;
   aspect?: PortraitFrameAspect;
   showRecord?: boolean;
+  classLabel?: boolean;
 };
 
 export function PortraitFrame({
@@ -23,6 +24,7 @@ export function PortraitFrame({
   state = 'standard',
   aspect = 'tall',
   showRecord = true,
+  classLabel = false,
 }: PortraitFrameProps) {
   const className = [
     'portrait-frame',
@@ -47,7 +49,7 @@ export function PortraitFrame({
         {showRecord && (
           <span className="portrait-frame__record living-portrait__label">
             <strong>{name}</strong>
-            {classYear && <small>{classYear}</small>}
+            {classYear && <small>{classLabel ? `Class of ${classYear}` : classYear}</small>}
           </span>
         )}
       </span>

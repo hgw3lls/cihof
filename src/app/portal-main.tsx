@@ -5,7 +5,7 @@ import { PortalApp } from './PortalApp';
 import { registerServiceWorker } from './serviceWorkerRegistration';
 import '../styles/final-exhibit/fonts.css';
 import '../styles/styles.css';
-import '../styles/visual-grammar.css';
+import '../styles/index-system.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

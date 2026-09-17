@@ -1,6 +1,7 @@
 import {
   useEffect,
   useMemo,
+  useRef,
   useState,
   type MouseEvent as ReactMouseEvent,
 } from 'react';
@@ -8,6 +9,7 @@ import { ClevelandTraceBackdrop, ClevelandTraceField } from '../../components/Cl
 import { FallbackImage, initials } from '../../components/FallbackImage';
 import { PortraitFrame } from '../../components/PortraitFrame';
 import { defaultKioskSettings, type KioskSettings } from '../../app/kioskSettings';
+import type { ColorMode } from '../../app/useColorMode';
 import { useStoryLenses } from '../../data/storyLenses';
 import { useCityQuestion } from '../../data/useCityQuestion';
 import { useMediaManifest, useMediaRecordMap } from '../../data/useMediaManifest';
@@ -42,6 +44,7 @@ import {
   selectHallMode,
   selectHallPeople,
   sortInductees,
+  traceChooserOptions,
 } from './livingHallModes';
 import {
   actionPanelPlacement,
@@ -93,6 +96,10 @@ type LivingHallViewProps = {
   traceFocusKey?: string;
   linkedPath?: HallLinkedPath | null;
   visitCollectionIds?: string[];
+  colorMode?: ColorMode;
+  onToggleColorMode?: () => void;
+  onLensChange?: (lens: HallLens) => void;
+  onReset?: () => void;
   onEngage?: () => void;
   onCloseFocus?: () => void;
   onTimelineYearChange?: (year: string) => void;
@@ -122,6 +129,10 @@ export function LivingHallView({
   traceFocusKey = '',
   linkedPath = null,
   visitCollectionIds = [],
+  colorMode = 'light',
+  onToggleColorMode,
+  onLensChange,
+  onReset,
   onEngage,
   onCloseFocus,
   onTimelineYearChange,
@@ -137,6 +148,10 @@ export function LivingHallView({
   const [visitQrOpen, setVisitQrOpen] = useState(false);
   const [visitJourneyOpen, setVisitJourneyOpen] = useState(false);
   const [visitJourneyIndex, setVisitJourneyIndex] = useState(0);
+  const [indexQuery, setIndexQuery] = useState('');
+  const [activeIndexLetter, setActiveIndexLetter] = useState('A');
+  const [indexVisitOpen, setIndexVisitOpen] = useState(false);
+  const indexViewportRef = useRef<HTMLDivElement | null>(null);
   const layoutViewport = useHallLayoutViewport();
   const reducedMotion = useReducedMotion(settings.motion);
   const cityQuestion = useCityQuestion();
@@ -157,6 +172,19 @@ export function LivingHallView({
     () => selectHallPeople(allPeople, lens, focusedPersonId, settings.portraitLimit),
     [allPeople, focusedPersonId, lens, settings.portraitLimit],
   );
+  const indexedPeople = useMemo(() => [...people].sort((a, b) => a.name.localeCompare(b.name)), [people]);
+  const indexMatches = useMemo(() => {
+    const query = indexQuery.trim().toLocaleLowerCase();
+    if (!query) return indexedPeople;
+    return indexedPeople.filter((person) => [
+      person.name,
+      String(person.classYear ?? ''),
+      ...person.countryTags,
+      ...person.communityTags,
+    ].some((value) => value.toLocaleLowerCase().includes(query)));
+  }, [indexQuery, indexedPeople]);
+  const indexMatchIds = useMemo(() => new Set(indexMatches.map((person) => person.id)), [indexMatches]);
+  const indexLetters = useMemo(() => new Set(indexedPeople.map((person) => person.name[0]?.toUpperCase())), [indexedPeople]);
   const focusedPerson = useMemo(
     () => focusedPersonId ? people.find((person) => person.id === focusedPersonId) ?? null : null,
     [focusedPersonId, people],
@@ -335,6 +363,22 @@ export function LivingHallView({
     }
   }, [visitCollectionPeople.length, visitJourneyIndex]);
 
+  useEffect(() => {
+    if (lens !== 'portraits' || !focusedPersonId) return;
+    const frame = window.requestAnimationFrame(() => {
+      indexViewportRef.current?.querySelector(`[data-transition-person="${CSS.escape(focusedPersonId)}"]`)?.scrollIntoView({ block: 'nearest' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusedPersonId, lens]);
+
+  function jumpToIndexLetter(letter: string) {
+    setActiveIndexLetter(letter);
+    setIndexQuery('');
+    window.requestAnimationFrame(() => {
+      indexViewportRef.current?.querySelector(`[data-index-letter="${letter}"]`)?.scrollIntoView({ block: 'start' });
+    });
+  }
+
   function dismissFocusedContentWindow() {
     onEngage?.();
     if (activePersonAction !== 'overview') {
@@ -394,6 +438,10 @@ export function LivingHallView({
   }
 
   function selectPortrait(inductee: Inductee) {
+    if (lens === 'portraits') {
+      setIndexVisitOpen(false);
+      setActiveIndexLetter(inductee.name[0]?.toUpperCase() || 'A');
+    }
     onSelect(inductee);
   }
 
@@ -536,9 +584,62 @@ export function LivingHallView({
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}
       data-visit-qr-open={visitQrOpen ? 'true' : 'false'}
+      data-index-visit-open={indexVisitOpen ? 'true' : 'false'}
       style={hallStyle}
       onPointerDown={() => onEngage?.()}
     >
+      {lens !== 'journeys' && !attractActive && (
+        <>
+          <header className="index-masthead">
+            <h1>Cleveland International<br />Hall of Fame</h1>
+            <nav aria-label="Explore the hall">
+              <button className={lens === 'portraits' ? 'index-masthead__active' : ''} type="button" aria-current={lens === 'portraits' ? 'page' : undefined} onClick={() => onLensChange?.('portraits')}>People</button>
+              <button className={lens === 'traces' ? 'index-masthead__active' : ''} type="button" aria-current={lens === 'traces' ? 'page' : undefined} onClick={() => onLensChange?.('traces')}>Links</button>
+              <button className={lens === 'legacies' ? 'index-masthead__active' : ''} type="button" aria-current={lens === 'legacies' ? 'page' : undefined} onClick={() => onLensChange?.('legacies')}>Years</button>
+            </nav>
+            <button className="index-masthead__visit" type="button" aria-expanded={indexVisitOpen} onClick={() => setIndexVisitOpen((open) => !open)}>Visit {String(visitCollectionPeople.length).padStart(2, '0')}</button>
+            <button className="index-masthead__mode" type="button" onClick={onToggleColorMode} aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}>{colorMode === 'light' ? 'Dark' : 'Light'}</button>
+            <button className="index-masthead__reset" type="button" onClick={onReset}>Reset</button>
+          </header>
+          {lens === 'portraits' && <aside className="index-alphabet" aria-label="Alphabet index">
+            <div className="index-alphabet__caption">Index / {allPeople.length}</div>
+            <strong className="index-alphabet__active">{activeIndexLetter}</strong>
+            <div className="index-alphabet__letters">
+              {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter((letter) => letter !== activeIndexLetter).map((letter) => (
+                <button key={letter} type="button" disabled={!indexLetters.has(letter)} onClick={() => jumpToIndexLetter(letter)} aria-label={`Jump to ${letter}`}>{letter}</button>
+              ))}
+            </div>
+            <div className="index-alphabet__foot">People<br />{hallYears}</div>
+          </aside>}
+          {lens === 'traces' && <aside className="index-link-rail" aria-label="Connection modes">
+            <span>LINKS / {traceContext.visibleThreads.length + 1}</span>
+            <strong>{traceContext.mode === 'direct' ? 'TIES' : traceContext.mode === 'concept' ? 'IDEAS' : 'PLACE'}</strong>
+            <div>
+              {traceChooserOptions(traceContext).map((choice) => (
+                <button key={choice.key} type="button" title={choice.detail || choice.label} aria-pressed={choice.key === traceContext.traceFocusKey} onClick={() => onTraceFocusChange?.(choice.key)}>{choice.label}</button>
+              ))}
+            </div>
+            <small>FOLLOW THE<br />CONNECTIONS</small>
+          </aside>}
+          {lens === 'legacies' && <aside className="index-year-rail" aria-label="Induction class years">
+            <span>YEARS / {legacyChronology.years.length}</span>
+            <strong>{activeLegacyYear ?? '----'}</strong>
+            <div>
+              {legacyChronology.years.map((year) => (
+                <button key={year} type="button" aria-label={`Class of ${year}`} aria-pressed={year === activeLegacyYear} onClick={() => legacyTimeline.changeClass(year)}>{year}</button>
+              ))}
+            </div>
+          </aside>}
+          <div className="index-field-head">
+            <h2>{lens === 'portraits' ? 'People / Index' : lens === 'traces' ? 'Links / Connections' : `Years / ${activeLegacyYear ?? 'Classes'}`}</h2>
+            <span>{lens === 'portraits' ? indexQuery ? `${indexMatches.length} matches` : `${people.length} records` : lens === 'traces' ? `${traceContext.visibleThreads.length} connections` : `${activeLegacyGroup?.people.length ?? 0} people`}</span>
+            {lens === 'portraits' && <label>
+              <span className="sr-only">Find a person or year</span>
+              <input type="search" value={indexQuery} onChange={(event) => { setIndexQuery(event.target.value); indexViewportRef.current?.scrollTo({ top: 0 }); }} placeholder="Find a person or year" />
+            </label>}
+          </div>
+        </>
+      )}
       <div className="living-hall__title" aria-live="polite">
         <span className="living-hall__era">{hallYears}</span>
         <h2>{hallDisplayTitle(lens)}</h2>
@@ -559,7 +660,7 @@ export function LivingHallView({
         {lens === 'traces' ? 'TOUCH A TRACE' : lens === 'journeys' ? 'CHOOSE A JOURNEY' : lens === 'legacies' ? 'SWIPE THE CLASSES' : 'TOUCH A PORTRAIT'}
       </p>
 
-      {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (
+      {!loading && !error && qrEnabled && visitCollectionPeople.length > 0 && !attractActive && (lens !== 'portraits' || indexVisitOpen) && (
         <VisitCollectionTray
           journey={visitJourneyInsight}
           journeyActive={visitJourneyOpen}
@@ -584,6 +685,10 @@ export function LivingHallView({
           }}
           onSelect={selectPortrait}
         />
+      )}
+
+      {lens === 'portraits' && indexVisitOpen && visitCollectionPeople.length === 0 && (
+        <aside className="index-visit-empty" aria-label="Saved visit collection"><h2>Your visit</h2><p>No people saved yet.</p><button type="button" onClick={() => setIndexVisitOpen(false)}>Close</button></aside>
       )}
 
       {!loading && !error && (
@@ -626,7 +731,7 @@ export function LivingHallView({
         />
       )}
 
-      <div className="living-hall__fieldViewport">
+      <div className="living-hall__fieldViewport" ref={indexViewportRef}>
         <div
           className="living-hall__field"
           ref={legacyTimeline.fieldRef}
@@ -655,7 +760,7 @@ export function LivingHallView({
             />
           )}
 
-        {!loading && !error && people.map((inductee, index) => {
+        {!loading && !error && (lens === 'portraits' ? indexedPeople : people).map((inductee, index) => {
           const position = activeMode.positions.get(inductee.id) ?? fallbackPosition(index, people.length);
           const frameState = portraitFrameState(lens, position);
           const frameAspect = portraitFrameAspect(mediaRecordMap.get(inductee.id));
@@ -699,6 +804,8 @@ export function LivingHallView({
               data-journey-connection={journeyStep?.connectionLabel}
               data-media-available={inductee.hasVideo ? 'true' : 'false'}
               data-portrait-category={portraitCategory}
+              data-index-letter={lens === 'portraits' ? inductee.name[0]?.toUpperCase() : undefined}
+              hidden={(lens === 'portraits' && !indexMatchIds.has(inductee.id)) || (lens === 'legacies' && inductee.classYear !== activeLegacyYear)}
               key={inductee.id}
               style={style}
               type="button"
@@ -718,7 +825,8 @@ export function LivingHallView({
                 fallbackLabel={initials(inductee.name)}
                 state={frameState}
                 aspect={frameAspect}
-                showRecord={shouldShowFrameRecord(lens, position, hallLayout)}
+                showRecord={lens !== 'journeys' || shouldShowFrameRecord(lens, position, hallLayout)}
+                classLabel={lens !== 'journeys'}
               />
               {journeyStep && (
                 <span className="living-portrait__journeyBadge" aria-hidden="true">
@@ -854,7 +962,7 @@ export function LivingHallView({
         />
       )}
 
-      {!loading && !error && cityQuestion.enabled && lens !== 'legacies' && !attractActive && !focusedPerson && !latestClassFrame && (
+      {!loading && !error && cityQuestion.enabled && lens === 'journeys' && !attractActive && !focusedPerson && !latestClassFrame && (
         <CityQuestionPrompt
           config={cityQuestion.config}
           counts={cityQuestion.counts}

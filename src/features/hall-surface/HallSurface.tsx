@@ -1,6 +1,7 @@
 import { LivingHallView } from '../living-hall/LivingHallView';
 import type { HallFocus, HallLens, HallLinkedPath, Inductee, RelationshipRecord } from '../../data/types';
 import type { KioskSettings } from '../../app/kioskSettings';
+import type { ColorMode } from '../../app/useColorMode';
 
 type HallSurfaceProps = {
   inductees: Inductee[];
@@ -18,6 +19,10 @@ type HallSurfaceProps = {
   traceFocusKey: string;
   linkedPath: HallLinkedPath | null;
   visitCollectionIds: string[];
+  colorMode: ColorMode;
+  onToggleColorMode: () => void;
+  onLensChange: (lens: HallLens) => void;
+  onReset: () => void;
   onEngage: () => void;
   onSelect: (inductee: Inductee) => void;
   onCloseFocus: () => void;
@@ -45,6 +50,10 @@ export function HallSurface({
   traceFocusKey,
   linkedPath,
   visitCollectionIds,
+  colorMode,
+  onToggleColorMode,
+  onLensChange,
+  onReset,
   onEngage,
   onSelect,
   onCloseFocus,
@@ -86,6 +95,10 @@ export function HallSurface({
         traceFocusKey={traceFocusKey}
         linkedPath={linkedPath}
         visitCollectionIds={visitCollectionIds}
+        colorMode={colorMode}
+        onToggleColorMode={onToggleColorMode}
+        onLensChange={onLensChange}
+        onReset={onReset}
         onEngage={onEngage}
         onCloseFocus={onCloseFocus}
         onTimelineYearChange={onTimelineYearChange}

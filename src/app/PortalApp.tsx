@@ -6,9 +6,11 @@ import type { Inductee } from '../data/types';
 import { InducteeDetail, type DetailAction } from '../features/inductee-detail/InducteeDetail';
 import { ReviewDashboardView } from '../features/review-dashboard/ReviewDashboardView';
 import { useViewportLock } from './useViewportLock';
+import { useColorMode } from './useColorMode';
 
 export function PortalApp() {
   useViewportLock();
+  const { mode: colorMode, toggleMode } = useColorMode();
 
   const { inductees, loading, error } = useInductees();
   const { relationships } = useRelationships();
@@ -29,10 +31,10 @@ export function PortalApp() {
   }
 
   return (
-    <main className="portal-app" aria-label="CIHOF staff portal">
+    <main className="portal-app" aria-label="CIHOF staff portal" data-color-mode={colorMode}>
       {loading && <div className="review-dashboard__alert">Loading staff portal data...</div>}
       {error && <div className="review-dashboard__alert">Portal data warning: {error}</div>}
-      <ReviewDashboardView inductees={inductees} onSelect={selectPreview} />
+      <ReviewDashboardView inductees={inductees} onSelect={selectPreview} colorMode={colorMode} onToggleColorMode={toggleMode} />
       <InducteeDetail
         inductee={preview}
         allInductees={inductees}

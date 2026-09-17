@@ -34,6 +34,7 @@ import {
 import { recordKioskHealth, recordKioskInteraction, recordKioskReset, startKioskHeartbeat } from './kioskHealth';
 import { stopAllMedia } from './mediaControl';
 import { useViewportLock } from './useViewportLock';
+import { useColorMode } from './useColorMode';
 import type { HallFocus, HallLens, HallLinkedPath, Inductee, ViewMode } from '../data/types';
 
 const contentProtectionActive = installationConfig.features.kioskGuards;
@@ -47,6 +48,7 @@ type AppProps = {
 
 export function App({ defaultView = 'living-hall' }: AppProps) {
   useViewportLock();
+  const { mode: colorMode, toggleMode } = useColorMode();
 
   const { inductees, loading, error } = useInductees();
   const { relationships, loading: relationshipsLoading, error: relationshipsError } = useRelationships();
@@ -643,6 +645,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
       aria-busy={transitionLocked ? 'true' : undefined}
       data-animation-intensity={kioskSettings.motion}
       data-debug-mode={installationConfig.debug.enabled ? 'true' : 'false'}
+      data-color-mode={colorMode}
       data-legacy-focus-modal={legacyFocusModalActive ? 'true' : 'false'}
       style={shellStyle}
       onClickCapture={handleLegacyFocusClickCapture}
@@ -712,6 +715,10 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
             traceFocusKey={worldFocusKey}
             linkedPath={linkedPath}
             visitCollectionIds={visitCollectionIds}
+            colorMode={colorMode}
+            onToggleColorMode={toggleMode}
+            onLensChange={changeLens}
+            onReset={() => resetExperience('manual')}
             onEngage={continueExploring}
             onSelect={selectInductee}
             onCloseFocus={closeHallFocus}
