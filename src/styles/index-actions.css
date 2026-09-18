@@ -188,6 +188,19 @@
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .living-hall__fullTextHeader h3 { color: var(--ix-ink); font-family: var(--index-display); font-size: clamp(34px, 2.8vw, 112px); text-transform: uppercase; }
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .living-hall__fullTextBody { flex: 1; min-height: 0; width: min(100%, 1050px) !important; max-width: 1050px !important; overflow: auto; margin: 0 auto; padding: 2vh 1vw; }
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .living-hall__fullTextBody p { color: var(--ix-ink); font-family: var(--index-reading); font-size: clamp(25px, 1.65vw, 66px); line-height: 1.25; }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .living-hall__fullTextMore {
+  flex: 0 0 auto;
+  min-height: 50px;
+  border: 0;
+  border-top: 3px solid var(--ix-accent);
+  border-radius: 0;
+  background: var(--ix-paper);
+  color: var(--ix-ink);
+  font-size: clamp(16px, 1vw, 40px);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
 
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTray,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitQrPanel {
@@ -226,6 +239,7 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayHeader > div:first-child { flex: 1; min-width: 0; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayHeader :is(span, small) { color: var(--ix-ink); font-family: var(--index-interface); font-size: clamp(15px, 1.1vw, 44px); font-weight: 700; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayHeader strong { color: var(--ix-ink); font-family: var(--index-display); font-size: clamp(32px, 2.7vw, 108px); font-weight: 800; text-transform: uppercase; }
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayHeader small { margin-top: 0.8vh; line-height: 1.15; word-spacing: 0.25em; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayActions { display: flex; flex-wrap: wrap; gap: 0.5vw; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTrayActions button,
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitQrHeader button {
@@ -246,6 +260,7 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitRoute span { color: var(--ix-ink); font-family: var(--index-interface); font-size: clamp(16px, 1.1vw, 44px); font-weight: 700; text-transform: uppercase; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitRoute p { max-width: 58ch; margin: 0.5vh 0 0; color: var(--ix-ink); font-family: var(--index-reading); font-size: clamp(28px, 2vw, 80px); font-weight: 400; line-height: 1.18; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitList { max-height: none !important; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 0 2vw; overflow: visible; margin: 0; padding: 2vh 0; }
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitTray:is([data-saved-count='1'], [data-saved-count='2']) .living-hall__visitList { width: min(100%, 850px); grid-template-columns: 1fr; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitList li { min-height: 9vh; display: flex; align-items: center; gap: 1vw; border: 0; border-bottom: 2px solid var(--ix-line); padding: 0.5vh 0; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitPerson { flex: 1; min-width: 0; min-height: 0; grid-template-columns: 3ch minmax(0, 1fr); gap: 0 0.8vw; color: var(--ix-ink); padding: 0; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='portraits'] .living-hall__visitPerson > span { color: var(--ix-accent); font-family: var(--index-display); font-size: clamp(24px, 2vw, 80px); font-weight: 800; }
@@ -293,6 +308,13 @@
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-playlist__item strong { font-family: var(--index-display); font-size: clamp(22px, 1.5vw, 60px); font-weight: 800; text-transform: uppercase; }
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-playlist__item--active { border-left: 5px solid var(--ix-accent); padding-left: 0.5vw; }
 .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube button { min-height: 74px; border: 2px solid #fff; border-radius: 0; background: #080808; color: #fff; padding: 0 1vw; font-family: var(--index-interface); font-size: clamp(18px, 1.25vw, 50px); font-weight: 700; text-transform: uppercase; }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube { position: relative; overflow: hidden; padding: 0; }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__preview { position: absolute; inset: 0; background: var(--ix-image-mat); }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] :is(.media-youtube__previewImage, .media-youtube__previewFallback) { width: 100%; height: 100%; object-fit: contain; filter: grayscale(1); }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__previewFallback { display: grid; place-items: center; color: var(--ix-ink); font-size: clamp(40px, 4vw, 150px); }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__controls { position: relative; align-self: end; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1vw; background: #080808; color: white; padding: 1vw; text-align: left; }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__controls strong { min-width: 0; color: white; font-family: var(--index-interface); font-size: clamp(18px, 1.2vw, 48px); font-weight: 700; line-height: 1.1; text-transform: uppercase; }
+.museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__controls button { flex: 0 0 auto; min-height: 52px; }
 
 @media (max-width: 900px) {
   .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .living-hall__personActionPanel.detail--visitor,
@@ -310,4 +332,5 @@
   .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .qr-continuation__copy h3 { font-size: 28px; }
   .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .qr-continuation__copy > span { font-size: 22px; }
   .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-experience__layout { grid-template-columns: 1fr; }
+  .museum-shell:not(.museum-shell--staff) .hall-surface .living-hall[data-hall-lens='portraits'] .media-youtube__controls { flex-wrap: wrap; padding: 12px; }
 }

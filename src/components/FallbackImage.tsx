@@ -7,6 +7,7 @@ type FallbackImageProps = {
   fallbackClassName: string;
   fallbackLabel: string;
   loading?: 'eager' | 'lazy';
+  showLoadingFallback?: boolean;
 };
 
 export function FallbackImage({
@@ -16,11 +17,14 @@ export function FallbackImage({
   fallbackClassName,
   fallbackLabel,
   loading = 'lazy',
+  showLoadingFallback = false,
 }: FallbackImageProps) {
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setFailed(false);
+    setLoaded(false);
   }, [src]);
 
   if (!src || failed) {
@@ -28,18 +32,31 @@ export function FallbackImage({
   }
 
   return (
-    <img
-      className={className}
-      src={assetSrc(src)}
-      alt={alt}
-      loading={loading}
-      decoding="async"
-      draggable={false}
-      onError={() => setFailed(true)}
-      onLoad={(event) => {
-        if (isNearSolidBlackImage(event.currentTarget)) setFailed(true);
-      }}
-    />
+    <>
+      {showLoadingFallback && !loaded && <span className={fallbackClassName} aria-hidden="true">{fallbackLabel}</span>}
+      <img
+        className={className}
+        src={assetSrc(src)}
+        alt={alt}
+        loading={loading}
+        decoding="async"
+        draggable={false}
+        style={showLoadingFallback && !loaded ? { visibility: 'hidden' } : undefined}
+        onError={() => setFailed(true)}
+        onLoad={(event) => {
+          const image = event.currentTarget;
+          if (isNearSolidBlackImage(image)) {
+            setFailed(true);
+            return;
+          }
+          if (!showLoadingFallback) return;
+          const loadedSrc = image.currentSrc;
+          void image.decode().catch(() => undefined).then(() => {
+            if (image.isConnected && image.currentSrc === loadedSrc) setLoaded(true);
+          });
+        }}
+      />
+    </>
   );
 }
 

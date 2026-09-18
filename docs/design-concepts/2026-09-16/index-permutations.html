@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIHOF Index studies</title>
+  <style>
+    @font-face { font-family: League; src: url('../../../src/assets/fonts/exhibit/LeagueGothic-Regular.woff2') format('woff2'); }
+    @font-face { font-family: Mona; src: url('../../../src/assets/fonts/exhibit/MonaSansVF.woff2') format('woff2'); }
+    * { box-sizing: border-box; }
+    html { background: #111; }
+    body { margin: 0; padding: 24px 0 48px; color: #eee; font-family: Mona, Arial, sans-serif; }
+    .preview-mode { width: 1920px; margin: 0 auto 22px; display: flex; align-items: center; gap: 12px; font: 700 14px Mona, sans-serif; text-transform: uppercase; }
+    .preview-mode input { width: 22px; height: 22px; margin: 0; accent-color: #f3e645; }
+    .preview-mode small { color: #aaa; font: 12px Mona, sans-serif; text-transform: none; }
+    .study-label { width: 1920px; margin: 0 auto 8px; font: 600 14px Mona, sans-serif; text-transform: uppercase; }
+    .study { width: 1920px; height: 820px; margin: 0 auto 40px; display: grid; grid-template-columns: 1110px 810px; overflow: hidden; }
+    .study button { cursor: default; font: inherit; }
+    .visitor, .staff { min-width: 0; height: 820px; overflow: hidden; }
+    .masthead { display: flex; align-items: stretch; justify-content: space-between; }
+    .brand { margin: 0; font: 54px/.86 League, Impact, sans-serif; text-transform: uppercase; }
+    .brand span { display: block; }
+    .nav { display: flex; flex: none; }
+    .nav span { display: flex; align-items: center; justify-content: center; min-width: 104px; padding: 0 17px; font: 30px League, Impact, sans-serif; text-transform: uppercase; }
+    .overline, .mini-label { font: 700 11px/1.2 Mona, sans-serif; text-transform: uppercase; }
+    .portrait { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.06); }
+    .roster { min-width: 0; }
+    .person { min-width: 0; overflow: hidden; }
+    .person strong { display: block; line-height: 1.05; }
+    .person small { display: block; line-height: 1.2; }
+    .feature-name { margin: 0; font-family: League, Impact, sans-serif; text-transform: uppercase; }
+    .feature-copy { margin: 0; font-family: Georgia, serif; }
+    .queue-row { display: grid; align-items: center; min-width: 0; }
+    .queue-row strong, .queue-row small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .fact-row { display: grid; align-items: start; }
+
+    /* A: a precise version of the chosen composition. */
+    .a { background: #f9f8f2; color: #101010; border: 8px solid #111; }
+    .a .visitor { border-right: 8px solid #111; padding: 18px 22px 18px 22px; }
+    .a .staff { padding: 18px 22px; }
+    .a .masthead { height: 102px; border-bottom: 3px solid #111; }
+    .a .brand { font-size: 51px; padding-top: 1px; }
+    .a .nav { align-self: start; height: 72px; border: 2px solid #111; }
+    .a .nav span + span { border-left: 2px solid #111; }
+    .a .nav .active { background: #f3e645; }
+    .a .index-content { display: grid; grid-template-columns: 72px 1fr 288px; gap: 18px; height: 660px; padding-top: 18px; }
+    .a .alphabet { display: grid; grid-template-columns: repeat(2, 1fr); align-content: start; gap: 0; padding-right: 11px; border-right: 2px solid #111; font: 38px/.88 League, Impact, sans-serif; }
+    .a .alphabet span { text-align: center; }
+    .a .alphabet span:first-child { background: #e44c3e; }
+    .a .roster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 13px 11px; }
+    .a .person { display: flex; flex-direction: column; padding: 4px; }
+    .a .person.is-selected { background: #f3e645; }
+    .a .person img { height: 121px; object-position: center 26%; }
+    .a .person strong { margin-top: 5px; font: 700 15px Mona, sans-serif; }
+    .a .person small { margin-top: 2px; font: 12px Mona, sans-serif; }
+    .a .feature { border-left: 2px solid #111; padding-left: 18px; display: flex; flex-direction: column; }
+    .a .feature img { height: 286px; object-position: center 20%; }
+    .a .feature-body { flex: 1; background: #f3e645; padding: 14px; }
+    .a .feature-name { font-size: 50px; line-height: .88; }
+    .a .feature-meta { margin: 7px 0 18px; font: 700 14px Mona, sans-serif; text-transform: uppercase; }
+    .a .feature-copy { font-size: 17px; line-height: 1.36; }
+    .a .feature-tail { margin-top: 19px; padding-top: 12px; border-top: 2px solid #111; font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+    .a .visit-action { display: none; }
+    .a .staff-head { height: 102px; }
+    .a .staff-head .brand { font-size: 48px; }
+    .a .staff-content { display: grid; grid-template-columns: 275px 1fr; gap: 19px; height: 660px; padding-top: 18px; border-top: 3px solid #111; }
+    .a .queue { border-right: 2px solid #111; padding-right: 16px; }
+    .a .queue-title { display: flex; justify-content: space-between; align-items: end; padding-bottom: 9px; border-bottom: 2px solid #111; }
+    .a .queue-title strong { font: 35px League, Impact, sans-serif; text-transform: uppercase; }
+    .a .queue-title small { font: 700 11px Mona, sans-serif; }
+    .a .queue-row { grid-template-columns: 28px 1fr 44px; gap: 7px; height: 48px; border-bottom: 1px solid #777; font: 12px Mona, sans-serif; }
+    .a .queue-row.selected { background: #f3e645; }
+    .a .queue-row b { font: 21px League, Impact, sans-serif; padding-left: 4px; }
+    .a .queue-row strong { font-size: 13px; }
+    .a .queue-row small { text-align: right; }
+    .a .record-top { display: flex; justify-content: space-between; align-items: end; padding-bottom: 8px; border-bottom: 2px solid #111; }
+    .a .record-top h3 { margin: 0; font: 45px League, Impact, sans-serif; }
+    .a .record-top span { font: 700 13px Mona, sans-serif; }
+    .a .record-primary { display: grid; grid-template-columns: 160px 1fr; gap: 15px; padding: 15px 0 13px; }
+    .a .record-primary img { height: 174px; object-position: center 18%; }
+    .a .record-primary p { margin: 8px 0 0; font: 16px/1.34 Georgia, serif; }
+    .a .fact-row { grid-template-columns: 137px 1fr; gap: 8px; min-height: 46px; padding: 9px 0; border-top: 1px solid #777; font: 13px/1.3 Mona, sans-serif; }
+    .a .fact-row b { text-transform: uppercase; }
+    .a .record-actions { display: flex; align-items: center; gap: 17px; margin-top: 16px; }
+    .a .record-actions .primary { border: 2px solid #111; background: #f3e645; padding: 8px 20px; font: 35px League, Impact, sans-serif; text-transform: uppercase; }
+    .a .record-actions span { font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+
+    /* B: the catalogue compresses the grid and makes the index an address. */
+    .b { background: #eae7dc; color: #111; border: 8px solid #111; }
+    .b .visitor { background: #eae7dc; border-right: 8px solid #111; }
+    .b .staff { background: #eae7dc; }
+    .b .masthead { height: 124px; background: #1739b8; color: #fff; padding: 17px 20px 13px; }
+    .b .brand { font-size: 55px; }
+    .b .nav { height: 90px; margin-top: -1px; border: 3px solid #fff; }
+    .b .nav span { min-width: 112px; border-left: 3px solid #fff; }
+    .b .nav span:first-child { border-left: 0; }
+    .b .nav .active { background: #f3e645; color: #111; }
+    .b .alphabet { height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 23px; border-bottom: 3px solid #111; font: 29px League, Impact, sans-serif; }
+    .b .alphabet span:first-child { background: #111; color: #fff; padding: 2px 11px; }
+    .b .index-content { display: grid; grid-template-columns: 282px 1fr; gap: 0; height: 625px; }
+    .b .feature { background: #f3e645; padding: 13px; border-right: 3px solid #111; }
+    .b .feature img { height: 260px; object-position: center 17%; }
+    .b .feature-name { margin-top: 13px; font-size: 50px; line-height: .9; }
+    .b .feature-meta { margin: 7px 0 14px; padding-top: 9px; border-top: 3px solid #111; font: 700 14px Mona, sans-serif; }
+    .b .feature-copy { font-size: 18px; line-height: 1.3; }
+    .b .roster-wrap { padding: 13px 19px 14px; }
+    .b .roster-head { display: flex; justify-content: space-between; align-items: end; height: 36px; margin-bottom: 8px; border-bottom: 2px solid #111; }
+    .b .roster-head strong { font: 26px League, Impact, sans-serif; text-transform: uppercase; }
+    .b .roster-head span { font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+    .b .roster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 10px 9px; height: 543px; }
+    .b .person { border-bottom: 2px solid #111; }
+    .b .person img { height: 116px; object-position: center 20%; }
+    .b .person strong { margin-top: 5px; font: 700 14px Mona, sans-serif; }
+    .b .person small { font: 12px Mona, sans-serif; }
+    .b .person.is-selected img { outline: 5px solid #1739b8; outline-offset: -5px; }
+    .b .staff-head { height: 124px; display: flex; justify-content: space-between; padding: 17px 20px; background: #1739b8; color: #fff; }
+    .b .staff-head .brand { font-size: 53px; }
+    .b .staff-head .overline { align-self: end; text-align: right; }
+    .b .staff-content { display: grid; grid-template-columns: 270px 1fr; height: 680px; }
+    .b .queue { border-right: 3px solid #111; }
+    .b .queue-title { padding: 17px 14px 13px; border-bottom: 3px solid #111; }
+    .b .queue-title strong { display: block; font: 44px League, Impact, sans-serif; text-transform: uppercase; }
+    .b .queue-title small { font: 700 12px Mona, sans-serif; }
+    .b .queue-row { grid-template-columns: 33px 1fr 30px; gap: 6px; height: 56px; padding: 0 9px; border-bottom: 2px solid #111; }
+    .b .queue-row.selected { background: #f3e645; }
+    .b .queue-row b { font: 28px League, Impact, sans-serif; }
+    .b .queue-row strong { font: 700 13px Mona, sans-serif; }
+    .b .queue-row small { font: 700 12px Mona, sans-serif; text-align: right; }
+    .b .record { padding: 17px 18px; }
+    .b .record-top { border-bottom: 3px solid #111; padding-bottom: 12px; }
+    .b .record-top h3 { margin: 0; font: 60px/.9 League, Impact, sans-serif; text-transform: uppercase; }
+    .b .record-top span { display: block; margin-top: 6px; font: 700 12px Mona, sans-serif; text-transform: uppercase; }
+    .b .record-primary { display: grid; grid-template-columns: 145px 1fr; gap: 14px; padding: 14px 0; }
+    .b .record-primary img { height: 177px; object-position: center 20%; }
+    .b .record-primary p { margin: 8px 0 0; font: 16px/1.33 Georgia, serif; }
+    .b .fact-row { grid-template-columns: 130px 1fr; padding: 10px 0; min-height: 44px; border-top: 2px solid #111; font: 13px Mona, sans-serif; }
+    .b .fact-row b { text-transform: uppercase; }
+    .b .record-actions { margin-top: 15px; display: flex; gap: 14px; align-items: center; }
+    .b .record-actions .primary { border: 3px solid #111; padding: 7px 19px; background: #f3e645; font: 38px League, Impact, sans-serif; text-transform: uppercase; }
+    .b .record-actions span { font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+
+    /* C: the exhibition wall enlarges the selected record and inverts the field. */
+    .c { background: #101010; color: #f4f1e6; border: 8px solid #101010; }
+    .c .visitor { border-right: 8px solid #dce899; padding: 17px 18px; }
+    .c .staff { padding: 17px 20px; background: #dce899; color: #101010; }
+    .c .masthead { height: 104px; border-bottom: 2px solid #f4f1e6; }
+    .c .brand { font-size: 53px; }
+    .c .nav { height: 63px; border: 2px solid #f4f1e6; }
+    .c .nav span + span { border-left: 2px solid #f4f1e6; }
+    .c .nav .active { background: #dce899; color: #101010; }
+    .c .index-content { display: grid; grid-template-columns: 81px 1fr; height: 665px; padding-top: 14px; }
+    .c .alphabet { display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-right: 2px solid #f4f1e6; padding: 0 0 2px; font: 30px/.8 League, Impact, sans-serif; }
+    .c .alphabet span:first-child { width: 44px; padding: 8px 0; background: #ee593e; color: #101010; text-align: center; }
+    .c .index-main { padding-left: 16px; display: grid; grid-template-rows: 440px 206px; gap: 12px; }
+    .c .roster { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(2, 1fr); gap: 10px; }
+    .c .person { border-bottom: 2px solid #f4f1e6; }
+    .c .person img { height: 149px; object-position: center 18%; }
+    .c .person strong { margin-top: 7px; font: 700 13px Mona, sans-serif; }
+    .c .person small { font: 11px Mona, sans-serif; }
+    .c .person.is-selected { background: #dce899; color: #101010; padding: 4px; }
+    .c .person.is-selected img { height: 141px; }
+    .c .feature { display: grid; grid-template-columns: 185px 1fr 230px; gap: 17px; border-top: 4px solid #ee593e; padding-top: 13px; }
+    .c .feature img { height: 180px; object-position: center 20%; }
+    .c .feature-name { font-size: 79px; line-height: .82; }
+    .c .feature-meta { margin: 10px 0 0; font: 700 14px Mona, sans-serif; text-transform: uppercase; }
+    .c .feature-copy { font-size: 18px; line-height: 1.32; }
+    .c .feature-tail { padding-top: 12px; font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+    .c .staff-head { height: 104px; border-bottom: 3px solid #101010; display: flex; justify-content: space-between; }
+    .c .staff-head .brand { font-size: 49px; }
+    .c .staff-head .overline { align-self: end; padding-bottom: 10px; text-align: right; }
+    .c .staff-content { display: grid; grid-template-rows: 400px 262px; }
+    .c .record { border-bottom: 3px solid #101010; padding-top: 15px; }
+    .c .record-top { display: flex; justify-content: space-between; align-items: end; border-bottom: 2px solid #101010; padding-bottom: 5px; }
+    .c .record-top h3 { margin: 0; font: 54px League, Impact, sans-serif; text-transform: uppercase; }
+    .c .record-top span { font: 700 12px Mona, sans-serif; text-transform: uppercase; }
+    .c .record-primary { display: grid; grid-template-columns: 128px 1fr; gap: 17px; padding-top: 12px; }
+    .c .record-primary img { height: 163px; object-position: center 20%; }
+    .c .record-primary p { max-width: 430px; margin: 8px 0; font: 17px/1.3 Georgia, serif; }
+    .c .fact-row { grid-template-columns: 138px 1fr; padding: 2px 0; font: 12px/1.2 Mona, sans-serif; }
+    .c .fact-row b { text-transform: uppercase; }
+    .c .record-actions { display: flex; gap: 14px; align-items: center; padding-top: 5px; }
+    .c .record-actions .primary { background: #101010; color: #dce899; border: 2px solid #101010; padding: 4px 17px; font: 30px League, Impact, sans-serif; text-transform: uppercase; }
+    .c .record-actions span { font: 700 11px Mona, sans-serif; text-transform: uppercase; }
+    .c .queue { display: grid; grid-template-columns: 220px 1fr; gap: 18px; padding-top: 14px; }
+    .c .queue-title { border-right: 2px solid #101010; padding-right: 12px; }
+    .c .queue-title strong { display: block; font: 69px/.87 League, Impact, sans-serif; text-transform: uppercase; }
+    .c .queue-title small { display: block; margin-top: 12px; font: 700 12px Mona, sans-serif; text-transform: uppercase; }
+    .c .queue-list { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 45px; gap: 3px 12px; }
+    .c .queue-row { grid-template-columns: 25px 1fr 28px; gap: 5px; border-bottom: 1px solid #101010; }
+    .c .queue-row.selected { background: #ee593e; padding: 0 5px; }
+    .c .queue-row b { font: 21px League, Impact, sans-serif; }
+    .c .queue-row strong { font: 700 12px Mona, sans-serif; }
+    .c .queue-row small { font: 700 11px Mona, sans-serif; text-align: right; }
+
+    /* 05 dark: same hierarchy as the light default, with a deep neutral field. */
+    .a.dark { background: #151a18; color: #f2f0e8; border-color: #0a0e0d; }
+    .a.dark .visitor { border-color: #f2f0e8; }
+    .a.dark .masthead,
+    .a.dark .alphabet,
+    .a.dark .feature,
+    .a.dark .staff-content,
+    .a.dark .queue,
+    .a.dark .queue-title,
+    .a.dark .record-top,
+    .a.dark .feature-tail { border-color: #f2f0e8; }
+    .a.dark .nav,
+    .a.dark .nav span + span,
+    .a.dark .record-actions .primary { border-color: #f2f0e8; }
+    .a.dark .queue-row,
+    .a.dark .fact-row { border-color: #818b86; }
+    .a.dark .nav .active,
+    .a.dark .person.is-selected,
+    .a.dark .feature-body,
+    .a.dark .queue-row.selected,
+    .a.dark .record-actions .primary { background: #e8ef52; color: #111613; }
+    .a.dark .alphabet span:first-child { background: #f56a52; color: #111613; }
+
+    /* 08: larger portraits, fewer visible records, quieter metadata. */
+    .d { background: #f6f8f3; }
+    .d .masthead { border-bottom-width: 5px; }
+    .d .nav .active,
+    .d .person.is-selected,
+    .d .queue-row.selected,
+    .d .alphabet span:first-child { background: #f4654d; }
+    .d .index-content { grid-template-columns: 72px 1fr 278px; }
+    .d .roster { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 11px; }
+    .d .person img { height: 133px; }
+    .d .person strong { font-size: 16px; }
+    .d .person small { font-size: 12px; }
+    .d .feature img { height: 306px; }
+    .d .feature-body { background: #cce8e0; }
+    .d .feature-name { font-size: 55px; }
+    .d .feature-copy { font-size: 18px; }
+    .d .feature-tail { display: none; }
+    .d .visit-action,
+    .e .visit-action { display: block; width: 100%; margin-top: 17px; padding: 10px 12px; border: 2px solid #111; background: #111; color: #fff; font: 25px League, Impact, sans-serif; text-align: left; text-transform: uppercase; }
+    .d .record-actions .primary { background: #f4654d; }
+
+    /* 09: an alphabet-led typographic rhythm and a quieter profile sheet. */
+    .e { background: #f1eee4; }
+    .e .masthead { border-bottom: 6px solid #ec5b40; }
+    .e .nav .active,
+    .e .queue-row.selected,
+    .e .record-actions .primary { background: #ec5b40; }
+    .e .index-content { grid-template-columns: 103px 1fr 292px; }
+    .e .alphabet { align-content: space-between; grid-auto-rows: min-content; padding-bottom: 4px; font-size: 24px; }
+    .e .alphabet span:first-child { grid-column: 1 / -1; height: 72px; background: #ec5b40; font-size: 74px; line-height: .95; text-align: left; padding-left: 12px; }
+    .e .person { border-bottom: 2px solid #111; }
+    .e .person img { height: 108px; }
+    .e .person.is-selected { background: transparent; border-left: 6px solid #ec5b40; padding-left: 7px; }
+    .e .feature img { height: 195px; }
+    .e .feature-body { background: #f1eee4; border-top: 6px solid #ec5b40; padding-left: 0; padding-right: 0; }
+    .e .feature-name { font-size: 63px; line-height: .83; }
+    .e .feature-meta { margin: 7px 0 11px; border-bottom: 2px solid #111; padding-bottom: 8px; }
+    .e .feature-copy { font-size: 18px; line-height: 1.25; }
+    .e .feature-tail { margin-top: 12px; padding-top: 8px; border-top-width: 3px; }
+    .e .visit-action { margin-top: 12px; padding: 7px 10px; font-size: 22px; }
+    .e .staff-head { border-bottom: 6px solid #ec5b40; }
+    .e .staff-content { border-top: 0; }
+    .e .record-top h3 { font-size: 54px; text-transform: uppercase; }
+    .e .fact-row { border-top-color: #111; }
+
+    /* 10 dark: the chosen type system carries into both visitor and staff views. */
+    .e.dark .masthead,
+    .e.dark .staff-head { border-color: #fa7158; }
+    .e.dark .nav .active,
+    .e.dark .queue-row.selected,
+    .e.dark .record-actions .primary,
+    .e.dark .alphabet span:first-child { background: #fa7158; color: #111613; }
+    .e.dark .person.is-selected { background: transparent; color: #f2f0e8; border-left-color: #fa7158; }
+    .e.dark .feature-body { background: #151a18; color: #f2f0e8; border-color: #fa7158; }
+    .e.dark .feature-meta,
+    .e.dark .feature-tail,
+    .e.dark .fact-row { border-color: #f2f0e8; }
+    .e.dark .visit-action { background: #fa7158; color: #111613; border-color: #fa7158; }
+
+    /* 12: a person opens from the same typographic index into a full reading field. */
+    .g .focus-content { display: grid; grid-template-columns: 103px 1fr; height: 665px; padding-top: 18px; }
+    .g .focus-content .alphabet { display: grid; grid-template-columns: repeat(2, 1fr); padding-right: 11px; border-right: 2px solid #111; }
+    .g .focus-view { min-width: 0; padding-left: 18px; }
+    .g .focus-toolbar { height: 46px; display: flex; justify-content: space-between; align-items: start; border-bottom: 2px solid #111; font: 700 12px Mona, sans-serif; text-transform: uppercase; }
+    .g .focus-toolbar span:first-child { color: #ad3829; }
+    .g .focus-main { display: grid; grid-template-columns: 345px 1fr; gap: 24px; padding-top: 15px; }
+    .g .focus-photo { height: 535px; min-width: 0; border-bottom: 6px solid #ec5b40; }
+    .g .focus-photo img { width: 100%; height: 100%; object-position: center 18%; }
+    .g .focus-story { min-width: 0; }
+    .g .focus-index { display: block; margin-bottom: 10px; font: 700 12px Mona, sans-serif; text-transform: uppercase; }
+    .g .focus-story h3 { margin: 0; font: 86px/.82 League, Impact, sans-serif; text-transform: uppercase; }
+    .g .focus-lead { margin: 20px 0 0; max-width: 505px; font: 24px/1.25 Georgia, serif; }
+    .g .focus-facts { display: flex; gap: 28px; margin-top: 22px; padding: 12px 0; border-top: 3px solid #111; border-bottom: 1px solid #111; font: 700 13px Mona, sans-serif; text-transform: uppercase; }
+    .g .focus-connection { display: grid; grid-template-columns: 130px 1fr; gap: 14px; padding: 15px 0; border-bottom: 1px solid #111; font: 14px Mona, sans-serif; }
+    .g .focus-connection b { text-transform: uppercase; }
+    .g .focus-save { width: 220px; margin-top: 20px; padding: 9px 14px; border: 2px solid #111; background: #ec5b40; color: #111; font: 29px League, Impact, sans-serif; text-align: left; text-transform: uppercase; }
+    .g .staff-head { border-bottom-color: #ec5b40; }
+    .g .record-top { border-bottom: 4px solid #ec5b40; }
+    .g.dark .focus-content .alphabet,
+    .g.dark .focus-toolbar,
+    .g.dark .focus-facts,
+    .g.dark .focus-connection { border-color: #f2f0e8; }
+    .g.dark .focus-toolbar span:first-child { color: #fa7158; }
+    .g.dark .focus-photo,
+    .g.dark .record-top { border-color: #fa7158; }
+    .g.dark .focus-photo img { filter: grayscale(1) contrast(1.03) brightness(1.22); }
+    .g.dark .focus-save { background: #fa7158; color: #111613; border-color: #fa7158; }
+  </style>
+</head>
+<body>
+  <label class="preview-mode"><input id="dark-preview" type="checkbox">Dark mode for 05 <small>Switches the chosen Index study only</small></label>
+  <label class="preview-mode"><input id="type-dark-preview" type="checkbox">Dark mode for 10 <small>Switches the typographic Index and opened person together</small></label>
+  <div class="study-label">01 / Refined Index</div>
+  <article class="study a" aria-label="Refined Index concept"></article>
+  <div class="study-label">02 / Catalogue Index</div>
+  <article class="study b" aria-label="Catalogue Index concept"></article>
+  <div class="study-label">03 / Exhibition Index</div>
+  <article class="study c" aria-label="Exhibition Index concept"></article>
+  <div class="study-label">09 / Portrait Index</div>
+  <article class="study a d" aria-label="Portrait Index concept"></article>
+  <div class="study-label">10 / Typographic Index</div>
+  <article class="study a e" aria-label="Typographic Index concept"></article>
+  <div class="study-label">12 / Typographic Index, person opened</div>
+  <article class="study a e g" aria-label="Typographic Index focused person concept"></article>
+
+  <script>
+    const people = [
+      { name: 'Alex Machaskee', year: 2010, image: 'alex-machaskee-2010/primary.png', heritage: 'Serbian', priority: 'medium' },
+      { name: 'Valarie McCall', year: 2020, image: 'valarie-mccall-2020/primary.jpg', heritage: 'African-American', priority: 'high' },
+      { name: 'Sudarshan Sathe', year: 2023, image: 'sudarshan-sathe-2023/primary.jpg', heritage: 'Indian', priority: 'high' },
+      { name: 'Dona Brady', year: 2024, image: 'dona-brady-2024/primary.jpg', heritage: 'Albanian', priority: 'high' },
+      { name: 'Dick Russ', year: 2015, image: 'dick-russ-2015/primary.jpg', heritage: 'Slovenian', priority: 'high' },
+      { name: 'Eugenia Stolarczyk', year: 2016, image: 'eugenia-stolarczyk-2016-2016/primary.jpg', heritage: 'Polish', priority: 'high' },
+      { name: 'Johnny K. Wu', year: 2024, image: 'johnny-k-wu-2024/primary.jpg', heritage: 'Chinese', priority: 'high' },
+      { name: 'Catherine Jorgensen McCutcheon', year: 2026, image: 'catherine-jorgensen-mccutcheon-2026/primary.jpg', heritage: 'Norwegian', priority: 'high' },
+      { name: 'Sheila Murphy Crawford', year: 2018, image: 'sheila-murphy-crawford-2018/primary.jpg', heritage: 'Irish', priority: 'high' },
+      { name: 'Victor Ruiz', year: 2022, image: 'victor-ruiz-2022/primary.png', heritage: 'Puerto Rican', priority: 'high' },
+      { name: 'Basil Russo', year: 2017, image: 'basil-russo-2017/primary.jpg', heritage: 'Italian', priority: 'high' },
+      { name: 'Raj Aggarwal', year: 2025, image: 'raj-aggarwal-2025/primary.jpg', heritage: 'Indian', priority: 'high' },
+    ];
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const portrait = (person) => `<img class="portrait" src="../../../public/media/images/${person.image}" alt="Portrait of ${person.name}">`;
+    const brand = '<h2 class="brand"><span>Cleveland International</span><span>Hall of Fame</span></h2>';
+    const nav = '<div class="nav"><span class="active">People</span><span>Links</span><span>Years</span></div>';
+    const makeRoster = (rows) => `<div class="roster">${rows.map((person) => `<div class="person ${person.name === 'Alex Machaskee' ? 'is-selected' : ''}">${portrait(person)}<strong>${person.name}</strong><small>Class of ${person.year}</small></div>`).join('')}</div>`;
+    const roster = makeRoster(people);
+    const portraitRoster = makeRoster(people.slice(0, 9));
+    const feature = `<section class="feature" aria-label="Selected person">${portrait(people[0])}<div class="feature-body"><h3 class="feature-name">Alex Machaskee</h3><p class="feature-meta">Class of 2010 / Serbian</p><p class="feature-copy">Alex Machaskee is the retired Publisher, President and Chief Executive Officer of The Plain Dealer, Ohio's largest newspaper.</p><div class="feature-tail">Arts and culture / Media and storytelling</div><button class="visit-action" type="button">Save to visit +</button></div></section>`;
+    const focus = `<div class="focus-content"><div class="alphabet">${alphabet.map((letter) => `<span>${letter}</span>`).join('')}</div><section class="focus-view" aria-label="Opened person"><div class="focus-toolbar"><span>Back to people / A</span><span>Person 001 / Class of 2010</span></div><div class="focus-main"><div class="focus-photo">${portrait(people[0])}</div><div class="focus-story"><span class="focus-index">A / 001 / Cleveland International Hall of Fame</span><h3>Alex<br>Machaskee</h3><p class="focus-lead">Alex Machaskee is the retired Publisher, President and Chief Executive Officer of The Plain Dealer, Ohio's largest newspaper.</p><div class="focus-facts"><span>Class of 2010</span><span>Serbian heritage</span></div><div class="focus-connection"><b>Inducted by</b><span>Dick Russ</span></div><button class="focus-save" type="button">Save to visit +</button></div></div></section></div>`;
+    const queue = `<aside class="queue"><div class="queue-title"><strong>Review queue</strong><small>12 records</small></div><div class="queue-list">${people.slice(0, 10).map((person, index) => `<div class="queue-row ${index === 0 ? 'selected' : ''}"><b>${String(index + 1).padStart(2, '0')}</b><strong>${person.name}</strong><small>${person.year}</small></div>`).join('')}</div></aside>`;
+    const record = `<section class="record" aria-label="Selected profile"><div class="record-top"><h3>Alex Machaskee</h3><span>Class of 2010</span></div><div class="record-primary">${portrait(people[0])}<div><span class="mini-label">Story summary</span><p>Alex Machaskee is the retired Publisher, President and Chief Executive Officer of The Plain Dealer, Ohio's largest newspaper.</p></div></div><div class="fact-row"><b>Heritage</b><span>Serbian</span></div><div class="fact-row"><b>Image rights</b><span>Approved</span></div><div class="fact-row"><b>Profile status</b><span>Draft / medium review priority</span></div><div class="fact-row"><b>Source</b><span>CIHOF profile record</span></div><div class="record-actions"><button class="primary" type="button">Approve</button><span>Request changes</span></div></section>`;
+
+    document.querySelectorAll('.study').forEach((study) => {
+      const variant = study.classList.contains('g') ? 'g' : study.classList.contains('d') ? 'd' : study.classList.contains('e') ? 'e' : study.classList.contains('a') ? 'a' : study.classList.contains('b') ? 'b' : 'c';
+      let visitor;
+      let staff;
+      if (variant === 'a' || variant === 'd' || variant === 'e' || variant === 'g') {
+        visitor = variant === 'g'
+          ? `<div class="masthead">${brand}${nav}</div>${focus}`
+          : `<div class="masthead">${brand}${nav}</div><div class="index-content"><div class="alphabet">${alphabet.map((letter) => `<span>${letter}</span>`).join('')}</div>${variant === 'd' ? portraitRoster : roster}${feature}</div>`;
+        staff = `<div class="staff-head">${brand}</div><div class="staff-content">${queue}${record}</div>`;
+      } else if (variant === 'b') {
+        visitor = `<div class="masthead">${brand}${nav}</div><div class="alphabet">${alphabet.map((letter) => `<span>${letter}</span>`).join('')}</div><div class="index-content">${feature}<div class="roster-wrap"><div class="roster-head"><strong>People / A-Z</strong><span>12 shown / selected A</span></div>${roster}</div></div>`;
+        staff = `<div class="staff-head">${brand}<div class="overline">People / review<br>Selected record / 01</div></div><div class="staff-content">${queue}${record}</div>`;
+      } else {
+        visitor = `<div class="masthead">${brand}${nav}</div><div class="index-content"><div class="alphabet">${alphabet.map((letter) => `<span>${letter}</span>`).join('')}</div><div class="index-main">${roster}${feature}</div></div>`;
+        staff = `<div class="staff-head">${brand}<div class="overline">Staff / Index<br>Record review</div></div><div class="staff-content">${record}${queue}</div>`;
+      }
+      study.innerHTML = `<section class="visitor">${visitor}</section><section class="staff">${staff}</section>`;
+    });
+    document.querySelector('#dark-preview').addEventListener('change', (event) => {
+      document.querySelector('.study.a:not(.d):not(.e)').classList.toggle('dark', event.target.checked);
+    });
+    document.querySelector('#type-dark-preview').addEventListener('change', (event) => {
+      document.querySelectorAll('.study.e').forEach((study) => study.classList.toggle('dark', event.target.checked));
+    });
+  </script>
+</body>
+</html>

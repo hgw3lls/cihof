@@ -22,6 +22,7 @@ type AdminDataPanelProps = {
   onClose: () => void;
   settings: KioskSettings;
   onSettingsChange: (settings: KioskSettings) => void;
+  archiveOnly?: boolean;
 };
 
 const adminSessionKey = 'cihof.admin-data.session.v1';
@@ -30,7 +31,7 @@ const localDevPasscode = 'cihof-admin';
 const configuredPasscode = String(import.meta.env.VITE_CIHOF_ADMIN_PASSCODE ?? '').trim();
 type AdminSection = 'data' | 'settings' | 'review' | 'diagnostics';
 
-export function AdminDataPanel({ open, onClose, settings, onSettingsChange }: AdminDataPanelProps) {
+export function AdminDataPanel({ open, onClose, settings, onSettingsChange, archiveOnly = false }: AdminDataPanelProps) {
   const [unlocked, setUnlocked] = useState(() => readAdminSession());
   const [passcode, setPasscode] = useState('');
   const [status, setStatus] = useState('');
@@ -250,6 +251,7 @@ export function AdminDataPanel({ open, onClose, settings, onSettingsChange }: Ad
               </>
             ) : section === 'settings' ? (
               <AdminSettingsControls
+                archiveOnly={archiveOnly}
                 settings={settings}
                 onChangePasscode={changeAdminPasscode}
                 onLock={lock}

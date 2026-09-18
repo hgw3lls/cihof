@@ -581,6 +581,7 @@ export function LivingHallView({
       data-journey-step-count={visitJourneyOpen ? visitCollectionPeople.length : 0}
       data-content-window-open={focusContentWindowOpen ? 'true' : 'false'}
       data-legacy-pan={lens === 'legacies' ? Math.round(legacyTimeline.pan) : ''}
+      data-legacy-cohort-size={lens === 'legacies' ? activeLegacyGroup?.people.length : undefined}
       data-person-action={focusedPerson ? activePersonAction : ''}
       data-visit-collection-count={visitCollectionPeople.length}
       data-visit-qr-open={visitQrOpen ? 'true' : 'false'}
@@ -825,6 +826,7 @@ export function LivingHallView({
                 fallbackLabel={initials(inductee.name)}
                 state={frameState}
                 aspect={frameAspect}
+                loading={index < 12 || position.focused ? 'eager' : 'lazy'}
                 showRecord={lens !== 'journeys' || shouldShowFrameRecord(lens, position, hallLayout)}
                 classLabel={lens !== 'journeys'}
               />

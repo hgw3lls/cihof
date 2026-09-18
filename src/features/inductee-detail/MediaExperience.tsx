@@ -60,7 +60,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
       </header>
 
       <div className="media-experience__layout">
-        <MediaStage item={activeItem} kioskMode={kioskMode} personName={inductee.name} soundEnabled={soundEnabled} />
+        <MediaStage item={activeItem} kioskMode={kioskMode} personName={inductee.name} previewImageUrl={gallery[0] || inductee.primaryImageUrl} soundEnabled={soundEnabled} />
 
         <aside className="media-playlist" aria-label="Media list">
           {playableItems.length > 0 ? (
@@ -115,7 +115,7 @@ export function MediaExperience({ inductee, gallery, kioskMode, mediaRecord, sou
   );
 }
 
-function MediaStage({ item, kioskMode, personName, soundEnabled }: { item: MediaItem | null; kioskMode: boolean; personName: string; soundEnabled: boolean }) {
+function MediaStage({ item, kioskMode, personName, previewImageUrl, soundEnabled }: { item: MediaItem | null; kioskMode: boolean; personName: string; previewImageUrl: string; soundEnabled: boolean }) {
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [broken, setBroken] = useState(false);
@@ -223,9 +223,24 @@ function MediaStage({ item, kioskMode, personName, soundEnabled }: { item: Media
         ) : (
           <div className="media-youtube">
             {!youtubeLoaded ? (
-              <button type="button" disabled={kioskMode} onClick={() => setYoutubeLoaded(true)}>
-                Load Streaming Video
-              </button>
+              <>
+                <div className="media-youtube__preview" aria-hidden="true">
+                  <FallbackImage
+                    alt=""
+                    className="media-youtube__previewImage"
+                    fallbackClassName="media-youtube__previewFallback"
+                    fallbackLabel={initials(personName)}
+                    loading="eager"
+                    src={previewImageUrl}
+                  />
+                </div>
+                <div className="media-youtube__controls">
+                  <strong>{personName} / {item.title}</strong>
+                  <button type="button" disabled={kioskMode} onClick={() => setYoutubeLoaded(true)}>
+                    Load streaming video
+                  </button>
+                </div>
+              </>
             ) : (
               <iframe
                 title={`${personName} ${item.title}`}
@@ -370,8 +385,8 @@ function buildMediaItems(inductee: Inductee, mediaRecord: RuntimeMediaRecord | u
       id: `youtube-${youtubeVideoId}`,
       sourceType: 'youtube',
       category: 'Streaming Video',
-      title: `Streaming Video ${index + 1}`,
-      description: `Streaming video for ${inductee.name}. Installed media should be preferred for museum playback.`,
+      title: `Source ${index + 1}`,
+      description: `External video source for ${inductee.name}.`,
       youtubeVideoId,
     });
   });
@@ -423,8 +438,8 @@ function youtubeToItem(youtubeVideoId: string, video: RuntimeVideoAsset, index: 
     id: `youtube-${youtubeVideoId}`,
     sourceType: 'youtube',
     category: 'Streaming Video',
-    title: video.title || `Streaming Video ${index + 1}`,
-    description: video.description || 'Streaming video. Installed media should be preferred for museum playback.',
+    title: video.title || `Source ${index + 1}`,
+    description: video.description || 'External video source.',
     youtubeVideoId,
     captionStatus: video.captionStatus,
     transcriptStatus: video.transcriptStatus,

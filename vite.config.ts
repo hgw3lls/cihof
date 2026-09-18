@@ -5,12 +5,12 @@ import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const buildTarget = process.env.CIHOF_BUILD_TARGET === 'portal' ? 'portal' : 'kiosk';
+const buildTarget = process.env.CIHOF_BUILD_TARGET === 'portal' ? 'portal' : process.env.CIHOF_BUILD_TARGET === 'public' ? 'public' : 'kiosk';
 const defaultBase = process.env.NODE_ENV === 'production' ? '/cihof/' : '/';
 const base = process.env.CIHOF_BASE_PATH || defaultBase;
 const outDir = process.env.CIHOF_OUT_DIR || (buildTarget === 'portal' ? 'dist-portal' : 'dist');
 const buildInfo = createBuildInfo();
-const kioskMediaPublicPaths = buildTarget === 'kiosk' ? readKioskMediaPublicPaths() : null;
+const mediaPublicPaths = buildTarget === 'portal' ? null : readMediaPublicPaths(buildTarget === 'public');
 
 export default defineConfig(({ command }) => ({
   base,
@@ -127,7 +127,8 @@ function shouldSkipPublicPath(publicPath: string, isDirectory = false) {
   if (publicPath === 'fonts/exhibit' || publicPath.startsWith('fonts/exhibit/')) return true;
   if (publicPath === 'media/videos' || publicPath.startsWith('media/videos/')) {
     if (buildTarget === 'portal') return true;
-    return Boolean(kioskMediaPublicPaths && !isDirectory && !kioskMediaPublicPaths.has(publicPath));
+    if (buildTarget === 'public') return !isDirectory && !mediaPublicPaths?.has(publicPath);
+    return Boolean(mediaPublicPaths && !isDirectory && !mediaPublicPaths.has(publicPath));
   }
   return false;
 }
@@ -179,7 +180,7 @@ function readPackageJson(): { name?: string; version?: string } {
   }
 }
 
-function readKioskMediaPublicPaths() {
+function readMediaPublicPaths(approvedOnly: boolean) {
   try {
     const manifest = JSON.parse(readFileSync(resolve('data/media_manifest.json'), 'utf8')) as {
       assets?: Record<string, { videos?: Array<Record<string, unknown>> }>;
@@ -188,6 +189,9 @@ function readKioskMediaPublicPaths() {
 
     for (const record of Object.values(manifest.assets ?? {})) {
       for (const video of record.videos ?? []) {
+        if (approvedOnly && !(video.approvedForKiosk === true && video.rightsStatus === 'approved'
+          && video.captionStatus === 'approved' && video.transcriptStatus === 'approved'
+          && video.runtimePath && video.posterRuntimePath && video.captionRuntimePath && video.transcriptRuntimePath)) continue;
         for (const [key, value] of Object.entries(video)) {
           if ((key !== 'filePath' && !key.endsWith('FilePath')) || typeof value !== 'string') continue;
           const publicPath = toPublicPath(value.replace(/^public\//, ''));

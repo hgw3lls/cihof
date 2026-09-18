@@ -136,14 +136,6 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     setVisitCollectionIds((current) => normalizeVisitCollectionIds(current.filter((id) => validIds.has(id))));
   }, [inductees, loading]);
 
-  useEffect(() => {
-    if (reviewModeEnabled || loading || hallLens !== 'traces' || selectedId) return;
-    const defaultTracePerson = lastSeen ?? mostConnectedPerson(inductees, relationships) ?? inductees[0] ?? null;
-    if (!defaultTracePerson) return;
-    setSelectedId(defaultTracePerson.id);
-    setLastSeenId(defaultTracePerson.id);
-  }, [hallLens, inductees, lastSeen, loading, relationships, reviewModeEnabled, selectedId]);
-
   useEffect(() => startKioskHeartbeat(installationConfig.health.heartbeatMs), []);
 
   useEffect(() => {
@@ -474,6 +466,7 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
     return Boolean(element?.closest([
       '.living-hall__focusCard',
+      '.index-year-rail',
       '.museum-command',
       '.living-hall__pathRibbon',
       '.living-hall__visitTray',
@@ -630,6 +623,10 @@ export function App({ defaultView = 'living-hall' }: AppProps) {
   }
 
   function changeTimelineYear(year: string) {
+    if (legacyFocusModalActive && timelineYear !== year) {
+      stopActiveMedia();
+      setSelectedId('');
+    }
     setTimelineYear(year);
     const nextPath = linkedClassPath(inductees, year);
     setLinkedPath(nextPath);

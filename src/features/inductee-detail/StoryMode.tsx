@@ -93,7 +93,7 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
           <h3>{activeBeat.headline}</h3>
         </div>
         <div className="story-mode__status" aria-label="Section progress">
-          <span>{step + 1} / {beats.length}</span>
+          {beats.length > 1 && <span>{step + 1} / {beats.length}</span>}
           <span>{storyRecord ? 'Reviewed' : 'Record text'}</span>
         </div>
         <button className="story-mode__exit" type="button" onClick={onExit}>
@@ -101,9 +101,9 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
         </button>
       </header>
 
-      <div className="story-mode__progress" aria-hidden="true">
+      {beats.length > 1 && <div className="story-mode__progress" aria-hidden="true">
         <span style={{ width: `${progress}%` }} />
-      </div>
+      </div>}
 
       <section className="story-mode__beat" aria-live="polite">
         <div className="story-mode__media">
@@ -136,7 +136,7 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
         </div>
       </section>
 
-      <nav className="story-mode__nav" aria-label="Life and work navigation">
+      {beats.length > 1 && <nav className="story-mode__nav" aria-label="Life and work navigation">
         <button type="button" disabled={step === 0} onClick={() => goToStep(step - 1)}>
           Previous
         </button>
@@ -155,7 +155,7 @@ export function StoryMode({ inductee, allInductees, gallery, storyRecord, onExit
         <button type="button" disabled={step === beats.length - 1} onClick={() => goToStep(step + 1)}>
           Next
         </button>
-      </nav>
+      </nav>}
     </article>
   );
 }

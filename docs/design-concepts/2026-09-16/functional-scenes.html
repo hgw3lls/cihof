@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIHOF / Typographic Index / Actual Scenes</title>
+  <style>
+    @font-face { font-family: League; src: url('../../../src/assets/fonts/exhibit/LeagueGothic-Regular.woff2') format('woff2'); }
+    @font-face { font-family: Mona; src: url('../../../src/assets/fonts/exhibit/MonaSansVF.woff2') format('woff2'); }
+    :root { --paper: #f6f3e9; --ink: #171716; --accent: #eb5b43; --accent-text: #b93e2c; --muted: #6f6a63; --line: #171716; --soft: #e6e0d2; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #171716; color: #eee; font-family: Mona, Arial, sans-serif; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .control-bar { width: min(1440px, 100%); margin: 0 auto; padding: 18px 0 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .control-bar button { padding: 7px 10px; border: 1px solid #888; background: transparent; color: #eee; font-size: 12px; font-weight: 700; }
+    .control-bar button[aria-pressed="true"] { background: #eb5b43; color: #171716; border-color: #eb5b43; }
+    .control-bar .mode { margin-left: auto; }
+    .frame-wrap { width: 100%; overflow-x: auto; padding-bottom: 30px; }
+    .scene { width: 1440px; height: 820px; margin: auto; background: var(--paper); color: var(--ink); overflow: hidden; border: 7px solid var(--ink); }
+    .scene.dark { --paper: #151917; --ink: #f5f2e8; --accent: #fa7057; --accent-text: #fa7057; --muted: #aca99e; --line: #f5f2e8; --soft: #2a302d; border-color: #050706; }
+    .scene.dark img { filter: grayscale(1) contrast(1.08) brightness(1.08); }
+    .display { font-family: League, Impact, sans-serif; font-weight: 400; line-height: .9; text-transform: uppercase; }
+    .micro { font-size: 11px; font-weight: 800; text-transform: uppercase; line-height: 1.3; }
+    .fine { font-family: Georgia, serif; line-height: 1.35; }
+    .rule { border-bottom: 2px solid var(--line); }
+    .accent-rule { border-bottom: 6px solid var(--accent); }
+    .accent { color: var(--accent-text); }
+    .fill-accent { background: var(--accent); color: #151515; }
+    .field-button { background: transparent; color: inherit; border: 2px solid var(--line); padding: 8px 13px; font-weight: 800; text-transform: uppercase; font-size: 12px; }
+    .field-button.active, .field-button.primary { background: var(--accent); border-color: var(--accent); color: #151515; }
+    .field-button.ink { background: var(--ink); color: var(--paper); }
+    .visitor-shell { height: 100%; display: grid; grid-template-rows: 96px minmax(0, 1fr) 72px; }
+    .visitor-top { padding: 11px 26px 9px; display: flex; align-items: start; gap: 30px; border-bottom: 6px solid var(--accent); }
+    .visitor-brand { width: 420px; margin: 0; font-size: 43px; }
+    .visitor-brand span { display: block; }
+    .visitor-top .era { padding-top: 4px; margin-left: auto; white-space: nowrap; }
+    .search { width: 390px; height: 48px; border: 2px solid var(--line); background: transparent; color: inherit; padding: 0 14px; font-size: 15px; }
+    .visitor-main { min-height: 0; display: grid; grid-template-columns: 214px minmax(0, 1fr); }
+    .visitor-lead { padding: 23px 16px 20px 23px; border-right: 2px solid var(--line); display: flex; flex-direction: column; }
+    .visitor-lead h2 { margin: 8px 0 16px; font-size: 68px; }
+    .visitor-lead .prompt { margin-top: auto; padding-top: 14px; border-top: 4px solid var(--accent); font-size: 34px; }
+    .lead-metric { border-top: 1px solid var(--line); display: flex; justify-content: space-between; padding: 7px 0; }
+    .lead-metric strong { font-size: 18px; }
+    .visitor-bottom { border-top: 3px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .visitor-bottom button { display: flex; align-items: center; gap: 12px; border: 0; border-right: 2px solid var(--line); background: transparent; color: inherit; text-align: left; padding: 7px 23px; }
+    .visitor-bottom button:last-child { border-right: 0; }
+    .visitor-bottom button.active { background: var(--accent); color: #151515; }
+    .visitor-bottom strong { font: 35px League, Impact, sans-serif; text-transform: uppercase; }
+    .visitor-bottom small { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .portrait-field { height: 100%; min-width: 0; padding: 20px 25px; }
+    .field-kicker { height: 36px; display: flex; justify-content: space-between; align-items: start; border-bottom: 2px solid var(--line); }
+    .portrait-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 12px 14px; height: calc(100% - 48px); padding-top: 12px; }
+    .portrait-tile { min-width: 0; border: 0; border-bottom: 2px solid var(--line); background: transparent; color: inherit; padding: 0 0 4px; text-align: left; }
+    .portrait-tile img { width: 100%; height: 116px; object-fit: cover; object-position: center 24%; display: block; filter: grayscale(1) contrast(1.05); }
+    .portrait-tile strong { display: block; margin-top: 5px; font-size: 14px; line-height: 1.05; max-height: 30px; overflow: hidden; }
+    .portrait-tile small { display: block; margin-top: 2px; font-size: 11px; }
+    .portrait-tile.selected { border-left: 6px solid var(--accent); padding-left: 7px; }
+    .focus-area { display: grid; grid-template-columns: minmax(0, 1fr) 426px; min-height: 0; }
+    .focus-field { position: relative; padding: 20px 22px; min-width: 0; }
+    .focus-field .portrait-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
+    .focus-field .portrait-tile img { height: 116px; }
+    .inspector { min-width: 0; border-left: 3px solid var(--line); padding: 17px 22px 18px; display: flex; flex-direction: column; }
+    .inspector-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+    .inspector-head button { border: 0; background: transparent; color: inherit; font-weight: 800; font-size: 12px; }
+    .inspector h3 { font-size: 60px; margin: 12px 0 6px; }
+    .inspector .meta { margin: 0 0 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .inspector h4 { margin: 12px 0 6px; font-size: 12px; text-transform: uppercase; }
+    .inspector p { margin: 0; }
+    .inspector .fine { font-size: 17px; }
+    .fact-table { margin-top: 13px; border-top: 2px solid var(--line); }
+    .fact-table div { display: grid; grid-template-columns: 108px 1fr; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .fact-table b { text-transform: uppercase; }
+    .inspector-actions { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .inspector-actions .field-button { min-height: 39px; padding: 6px 9px; text-align: left; }
+    .inspector-actions .wide { grid-column: 1 / -1; }
+    .story-panel { position: absolute; inset: 72px 40px 18px 36px; z-index: 2; background: var(--paper); border: 3px solid var(--line); border-top: 8px solid var(--accent); padding: 20px 27px; }
+    .story-panel h3 { font-size: 70px; margin: 10px 0 10px; }
+    .story-panel .fine { max-width: 620px; font-size: 19px; }
+    .story-panel .chapter { border-top: 2px solid var(--line); padding-top: 12px; margin-top: 17px; display: grid; grid-template-columns: 45px 1fr; gap: 14px; }
+    .story-panel .chapter b { font: 39px League, Impact, sans-serif; color: var(--accent-text); }
+    .story-panel .chapter strong { display: block; margin-bottom: 4px; font-size: 14px; text-transform: uppercase; }
+    .trace-canvas { position: relative; height: calc(100% - 36px); }
+    .trace-canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .trace-person { position: absolute; width: 148px; padding: 7px; background: var(--paper); border: 2px solid var(--line); text-align: left; color: inherit; }
+    .trace-person img { display: block; width: 100%; height: 112px; object-fit: cover; object-position: center 20%; filter: grayscale(1); }
+    .trace-person strong { display: block; font-size: 12px; line-height: 1.1; margin-top: 4px; }
+    .trace-person small { font-size: 10px; }
+    .trace-person.anchor { width: 190px; border: 5px solid var(--accent); }
+    .trace-person.anchor img { height: 155px; }
+    .trace-list { margin: 14px 0 0; padding: 0; list-style: none; }
+    .trace-list li { display: grid; grid-template-columns: 27px 1fr; gap: 6px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 12px; }
+    .trace-list b { color: var(--accent-text); }
+    .trace-list strong, .trace-list span { display: block; }
+    .trace-list span { font-size: 10px; margin-top: 2px; }
+    .visit-tray { border-left: 3px solid var(--line); padding: 17px 22px; }
+    .visit-tray h3 { margin: 14px 0 4px; font-size: 54px; }
+    .visit-tray .visit-actions { display: flex; gap: 6px; margin: 13px 0; }
+    .visit-tray .visit-actions .field-button { font-size: 11px; padding: 7px; }
+    .visit-tray .saved-person { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 7px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 13px; }
+    .visit-tray .saved-person.current { background: var(--accent); color: #151515; padding: 10px 5px; }
+    .visit-tray .saved-person small { display: block; font-size: 10px; }
+    .journey-step { margin-top: 18px; padding-top: 10px; border-top: 4px solid var(--accent); }
+    .journey-step strong { display: block; margin: 8px 0; font: 37px League, Impact, sans-serif; text-transform: uppercase; }
+    .journey-step p { font: 16px/1.3 Georgia, serif; margin: 0 0 11px; }
+    .visit-field .portrait-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .year-field { padding: 20px 24px; min-width: 0; display: grid; grid-template-rows: 36px 1fr 100px; }
+    .year-lanes { display: grid; grid-template-columns: repeat(4, 1fr); min-height: 0; }
+    .year-lane { position: relative; padding: 15px 13px; border-right: 1px solid var(--line); }
+    .year-lane:last-child { border-right: 0; }
+    .year-lane.active { background: var(--soft); border-top: 8px solid var(--accent); }
+    .year-lane h3 { font-size: 74px; margin: 0 0 9px; }
+    .year-lane .micro { color: var(--muted); }
+    .year-roster { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
+    .year-roster img { width: 100%; height: 130px; object-fit: cover; filter: grayscale(1); }
+    .year-roster strong { display: block; font-size: 11px; line-height: 1.1; }
+    .year-controls { display: flex; align-items: center; gap: 8px; border-top: 3px solid var(--line); }
+    .year-controls .current { margin-left: auto; font: 46px League, Impact, sans-serif; }
+    .cohort-list { margin-top: 15px; border-top: 2px solid var(--line); }
+    .cohort-list div { display: grid; grid-template-columns: 28px 1fr; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .cohort-list .is-current { background: var(--accent); color: #151515; padding-left: 5px; }
+    .portal-shell { height: 100%; display: grid; grid-template-rows: 92px 62px minmax(0, 1fr); }
+    .portal-head { padding: 16px 23px 10px; display: flex; align-items: end; border-bottom: 6px solid var(--accent); }
+    .portal-head h1 { font-size: 63px; margin: 0; }
+    .portal-head .micro { margin-left: auto; padding-bottom: 7px; }
+    .portal-tabs { display: grid; grid-template-columns: repeat(8, 1fr); border-bottom: 3px solid var(--line); }
+    .portal-tabs button { border: 0; border-right: 1px solid var(--line); background: transparent; color: inherit; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .portal-tabs button.active { background: var(--accent); color: #151515; }
+    .portal-body { min-height: 0; padding: 18px 22px; display: flex; flex-direction: column; }
+    .portal-title { display: flex; align-items: end; gap: 20px; padding-bottom: 11px; border-bottom: 3px solid var(--line); }
+    .portal-title h2 { font-size: 53px; margin: 0; }
+    .portal-title .micro { margin-left: auto; text-align: right; }
+    .metrics { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 2px solid var(--line); margin-top: 11px; }
+    .metric { min-height: 68px; border-right: 1px solid var(--line); padding: 6px 15px; }
+    .metric:first-child { padding-left: 0; }
+    .metric:last-child { border-right: 0; }
+    .metric strong { display: block; font: 40px League, Impact, sans-serif; }
+    .portal-columns { display: grid; grid-template-columns: 388px minmax(0, 1fr); gap: 18px; min-height: 0; flex: 1; margin-top: 13px; }
+    .queue-panel { border-right: 2px solid var(--line); padding-right: 16px; min-height: 0; }
+    .queue-panel input, .queue-panel select, .editor input, .editor select, .editor textarea { display: block; width: 100%; padding: 9px 10px; border: 2px solid var(--line); color: inherit; background: transparent; font-size: 13px; }
+    .queue-panel label, .editor label { display: block; margin-bottom: 10px; }
+    .queue-panel label span, .editor label span { display: block; margin-bottom: 3px; font-size: 10px; text-transform: uppercase; font-weight: 800; }
+    .queue-list { border-top: 2px solid var(--line); }
+    .queue-item { display: grid; grid-template-columns: 1fr auto; gap: 6px; padding: 10px 7px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .queue-item strong { display: block; }
+    .queue-item small { display: block; margin-top: 3px; color: var(--muted); }
+    .queue-item.active { background: var(--accent); color: #151515; }
+    .queue-item.active small { color: #342d27; }
+    .editor { min-width: 0; }
+    .editor-head { display: flex; align-items: end; justify-content: space-between; border-bottom: 3px solid var(--line); padding-bottom: 9px; }
+    .editor-head h3 { font-size: 49px; margin: 0; }
+    .editor-head p { margin: 3px 0 0; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .editor-head .field-button { margin-left: 6px; }
+    .editor-grid { display: grid; grid-template-columns: 185px 1fr; gap: 18px; padding-top: 15px; }
+    .editor-grid img { width: 185px; height: 223px; object-fit: cover; object-position: center 20%; filter: grayscale(1); }
+    .editor-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+    .editor-fields .span2 { grid-column: 1 / -1; }
+    .editor textarea { height: 94px; resize: none; }
+    .editor-foot { margin-top: 10px; padding-top: 12px; border-top: 2px solid var(--line); display: flex; gap: 8px; align-items: center; }
+    .evidence { display: grid; grid-template-columns: 150px 1fr 150px; gap: 14px; padding: 18px 0; border-bottom: 2px solid var(--line); }
+    .evidence img { width: 150px; height: 180px; object-fit: cover; filter: grayscale(1); }
+    .evidence-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid var(--accent); border-bottom: 5px solid var(--accent); }
+    .evidence-center strong { font: 43px League, Impact, sans-serif; text-transform: uppercase; }
+    .evidence-center small { font-size: 11px; }
+    .evidence-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 15px; }
+    .evidence-detail div { border-top: 2px solid var(--line); padding-top: 10px; font-size: 13px; line-height: 1.3; }
+    .lens-list { display: grid; grid-template-columns: 360px 1fr; min-height: 0; flex: 1; margin-top: 14px; }
+    .lens-menu { border-right: 2px solid var(--line); padding-right: 15px; }
+    .lens-menu div { padding: 13px 8px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 800; }
+    .lens-menu div.active { background: var(--accent); color: #151515; }
+    .lens-editor { padding-left: 18px; }
+    .lens-editor h3 { margin: 2px 0 13px; font-size: 51px; }
+    .lens-editor .editor-fields { grid-template-columns: 1fr 1fr 150px; }
+    .lens-editor label { margin-bottom: 6px; }
+    .lens-editor textarea { height: 62px; }
+    .lens-editor .editor-foot { margin-top: 0; padding-top: 6px; }
+    .lens-editor .field-button { margin-top: 6px; }
+    .source-proof { border-top: 2px solid var(--line); padding-top: 12px; margin-top: 10px; font-size: 13px; }
+    .source-proof strong { display: block; margin: 5px 0; font: 35px League, Impact, sans-serif; text-transform: uppercase; }
+    .portal-passes { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 23px; border-top: 3px solid var(--line); }
+    .portal-pass { min-height: 350px; border-right: 2px solid var(--line); padding: 20px 16px 14px; display: flex; flex-direction: column; }
+    .portal-pass:last-child { border-right: 0; }
+    .portal-pass b { font: 66px League, Impact, sans-serif; }
+    .portal-pass h3 { margin: 10px 0; font: 43px/.92 League, Impact, sans-serif; text-transform: uppercase; }
+    .portal-pass p { margin: 0; font-size: 13px; line-height: 1.4; }
+    .portal-pass button { margin-top: auto; align-self: start; }
+    .content-list { margin-top: 17px; border-top: 2px solid var(--line); }
+    .content-row { display: grid; grid-template-columns: 56px 1fr 170px 190px; align-items: center; border-bottom: 1px solid var(--line); min-height: 80px; gap: 12px; }
+    .content-row b { font: 39px League, Impact, sans-serif; color: var(--accent-text); }
+    .content-row strong { font-size: 19px; }
+    .content-row span { font-size: 12px; }
+    .readiness-list { margin-top: 19px; border-top: 2px solid var(--line); }
+    .readiness-row { display: grid; grid-template-columns: 340px 100px 1fr 190px; gap: 18px; align-items: center; min-height: 67px; border-bottom: 1px solid var(--line); }
+    .readiness-row strong { font-size: 16px; }
+    .readiness-row b { font: 31px League, Impact, sans-serif; }
+    .readiness-bar { height: 10px; border: 1px solid var(--line); }
+    .readiness-bar i { display: block; height: 100%; background: var(--accent); }
+    .export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 20px; }
+    .export-section { border-top: 4px solid var(--accent); padding-top: 14px; }
+    .export-section h3 { margin: 0 0 10px; font: 43px League, Impact, sans-serif; text-transform: uppercase; }
+    .export-section p { max-width: 500px; font-size: 13px; line-height: 1.4; }
+    .export-section .field-button { margin: 7px 5px 0 0; }
+  </style>
+</head>
+<body>
+  <nav class="control-bar" aria-label="Scene studies" id="study-nav"></nav>
+  <div class="frame-wrap"><article class="scene" id="scene" aria-label="Selected functional scene study"></article></div>
+  <script>
+    const root = '../../../public';
+    const people = [
+      ['Alex Machaskee', 2010, 'alex-machaskee-2010/primary.png'],
+      ['Valarie McCall', 2020, 'valarie-mccall-2020/primary.jpg'],
+      ['Sudarshan Sathe', 2023, 'sudarshan-sathe-2023/primary.jpg'],
+      ['Dona Brady', 2024, 'dona-brady-2024/primary.jpg'],
+      ['Dick Russ', 2015, 'dick-russ-2015/primary.jpg'],
+      ['Eugenia Stolarczyk', 2016, 'eugenia-stolarczyk-2016-2016/primary.jpg'],
+      ['Johnny K. Wu', 2024, 'johnny-k-wu-2024/primary.jpg'],
+      ['Catherine Jorgensen McCutcheon', 2026, 'catherine-jorgensen-mccutcheon-2026/primary.jpg'],
+      ['Sheila Murphy Crawford', 2018, 'sheila-murphy-crawford-2018/primary.jpg'],
+      ['Victor Ruiz', 2022, 'victor-ruiz-2022/primary.png'],
+      ['Basil Russo', 2017, 'basil-russo-2017/primary.jpg'],
+      ['Raj Aggarwal', 2025, 'raj-aggarwal-2025/primary.jpg'],
+      ['Abby Mina', 2018, 'abby-mina-2018/primary.jpg'],
+      ['Atul Mehta', 2018, 'atul-mehta-2018/primary.jpg'],
+      ['Sister Alicia Alvarado', 2018, 'sister-alicia-alvarado-2018/primary.jpg'],
+      ['Ralph Perk Jr.', 2018, 'ralph-perk-jr-2018/primary.jpg'],
+      ['Ray Pianka', 2018, 'ray-pianka-2018/primary.jpg'],
+      ['Pierre Bejjani', 2023, 'pierre-bejjani-2023/primary.jpg'],
+      ['Aklilu Demessie', 2026, 'aklilu-demessie-2026/primary.jpg'],
+      ['Helen Karpinski', 2010, 'helen-karpinski-1899-2002-2010/primary.jpg'],
+      ['Jeanette Grasselli Brown', 2010, 'jeanette-grasselli-brown-2010/primary.jpg'],
+    ].map(([name, year, file]) => ({ name, year, file }));
+    const byName = (name) => people.find((person) => person.name === name);
+    const portrait = (person) => `<img src="${root}/media/images/${person.file}" alt="Portrait of ${person.name}">`;
+    const tile = (person, selected = false) => `<button class="portrait-tile ${selected ? 'selected' : ''}" type="button" data-go="people-focus">${portrait(person)}<strong>${person.name}</strong><small>Class of ${person.year}</small></button>`;
+    const tabs = ['People', 'Links', 'Years'];
+    function visitorShell(active, title, prompt, metrics, content) {
+      return `<div class="visitor-shell"><header class="visitor-top"><h1 class="visitor-brand display"><span>Cleveland International</span><span>Hall of Fame</span></h1><input class="search" type="search" placeholder="Find a person, place, or year" aria-label="Find"><span class="era micro">2010 - 2026 / CIHOF</span></header><main class="visitor-main"><aside class="visitor-lead"><span class="micro">${active} / Collection</span><h2 class="display" ${active === 'Links' ? 'style="font-size:46px"' : ''}>${title}</h2>${metrics.map(([label, value]) => `<div class="lead-metric micro"><span>${label}</span><strong>${value}</strong></div>`).join('')}<div class="prompt display">${prompt}</div></aside>${content}</main><nav class="visitor-bottom" aria-label="Hall lenses">${tabs.map((tab) => `<button type="button" class="${active === tab ? 'active' : ''}" data-go="${tab.toLowerCase() === 'people' ? 'people' : tab.toLowerCase()}"><strong>${tab}</strong><small>${{ People: 'Lives', Links: 'Ties', Years: 'Classes' }[tab]}</small></button>`).join('')}</nav></div>`;
+    }
+    const fieldHead = (left, right) => `<div class="field-kicker micro"><span>${left}</span><span>${right}</span></div>`;
+    const peopleField = (names, selected = '') => `<div class="portrait-grid">${names.map((name) => tile(byName(name), name === selected)).join('')}</div>`;
+    const browseNames = people.slice(0, 15).map((person) => person.name);
+    const focusedNames = people.slice(0, 12).map((person) => person.name);
+    const focusInspector = (activeAction = '') => `<aside class="inspector"><div class="inspector-head micro"><span>Focused portrait / 2010</span><button type="button" data-go="people">Close X</button></div><h3 class="display">Alex<br>Machaskee</h3><p class="meta">Class of 2010 / Serbian heritage</p><h4>Short Facts</h4><p class="fine">Publisher of The Plain Dealer. Inducted by Dick Russ.</p><div class="fact-table"><div><b>Class</b><span>2010</span></div><div><b>Heritage</b><span>Serbian</span></div><div><b>Work</b><span>Media and storytelling</span></div></div><h4>Honored For</h4><p class="fine">Contributions to arts and culture, diplomacy, and media within Greater Cleveland.</p><div class="inspector-actions"><button class="field-button primary wide" type="button" data-go="links">Follow the trace &#8594;</button><button class="field-button ${activeAction === 'story' ? 'active' : ''}" type="button" data-go="people-story">Life + Work</button><button class="field-button" type="button" data-go="people-story">Full Text</button><button class="field-button" type="button">Take It With You</button><button class="field-button ink" type="button" data-go="visit">Save to Visit +</button></div></aside>`;
+    function peopleBrowse() { return visitorShell('People', 'Living<br>Hall', 'Touch a<br>Portrait', [['Records', '111'], ['Featured', '—'], ['Latest', '2026']], `<section class="portrait-field">${fieldHead('Portrait field / All people', '15 shown / 111 records')}${peopleField(browseNames)}</section>`); }
+    function peopleFocus(story = false) {
+      const panel = story ? `<section class="story-panel"><div class="inspector-head micro"><span>Life + Work / Alex Machaskee</span><button type="button" data-go="people-focus">Return to Portrait X</button></div><h3 class="display">A Life in<br>Public Print</h3><p class="fine">Alex Machaskee led The Plain Dealer as publisher, president, and chief executive officer. His work joined journalism, civic institutions, and international service in Cleveland.</p><div class="chapter"><b>01</b><div><strong>The Plain Dealer</strong><p class="fine">He joined the newspaper in 1960 and became publisher in 1990.</p></div></div><div class="chapter"><b>02</b><div><strong>Civic Service</strong><p class="fine">His leadership extended to arts, education, and international organizations.</p></div></div></section>` : '';
+      return visitorShell('People', 'Living<br>Hall', 'Touch a<br>Portrait', [['Focus', '2010'], ['Nearby', '8'], ['Records', '111']], `<div class="focus-area"><section class="focus-field">${fieldHead('Portrait field / Selected Alex Machaskee', 'Close focus to browse')}${peopleField(focusedNames, 'Alex Machaskee')}${panel}</section>${focusInspector(story ? 'story' : '')}</div>`);
+    }
+    function links() {
+      const tracePeople = [['Sheila Murphy Crawford', '18%', '40%'], ['Abby Mina', '65%', '8%'], ['Sister Alicia Alvarado', '68%', '48%'], ['Ray Pianka', '5%', '67%']];
+      const links = `<svg viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><g stroke="var(--accent)" stroke-width="2" fill="none"><path d="M402 265 L225 140"/><path d="M402 265 L600 75"/><path d="M402 265 L635 300"/><path d="M402 265 L120 450"/></g></svg>`;
+      return visitorShell('Links', 'Connection<br>Field', 'Touch a<br>Trace', [['Direct', '10'], ['Shown', '6'], ['Path', '1']], `<div class="focus-area"><section class="focus-field">${fieldHead('Direct ties / Sheila Murphy Crawford', 'Class of 2018') }<div class="trace-canvas">${links}<div class="trace-person anchor" style="left:39%;top:33%">${portrait(byName('Sheila Murphy Crawford'))}<strong>Sheila Murphy Crawford</strong><small>Focus / 2018</small></div>${tracePeople.slice(1, 4).map(([name, left, top]) => `<div class="trace-person" style="left:${left};top:${top}">${portrait(byName(name))}<strong>${name}</strong><small>Shared class / 2018</small></div>`).join('')}<div class="trace-person" style="left:4%;top:4%">${portrait(byName('Atul Mehta'))}<strong>Atul Mehta</strong><small>Shared class / 2018</small></div></div></section><aside class="inspector"><div class="inspector-head micro"><span>Focused portrait / Direct ties</span><button type="button" data-go="people">Close X</button></div><h3 class="display">Sheila Murphy<br>Crawford</h3><p class="meta">Class of 2018 / 6 shown / 10 direct</p><div class="fact-table"><div><b>Mode</b><span>Direct ties</span></div><div><b>Trace</b><span>Class of 2018</span></div></div><h4>Connected Portraits</h4><ol class="trace-list"><li><b>01</b><div><strong>Abby Mina</strong><span>Shared class / Cultural Preservation</span></div></li><li><b>02</b><div><strong>Sister Alicia Alvarado</strong><span>Shared class / Arts &amp; Education</span></div></li><li><b>03</b><div><strong>Ray Pianka</strong><span>Shared class / Cultural Preservation</span></div></li><li><b>04</b><div><strong>Marilyn Madigan</strong><span>Connected through Arts and Culture</span></div></li></ol></aside></div>`);
+    }
+    function years() {
+      const cohort = ['Sister Alicia Alvarado', 'Sheila Murphy Crawford', 'Atul Mehta', 'Abby Mina', 'Ralph Perk Jr.', 'Ray Pianka'];
+      const lanes = [2017, 2018, 2019, 2020].map((year) => `<div class="year-lane ${year === 2018 ? 'active' : ''}"><h3 class="display">${year}</h3><div class="micro">${year === 2018 ? '6 people / Active class' : 'Move to class'}</div>${year === 2018 ? `<div class="year-roster">${cohort.slice(0, 4).map((name) => `<div>${portrait(byName(name))}<strong>${name}</strong></div>`).join('')}</div>` : ''}</div>`).join('');
+      return visitorShell('Years', 'Year<br>Field', 'Swipe the<br>Classes', [['Class', '2018'], ['People', '6'], ['Index', '9/17']], `<div class="focus-area"><section class="year-field">${fieldHead('Class chronology / 2010 - 2026', 'Swipe or select a year')}<div class="year-lanes">${lanes}</div><nav class="year-controls" aria-label="Chronology controls"><button class="field-button" type="button">First</button><button class="field-button" type="button">&#8592; Previous</button><button class="field-button primary" type="button">2018</button><button class="field-button" type="button">Next &#8594;</button><button class="field-button" type="button">Latest</button><span class="current">Class of 2018</span></nav></section><aside class="inspector"><div class="inspector-head micro"><span>Cohort Navigation</span><button type="button" data-go="people">Close X</button></div><h3 class="display">Sheila Murphy<br>Crawford</h3><p class="meta">Class of 2018 / 2 of 6</p><div class="fact-table"><div><b>Previous</b><span>2017 / 6 people</span></div><div><b>Current</b><span>2018 / 6 portraits</span></div><div><b>Next</b><span>2019 / 6 people</span></div></div><h4>Class Corridor</h4><div class="cohort-list">${cohort.map((name, index) => `<div class="${name === 'Sheila Murphy Crawford' ? 'is-current' : ''}"><b>${String(index + 1).padStart(2, '0')}</b><strong>${name}</strong></div>`).join('')}</div></aside></div>`);
+    }
+    function visit() {
+      const saved = ['Helen Karpinski', 'Jeanette Grasselli Brown'];
+      const roster = [...saved, ...focusedNames.slice(0, 10)];
+      return visitorShell('People', 'Living<br>Hall', 'Your<br>Visit', [['Saved', '2'], ['Journey', '1/2'], ['Class', '2010']], `<div class="focus-area"><section class="focus-field visit-field">${fieldHead('Portrait field / Guided visit active', 'Class of 2010 Legacy Path')}${peopleField(roster, 'Helen Karpinski')}</section><aside class="visit-tray"><div class="inspector-head micro"><span>Visit / 2 saved records</span><button type="button" data-go="people">Clear X</button></div><h3 class="display">Class of 2010<br>Legacy Path</h3><div class="micro">Related profiles / 1 of 2</div><div class="visit-actions"><button class="field-button active" type="button">End Journey</button><button class="field-button primary" type="button">Visit QR</button><button class="field-button" type="button" data-go="people">Clear</button></div>${saved.map((name, index) => `<div class="saved-person ${index === 0 ? 'current' : ''}"><b>0${index + 1}</b><div><strong>${name}</strong><small>Class of 2010</small></div><span class="micro">Remove</span></div>`).join('')}<div class="journey-step"><span class="micro">Journey Step / 1 of 2</span><strong>Helen Karpinski</strong><p>Continue from this portrait to another member of the Class of 2010.</p><span class="micro">Suggested next</span><strong>Jeanette Grasselli Brown</strong><button class="field-button primary" type="button">Follow Link &#8594;</button></div></aside></div>`);
+    }
+    const portalTabs = ['Start Here', 'Best Content', 'Workbench', 'Source Data', 'Story Lenses', 'Relationships', 'Readiness', 'Exports'];
+    function portalShell(active, title, note, metrics, content) {
+      return `<div class="portal-shell"><header class="portal-head"><h1 class="display">Review &amp; Edit</h1><span class="micro">Staff portal / 111 profiles / 0 local drafts</span></header><nav class="portal-tabs" aria-label="Portal sections">${portalTabs.map((tab) => `<button class="${active === tab ? 'active' : ''}" type="button" data-go="${({ 'Start Here': 'start', 'Best Content': 'content', Workbench: 'workbench', 'Source Data': 'source', 'Story Lenses': 'lenses', Relationships: 'relationships', Readiness: 'readiness', Exports: 'exports' })[tab]}">${tab}</button>`).join('')}</nav><main class="portal-body"><div class="portal-title"><h2 class="display">${title}</h2><span class="micro">${note}</span></div>${metrics.length ? `<div class="metrics">${metrics.map(([label, value]) => `<div class="metric"><span class="micro">${label}</span><strong>${value}</strong></div>`).join('')}</div>` : ''}${content}</main></div>`;
+    }
+    function workbench() {
+      const queue = [['Aklilu Demessie', '2026 / Ethiopian', 'Approve metadata'], ['Alex Machaskee', '2010 / Serbian', 'Profile approval'], ['Valarie McCall', '2020 / African-American', 'Focused copy'], ['Dona Brady', '2024 / Albanian', 'Profile approval'], ['Johnny K. Wu', '2024 / Chinese', 'Summary review']];
+      return portalShell('Workbench', 'Profile Workbench', 'High priority / 64 shown', [['Profiles', '111'], ['Open drafts', '0'], ['Nationality', '2'], ['Hall copy', '111'], ['Primary images', '111']], `<div class="portal-columns"><aside class="queue-panel"><label><span>Search</span><input value="" placeholder="Name, ID, nationality, year, story, tag"></label><label><span>Queue</span><select><option>High priority (64)</option></select></label><div class="queue-list">${queue.map(([name, meta, need], index) => `<div class="queue-item ${index === 0 ? 'active' : ''}"><div><strong>${name}</strong><small>${meta}</small></div><span class="micro">${need}</span></div>`).join('')}</div></aside><section class="editor"><div class="editor-head"><div><h3 class="display">Aklilu Demessie</h3><p>2026 / Ethiopian / Selected profile</p></div><div><button class="field-button" type="button">Preview</button><button class="field-button" type="button">Clear Draft</button></div></div><div class="editor-grid">${portrait(byName('Aklilu Demessie'))}<div class="editor-fields"><label><span>Profile approval</span><select><option>Draft</option></select></label><label><span>Nationality</span><input value="Ethiopian"></label><label class="span2"><span>Hall copy / Honored for</span><textarea>Profile panel needs focused copy.</textarea></label><label><span>Image rights</span><select><option>Review needed</option></select></label><label><span>Featured story decision</span><select><option>Not decided</option></select></label></div></div><div class="editor-foot"><span class="micro">Edits become browser-local drafts / Profile readiness: 5 ready, 0 staged, 0 blocked</span></div></section></div>`);
+    }
+    function source() {
+      const queue = [['Aklilu Demessie', 'Image lead / high confidence'], ['Aklilu Demessie', 'Story lead / primary'], ['Alex Machaskee', 'Profile source'], ['Abby Mina', 'Archive lead'], ['Dona Brady', 'Video context lead']];
+      return portalShell('Source Data', 'Review Source and Archive Leads', 'Source records remain review aids', [['Profiles resolved', '119'], ['Image leads', '1,461'], ['Video leads', '658'], ['Story leads', '786'], ['Archive leads', '11']], `<div class="portal-columns"><aside class="queue-panel"><label><span>Search</span><input placeholder="Person, source, or type"></label><label><span>Queue</span><select><option>Images / New sources</option></select></label><div class="queue-list">${queue.map(([name, detail], index) => `<div class="queue-item ${index === 0 ? 'active' : ''}"><div><strong>${name}</strong><small>${detail}</small></div><span class="micro">0${index + 1}</span></div>`).join('')}</div></aside><section class="editor"><div class="editor-head"><div><h3 class="display">Aklilu Demessie</h3><p>Image source lead / review before staging</p></div></div><div class="editor-grid">${portrait(byName('Aklilu Demessie'))}<div><div class="fact-table"><div><b>Target</b><span>Aklilu Demessie / Class of 2026</span></div><div><b>Source</b><span>CIHOF profile and image records</span></div><div><b>Status</b><span>New image lead / rights review</span></div><div><b>Action</b><span>Review portrait suitability and rights</span></div></div><div class="source-proof"><span class="micro">Source context</span><strong>Verify Before Use</strong><p>Staged changes remain local drafts until exported or applied through the portal runner.</p></div></div></div><div class="editor-foot"><button class="field-button primary" type="button">Stage Source Draft</button><button class="field-button" type="button">Open Profile</button></div></section></div>`);
+    }
+    function lenses() {
+      return portalShell('Story Lenses', 'Curate the Portrait Wall Questions', 'Lens records / 6 draft', [['Lens records', '6'], ['Enabled', '6'], ['Terms', '—'], ['Themes', '—'], ['Warnings', '6']], `<div class="lens-list"><aside class="lens-menu"><div class="active">01 / Public Life</div><div>02 / Welcome Work</div><div>03 / Culture Carried Forward</div><div>04 / City Change</div><div>05 / Making Culture</div><div>06 / Care Work</div></aside><section class="lens-editor editor"><div class="editor-head"><div><h3 class="display">Public Life</h3><p>Civic Builders / Draft / Enabled</p></div><button class="field-button" type="button">Add Lens +</button></div><div class="editor-fields" style="padding-top:15px"><label><span>ID</span><input value="built-cleveland"></label><label><span>Short label</span><input value="Civic Builders"></label><label><span>Max portraits</span><input value="48"></label><label><span>Review status</span><select><option>Draft</option></select></label><label class="span2"><span>Visitor prompt</span><input value="Public Life"></label><label class="span2"><span>Description</span><textarea>Founders, civic builders, institution makers, entrepreneurs, and people who shaped public life.</textarea></label></div><div class="editor-foot"><button class="field-button" type="button">Export JSON</button><button class="field-button primary" type="button">Save to Repo</button><span class="micro">Requires local portal runner</span></div></section></div>`);
+    }
+    function relationships() {
+      const queue = [['Abby Mina -> Pierre Bejjani', 'Inferred / Related event'], ['Aklilu Demessie -> Andy Fedynsky', 'Inferred / Source lead'], ['Alex Machaskee -> Dick Russ', 'Inducted by'], ['Sheila Murphy Crawford -> Abby Mina', 'Shared class']];
+      return portalShell('Relationships', 'Review Connection Evidence', 'Inferred links remain possible until reviewed', [['Connection edges', '2,170'], ['Source leads', '480'], ['Inferred', '1,710'], ['Approved', '454'], ['Local drafts', '0']], `<div class="portal-columns"><aside class="queue-panel"><label><span>Search</span><input placeholder="Person, target, reason, type, note"></label><label><span>Queue</span><select><option>Needs Review (1716)</option></select></label><div class="queue-list">${queue.map(([name, detail], index) => `<div class="queue-item ${index === 0 ? 'active' : ''}"><div><strong>${name}</strong><small>${detail}</small></div><span class="micro">0${index + 1}</span></div>`).join('')}</div></aside><section class="editor"><div class="editor-head"><div><h3 class="display">Abby Mina -> Pierre Bejjani</h3><p>Inferred / Related event / Source lead</p></div></div><div class="evidence">${portrait(byName('Abby Mina'))}<div class="evidence-center"><span class="micro">Inferred</span><strong>Shared Theme</strong><small>Suggested related profile</small></div>${portrait(byName('Pierre Bejjani'))}</div><div class="evidence-detail"><div><span class="micro">Evidence</span><p>Original-site source lead named in a profile source. Review the linked records before approval.</p></div><div><span class="micro">Review decision</span><label><span>Status</span><select><option>Unreviewed</option><option>Approved</option><option>Needs research</option><option>Hidden</option></select></label></div></div><div class="editor-foot"><button class="field-button primary" type="button">Approve As Documented</button><button class="field-button" type="button">Needs Research</button><button class="field-button" type="button">Hide Link</button></div></section></div>`);
+    }
+    function start() {
+      const passes = [
+        ['01', 'Best current content', 'Find the strongest stories and archive paths already available.', 'Best Content', 'content'],
+        ['02', 'Profile workbench', 'Review metadata, focused Hall copy, rights, and summaries one record at a time.', 'Open Workbench', 'workbench'],
+        ['03', 'Source leads', 'Check original-site records before staging evidence in local drafts.', 'Source Data', 'source'],
+        ['04', 'Readiness', 'See which content and media decisions still block kiosk clearance.', 'Readiness', 'readiness'],
+      ];
+      return portalShell('Start Here', 'One Clear Pass at a Time', '3 story profiles / 11 archive leads', [], `<div class="portal-passes">${passes.map(([number, title, detail, action, target]) => `<section class="portal-pass"><b>${number}</b><h3>${title}</h3><p>${detail}</p><button class="field-button primary" type="button" data-go="${target}">${action} &#8594;</button></section>`).join('')}</div>`);
+    }
+    function content() {
+      const rows = [
+        ['Aklilu Demessie', 'Class of 2026', 'Story / Source evidence'],
+        ['Alex Machaskee', 'Class of 2010', 'Curated summary'],
+        ['Abby Mina', 'Class of 2018', 'Archive lead'],
+        ['Sheila Murphy Crawford', 'Class of 2018', 'Story / Source evidence'],
+        ['Dona Brady', 'Class of 2024', 'Curated summary'],
+      ];
+      return portalShell('Best Content', 'Make Strong Material Easy to Find', 'Open source or profile for a deeper pass', [['Curated stories', '3'], ['WRHS archive paths', '11'], ['Source evidence', '119'], ['Video access', '0'], ['Local drafts', '0']], `<div class="content-list">${rows.map(([name, meta, kind], index) => `<div class="content-row"><b>${String(index + 1).padStart(2, '0')}</b><div><strong>${name}</strong><span style="display:block">${meta}</span></div><span class="micro">${kind}</span><button class="field-button" type="button" data-go="workbench">Open Profile &#8594;</button></div>`).join('')}</div>`);
+    }
+    function readiness() {
+      const rows = [
+        ['Profile approval', '0/111', 0, 'Open high priority'],
+        ['Nationality labels', '109/111', 98, 'Review nationality'],
+        ['Summaries', '111/111', 100, 'Review summaries'],
+        ['Portrait wall images', '111/111', 100, 'Review images'],
+        ['Primary image rights', '111/111', 100, 'Review images'],
+        ['Video captions', '0/1', 0, 'Review videos'],
+        ['Accessibility', '0/111', 0, 'Review accessibility'],
+      ];
+      return portalShell('Readiness', 'Museum Readiness', 'Wall build runnable / kiosk clearance pending', [], `<div class="readiness-list">${rows.map(([label, count, pct, action]) => `<div class="readiness-row"><strong>${label}</strong><b>${count}</b><div class="readiness-bar"><i style="width:${pct}%"></i></div><button class="field-button" type="button" data-go="workbench">${action} &#8594;</button></div>`).join('')}</div><p class="micro" style="margin-top:18px">Local drafts remain in this browser until exported and applied through project scripts.</p>`);
+    }
+    function exportsView() {
+      return portalShell('Exports', 'Move Portal Decisions Into the Repo', 'Export, validate, then apply', [['Edited records', '0'], ['Relationship drafts', '0'], ['Source leads', '11'], ['Draft warnings', '0'], ['Curation errors', '0']], `<div class="export-grid"><section class="export-section"><h3>Decision Packages</h3><p>Export browser-local profile and relationship decisions for review. Nothing is written to project data until it is applied.</p><button class="field-button" type="button">Export Draft JSON</button><button class="field-button" type="button">Export Decision CSV</button><button class="field-button" type="button">Import Draft JSON</button></section><section class="export-section"><h3>Local Runner</h3><p>The runner validates drafts and builds a preview before applying approved changes to repository data.</p><div class="fact-table"><div><b>Runner</b><span>Connect locally</span></div><div><b>Preview</b><span>No draft package selected</span></div><div><b>Apply</b><span>Unavailable until dry run succeeds</span></div></div><button class="field-button primary" type="button">Start Dry Run</button></section></div>`);
+    }
+    const scenes = [
+      ['people', '01 People', peopleBrowse],
+      ['people-focus', '02 Focus', () => peopleFocus(false)],
+      ['people-story', '03 Life + Work', () => peopleFocus(true)],
+      ['links', '04 Links', links],
+      ['years', '05 Years', years],
+      ['visit', '06 Visit', visit],
+      ['start', '07 Start Here', start],
+      ['content', '08 Best Content', content],
+      ['workbench', '09 Workbench', workbench],
+      ['source', '10 Source Data', source],
+      ['lenses', '11 Story Lenses', lenses],
+      ['relationships', '12 Relationships', relationships],
+      ['readiness', '13 Readiness', readiness],
+      ['exports', '14 Exports', exportsView],
+    ];
+    let active = new URLSearchParams(location.search).get('scene') || 'people';
+    let dark = new URLSearchParams(location.search).get('mode') === 'dark';
+    function render() {
+      const current = scenes.find(([id]) => id === active) || scenes[0];
+      const nav = document.querySelector('#study-nav');
+      nav.innerHTML = scenes.map(([id, label]) => `<button type="button" data-scene="${id}" aria-pressed="${id === active}">${label}</button>`).join('') + `<button class="mode" type="button" data-mode="toggle">${dark ? 'Light mode' : 'Dark mode'}</button>`;
+      const scene = document.querySelector('#scene');
+      scene.className = `scene ${dark ? 'dark' : ''}`;
+      scene.innerHTML = current[2]();
+      const query = new URLSearchParams({ scene: active, mode: dark ? 'dark' : 'light' });
+      history.replaceState(null, '', `${location.pathname}?${query}`);
+    }
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-scene], [data-go], [data-mode]');
+      if (!target) return;
+      if (target.dataset.mode) dark = !dark;
+      if (target.dataset.scene || target.dataset.go) active = target.dataset.scene || target.dataset.go;
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>

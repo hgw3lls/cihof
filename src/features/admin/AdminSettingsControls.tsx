@@ -2,18 +2,42 @@ import { FormEvent, useState } from 'react';
 import { adminHotkeyOptions, type KioskSettings } from '../../app/kioskSettings';
 
 export function AdminSettingsControls({
+  archiveOnly = false,
   settings,
   onChangePasscode,
   onPatch,
   onRestoreDefaults,
   onLock,
 }: {
+  archiveOnly?: boolean;
   settings: KioskSettings;
   onChangePasscode: (currentPasscode: string, nextPasscode: string, confirmPasscode: string) => boolean;
   onPatch: (patch: Partial<KioskSettings>) => void;
   onRestoreDefaults: () => void;
   onLock: () => void;
 }) {
+  if (archiveOnly) return (
+    <div className="admin-settings">
+      <div className="admin-settings__grid">
+        <fieldset className="admin-settings__group">
+          <legend>Kiosk Behavior</legend>
+          <AdminNumber label="Idle reset seconds" value={Math.round(settings.idleTimeoutMs / 1000)} min={15} max={1200}
+            onChange={(value) => onPatch({ idleTimeoutMs: value * 1000 })} />
+        </fieldset>
+        <fieldset className="admin-settings__group admin-settings__group--access">
+          <legend>Admin Access</legend>
+          <label className="admin-settings__field"><span>Admin hotkey</span>
+            <select value={settings.adminHotkey} onChange={(event) => onPatch({ adminHotkey: event.target.value as KioskSettings['adminHotkey'] })}>
+              {adminHotkeyOptions.map((hotkey) => <option key={hotkey} value={hotkey}>{hotkey}</option>)}
+            </select>
+          </label>
+          <AdminPasscodeForm onChangePasscode={onChangePasscode} />
+        </fieldset>
+      </div>
+      <div className="admin-data-panel__actions"><button type="button" onClick={onRestoreDefaults}>Reset Settings</button><button type="button" onClick={onLock}>Lock</button></div>
+      <span className="admin-data-panel__mode">Settings are stored locally in this browser</span>
+    </div>
+  );
   return (
     <div className="admin-settings">
       <p>
