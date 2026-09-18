@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f6f0">
+    <title>CIHOF / Pinned Person Study</title>
+    <link rel="stylesheet" href="./pinned-person-study.css">
+    <script src="./pinned-person-study.js" defer></script>
+  </head>
+  <body>
+    <div class="installation" id="installation" data-theme="light">
+      <header class="masthead">
+        <div class="brand">CLEVELAND INTERNATIONAL<br>HALL OF FAME</div>
+        <nav class="views" aria-label="Explore the hall">
+          <button type="button" data-view="people" aria-current="page">PEOPLE</button>
+          <button type="button" data-view="links">LINKS</button>
+          <button type="button" data-view="years">YEARS</button>
+        </nav>
+        <button class="theme" id="themeButton" type="button" aria-label="Switch to dark mode">DARK</button>
+      </header>
+
+      <div class="installation__body">
+        <aside class="focus" aria-label="Selected person">
+          <div class="focus__portrait">
+            <span class="focus__initials" id="focusInitials"></span>
+            <img id="focusImage" alt="" draggable="false">
+            <span class="focus__flag">IN FOCUS</span>
+          </div>
+          <div class="focus__record">
+            <div class="focus__meta">
+              <span id="focusYear"></span>
+              <button id="backButton" type="button" hidden>BACK</button>
+            </div>
+            <h1 id="focusName" aria-live="polite"></h1>
+            <p id="focusSummary"></p>
+          </div>
+        </aside>
+
+        <main class="field" id="field">
+          <div class="field__content" id="fieldContent">
+            <p class="load-message">LOADING INDEX</p>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
