@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f6f0">
+    <meta name="theme-color" content="#fcfcfa">
     <title>CIHOF / Pinned Person Study</title>
     <link rel="stylesheet" href="./pinned-person-study.css">
-    <script src="./pinned-person-study.js" defer></script>
+    <script src="./pinned-person-study.js" type="module"></script>
   </head>
   <body>
-    <div class="installation" id="installation" data-theme="light">
+    <div class="installation" id="installation" data-theme="light" data-view="people" data-selection="none" data-record="closed">
       <header class="masthead">
         <div class="brand">CLEVELAND INTERNATIONAL<br>HALL OF FAME</div>
         <nav class="views" aria-label="Explore the hall">
@@ -22,14 +22,15 @@
 
       <div class="installation__body">
         <aside class="focus" aria-label="Selected person">
-          <div class="focus__portrait">
+          <button class="focus__portrait" id="recordButton" type="button" aria-pressed="false" aria-label="Open full record">
             <span class="focus__initials" id="focusInitials"></span>
             <img id="focusImage" alt="" draggable="false">
-            <span class="focus__flag">IN FOCUS</span>
-          </div>
+            <span class="focus__flag" id="recordButtonLabel">READ RECORD</span>
+          </button>
           <div class="focus__record">
             <div class="focus__meta">
               <span id="focusYear"></span>
+              <button id="focusRecordButton" type="button" hidden>RECORD</button>
               <button id="backButton" type="button" hidden>BACK</button>
             </div>
             <h1 id="focusName" aria-live="polite"></h1>

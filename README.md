@@ -1,291 +1,48 @@
-# CIHOF Persistent Hall
+# CIHOF Archive Exhibit
 
-Interactive Cleveland International Hall of Fame exhibit built with Vite, React, and TypeScript.
+Touch-first visitor exhibit for the Cleveland International Hall of Fame, built with Vite, React, and TypeScript. The public experience is a single screen with three ways into the same collection:
 
-The public visitor app is no longer a set of separate destination pages. It is one persistent Hall surface: the same keyed portrait collection stays mounted while visitors change how the Hall is arranged.
+- **People:** searchable, consistently cropped portraits. No inductee is selected on entry. Choosing one pins their identity without repeating the portrait in the grid; the full biography, record notes, and take-home QR are available from there.
+- **Links:** a neutral relationship index until someone is selected, then a portrait map centered on that person. Choosing a connected inductee re-centers the map. Archive references and shared induction classes are distinguished.
+- **Years:** a horizontal film timeline navigable by touch swipe, mouse drag, wheel, year rail, arrows, and keyboard. Choosing a film carries that inductee into People and Links. Approved films have captions and a transcript; pending films have no public playback.
 
-## Public Visitor Model
+The selected person persists between scenes, and light mode is the default with a persistent dark-mode switch. The design study remains under `docs/design-concepts/2026-09-17/`; the visitor app is the implementation in `src/features/archive-exhibit/`.
 
-The core visitor state is:
+## Run
 
-```ts
-type HallLens = 'portraits' | 'traces' | 'legacies';
-type HallFocus = { personId: string } | null;
-```
-
-- `HallLens` changes the arrangement of the Hall.
-- `HallFocus` changes emphasis within the Hall.
-- Neither should replace the Hall with a separate public page.
-
-Public global navigation contains only:
-
-- `PORTRAITS`
-- `TRACES`
-- `LEGACIES`
-
-Curated visit paths are still supported as an internal/deep-link route at `?lens=journeys`, shown in the app chrome as `VISIT PATHS`. That route is for saved visits, operator links, and regression coverage; it is not a fourth public navigation lens.
-
-The public app must not expose `Living Hall` as visitor-facing language. That name may still appear in internal file names from earlier implementation phases.
-
-## Current Visitor Experience
-
-### PORTRAITS
-
-Default Hall arrangement. Inductees appear as persistent portrait frames in a contemporary interpretation of a physical Hall-of-Fame portrait wall.
-
-Touching a portrait focuses that same frame in place and reveals concise adjacent context:
-
-- name
-- class year
-- documented context line
-- `HONORED FOR` summary
-
-### TRACES
-
-Relationship, concept, and documented-place arrangement. This replaces the old public roles of Connections, Follow a Thread, World, Routes, and related screens.
-
-TRACES keeps the focused portrait as the anchor, reorganizes nearby persistent frames around documented or curated relationships, and draws restrained relationship lines between the actual frame objects. Geography remains guarded: no inferred migration, no invented relationships, and no directional movement unless explicitly documented.
-
-### LEGACIES
-
-Chronological arrangement. This replaces the old public Time screen.
-
-Existing frames animate into induction-class order by real `classYear`. The collection itself is the timeline, with one or two horizontal rows, class labels in the field, drag/swipe navigation, and accessible non-drag chronology controls.
-
-## Focused Person Actions
-
-A person is a focused condition of a portrait frame, not a public destination.
-
-Focused actions stay anchored to the Hall:
-
-- `LIFE + WORK` opens an adjacent reading area.
-- `WATCH INDUCTION` opens an anchored media area only when approved media exists.
-- `TAKE IT WITH YOU` opens an anchored QR continuation layer with auto-close behavior.
-
-Closing any action returns to the same focused portrait and lens.
-
-## Staff And Admin
-
-The staff portal is a separate app at `portal.html`. It owns review, editing, curation, source-data queues, runner controls, and data-management workflows.
-
-The public visitor screen includes only a hidden password-protected admin panel for kiosk operations:
-
-- runtime data import/export
-- app settings
-- admin password and hotkey settings
-- diagnostics
-
-The hidden admin is not a profile curation interface.
-
-## Data Flow
-
-Canonical source data lives under `data/`.
-
-Important authored/source files:
-
-- `data/cihof_kiosk_manifest.csv`
-- `data/cihof_curated_metadata.json`
-- `data/cihof_relationships.json`
-- `data/cihof_curated_entities.json`
-- `data/cihof_story_lenses.json`
-- `data/cihof_story_sections.json`
-- `data/media_manifest.json`
-- `data/physical_wall_positions.json`
-
-Runtime data is generated into `public/data/`, including:
-
-- `public/data/cihof-runtime-data.json`
-- `public/data/inductees.json`
-- `public/data/entities.json`
-- `public/data/entity-relationships.json`
-- `public/data/story-lenses.json`
-- `public/data/story-sections.json`
-- `public/data/media-manifest.json`
-- `public/data/physical-wall-positions.json`
-
-Generate runtime data with:
-
-```sh
-npm run prepare:data
-```
-
-Run local diagnostics with:
-
-```sh
-npm run audit:data
-npm run curate:report
-npm run media:validate
-npm run validate:entities
-npm run launch:readiness
-```
-
-`artifacts/data-audit.local.json` is local ignored audit output.
-`artifacts/launch-readiness.local.json` is local ignored launch-gate output.
-Generated video acquisition, sync, caption, and transcription reports under `artifacts/video-*` are local ignored working outputs. Keep durable summaries in `docs/` when they need to travel with a handoff.
-Downloaded kiosk video payloads live under `public/media/videos/` and are intentionally ignored except for `.gitkeep`.
-Production kiosk builds package only the media files referenced by `data/media_manifest.json`; extra local acquisition files stay in the working tree and are skipped. Portal builds exclude local video payloads.
-
-## Current Data Status
-
-Latest audit snapshot, September 14, 2026:
-
-- `111` inductees
-- `111/111` primary image paths present
-- `0` duplicate IDs
-- `0` generic image candidates
-- `544` generated entities
-- `2,041` generated entity relationships
-- `0` explicit curated relationship records
-- `111/111` curated metadata records structurally present
-- `111/111` summary, documented context, HONORED FOR, and Life + Work fields populated in curated metadata
-- `111/111` curated records still have overall draft approval status
-- `64` profiles currently have video links in generated runtime data, represented as `93` media-manifest video items
-- `111/111` primary images wall-ready and kiosk-ready; `0/93` videos kiosk-ready
-- `0` runtime remote media references remain in the offline validation report; `1,203` provenance/streaming fallback references remain for source traceability
-- kiosk-ready video rights/caption/transcript approval remains the main production media gap
-
-The architecture is ahead of the approved content. The next major work should move source-derived suggestions into curator-approved canonical data.
-
-Launch planning for the October 12, 2026 target lives in:
-
-- `docs/launch-readiness-plan.md`
-- `docs/release-handoff-checklist.md`
-
-## Project Structure
-
-```text
-src/app/                         app shells, navigation state, kiosk health/settings
-src/features/hall-surface/       persistent visitor surface wrapper
-src/features/living-hall/        persistent Hall arrangement and focus behavior
-src/features/inductee-detail/    anchored Life + Work and Watch components
-src/features/admin/              hidden visitor admin panel
-src/features/review-dashboard/   separate staff portal app
-src/components/                  shared frame, QR, trace, fallback primitives
-src/data/                        runtime loaders and relationship/trace models
-src/styles/final-exhibit/        active visitor exhibit styling
-scripts/                         data, curation, media, runner, and validation scripts
-tests/                           Playwright acceptance and regression tests
-docs/                            architecture, portal, installation, and planning notes
-```
-
-## Run Locally
-
-Use Node 22. This repo includes `.nvmrc` and `.node-version`.
+Use Node 22 (`.nvmrc`).
 
 ```sh
 npm install
 npm run dev
 ```
 
-Open the visitor app:
+Open the visitor URL printed by Vite. The staff review portal is separate at `portal.html` (`npm run dev:portal`). The local portal runner is started with `npm run portal:server` in another terminal.
 
-```text
-http://127.0.0.1:5173/
-```
+The visitor entry is `src/app/main.tsx`. The old `src/app/App.tsx`, Living Hall components, and their CSS remain in source for rollback but are not imported into the public visitor bundle. The portal still uses its own entry and review components.
 
-Open kiosk mode:
+## Media Clearance
 
-```text
-http://127.0.0.1:5173/?kiosk=1
-```
+The collection currently has 111 inductees and 93 local film records. All 93 films are installed locally, but the manifest still marks their rights, captions, and transcripts as needing review. The public timeline shows those records as pending; it does not expose their video, poster, caption, or transcript files. The GitHub Pages workflow uses `npm run build:public`, which copies only fully approved film assets.
 
-Open the staff portal:
+An editable 93-row sheet is at [docs/media-approval-sheet.csv](docs/media-approval-sheet.csv). Review and apply it using [docs/media-approval-workflow.md](docs/media-approval-workflow.md). No approval is inferred from a file's presence. `npm run validate:media-clearance` is expected to report pending items until all are reviewed.
 
-```sh
-npm run dev:portal
-```
+`npm run build:kiosk` and the default `npm run build` produce a restricted offline package containing manifest-listed local film files even when review is pending. Do not publish those outputs publicly. `npm run build:portal` excludes film payloads.
 
-```text
-http://127.0.0.1:5173/portal.html
-```
-
-Start the local staff portal runner in a second terminal:
-
-```sh
-npm run portal:server
-```
-
-The runner prints a token. Paste it into the portal runner panel.
-
-## Build
-
-Build public visitor output:
+## Build And Test
 
 ```sh
 npm run build:public
-```
-
-Build separate staff portal output:
-
-```sh
 npm run build:portal
-```
-
-Outputs:
-
-```text
-dist/
-dist-portal/
-```
-
-These build outputs are ignored by git.
-
-## Validation
-
-Handoff check:
-
-```sh
-npm run check:handoff
-```
-
-Core checks:
-
-```sh
-npm run prepare:data
-npm run typecheck
 npm run validate:entities
-npm run validate:offline
-npm run build:public
-npm run build:portal
-```
-
-Media readiness:
-
-```sh
-npm run media:validate -- --strict --profile=wall
-npm run validate:media-clearance
-```
-
-Browser tests:
-
-```sh
 npm run test:kiosk
 npm run test:portal
 ```
 
-Existing Playwright specs cover the persistent Hall acceptance flow, portrait frame system, Cleveland trace language, hidden admin settings, portal readiness, and kiosk smoke behavior.
+The public output is `dist/`; the portal output is `dist-portal/`. Playwright tests cover People, Links, Years, pending and approved media states, touch swiping, responsive layouts, hidden admin access, and portal workflows. If the default preview port is occupied, use `CIHOF_PLAYWRIGHT_PORT=4176 npm run test:kiosk` or `CIHOF_PORTAL_PLAYWRIGHT_PORT=4177 npm run test:portal`.
 
-## Legacy URL Compatibility
+## Data And Operations
 
-Old visitor URLs are intentionally mapped into the persistent Hall model:
+Canonical data is under `data/`; `npm run prepare:data` generates `public/data/cihof-runtime-data.json` and standards exports. The runtime bundle currently contains 544 entities and 2,041 entity relationships. Links uses direct person-person archive references plus induction-class context, and does not claim inferred personal relationships as documented facts.
 
-- `view=living-hall`, `view=people`, `view=explore`, `view=search` -> `PORTRAITS`
-- `view=connections`, `view=journeys`, `view=world`, `view=routes`, `view=places`, `view=region-map` -> `TRACES`
-- `view=time`, `view=timeline` -> `LEGACIES`
-- `person=...` -> focused persistent portrait frame
-
-Staff/review URLs remain separate.
-
-Internal route note:
-
-- `lens=journeys` is reserved for curated visit paths and saved-visit workflows. It remains supported for operator/deep links, but it is intentionally absent from public global navigation.
-
-## Current Priorities
-
-1. Finish the portal curation workflow for approving profile text fields.
-2. Promote documented source-derived relationship candidates into explicit curated relationship records.
-3. Localize and approve kiosk-ready primary images and media.
-4. Continue splitting large active modules after the curation workflow stabilizes, especially `LivingHallView.tsx` and `LivingHallPanels.tsx`.
-5. Keep older plan docs marked as historical when they refer to the pre-Hall page architecture.
-
-See [docs/current-architecture.md](docs/current-architecture.md) and [docs/recent-changes-and-next-plan.md](docs/recent-changes-and-next-plan.md) for the current architecture summary and next plan.
+The hidden visitor admin (`?admin=1`, then password) supports local bundle import/export, idle reset, admin access settings, review metrics, and diagnostics. Profile curation belongs in the separate portal. Earlier architecture and launch-planning documents under `docs/` describe prior exhibit iterations; this README and the current code are authoritative for the visitor UI.

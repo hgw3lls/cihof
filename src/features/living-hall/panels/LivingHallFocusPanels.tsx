@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { FallbackImage, initials } from '../../../components/FallbackImage';
 import { QRCodePanel } from '../../../components/QRCodePanel';
 import { honoredForSummary, inducteeContextLabel } from '../../../data/inducteeNarrative';
@@ -101,7 +101,6 @@ export function PortraitFocusCard({
   return (
     <aside
       aria-label={lens === 'legacies' ? `${inductee.name} cohort navigator` : lens === 'journeys' ? `${inductee.name} journey stop context` : `${inductee.name} focused portrait context`}
-      aria-modal={lens === 'legacies' ? 'true' : undefined}
       className="living-hall__focusCard living-hall__focusCard--inspector"
       data-person-action={profileMode ? action : undefined}
       data-full-text-available={fullTextAvailable ? 'true' : 'false'}
@@ -550,7 +549,7 @@ function TraceFocusConnections({
   return (
     <section className="living-hall__traceFocus" aria-label={`${activePerson.name} connection context`}>
       <header className="living-hall__traceFocusHeader">
-        <span>{modeLabel}</span>
+        {modeLabel.toLowerCase() !== activeTitle.toLowerCase() && <span>{modeLabel}</span>}
         <strong>{activeTitle}</strong>
         <small>{totalConnections} shown / {directCount} direct</small>
         {leadingSupport && <em>{leadingSupport}</em>}
@@ -781,11 +780,23 @@ function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
   const text = fullBiographyText(inductee);
   const paragraphs = biographyParagraphs(text);
   const wordCount = wordCountText(text);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const [moreBelow, setMoreBelow] = useState(false);
   const detail = [
     inductee.classYear ? `Class of ${inductee.classYear}` : '',
     wordCount ? `${wordCount} words` : '',
     'Local biography text',
   ].filter(Boolean).join(' / ');
+
+  useEffect(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+    const update = () => setMoreBelow(body.scrollTop + body.clientHeight < body.scrollHeight - 4);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(body);
+    return () => observer.disconnect();
+  }, [text]);
 
   return (
     <section
@@ -798,11 +809,15 @@ function PersonFullTextPanel({ inductee }: { inductee: Inductee }) {
         <h3>Source Biography</h3>
         <span>{detail}</span>
       </header>
-      <div className="living-hall__fullTextBody" tabIndex={0} aria-label={`${inductee.name} biography text`}>
+      <div className="living-hall__fullTextBody" ref={bodyRef} tabIndex={0} aria-label={`${inductee.name} biography text`} onScroll={() => {
+        const body = bodyRef.current;
+        if (body) setMoreBelow(body.scrollTop + body.clientHeight < body.scrollHeight - 4);
+      }}>
         {paragraphs.map((paragraph, index) => (
           <p key={`${inductee.id}-paragraph-${index}`}>{paragraph}</p>
         ))}
       </div>
+      {moreBelow && <button className="living-hall__fullTextMore" type="button" onClick={() => bodyRef.current?.scrollBy({ top: bodyRef.current.clientHeight * 0.8, behavior: 'smooth' })}>More below</button>}
     </section>
   );
 }

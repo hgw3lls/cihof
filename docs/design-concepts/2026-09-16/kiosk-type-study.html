@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIHOF / 4K Kiosk Type Systems</title>
+  <style>
+    @font-face { font-family: League; src: url('../../../src/assets/fonts/exhibit/LeagueGothic-Regular.woff2') format('woff2'); }
+    @font-face { font-family: Mona; src: url('../../../src/assets/fonts/exhibit/MonaSansVF.woff2') format('woff2'); }
+    @font-face { font-family: Atkinson; src: url('./AtkinsonHyperlegibleNext.ttf') format('truetype'); font-weight: 200 800; }
+    @font-face { font-family: Syne; src: url('./type-fonts/Syne.ttf') format('truetype'); font-weight: 400 800; }
+    @font-face { font-family: Instrument; src: url('./type-fonts/InstrumentSans.ttf') format('truetype'); font-weight: 400 700; }
+    @font-face { font-family: Bricolage; src: url('./type-fonts/BricolageGrotesque.ttf') format('truetype'); font-weight: 200 800; }
+    @font-face { font-family: Hanken; src: url('./type-fonts/HankenGrotesk.ttf') format('truetype'); font-weight: 100 900; }
+    @font-face { font-family: Newsreader; src: url('./type-fonts/Newsreader.ttf') format('truetype'); font-weight: 200 800; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #181818; color: #fff; font-family: Mona, Arial, sans-serif; }
+    button { cursor: pointer; }
+    .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 13px 16px; max-width: 1600px; margin: auto; }
+    .controls button { border: 1px solid #ddd; background: transparent; color: #fff; padding: 9px 13px; font: 700 14px Mona, Arial, sans-serif; }
+    .controls button[aria-pressed="true"] { background: #eb5b43; border-color: #eb5b43; color: #171716; }
+    .controls .mode { margin-left: auto; }
+    .controls .control-label { font-size: 13px; font-weight: 700; text-transform: uppercase; margin-right: 4px; }
+    #stage-wrap { margin: 0 auto 24px; position: relative; }
+    .kiosk { position: absolute; top: 0; left: 0; transform-origin: top left; width: 3840px; height: 2160px; overflow: hidden; background: #f6f3e9; color: #171716; --paper: #f6f3e9; --ink: #171716; --accent: #eb5b43; --muted: #67615b; --rule: #171716; --reading: Instrument, Arial, sans-serif; --story: var(--reading); --display: Syne, Arial, sans-serif; --display-weight: 600; --display-line: .92; --brand-size: 80px; --rail-size: 100px; --cue-size: 60px; --nav-size: 85px; --name-size: 130px; --body-size: 106px; font-family: var(--reading); }
+    .kiosk[data-type="bricolage"] { --display: Bricolage, Arial, sans-serif; --display-weight: 800; --brand-size: 106px; --rail-size: 145px; --cue-size: 76px; --nav-size: 96px; --name-size: 145px; }
+    .kiosk[data-type="bricolage-editorial"] { --display: Bricolage, Arial, sans-serif; --display-weight: 800; --brand-size: 106px; --rail-size: 145px; --cue-size: 76px; --nav-size: 96px; --name-size: 145px; --story: Newsreader, Georgia, serif; --body-size: 112px; }
+    .kiosk[data-type="editorial"] { --reading: Hanken, Arial, sans-serif; --story: Newsreader, Georgia, serif; --display: Hanken, Arial, sans-serif; --display-weight: 900; --brand-size: 106px; --rail-size: 145px; --cue-size: 76px; --nav-size: 96px; --name-size: 145px; --body-size: 112px; }
+    .kiosk[data-type="hanken"] { --reading: Hanken, Arial, sans-serif; --display: Hanken, Arial, sans-serif; --display-weight: 900; --brand-size: 106px; --rail-size: 145px; --cue-size: 76px; --nav-size: 96px; --name-size: 145px; }
+    .kiosk[data-type="mona"] { --reading: Mona, Arial, sans-serif; --display: League, Impact, sans-serif; --display-weight: 400; --display-line: .88; --brand-size: 128px; --rail-size: 190px; --cue-size: 100px; --nav-size: 114px; --name-size: 158px; }
+    .kiosk[data-type="atkinson"] { --reading: Atkinson, Arial, sans-serif; --display: League, Impact, sans-serif; --display-weight: 400; --display-line: .88; --brand-size: 128px; --rail-size: 190px; --cue-size: 100px; --nav-size: 114px; --name-size: 158px; }
+    .kiosk[data-mode="dark"] { --paper: #151917; --ink: #f5f2e8; --accent: #fa7057; --muted: #bbb9af; --rule: #f5f2e8; background: var(--paper); color: var(--ink); }
+    .kiosk img { display: block; filter: grayscale(1) contrast(1.05); object-fit: cover; }
+    .display { font-family: var(--display); text-transform: uppercase; font-weight: var(--display-weight); line-height: var(--display-line); }
+    .label { font: 650 58px/1.2 var(--reading); text-transform: uppercase; }
+    .kiosk button { font-family: var(--reading); color: inherit; }
+    .kiosk button:focus-visible { outline: 10px solid var(--accent); outline-offset: 8px; }
+    .top { height: 272px; display: grid; grid-template-columns: 1510px 1fr 395px; align-items: center; gap: 75px; padding: 34px 85px 28px; border-bottom: 15px solid var(--accent); }
+    .brand { margin: 0; font-size: var(--brand-size); }
+    .brand span { display: block; }
+    .search { height: 134px; border: 5px solid var(--rule); background: transparent; color: var(--ink); padding: 0 42px; font: 600 63px var(--reading); }
+    .search::placeholder { color: var(--muted); opacity: 1; }
+    .reset { height: 134px; border: 5px solid var(--rule); background: var(--paper); font-size: 60px; font-weight: 700; text-transform: uppercase; }
+    .main { height: 1668px; display: grid; grid-template-columns: 606px 1fr; }
+    .main > * { min-height: 0; overflow: hidden; }
+    .rail { border-right: 6px solid var(--rule); padding: 76px 48px 58px 80px; display: flex; flex-direction: column; min-width: 0; }
+    .rail h2 { margin: 25px 0 65px; font-size: var(--rail-size); }
+    .rail .stat { border-top: 4px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .rail .stat strong { font-size: 65px; }
+    .rail .cue { margin-top: auto; border-top: 12px solid var(--accent); padding-top: 26px; font-size: var(--cue-size); }
+    .content { height: 100%; padding: 55px 80px 60px; min-width: 0; }
+    .content-head { height: 110px; border-bottom: 6px solid var(--rule); display: flex; align-items: start; justify-content: space-between; }
+    .content-head span { font-size: 58px; font-weight: 700; text-transform: uppercase; }
+    .portraits { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, 1fr); gap: 35px 45px; height: calc(100% - 130px); padding-top: 35px; }
+    .person { min-width: 0; background: transparent; border: 0; border-bottom: 5px solid var(--rule); text-align: left; padding: 0 0 20px; }
+    .person img { width: 100%; height: 410px; object-position: center 22%; }
+    .person strong { display: block; margin-top: 18px; font-size: 74px; line-height: 1.02; font-weight: 700; }
+    .person small { display: block; margin-top: 8px; font-size: 58px; line-height: 1.13; }
+    .person.selected { border-left: 15px solid var(--accent); padding-left: 18px; }
+    .bottom { height: 220px; border-top: 8px solid var(--rule); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .bottom button { border: 0; border-right: 6px solid var(--rule); background: transparent; display: flex; align-items: center; gap: 30px; padding: 12px 80px; text-align: left; }
+    .bottom button:last-child { border-right: 0; }
+    .bottom button.active { background: var(--accent); color: #171716; }
+    .bottom strong { font-family: var(--display); font-size: var(--nav-size); font-weight: var(--display-weight); line-height: var(--display-line); text-transform: uppercase; }
+    .bottom small { font-size: 58px; font-weight: 700; text-transform: uppercase; }
+    .focus-content { display: grid; grid-template-columns: 1280px 1fr; padding: 0; }
+    .focus-field { padding: 55px 48px 60px 66px; }
+    .focus-field .portraits { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 45px; height: calc(100% - 130px); }
+    .focus-field .person img { height: 350px; }
+    .focus-field .person strong { font-size: 66px; }
+    .inspector { border-left: 7px solid var(--rule); padding: 44px 85px 42px; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+    .inspector-top { border-bottom: 6px solid var(--rule); display: flex; align-items: center; justify-content: space-between; padding-bottom: 22px; }
+    .inspector-top button { border: 0; background: transparent; font-size: 58px; font-weight: 700; }
+    .inspector h3 { margin: 22px 0 8px; font-size: var(--name-size); }
+    .inspector .meta { margin: 0 0 13px; font-size: 62px; font-weight: 700; }
+    .inspector section { border-top: 5px solid var(--rule); padding-top: 15px; margin-top: 16px; }
+    .inspector section h4 { font-size: 58px; margin: 0 0 18px; text-transform: uppercase; }
+    .inspector section p { margin: 0; max-width: 1350px; font-family: var(--story); font-size: var(--body-size); line-height: 1.2; font-weight: 460; }
+    .kiosk[data-type="bricolage-editorial"] .inspector section p, .kiosk[data-type="editorial"] .inspector section p { max-width: 1777px; }
+    .actions { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .actions button { min-height: 124px; border: 5px solid var(--rule); background: transparent; font-size: 58px; font-weight: 700; text-align: left; padding: 14px 24px; text-transform: uppercase; }
+    .actions button.primary { grid-column: 1/-1; background: var(--accent); border-color: var(--accent); color: #171716; }
+  </style>
+</head>
+<body>
+  <nav class="controls" aria-label="Study controls" id="controls"></nav>
+  <div id="stage-wrap"><article class="kiosk" id="kiosk" aria-label="3840 by 2160 kiosk typography study"></article></div>
+  <script>
+    const people = [
+      ['Alex Machaskee', 2010, 'alex-machaskee-2010/primary.png'],
+      ['Valarie McCall', 2020, 'valarie-mccall-2020/primary.jpg'],
+      ['Sudarshan Sathe', 2023, 'sudarshan-sathe-2023/primary.jpg'],
+      ['Dona Brady', 2024, 'dona-brady-2024/primary.jpg'],
+      ['Dick Russ', 2015, 'dick-russ-2015/primary.jpg'],
+      ['Eugenia Stolarczyk', 2016, 'eugenia-stolarczyk-2016-2016/primary.jpg'],
+      ['Johnny K. Wu', 2024, 'johnny-k-wu-2024/primary.jpg'],
+      ['Sheila Murphy Crawford', 2018, 'sheila-murphy-crawford-2018/primary.jpg'],
+    ].map(([name, year, file]) => ({ name, year, file }));
+    const params = new URLSearchParams(location.search);
+    let view = params.get('view') === 'focus' ? 'focus' : 'browse';
+    const types = [
+      ['bricolage-editorial', 'Bricolage + Newsreader'],
+      ['bricolage', 'Bricolage + Instrument'],
+      ['editorial', 'Hanken + Newsreader'],
+      ['syne', 'Syne + Instrument'],
+      ['hanken', 'Hanken only'],
+      ['mona', 'Old: Mona + League'],
+      ['atkinson', 'Old: Atkinson + League'],
+    ];
+    let type = types.some(([key]) => key === params.get('type')) ? params.get('type') : 'bricolage-editorial';
+    let mode = params.get('mode') === 'dark' ? 'dark' : 'light';
+    const img = (person) => `<img src="../../../public/media/images/${person.file}" alt="Portrait of ${person.name}">`;
+    const person = (record, selected = false) => `<button class="person ${selected ? 'selected' : ''}" type="button" data-view="focus">${img(record)}<strong>${record.name}</strong><small>Class of ${record.year}</small></button>`;
+    const header = `<header class="top"><h1 class="brand display"><span>Cleveland International</span><span>Hall of Fame</span></h1><input class="search" type="search" placeholder="Find a person, place, or year" aria-label="Find"><button class="reset" type="button" data-view="browse">Reset</button></header>`;
+    const bottom = `<nav class="bottom" aria-label="Hall lenses"><button class="active" type="button" data-view="browse"><strong>People</strong><small>Lives</small></button><button type="button"><strong>Links</strong><small>Ties</small></button><button type="button"><strong>Years</strong><small>Classes</small></button></nav>`;
+    const rail = (focused) => `<aside class="rail"><span class="label">People / Collection</span><h2 class="display">Living<br>Hall</h2><div class="stat"><span class="label">${focused ? 'Focus' : 'Records'}</span><strong>${focused ? '2010' : '111'}</strong></div><div class="stat"><span class="label">${focused ? 'Nearby' : 'Latest'}</span><strong>${focused ? '8' : '2026'}</strong></div><div class="cue display">${focused ? 'Read the<br>Story' : 'Touch a<br>Portrait'}</div></aside>`;
+    const browse = `<div class="content"><div class="content-head"><span>Portrait Field / All People</span><span>8 Shown / 111 Records</span></div><div class="portraits">${people.map((record) => person(record)).join('')}</div></div>`;
+    const focus = `<div class="content focus-content"><div class="focus-field"><div class="content-head"><span>Portrait Field / Alex</span><span>2010</span></div><div class="portraits">${people.slice(0, 4).map((record, index) => person(record, index === 0)).join('')}</div></div><aside class="inspector"><div class="inspector-top"><span class="label">Focused Portrait / 2010</span><button type="button" data-view="browse">Close X</button></div><h3 class="display">Alex<br>Machaskee</h3><p class="meta">Class of 2010 / Serbian heritage</p><section><h4>Short Facts</h4><p>The Plain Dealer publisher. Inducted by Dick Russ.</p></section><section><h4>Honored For</h4><p>Arts, diplomacy, and media in Cleveland.</p></section><div class="actions"><button class="primary" type="button">Follow the Trace &#8594;</button><button type="button">Life + Work</button><button type="button">Save to Visit +</button></div></aside></div>`;
+    function fit() {
+      const controlsHeight = document.querySelector('#controls').getBoundingClientRect().height;
+      const scale = Math.min((innerWidth - 24) / 3840, (innerHeight - controlsHeight - 32) / 2160, 1);
+      const wrapper = document.querySelector('#stage-wrap');
+      wrapper.style.width = `${3840 * scale}px`;
+      wrapper.style.height = `${2160 * scale}px`;
+      document.querySelector('#kiosk').style.transform = `scale(${scale})`;
+    }
+    function render() {
+      document.querySelector('#controls').innerHTML = `<button type="button" data-view="browse" aria-pressed="${view === 'browse'}">People</button><button type="button" data-view="focus" aria-pressed="${view === 'focus'}">Focused portrait</button><span class="control-label">Type</span>${types.map(([key, label]) => `<button type="button" data-type="${key}" aria-pressed="${type === key}">${label}</button>`).join('')}<button class="mode" type="button" data-mode="${mode === 'light' ? 'dark' : 'light'}">${mode === 'light' ? 'Dark mode' : 'Light mode'}</button>`;
+      const kiosk = document.querySelector('#kiosk');
+      kiosk.dataset.type = type;
+      kiosk.dataset.mode = mode;
+      kiosk.innerHTML = `${header}<main class="main">${rail(view === 'focus')}${view === 'focus' ? focus : browse}</main>${bottom}`;
+      history.replaceState(null, '', `${location.pathname}?view=${view}&type=${type}&mode=${mode}`);
+      fit();
+    }
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-view], [data-type], [data-mode]');
+      if (!target) return;
+      if (target.dataset.view) view = target.dataset.view;
+      if (target.dataset.type) type = target.dataset.type;
+      if (target.dataset.mode) mode = target.dataset.mode;
+      render();
+    });
+    addEventListener('resize', fit);
+    render();
+  </script>
+</body>
+</html>

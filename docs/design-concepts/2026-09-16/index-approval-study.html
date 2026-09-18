@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIHOF / Index Approval Study</title>
+  <style>
+    @font-face { font-family: Bricolage; src: url('./type-fonts/BricolageGrotesque.ttf') format('truetype'); font-weight: 200 800; }
+    @font-face { font-family: Instrument; src: url('./type-fonts/InstrumentSans.ttf') format('truetype'); font-weight: 400 700; }
+    @font-face { font-family: Newsreader; src: url('./type-fonts/Newsreader.ttf') format('truetype'); font-weight: 200 800; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #1b1b1a; color: #f6f3e9; font-family: Instrument, Arial, sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .study-controls { max-width: 1640px; margin: 0 auto; padding: 14px 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .study-controls strong { font-size: 14px; margin-right: 10px; text-transform: uppercase; }
+    .study-controls button { background: transparent; color: inherit; border: 1px solid currentColor; padding: 9px 14px; font-size: 14px; font-weight: 700; }
+    .study-controls button[aria-pressed="true"] { background: #eb5b43; border-color: #eb5b43; color: #171716; }
+    .study-controls .theme { margin-left: auto; }
+    #stage-wrap { margin: 0 auto 24px; position: relative; }
+    #board { position: absolute; left: 0; top: 0; transform-origin: top left; overflow: hidden; background: #f6f3e9; color: #171716; --paper: #f6f3e9; --ink: #171716; --muted: #67615b; --accent: #eb5b43; --selected-ink: #171716; }
+    #board[data-mode="dark"] { --paper: #151917; --ink: #f5f2e8; --muted: #bbb9af; --accent: #fa7057; background: var(--paper); color: var(--ink); }
+    #board button { color: inherit; }
+    #board button:focus-visible, #board a:focus-visible, #board input:focus-visible { outline: 9px solid var(--accent); outline-offset: 5px; }
+    #board img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); }
+    .display { font-family: Bricolage, Arial, sans-serif; font-weight: 800; text-transform: uppercase; line-height: .92; }
+    .visitor { width: 3840px; height: 2160px; }
+    .v-header { height: 246px; border-bottom: 15px solid var(--accent); display: flex; align-items: center; justify-content: space-between; padding: 30px 72px 24px 62px; gap: 60px; }
+    .v-brand { margin: 0; font-size: 104px; max-width: 1850px; }
+    .v-brand span { display: block; }
+    .v-header-right { display: flex; gap: 24px; align-items: center; }
+    .v-nav { display: flex; height: 128px; border: 5px solid var(--ink); }
+    .v-nav button, .v-nav a { min-width: 252px; padding: 0 34px; display: grid; place-items: center; text-decoration: none; border: 0; border-right: 5px solid var(--ink); background: transparent; color: var(--ink); font-size: 62px; font-weight: 700; text-transform: uppercase; }
+    .v-nav a:last-child { border-right: 0; }
+    .v-nav .active { background: var(--accent); color: var(--selected-ink); }
+    .visit-count { min-width: 290px; height: 128px; border: 5px solid var(--ink); background: transparent; padding: 0 24px; font-size: 56px; font-weight: 700; text-align: center; }
+    .v-main { height: 1914px; display: grid; grid-template-columns: 250px minmax(0, 1fr) 1230px; }
+    .visitor[data-scene="reading"] .v-main { grid-template-columns: 250px minmax(0, 1fr) 1640px; }
+    .visitor[data-scene="browse"] .v-main { grid-template-columns: 250px minmax(0, 1fr); }
+    .index-rail { min-height: 0; border-right: 5px solid var(--ink); padding: 38px 28px 42px; display: flex; flex-direction: column; }
+    .index-rail .rail-caption { font-size: 52px; font-weight: 700; text-transform: uppercase; margin-bottom: 22px; }
+    .active-letter { height: 166px; width: 100%; background: var(--accent); color: var(--selected-ink); display: flex; align-items: center; justify-content: center; font-size: 150px; }
+    .alphabet { display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-rows: 77px; column-gap: 8px; margin-top: 24px; }
+    .alphabet button { border: 0; background: transparent; font-family: Bricolage, Arial, sans-serif; font-size: 54px; font-weight: 700; text-align: center; }
+    .alphabet button:disabled { color: var(--muted); opacity: .54; cursor: default; }
+    .index-rail .rail-foot { margin-top: auto; border-top: 9px solid var(--accent); padding-top: 22px; font-size: 54px; font-weight: 700; text-transform: uppercase; line-height: 1.08; }
+    .portrait-field { min-width: 0; min-height: 0; padding: 36px 50px 46px; }
+    .field-head { height: 128px; border-bottom: 5px solid var(--ink); display: flex; justify-content: space-between; align-items: start; gap: 36px; }
+    .field-head h2 { font-size: 65px; margin: 0; }
+    .field-head .field-right { display: flex; align-items: center; gap: 28px; }
+    .field-head .result-count { white-space: nowrap; font-size: 54px; font-weight: 700; text-transform: uppercase; }
+    .field-search { border: 0; border-bottom: 5px solid var(--ink); background: transparent; color: var(--ink); width: 570px; height: 80px; padding: 0 9px; font-size: 56px; font-weight: 500; }
+    .field-search::placeholder { color: var(--muted); opacity: 1; }
+    .records { height: calc(100% - 150px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); column-gap: 34px; row-gap: 26px; padding-top: 30px; overflow: hidden; }
+    .visitor[data-scene="reading"] .records { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .visitor[data-scene="browse"] .records { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .record { min-width: 0; min-height: 0; border: 0; border-bottom: 4px solid var(--ink); background: transparent; padding: 0 0 16px; text-align: left; display: flex; flex-direction: column; }
+    .record.selected { border-left: 15px solid var(--accent); padding-left: 17px; }
+    .record .photo { height: 600px; width: 100%; overflow: hidden; flex: 0 0 auto; }
+    .record .photo img, .sheet-portrait img, .p-editor-photo img { object-position: center 18%; }
+    .record strong { display: block; margin-top: 13px; font-size: 56px; line-height: 1.02; font-weight: 700; }
+    .record small { display: block; margin-top: 9px; font-size: 54px; line-height: 1.06; }
+    .empty { grid-column: 1 / -1; font-size: 90px; font-family: Newsreader, Georgia, serif; padding: 50px 0; }
+    .record-sheet { min-width: 0; min-height: 0; border-left: 5px solid var(--ink); padding: 35px 58px 46px; display: flex; flex-direction: column; overflow: hidden; }
+    .sheet-head { height: 128px; flex: 0 0 auto; border-bottom: 5px solid var(--ink); display: flex; align-items: start; justify-content: space-between; gap: 20px; font-size: 52px; font-weight: 700; text-transform: uppercase; }
+    .sheet-head button { border: 0; background: transparent; font-size: 52px; font-weight: 700; white-space: nowrap; }
+    .sheet-hero { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 36px; padding-top: 34px; }
+    .sheet-portrait { height: 430px; border-bottom: 13px solid var(--accent); overflow: hidden; }
+    .sheet-hero-text { min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+    .sheet-hero h2 { margin: 0 0 24px; font-size: 112px; overflow-wrap: anywhere; }
+    .record-sheet.long-name .sheet-hero h2 { font-size: 88px; }
+    .sheet-hero .class { margin: 0 0 8px; font-size: 56px; font-weight: 700; text-transform: uppercase; }
+    .sheet-body { border-top: 5px solid var(--ink); margin-top: 36px; padding-top: 24px; }
+    .sheet-body .eyebrow { font-size: 54px; font-weight: 700; text-transform: uppercase; }
+    .sheet-body p { font-family: Newsreader, Georgia, serif; font-size: 84px; line-height: 1.17; margin: 18px 0 0; }
+    .sheet-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; margin-top: 34px; border-top: 4px solid var(--ink); }
+    .sheet-facts div { border-bottom: 4px solid var(--ink); padding: 15px 0; }
+    .sheet-facts dt { font-size: 52px; font-weight: 700; text-transform: uppercase; }
+    .sheet-facts dd { margin: 8px 0 0; font-size: 58px; }
+    .sheet-actions { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .sheet-actions button { min-height: 120px; border: 5px solid var(--ink); background: transparent; text-align: left; padding: 10px 24px; font-size: 54px; font-weight: 700; text-transform: uppercase; }
+    .sheet-actions .primary { grid-column: 1 / -1; background: var(--accent); border-color: var(--accent); color: var(--selected-ink); }
+    .visitor[data-scene="reading"] .sheet-hero { grid-template-columns: 560px minmax(0, 1fr); }
+    .visitor[data-scene="reading"] .sheet-portrait { height: 560px; }
+    .visitor[data-scene="reading"] .sheet-hero h2 { font-size: 136px; }
+    .visitor[data-scene="reading"] .record-sheet.long-name .sheet-hero h2 { font-size: 112px; }
+    .visitor[data-scene="reading"] .sheet-body p { font-size: 100px; }
+    .visit-sheet h2 { margin: 38px 0 12px; font-size: 126px; }
+    .visit-sheet .visit-count-label { font-size: 58px; font-weight: 700; text-transform: uppercase; border-bottom: 5px solid var(--ink); padding-bottom: 22px; }
+    .visit-list { overflow: auto; margin-top: 24px; }
+    .visit-list button { width: 100%; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 30px; align-items: center; text-align: left; border: 0; border-bottom: 4px solid var(--ink); padding: 20px 0; background: transparent; }
+    .visit-list .visit-photo { height: 230px; overflow: hidden; }
+    .visit-list strong { display: block; font-size: 70px; line-height: 1; }
+    .visit-list small { display: block; font-size: 55px; margin-top: 12px; }
+    .visit-empty { font-family: Newsreader, Georgia, serif; font-size: 100px; line-height: 1.15; }
+    .portal { width: 1920px; height: 1080px; }
+    .p-header { height: 160px; border-bottom: 10px solid var(--accent); padding: 26px 40px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .p-header h1 { margin: 0; font-size: 59px; }
+    .p-header p { font-size: 22px; font-weight: 700; margin: 0; text-transform: uppercase; }
+    .p-tabs { height: 72px; display: grid; grid-template-columns: repeat(8, 1fr); border-bottom: 4px solid var(--ink); }
+    .p-tabs span { border-right: 3px solid var(--ink); display: grid; place-items: center; font-size: 18px; font-weight: 700; text-transform: uppercase; }
+    .p-tabs span:last-child { border-right: 0; }
+    .p-tabs .active { background: var(--accent); color: var(--selected-ink); }
+    .p-title { height: 111px; border-bottom: 4px solid var(--ink); margin: 0 35px; display: flex; align-items: center; justify-content: space-between; }
+    .p-title h2 { margin: 0; font-size: 56px; }
+    .p-title small { font-size: 21px; font-weight: 700; text-transform: uppercase; }
+    .p-workspace { height: 737px; display: grid; grid-template-columns: 510px 1fr; }
+    .p-queue { border-right: 4px solid var(--ink); padding: 26px 22px 28px 35px; overflow: hidden; }
+    .p-queue label { display: block; font-size: 18px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .p-queue input { width: 100%; height: 48px; border: 3px solid var(--ink); background: transparent; color: var(--ink); padding: 5px 12px; font-size: 21px; }
+    .p-queue .queue-heading { display: flex; justify-content: space-between; border-bottom: 4px solid var(--ink); padding: 22px 0 13px; font-size: 19px; font-weight: 700; text-transform: uppercase; }
+    .p-queue .queue-row { display: grid; grid-template-columns: 44px 1fr 70px; gap: 10px; align-items: center; border-bottom: 2px solid var(--ink); min-height: 86px; padding: 8px 9px; }
+    .p-queue .queue-row.active { background: var(--accent); color: var(--selected-ink); }
+    .p-queue .queue-row b { font-family: Bricolage, Arial, sans-serif; font-size: 24px; }
+    .p-queue .queue-row strong { font-size: 23px; }
+    .p-queue .queue-row span { font-size: 20px; text-align: right; }
+    .p-editor { padding: 26px 38px 28px; overflow: hidden; }
+    .p-editor-top { display: flex; align-items: end; justify-content: space-between; border-bottom: 4px solid var(--ink); padding-bottom: 16px; }
+    .p-editor h3 { margin: 0; font-size: 60px; }
+    .p-editor .meta { font-size: 21px; font-weight: 700; text-transform: uppercase; }
+    .p-editor-top button { border: 3px solid var(--ink); background: transparent; padding: 12px 18px; font-size: 20px; font-weight: 700; text-transform: uppercase; }
+    .p-editor-body { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 28px; padding-top: 22px; }
+    .p-editor-photo { width: 310px; height: 340px; overflow: hidden; border-bottom: 9px solid var(--accent); }
+    .p-editor-fields { min-width: 0; }
+    .p-summary { border-bottom: 3px solid var(--ink); padding-bottom: 18px; }
+    .p-summary .p-label, .p-fields .p-label { font-size: 18px; font-weight: 700; text-transform: uppercase; }
+    .p-summary p { font-family: Newsreader, Georgia, serif; font-size: 32px; line-height: 1.16; margin: 8px 0 0; }
+    .p-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; margin-top: 12px; }
+    .p-fields div { border-bottom: 2px solid var(--ink); padding: 12px 0; }
+    .p-fields strong { display: block; font-size: 22px; margin-top: 6px; }
+    .p-decisions { border-top: 4px solid var(--ink); margin-top: 20px; padding-top: 20px; display: flex; align-items: center; gap: 14px; }
+    .p-decisions button { border: 3px solid var(--ink); background: transparent; padding: 13px 18px; font-size: 19px; font-weight: 700; text-transform: uppercase; }
+    .p-decisions .primary { background: var(--accent); color: var(--selected-ink); border-color: var(--accent); }
+    .p-decisions small { margin-left: auto; font-size: 18px; font-weight: 700; text-transform: uppercase; }
+    .p-review-flags { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 24px; border-top: 4px solid var(--ink); margin-top: 28px; padding-top: 17px; }
+    .p-review-flags span { display: block; font-size: 18px; font-weight: 700; text-transform: uppercase; }
+    .p-review-flags strong, .p-review-flags a { display: block; margin-top: 7px; color: var(--ink); font-size: 23px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <nav id="controls" class="study-controls" aria-label="Approval study controls"></nav>
+  <div id="stage-wrap"><div id="board"></div></div>
+  <script>
+    const people = [
+      ['Aklilu Demessie', 2026, 'aklilu-demessie-2026/primary.jpg', null, 'Ethiopian', 'Aklilu Demessie built a life of engineering, education, faith, and Ethiopian community service.'],
+      ['Alex Machaskee', 2010, 'alex-machaskee-2010/primary.png', null, 'Serbian', "Alex Machaskee is the retired publisher of The Plain Dealer, Ohio's largest newspaper."],
+      ['Basil Russo', 2017, 'basil-russo-2017/primary.jpg', null, 'Italian', 'Basil Russo combined law, business, and Italian American cultural leadership in Cleveland.'],
+      ['Catherine Jorgensen McCutcheon', 2026, 'catherine-jorgensen-mccutcheon-2026/primary.jpg', 'Catherine J. McCutcheon', 'Norwegian', "Catherine Jorgensen McCutcheon supported Cleveland's Norwegian community through education and community organizing."],
+      ['Dick Russ', 2015, 'dick-russ-2015/primary.jpg', null, 'Slovenian', 'Dick Russ built a career in broadcast journalism and community leadership across Northeast Ohio.'],
+      ['Dona Brady', 2024, 'dona-brady-2024/primary.jpg', null, 'Albanian', "Dona Brady founded Cleveland's Albanian American Association and helped connect Cleveland with Fier, Albania."],
+      ['Eugenia Stolarczyk', 2016, 'eugenia-stolarczyk-2016-2016/primary.jpg', null, 'Polish', "Eugenia Stolarczyk strengthened Cleveland's Polish community through radio, music, folklore, and cultural organizing."],
+      ['Johnny K. Wu', 2024, 'johnny-k-wu-2024/primary.jpg', null, 'Chinese', 'Johnny K. Wu is a Cleveland-born producer, director, and editor whose work connects media and community.'],
+      ['Raj Aggarwal', 2025, 'raj-aggarwal-2025/primary.jpg', null, 'Indian', 'Raj Aggarwal is an academic, executive, and civic leader whose career spans business and education.'],
+      ['Sheila Murphy Crawford', 2018, 'sheila-murphy-crawford-2018/primary.jpg', null, 'Irish', "Sheila Murphy Crawford helped restore Cleveland's Irish Cultural Garden and taught Irish dance."],
+      ['Sudarshan Sathe', 2023, 'sudarshan-sathe-2023/primary.jpg', null, 'Indian', 'Sudarshan Sathe built a business career and supported education, hunger relief, and philanthropy in Cleveland.'],
+      ['Valarie McCall', 2020, 'valarie-mccall-2020/primary.jpg', null, 'African American', 'Valarie McCall shaped Cleveland civic life through public service, transportation leadership, and Sister Cities work.'],
+      ['Victor Ruiz', 2022, 'victor-ruiz-2022/primary.png', null, 'Puerto Rican', "Victor Ruiz has spent more than two decades advocating for education and opportunity in Cleveland's Latinx community."],
+    ].map(([name, year, file, cardName, heritage, summary]) => ({ id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, year, file, cardName: cardName ?? name, heritage, summary }));
+    const params = new URLSearchParams(location.search);
+    let scene = ['catalogue', 'reading', 'browse', 'portal'].includes(params.get('scene')) ? params.get('scene') : 'catalogue';
+    let mode = params.get('mode') === 'dark' ? 'dark' : 'light';
+    let selectedId = 'alex-machaskee';
+    let activeLetter = 'A';
+    let query = '';
+    const savedIds = new Set();
+    let visitOpen = false;
+    const src = (record) => `../../../public/media/images/${record.file}`;
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    const currentPerson = () => people.find((record) => record.id === selectedId) ?? people[1];
+    function orderedPeople() {
+      const start = people.findIndex((record) => record.name.toUpperCase().startsWith(activeLetter));
+      const rotated = start < 0 ? people : [...people.slice(start), ...people.slice(0, start)];
+      return rotated.filter((record) => record.name.toLowerCase().includes(query.toLowerCase()) || String(record.year).includes(query));
+    }
+    function indexRail() {
+      const available = new Set(people.map((record) => record.name[0].toUpperCase()));
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter((letter) => letter !== activeLetter);
+      return `<aside class="index-rail" aria-label="Alphabet index"><div class="rail-caption">Index / 111</div><div class="active-letter display">${activeLetter}</div><div class="alphabet">${letters.map((letter) => `<button type="button" data-letter="${letter}" ${available.has(letter) ? '' : 'disabled'} aria-label="Jump to ${letter}">${letter}</button>`).join('')}</div><div class="rail-foot">People<br>2010 - 2026</div></aside>`;
+    }
+    function recordButton(record) {
+      return `<button class="record ${record.id === selectedId && scene !== 'browse' ? 'selected' : ''}" type="button" data-person="${record.id}" aria-label="${record.name}, Class of ${record.year}"><span class="photo"><img src="${src(record)}" alt=""></span><strong>${record.cardName}</strong><small>Class of ${record.year}</small></button>`;
+    }
+    function field() {
+      const shown = orderedPeople().slice(0, scene === 'reading' ? 6 : scene === 'browse' ? 12 : 8);
+      return `<section class="portrait-field" aria-label="Portrait index"><div class="field-head"><h2 class="display">People / Index</h2><div class="field-right"><span class="result-count">${query ? `${orderedPeople().length} matches in study` : `${shown.length} shown / 111`}</span><input class="field-search" type="search" data-search aria-label="Search people" placeholder="Find a person or year" value="${escapeHtml(query)}"></div></div><div class="records">${shown.length ? shown.map(recordButton).join('') : '<p class="empty">No matching people in this study.</p>'}</div></section>`;
+    }
+    function sheet() {
+      const record = currentPerson();
+      const saved = savedIds.has(record.id);
+      return `<aside class="record-sheet ${record.name.length > 24 ? 'long-name' : ''}" aria-label="Selected person"><div class="sheet-head"><span>Selected record / ${record.year}</span><button type="button" data-scene="browse">Close X</button></div><div class="sheet-hero"><div class="sheet-portrait"><img src="${src(record)}" alt="Portrait of ${record.name}"></div><div class="sheet-hero-text"><h2 class="display">${record.name}</h2><p class="class">Class of ${record.year}</p></div></div><div class="sheet-body"><span class="eyebrow">Story summary</span><p>${record.summary}</p></div><dl class="sheet-facts"><div><dt>Class</dt><dd>${record.year}</dd></div><div><dt>Heritage</dt><dd>${record.heritage}</dd></div></dl><div class="sheet-actions"><button class="primary" type="button" data-action="trace">Follow the trace &#8594;</button><button type="button" data-action="story">Life + Work</button><button type="button" data-save aria-pressed="${saved}">${saved ? 'Saved to visit' : 'Save to visit +'} </button></div></aside>`;
+    }
+    function visitSheet() {
+      const savedPeople = people.filter((record) => savedIds.has(record.id));
+      return `<aside class="record-sheet visit-sheet" aria-label="Saved people"><div class="sheet-head"><span>Visit / ${String(savedPeople.length).padStart(2, '0')}</span><button type="button" data-action="visit">Close X</button></div><h2 class="display">Your visit</h2><div class="visit-count-label">${savedPeople.length} saved ${savedPeople.length === 1 ? 'person' : 'people'}</div>${savedPeople.length ? `<div class="visit-list">${savedPeople.map((record) => `<button type="button" data-person="${record.id}"><span class="visit-photo"><img src="${src(record)}" alt=""></span><span><strong>${record.name}</strong><small>Class of ${record.year}</small></span></button>`).join('')}</div>` : '<p class="visit-empty">No people saved yet.</p>'}</aside>`;
+    }
+    function visitor() {
+      return `<div class="visitor" data-scene="${scene}"><header class="v-header"><h1 class="v-brand display"><span>Cleveland International</span><span>Hall of Fame</span></h1><div class="v-header-right"><nav class="v-nav" aria-label="Hall lenses"><button class="active" type="button" data-scene="catalogue">People</button><a href="functional-scenes.html?scene=links&mode=${mode}">Links</a><a href="functional-scenes.html?scene=years&mode=${mode}">Years</a></nav><button class="visit-count" type="button" data-action="visit" aria-expanded="${visitOpen}" aria-label="Visit collection, ${savedIds.size} saved">Visit ${String(savedIds.size).padStart(2, '0')}</button></div></header><main class="v-main">${indexRail()}${field()}${visitOpen ? visitSheet() : scene === 'browse' ? '' : sheet()}</main></div>`;
+    }
+    function portal() {
+      const rows = [['01', 'Aklilu Demessie', '2026'], ['02', 'Alex Machaskee', '2010'], ['03', 'Valarie McCall', '2020'], ['04', 'Dona Brady', '2024'], ['05', 'Johnny K. Wu', '2024'], ['06', 'Catherine Jorgensen McCutcheon', '2026']];
+      return `<div class="portal"><header class="p-header"><h1 class="display">CIHOF / Review & Edit</h1><p>Staff portal / 111 profiles / 0 local drafts</p></header><nav class="p-tabs" aria-label="Portal sections">${['Start Here', 'Best Content', 'Workbench', 'Source Data', 'Story Lenses', 'Relationships', 'Readiness', 'Exports'].map((label) => `<span class="${label === 'Workbench' ? 'active' : ''}">${label}</span>`).join('')}</nav><div class="p-title"><h2 class="display">Profile Workbench</h2><small>High priority / 64 shown</small></div><main class="p-workspace"><aside class="p-queue"><label for="portal-search">Search profiles</label><input id="portal-search" placeholder="Name, ID, nationality, year"><div class="queue-heading"><span>Review queue</span><span>Class</span></div>${rows.map(([number, name, year], index) => `<div class="queue-row ${index === 0 ? 'active' : ''}"><b>${number}</b><strong>${name}</strong><span>${year}</span></div>`).join('')}</aside><section class="p-editor"><div class="p-editor-top"><div><h3 class="display">Aklilu Demessie</h3><span class="meta">2026 / Ethiopian / selected profile</span></div><button type="button">Preview</button></div><div class="p-editor-body"><div class="p-editor-photo"><img src="${src(people[0])}" alt="Portrait of Aklilu Demessie"></div><div class="p-editor-fields"><div class="p-summary"><span class="p-label">Story summary</span><p>Aklilu Demessie built a life of engineering, education, faith, and Ethiopian community service after arriving in Ohio through an American Field Service student program.</p></div><div class="p-fields"><div><span class="p-label">Profile approval</span><strong>Draft</strong></div><div><span class="p-label">Nationality</span><strong>Ethiopian</strong></div><div><span class="p-label">Image rights</span><strong>Approved</strong></div><div><span class="p-label">Featured story</span><strong>Candidate</strong></div></div></div></div><div class="p-decisions"><button class="primary" type="button">Approve metadata</button><button type="button">Request changes</button><small>Browser-local drafts</small></div><div class="p-review-flags"><div><span>Media review</span><strong>Caption + transcript</strong></div><div><span>Video rights</span><strong>Needs review</strong></div><div><span>Source record</span><a href="https://clevelandinternationalhalloffame.com/aklilu-demessie/">Original CIHOF profile &#8594;</a></div></div></section></main></div>`;
+    }
+    function fit() {
+      const board = document.querySelector('#board');
+      const width = scene === 'portal' ? 1920 : 3840;
+      const height = scene === 'portal' ? 1080 : 2160;
+      const controlsHeight = document.querySelector('#controls').getBoundingClientRect().height;
+      const scale = Math.min((innerWidth - 24) / width, (innerHeight - controlsHeight - 32) / height, 1);
+      board.style.width = `${width}px`;
+      board.style.height = `${height}px`;
+      board.style.transform = `scale(${scale})`;
+      const wrap = document.querySelector('#stage-wrap');
+      wrap.style.width = `${width * scale}px`;
+      wrap.style.height = `${height * scale}px`;
+    }
+    function render() {
+      document.querySelector('#controls').innerHTML = `<strong>Index approval study</strong>${[['catalogue', 'Catalogue focus'], ['reading', 'Reading spread'], ['browse', 'People browse'], ['portal', 'Staff workbench']].map(([key, label]) => `<button type="button" data-scene="${key}" aria-pressed="${scene === key}">${label}</button>`).join('')}<button class="theme" type="button" data-mode="${mode === 'light' ? 'dark' : 'light'}">${mode === 'light' ? 'Dark mode' : 'Light mode'}</button>`;
+      const board = document.querySelector('#board');
+      board.dataset.mode = mode;
+      board.innerHTML = scene === 'portal' ? portal() : visitor();
+      history.replaceState(null, '', `${location.pathname}?scene=${scene}&mode=${mode}`);
+      fit();
+    }
+    document.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-scene], [data-mode], [data-letter], [data-person], [data-save], [data-action]');
+      if (!target) return;
+      if (target.dataset.scene) { scene = target.dataset.scene; visitOpen = false; if (scene === 'browse') selectedId = ''; else if (!selectedId) selectedId = 'alex-machaskee'; }
+      if (target.dataset.mode) mode = target.dataset.mode;
+      if (target.dataset.letter) { activeLetter = target.dataset.letter; query = ''; }
+      if (target.dataset.person) { selectedId = target.dataset.person; activeLetter = currentPerson().name[0].toUpperCase(); visitOpen = false; if (scene === 'browse') scene = 'catalogue'; }
+      if (target.hasAttribute('data-save')) { const id = currentPerson().id; if (savedIds.has(id)) savedIds.delete(id); else savedIds.add(id); }
+      if (target.dataset.action === 'visit') { visitOpen = !visitOpen; if (visitOpen && scene === 'browse') scene = 'catalogue'; }
+      if (target.dataset.action === 'story') scene = 'reading';
+      if (target.dataset.action === 'trace') location.href = `functional-scenes.html?scene=links&mode=${mode}`;
+      render();
+    });
+    document.addEventListener('input', (event) => {
+      if (!event.target.matches('[data-search]')) return;
+      const selection = event.target.selectionStart;
+      query = event.target.value;
+      render();
+      const input = document.querySelector('[data-search]');
+      input.focus();
+      input.setSelectionRange(selection, selection);
+    });
+    addEventListener('resize', fit);
+    render();
+  </script>
+</body>
+</html>

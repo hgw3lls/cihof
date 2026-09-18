@@ -13,6 +13,7 @@ type PortraitFrameProps = {
   aspect?: PortraitFrameAspect;
   showRecord?: boolean;
   classLabel?: boolean;
+  loading?: 'eager' | 'lazy';
 };
 
 export function PortraitFrame({
@@ -25,6 +26,7 @@ export function PortraitFrame({
   aspect = 'tall',
   showRecord = true,
   classLabel = false,
+  loading = 'lazy',
 }: PortraitFrameProps) {
   const className = [
     'portrait-frame',
@@ -42,7 +44,8 @@ export function PortraitFrame({
             className="portrait-frame__image living-portrait__image"
             fallbackClassName="portrait-frame__fallback living-portrait__fallback"
             fallbackLabel={fallbackLabel}
-            loading="eager"
+            loading={loading}
+            showLoadingFallback
             src={imageUrl}
           />
         </span>

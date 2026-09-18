@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './App';
+import { ArchiveExhibit } from '../features/archive-exhibit/ArchiveExhibit';
 import { ErrorBoundary } from './ErrorBoundary';
 import { registerServiceWorker } from './serviceWorkerRegistration';
-import '../styles/styles.css';
-import '../styles/final-exhibit/index.css';
-import '../styles/index-system.css';
+import '../features/archive-exhibit/archive-exhibit.css';
+import '../features/archive-exhibit/archive-support.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      <ArchiveExhibit />
     </ErrorBoundary>
   </React.StrictMode>,
 );

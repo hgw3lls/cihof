@@ -134,6 +134,7 @@
 }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__field { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__field { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'][data-legacy-cohort-size='6'] .living-hall__field { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-portrait--muted { display: none !important; }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-portrait[hidden] { display: none !important; }
 
@@ -179,18 +180,27 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) clamp(90px, 10.5vh, 230px);
   gap: 0;
   border: 0;
   background: transparent;
   padding: 0;
 }
-.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame__imageOpening { border: 0; background: var(--ix-paper); }
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame__imageOpening { border: 0; background: var(--ix-image-mat); }
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame__imageOpening > .portrait-frame__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--ix-image-mat);
+  color: var(--ix-muted);
+}
 .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame__image { object-position: center 20%; filter: grayscale(1) contrast(1.04); }
 .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame .portrait-frame__record.living-portrait__label {
-  min-height: 5.6vh;
-  display: block;
-  overflow: visible;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 0;
   background: var(--ix-paper);
   color: var(--ix-ink);
@@ -205,6 +215,13 @@
   line-height: 1.03;
   text-overflow: clip;
   white-space: normal;
+}
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame .portrait-frame__record strong { flex: 1 1 auto; min-height: 0; overflow-wrap: anywhere; }
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame .portrait-frame__record small { flex: 0 0 auto; margin-top: auto; }
+
+@media (min-width: 2560px) {
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame__mat { grid-template-rows: minmax(0, 1fr) 12vh; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .portrait-frame .portrait-frame__record :is(strong, small) { font-size: clamp(36px, 1.1vw, 46px); }
 }
 
 .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusCard,
@@ -317,6 +334,7 @@
   width: auto !important;
   height: 9vh !important;
   min-height: 84px;
+  max-width: none !important;
   display: flex;
   align-items: center;
   gap: 1vw;
@@ -382,6 +400,17 @@
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyClassStepper :is(.living-hall__legacyStep, .living-hall__legacyCurrentClass) strong { font-family: var(--index-display); font-size: clamp(22px, 1.5vw, 60px); }
 .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyClassStepper .living-hall__legacyStep:disabled { opacity: 0.45; }
 
+@media (min-width: 901px) and (max-width: 1280px) {
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) { --ix-detail: 42vw; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__field,
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'][data-legacy-cohort-size='6'] .living-hall__field { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__field { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__field { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 900px) {
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) { --ix-header: 108px; --ix-rail: 66px; --ix-detail: 100%; --ix-field-head: 70px; }
   .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] { --ix-rail: 92px; }
@@ -394,13 +423,41 @@
   .index-year-rail button { white-space: nowrap; overflow-wrap: normal; font-size: 15px; }
   .index-link-rail > small { font-size: 11px; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__field { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'][data-legacy-cohort-size='6'] .living-hall__field,
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__field { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__fieldViewport { right: 0 !important; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-portrait { height: 280px !important; }
   .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusCard,
-  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusCard[data-side='left'] { top: 42% !important; height: 58% !important; width: calc(100% - var(--ix-rail)) !important; }
+  .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusCard[data-side='left'] { top: var(--ix-header) !important; right: 0 !important; bottom: 0 !important; left: var(--ix-rail) !important; width: auto !important; height: auto !important; padding: 0 12px 12px; }
   .museum-shell:not(.museum-shell--staff).hall-shell--focused .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .index-field-head { right: 0; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusHeader span { font-size: 12px; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusHeader :is(strong, button) { font-size: 14px; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__focusIdentity h3 { font-size: 26px; line-height: 1; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceConnection {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    align-items: start;
+    gap: 8px;
+    padding: 10px 0;
+  }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceConnectionIndex { align-self: start; font-size: 20px; line-height: 1; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceConnectionBody { gap: 3px; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceConnectionBody strong { font-size: 15px; line-height: 1.15; overflow-wrap: anywhere; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceConnectionBody :is(em, small) { font-size: 13px; line-height: 1.2; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='traces'] .living-hall__traceFocusHeader :is(small, em) { flex-basis: 100%; font-size: 12px; word-spacing: 0.15em; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyFocusHeader small { word-spacing: 0.15em; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyClassStepper :is(.living-hall__legacyStep, .living-hall__legacyCurrentClass) { min-height: 74px; padding: 6px 4px; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyClassStepper :is(.living-hall__legacyStep, .living-hall__legacyCurrentClass) :is(span, small) { font-size: 12px; line-height: 1.15; }
+  .museum-shell:not(.museum-shell--staff) .living-hall[data-hall-lens='legacies'] .living-hall__legacyClassStepper :is(.living-hall__legacyStep, .living-hall__legacyCurrentClass) strong { font-size: 20px; line-height: 1; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon { left: var(--ix-rail) !important; height: 76px !important; min-height: 76px; gap: 5px; padding: 5px; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon :is(span, small) { display: none; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon strong { font-size: 16px; }
   .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon button { min-height: 42px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon { height: 86px !important; flex-direction: column; align-items: stretch; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon strong { flex: 0 0 auto; font-size: 14px; }
+  .museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__pathRibbon button { width: 100%; min-height: 44px; font-size: 14px; text-align: center; }
 }

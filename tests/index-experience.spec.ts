@@ -1,151 +1,157 @@
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem('cihof.kiosk-settings.v1', JSON.stringify({ idleTimeoutMs: 120000 })));
   await page.goto('./');
-  await expect(page.locator('button.living-portrait:visible').first()).toBeVisible();
+  await expect(page.locator('.person-tile')).toHaveCount(111);
 });
 
-test('opens a usable People index with searchable portraits', async ({ page }) => {
-  await expect(page.getByRole('heading', { name: 'Cleveland International Hall of Fame' })).toBeVisible();
-  await expect(page.getByRole('navigation', { name: 'Explore the hall' })).toBeVisible();
-  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'portraits');
-  await expect(page.locator('button.living-portrait')).toHaveCount(111);
-
-  await page.getByRole('searchbox', { name: 'Find a person or year' }).fill('Dona Brady');
-  await expect(page.locator('button.living-portrait:visible')).toHaveCount(1);
-  await page.locator('button.living-portrait:visible').click();
-  await expect(page.locator('.living-hall__focusCard')).toContainText('Dona Brady');
-  await expect(page.getByRole('button', { name: 'LIFE + WORK' })).toBeVisible();
+test('starts without privileging an inductee in any scene', async ({ page }) => {
+  await expect(page.locator('.installation')).toHaveAttribute('data-selection', 'none');
+  await expect(page.getByRole('heading', { name: '111 INDUCTEES' })).toBeVisible();
+  await page.getByRole('button', { name: 'LINKS', exact: true }).click();
+  await expect(page.getByRole('region', { name: 'Relationship index' })).toBeVisible();
+  await expect(page.locator('.map-node')).toHaveCount(0);
+  await page.getByRole('button', { name: 'YEARS', exact: true }).click();
+  await expect(page.locator('.installation')).toHaveAttribute('data-selection', 'none');
+  await expect(page.locator('.film-event')).toHaveCount(93);
+  await expect(page.locator('.film-line__current')).toContainText('2015');
 });
 
-test('keeps biography actions connected to the selected portrait', async ({ page }) => {
-  await page.locator('button.living-portrait:visible').first().click();
-  const card = page.locator('.living-hall__focusCard');
-  await expect(card).toBeVisible();
-  await expect(card.locator('img')).toBeVisible();
-
-  await page.getByRole('button', { name: 'LIFE + WORK' }).click();
-  await expect(page.locator('.living-hall__personActionPanel')).toHaveAttribute('data-action-label', /life|work|story/i);
+test('searches People, pins one portrait, and opens the complete record and QR', async ({ page }) => {
+  await page.getByRole('searchbox', { name: 'Find a person or year' }).fill('Alex Machaskee');
+  await page.getByRole('button', { name: /Select Alex Machaskee/ }).click();
+  await expect(page.getByRole('complementary', { name: 'Selected person' })).toContainText('Alex Machaskee');
+  await expect(page.locator('.person-tile')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Open full record for Alex Machaskee' }).click();
+  await expect(page.getByRole('region', { name: 'Alex Machaskee full record' })).toContainText('BIOGRAPHY');
+  await expect(page.locator('.record-view__story')).toContainText('The Plain Dealer');
+  await page.getByRole('button', { name: 'TAKE THIS RECORD' }).click();
+  await expect(page.getByRole('dialog', { name: 'Take Alex Machaskee record with you' })).toBeVisible();
+  await expect(page.locator('.qr-continuation__code img')).toHaveCount(1);
   await page.getByRole('button', { name: 'Return To Portrait' }).click();
-  await expect(page.locator('.living-hall__personActionPanel')).toHaveCount(0);
-
-  await page.getByRole('button', { name: 'FULL TEXT' }).click();
-  await expect(page.locator('.living-hall__personActionPanel')).toBeVisible();
-  await page.getByRole('button', { name: 'Return To Portrait' }).click();
-  await page.getByRole('button', { name: 'Close focused portrait' }).click();
-  await expect(card).toHaveCount(0);
+  await page.getByRole('button', { name: 'CLOSE', exact: true }).click();
+  await page.getByRole('button', { name: 'Clear selection' }).click();
+  await expect(page.locator('.installation')).toHaveAttribute('data-selection', 'none');
 });
 
-test('changes connection modes and focuses a linked person', async ({ page }) => {
-  await page.getByRole('button', { name: 'Links', exact: true }).click();
-  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
-  await expect(page.getByRole('complementary', { name: 'Connection modes' })).toBeVisible();
-  await expect(page.locator('button.living-portrait:visible').first()).toBeVisible();
-
-  const choices = page.locator('.index-link-rail button');
-  expect(await choices.count()).toBeGreaterThan(1);
-  const nextMode = await choices.nth(1).textContent();
-  await choices.nth(1).click();
-  await expect(page.locator('.index-link-rail button[aria-pressed="true"]')).toHaveText(nextMode ?? '');
-  await page.locator('button.living-portrait:visible').first().click();
-  await expect(page.locator('.living-hall__focusCard')).toBeVisible();
+test('re-centers Links and carries selection between scenes', async ({ page }) => {
+  await page.getByRole('button', { name: 'LINKS', exact: true }).click();
+  await page.getByRole('searchbox', { name: 'Find a person in the relationship index' }).fill('Alex Machaskee');
+  await page.getByRole('button', { name: /Explore links for Alex Machaskee/ }).click();
+  await expect(page.locator('.map-node--center')).toContainText('Alex Machaskee');
+  const next = await page.locator('.map-node--archive').first().locator('strong').textContent();
+  await page.locator('.map-node--archive').first().click();
+  await expect(page.locator('.map-node--center')).toContainText(next ?? '');
+  await page.getByRole('button', { name: 'YEARS', exact: true }).click();
+  await expect(page.getByRole('complementary', { name: 'Selected person' })).toContainText(next ?? '');
+  await page.getByRole('button', { name: 'PEOPLE', exact: true }).click();
+  await expect(page.getByRole('complementary', { name: 'Selected person' })).toContainText(next ?? '');
+  await page.getByRole('button', { name: 'Back to previous person' }).click();
+  await expect(page.getByRole('complementary', { name: 'Selected person' })).toContainText('Alex Machaskee');
 });
 
-test('selects a year and navigates its cohort', async ({ page }) => {
-  await page.getByRole('button', { name: 'Years', exact: true }).click();
-  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
-  await page.getByRole('button', { name: 'Class of 2026' }).click();
-  await expect(page.locator('.living-hall')).toHaveAttribute('data-legacy-active-year', '2026');
-  await expect(page.getByRole('heading', { name: 'Years / 2026' })).toBeVisible();
-  await expect(page.locator('button.living-portrait:visible').first()).toBeVisible();
-  await page.locator('button.living-portrait:visible').first().click();
-  await expect(page.locator('.living-hall__focusCard')).toBeVisible();
-  await expect(page.locator('.living-hall__focusCard')).toContainText('2026');
+test('navigates the film line and protects pending media', async ({ page }) => {
+  await page.getByRole('button', { name: 'YEARS', exact: true }).click();
+  const viewport = page.locator('.film-line__viewport');
+  const start = await viewport.evaluate((element) => element.scrollLeft);
+  await page.getByRole('button', { name: 'Next year' }).click();
+  await expect.poll(() => viewport.evaluate((element) => element.scrollLeft)).toBeGreaterThan(start);
+  await page.getByRole('button', { name: /Jump to 2026/ }).click();
+  await expect(page.locator('.film-line__year[aria-current="date"]')).toHaveText('2026');
+  await viewport.focus();
+  await page.keyboard.press('Home');
+  await expect(page.locator('.film-line__year[aria-current="date"]')).toHaveText('2010');
+  await page.getByRole('button', { name: /Jump to 2015/ }).click();
+  await page.getByRole('button', { name: /Open film 1 for Bishop Anthony Pilla/ }).click();
+  await expect(page.locator('.film-projection--pending')).toContainText('FILM AWAITING APPROVAL');
+  await expect(page.locator('video')).toHaveCount(0);
+  await expect(page.locator('track')).toHaveCount(0);
+  await expect(page.getByRole('complementary', { name: 'Selected person' })).toContainText('Bishop Anthony Pilla');
+  await page.getByRole('button', { name: 'RECORD', exact: true }).first().click();
+  await expect(page.locator('.record-view')).toContainText('Bishop Anthony Pilla');
 });
 
-test('saves a portrait to the visit collection and opens its QR', async ({ page }) => {
-  await page.locator('button.living-portrait').first().click();
-  await page.getByRole('button', { name: 'SAVE TO VISIT' }).click();
-  await expect(page.locator('.living-hall')).toHaveAttribute('data-visit-collection-count', '1');
-  await page.getByRole('button', { name: 'Visit 01' }).click();
-  await expect(page.getByRole('complementary', { name: 'Saved visit collection' })).toBeVisible();
-  await page.getByRole('button', { name: 'Visit QR' }).click();
-  await expect(page.getByRole('dialog', { name: 'Saved visit QR' })).toBeVisible();
-  await page.getByRole('dialog', { name: 'Saved visit QR' }).getByRole('button', { name: 'Close' }).click();
-  await expect(page.getByRole('dialog', { name: 'Saved visit QR' })).toHaveCount(0);
+test('swipes the film line on a touch screen', async ({ browser, page }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const touchPage = await context.newPage();
+  try {
+    await touchPage.goto(page.url());
+    await touchPage.getByRole('button', { name: 'YEARS', exact: true }).click();
+    const viewport = touchPage.locator('.film-line__viewport');
+    const start = await viewport.evaluate((element) => element.scrollLeft);
+    const bounds = await viewport.boundingBox();
+    expect(bounds).not.toBeNull();
+    const y = Math.round(bounds!.y + bounds!.height / 2);
+    const cdp = await context.newCDPSession(touchPage);
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 300, y }] });
+    for (const x of [260, 220, 180, 140, 100]) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] });
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await expect.poll(() => viewport.evaluate((element) => element.scrollLeft)).toBeGreaterThan(start + 100);
+  } finally {
+    await context.close();
+  }
 });
 
-test('opens recorded media and a take-home profile QR', async ({ page }) => {
-  await page.locator('button.living-portrait[data-media-available="true"]').first().click();
-  await page.getByRole('button', { name: 'WATCH INDUCTION' }).click();
-  await expect(page.locator('.detail--action-watch')).toBeVisible();
-  await page.getByRole('button', { name: 'Return To Portrait' }).click();
-
-  await page.getByRole('button', { name: 'TAKE IT WITH YOU' }).click();
-  await expect(page.locator('.detail--action-continue')).toBeVisible();
-  await expect(page.locator('.qr-continuation--hall-focus')).toBeVisible();
-  await page.getByRole('button', { name: 'Return To Portrait' }).click();
+test('shows player and transcript only after every approval is present', async ({ browser, page }) => {
+  const context = await browser.newContext({ serviceWorkers: 'block' });
+  const approvedPage = await context.newPage();
+  try {
+    await approvedPage.route('**/data/cihof-runtime-data.json', async (route) => {
+      const response = await route.fetch();
+      const bundle = await response.json();
+      const film = bundle.mediaManifest.assets['bishop-anthony-pilla-2015'].videos[0];
+      film.rightsStatus = 'approved';
+      film.captionStatus = 'approved';
+      film.transcriptStatus = 'approved';
+      film.approvedForKiosk = true;
+      await route.fulfill({ response, json: bundle });
+    });
+    await approvedPage.goto(page.url());
+    await approvedPage.getByRole('button', { name: 'YEARS', exact: true }).click();
+    await approvedPage.getByRole('button', { name: /Open film 1 for Bishop Anthony Pilla/ }).click();
+    await expect(approvedPage.locator('.film-projection video')).toHaveCount(1);
+    await expect(approvedPage.locator('.film-projection track[kind="captions"]')).toHaveCount(1);
+    await expect(approvedPage.locator('.film-projection__transcript')).toBeVisible();
+  } finally {
+    await context.close();
+  }
 });
 
-test('maps old visitor deep links into the current scenes', async ({ page }) => {
-  await page.goto('./?view=world');
-  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'traces');
-  await page.goto('./?view=time');
-  await expect(page.locator('.hall-surface')).toHaveAttribute('data-hall-lens', 'legacies');
-  await page.goto('./?person=dona-brady-2024');
-  await expect(page.locator('.living-hall__focusCard')).toContainText('Dona Brady');
-});
-
-test('defaults to light and persists dark mode across reloads', async ({ page }) => {
-  await expect(page.locator('.museum-shell')).toHaveAttribute('data-color-mode', 'light');
+test('maps old deep links, persists theme, and keeps mobile controls inside the screen', async ({ page }) => {
+  await page.goto('./?view=world&person=alex-machaskee-2010');
+  await expect(page.locator('.installation')).toHaveAttribute('data-view', 'links');
+  await expect(page.locator('.map-node--center')).toContainText('Alex Machaskee');
   await page.getByRole('button', { name: 'Switch to dark mode' }).click();
-  await expect(page.locator('.museum-shell')).toHaveAttribute('data-color-mode', 'dark');
+  await expect(page.locator('.installation')).toHaveAttribute('data-theme', 'dark');
   await page.reload();
-  await expect(page.locator('.museum-shell')).toHaveAttribute('data-color-mode', 'dark');
-  await page.getByRole('button', { name: 'Switch to light mode' }).click();
-  await expect(page.locator('.museum-shell')).toHaveAttribute('data-color-mode', 'light');
-});
-
-test('keeps mobile navigation and the year rail inside the viewport', async ({ page }) => {
+  await expect(page.locator('.installation')).toHaveAttribute('data-theme', 'dark');
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole('button', { name: 'Years', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Class of 2026' })).toBeVisible();
-  const dimensions = await page.evaluate(() => ({
-    viewport: window.innerWidth,
-    document: document.documentElement.scrollWidth,
-    railRight: document.querySelector('.index-year-rail')?.getBoundingClientRect().right ?? 0,
-    fieldLeft: document.querySelector('.living-hall__fieldViewport')?.getBoundingClientRect().left ?? 0,
-  }));
-  expect(dimensions.document).toBe(dimensions.viewport);
-  expect(dimensions.railRight).toBe(dimensions.fieldLeft);
+  await page.getByRole('button', { name: 'YEARS', exact: true }).click();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
+  await expect(page.getByRole('button', { name: 'Next year' })).toBeInViewport();
 });
 
-test('keeps the 4K index populated and framed', async ({ page }) => {
-  await page.setViewportSize({ width: 3840, height: 2160 });
-  await expect(page.locator('button.living-portrait:visible').first()).toBeVisible();
-  const view = await page.evaluate(() => ({
-    document: document.documentElement.scrollWidth,
-    viewport: window.innerWidth,
-    loadedPortraits: [...document.querySelectorAll<HTMLImageElement>('button.living-portrait img')]
-      .filter((image) => image.complete && image.naturalWidth > 0).length,
-  }));
-  expect(view.document).toBe(view.viewport);
-  expect(view.loadedPortraits).toBeGreaterThan(0);
-});
+for (const viewport of [
+  { width: 390, height: 844 }, { width: 768, height: 1024 },
+  { width: 1920, height: 1080 }, { width: 3840, height: 2160 },
+]) {
+  test(`keeps portrait tiles consistent at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.evaluate(() => document.fonts.ready);
+    const heights = await page.locator('.person-tile .photo').evaluateAll((photos) => photos.map((photo) => photo.getBoundingClientRect().height));
+    expect(heights).toHaveLength(111);
+    expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(viewport.width);
+  });
+}
 
-test('publishes offline and collection-data entrypoints', async ({ page, request }) => {
-  const standards = await request.get('./data/standards-index.json');
-  expect(standards.ok()).toBe(true);
-  const index = await standards.json() as {
-    exports?: Record<string, { path?: string }>;
-    coverage?: { inductees?: number; iiifManifests?: number };
-  };
-  expect(index.exports?.linkedArt?.path).toBe('/data/linked-art-export.json');
-  expect(index.exports?.cidocCrm?.path).toBe('/data/cidoc-crm-export.json');
-  expect(index.exports?.iiifCollection?.path).toBe('/data/iiif-collection.json');
-  expect(index.coverage?.inductees).toBeGreaterThan(100);
+test('publishes collection exports and the offline worker', async ({ page, request }) => {
+  const response = await request.get('./data/standards-index.json');
+  expect(response.ok()).toBe(true);
+  const index = await response.json() as { coverage?: { inductees?: number; iiifManifests?: number } };
+  expect(index.coverage?.inductees).toBe(111);
   expect(index.coverage?.iiifManifests).toBeGreaterThan(100);
-
   await page.goto('./?kiosk=1');
   const worker = await page.evaluate(async () => {
     const registration = await Promise.race([

@@ -4,6 +4,14 @@
 @import './index-portal.css';
 @import './index-portal-deep.css';
 
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='portraits'], [data-hall-lens='traces'], [data-hall-lens='legacies']) .living-hall__contentDismissLayer {
+  z-index: 1;
+}
+
+.museum-shell:not(.museum-shell--staff) .living-hall:is([data-hall-lens='portraits'], [data-hall-lens='traces'], [data-hall-lens='legacies'])[data-person-action='overview'] .living-hall__fieldViewport {
+  z-index: 60 !important;
+}
+
 @font-face {
   font-family: 'Bricolage Index';
   src: url('../assets/fonts/index/BricolageGrotesque.ttf') format('truetype');
@@ -58,6 +66,7 @@ button, input, select, textarea { font-family: var(--index-interface); letter-sp
   --ix-accent: #eb5b43;
   --ix-line: #171716;
   --ix-accent-ink: #171716;
+  --ix-image-mat: #e8e3d8;
   color: var(--ix-ink);
   background: var(--ix-paper);
   font-family: var(--index-interface);
@@ -70,6 +79,7 @@ button, input, select, textarea { font-family: var(--index-interface); letter-sp
   --ix-accent: #fa7057;
   --ix-line: #f5f2e8;
   --ix-accent-ink: #171716;
+  --ix-image-mat: #282d2a;
 }
 
 .museum-shell button:focus-visible, .museum-shell a:focus-visible, .museum-shell input:focus-visible,

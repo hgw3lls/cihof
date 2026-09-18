@@ -75,9 +75,8 @@ export function isApprovedPlayableMediaForDetail(asset: RuntimeVideoAsset | Runt
 
 export function isPublicReadyVideoAsset(asset: RuntimeVideoAsset) {
   const captionsReady = (asset.captionStatus === 'approved' && Boolean(asset.captionRuntimePath)) || asset.captionStatus === 'not-applicable';
-  const transcriptReady = asset.transcriptStatus === 'approved'
-    || asset.transcriptStatus === 'not-applicable'
-    || Boolean(asset.transcript?.text || asset.transcriptRuntimePath || asset.transcript?.runtimePath);
+  const transcriptReady = (asset.transcriptStatus === 'approved' && Boolean(asset.transcript?.text || asset.transcriptRuntimePath || asset.transcript?.runtimePath))
+    || asset.transcriptStatus === 'not-applicable';
   return Boolean(
     asset.approvedForKiosk
       && asset.rightsStatus === 'approved'
