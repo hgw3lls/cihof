@@ -37,6 +37,12 @@ export type ConnectionClaim = 'documented' | 'context' | 'comparison';
  * Kept deliberately short and concrete. "Shared theme" and "same class" are
  * absent because they are context, not relationship, and putting them here is
  * how the distinction erodes.
+ *
+ * `inducted` is here, and the line between it and "same class" is worth being
+ * precise about: the roster records that a named person inducted this person,
+ * which is one person acting toward another and is documented by the
+ * institution itself. Being honoured in the same year as someone is a
+ * coincidence of scheduling that nobody performed.
  */
 export type RelationshipKind =
   | 'collaborated-with'
@@ -46,10 +52,13 @@ export type RelationshipKind =
   | 'succeeded'
   | 'employed'
   | 'family-of'
-  | 'nominated';
+  | 'nominated'
+  | 'inducted';
 
 /** Kinds that read differently from each end and so need both labels. */
-const directionalKinds = new Set<RelationshipKind>(['mentored', 'taught', 'succeeded', 'employed', 'nominated']);
+const directionalKinds = new Set<RelationshipKind>([
+  'mentored', 'taught', 'succeeded', 'employed', 'nominated', 'inducted',
+]);
 
 export function isDirectional(kind: RelationshipKind): boolean {
   return directionalKinds.has(kind);
