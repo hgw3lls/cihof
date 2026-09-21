@@ -8,14 +8,15 @@ const approved = { status: 'approved', decisionReference: 'fixture-decision', co
 const everywhere = { publicWeb: true, kiosk: true };
 
 const relationship = (index: number) => ({
+  claim: 'documented',
   id: `fixture-rel-${index}`,
-  fromPersonId: 'alex-machaskee-2010',
-  toPersonId: 'august-pust-2010',
-  kind: 'inducted_by',
-  label: 'Inducted by',
-  sourceNote: 'Fixture induction record.',
+  from: 'alex-machaskee-2010',
+  to: 'august-pust-2010',
+  kind: 'collaborated-with',
+  label: 'worked with August Pust on the Cultural Gardens federation',
   review: approved,
   publication: everywhere,
+  evidence: [{ id: `fixture-ev-${index}`, title: 'Fixture collection record', kind: 'collection-record' }],
 });
 
 test('the collection as it stands offers People and Years only', () => {
