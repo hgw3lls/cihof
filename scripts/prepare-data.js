@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, relative, resolve } from 'node:path';
 import { buildReport, loadInductees, loadPhysicalWallMetadata } from './data-utils.js';
@@ -26,6 +27,9 @@ const sourceCurationAddendumPaths = [
 ];
 const archiveLeadsSourcePath = resolve('data/cihof_archive_items.json');
 const archiveLeadsOutputPath = resolve('public/data/archive-leads.json');
+const placesSourcePath = resolve('data/cihof_places.json');
+const placesOutputPath = resolve('public/data/places.json');
+const cityContentReviewOutputPath = resolve('public/data/city-content-review.json');
 const runtimeDataBundleOutputPath = resolve('public/data/cihof-runtime-data.json');
 const standardsIndexOutputPath = resolve('public/data/standards-index.json');
 const linkedArtOutputPath = resolve('public/data/linked-art-export.json');
@@ -46,6 +50,9 @@ const mediaManifest = loadRuntimeMediaManifest();
 const physicalWallMetadata = loadPhysicalWallMetadata();
 const sourceCurationPacket = loadSourceCurationPacket();
 const archiveLeads = buildArchiveLeads(sourceCurationPacket);
+const places = loadPlaces();
+const contentContract = buildContentContract();
+const cityContentReview = buildCityContentReview();
 const standardsExport = buildStandardsExport();
 const runtimeDataBundle = buildRuntimeDataBundle();
 
@@ -63,6 +70,8 @@ writeFileSync(mediaManifestOutputPath, `${JSON.stringify(mediaManifest.document,
 writeFileSync(physicalWallOutputPath, `${JSON.stringify(physicalWallMetadata, null, 2)}\n`);
 writeFileSync(sourceCurationOutputPath, `${JSON.stringify(sourceCurationPacket.document, null, 2)}\n`);
 writeFileSync(archiveLeadsOutputPath, `${JSON.stringify(archiveLeads.document, null, 2)}\n`);
+writeFileSync(placesOutputPath, `${JSON.stringify(places.document, null, 2)}\n`);
+writeFileSync(cityContentReviewOutputPath, `${JSON.stringify(cityContentReview, null, 2)}\n`);
 writeFileSync(standardsIndexOutputPath, `${JSON.stringify(standardsExport.index, null, 2)}\n`);
 writeFileSync(linkedArtOutputPath, `${JSON.stringify(standardsExport.linkedArt, null, 2)}\n`);
 writeFileSync(cidocCrmOutputPath, `${JSON.stringify(standardsExport.cidocCrm, null, 2)}\n`);
@@ -87,6 +96,7 @@ console.log(`Prepared ${mediaManifest.recordCount} runtime media manifest record
 console.log(`Prepared ${Object.keys(physicalWallMetadata.positions ?? {}).length} physical wall position records.`);
 console.log(`Prepared ${sourceCurationPacket.recordCount} source curation profile rows.`);
 console.log(`Prepared ${archiveLeads.recordCount} archive leads (${archiveLeads.visitorReadyCount} visitor-ready).`);
+console.log(`Prepared ${places.recordCount} place review seeds and ${cityContentReview.vocabulary.length} unresolved vocabulary labels.`);
 console.log(
   `Prepared standards exports: Linked Art, CIDOC CRM JSON-LD, and ${standardsExport.iiif.manifests.length} IIIF Presentation manifests.`,
 );
@@ -766,7 +776,7 @@ function countBy(records, selector) {
 
 function buildRuntimeDataBundle() {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: runtimeDataGeneratedAt,
     appName: 'CIHOF Portrait Wall',
     source: {
@@ -781,12 +791,126 @@ function buildRuntimeDataBundle() {
     storyLenses: storyLenses.document,
     mediaManifest: mediaManifest.document,
     archiveLeads: archiveLeads.document,
+    contentContract,
     physicalWall: physicalWallMetadata,
-    places: loadOptionalRuntimeJson('public/data/places.json', { schemaVersion: 1, places: [] }),
+    places: places.document,
     cityQuestion: loadOptionalRuntimeJson('public/data/city-question.json', null),
     worldLens: loadOptionalRuntimeJson('public/data/world-lens.json', null),
     sourceCuration: buildSourceCurationRuntimeSummary(sourceCurationPacket),
     standards: standardsExport.index,
+  };
+}
+
+function loadPlaces() {
+  const fallback = { schemaVersion: 1, source: {}, placeTypes: [], places: [] };
+  if (!existsSync(placesSourcePath)) return { document: fallback, recordCount: 0 };
+  try {
+    const document = JSON.parse(readFileSync(placesSourcePath, 'utf8'));
+    const records = Array.isArray(document.places) ? document.places : [];
+    return {
+      document: { ...document, places: records },
+      recordCount: records.length,
+    };
+  } catch {
+    return { document: fallback, recordCount: 0 };
+  }
+}
+
+function buildContentContract() {
+  const revisionInput = JSON.stringify({
+    people: inductees.map((person) => ({ id: person.id, approvalStatus: person.approvalStatus })),
+    relationships: relationshipMetadata.records,
+    storySections: storySections.document,
+    places: places.document,
+    archiveLeads: archiveLeads.document.records,
+  });
+  return {
+    schemaVersion: 1,
+    contentRevision: createHash('sha256').update(revisionInput).digest('hex'),
+    personEntityAdapter: 'person:<canonical-inductee-id>',
+    baseProfileCompatibility: 'legacy-id-and-name-v1',
+    enrichmentPolicy: 'explicit-review-and-target-v1',
+    targetFields: ['publicWeb', 'kiosk', 'staffOnly'],
+  };
+}
+
+function buildCityContentReview() {
+  const vocabulary = new Map();
+  for (const person of inductees) {
+    for (const [sourceField, labels] of [['communityTags', person.communityTags], ['countryTags', person.countryTags]]) {
+      for (const label of labels ?? []) {
+        const key = `${sourceField}:${label}`;
+        const current = vocabulary.get(key) ?? {
+          id: `vocabulary:${slugifyArchiveText(sourceField)}:${slugifyArchiveText(label)}`,
+          label,
+          sourceField,
+          proposedKind: 'unresolved-legacy',
+          review: { status: 'needs-review' },
+          publication: { publicWeb: false, kiosk: false, staffOnly: true },
+          personIds: [],
+        };
+        current.personIds.push(person.id);
+        vocabulary.set(key, current);
+      }
+    }
+  }
+
+  const approvalCounts = countBy(inductees, (person) => person.approvalStatus || 'unrecorded');
+  const storyRecords = Object.values(storySections.document.records ?? {}).map((record) => ({
+    inducteeId: record.inducteeId,
+    beatCount: Array.isArray(record.beats) ? record.beats.length : 0,
+    sourceWordingPreserved: true,
+    review: { status: 'needs-review' },
+    publication: { publicWeb: false, kiosk: false, staffOnly: true },
+  }));
+  const placeRecords = (places.document.places ?? []).map((place) => ({
+    id: place.id,
+    name: place.name,
+    sourceGeometry: place.marker ? {
+      kind: 'schematic',
+      coordinateSystem: 'cihof-legacy-schematic-v1',
+      x: place.marker.x,
+      y: place.marker.y,
+    } : { kind: 'none' },
+    candidatePersonIds: Array.isArray(place.related?.people) ? place.related.people : [],
+    review: { status: 'needs-review' },
+    publication: { publicWeb: false, kiosk: false, staffOnly: true },
+  }));
+  const invalidPersonEntityMappings = inductees
+    .filter((person) => !entityModel.entityDocument.entities.some((entity) => entity.id === `person:${person.id}`))
+    .map((person) => person.id);
+
+  return {
+    schemaVersion: 1,
+    generatedAt: runtimeDataGeneratedAt,
+    contentRevision: contentContract.contentRevision,
+    compatibility: {
+      baseProfileCount: inductees.length,
+      approvalStatusCounts: approvalCounts,
+      policy: 'Base profiles remain eligible by canonical id and non-empty name. Legacy approvalStatus is not an enrichment publication decision.',
+    },
+    personEntityMapping: {
+      adapter: contentContract.personEntityAdapter,
+      checked: inductees.length,
+      invalidIds: invalidPersonEntityMappings,
+    },
+    vocabulary: [...vocabulary.values()].sort((a, b) => a.label.localeCompare(b.label) || a.sourceField.localeCompare(b.sourceField)),
+    places: placeRecords,
+    stories: storyRecords,
+    archives: archiveLeads.document.records.map((record) => ({
+      id: record.id,
+      inducteeId: record.inducteeId,
+      status: record.status,
+      visibility: record.visibility,
+      approvedForPublicWeb: record.approvedForPublicWeb === true,
+      approvedForKiosk: record.approvedForKiosk === true,
+    })),
+    guardrails: [
+      'No vocabulary kind is inferred from a label.',
+      'Schematic place markers are not geographic coordinates.',
+      'Story starters and place associations remain staff review inputs until an authorized decision is recorded.',
+      'Curated or documented provenance does not grant publication permission.',
+    ],
   };
 }
 

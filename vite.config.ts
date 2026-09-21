@@ -5,6 +5,16 @@ import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { isVisitorReadyVideo, type VisitorMediaTarget } from './src/app/mediaPublication.ts';
+import {
+  filterArchiveLeadsForTarget,
+  filterPlacesForTarget,
+  filterRuntimeEnrichmentForTarget,
+  filterStorySectionsForTarget,
+  isEntityPublishedForTarget,
+  isEntityRelationshipPublishedForTarget,
+  validatePublishedRuntimeReferences,
+} from './src/data/publicationPolicy.ts';
+import { isVisitorPublishedRelationshipForTarget } from './src/data/relationshipPublication.ts';
 
 const buildTarget = process.env.CIHOF_BUILD_TARGET === 'portal' ? 'portal' : process.env.CIHOF_BUILD_TARGET === 'public' ? 'public' : 'kiosk';
 const defaultBase = process.env.NODE_ENV === 'production' ? '/cihof/' : '/';
@@ -134,7 +144,7 @@ function copyPublicFile(sourcePath: string, targetPath: string, publicPath: stri
 function shouldSkipPublicPath(publicPath: string, isDirectory = false) {
   if (!publicPath || publicPath.endsWith('/.DS_Store') || publicPath === '.DS_Store') return true;
   if (publicPath === 'fonts/exhibit' || publicPath.startsWith('fonts/exhibit/')) return true;
-  if (buildTarget !== 'portal' && publicPath === 'data/source-curation-packet.json') return true;
+  if (buildTarget !== 'portal' && staffOnlyDataPaths.has(publicPath)) return true;
   if (publicPath === 'media/videos' || publicPath.startsWith('media/videos/')) {
     if (buildTarget === 'portal') return true;
     return !isDirectory && !mediaPublicPaths?.has(publicPath);
@@ -150,6 +160,15 @@ const visitorDataPaths = new Set([
   'data/entity-relationships.json',
   'data/linked-art-export.json',
   'data/cidoc-crm-export.json',
+  'data/story-sections.json',
+  'data/archive-leads.json',
+  'data/places.json',
+  'data/relationships.json',
+]);
+
+const staffOnlyDataPaths = new Set([
+  'data/source-curation-packet.json',
+  'data/city-content-review.json',
 ]);
 
 const provisionalRelationshipTypes = new Set([
@@ -230,25 +249,41 @@ function readMediaPublicPaths(target: VisitorMediaTarget) {
 }
 
 function visitorDataJson(sourcePath: string, publicPath: string, target: VisitorMediaTarget) {
-  const document = JSON.parse(readFileSync(sourcePath, 'utf8')) as Record<string, unknown>;
+  const payload = JSON.parse(readFileSync(sourcePath, 'utf8')) as unknown;
+  const document = asRecord(payload);
+  if (publicPath === 'data/relationships.json') {
+    const relationships = Array.isArray(payload)
+      ? payload.filter((relationship) => isVisitorPublishedRelationshipForTarget(relationship, target))
+      : [];
+    return `${JSON.stringify(relationships, null, 2)}\n`;
+  }
+  if (publicPath === 'data/story-sections.json') {
+    return `${JSON.stringify(filterStorySectionsForTarget(document, target), null, 2)}\n`;
+  }
+  if (publicPath === 'data/archive-leads.json') {
+    return `${JSON.stringify(filterArchiveLeadsForTarget(document, target), null, 2)}\n`;
+  }
+  if (publicPath === 'data/places.json') {
+    return `${JSON.stringify(filterPlacesForTarget(document, target), null, 2)}\n`;
+  }
   if (publicPath === 'data/media-manifest.json') {
     return `${JSON.stringify(visitorMediaManifest(document, target), null, 2)}\n`;
   }
 
   const mediaManifest = readVisitorMediaManifest(target);
   if (publicPath === 'data/inductees.json') {
-    const inductees = Array.isArray(document)
-      ? document.map((value) => visitorInductee(value, mediaManifest))
-      : document;
+    const inductees = Array.isArray(payload)
+      ? payload.map((value) => visitorInductee(value, mediaManifest))
+      : payload;
     return `${JSON.stringify(inductees, null, 2)}\n`;
   }
 
-  const removedEntityIds = readRemovedVisitorEntityIds();
+  const removedEntityIds = readRemovedVisitorEntityIds(target);
   if (publicPath === 'data/entities.json') {
-    return `${JSON.stringify(visitorEntities(document, mediaManifest), null, 2)}\n`;
+    return `${JSON.stringify(visitorEntities(document, mediaManifest, target), null, 2)}\n`;
   }
   if (publicPath === 'data/entity-relationships.json') {
-    return `${JSON.stringify(visitorEntityRelationships(document, removedEntityIds), null, 2)}\n`;
+    return `${JSON.stringify(visitorEntityRelationships(document, removedEntityIds, target), null, 2)}\n`;
   }
   if (publicPath === 'data/linked-art-export.json') {
     return `${JSON.stringify(visitorLinkedArt(document), null, 2)}\n`;
@@ -261,9 +296,20 @@ function visitorDataJson(sourcePath: string, publicPath: string, target: Visitor
   const inductees = Array.isArray(document.inductees)
     ? document.inductees.map((value) => visitorInductee(value, runtimeMediaManifest))
     : document.inductees;
-  const entities = visitorEntities(asRecord(document.entities), runtimeMediaManifest);
-  const entityRelationships = visitorEntityRelationships(asRecord(document.entityRelationships), removedEntityIds);
-  return `${JSON.stringify({ ...document, inductees, mediaManifest: runtimeMediaManifest, entities, entityRelationships }, null, 2)}\n`;
+  const entities = visitorEntities(asRecord(document.entities), runtimeMediaManifest, target);
+  const entityRelationships = visitorEntityRelationships(asRecord(document.entityRelationships), removedEntityIds, target);
+  const relationships = Array.isArray(document.relationships)
+    ? document.relationships.filter((relationship) => isVisitorPublishedRelationshipForTarget(relationship, target))
+    : [];
+  const visitorBundle = filterRuntimeEnrichmentForTarget(
+    { ...document, inductees, relationships, mediaManifest: runtimeMediaManifest, entities, entityRelationships },
+    target,
+  );
+  const referenceIssues = validatePublishedRuntimeReferences(visitorBundle);
+  if (referenceIssues.length > 0) {
+    throw new Error(`Visitor runtime reference validation failed:\n${referenceIssues.join('\n')}`);
+  }
+  return `${JSON.stringify(visitorBundle, null, 2)}\n`;
 }
 
 function readVisitorMediaManifest(target: VisitorMediaTarget) {
@@ -275,27 +321,27 @@ function readVisitorMediaManifest(target: VisitorMediaTarget) {
   }
 }
 
-function readRemovedVisitorEntityIds() {
+function readRemovedVisitorEntityIds(target: VisitorMediaTarget) {
   try {
     const document = JSON.parse(readFileSync(resolve('public/data/entities.json'), 'utf8')) as Record<string, unknown>;
-    return removedVisitorEntityIds(document);
+    return removedVisitorEntityIds(document, target);
   } catch {
     return new Set<string>();
   }
 }
 
-function removedVisitorEntityIds(document: Record<string, unknown>) {
+function removedVisitorEntityIds(document: Record<string, unknown>, target: VisitorMediaTarget) {
   const entities = Array.isArray(document.entities) ? document.entities : [];
-  return new Set(entities.filter(isVisitorRemovedEntity).map((value) => String(asRecord(value).id)));
+  return new Set(entities.filter((value) => isVisitorRemovedEntity(value, target)).map((value) => String(asRecord(value).id)));
 }
 
-function visitorEntities(document: Record<string, unknown>, mediaManifest: Record<string, unknown>) {
-  const removedEntityIds = removedVisitorEntityIds(document);
+function visitorEntities(document: Record<string, unknown>, mediaManifest: Record<string, unknown>, target: VisitorMediaTarget) {
+  const removedEntityIds = removedVisitorEntityIds(document, target);
   const visitorVideoPersonIds = new Set(Object.entries(asRecord(mediaManifest.assets))
     .filter(([, value]) => Array.isArray(asRecord(value).videos) && asRecord(value).videos.length > 0)
     .map(([id]) => id));
   const entities = Array.isArray(document.entities)
-    ? document.entities.filter((value) => !isVisitorRemovedEntity(value)).map((value) => {
+    ? document.entities.filter((value) => !isVisitorRemovedEntity(value, target)).map((value) => {
         const entity = asRecord(value);
         const media = Array.isArray(entity.media)
           ? entity.media.filter((item) => {
@@ -323,17 +369,17 @@ function isCandidateEntity(value: unknown) {
   return asRecord(asRecord(value).attributes).candidateEntity === true;
 }
 
-function isVisitorRemovedEntity(value: unknown) {
-  return isVideoEntity(value) || isCandidateEntity(value);
+function isVisitorRemovedEntity(value: unknown, target: VisitorMediaTarget) {
+  return isVideoEntity(value) || isCandidateEntity(value) || !isEntityPublishedForTarget(value, target);
 }
 
-function visitorEntityRelationships(document: Record<string, unknown>, removedEntityIds: Set<string>) {
+function visitorEntityRelationships(document: Record<string, unknown>, removedEntityIds: Set<string>, target: VisitorMediaTarget) {
   const relationships = Array.isArray(document.relationships)
     ? document.relationships.filter((value) => {
         const relationship = asRecord(value);
         return !removedEntityIds.has(String(relationship.sourceEntityId))
           && !removedEntityIds.has(String(relationship.targetEntityId))
-          && !isProvisionalRelationshipType(relationship.type)
+          && isEntityRelationshipPublishedForTarget(value, target)
           && !isVideoSourceField(asRecord(relationship.provenance).sourceField);
       })
     : document.relationships;

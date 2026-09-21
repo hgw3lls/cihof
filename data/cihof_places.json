@@ -23,17 +23,10 @@
       "name": "Cleveland Cultural Gardens",
       "type": "cultural_garden",
       "shortHistory": "The gardens are one of Cleveland's clearest physical expressions of immigrant memory, cultural pride, and civic welcome. Multiple inductee biographies connect community leaders to the gardens, their federation, and individual national gardens.",
-      "marker": {
-        "x": 72,
-        "y": 34,
-        "labelOffsetX": -14,
-        "labelOffsetY": -8
-      },
+      "marker": { "x": 72, "y": 34, "labelOffsetX": -14, "labelOffsetY": -8 },
       "neighborhood": "Rockefeller Park",
       "address": "Martin Luther King Jr. Drive corridor",
-      "dateRange": {
-        "label": "1916-present"
-      },
+      "dateRange": { "label": "1916-present" },
       "related": {
         "people": [
           "leo-weidenthal-2010",
@@ -46,20 +39,8 @@
           "svetlana-stolyarova-2025",
           "branka-malinar-2025"
         ],
-        "communities": [
-          "Armenian",
-          "Chinese",
-          "Croatian",
-          "Estonian",
-          "Lebanese",
-          "Polish",
-          "Russian"
-        ],
-        "organizations": [
-          "Cleveland Cultural Gardens Federation",
-          "Russian Cultural Garden",
-          "Croatian Cultural Garden"
-        ]
+        "communities": ["Armenian", "Chinese", "Croatian", "Estonian", "Lebanese", "Polish", "Russian"],
+        "organizations": ["Cleveland Cultural Gardens Federation", "Russian Cultural Garden", "Croatian Cultural Garden"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -73,16 +54,9 @@
       "name": "One World Day at Rockefeller Park",
       "type": "festival_location",
       "shortHistory": "One World Day brings Cleveland communities together in the Cultural Gardens corridor. The starter record groups inductees whose biographies mention One World Day or major public cultural programming connected to the gardens.",
-      "marker": {
-        "x": 76,
-        "y": 39,
-        "labelOffsetX": -18,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 76, "y": 39, "labelOffsetX": -18, "labelOffsetY": 8 },
       "neighborhood": "Rockefeller Park",
-      "dateRange": {
-        "label": "Annual festival"
-      },
+      "dateRange": { "label": "Annual festival" },
       "related": {
         "people": [
           "sheila-murphy-crawford-2018",
@@ -91,12 +65,8 @@
           "dona-brady-2024",
           "johnny-k-wu-2024"
         ],
-        "communities": [
-          "Cleveland international communities"
-        ],
-        "organizations": [
-          "Cleveland Cultural Gardens Federation"
-        ]
+        "communities": ["Cleveland international communities"],
+        "organizations": ["Cleveland Cultural Gardens Federation"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -110,17 +80,10 @@
       "name": "Cleveland City Hall",
       "type": "civic_building",
       "shortHistory": "City Hall appears in CIHOF records as a civic setting for international community recognition, including the City Hall Rotunda gatherings described in Mayor Frank Jackson's biography.",
-      "marker": {
-        "x": 52,
-        "y": 48,
-        "labelOffsetX": 10,
-        "labelOffsetY": -12
-      },
+      "marker": { "x": 52, "y": 48, "labelOffsetX": 10, "labelOffsetY": -12 },
       "neighborhood": "Downtown",
       "address": "601 Lakeside Avenue East",
-      "dateRange": {
-        "label": "Civic landmark"
-      },
+      "dateRange": { "label": "Civic landmark" },
       "related": {
         "people": [
           "mayor-frank-jackson-2025",
@@ -129,13 +92,8 @@
           "joyce-mariani-2023",
           "dr-eugene-jordan-2024"
         ],
-        "communities": [
-          "Cleveland international communities"
-        ],
-        "organizations": [
-          "City of Cleveland",
-          "Cleveland International Hall of Fame"
-        ]
+        "communities": ["Cleveland international communities"],
+        "organizations": ["City of Cleveland", "Cleveland International Hall of Fame"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -149,30 +107,14 @@
       "name": "Cleveland Public Library",
       "type": "cultural_center",
       "shortHistory": "The library is a downtown cultural anchor and public memory institution. It appears in several inductee records as part of Cleveland's civic and cultural infrastructure.",
-      "marker": {
-        "x": 54,
-        "y": 51,
-        "labelOffsetX": 10,
-        "labelOffsetY": 10
-      },
+      "marker": { "x": 54, "y": 51, "labelOffsetX": 10, "labelOffsetY": 10 },
       "neighborhood": "Downtown",
       "address": "325 Superior Avenue",
-      "dateRange": {
-        "label": "Public institution"
-      },
+      "dateRange": { "label": "Public institution" },
       "related": {
-        "people": [
-          "leo-weidenthal-2010",
-          "joe-valencic-2020",
-          "beverly-kerecman-2025",
-          "andy-chakalis-2026"
-        ],
-        "communities": [
-          "Cleveland civic community"
-        ],
-        "organizations": [
-          "Cleveland Public Library"
-        ]
+        "people": ["leo-weidenthal-2010", "joe-valencic-2020", "beverly-kerecman-2025", "andy-chakalis-2026"],
+        "communities": ["Cleveland civic community"],
+        "organizations": ["Cleveland Public Library"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -186,17 +128,10 @@
       "name": "Cleveland State University",
       "type": "school",
       "shortHistory": "Cleveland State University connects education, civic leadership, law, business, and public service across the CIHOF collection. Several inductees are linked to CSU through study, leadership, or institutional service.",
-      "marker": {
-        "x": 58,
-        "y": 55,
-        "labelOffsetX": 12,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 58, "y": 55, "labelOffsetX": 12, "labelOffsetY": 8 },
       "neighborhood": "Campus District",
       "address": "Euclid Avenue",
-      "dateRange": {
-        "label": "University"
-      },
+      "dateRange": { "label": "University" },
       "related": {
         "people": [
           "mayor-frank-jackson-2025",
@@ -206,12 +141,8 @@
           "jose-c-feliciano-2012",
           "monte-ahuja-2014"
         ],
-        "communities": [
-          "Cleveland education community"
-        ],
-        "organizations": [
-          "Cleveland State University"
-        ]
+        "communities": ["Cleveland education community"],
+        "organizations": ["Cleveland State University"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -225,26 +156,13 @@
       "name": "Max S. Hayes High School",
       "type": "school",
       "shortHistory": "Mayor Frank Jackson's biography identifies Max S. Hayes High School as part of his Cleveland education story before military service, college, law, and public office.",
-      "marker": {
-        "x": 35,
-        "y": 45,
-        "labelOffsetX": -16,
-        "labelOffsetY": -10
-      },
+      "marker": { "x": 35, "y": 45, "labelOffsetX": -16, "labelOffsetY": -10 },
       "neighborhood": "West Side",
-      "dateRange": {
-        "label": "School"
-      },
+      "dateRange": { "label": "School" },
       "related": {
-        "people": [
-          "mayor-frank-jackson-2025"
-        ],
-        "communities": [
-          "Cleveland education community"
-        ],
-        "organizations": [
-          "Max S. Hayes High School"
-        ]
+        "people": ["mayor-frank-jackson-2025"],
+        "communities": ["Cleveland education community"],
+        "organizations": ["Max S. Hayes High School"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -258,24 +176,12 @@
       "name": "St. Colman Church",
       "type": "church",
       "shortHistory": "St. Colman appears in Fr. Jim O'Donnell's CIHOF record and represents the role of churches as neighborhood anchors in Cleveland's immigrant and civic life.",
-      "marker": {
-        "x": 38,
-        "y": 53,
-        "labelOffsetX": -16,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 38, "y": 53, "labelOffsetX": -16, "labelOffsetY": 8 },
       "neighborhood": "Near West Side",
       "related": {
-        "people": [
-          "fr-jim-o-donnell-2012"
-        ],
-        "communities": [
-          "Irish American",
-          "Near West Side"
-        ],
-        "organizations": [
-          "St. Colman Church"
-        ]
+        "people": ["fr-jim-o-donnell-2012"],
+        "communities": ["Irish American", "Near West Side"],
+        "organizations": ["St. Colman Church"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -289,31 +195,13 @@
       "name": "AsiaTown",
       "type": "neighborhood",
       "shortHistory": "AsiaTown is a Cleveland neighborhood context for Asian cultural life, business, organizing, and public festivals. The starter record groups nearby business and community references from the collection.",
-      "marker": {
-        "x": 61,
-        "y": 43,
-        "labelOffsetX": 12,
-        "labelOffsetY": -8
-      },
+      "marker": { "x": 61, "y": 43, "labelOffsetX": 12, "labelOffsetY": -8 },
       "neighborhood": "AsiaTown",
-      "dateRange": {
-        "label": "Neighborhood"
-      },
+      "dateRange": { "label": "Neighborhood" },
       "related": {
-        "people": [
-          "donna-hom-2014",
-          "johnny-k-wu-2024",
-          "margaret-w-wong-2010",
-          "giahoa-ryan-2011"
-        ],
-        "communities": [
-          "Asian American",
-          "Chinese American",
-          "Vietnamese American"
-        ],
-        "organizations": [
-          "AsiaTown Cleveland"
-        ]
+        "people": ["donna-hom-2014", "johnny-k-wu-2024", "margaret-w-wong-2010", "giahoa-ryan-2011"],
+        "communities": ["Asian American", "Chinese American", "Vietnamese American"],
+        "organizations": ["AsiaTown Cleveland"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -327,25 +215,12 @@
       "name": "Asia Plaza",
       "type": "business",
       "shortHistory": "Asia Plaza is represented here as a business and gathering place connected to Cleveland Asian community life in the inductee records.",
-      "marker": {
-        "x": 63,
-        "y": 45,
-        "labelOffsetX": 12,
-        "labelOffsetY": 10
-      },
+      "marker": { "x": 63, "y": 45, "labelOffsetX": 12, "labelOffsetY": 10 },
       "neighborhood": "AsiaTown",
       "related": {
-        "people": [
-          "donna-hom-2014",
-          "johnny-k-wu-2024"
-        ],
-        "communities": [
-          "Asian American",
-          "Chinese American"
-        ],
-        "organizations": [
-          "Asia Plaza"
-        ]
+        "people": ["donna-hom-2014", "johnny-k-wu-2024"],
+        "communities": ["Asian American", "Chinese American"],
+        "organizations": ["Asia Plaza"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -359,24 +234,12 @@
       "name": "Sai Gon Plaza",
       "type": "business",
       "shortHistory": "Sai Gon Plaza is included as a business and community gathering place tied to Vietnamese American leadership in the collection.",
-      "marker": {
-        "x": 66,
-        "y": 47,
-        "labelOffsetX": 12,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 66, "y": 47, "labelOffsetX": 12, "labelOffsetY": 8 },
       "neighborhood": "AsiaTown",
       "related": {
-        "people": [
-          "dr-dieu-thuc-do-2010",
-          "giahoa-ryan-2011"
-        ],
-        "communities": [
-          "Vietnamese American"
-        ],
-        "organizations": [
-          "Sai Gon Plaza"
-        ]
+        "people": ["dr-dieu-thuc-do-2010", "giahoa-ryan-2011"],
+        "communities": ["Vietnamese American"],
+        "organizations": ["Sai Gon Plaza"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -390,26 +253,13 @@
       "name": "St. Clair-Superior",
       "type": "neighborhood",
       "shortHistory": "St. Clair-Superior is included as an east side neighborhood shaped by cultural, business, and community organizations. This starter record keeps the place available for deeper neighborhood curation.",
-      "marker": {
-        "x": 68,
-        "y": 42,
-        "labelOffsetX": 12,
-        "labelOffsetY": -8
-      },
+      "marker": { "x": 68, "y": 42, "labelOffsetX": 12, "labelOffsetY": -8 },
       "neighborhood": "St. Clair-Superior",
-      "dateRange": {
-        "label": "Neighborhood"
-      },
+      "dateRange": { "label": "Neighborhood" },
       "related": {
-        "people": [
-          "carl-robson-2022"
-        ],
-        "communities": [
-          "Cleveland east side communities"
-        ],
-        "organizations": [
-          "St. Clair-Superior Development Corporation"
-        ]
+        "people": ["carl-robson-2022"],
+        "communities": ["Cleveland east side communities"],
+        "organizations": ["St. Clair-Superior Development Corporation"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -423,27 +273,13 @@
       "name": "Central and Kinsman",
       "type": "neighborhood",
       "shortHistory": "Mayor Frank Jackson's biography names Central and Kinsman as formative Cleveland neighborhoods. The place record creates a bridge from personal story to neighborhood history.",
-      "marker": {
-        "x": 57,
-        "y": 64,
-        "labelOffsetX": 10,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 57, "y": 64, "labelOffsetX": 10, "labelOffsetY": 8 },
       "neighborhood": "Central and Kinsman",
-      "dateRange": {
-        "label": "Neighborhood"
-      },
+      "dateRange": { "label": "Neighborhood" },
       "related": {
-        "people": [
-          "paul-sciria-2010",
-          "mayor-frank-jackson-2025"
-        ],
-        "communities": [
-          "Cleveland central neighborhoods"
-        ],
-        "organizations": [
-          "Cleveland Ward 5 civic network"
-        ]
+        "people": ["paul-sciria-2010", "mayor-frank-jackson-2025"],
+        "communities": ["Cleveland central neighborhoods"],
+        "organizations": ["Cleveland Ward 5 civic network"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -457,23 +293,12 @@
       "name": "Greater Cleveland Ethnographic Museum",
       "type": "community_organization",
       "shortHistory": "The museum initiative appears in August Pust's biography and points to the preservation of Cleveland's ethnic and cultural histories.",
-      "marker": {
-        "x": 50,
-        "y": 56,
-        "labelOffsetX": -24,
-        "labelOffsetY": 10
-      },
+      "marker": { "x": 50, "y": 56, "labelOffsetX": -24, "labelOffsetY": 10 },
       "neighborhood": "Greater Cleveland",
       "related": {
-        "people": [
-          "august-pust-2010"
-        ],
-        "communities": [
-          "Cleveland ethnic heritage communities"
-        ],
-        "organizations": [
-          "Greater Cleveland Ethnographic Museum"
-        ]
+        "people": ["august-pust-2010"],
+        "communities": ["Cleveland ethnic heritage communities"],
+        "organizations": ["Greater Cleveland Ethnographic Museum"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",
@@ -487,27 +312,13 @@
       "name": "East Technical High School",
       "type": "historic_address",
       "shortHistory": "Mayor Frank Jackson's record identifies East Technical High School as the setting for his January 2, 2006 mayoral swearing-in, making it a civic memory point in this collection.",
-      "marker": {
-        "x": 60,
-        "y": 61,
-        "labelOffsetX": 12,
-        "labelOffsetY": 8
-      },
+      "marker": { "x": 60, "y": 61, "labelOffsetX": 12, "labelOffsetY": 8 },
       "neighborhood": "Central",
-      "dateRange": {
-        "label": "2006 civic ceremony reference"
-      },
+      "dateRange": { "label": "2006 civic ceremony reference" },
       "related": {
-        "people": [
-          "mayor-frank-jackson-2025"
-        ],
-        "communities": [
-          "Cleveland civic community"
-        ],
-        "organizations": [
-          "East Technical High School",
-          "City of Cleveland"
-        ]
+        "people": ["mayor-frank-jackson-2025"],
+        "communities": ["Cleveland civic community"],
+        "organizations": ["East Technical High School", "City of Cleveland"]
       },
       "provenance": {
         "source": "Existing CIHOF inductee records",

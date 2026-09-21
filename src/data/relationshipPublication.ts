@@ -1,4 +1,5 @@
-import type { RelationshipEntityType, RelationshipProvenance, RelationshipRecord, RelationshipType } from './types';
+import type { RelationshipEntityType, RelationshipProvenance, RelationshipRecord, RelationshipType } from './types.ts';
+import { isExplicitlyPublished, type VisitorContentTarget } from './publicationPolicy.ts';
 
 const relationshipTypes = new Set<RelationshipType>([
   'inducted_by',
@@ -36,7 +37,14 @@ export function isRelationshipRecord(value: unknown): value is RelationshipRecor
 }
 
 export function isVisitorPublishedRelationship(value: unknown): value is RelationshipRecord {
+  return isVisitorPublishedRelationshipForTarget(value, 'kiosk');
+}
+
+export function isVisitorPublishedRelationshipForTarget(value: unknown, target: VisitorContentTarget): value is RelationshipRecord {
   if (!isRelationshipRecord(value)) return false;
+  if (value.review !== undefined || value.publication !== undefined) {
+    return isExplicitlyPublished(value, target) && Boolean(value.evidence?.length);
+  }
   return value.id.trim().length > 0
     && value.type !== 'same_class'
     && value.provenance !== 'inferred'
