@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "auditCommit": "d97afd32b967a5b6e62ad6075b133979e8468b0a",
+  "packageFolder": "cihof-city-experience",
+  "executionPolicy": "one stage per reviewed task; no push/merge/deploy",
+  "stages": [
+    {
+      "id": "CE-00",
+      "title": "Refresh the baseline and adopt the extension deliberately",
+      "dependsOn": [],
+      "promptFile": "prompts/CE-00_baseline-and-adoption.md",
+      "status": "not-started",
+      "goal": "Establish what HEAD actually contains, reconcile the existing MG work, and define a safe boundary for the new city-experience implementation."
+    },
+    {
+      "id": "CE-01",
+      "title": "Make content semantics and publication rules explicit",
+      "dependsOn": [
+        "CE-00"
+      ],
+      "promptFile": "prompts/CE-01_content-contracts-and-publication.md",
+      "status": "not-started",
+      "goal": "Provide the reviewed data structures that make the intended interactions truthful without losing the existing collection."
+    },
+    {
+      "id": "CE-02",
+      "title": "Unify selection, filters, history and session state",
+      "dependsOn": [
+        "CE-01"
+      ],
+      "promptFile": "prompts/CE-02_shared-state-and-navigation.md",
+      "status": "not-started",
+      "goal": "Make every lens answer the same visitor question while preserving context, deep links and reset behavior."
+    },
+    {
+      "id": "CE-03",
+      "title": "Create the signature collection-regrouping interaction",
+      "dependsOn": [
+        "CE-02"
+      ],
+      "promptFile": "prompts/CE-03_portrait-regrouping-and-discovery.md",
+      "status": "not-started",
+      "goal": "Let the collection visibly reorganize around communities and contributions without losing identity, readability or touch access."
+    },
+    {
+      "id": "CE-04",
+      "title": "Turn a selected person into a sourced, layered encounter",
+      "dependsOn": [
+        "CE-01",
+        "CE-02",
+        "CE-03"
+      ],
+      "promptFile": "prompts/CE-04_contribution-stories-and-evidence.md",
+      "status": "not-started",
+      "goal": "Provide What changed?, evidence and approved gallery browsing without rewriting historical sources or depending on pending films."
+    },
+    {
+      "id": "CE-05",
+      "title": "Make Cleveland places a real entry into the collection",
+      "dependsOn": [
+        "CE-01",
+        "CE-02",
+        "CE-03",
+        "CE-04"
+      ],
+      "promptFile": "prompts/CE-05_cleveland-places.md",
+      "status": "not-started",
+      "goal": "Connect city/neighborhood/place exploration to people and their specific documented activities."
+    },
+    {
+      "id": "CE-06",
+      "title": "Explain relationships and place two lives in dialogue",
+      "dependsOn": [
+        "CE-01",
+        "CE-02",
+        "CE-03",
+        "CE-04",
+        "CE-05"
+      ],
+      "promptFile": "prompts/CE-06_connections-and-comparison.md",
+      "status": "not-started",
+      "goal": "Extend existing connection mechanics into evidence-backed mixed-entity exploration and noncompetitive comparison."
+    },
+    {
+      "id": "CE-07",
+      "title": "Add historical time without confusing it with induction",
+      "dependsOn": [
+        "CE-01",
+        "CE-02",
+        "CE-03",
+        "CE-04",
+        "CE-05",
+        "CE-06"
+      ],
+      "promptFile": "prompts/CE-07_historical-activity.md",
+      "status": "not-started",
+      "goal": "Let visitors explore when documented civic activity occurred while retaining the current complete induction chronology."
+    },
+    {
+      "id": "CE-08",
+      "title": "Complete the walk-up invitation and public continuation",
+      "dependsOn": [
+        "CE-02",
+        "CE-03",
+        "CE-04",
+        "CE-05",
+        "CE-06",
+        "CE-07"
+      ],
+      "promptFile": "prompts/CE-08_walk-up-trails-and-continuation.md",
+      "status": "not-started",
+      "goal": "Make the new system approachable without prior name knowledge and preserve useful discoveries beyond the screen."
+    },
+    {
+      "id": "CE-09",
+      "title": "Review access, installed-display interaction and measured performance",
+      "dependsOn": [
+        "CE-03",
+        "CE-04",
+        "CE-05",
+        "CE-06",
+        "CE-07",
+        "CE-08"
+      ],
+      "promptFile": "prompts/CE-09_access-and-performance.md",
+      "status": "not-started",
+      "goal": "Make the new capabilities usable through touch, keyboard and independent accessible paths while keeping the exhibit responsive."
+    },
+    {
+      "id": "CE-10",
+      "title": "Make offline operation a versioned, recoverable package",
+      "dependsOn": [
+        "CE-01",
+        "CE-02",
+        "CE-03",
+        "CE-04",
+        "CE-05",
+        "CE-06",
+        "CE-07",
+        "CE-08",
+        "CE-09"
+      ],
+      "promptFile": "prompts/CE-10_offline-provisioning-and-recovery.md",
+      "status": "not-started",
+      "goal": "Replace reliance on opportunistic browsing caches with deliberate provisioning, coherent updates and tested recovery."
+    },
+    {
+      "id": "CE-11",
+      "title": "Gate the exact release artifact and hand it to staff",
+      "dependsOn": [
+        "CE-00",
+        "CE-01",
+        "CE-02",
+        "CE-03",
+        "CE-04",
+        "CE-05",
+        "CE-06",
+        "CE-07",
+        "CE-08",
+        "CE-09",
+        "CE-10"
+      ],
+      "promptFile": "prompts/CE-11_release-gates-and-handoff.md",
+      "status": "not-started",
+      "goal": "Ensure that the artifact deployed or installed is the one validated, with explicit content, access and operational responsibilities."
+    }
+  ]
+}
