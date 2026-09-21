@@ -64,6 +64,11 @@ jobs:
       - name: Induction crosswalk is current
         run: npm run crosswalk:check
 
+      # Catches the silent failure: a film's captions left untracked inside the
+      # ignored video folder, so the wall builds without them and says nothing.
+      - name: Film assets are in the repository
+        run: npm run media:assert
+
       - name: Exhibit state and selectors
         run: npm test --workspace @cihof/exhibit
 

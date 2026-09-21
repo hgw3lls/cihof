@@ -67,7 +67,8 @@
     "test:count:staff": "node scripts/assert-test-count.mjs staff",
     "test:staff": "npm run test:count:staff && playwright test -c playwright.staff.config.ts",
     "crosswalk": "npm run crosswalk --workspace @cihof/pipeline",
-    "crosswalk:check": "npm run crosswalk --workspace @cihof/pipeline -- --check"
+    "crosswalk:check": "npm run crosswalk --workspace @cihof/pipeline -- --check",
+    "media:assert": "node scripts/assert-film-assets.mjs"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
