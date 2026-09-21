@@ -62,7 +62,10 @@
     "audit:data": "node scripts/audit-data.js",
     "test:portal": "npm run test:count:portal && playwright test -c playwright.portal.config.ts",
     "test:count": "node scripts/assert-test-count.mjs",
-    "test:count:portal": "node scripts/assert-test-count.mjs portal"
+    "test:count:portal": "node scripts/assert-test-count.mjs portal",
+    "build:staff-fixture": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
+    "test:count:staff": "node scripts/assert-test-count.mjs staff",
+    "test:staff": "npm run test:count:staff && playwright test -c playwright.staff.config.ts"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

@@ -42,6 +42,12 @@ export type InstallationConfig = {
   animationIntensity: AnimationIntensity;
 };
 
+// Configuration reaches the client through an allowlist built at build time by
+// vite.config.ts, not through import.meta.env. A computed lookup into
+// import.meta.env inlines the whole env object, which shipped every VITE_ value
+// — the staff passcode included — into every artifact.
+const configuredEnv: Record<string, string | undefined> = __CIHOF_RUNTIME_ENV__;
+
 export const installationConfig: InstallationConfig = {
   idle: {
     timeoutMs: readMs(['VITE_CIHOF_IDLE_TIMEOUT_MS', 'VITE_CIHOF_KIOSK_IDLE_MS'], 120_000, 1_000, 20 * 60_000),
@@ -85,15 +91,14 @@ export const installationConfig: InstallationConfig = {
 };
 
 function readMs(names: string[], fallback: number, min: number, max: number) {
-  const env = import.meta.env as unknown as Record<string, string | undefined>;
-  const value = names.map((name) => env[name]).find((candidate) => candidate !== undefined);
+  const value = names.map((name) => configuredEnv[name]).find((candidate) => candidate !== undefined);
   const parsed = Number(value);
   if (!Number.isFinite(parsed)) return fallback;
   return Math.min(max, Math.max(min, parsed));
 }
 
 function readBooleanEnv(name: string, fallback: boolean) {
-  const value = import.meta.env[name];
+  const value = configuredEnv[name];
   if (value === undefined) return fallback;
   return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
 }
