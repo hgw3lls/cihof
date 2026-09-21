@@ -133,3 +133,10 @@ body {
 .film__transcript h3 { margin: 0 0 0.75rem; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .film__transcript p { margin: 0 0 0.75rem; font-size: clamp(0.9rem, 1.6vh, 1.0625rem); line-height: 1.5; }
 .record__film { min-height: var(--tap); margin: 0 0.5rem 0.5rem 0; padding: 0 1.25rem; border: 2px solid var(--rule); background: var(--ink); color: var(--paper); font: inherit; font-weight: 700; }
+
+/* Native dialogs sit in the top layer, so these only need their own shape.
+   The browser owns stacking, inertness and the focus trap. */
+dialog { max-width: none; max-height: none; width: auto; height: auto; padding: 0; border: 0; color: inherit; background: transparent; }
+dialog::backdrop { background: color-mix(in srgb, #000 55%, transparent); }
+dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: var(--paper); }
+dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: color-mix(in srgb, var(--paper) 90%, transparent); }
