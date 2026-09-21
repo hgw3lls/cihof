@@ -29,7 +29,12 @@ for (const input of ['mouse', 'touch', 'keyboard', 'phone'] as const) {
     const context = await browser.newContext({ hasTouch: input === 'touch' || input === 'phone', serviceWorkers: 'block',
       ...(input === 'phone' ? { viewport: { width: 390, height: 844 }, isMobile: true } : {}) });
     const page = await context.newPage();
-    try {
+    // Deliberately no try/finally around the body. Closing the context in a
+    // finally throws "Test ended" once a test has timed out, and that error
+    // replaces the assertion that actually failed — which made the first CI
+    // failure of this test undiagnosable. Playwright tears the context down
+    // with the worker, so the real error survives instead.
+    {
       await page.goto(`${test.info().project.use.baseURL}?scene=links&person=alex-machaskee-2010`);
       const center = page.locator('#mapCenterButton');
       const nodes = page.locator('.map-node:not(.map-node--center)');
@@ -62,7 +67,8 @@ for (const input of ['mouse', 'touch', 'keyboard', 'phone'] as const) {
       await expect(preview).toHaveCount(0);
       if (input === 'keyboard') await expect(center).toBeFocused();
       expect(new URL(page.url()).searchParams.get('person')).toBe(secondId);
-    } finally { await context.close(); }
+    }
+    await context.close();
   });
 }
 
