@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "same_sha": true,
+    "public_target": true,
+    "111_people": true,
+    "zero_explicit_relations": true,
+    "297_public_entities": true,
+    "856_public_generated_edges": true,
+    "999_gallery_images": true,
+    "1110_files_exist": true,
+    "zero_public_films": true,
+    "no_ready_story_beats": true,
+    "no_ready_archive_leads": true,
+    "twelve_prompts": true
+  },
+  "package_link_or_structure_issues": [],
+  "note": "Package/static-data validation only; no browser, performance or installation tests were executed."
+}

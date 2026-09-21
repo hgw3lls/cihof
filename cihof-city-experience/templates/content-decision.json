@@ -1,0 +1,19 @@
+{
+  "templateOnly": true,
+  "entityOrRecordId": null,
+  "claimOrAssetId": null,
+  "originalSourceWording": null,
+  "proposedDisplayText": null,
+  "evidenceReferences": [],
+  "review": {
+    "status": "draft",
+    "authorizedDecisionReference": null,
+    "reviewedAt": null
+  },
+  "publication": {
+    "publicWeb": false,
+    "kiosk": false
+  },
+  "rightsScope": null,
+  "notes": "Unfilled template; not an approval and not production data."
+}

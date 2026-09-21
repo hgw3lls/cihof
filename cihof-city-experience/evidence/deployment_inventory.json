@@ -1,0 +1,180 @@
+{
+  "method": "Static inspection of extracted deployment. No application code executed.",
+  "build": {
+    "schemaVersion": 1,
+    "appName": "CIHOF Portrait Wall",
+    "packageName": "cihof-rebuild",
+    "packageVersion": "0.1.0",
+    "buildTarget": "public",
+    "mode": "production",
+    "basePath": "/cihof/",
+    "outDir": "dist",
+    "gitCommit": "d97afd32b967a5b6e62ad6075b133979e8468b0a",
+    "gitCommitShort": "d97afd32b967",
+    "gitBranch": "main",
+    "builtAt": "2026-09-21T00:16:19.124Z"
+  },
+  "collection": {
+    "inductees": 111,
+    "valid_id_and_name": 111,
+    "induction_classes": [
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "workflow_approval_status_values": {
+      "draft": 111
+    },
+    "country_tag_source_values": {
+      "curated": 109,
+      "none": 2
+    },
+    "community_tag_source_values": {
+      "curated": 111
+    },
+    "community_vocabulary": [
+      "African-American",
+      "Chinese",
+      "City Club",
+      "Ethiopian",
+      "European Heritage",
+      "Greater Cleveland Sports",
+      "Hispanic",
+      "Indian",
+      "Japanese",
+      "Jewish",
+      "Jones Day",
+      "Korean",
+      "Middle Eastern",
+      "Sikh",
+      "Vietnamese"
+    ],
+    "heritage_field_unique_terms": 38
+  },
+  "relationships": {
+    "explicit_records": 0,
+    "bundle_explicit_records": 0,
+    "public_entities": 297,
+    "entity_types": {
+      "Community": 44,
+      "Event": 16,
+      "Media": 111,
+      "Person": 111,
+      "Theme": 15
+    },
+    "public_generated_edges": 856,
+    "generated_edge_types": {
+      "has_media": 111,
+      "has_theme": 436,
+      "inducted_in_class": 111,
+      "member_of_community": 198
+    },
+    "note": "Generated membership, theme, induction, and media edges are not direct person-to-person collaboration evidence."
+  },
+  "interpretation": {
+    "place_starters": 14,
+    "story_records": 3,
+    "story_beats": 15,
+    "cleveland_beats_passing_current_display_gate": 0,
+    "archive_leads": 11,
+    "archive_leads_passing_public_display_gate": 0
+  },
+  "media": {
+    "person_records": 111,
+    "primary_image_references": 111,
+    "gallery_image_references": 999,
+    "all_image_runtime_files_exist": true,
+    "image_runtime_files_found": 1110,
+    "image_rights_status": {
+      "approved": 1110
+    },
+    "image_approved_for_kiosk": {
+      "True": 1110
+    },
+    "image_public_approval_field_present": 0,
+    "shipped_video_records": 0,
+    "note": "Existing fields are metadata, not a new rights determination. No public image clearance has been granted by this audit."
+  },
+  "artifact": {
+    "total_bytes": 113841622,
+    "files": 1266,
+    "extensions": {
+      "[none]": 1,
+      ".js": 2,
+      ".txt": 2,
+      ".html": 1,
+      ".css": 1,
+      ".ttf": 3,
+      ".png": 8,
+      ".json": 141,
+      ".jpg": 1107
+    },
+    "source_curation_has_records": false,
+    "unpublished_story_beats_retained_in_bundle": 15,
+    "archive_leads_not_public_display_eligible_retained_in_bundle": 11
+  },
+  "inspected_file_hashes": {
+    "data/build-info.json": {
+      "bytes": 379,
+      "sha256": "0ee378ca4a8168abb81a542cba447e8bfac833d943324bb8c5ec87d9647c0033"
+    },
+    "data/cihof-runtime-data.json": {
+      "bytes": 3197810,
+      "sha256": "4cd9f953703ceb83a9c858bbbf4617370f57bc16c8fba25720092f064cb42831"
+    },
+    "data/inductees.json": {
+      "bytes": 1281337,
+      "sha256": "1cc56aa1be7c476b4b1ed9eefedf72054df39604292a4978dbb7cbb7351214c6"
+    },
+    "data/relationships.json": {
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    "data/entities.json": {
+      "bytes": 405005,
+      "sha256": "27f056defe2d3ba6233b90223f1fa515c461ed9ee9c8956df974efb89b4aed33"
+    },
+    "data/entity-relationships.json": {
+      "bytes": 557978,
+      "sha256": "9a87aeb6f7b1e99862e4f024fd4acfa3bd9acf25a126f9a02bbe753608b206cd"
+    },
+    "data/media-manifest.json": {
+      "bytes": 793455,
+      "sha256": "adc077db7788ae3c5fb1d2ab67c192da6321f8456f3efc4826affb70bfc06169"
+    },
+    "data/places.json": {
+      "bytes": 14643,
+      "sha256": "ed48f92dcc66fddc08afaf9d1cf67e34a9ad30ce0917d1b5a213acf1dd006553"
+    },
+    "data/story-sections.json": {
+      "bytes": 9541,
+      "sha256": "3723adb6e0ccc7028142101c9ef96f07a591e752be5283cb9a10860e57935a61"
+    },
+    "data/archive-leads.json": {
+      "bytes": 20602,
+      "sha256": "d3be41aa6c427f23f4ee63d857dbb89e729c4a80984bddf46dbe26f622e367f3"
+    }
+  },
+  "not_performed": [
+    "browser interaction tests",
+    "visual rendering review",
+    "performance profiling",
+    "service-worker/offline runtime tests",
+    "screen reader testing",
+    "touchscreen or physical installation testing",
+    "new rights or curator approval"
+  ]
+}
