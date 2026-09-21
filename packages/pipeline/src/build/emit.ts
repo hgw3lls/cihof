@@ -8,7 +8,7 @@ import {
   type InducteeId, type InductionCrosswalk,
   type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
   publishableFilms, filmShortfalls,
-  type PublishedFilm, type PublishedRelationship, type VisitorTarget,
+  type FilmDelivery, type PublishedFilm, type PublishedRelationship, type VisitorTarget,
 } from '@cihof/content';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
@@ -47,7 +47,12 @@ export type RuntimeBundle = {
    * What is holding the withheld film holdings back, counted by prerequisite.
    * A release should be able to say why a wall is silent.
    */
-  readonly filmReport: { readonly held: number; readonly blockedBy: Record<string, number> };
+  readonly filmReport: {
+    readonly held: number;
+    readonly blockedBy: Record<string, number>;
+    /** Where this release serves its films from. */
+    readonly delivery: FilmDelivery;
+  };
   /**
    * Why Connections is offered or withheld, in the terms a curator can act on.
    * "Zero relationships" and "ninety-five names nobody has resolved yet" are
@@ -92,6 +97,8 @@ export type BundleSources = {
   readonly relationships?: readonly unknown[];
   /** Pass `null` to build as though the crosswalk had never been generated. */
   readonly crosswalk?: InductionCrosswalk | null;
+  /** Where films are served from. Defaults per target; see `filmDeliveryFor`. */
+  readonly filmDelivery?: FilmDelivery;
   /** Public site this release points its codes at. */
   readonly continuationBase?: string | null;
 };
@@ -102,7 +109,9 @@ export function buildRuntimeBundle(
   sources: BundleSources = {},
 ): RuntimeBundle {
   const holdings = readVideoHoldings();
-  const runtimePeople = people.map((person) => toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target)));
+  const delivery = sources.filmDelivery ?? filmDeliveryFor(target);
+  const runtimePeople = people.map((person) =>
+    toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target, delivery)));
 
   // Count what the withheld holdings are waiting on, so a silent wall is
   // explainable rather than mysterious.
@@ -110,7 +119,7 @@ export function buildRuntimeBundle(
   let held = 0;
   for (const videos of holdings.values()) {
     for (const video of videos) {
-      const shortfalls = filmShortfalls(video as Record<string, unknown>, target);
+      const shortfalls = filmShortfalls(video as Record<string, unknown>, target, delivery);
       if (shortfalls.length === 0) continue;
       held += 1;
       for (const reason of shortfalls) blockedBy[reason] = (blockedBy[reason] ?? 0) + 1;
@@ -155,7 +164,7 @@ export function buildRuntimeBundle(
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
-    filmReport: { held, blockedBy },
+    filmReport: { held, blockedBy, delivery },
     relationshipReport: {
       published: relationships.length,
       fromCrosswalk: relationships.filter(isFromCrosswalk).length,
@@ -164,6 +173,21 @@ export function buildRuntimeBundle(
       crosswalkApproved: crosswalk?.publicationDecision !== undefined,
     },
   };
+}
+
+/**
+ * Where films come from when nobody has said.
+ *
+ * A kiosk keeps its own copies: it is built to work with the network down, and
+ * an embedded player is the first thing to go when it does. The public site has
+ * no copies to keep — the 41 GB of MP4 is not in the repository — so it serves
+ * the hall's own channel. `CIHOF_FILM_DELIVERY=local-file|youtube` overrides
+ * either, and `sources.filmDelivery` overrides that.
+ */
+export function filmDeliveryFor(target: VisitorTarget): FilmDelivery {
+  const configured = process.env['CIHOF_FILM_DELIVERY'];
+  if (configured === 'local-file' || configured === 'youtube') return configured;
+  return target === 'public' ? 'youtube' : 'local-file';
 }
 
 function isFromCrosswalk(relationship: PublishedRelationship): boolean {

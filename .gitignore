@@ -22,7 +22,15 @@ artifacts/video-file-sync-report*.json
 artifacts/video-manifest-normalization-report*.json
 artifacts/video-whisper-transcription-report*.json
 
-# Local downloaded video payloads are too large for normal Git storage.
+# Local downloaded video payloads are too large for normal Git storage:
+# 633 MP4s, 41 GB. They stay out.
+#
+# The captions, posters and transcripts sit in the same folder and are 11 MB,
+# and they are required — a film is not published without approved captions and
+# a transcript, whichever player serves the picture. The 279 files the media
+# manifest references are tracked by an explicit `git add -f`, which this
+# pattern cannot undo. A NEW film's assets will not be picked up automatically:
+# add them the same way. `npm run media:assert` fails when one is missing.
 public/videos/
 public/media/videos/*
 !public/media/videos/.gitkeep
