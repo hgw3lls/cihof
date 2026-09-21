@@ -49,7 +49,9 @@ test('an outcome with no name is reported with a count a reviewer can act on', (
 });
 
 test('a missing date record is a problem; an explicit unknown is not', () => {
-  assert.deepEqual(contributionProblems(contribution({ occurred: undefined })), ['no date record, not even an explicit unknown']);
+  const undatedRecord = { ...(contribution() as Record<string, unknown>) };
+  delete undatedRecord['occurred'];
+  assert.deepEqual(contributionProblems(undatedRecord), ['no date record, not even an explicit unknown']);
   assert.deepEqual(contributionProblems(contribution({ occurred: { precision: 'unknown' } })), []);
 });
 

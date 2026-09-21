@@ -19,7 +19,7 @@ function relationship(over: Partial<DocumentedRelationship> = {}): unknown {
 }
 
 const sameYear: SharedContext = {
-  claim: 'context', id: 'ctx-1', between: ['august-pust-2010', 'leo-weidenthal-2010'] as never,
+  claim: 'context', id: 'ctx-1' as never, between: ['august-pust-2010', 'leo-weidenthal-2010'] as never,
   basis: 'induction-year', value: '2010', statement: 'Both honoured in 2010.',
 };
 
@@ -29,7 +29,7 @@ test('shared context publishes without a review because it asserts nothing to re
   // computed fact in a review queue or invite a rubber stamp.
   const published = publishedConnections([sameYear], 'public');
   assert.equal(published.length, 1);
-  assert.equal(published[0].claim, 'context');
+  assert.equal(published[0]?.claim, 'context');
 });
 
 test('shared context never counts as a documented relationship', () => {
@@ -67,7 +67,7 @@ test('a relationship approved for the kiosk is not thereby approved for the web'
 test('a directional relationship must say how it reads from the other end', () => {
   assert.equal(isDirectional('mentored'), true);
   assert.equal(isDirectional('collaborated-with'), false);
-  const oneWay = relationship({ kind: 'mentored', label: 'mentored Leo Weidenthal', inverseLabel: undefined });
+  const oneWay = { ...(relationship() as object), kind: 'mentored', label: 'mentored Leo Weidenthal', inverseLabel: '' };
   assert.deepEqual(connectionProblems(oneWay), ['mentored reads differently from each end but has no inverse label']);
   assert.equal(publishedConnections([oneWay], 'public').length, 0);
 });
