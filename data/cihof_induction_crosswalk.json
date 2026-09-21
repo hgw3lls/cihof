@@ -1,0 +1,1194 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-21T21:01:06.267Z",
+  "source": "data/cihof_kiosk_manifest.csv#inducted_by",
+  "entries": [
+    {
+      "id": "inducter:sam-miller",
+      "recordedName": "Sam Miller",
+      "inducted": [
+        "albert-b-ratner-2011",
+        "bishop-anthony-pilla-2015",
+        "milton-maltz-2012",
+        "thomas-j-scanlon-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:alex-machaskee",
+      "recordedName": "Alex Machaskee",
+      "inducted": [
+        "georgine-welo-2023",
+        "ingrida-bublys-2019",
+        "jose-c-feliciano-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "alex-machaskee-2010",
+          "displayName": "Alex Machaskee",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:gerry-quinn",
+      "recordedName": "Gerry Quinn",
+      "inducted": [
+        "margaret-lynch-2020",
+        "pat-dowd-2023",
+        "sheila-murphy-crawford-2018"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:margaret-wong",
+      "recordedName": "Margaret Wong",
+      "inducted": [
+        "giahoa-ryan-2011",
+        "johnny-k-wu-2024",
+        "may-chen-2020"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:blaine-griffin",
+      "recordedName": "Blaine Griffin",
+      "inducted": [
+        "khalid-samad-2016-2016",
+        "lucy-torres-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dick-russ",
+      "recordedName": "Dick Russ",
+      "inducted": [
+        "alex-machaskee-2010",
+        "ken-kovach-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dick-russ-2015",
+          "displayName": "Dick Russ",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:joe-cimperman",
+      "recordedName": "Joe Cimperman",
+      "inducted": [
+        "david-gilbert-2025",
+        "michael-d-polensek-2023"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mike-polensek",
+      "recordedName": "Mike Polensek",
+      "inducted": [
+        "dona-brady-2024",
+        "joe-valencic-2020"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:paul-burik",
+      "recordedName": "Paul Burik",
+      "inducted": [
+        "berj-shakarian-2020",
+        "leo-weidenthal-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "paul-burik-2019",
+          "displayName": "Paul Burik",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:pierre-bejjani",
+      "recordedName": "Pierre Bejjani",
+      "inducted": [
+        "abby-mina-2018",
+        "richard-a-ganim-2015"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "pierre-bejjani-2023",
+          "displayName": "Pierre Bejjani",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:sudarshan-sathe",
+      "recordedName": "Sudarshan Sathe",
+      "inducted": [
+        "mona-alag-2017",
+        "ramesh-shah-2020"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "sudarshan-sathe-2023",
+          "displayName": "Sudarshan Sathe",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:aidan-cronin-consul-general-of-ireland",
+      "recordedName": "Aidan Cronin Consul General of Ireland",
+      "inducted": [
+        "jack-coyne-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:aklilu-demessie",
+      "recordedName": "Aklilu Demessie",
+      "inducted": [
+        "carl-robson-2022"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "aklilu-demessie-2026",
+          "displayName": "Aklilu Demessie",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:albert-ratner",
+      "recordedName": "Albert Ratner",
+      "inducted": [
+        "valarie-mccall-2020"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:amb-byrne-nason",
+      "recordedName": "Amb Byrne Nason",
+      "inducted": [
+        "ambassador-edward-f-crawford-2024"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:amb-kristjan-prikk",
+      "recordedName": "Amb Kristjan Prikk",
+      "inducted": [
+        "erika-puussaar-2024"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:andres-gonzalez",
+      "recordedName": "Andres Gonzalez",
+      "inducted": [
+        "luis-martinez-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:andrew-fedynsky",
+      "recordedName": "Andrew Fedynsky",
+      "inducted": [
+        "taras-szmagala-2022"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:angie-spitalieri",
+      "recordedName": "Angie Spitalieri",
+      "inducted": [
+        "nacy-panzica-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:anthony-brancatelli",
+      "recordedName": "Anthony Brancatelli",
+      "inducted": [
+        "ray-pianka-2018"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:armond-budish",
+      "recordedName": "Armond Budish",
+      "inducted": [
+        "akram-boutros-2019"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:august-pust",
+      "recordedName": "August Pust",
+      "inducted": [
+        "bill-miller-2017"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "august-pust-2010",
+          "displayName": "August Pust",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:baiju-shah",
+      "recordedName": "Baiju Shah",
+      "inducted": [
+        "sudarshan-sathe-2023"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:basil-russo",
+      "recordedName": "Basil Russo",
+      "inducted": [
+        "joyce-mariani-2023"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "basil-russo-2017",
+          "displayName": "Basil Russo",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:benstefanski",
+      "recordedName": "BenStefanski",
+      "inducted": [
+        "eugene-bak-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:chris-ronayne",
+      "recordedName": "Chris Ronayne",
+      "inducted": [
+        "paul-burik-2019"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:congressman-louis-stokes",
+      "recordedName": "Congressman Louis Stokes",
+      "inducted": [
+        "reverend-dr-otis-moss-jr-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:councilman-joe-cimperman",
+      "recordedName": "Councilman Joe Cimperman",
+      "inducted": [
+        "vladimir-rus-2012"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dagmar-celeste",
+      "recordedName": "Dagmar Celeste",
+      "inducted": [
+        "anda-cook-2022"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dan-coughlin",
+      "recordedName": "Dan Coughlin",
+      "inducted": [
+        "jack-kahl-2016"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dick-pogue",
+      "recordedName": "Dick Pogue",
+      "inducted": [
+        "jim-foster-2014"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dick-pogue-2015",
+          "displayName": "Dick Pogue",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-alex-johnson",
+      "recordedName": "Dr. Alex Johnson",
+      "inducted": [
+        "victor-ruiz-2022"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-andrew-p-roth",
+      "recordedName": "Dr. Andrew P. Roth",
+      "inducted": [
+        "samuel-h-miller-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-anton-komar",
+      "recordedName": "Dr. Anton Komar",
+      "inducted": [
+        "svetlana-stolyarova-2025"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-joe-wendel",
+      "recordedName": "Dr. Joe Wendel",
+      "inducted": [
+        "robert-j-haas-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-menna-demessie-ph-d",
+      "recordedName": "Dr. Menna Demessie, Ph.D.",
+      "inducted": [
+        "aklilu-demessie-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-nizar-zein",
+      "recordedName": "Dr. Nizar Zein",
+      "inducted": [
+        "wael-khoury-2017"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:dr-wael-khoury",
+      "recordedName": "Dr. Wael Khoury",
+      "inducted": [
+        "hon-mary-rose-oakar-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "wael-khoury-2017",
+          "displayName": "Wael Khoury",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:edith-lauer",
+      "recordedName": "Edith Lauer",
+      "inducted": [
+        "jeanette-grasselli-brown-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ernie-mihaly",
+      "recordedName": "Ernie Mihaly",
+      "inducted": [
+        "richard-fleischman-2019"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ernie-mihaly-2014",
+          "displayName": "Ernie Mihaly",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:former-mayor-frank-g-jackson-remarks-by-valarie-mccall-and-matt-zone",
+      "recordedName": "Former Mayor Frank G. Jackson; remarks by Valarie McCall and Matt Zone",
+      "inducted": [
+        "le-nguyen-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:gabriella-and-joseph-rosalina",
+      "recordedName": "Gabriella and Joseph Rosalina",
+      "inducted": [
+        "basil-russo-2017"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:george-e-jaskiw-m-d",
+      "recordedName": "George E. Jaskiw, M.D.",
+      "inducted": [
+        "andy-fedynsky-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:george-hwang",
+      "recordedName": "George Hwang",
+      "inducted": [
+        "donna-hom-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ingrida-bublys",
+      "recordedName": "Ingrida Bublys",
+      "inducted": [
+        "senator-george-voinovich-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ingrida-bublys-2019",
+          "displayName": "Ingrida Bublys",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jack-kahl",
+      "recordedName": "Jack Kahl",
+      "inducted": [
+        "fr-jim-o-donnell-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "jack-kahl-2016",
+          "displayName": "Jack Kahl",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jasmin-santana",
+      "recordedName": "Jasmin Santana",
+      "inducted": [
+        "veronica-dahlberg-2024"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jason-lin",
+      "recordedName": "Jason Lin",
+      "inducted": [
+        "joseph-p-meissner-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:john-borkowski",
+      "recordedName": "John Borkowski",
+      "inducted": [
+        "helen-karpinski-1899-2002-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:john-o-brien-jr",
+      "recordedName": "John O'Brien Jr.",
+      "inducted": [
+        "marilyn-madigan-2019"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jose-feliciano",
+      "recordedName": "Jose Feliciano",
+      "inducted": [
+        "sister-alicia-alvarado-2018"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jose-feliciano",
+      "recordedName": "José Feliciano",
+      "inducted": [
+        "honorable-jose-a-villanueva-2015"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jure-zmauc-consul-general-of-slovenia",
+      "recordedName": "Jure Zmauc Consul General of Slovenia",
+      "inducted": [
+        "bishop-a-edward-pevec-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:jure-zmauc-consul-general-of-slovenia",
+      "recordedName": "Jure Žmauc Consul General of Slovenia",
+      "inducted": [
+        "august-pust-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:justice-terrence-o-donnell",
+      "recordedName": "Justice Terrence O'Donnell",
+      "inducted": [
+        "ralph-j-perk-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:karin-mccutcheon",
+      "recordedName": "Karin McCutcheon",
+      "inducted": [
+        "catherine-jorgensen-mccutcheon-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ken-kovach",
+      "recordedName": "Ken Kovach",
+      "inducted": [
+        "lucretia-stoica-2011"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ken-kovach-2012",
+          "displayName": "Ken Kovach",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ken-lanci",
+      "recordedName": "Ken Lanci",
+      "inducted": [
+        "ratanjit-s-sondhe-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ki-kim",
+      "recordedName": "Ki Kim",
+      "inducted": [
+        "sam-kim-2017"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:kona-gant",
+      "recordedName": "Kona Gant",
+      "inducted": [
+        "margaret-callander-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:len-komoroski",
+      "recordedName": "Len Komoroski",
+      "inducted": [
+        "dr-maria-pujana-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:lisa-wong",
+      "recordedName": "Lisa Wong",
+      "inducted": [
+        "beverly-kerecman-2025"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:loree-vick",
+      "recordedName": "Loree Vick",
+      "inducted": [
+        "dick-russ-2015"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:lou-frangos",
+      "recordedName": "Lou Frangos",
+      "inducted": [
+        "andy-chakalis-2026"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:lt-colonel-joe-meisner",
+      "recordedName": "Lt. Colonel Joe Meisner",
+      "inducted": [
+        "dr-dieu-thuc-do-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:margot-maurer",
+      "recordedName": "Margot Maurer",
+      "inducted": [
+        "josef-holzer-2013"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:maria-pujana",
+      "recordedName": "Maria Pujana",
+      "inducted": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dr-maria-pujana-2013",
+          "displayName": "Dr. Maria Pujana",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mary-rose-oakar",
+      "recordedName": "Mary Rose Oakar",
+      "inducted": [
+        "ralph-perk-jr-2018"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "hon-mary-rose-oakar-2012",
+          "displayName": "Hon. Mary Rose Oakar",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:matt-zone",
+      "recordedName": "Matt Zone",
+      "inducted": [
+        "jim-craciun-2017"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mayor-jane-campbell",
+      "recordedName": "Mayor Jane Campbell",
+      "inducted": [
+        "steve-mulloy-2015"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mayor-richard-dell-aquila",
+      "recordedName": "Mayor Richard Dell’Aquila",
+      "inducted": [
+        "rev-mikhail-mikhail-2016"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mayor-tony-biasiotta",
+      "recordedName": "Mayor Tony Biasiotta",
+      "inducted": [
+        "pierre-bejjani-2023"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:michael-shreshta",
+      "recordedName": "Michael Shreshta",
+      "inducted": [
+        "shiv-k-aggarwal-2015"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:mona-alag",
+      "recordedName": "Mona Alag",
+      "inducted": [
+        "paramjit-singh-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "mona-alag-2017",
+          "displayName": "Mona Alag",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:pat-dowd",
+      "recordedName": "Pat Dowd",
+      "inducted": [
+        "lonnie-mccauley-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "pat-dowd-2023",
+          "displayName": "Pat Dowd",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:peter-de-la-porte",
+      "recordedName": "Peter de la Porte",
+      "inducted": [
+        "arnie-de-la-porte-2016-2016"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:raj-pillai",
+      "recordedName": "Raj Pillai",
+      "inducted": [
+        "vijaya-l-emani-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ramesh-shah",
+      "recordedName": "Ramesh Shah",
+      "inducted": [
+        "sree-sreenath-2019"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ramesh-shah-2020",
+          "displayName": "Ramesh Shah",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:ratanjit-sondhe",
+      "recordedName": "Ratanjit Sondhe",
+      "inducted": [
+        "dr-jaya-shah-2012"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:rev-otis-moss-jr",
+      "recordedName": "Rev Otis Moss Jr.",
+      "inducted": [
+        "dr-eugene-jordan-2024"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:richard-buoncore",
+      "recordedName": "Richard Buoncore",
+      "inducted": [
+        "atul-mehta-2018"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:richard-fleischman",
+      "recordedName": "Richard Fleischman",
+      "inducted": [
+        "ernie-mihaly-2014"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "richard-fleischman-2019",
+          "displayName": "Richard Fleischman",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:rose-wong",
+      "recordedName": "Rose Wong",
+      "inducted": [
+        "margaret-w-wong-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:sanjiv-kapur",
+      "recordedName": "Sanjiv Kapur",
+      "inducted": [
+        "dick-pogue-2015"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:stuart-muszynski",
+      "recordedName": "Stuart Muszynski",
+      "inducted": [
+        "raj-aggarwal-2025"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:suresh-bafna",
+      "recordedName": "Suresh Bafna",
+      "inducted": [
+        "mohan-bafna-2016"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:terry-stewart",
+      "recordedName": "Terry Stewart",
+      "inducted": [
+        "tony-petkovsek-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:thomas-zenty",
+      "recordedName": "Thomas Zenty",
+      "inducted": [
+        "monte-ahuja-2014"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:tom-scanlon",
+      "recordedName": "Tom Scanlon",
+      "inducted": [
+        "gerald-m-quinn-2011"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:tom-turkaly",
+      "recordedName": "Tom Turkaly",
+      "inducted": [
+        "branka-malinar-2025"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:umberto-fedeli",
+      "recordedName": "Umberto Fedeli",
+      "inducted": [
+        "paul-sciria-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:urszula-gacek-polish-general-consul",
+      "recordedName": "Urszula Gacek Polish General Consul",
+      "inducted": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:valarie-mccall",
+      "recordedName": "Valarie McCall",
+      "inducted": [
+        "mayor-frank-jackson-2025"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "valarie-mccall-2020",
+          "displayName": "Valarie McCall",
+          "basis": "normalised-name"
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:valerie-schwonek",
+      "recordedName": "Valerie Schwonek",
+      "inducted": [
+        "irene-morrow-2010"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "id": "inducter:wong-margaret",
+      "recordedName": "Wong, Margaret",
+      "inducted": [
+        "anthony-yen-yan-yuan-tai-2012"
+      ],
+      "candidates": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    }
+  ]
+}

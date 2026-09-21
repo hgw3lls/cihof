@@ -41,8 +41,14 @@ test('an unreviewed place seed is not a place', () => {
 });
 
 test('a relationship without a source is not published, however it is reviewed', () => {
-  const base = { id: 'r1', fromPersonId: 'a', toPersonId: 'b', kind: 'inducted_by', label: 'Inducted by', review: approved, publication: everywhere };
-  assert.equal(publishedRelationships([{ ...base, sourceNote: 'CIHOF induction record, 2010.' }], 'kiosk').length, 1);
-  assert.equal(publishedRelationships([{ ...base, sourceNote: '   ' }], 'kiosk').length, 0);
-  assert.equal(publishedRelationships([base], 'kiosk').length, 0, 'no source note at all');
+  const base = {
+    claim: 'documented', id: 'r1', from: 'august-pust-2010', to: 'leo-weidenthal-2010',
+    kind: 'collaborated-with', label: 'worked with Leo Weidenthal on the One World Day programme',
+    review: approved, publication: everywhere,
+  };
+  const cited = [{ id: 'ev-1', title: 'CIHOF induction record, 2010', kind: 'collection-record' }];
+  assert.equal(publishedRelationships([{ ...base, evidence: cited }], 'kiosk').length, 1);
+  assert.equal(publishedRelationships([{ ...base, evidence: [{ id: 'ev-2', title: '   ', kind: 'other' }] }], 'kiosk').length, 0,
+    'a citation with no title is not a citation');
+  assert.equal(publishedRelationships([{ ...base, evidence: [] }], 'kiosk').length, 0, 'no evidence at all');
 });

@@ -65,7 +65,9 @@
     "test:count:portal": "node scripts/assert-test-count.mjs portal",
     "build:staff-fixture": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
     "test:count:staff": "node scripts/assert-test-count.mjs staff",
-    "test:staff": "npm run test:count:staff && playwright test -c playwright.staff.config.ts"
+    "test:staff": "npm run test:count:staff && playwright test -c playwright.staff.config.ts",
+    "crosswalk": "npm run crosswalk --workspace @cihof/pipeline",
+    "crosswalk:check": "npm run crosswalk --workspace @cihof/pipeline -- --check"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
