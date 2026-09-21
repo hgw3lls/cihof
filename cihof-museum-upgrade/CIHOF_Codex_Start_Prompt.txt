@@ -1,0 +1,31 @@
+Work in the existing hgw3lls/cihof repository. Read the attached
+CIHOF_Museum_Grade_Audit.md and CIHOF_Codex_Upgrade_Plan.md.
+
+Begin with task MG-00 only. Do not redesign the exhibit or implement
+all tasks at once.
+
+Establish current HEAD, the active entry point, publication/build
+boundaries, current tests, and differences from reference commit
+f47d1d7ff9080072a7f3a28508a73e83907f61a5. Read existing AGENTS.md
+instructions before adding or amending any repository guidance.
+
+Preserve People / Links / Years, shared person selection, canonical
+IDs, approved content, the editorial visual direction, and the
+separate staff workflow. Do not work from the inactive legacy App.
+
+Run a fresh local public-build baseline and the existing relevant
+tests. Capture actual runtime evidence wherever the environment
+supports it. The previous audit could not render the public URL;
+therefore do not claim its source findings were already reproduced
+in a browser. Distinguish reproduced defects, source risks, design
+proposals, pre-existing failures, and blocked checks.
+
+Produce a concise baseline report and a task-by-task execution plan.
+Add or update AGENTS.md with practical repository constraints and
+verified commands; keep detailed requirements in the plan rather
+than duplicating everything in AGENTS.md. Do not modify canonical
+content, approve assets, delete old tests, publish, push, or deploy.
+
+Return changed files, commands actually run and their outcomes,
+baseline evidence locations, unresolved dependencies, and the exact
+next bounded task. Stop after MG-00.

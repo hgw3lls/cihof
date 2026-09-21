@@ -68,9 +68,11 @@ export function loadInductees(options = {}) {
       countryTagsSource: countryTags.length > 0 ? 'generated' : 'none',
       countryTagsNote: countryTags.length > 0 ? 'Detected from nationality or heritage phrases in the source profile text.' : '',
       communityTags: [],
+      communityTagsSource: 'none',
       sortName: buildSortName(name),
       pronunciation: '',
       imageAltText: defaultImageAltText(name, Number.isFinite(classYear) ? classYear : null, themeTags),
+      imageFocalPoint: 'center',
       approvalStatus: 'unreviewed',
       reviewPriority: 'standard',
       featured: false,
@@ -618,9 +620,9 @@ function normalizeBioText(value, name) {
   }
 
   const remainingHeading = matchLeadingBioNameAlias(cleaned, aliases);
-  if (remainingHeading) {
+  if (remainingHeading && !removedHeading) {
     const afterHeading = cleaned.slice(remainingHeading.length).trimStart();
-    if (removedHeading || looksLikeStandaloneBioHeading(afterHeading)) {
+    if (looksLikeStandaloneBioHeading(afterHeading)) {
       cleaned = afterHeading;
     }
   }
@@ -857,15 +859,16 @@ function applyCuratedMetadata(inductee, curated) {
   const name = cleanString(curated.displayName) || inductee.name;
   const sortName = cleanString(curated.sortName) || buildSortName(name);
   const pronunciation = cleanString(curated.pronunciation);
-  const approvedSummary = cleanString(curated.approvedSummary);
-  const documentedContextLine = cleanString(curated.documentedContextLine);
-  const honoredForSummary = cleanString(curated.honoredForSummary);
-  const bioText = cleanString(curated.bioTextOverride) || inductee.bioText;
-  const lifeWorkSummary = cleanString(curated.lifeWorkSummary);
+  const approvedSummary = preservedText(curated.approvedSummary);
+  const documentedContextLine = preservedText(curated.documentedContextLine);
+  const honoredForSummary = preservedText(curated.honoredForSummary);
+  const bioText = preservedText(curated.bioTextOverride) || inductee.bioText;
+  const lifeWorkSummary = preservedText(curated.lifeWorkSummary);
   const approvedThemeTags = toStringArray(curated.approvedThemeTags);
   const approvedCountryTags = toStringArray(curated.approvedCountryTags);
   const countryNotes = cleanString(curated.countryNotes);
   const approvedCommunityTags = normalizeCommunityTags(toStringArray(curated.approvedCommunityTags));
+  const imageFocalPoint = cleanString(curated.image?.focalPoint) || inductee.imageFocalPoint;
   const storySummary = approvedSummary || summarizeText(bioText);
   const storyHighlights = extractHighlights(bioText, name);
   const themeTags = approvedThemeTags.length > 0 ? approvedThemeTags : inductee.themeTags;
@@ -894,7 +897,9 @@ function applyCuratedMetadata(inductee, curated) {
     countryTagsSource: approvedCountryTags.length > 0 ? 'curated' : inductee.countryTagsSource,
     countryTagsNote: approvedCountryTags.length > 0 ? countryNotes || 'Curator-approved nationality or heritage metadata.' : inductee.countryTagsNote,
     communityTags,
+    communityTagsSource: approvedCommunityTags.length > 0 ? 'curated' : 'none',
     imageAltText,
+    imageFocalPoint,
     approvalStatus: cleanString(curated.approvalStatus) || inductee.approvalStatus,
     reviewPriority: cleanString(curated.reviewPriority) || inductee.reviewPriority,
     featured: Boolean(curated.featured),
@@ -1033,6 +1038,10 @@ function usableRuntimeAsset(asset) {
   if (!asset?.filePath || !asset?.runtimePath) return '';
   if (!existsSync(resolve(asset.filePath))) return '';
   return cleanString(asset.runtimePath);
+}
+
+function preservedText(value) {
+  return typeof value === 'string' && value.trim() ? value : '';
 }
 
 function cleanString(value) {

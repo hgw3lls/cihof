@@ -36,3 +36,10 @@ artifacts/whisper-audio-cache/
 # Local Playwright artifacts
 test-results/
 playwright-report/
+artifacts/mg00-baseline/
+artifacts/mg01-review/
+artifacts/mg02-review/
+artifacts/mg03-review/
+artifacts/mg04-review/
+artifacts/mg05-review/
+artifacts/mg06-review/

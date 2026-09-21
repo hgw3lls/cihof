@@ -35,9 +35,11 @@ export type Inductee = {
   countryTagsSource: string;
   countryTagsNote: string;
   communityTags: string[];
+  communityTagsSource: string;
   sortName: string;
   pronunciation: string;
   imageAltText: string;
+  imageFocalPoint: string;
   approvalStatus: string;
   reviewPriority: string;
   featured: boolean;
@@ -86,12 +88,14 @@ export type RelationshipProvenance = 'documented' | 'curated' | 'inferred';
 export type RelationshipEntityType = 'person' | 'organization' | 'place' | 'community' | 'event' | 'theme' | 'media';
 
 export type RelationshipRecord = {
+  id: string;
   sourcePersonId: string;
   targetEntityId: string;
   targetEntityType?: RelationshipEntityType;
   targetDisplayName?: string;
   type: RelationshipType;
   displayLabel: string;
+  reverseDisplayLabel?: string;
   referenceNote?: string;
   provenance: RelationshipProvenance;
 };
@@ -172,6 +176,10 @@ export type StoryBeatType =
 
 export type StoryBeat = {
   id: string;
+  contextScope?: 'cleveland';
+  reviewStatus?: 'draft' | 'approved';
+  sourceReference?: string;
+  sourceUrl?: string;
   type?: StoryBeatType;
   headline: string;
   body: string;
@@ -218,6 +226,8 @@ export type ArchiveLead = {
   displayText: string;
   candidateUse?: string;
   rightsNote?: string;
+  approvedForPublicWeb?: boolean;
+  approvedForKiosk?: boolean;
   creditLine?: string;
   reviewAction?: string;
   status: ArchiveLeadStatus;
@@ -305,6 +315,7 @@ export type RuntimeVideoAsset = {
   transcriptStatus?: string;
   audioDescriptionStatus?: string;
   approvedForKiosk?: boolean;
+  approvedForPublicWeb?: boolean;
   title?: string;
   description?: string;
   provenance?: MediaAssetProvenance;

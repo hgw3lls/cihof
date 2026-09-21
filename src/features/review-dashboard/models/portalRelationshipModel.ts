@@ -67,6 +67,7 @@ function relationshipRowToRecord(row: RelationshipReviewRow): RelationshipRecord
     .filter(Boolean)
     .join(' ');
   const record: RelationshipRecord = {
+    id: row.edge.relationshipId || row.id,
     sourcePersonId: row.sourceNode.inductee.id,
     targetEntityId: targetIsPerson && row.targetNode.inductee ? row.targetNode.inductee.id : row.targetNode.entityId,
     targetEntityType: row.targetNode.kind,
@@ -77,10 +78,12 @@ function relationshipRowToRecord(row: RelationshipReviewRow): RelationshipRecord
 
   if (!targetIsPerson) record.targetDisplayName = row.targetNode.label;
   if (referenceNote) record.referenceNote = referenceNote;
+  if (row.edge.reverseDisplayLabel) record.reverseDisplayLabel = row.edge.reverseDisplayLabel;
   return record;
 }
 
 function relationshipRecordKey(record: RelationshipRecord) {
+  if (record.id) return record.id;
   return [
     record.sourcePersonId,
     record.targetEntityType ?? '',

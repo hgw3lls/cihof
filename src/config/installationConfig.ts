@@ -45,7 +45,7 @@ export type InstallationConfig = {
 export const installationConfig: InstallationConfig = {
   idle: {
     timeoutMs: readMs(['VITE_CIHOF_IDLE_TIMEOUT_MS', 'VITE_CIHOF_KIOSK_IDLE_MS'], 120_000, 1_000, 20 * 60_000),
-    warningMs: readMs(['VITE_CIHOF_IDLE_WARNING_MS', 'VITE_CIHOF_KIOSK_RESET_WARNING_MS'], 12_000, 0, 120_000),
+    warningMs: readMs(['VITE_CIHOF_IDLE_WARNING_MS', 'VITE_CIHOF_KIOSK_RESET_WARNING_MS'], 30_000, 0, 120_000),
   },
   attractLoop: {
     regroupMs: readMs(['VITE_CIHOF_ATTRACT_REGROUP_MS'], 14_000, 4_000, 120_000),

@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { Modal } from '../../components/Modal';
 import {
   clearRuntimeDataBundleOverride,
   hasRuntimeDataBundleOverride,
@@ -171,7 +172,7 @@ export function AdminDataPanel({ open, onClose, settings, onSettingsChange, arch
   }
 
   return (
-    <section className="admin-data-panel" aria-label="Admin data and app settings" role="dialog" aria-modal="true">
+    <Modal className="admin-data-panel" label="Admin data and app settings" onClose={onClose}>
       <div className="admin-data-panel__surface">
         <header className="admin-data-panel__header">
           <div>
@@ -187,7 +188,7 @@ export function AdminDataPanel({ open, onClose, settings, onSettingsChange, arch
               <span>Password</span>
               <input
                 autoComplete="current-password"
-                autoFocus
+                data-modal-initial-focus
                 type="password"
                 value={passcode}
                 onChange={(event) => setPasscode(event.target.value)}
@@ -268,7 +269,7 @@ export function AdminDataPanel({ open, onClose, settings, onSettingsChange, arch
 
         {status && <div className="admin-data-panel__status" aria-live="polite">{status}</div>}
       </div>
-    </section>
+    </Modal>
   );
 }
 

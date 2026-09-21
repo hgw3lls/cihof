@@ -1,6 +1,6 @@
-import type { Link } from './archiveModel';
+import type { LinkNode } from './archiveModel';
 
-export function layoutLinks(centerId: string, links: Link[], width: number, height: number): {
+export function layoutLinks(centerId: string, links: LinkNode[], width: number, height: number): {
   points: Map<string, { x: number; y: number }>;
   scale: number;
 };

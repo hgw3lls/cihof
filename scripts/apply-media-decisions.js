@@ -183,6 +183,12 @@ function applyVideoRow(video, row, rowNumber, errors, changed, label, selectionS
     if (videoApproved && !canApproveVideo(video, rowNumber, label, errors)) return;
     setValue(video, 'approvedForKiosk', videoApproved, changed, `${label}.approvedForKiosk`);
   }
+
+  const publicWebApproved = readBoolean(row, ['video_public_web_approved', 'approve_video_for_public_web'], rowNumber, errors);
+  if (publicWebApproved !== undefined) {
+    if (publicWebApproved && !canApproveVideo(video, rowNumber, label, errors, 'approvedForPublicWeb')) return;
+    setValue(video, 'approvedForPublicWeb', publicWebApproved, changed, `${label}.approvedForPublicWeb`);
+  }
 }
 
 function selectVideos(record, row, rowNumber, errors) {
@@ -215,6 +221,8 @@ function selectVideos(record, row, rowNumber, errors) {
     'video_kiosk_approved',
     'all_videos_kiosk_approved',
     'approve_video_for_kiosk',
+    'video_public_web_approved',
+    'approve_video_for_public_web',
   ]);
 
   if (!hasVideoFields || videos.length === 0) return [];
@@ -244,7 +252,7 @@ function canApproveImage(image, rowNumber, errors) {
   return true;
 }
 
-function canApproveVideo(video, rowNumber, label, errors) {
+function canApproveVideo(video, rowNumber, label, errors, approvalField = 'approvedForKiosk') {
   const required = [
     ['rightsStatus', 'approved'],
     ['captionStatus', 'approved'],
@@ -271,7 +279,7 @@ function canApproveVideo(video, rowNumber, label, errors) {
   });
 
   if (missing.length > 0) {
-    errors.push(`Row ${rowNumber}: ${label}.approvedForKiosk requires ${missing.join(', ')}.`);
+    errors.push(`Row ${rowNumber}: ${label}.${approvalField} requires ${missing.join(', ')}.`);
     return false;
   }
   return true;
@@ -345,6 +353,7 @@ function validateVideo(asset, label, errors, warnings) {
   ].forEach((key) => checkString(asset, label, key, errors));
   checkNullableNumber(asset, label, 'durationSeconds', errors);
   checkBoolean(asset, label, 'approvedForKiosk', errors);
+  checkBoolean(asset, label, 'approvedForPublicWeb', errors);
   validatePaths(
     asset,
     label,
@@ -354,6 +363,7 @@ function validateVideo(asset, label, errors, warnings) {
     warnings,
   );
   if (asset.approvedForKiosk) canApproveVideo(asset, label, label, errors);
+  if (asset.approvedForPublicWeb) canApproveVideo(asset, label, label, errors, 'approvedForPublicWeb');
 }
 
 function validatePaths(asset, label, fileKeys, runtimeKeys, errors, warnings) {
