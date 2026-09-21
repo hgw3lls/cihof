@@ -50,3 +50,5 @@ dist-kiosk/
 apps/*/dist/
 apps/web/public/media/
 apps/exhibit/public/data/
+apps/exhibit/test-results/
+apps/web/test-results/
