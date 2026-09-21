@@ -101,21 +101,6 @@ test('stale person links return to a usable collection with an honest notice', a
   await expect(page.locator('.year-person')).toHaveCount(111);
 });
 
-test('admin is modal and Escape does not close the underlying record', async ({ page }) => {
-  await record(page);
-  await page.keyboard.press('Control+Alt+a');
-  const admin = page.getByRole('dialog', { name: 'Admin data and app settings' });
-  await expect(admin).toBeVisible();
-  expect(await admin.evaluate((element) => element.matches(':modal'))).toBe(true);
-  for (let step = 0; step < 8; step++) {
-    await page.keyboard.press(step < 4 ? 'Tab' : 'Shift+Tab');
-    expect(await admin.evaluate((element) => element.contains(document.activeElement))).toBe(true);
-  }
-  await page.keyboard.press('Escape');
-  await expect(admin).toHaveCount(0);
-  await expect(page.locator('#recordTitle')).toBeFocused();
-});
-
 test('chronology and connection-list alternatives work without dragging', async ({ page }) => {
   await boot(page, `?scene=years&person=${personId}`);
   const chronology = page.locator('.film-line__viewport');

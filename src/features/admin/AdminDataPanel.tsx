@@ -4,7 +4,8 @@ import {
   clearRuntimeDataBundleOverride,
   hasRuntimeDataBundleOverride,
   loadRuntimeDataBundle,
-  normalizeRuntimeDataBundle,
+  readRuntimeDataBundleOverride,
+  readRuntimeDataBundleOverrideDescriptor,
   runtimeDataBundleFilename,
   writeRuntimeDataBundleOverride,
 } from '../../data/runtimeDataBundle';
@@ -99,16 +100,19 @@ export function AdminDataPanel({ open, onClose, settings, onSettingsChange, arch
     reader.onload = () => {
       try {
         const parsed = JSON.parse(String(reader.result ?? '')) as unknown;
-        const bundle = normalizeRuntimeDataBundle(parsed);
-        if (!bundle) throw new Error('Imported file must be a CIHOF runtime data bundle with an inductees array.');
+        // Hand the parsed file straight over: the loader applies the same
+        // publication selectors the build uses and throws with the reasons, so a
+        // refusal says what was wrong instead of failing generically.
         const importedSettings = extractKioskSettings(parsed);
-        writeRuntimeDataBundleOverride(bundle);
+        writeRuntimeDataBundleOverride(parsed);
         if (importedSettings) {
           writeKioskSettings(importedSettings);
           onSettingsChange(importedSettings);
         }
+        const applied = readRuntimeDataBundleOverrideDescriptor();
+        const records = readRuntimeDataBundleOverride()?.inductees.length ?? 0;
         setOverrideActive(true);
-        setStatus(`Imported ${bundle.inductees.length} profile records for this browser.${importedSettings ? ' App settings restored.' : ''}`);
+        setStatus(`Imported ${records} profile records at revision ${applied?.contentRevision.slice(0, 12) ?? 'unknown'} for this browser.${importedSettings ? ' App settings restored.' : ''}`);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : 'Could not import data bundle.');
       } finally {

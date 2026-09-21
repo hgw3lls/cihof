@@ -12,6 +12,13 @@ import { useArchiveLeads, useArchiveLeadsByInductee } from '../../data/useArchiv
 import { useStorySectionMap, useStorySections } from '../../data/useStorySections';
 import type { ArchiveLead, Inductee, StorySectionRecord } from '../../data/types';
 import { AdminDataPanel } from '../admin/AdminDataPanel';
+import {
+  clearImportOnSessionReset,
+  clearRuntimeDataBundleOverride,
+  readRuntimeDataBundleOverrideDescriptor,
+  subscribeRuntimeDataBundleChanges,
+  type ImportedBundleDescriptor,
+} from '../../data/runtimeDataBundle';
 import { useRelationships } from '../../data/useRelationships';
 import { canonicalContinuationUrl } from '../inductee-detail/personDetailModel';
 import { isCollectionEligible, portraitUrl, visitorReadyFilm, type Film, type Scene } from './archiveModel';
@@ -152,6 +159,8 @@ export function ArchiveExhibit() {
   const activeLinkPersonId = exhibitState.activeLinkPersonId;
   const [unavailableRecord, setUnavailableRecord] = useState(false);
   const [adminOpen, setAdminOpen] = useState(() => new URLSearchParams(location.search).get('admin') === '1');
+  // An imported bundle outranks the published artifact, so it is never silent.
+  const [importedContent, setImportedContent] = useState<ImportedBundleDescriptor | null>(readRuntimeDataBundleOverrideDescriptor);
   const [settings, setSettings] = useState(readKioskSettings);
   const [sessionVersion, setSessionVersion] = useState(0);
   const brandTap = useRef({ count: 0, started: 0 });
@@ -170,12 +179,18 @@ export function ArchiveExhibit() {
       fieldRef.current.scrollLeft = 0;
     }
     setUnavailableRecord(false);
+    // Q4 policy, stated in runtimeDataBundle.ts. A staff import is a deployment
+    // choice, not session state, so by default it outlives Start Over.
+    if (clearImportOnSessionReset) clearRuntimeDataBundleOverride();
     resetExhibit();
     setAdminOpen(false);
     setSessionVersion((version) => version + 1);
     window.dispatchEvent(new CustomEvent('cihof:session-reset', { detail: { reason } }));
     window.requestAnimationFrame(() => document.getElementById('startOverButton')?.focus({ preventScroll: true }));
   }, [resetExhibit]);
+  useEffect(() => subscribeRuntimeDataBundleChanges(
+    () => setImportedContent(readRuntimeDataBundleOverrideDescriptor()),
+  ), []);
   const captureWarningFocus = useCallback(() => {
     const active = document.activeElement;
     warningReturnFocus.current = active instanceof HTMLElement && !active.closest('.session-warning') ? active : null;
@@ -344,7 +359,7 @@ export function ArchiveExhibit() {
       </div>
     </div>
   </section>;
-  return <div className="installation" data-theme={mode} data-view={scene} data-selection={selected ? 'person' : 'none'} data-record={recordOpen ? 'open' : 'closed'} data-media={activeFilm ? 'open' : 'closed'}
+  return <div className="installation" data-theme={mode} data-view={scene} data-imported-content={importedContent ? 'true' : 'false'} data-selection={selected ? 'person' : 'none'} data-record={recordOpen ? 'open' : 'closed'} data-media={activeFilm ? 'open' : 'closed'}
     data-reachable={kioskSession && new URLSearchParams(location.search).get('reach') === '1'}
     data-session-mode={kioskSession ? 'kiosk' : 'public'} data-session-warning={sessionTimeout.warningActive ? 'active' : 'inactive'}
     data-session-version={sessionVersion} data-session-extensions={sessionTimeout.extensionCount}>
@@ -356,6 +371,13 @@ export function ArchiveExhibit() {
       <button className="start-over" id="startOverButton" type="button" onClick={() => resetSession('manual')}>START OVER</button>
       <button className="theme" type="button" aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`} onClick={toggleMode}>{mode === 'light' ? 'DARK' : 'LIGHT'}</button>
     </header>
+    {importedContent && <div className="imported-content" role="status">
+      <span className="imported-content__label">IMPORTED DATA</span>
+      <p>This display is showing an imported data file, not the published collection.
+        Revision <code>{importedContent.contentRevision.slice(0, 12)}</code>
+        {importedContent.differsFromBuild ? ' does not match this build.' : ' matches this build.'}</p>
+      <button type="button" onClick={() => { clearRuntimeDataBundleOverride(); setSessionVersion((version) => version + 1); }}>USE PUBLISHED DATA</button>
+    </div>}
     <div className="installation__body">
       <aside className="focus" aria-label={selected ? 'Selected person' : 'Archive overview'}>
         {selected && <button className="focus__portrait" id="selectedPersonRecordButton" type="button" aria-label={`${recordOpen ? 'Close' : 'Open'} full record for ${selected.name}`}

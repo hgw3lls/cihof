@@ -68,6 +68,28 @@ records who set it and when.
 which they are what gets restored. EV-09 either states that scenario or retires
 them. Until then they stay, because removing them is not this plan's business.
 
+## E10 — A staff import survives Start Over
+
+Answers open question Q4, decided by the repository owner on 2026-09-21.
+
+An imported data bundle is a deployment choice, not session state. It stays in
+effect across Start Over and the idle reset, and across a browser restart.
+
+**Why.** The idle reset fires after roughly two minutes of inactivity on a
+kiosk. Clearing a deliberate staff import on reset would discard it within
+minutes of it being made, which makes the feature unusable for its actual
+purpose: running a reviewed bundle on a display without a rebuild.
+
+**What addresses the original risk instead.** The concern behind Q4 was an
+import persisting unnoticed. It is now answered by visibility rather than by
+discarding: an active import is named in the shell with its content revision and
+whether it matches the build, it is cleared by a control that does not require
+the passcode form, it is re-validated through the publication selectors on every
+read, and it is discarded automatically if it stops passing them.
+
+Implemented as `clearImportOnSessionReset` in `src/data/runtimeDataBundle.ts`,
+with this reasoning beside it. Flip the constant if the owners revisit it.
+
 ---
 
 ## Open questions, for people other than engineers
@@ -77,7 +99,7 @@ them. Until then they stay, because removing them is not this plan's business.
 | Q1 | Are `honoredForSummary` and `documentedContextLine` acceptable as visitor-facing text, or do they need rewriting or withdrawal? | Curators | EV-04 scope |
 | Q2 | What are the content thresholds for Places, stories, comparison and time? | Content team | EV-08 |
 | Q3 | Must the installation run without a network, and for how long? | Installation team | EV-03 scope |
-| Q4 | Does an active staff import survive Start Over on an unattended terminal? | Content and installation leads together | EV-02 |
+| ~~Q4~~ | ~~Does an active staff import survive Start Over?~~ **Answered 2026-09-21: yes.** See [E10](#e10--a-staff-import-survives-start-over). | Repository owner | — |
 | Q5 | Can the 37 records whose `storyHighlights` differ from `bioText` be traced to a decision? | Curators | EV-04, EV-05 |
 | Q6 | Is a portrait-and-biography release acceptable as v1 if the review queues move slowly? | Institution | Whether EV-06 onward run at all |
 
