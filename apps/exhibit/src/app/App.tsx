@@ -45,9 +45,13 @@ export function App() {
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
   const sharePerson = state.detail.kind === 'share' ? byId.get(state.detail.personId) ?? null : null;
-  const playing = state.media.kind === 'film' ? byId.get(state.media.personId) ?? null : null;
-  const playingFilm = playing && state.media.kind === 'film'
-    ? playing.films.find((film) => film.id === state.media.filmId) ?? null
+  // Read the media once. Narrowing `state.media` does not survive into the
+  // callback below, because the compiler cannot prove the property is unchanged
+  // by the time it runs; a local const it can.
+  const media = state.media;
+  const playing = media.kind === 'film' ? byId.get(media.personId) ?? null : null;
+  const playingFilm = playing && media.kind === 'film'
+    ? playing.films.find((film) => film.id === media.filmId) ?? null
     : null;
 
   const release = useRelease();
@@ -159,7 +163,9 @@ export function App() {
         <Record
           person={recordPerson}
           onClose={() => dispatch({ type: 'close-detail' })}
-          onShare={bundle.continuationBase ? () => dispatch({ type: 'open-share', personId: recordPerson.id }) : undefined}
+          {...(bundle.continuationBase
+            ? { onShare: () => dispatch({ type: 'open-share', personId: recordPerson.id }) }
+            : {})}
           onPlay={(filmId) => dispatch({ type: 'play-film', personId: recordPerson.id, filmId })}
         />
       )}

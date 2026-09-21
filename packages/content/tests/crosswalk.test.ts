@@ -60,16 +60,16 @@ test('a generated relationship is publishable without further repair', () => {
 });
 
 test('an induction reads correctly from both ends', () => {
-  const [first] = inductionRelationships(crosswalk({ publicationDecision: decision }), nameOf);
+  const first = inductionRelationships(crosswalk({ publicationDecision: decision }), nameOf)[0]!;
   assert.equal(first.kind, 'inducted');
   assert.equal(labelFrom(first, 'alex-machaskee-2010' as never), 'inducted August Pust');
   assert.equal(labelFrom(first, 'august-pust-2010' as never), 'was inducted by Alex Machaskee');
 });
 
 test('the citation quotes the roster wording that had to be resolved', () => {
-  const [first] = inductionRelationships(crosswalk({ publicationDecision: decision }), nameOf);
+  const first = inductionRelationships(crosswalk({ publicationDecision: decision }), nameOf)[0]!;
   assert.equal(first.evidence.length, 1);
-  assert.equal(first.evidence[0].excerpt, 'Alex Machaskee',
+  assert.equal(first.evidence[0]?.excerpt, 'Alex Machaskee',
     'a reader can see the record said a name and that a curator decided whose');
 });
 

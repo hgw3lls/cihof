@@ -71,10 +71,10 @@ test('a missing local file is no obstacle on YouTube, and a missing id is', () =
 });
 
 test('each delivery publishes the source it can actually play', () => {
-  const [local] = publishableFilms([cleared], 'kiosk', 'local-file');
+  const local = publishableFilms([cleared], 'kiosk', 'local-file')[0]!;
   assert.deepEqual(local.source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
 
-  const [remote] = publishableFilms([cleared], 'kiosk', 'youtube');
+  const remote = publishableFilms([cleared], 'kiosk', 'youtube')[0]!;
   assert.deepEqual(remote.source, {
     kind: 'youtube',
     videoId: 'abc123',
@@ -92,6 +92,6 @@ test('the embed is the no-cookie player and the id is escaped', () => {
 
 test('local-file remains the default when nobody chooses', () => {
   // A kiosk that silently needed the network would be the worst failure here.
-  assert.deepEqual(publishableFilms([cleared], 'kiosk')[0].source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
+  assert.deepEqual(publishableFilms([cleared], 'kiosk')[0]!.source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
   assert.deepEqual(filmShortfalls({ ...cleared, runtimePath: '' }, 'kiosk'), ['file']);
 });
