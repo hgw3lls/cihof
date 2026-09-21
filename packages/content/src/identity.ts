@@ -15,6 +15,17 @@ export type InducteeId = string & { readonly __brand: 'InducteeId' };
 /** A canonical entity id, e.g. `person:alex-machaskee-2010`. */
 export type PersonEntityId = string & { readonly __brand: 'PersonEntityId' };
 
+/**
+ * Ids for the records that interpret people.
+ *
+ * Branded for the same reason `InducteeId` is: a connection id and a person id
+ * are both lowercase hyphenated strings, and nothing but the type system stops
+ * one being passed where the other belongs.
+ */
+export type ConnectionId = string & { readonly __brand: 'ConnectionId' };
+export type ContributionId = string & { readonly __brand: 'ContributionId' };
+export type PlaceId = string & { readonly __brand: 'PlaceId' };
+
 export function isInducteeId(value: unknown): value is InducteeId {
   return typeof value === 'string' && /^[a-z0-9][a-z0-9-]*$/.test(value);
 }

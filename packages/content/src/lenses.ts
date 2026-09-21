@@ -1,3 +1,4 @@
+import { isDocumented, publishedConnections, type DocumentedRelationship } from './connection.ts';
 import { isPublished, type Reviewed, type VisitorTarget } from './publication.ts';
 
 /**
@@ -68,27 +69,21 @@ export type PublishedPlace = Reviewed & {
  *
  * Shared induction year is deliberately not one of these. Two people honoured
  * in the same year have a context in common, not a relationship, and
- * presenting the two alike would claim something no source asserts.
+ * presenting the two alike would claim something no source asserts. The three
+ * kinds of claim, and what each one must carry, live in `connection.ts`.
  */
-export type PublishedRelationship = Reviewed & {
-  readonly id: string;
-  readonly fromPersonId: string;
-  readonly toPersonId: string;
-  readonly kind: string;
-  readonly label: string;
-  readonly sourceNote: string;
-};
+export type PublishedRelationship = DocumentedRelationship;
 
 export function publishedPlaces(places: readonly unknown[], target: VisitorTarget): PublishedPlace[] {
   return places.filter((place): place is PublishedPlace => isPublished(place as Partial<Reviewed>, target));
 }
 
+/**
+ * Documented relationships only, for the lens count and the visitor bundle.
+ *
+ * Shared context is not filtered out here because it never arrives here: it is
+ * computed from the base records at render time and counts toward nothing.
+ */
 export function publishedRelationships(relationships: readonly unknown[], target: VisitorTarget): PublishedRelationship[] {
-  return relationships.filter((value): value is PublishedRelationship => {
-    if (!isPublished(value as Partial<Reviewed>, target)) return false;
-    const candidate = value as Partial<PublishedRelationship>;
-    // A relationship with no source note is an assertion nobody is standing
-    // behind, whatever its review record says.
-    return typeof candidate.sourceNote === 'string' && candidate.sourceNote.trim().length > 0;
-  });
+  return publishedConnections(relationships, target).filter(isDocumented);
 }
