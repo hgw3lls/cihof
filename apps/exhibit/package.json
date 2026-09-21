@@ -6,7 +6,8 @@
   "description": "The installed exhibit. A long-running, offline-capable touch surface.",
   "dependencies": {
     "@cihof/content": "*",
-    "@cihof/pipeline": "*"
+    "@cihof/pipeline": "*",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.29",

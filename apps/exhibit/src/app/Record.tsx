@@ -8,7 +8,7 @@ import type { RuntimePerson } from '../data/runtime.ts';
  * strands a keyboard or switch user at the top of the page with no idea where
  * they were.
  */
-export function Record({ person, onClose }: { person: RuntimePerson; onClose: () => void }) {
+export function Record({ person, onClose, onShare }: { person: RuntimePerson; onClose: () => void; onShare?: () => void }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const openedFrom = useRef<HTMLElement | null>(null);
 
@@ -36,6 +36,7 @@ export function Record({ person, onClose }: { person: RuntimePerson; onClose: ()
       <header>
         <button type="button" onClick={onClose}>Close</button>
         <span>Inductee record</span>
+        {onShare && <button type="button" style={{ marginLeft: 'auto' }} onClick={onShare}>Take it with you</button>}
       </header>
       <div className="reading">
         <div className="inner">
