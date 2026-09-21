@@ -86,3 +86,16 @@ body {
 .tags li { padding: 0.35rem 0.75rem; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.875rem; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* The idle warning. It covers the display because it is asking a question that
+   has to be answered, and because the next thing that happens is a reset. */
+.warning { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: 1.5rem; background: color-mix(in srgb, var(--paper) 88%, transparent); }
+.warning__panel { width: min(34rem, 100%); padding: clamp(1.5rem, 4vw, 2.5rem); border: 3px solid var(--rule); background: var(--paper); }
+.warning__panel h2 { margin: 0 0 0.75rem; font-size: clamp(1.5rem, 3.5vh, 2.25rem); }
+.warning__panel p { margin: 0 0 1.5rem; font-size: clamp(1rem, 2vh, 1.25rem); color: var(--muted); }
+.warning__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.warning__actions button { min-height: var(--tap); padding: 0 1.25rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; }
+.warning__actions button:first-child { background: var(--ink); color: var(--paper); }
+
+/* A build with test timings says so, so it cannot be mistaken for production. */
+.testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; padding: 0.25rem 0.6rem; background: var(--accent); color: var(--on-accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }

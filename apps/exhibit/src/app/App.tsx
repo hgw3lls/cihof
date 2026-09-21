@@ -3,6 +3,10 @@ import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState } from '../state/exhibit.ts';
 import { People } from './People.tsx';
 import { Record } from './Record.tsx';
+import { SessionWarning } from './SessionWarning.tsx';
+import { configuredTiming, isTestBuild } from './config.ts';
+import { useRelease } from './useRelease.ts';
+import { useSession } from './useSession.ts';
 import './exhibit.css';
 
 const lenses = [{ id: 'people', label: 'People' }] as const;
@@ -26,10 +30,17 @@ export function App() {
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
 
+  const release = useRelease();
+
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
+    // A reset is the agreed handover point: nobody is mid-sentence, so a waiting
+    // release can take over without interrupting a visitor.
+    release.activateWaitingRelease();
     window.requestAnimationFrame(() => document.getElementById('restart')?.focus());
-  }, []);
+  }, [release]);
+
+  const session = useSession(configuredTiming, isTestBuild, restart);
 
   if (error) {
     return (
@@ -106,6 +117,16 @@ export function App() {
       </div>
 
       {recordPerson && <Record person={recordPerson} onClose={() => dispatch({ type: 'close-detail' })} />}
+
+      {session.phase === 'warning' && (
+        <SessionWarning
+          secondsRemaining={session.secondsRemaining}
+          onContinue={session.noteActivity}
+          onReset={restart}
+        />
+      )}
+
+      {isTestBuild && <p className="testbuild">Test build — short session timings</p>}
     </div>
   );
 }
