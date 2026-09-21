@@ -54,13 +54,15 @@
     "mg05:capture": "node scripts/capture-mg05-review.mjs",
     "mg06:capture": "node scripts/capture-mg06-review.mjs",
     "portal:server": "node scripts/portal-runner.js",
-    "test:kiosk": "playwright test",
+    "test:kiosk": "npm run test:count && playwright test",
     "dev": "npm run prepare:data && vite",
     "dev:portal": "npm run prepare:data && vite --open /portal.html",
     "build": "npm run prepare:data && tsc -b && vite build",
     "preview": "vite preview",
     "audit:data": "node scripts/audit-data.js",
-    "test:portal": "playwright test -c playwright.portal.config.ts"
+    "test:portal": "npm run test:count:portal && playwright test -c playwright.portal.config.ts",
+    "test:count": "node scripts/assert-test-count.mjs",
+    "test:count:portal": "node scripts/assert-test-count.mjs portal"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

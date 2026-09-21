@@ -1,13 +1,21 @@
 import { defineConfig } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 const port = Number(process.env.CIHOF_PORTAL_PLAYWRIGHT_PORT ?? 4175);
 const basePath = process.env.CIHOF_PLAYWRIGHT_BASE_PATH ?? '/cihof/';
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}${basePath}`;
 const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEB_SERVER === '1';
 
+const minimumTests = Number(process.env.CIHOF_MINIMUM_TESTS ?? readMinimums().portal);
+
+function readMinimums() {
+  return JSON.parse(readFileSync(new URL('./tests/minimum-tests.json', import.meta.url), 'utf8')) as Record<string, number>;
+}
+
 export default defineConfig({
   testDir: './tests',
   testMatch: /portal-.*\.spec\.ts/,
+  reporter: [['list'], ['./tests/reporters/collected-count.ts', { minimum: minimumTests }]],
   timeout: 30_000,
   workers: 1,
   expect: {
