@@ -12,6 +12,17 @@ import { dataFile } from '../paths.ts';
 
 const mediaPath = () => dataFile('media_manifest.json');
 
+/** Raw video holdings by canonical id. Clearance is decided by the content package. */
+export function readVideoHoldings(): Map<string, unknown[]> {
+  const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };
+  const holdings = new Map<string, unknown[]>();
+  for (const [id, asset] of Object.entries(document.assets ?? {})) {
+    const videos = asset['videos'];
+    if (Array.isArray(videos) && videos.length > 0) holdings.set(id, videos);
+  }
+  return holdings;
+}
+
 /** Primary portraits by canonical id. Rights live in the curated roster, not here. */
 export function readPortraits(): Map<string, PortraitAsset> {
   const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };

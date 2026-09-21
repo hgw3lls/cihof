@@ -5,9 +5,11 @@ import {
   availableLenses, displayablePortrait, facetable, isAttributable, lensAvailability,
   publishedPlaces, publishedRelationships,
   type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
-  type PublishedRelationship, type VisitorTarget,
+  publishableFilms, filmShortfalls,
+  type PublishedFilm, type PublishedRelationship, type VisitorTarget,
 } from '@cihof/content';
 import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
+import { readVideoHoldings } from '../sources/media.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -38,6 +40,11 @@ export type RuntimeBundle = {
    * time so an unusable destination never reaches a wall.
    */
   readonly continuationBase: string | null;
+  /**
+   * What is holding the withheld film holdings back, counted by prerequisite.
+   * A release should be able to say why a wall is silent.
+   */
+  readonly filmReport: { readonly held: number; readonly blockedBy: Record<string, number> };
 };
 
 /**
@@ -60,6 +67,8 @@ export type RuntimePerson = {
   readonly communities: readonly string[];
   readonly countries: readonly string[];
   readonly sourceUrl: string | null;
+  /** Films cleared for this target. Empty for every person today. */
+  readonly films: readonly PublishedFilm[];
 };
 
 /** Sources are injectable so the gate can be exercised at either side of a threshold. */
@@ -75,7 +84,21 @@ export function buildRuntimeBundle(
   target: VisitorTarget,
   sources: BundleSources = {},
 ): RuntimeBundle {
-  const runtimePeople = people.map((person) => toRuntimePerson(person));
+  const holdings = readVideoHoldings();
+  const runtimePeople = people.map((person) => toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target)));
+
+  // Count what the withheld holdings are waiting on, so a silent wall is
+  // explainable rather than mysterious.
+  const blockedBy: Record<string, number> = {};
+  let held = 0;
+  for (const videos of holdings.values()) {
+    for (const video of videos) {
+      const shortfalls = filmShortfalls(video as Record<string, unknown>, target);
+      if (shortfalls.length === 0) continue;
+      held += 1;
+      for (const reason of shortfalls) blockedBy[reason] = (blockedBy[reason] ?? 0) + 1;
+    }
+  }
   const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target);
   const relationships = publishedRelationships(sources.relationships ?? readRelationships(), target);
 
@@ -97,6 +120,7 @@ export function buildRuntimeBundle(
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
+    filmReport: { held, blockedBy },
   };
 }
 
@@ -105,7 +129,7 @@ export function writeRuntimeBundle(bundle: RuntimeBundle, path: string): void {
   writeFileSync(path, `${JSON.stringify(bundle, null, 2)}\n`);
 }
 
-function toRuntimePerson(person: PublishedPerson): RuntimePerson {
+function toRuntimePerson(person: PublishedPerson, films: readonly PublishedFilm[]): RuntimePerson {
   const portrait = displayablePortrait(person.portrait);
   const biography = isAttributable(person.biography) ? person.biography : null;
   return {
@@ -124,6 +148,7 @@ function toRuntimePerson(person: PublishedPerson): RuntimePerson {
     communities: facetable(person.communities),
     countries: facetable(person.countries),
     sourceUrl: person.sourceUrl,
+    films,
   };
 }
 

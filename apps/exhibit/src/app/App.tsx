@@ -4,6 +4,7 @@ import { exhibitReducer, initialState } from '../state/exhibit.ts';
 import { People } from './People.tsx';
 import { Years } from './Years.tsx';
 import { Record } from './Record.tsx';
+import { Film } from './Film.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
@@ -43,6 +44,10 @@ export function App() {
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
   const sharePerson = state.detail.kind === 'share' ? byId.get(state.detail.personId) ?? null : null;
+  const playing = state.media.kind === 'film' ? byId.get(state.media.personId) ?? null : null;
+  const playingFilm = playing && state.media.kind === 'film'
+    ? playing.films.find((film) => film.id === state.media.filmId) ?? null
+    : null;
 
   const release = useRelease();
 
@@ -149,6 +154,16 @@ export function App() {
           person={recordPerson}
           onClose={() => dispatch({ type: 'close-detail' })}
           onShare={bundle.continuationBase ? () => dispatch({ type: 'open-share', personId: recordPerson.id }) : undefined}
+          onPlay={(filmId) => dispatch({ type: 'play-film', personId: recordPerson.id, filmId })}
+        />
+      )}
+
+      {playingFilm && playing && (
+        <Film
+          film={playingFilm}
+          personName={playing.name}
+          onClose={() => dispatch({ type: 'stop-film' })}
+          onProgress={session.noteActivity}
         />
       )}
 
