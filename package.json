@@ -85,5 +85,9 @@
     "@types/pngjs": "^6.0.5",
     "jsqr": "^1.4.0",
     "pngjs": "^7.0.0"
-  }
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
 }
