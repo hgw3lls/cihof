@@ -28,6 +28,7 @@ console.log(`Strict failures: ${report.strictFailures.length}`);
 console.log(`Primary images wall-ready: ${report.summary.primaryImagesWallReady}/${report.totalInductees}`);
 console.log(`Primary images kiosk-ready: ${report.summary.primaryImagesReady}/${report.totalInductees}`);
 console.log(`Videos kiosk-ready: ${report.summary.videosReady}/${report.summary.videoItems}`);
+console.log(`Videos public-web-ready: ${report.summary.videosPublicWebReady}/${report.summary.videoItems}`);
 console.log(`Audio kiosk-ready: ${report.summary.audioReady}/${report.summary.audioItems}`);
 console.log(`Oral histories kiosk-ready: ${report.summary.oralHistoriesReady}/${report.summary.oralHistoryItems}`);
 console.log(`Wrote ${reportPath}`);
@@ -178,6 +179,9 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
         if (asset?.approvedForKiosk && !isKioskReadyVideo(asset)) {
           strictFailures.push(`${id}: video ${asset.youtubeVideoId || asset.sourceUrl || asset.filePath || 'unknown'} is marked kiosk-approved but is not kiosk-ready.`);
         }
+        if (asset?.approvedForPublicWeb && !isPublicWebReadyVideo(asset)) {
+          strictFailures.push(`${id}: video ${asset.youtubeVideoId || asset.sourceUrl || asset.filePath || 'unknown'} is marked public-web-approved but is not public-web-ready.`);
+        }
       });
 
       audioItems.forEach(({ id, asset }) => {
@@ -233,6 +237,8 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
       galleryImagesReady: imageItems.filter((item) => !item.primary && isKioskReadyImage(item.asset)).length,
       videoItems: videoItems.length,
       videosReady: videoItems.filter((item) => isKioskReadyVideo(item.asset)).length,
+      videosPublicWebReady: videoItems.filter((item) => isPublicWebReadyVideo(item.asset)).length,
+      videosPublicWebReviewUnresolved: videoItems.filter((item) => typeof item.asset.approvedForPublicWeb !== 'boolean').map((item) => item.id),
       audioItems: audioItems.length,
       audioReady: audioItems.filter((item) => isKioskReadyAudio(item.asset)).length,
       oralHistoryItems: oralHistoryItems.length,
@@ -279,6 +285,7 @@ function validateImageAsset(asset, label, errors, warnings) {
   checkBoolean(asset, label, 'primary', errors);
   checkString(asset, label, 'rightsStatus', errors);
   checkBoolean(asset, label, 'approvedForKiosk', errors);
+  checkBoolean(asset, label, 'approvedForPublicWeb', errors);
   validateAssetPaths(asset, label, ['filePath'], ['runtimePath'], errors, warnings);
 }
 
@@ -407,6 +414,30 @@ function isKioskReadyVideo(asset) {
   return Boolean(
     asset?.approvedForKiosk &&
       asset.rightsStatus === 'approved' &&
+      asset.captionStatus === 'approved' &&
+      asset.transcriptStatus === 'approved' &&
+      asset.filePath &&
+      asset.runtimePath &&
+      asset.posterFilePath &&
+      asset.posterRuntimePath &&
+      asset.captionFilePath &&
+      asset.captionRuntimePath &&
+      asset.transcriptFilePath &&
+      asset.transcriptRuntimePath &&
+      existsSync(resolve(asset.filePath)) &&
+      existsSync(resolve(asset.posterFilePath)) &&
+      existsSync(resolve(asset.captionFilePath)) &&
+      existsSync(resolve(asset.transcriptFilePath)),
+  );
+}
+
+function isPublicWebReadyVideo(asset) {
+  return Boolean(asset?.approvedForPublicWeb && isCompleteVideo(asset));
+}
+
+function isCompleteVideo(asset) {
+  return Boolean(
+    asset?.rightsStatus === 'approved' &&
       asset.captionStatus === 'approved' &&
       asset.transcriptStatus === 'approved' &&
       asset.filePath &&

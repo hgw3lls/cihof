@@ -45,6 +45,13 @@
     "import:2026": "node scripts/import-2026-live-data.js",
     "launch:readiness": "node scripts/launch-readiness-report.js",
     "launch:readiness:strict": "node scripts/launch-readiness-report.js --strict",
+    "baseline:capture": "node scripts/capture-mg00-baseline.mjs",
+    "mg01:capture": "node scripts/capture-mg01-review.mjs",
+    "mg02:capture": "node scripts/capture-mg02-review.mjs",
+    "mg03:capture": "node scripts/capture-mg03-review.mjs",
+    "mg04:capture": "node scripts/capture-mg04-review.mjs",
+    "mg05:capture": "node scripts/capture-mg05-review.mjs",
+    "mg06:capture": "node scripts/capture-mg06-review.mjs",
     "portal:server": "node scripts/portal-runner.js",
     "test:kiosk": "playwright test",
     "dev": "npm run prepare:data && vite",
@@ -67,6 +74,10 @@
     "vite": "^8.3.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1"
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@types/pngjs": "^6.0.5",
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0"
   }
 }

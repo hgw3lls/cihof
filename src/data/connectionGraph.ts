@@ -25,6 +25,8 @@ export type ConnectionEdge = {
   label: string;
   provenance: RelationshipProvenance;
   referenceNote?: string;
+  relationshipId?: string;
+  reverseDisplayLabel?: string;
   source: ConnectionEdgeSource;
   weight: number;
 };
@@ -160,6 +162,8 @@ function addExplicitRelationship(graph: MutableGraph, relationship: Relationship
     label: relationship.displayLabel,
     provenance: relationship.provenance,
     referenceNote: relationship.referenceNote,
+    relationshipId: relationship.id,
+    reverseDisplayLabel: relationship.reverseDisplayLabel,
     source: 'relationship',
   });
 }
@@ -305,7 +309,7 @@ function addEdge(
   edge: Omit<ConnectionEdge, 'id' | 'weight'>,
 ) {
   const sortedNodes = [edge.from, edge.to].sort();
-  const id = `${sortedNodes[0]}|${sortedNodes[1]}|${edge.type}|${edge.label}|${edge.provenance}`;
+  const id = edge.relationshipId || `${sortedNodes[0]}|${sortedNodes[1]}|${edge.type}|${edge.label}|${edge.provenance}`;
   if (edge.from === edge.to || graph.edgeIds.has(id)) return;
 
   const completeEdge: ConnectionEdge = { ...edge, id, weight: edgeWeight(edge.type, edge.provenance, edge.source) };

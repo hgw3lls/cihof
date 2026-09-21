@@ -5,7 +5,7 @@ const manifest = JSON.parse(readFileSync(resolve('data/media_manifest.json'), 'u
 const columns = [
   'id', 'name', 'class_year', 'video_index', 'source_url',
   'video_rights_approved', 'captions_approved', 'transcript_approved',
-  'video_kiosk_approved', 'media_notes',
+  'video_kiosk_approved', 'video_public_web_approved', 'media_notes',
 ];
 
 function csvCell(value) {
@@ -16,7 +16,7 @@ function csvCell(value) {
 const rows = [columns.join(',')];
 for (const [id, record] of Object.entries(manifest.assets ?? {}).sort((a, b) => a[0].localeCompare(b[0]))) {
   for (const [index, video] of (record.videos ?? []).entries()) {
-    const row = [id, record.name, record.classYear, index + 1, video.sourceUrl, '', '', '', '', ''];
+    const row = [id, record.name, record.classYear, index + 1, video.sourceUrl, '', '', '', '', '', ''];
     rows.push(row.map(csvCell).join(','));
   }
 }

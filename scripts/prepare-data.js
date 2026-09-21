@@ -629,6 +629,8 @@ function normalizeArchiveLead(record, fallbackId) {
     displayText,
     candidateUse: cleanArchiveString(record.candidateUse),
     rightsNote: cleanArchiveString(record.rightsNote),
+    approvedForPublicWeb: record.approvedForPublicWeb === true,
+    approvedForKiosk: record.approvedForKiosk === true,
     creditLine: cleanArchiveString(record.creditLine),
     reviewAction: cleanArchiveString(record.reviewAction),
     status,

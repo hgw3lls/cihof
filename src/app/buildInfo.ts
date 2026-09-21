@@ -3,7 +3,7 @@ export type BuildInfo = {
   appName: 'CIHOF Portrait Wall';
   packageName: string;
   packageVersion: string;
-  buildTarget: 'kiosk' | 'portal';
+  buildTarget: 'kiosk' | 'public' | 'portal';
   mode: string;
   basePath: string;
   outDir: string;

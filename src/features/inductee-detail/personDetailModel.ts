@@ -54,6 +54,12 @@ export function canonicalContinuationUrl(inductee: Inductee) {
   try {
     const url = new URL(candidate);
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+    if (!['clevelandinternationalhalloffame.com', 'www.clevelandinternationalhalloffame.com'].includes(url.hostname)
+      || url.port || url.username || url.password || !/^\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\/?$/i.test(url.pathname)
+      || /\/(?:wp-[a-z-]+|admin|portal|login)(?:\/|$)/i.test(url.pathname)) return '';
+    url.protocol = 'https:';
+    url.search = '';
+    url.hash = '';
     return url.href;
   } catch {
     return '';

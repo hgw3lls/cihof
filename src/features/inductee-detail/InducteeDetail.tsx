@@ -564,6 +564,7 @@ const relationshipTypeOrder: RelationshipType[] = [
 function buildInferredRelationship(active: Inductee, related: Inductee): RelationshipRecord {
   const inferred = inferFallbackConnection(active, related);
   return {
+    id: `inferred:${active.id}:${related.id}`,
     sourcePersonId: active.id,
     targetEntityId: related.id,
     type: inferred.type,

@@ -49,6 +49,7 @@ export function validateRelationshipRecords(records, inducteeIds = new Set()) {
       return;
     }
 
+    requireString(record.id, `${label}.id`, errors);
     requireString(record.sourcePersonId, `${label}.sourcePersonId`, errors);
     requireString(record.targetEntityId, `${label}.targetEntityId`, errors);
     requireString(record.type, `${label}.type`, errors);
@@ -81,8 +82,14 @@ export function validateRelationshipRecords(records, inducteeIds = new Set()) {
     if (!relationshipProvenanceValues.includes(record.provenance)) {
       errors.push(`${label}.provenance has invalid value "${record.provenance}".`);
     }
-    if (record.provenance === 'documented' && !record.referenceNote) {
-      warnings.push(`${label}: documented relationships should include a source/reference note.`);
+    if (record.provenance === 'inferred') {
+      errors.push(`${label}: inferred relationships are review candidates and cannot be saved to the approved relationship feed.`);
+    }
+    if (!record.referenceNote) {
+      errors.push(`${label}.referenceNote is required for the approved relationship feed.`);
+    }
+    if (record.type === 'same_class') {
+      errors.push(`${label}: same_class is derived from induction records and must not be saved as a personal relationship.`);
     }
 
     const key = relationshipRecordKey(record);
@@ -102,6 +109,7 @@ export function dedupeRelationshipRecords(records) {
 }
 
 export function relationshipRecordKey(record) {
+  if (record.id) return record.id;
   return [
     record.sourcePersonId,
     record.targetEntityType || '',
@@ -115,6 +123,7 @@ export function relationshipRecordKey(record) {
 function normalizeRelationshipRecord(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   const record = {
+    id: cleanString(value.id),
     sourcePersonId: cleanString(value.sourcePersonId),
     targetEntityId: cleanString(value.targetEntityId),
     type: cleanString(value.type),
@@ -124,10 +133,12 @@ function normalizeRelationshipRecord(value) {
   const targetEntityType = cleanString(value.targetEntityType);
   const targetDisplayName = cleanString(value.targetDisplayName);
   const referenceNote = cleanString(value.referenceNote);
+  const reverseDisplayLabel = cleanString(value.reverseDisplayLabel);
 
   if (targetEntityType) record.targetEntityType = targetEntityType;
   if (targetDisplayName) record.targetDisplayName = targetDisplayName;
   if (referenceNote) record.referenceNote = referenceNote;
+  if (reverseDisplayLabel) record.reverseDisplayLabel = reverseDisplayLabel;
   return record;
 }
 
