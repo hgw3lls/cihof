@@ -41,8 +41,13 @@ const states = [
     path: '?scene=years',
     prepare: async (page) => {
       await page.getByRole('button', { name: /Jump to 2015/ }).click();
-      await page.getByRole('button', { name: /Open film 1 for Bishop Anthony Pilla/ }).click();
+      const filmButton = page.getByRole('button', { name: /Open film 1 for Bishop Anthony Pilla/ });
+      if (await filmButton.count() === 0) {
+        return { note: 'Pending film controls are absent from the public artifact as required.' };
+      }
+      await filmButton.click();
       await page.locator('.film-projection--pending').waitFor();
+      return { note: 'Pending film state is available in this target.' };
     },
   },
   {
@@ -64,6 +69,9 @@ const states = [
     path: '',
     prepare: async (page) => page.keyboard.press('Tab'),
   },
+  { name: 'invalid-person', path: '?person=not-a-canonical-person' },
+  { name: 'reach-mode', path: '?reach=1' },
+  { name: 'reduced-motion', path: '', reducedMotion: 'reduce' },
 ];
 
 await mkdir(outputDirectory, { recursive: true });
@@ -78,7 +86,7 @@ try {
         viewport,
         deviceScaleFactor: 1,
         colorScheme: 'light',
-        reducedMotion: 'reduce',
+        reducedMotion: state.reducedMotion ?? 'no-preference',
       });
       const page = await context.newPage();
       const consoleErrors = [];
@@ -95,8 +103,9 @@ try {
       await page.goto(new URL(state.path, baseUrl).href, { waitUntil: 'networkidle' });
       await page.locator('.installation').waitFor();
       await page.evaluate(() => document.fonts.ready);
-      await state.prepare?.(page);
+      const setup = await state.prepare?.(page);
       await page.waitForTimeout(250);
+      await settleAnimations(page);
 
       const fileName = `${viewport.width}x${viewport.height}-${state.name}.jpg`;
       await page.screenshot({
@@ -113,6 +122,7 @@ try {
         url: page.url(),
         consoleErrors,
         pageErrors,
+        note: setup?.note ?? null,
       });
       await context.close();
     }
@@ -141,3 +151,17 @@ await writeFile(resolve(outputDirectory, 'manifest.json'), `${JSON.stringify(man
 const errorCount = captures.reduce((count, capture) => count + capture.consoleErrors.length + capture.pageErrors.length, 0);
 console.log(`Captured ${captures.length} MG-00 baseline images in ${outputDirectory}.`);
 console.log(`Recorded ${errorCount} console or page errors.`);
+
+// Screenshots are baseline evidence, so a frame must not be captured mid-transition.
+// Running states are now captured with motion enabled, so wait for in-flight
+// animations to finish. Indefinite animations never settle; the race bounds them.
+async function settleAnimations(page) {
+  await page.evaluate(async () => {
+    const running = document.getAnimations().filter((animation) => animation.playState === 'running');
+    if (running.length === 0) return;
+    await Promise.race([
+      Promise.allSettled(running.map((animation) => animation.finished)),
+      new Promise((resolve) => setTimeout(resolve, 2000)),
+    ]);
+  });
+}

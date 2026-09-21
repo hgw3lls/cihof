@@ -1,0 +1,110 @@
+{
+  "ACCEPTANCE_TESTS.md": {
+    "bytes": 10255,
+    "sha256": "ca18d984a172469221801fee216d3e4e41657699045481cb33764266cf50160b"
+  },
+  "AGENTS_ADDENDUM.md": {
+    "bytes": 2178,
+    "sha256": "122dff130311bc7d33df983595ceb686c76a02e6d7ed491ca5a4baf66a1717ff"
+  },
+  "EDITORIAL_HANDOFF.md": {
+    "bytes": 4237,
+    "sha256": "7fddf85149d867d61fc461b56c25a296e5c007a7dbd1635a38b3c40725e7815f"
+  },
+  "DATA_CONTRACTS.md": {
+    "bytes": 9712,
+    "sha256": "6d3c7b0b9b2b09ae316f7e38ab68e2af4be374b0bba980556191a1e1b9c7d3c0"
+  },
+  "CIHOF_Current_State_Audit.md": {
+    "bytes": 14192,
+    "sha256": "7aef72b562492edb0d37ff17a0618efe370c97f22a1f6ef42ed0aa12ca1e6d51"
+  },
+  "CIHOF_Full_Codex_Plan.md": {
+    "bytes": 21492,
+    "sha256": "fed0d515d5b745b85aa1e4e4e180d06b1fe9cd52dca8e389997dd3e02b379967"
+  },
+  "SOURCES.md": {
+    "bytes": 6649,
+    "sha256": "865b109892fc12a584286fbe5b7b842804175cff9a59bd7d28dfbf70208b69c1"
+  },
+  "README_START_HERE.md": {
+    "bytes": 3915,
+    "sha256": "81cf09b4b5b001f927577933de3f22a181cdd491ced40cd17619a7dc82d41f40"
+  },
+  "TASK_TRACKER.md": {
+    "bytes": 2959,
+    "sha256": "35d063fdb86db9baa6f4576a11854ac6d26e665c701235b9915f86d4b1f73c72"
+  },
+  "TASKS.json": {
+    "bytes": 5591,
+    "sha256": "1511e813784b69bbf3b2c556d3bcb179a78da9ef9fbcd778176455da846ac5d9"
+  },
+  "templates/TASK_COMPLETION.md": {
+    "bytes": 904,
+    "sha256": "df8f3d3e7581fdd874e46c70f379a76fc3562753182c2cb116d7bb390eabd652"
+  },
+  "templates/content-decision.json": {
+    "bytes": 443,
+    "sha256": "ecd7181823a9ed455e1e2227b929bc3e497a2d58dfdc2a083866ed0fd57595fd"
+  },
+  "tools/inspect_deployment.py": {
+    "bytes": 8067,
+    "sha256": "8ae8c8d2a949580ca63240f6d453236e07a406882f7a1664199a033082d74e48"
+  },
+  "evidence/package_validation.json": {
+    "bytes": 548,
+    "sha256": "3d8cd2f133cc9e5a4cedf7a28eb8215ab36c4d203f1c1b0286cfff8b54067a72"
+  },
+  "evidence/deployment_inventory.json": {
+    "bytes": 4899,
+    "sha256": "8d4c02693388fdbb767c1adcff37fbcde450ed149ff985f81676dd1944af516e"
+  },
+  "prompts/CE-07_historical-activity.md": {
+    "bytes": 4386,
+    "sha256": "d7f5df32211adbf79703d2bd406125acebdbbdb084df143fd3a566feddf96330"
+  },
+  "prompts/CE-10_offline-provisioning-and-recovery.md": {
+    "bytes": 4738,
+    "sha256": "cbb7c14488b9101e21c5742818bf9a2138e49874c219834e0a5e20f659272cc5"
+  },
+  "prompts/CE-04_contribution-stories-and-evidence.md": {
+    "bytes": 4646,
+    "sha256": "d7816bbbc831ad600ee5d15b3edd00864bafd9096d91dfa7690abece65362c82"
+  },
+  "prompts/CE-11_release-gates-and-handoff.md": {
+    "bytes": 4800,
+    "sha256": "b0a101228f527d5e7b75df18ab112acfb468d754daf41fe0a531957e4816acea"
+  },
+  "prompts/CE-02_shared-state-and-navigation.md": {
+    "bytes": 4329,
+    "sha256": "4c6e3b7ffe32d7164678ac04923915946ebe68e72db527b28ca5420673bea249"
+  },
+  "prompts/CE-01_content-contracts-and-publication.md": {
+    "bytes": 4565,
+    "sha256": "265d29f86eec1bf73cb832302b2c7867321b2dbaee8b8e3b9e539a03bb5651df"
+  },
+  "prompts/CE-08_walk-up-trails-and-continuation.md": {
+    "bytes": 4673,
+    "sha256": "6d15cff0a5e9611173961b72edf9917a2f8c6c5a543ea8c9a16ba43120287733"
+  },
+  "prompts/CE-06_connections-and-comparison.md": {
+    "bytes": 4533,
+    "sha256": "8883802cdb8610b95fcbcecc51ae02a2f30d1a79a96f044a0d3c2e55be5b60c1"
+  },
+  "prompts/CE-09_access-and-performance.md": {
+    "bytes": 4672,
+    "sha256": "93ff07ad578090f7f8641b784f81efbc260593c577c4f0df3534ec92cf69a480"
+  },
+  "prompts/CE-05_cleveland-places.md": {
+    "bytes": 4443,
+    "sha256": "584754df82ae8ed085bde3afc78ef06b68c7ea2bcf3e0b6bc86a49b2ee3fe1c8"
+  },
+  "prompts/CE-03_portrait-regrouping-and-discovery.md": {
+    "bytes": 4767,
+    "sha256": "5528a6f6851496524df4ef6e824c5cbc41d2574dd5af3a1ee96fae9217442288"
+  },
+  "prompts/CE-00_baseline-and-adoption.md": {
+    "bytes": 4296,
+    "sha256": "28f49f7838a49f04411d565654dd828543c0eb611cc1c1a1ab19da5ccd90f291"
+  }
+}
