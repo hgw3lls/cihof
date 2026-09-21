@@ -53,6 +53,13 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
     if (mediaCountsAsActivity({ paused: video.paused, ended: video.ended, progressing })) onProgress();
   }, [onProgress]);
 
+  // A bundle that names no playable source is a build fault, not a visitor's
+  // problem. Fall through to the words rather than taking the modal down.
+  const source = film.source;
+  const playable = source?.kind === 'youtube'
+    ? Boolean(source.embedUrl)
+    : Boolean(source?.kind === 'local-file' && source.src);
+
   return (
     <Modal className="film" labelledBy="filmTitle" onClose={onClose}>
       <header>
@@ -62,27 +69,46 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
 
       <div className="film__body">
         <div className="film__screen">
-          {problem
+          {problem || !playable
             ? (
               <div className="film__problem" role="alert">
                 <p>{problem}</p>
                 <p>The transcript below carries the whole of what was said.</p>
               </div>
             )
-            : (
-              <video
-                ref={videoRef}
-                controls
-                playsInline
-                preload="metadata"
-                poster={asset(film.poster)}
-                onTimeUpdate={reportProgress}
-                onError={() => setProblem('This film could not be played on this display.')}
-              >
-                <source src={asset(film.src)} type="video/mp4" />
-                <track kind="captions" src={asset(film.captions)} srcLang="en" label="English captions" default />
-              </video>
-            )}
+            : source.kind === 'youtube'
+              ? (
+                // The embedded player carries YouTube's own captions, not the
+                // reviewed ones: an iframe cannot be given a track element.
+                // The reviewed transcript below is what this release stands
+                // behind, so it is announced rather than left to be noticed.
+                <div className="film__embed">
+                  <iframe
+                    title={`Film of ${personName}`}
+                    src={source.embedUrl}
+                    allow="accelerometer; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <p className="film__note">
+                    This film plays from the hall&rsquo;s channel and uses that player&rsquo;s own captions.
+                    The reviewed transcript is below.
+                  </p>
+                </div>
+              )
+              : (
+                <video
+                  ref={videoRef}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster={asset(film.poster)}
+                  onTimeUpdate={reportProgress}
+                  onError={() => setProblem('This film could not be played on this display.')}
+                >
+                  <source src={asset(source.src)} type="video/mp4" />
+                  <track kind="captions" src={asset(film.captions)} srcLang="en" label="English captions" default />
+                </video>
+              )}
         </div>
 
         <section className="film__transcript" aria-label={`Transcript of ${personName}`}>

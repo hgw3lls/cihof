@@ -127,6 +127,9 @@ body {
 @media (min-width: 60rem) { .film__body { grid-template-columns: minmax(0, 3fr) minmax(16rem, 2fr); overflow: hidden; } }
 .film__screen { display: grid; place-items: center; padding: clamp(0.75rem, 2vw, 1.5rem); background: #000; min-height: 0; }
 .film__screen video { width: 100%; max-height: 100%; background: #000; }
+.film__embed { display: grid; gap: 0.5rem; width: 100%; max-height: 100%; min-height: 0; }
+.film__embed iframe { width: 100%; aspect-ratio: 16 / 9; max-height: 100%; border: 0; background: #000; }
+.film__note { margin: 0; color: var(--paper); font-size: 0.8rem; line-height: 1.35; text-wrap: pretty; }
 .film__problem { color: var(--accent); }
 .film__transcript { min-height: 0; overflow-y: auto; padding: clamp(1rem, 2vw, 1.5rem); border-top: 2px solid var(--rule); }
 @media (min-width: 60rem) { .film__transcript { border-top: 0; border-left: 2px solid var(--rule); } }
