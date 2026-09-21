@@ -20,7 +20,6 @@ import {
   archiveClearedForTarget,
   communityOptions,
   contributionOptions,
-  personMatchesDiscovery,
   portraitObjectPosition,
   publishedContribution,
   sourceLink,
@@ -31,15 +30,8 @@ import {
 import { LinksScene } from './LinksScene';
 import { useExhibitSessionTimeout, type SessionResetReason } from './useExhibitSessionTimeout';
 import { YearsScene } from './YearsScene';
-
-function initialScene(): Scene {
-  const params = new URLSearchParams(location.search);
-  const value = params.get('scene') ?? params.get('view');
-  if (value === 'links' || value === 'years') return value;
-  if (['world', 'connections', 'journeys', 'routes', 'places', 'region-map'].includes(value ?? '')) return 'links';
-  if (value === 'time' || value === 'timeline') return 'years';
-  return 'people';
-}
+import { filterPeopleForExhibit, hasActiveDiscovery } from './state/exhibitState';
+import { useExhibitController } from './state/useExhibitController';
 
 function Portrait({ person, eager = false }: { person: Inductee; eager?: boolean }) {
   const source = portraitUrl(person);
@@ -74,7 +66,7 @@ function RecordView({ person, storyRecord, archiveItems, showQr, onOpenQr, onClo
   const url = canonicalContinuationUrl(person);
   const biography = sourceBiographyText(person);
   const paragraphs = sourceBiographyParagraphs(biography);
-  const clevelandContext = approvedClevelandContext(person, storyRecord);
+  const clevelandContext = approvedClevelandContext(person, storyRecord, buildInfo.buildTarget);
   const publishedSourceCount = clevelandContext.length + archiveItems.length;
   return <section className="record-view" aria-label={`${person.name} full record`}>
     <div className="record-view__top"><span>CIHOF / Inductee record</span><button type="button" onClick={onClose}>CLOSE</button></div>
@@ -145,21 +137,20 @@ export function ArchiveExhibit() {
   const storySectionState = useStorySections();
   const archiveLeadState = useArchiveLeads();
   const { mode, toggleMode } = useColorMode();
-  const [scene, setScene] = useState<Scene>(initialScene);
-  const [selectedId, setSelectedId] = useState(() => new URLSearchParams(location.search).get('person') || '');
+  const { state: exhibitState, actions: exhibitActions, reset: resetExhibit } = useExhibitController();
+  const scene = exhibitState.lens;
+  const selectedId = exhibitState.selectedPersonId;
+  const recordOpen = exhibitState.detail.kind === 'record' || exhibitState.detail.kind === 'qr';
+  const showQr = exhibitState.detail.kind === 'qr';
+  const activeFilm = exhibitState.media.kind === 'film' ? exhibitState.media.id : null;
+  const peopleQuery = exhibitState.query;
+  const peopleSort = exhibitState.sort;
+  const contributionFilter = exhibitState.facets.contributionIds[0] ?? '';
+  const yearFilter = exhibitState.facets.inductionYears[0] ?? '';
+  const communityFilter = exhibitState.facets.communityIds[0] ?? '';
+  const linkQuery = exhibitState.query;
+  const activeLinkPersonId = exhibitState.activeLinkPersonId;
   const [unavailableRecord, setUnavailableRecord] = useState(false);
-  const [selectionHistory, setSelectionHistory] = useState<string[]>([]);
-  const [recordOpen, setRecordOpen] = useState(false);
-  const [showQr, setShowQr] = useState(false);
-  const [activeFilm, setActiveFilm] = useState<string | null>(null);
-  const [peopleQuery, setPeopleQuery] = useState('');
-  const [peopleSort, setPeopleSort] = useState<'name' | 'newest' | 'earliest'>('name');
-  const [contributionFilter, setContributionFilter] = useState('');
-  const [yearFilter, setYearFilter] = useState('');
-  const [communityFilter, setCommunityFilter] = useState('');
-  const [linkQuery, setLinkQuery] = useState('');
-  const [activeLinkPersonId, setActiveLinkPersonId] = useState('');
-  useEffect(() => setActiveLinkPersonId(''), [selectedId]);
   const [adminOpen, setAdminOpen] = useState(() => new URLSearchParams(location.search).get('admin') === '1');
   const [settings, setSettings] = useState(readKioskSettings);
   const [sessionVersion, setSessionVersion] = useState(0);
@@ -174,35 +165,17 @@ export function ArchiveExhibit() {
     stopAllMedia();
     recordReturn.current = null;
     yearsScroll.current = null;
-    setActiveLinkPersonId('');
     if (fieldRef.current) {
       fieldRef.current.scrollTop = 0;
       fieldRef.current.scrollLeft = 0;
     }
-    setSelectedId('');
     setUnavailableRecord(false);
-    setSelectionHistory([]);
-    setRecordOpen(false);
-    setShowQr(false);
-    setActiveFilm(null);
-    setPeopleQuery('');
-    setPeopleSort('name');
-    setContributionFilter('');
-    setYearFilter('');
-    setCommunityFilter('');
-    setLinkQuery('');
-    setScene('people');
+    resetExhibit();
     setAdminOpen(false);
     setSessionVersion((version) => version + 1);
-
-    const current = new URLSearchParams(location.search);
-    const params = new URLSearchParams();
-    if (current.get('kiosk') === '1') params.set('kiosk', '1');
-    if (current.get('reach') === '1') params.set('reach', '1');
-    window.history.replaceState(null, '', `${location.pathname}${params.size ? `?${params}` : ''}`);
     window.dispatchEvent(new CustomEvent('cihof:session-reset', { detail: { reason } }));
     window.requestAnimationFrame(() => document.getElementById('startOverButton')?.focus({ preventScroll: true }));
-  }, []);
+  }, [resetExhibit]);
   const captureWarningFocus = useCallback(() => {
     const active = document.activeElement;
     warningReturnFocus.current = active instanceof HTMLElement && !active.closest('.session-warning') ? active : null;
@@ -240,23 +213,16 @@ export function ArchiveExhibit() {
     const listener = (event: KeyboardEvent) => {
       if (document.querySelector('dialog[open]')) return;
       if (matchesAdminHotkey(event, settings.adminHotkey)) { event.preventDefault(); setAdminOpen(true); }
-      if (event.key === 'Escape') { if (recordOpen) closeRecord(); else setActiveFilm(null); }
+      if (event.key === 'Escape') { if (recordOpen) closeRecord(); else exhibitActions.closeMedia(); }
     };
     window.addEventListener('keydown', listener);
     return () => window.removeEventListener('keydown', listener);
-  }, [settings.adminHotkey, recordOpen]);
+  }, [settings.adminHotkey, recordOpen, exhibitActions]);
   useEffect(() => {
     if (!selectedId || loading || byId.has(selectedId)) return;
     setUnavailableRecord(true);
-    setSelectedId('');
-  }, [selectedId, loading, byId]);
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    params.delete('view');
-    if (scene === 'people') params.delete('scene'); else params.set('scene', scene);
-    if (selected) params.set('person', selected.id); else params.delete('person');
-    window.history.replaceState(null, '', `${location.pathname}${params.size ? `?${params}` : ''}${location.hash}`);
-  }, [scene, selected]);
+    exhibitActions.clearSelection();
+  }, [selectedId, loading, byId, exhibitActions]);
   useLayoutEffect(() => {
     const field = fieldRef.current;
     if (recordOpen) {
@@ -279,7 +245,14 @@ export function ArchiveExhibit() {
     return () => window.cancelAnimationFrame(frame);
   }, [recordOpen]);
   useLayoutEffect(() => {
-    if (!recordOpen && !recordReturn.current && fieldRef.current) fieldRef.current.scrollTop = 0;
+    if (recordOpen || recordReturn.current || !fieldRef.current) return;
+    const viewport = exhibitState.viewports[scene];
+    fieldRef.current.scrollTop = viewport.scrollTop;
+    fieldRef.current.scrollLeft = viewport.scrollLeft;
+    const frame = window.requestAnimationFrame(() => {
+      if (viewport.focusId) document.getElementById(viewport.focusId)?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [scene]);
   useLayoutEffect(() => {
     if (sessionTimeout.warningActive) return;
@@ -301,7 +274,7 @@ export function ArchiveExhibit() {
       focusId: activeElement?.id ?? '',
       focusElement: activeElement,
     };
-    setShowQr(false); setRecordOpen(true);
+    exhibitActions.openDetail({ kind: 'record' });
   }
   function openPersonRecord(id: string, origin: HTMLElement) {
     if (!byId.has(id)) return;
@@ -310,24 +283,36 @@ export function ArchiveExhibit() {
       focusId: origin.id,
       focusElement: origin,
     };
-    if (id !== selectedId) setSelectionHistory((current) => [...current, selectedId]);
-    setSelectedId(id); setShowQr(false); setActiveFilm(null); setRecordOpen(true);
+    exhibitActions.selectPerson(id, { kind: 'record' });
   }
-  function closeRecord() { setShowQr(false); setRecordOpen(false); }
+  function closeRecord() { exhibitActions.setDetail({ kind: 'none' }); }
   function select(id: string, film: string | null = null) {
     if (!byId.has(id)) return;
     const origin = document.activeElement;
     setUnavailableRecord(false);
     recordReturn.current = null;
-    if (id !== selectedId) setSelectionHistory((current) => [...current, selectedId]);
-    setSelectedId(id); setRecordOpen(false); setShowQr(false); setActiveFilm(film);
+    exhibitActions.selectPerson(id, { kind: 'none' }, film ? { kind: 'film', id: film } : { kind: 'none' });
     window.requestAnimationFrame(() => {
       if (!origin?.isConnected && !film) (document.getElementById('mapCenterButton') ?? document.getElementById('selectionTitle'))?.focus({ preventScroll: true });
     });
   }
-  function changeScene(next: Scene) { recordReturn.current = null; setScene(next); setRecordOpen(false); setShowQr(false); setActiveFilm(null); }
+  function changeScene(next: Scene) {
+    const activeElement = document.activeElement;
+    exhibitActions.captureViewport(scene, {
+      scrollTop: fieldRef.current?.scrollTop ?? 0,
+      scrollLeft: fieldRef.current?.scrollLeft ?? 0,
+      focusId: activeElement instanceof HTMLElement ? activeElement.id : '',
+    });
+    recordReturn.current = null;
+    exhibitActions.setLens(next);
+  }
   function focusSelection() { window.requestAnimationFrame(() => document.getElementById('selectionTitle')?.focus({ preventScroll: true })); }
-  function back() { const previous = selectionHistory[selectionHistory.length - 1]; if (previous === undefined) return; recordReturn.current = null; setSelectionHistory((current) => current.slice(0, -1)); setSelectedId(previous); setRecordOpen(false); setShowQr(false); setActiveFilm(null); focusSelection(); }
+  function back() {
+    if (!exhibitState.history.some((snapshot) => snapshot.selectedPersonId && snapshot.selectedPersonId !== selectedId)) return;
+    recordReturn.current = null;
+    exhibitActions.backSelection();
+    focusSelection();
+  }
   function brandGesture() {
     const now = Date.now();
     if (now - brandTap.current.started > 2200) brandTap.current = { count: 0, started: now };
@@ -335,18 +320,17 @@ export function ArchiveExhibit() {
     if (brandTap.current.count >= 5) { setAdminOpen(true); brandTap.current = { count: 0, started: now }; }
   }
 
-  const matches = useMemo(() => people
-    .filter((person) => personMatchesDiscovery(person, peopleQuery, {
-      contribution: contributionFilter,
-      year: yearFilter,
-      community: communityFilter,
-    }))
-    .sort((a, b) => {
-      if (peopleSort === 'newest') return (b.classYear ?? 0) - (a.classYear ?? 0) || a.name.localeCompare(b.name);
-      if (peopleSort === 'earliest') return (a.classYear ?? Number.MAX_SAFE_INTEGER) - (b.classYear ?? Number.MAX_SAFE_INTEGER) || a.name.localeCompare(b.name);
-      return a.name.localeCompare(b.name);
-    }), [people, peopleQuery, peopleSort, contributionFilter, yearFilter, communityFilter]);
-  const hasPeopleFilters = Boolean(peopleQuery || contributionFilter || yearFilter || communityFilter);
+  const matches = useMemo(() => filterPeopleForExhibit(people, exhibitState), [people, exhibitState.query, exhibitState.sort, exhibitState.facets]);
+  const hasPeopleFilters = hasActiveDiscovery(exhibitState);
+  const selectedOutsideFilters = Boolean(selected && !matches.some((person) => person.id === selected.id));
+  const hasPriorPerson = exhibitState.history.some((snapshot) => snapshot.selectedPersonId && snapshot.selectedPersonId !== selectedId);
+  const datedMatches = matches.filter((person) => person.classYear !== null).length;
+  const matchingIds = useMemo(() => new Set(matches.map((person) => person.id)), [matches]);
+  const matchingYears = useMemo(() => {
+    const values = matches.map((person) => person.classYear).filter((year): year is number => typeof year === 'number');
+    return [...new Set(values)].sort((a, b) => a - b);
+  }, [matches]);
+  const visibleFilms = useMemo(() => films.filter((film) => matchingIds.has(film.person.id)), [films, matchingIds]);
   const shownFilm = films.find((film) => film.key === activeFilm) ?? null;
   const warning = sessionTimeout.warningActive && <section className="session-warning" data-session-warning role="region" aria-live="assertive" aria-labelledby="sessionWarningTitle" aria-describedby="sessionWarningCopy">
     <div className="session-warning__panel" onPointerDown={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}
@@ -380,12 +364,13 @@ export function ArchiveExhibit() {
         </button>}
         <div className="focus__record"><div className="focus__meta"><span>{selected ? inductionYearLabel(selected) : `${people.length} PORTRAITS / ${years.length} CLASSES`}</span>
           {selected && scene === 'years' && !recordOpen && <button type="button" id="selectedPersonRailRecordButton" onClick={(event) => openRecord(event.currentTarget)}>RECORD</button>}
-          {selectionHistory.length > 0 && selectionHistory[selectionHistory.length - 1] && <button className="focus__back" type="button" aria-label="Back to previous person" title="Back to previous person" onClick={back}>←</button>}
-          {selected && <button className="focus__clear" type="button" aria-label="Clear selection" title="Clear selection" onClick={() => { recordReturn.current = null; setSelectedId(''); setSelectionHistory([]); setRecordOpen(false); setShowQr(false); setActiveFilm(null); focusSelection(); }}>×</button>}</div>
+          {hasPriorPerson && <button className="focus__back" type="button" aria-label="Back to previous person" title="Back to previous person and view" onClick={back}>←</button>}
+          {selected && <button className="focus__clear" type="button" aria-label="Clear selection" title="Clear selection" onClick={() => { recordReturn.current = null; exhibitActions.clearSelection(); focusSelection(); }}>×</button>}</div>
           <h1 id="selectionTitle" tabIndex={-1} className={selected ? selected.name.length > 26 ? 'is-long' : '' : 'is-neutral'} aria-live="polite">{selected?.name || 'Choose a person'}</h1>
           <p tabIndex={selected ? 0 : -1}>{selected
             ? publishedContribution(selected)
             : entryInvitation}</p>
+          {selectedOutsideFilters && <p className="focus__outside" role="status">Outside the current filters. Clear filters to include this person.</p>}
         </div>
       </aside>
       <main className="archive-field" id="exhibitContent" tabIndex={-1} aria-label={`${scene} exhibit`}><div className="field__content" ref={fieldRef} tabIndex={0} aria-label="Scrollable exhibit content">
@@ -393,26 +378,26 @@ export function ArchiveExhibit() {
         {!loading && error && <p className="load-message">{error}</p>}
         {!loading && !error && unavailableRecord && !selected && <p role="status">This record is unavailable. Please choose a person from the collection.</p>}
         {!loading && !error && recordOpen && selected && <RecordView person={selected} storyRecord={storySectionsById.get(selected.id)}
-          archiveItems={archiveLeadsById.get(selected.id) ?? []} showQr={showQr} onOpenQr={() => setShowQr(true)} onCloseQr={() => setShowQr(false)} onClose={closeRecord}
+          archiveItems={archiveLeadsById.get(selected.id) ?? []} showQr={showQr} onOpenQr={() => exhibitActions.setDetail({ kind: 'qr' })} onCloseQr={() => exhibitActions.setDetail({ kind: 'record' })} onClose={closeRecord}
           onReset={() => resetSession('manual')} warning={warning} />}
         {!loading && !error && !recordOpen && scene === 'people' && <>
           <section className="people-tools" aria-label="People discovery controls">
-            <div className="people-tools__count" role="status"><strong>{matches.length} OF {people.length}</strong><span>People shown</span></div>
-            <label className="people-tools__search"><span>Search</span><input id="peopleSearch" type="search" aria-label="Find a person or year" placeholder="Name, year, or approved topic" value={peopleQuery} onChange={(event) => setPeopleQuery(event.target.value)} /></label>
-            <label className="people-tools__sort"><span>Sort</span><select aria-label="Sort people" value={peopleSort} onChange={(event) => setPeopleSort(event.target.value as typeof peopleSort)}>
+            <div className="people-tools__count" role="status"><strong>{matches.length} OF {people.length}</strong><span>People shown</span><small>{datedMatches} dated / 0 mapped</small></div>
+            <label className="people-tools__search"><span>Search</span><input id="peopleSearch" type="search" aria-label="Find a person or year" placeholder="Name, year, or approved topic" value={peopleQuery} onChange={(event) => exhibitActions.setQuery(event.target.value)} /></label>
+            <label className="people-tools__sort"><span>Sort</span><select aria-label="Sort people" value={peopleSort} onChange={(event) => exhibitActions.setSort(event.target.value as typeof peopleSort)}>
               <option value="name">Name A-Z</option><option value="newest">Newest class</option><option value="earliest">Earliest class</option>
             </select></label>
             <div className="people-tools__filters">
-              <label><span>Contribution</span><select aria-label="Filter by contribution" value={contributionFilter} onChange={(event) => setContributionFilter(event.target.value)}>
+              <label><span>Contribution</span><select aria-label="Filter by contribution" value={contributionFilter} onChange={(event) => exhibitActions.setFacet('contributionIds', event.target.value ? [event.target.value] : [])}>
                 <option value="">All contributions</option>{contributions.map((value) => <option key={value} value={value}>{value}</option>)}
               </select></label>
-              <label><span>Induction year</span><select aria-label="Filter by induction year" value={yearFilter} onChange={(event) => setYearFilter(event.target.value)}>
+              <label><span>Induction year</span><select aria-label="Filter by induction year" value={yearFilter} onChange={(event) => exhibitActions.setFacet('inductionYears', event.target.value ? [event.target.value] : [])}>
                 <option value="">All years</option>{filterYears.map((value) => <option key={value} value={value}>{value}</option>)}
               </select></label>
-              <label><span>Community</span><select aria-label="Filter by community" value={communityFilter} onChange={(event) => setCommunityFilter(event.target.value)}>
+              <label><span>Community</span><select aria-label="Filter by community" value={communityFilter} onChange={(event) => exhibitActions.setFacet('communityIds', event.target.value ? [event.target.value] : [])}>
                 <option value="">All communities</option>{communities.map((value) => <option key={value} value={value}>{value}</option>)}
               </select></label>
-              {hasPeopleFilters && <button type="button" onClick={() => { setPeopleQuery(''); setContributionFilter(''); setYearFilter(''); setCommunityFilter(''); document.getElementById('peopleSearch')?.focus(); }}>Clear filters</button>}
+              {hasPeopleFilters && <button type="button" onClick={() => { exhibitActions.clearFilters(); document.getElementById('peopleSearch')?.focus(); }}>Clear filters</button>}
             </div>
           </section>
           <div className="people-grid">{matches.map((person) => {
@@ -425,12 +410,16 @@ export function ArchiveExhibit() {
           })}
             {!matches.length && <p className="empty">NO MATCHING PEOPLE</p>}</div>
         </>}
-        {!loading && !error && !recordOpen && scene === 'links' && <LinksScene people={people} relationships={relationshipState.relationships}
+        {!loading && !error && !recordOpen && scene === 'places' && <section className="places-pending" aria-labelledby="placesPendingTitle">
+          <p>PLACES</p><h2 id="placesPendingTitle">Reviewed place records are not published in this build.</h2>
+          <button type="button" onClick={() => changeScene('people')}>EXPLORE PEOPLE</button>
+        </section>}
+        {!loading && !error && !recordOpen && scene === 'links' && <LinksScene people={people} matchingIds={matchingIds} relationships={relationshipState.relationships}
           relationshipsLoading={relationshipState.loading} relationshipsError={relationshipState.error} onRetryRelationships={relationshipState.refresh}
-          activePersonId={activeLinkPersonId} setActivePersonId={setActiveLinkPersonId}
-          selected={selected} query={linkQuery} setQuery={setLinkQuery} onSelect={select} onRecord={openRecord} onPersonRecord={openPersonRecord} portrait={Portrait} />}
-        {!loading && !error && !recordOpen && scene === 'years' && <YearsScene years={years} people={people} films={films} selected={selected} activeFilm={shownFilm} scrollRef={yearsScroll}
-          onPerson={(id) => select(id)} onPersonRecord={openPersonRecord} onFilm={(film) => { select(film.person.id, film.key); }} onCloseFilm={() => setActiveFilm(null)}
+          activePersonId={activeLinkPersonId} setActivePersonId={exhibitActions.setLinkFocus}
+          selected={selected} query={linkQuery} setQuery={exhibitActions.setQuery} onSelect={select} onRecord={openRecord} onPersonRecord={openPersonRecord} portrait={Portrait} />}
+        {!loading && !error && !recordOpen && scene === 'years' && <YearsScene years={matchingYears} people={matches} films={visibleFilms} selected={selected} activeFilm={shownFilm} scrollRef={yearsScroll}
+          onPerson={(id) => select(id)} onPersonRecord={openPersonRecord} onFilm={(film) => { select(film.person.id, film.key); }} onCloseFilm={() => exhibitActions.closeMedia()}
           onRecord={openRecord} onSessionActivity={sessionTimeout.noteActivity} portrait={Portrait} />}
       </div></main>
     </div>
