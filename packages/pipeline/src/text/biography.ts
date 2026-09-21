@@ -14,6 +14,7 @@
  */
 
 import { readFileSync } from 'node:fs';
+import { srcFile } from '../paths.ts';
 
 /**
  * Community tag aliases and the ignore list. A canonical source: it records
@@ -21,7 +22,7 @@ import { readFileSync } from 'node:fs';
  * communities at all.
  */
 const communityTaxonomy = JSON.parse(
-  readFileSync(new URL('../../../../src/data/communityTaxonomy.json', import.meta.url), 'utf8'),
+  readFileSync(srcFile('data/communityTaxonomy.json'), 'utf8'),
 ) as { ignoredCommunityTags?: string[]; communityTagAliases?: Record<string, string> };
 
 function ensureTerminalPunctuation(text: string): string {

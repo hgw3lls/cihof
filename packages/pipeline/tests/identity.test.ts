@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { inducteeId, slugify } from '../src/identity.ts';
+import { dataFile } from '../src/paths.ts';
 import { readRosterNames } from '../src/sources/manifest.ts';
 
 const rosterKeys = Object.keys(
-  JSON.parse(readFileSync(new URL('../../../data/cihof_curated_metadata.json', import.meta.url), 'utf8')).inductees,
+  JSON.parse(readFileSync(dataFile('cihof_curated_metadata.json'), 'utf8')).inductees,
 );
 
 test('slugify folds accents and collapses punctuation', () => {

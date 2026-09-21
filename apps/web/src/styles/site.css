@@ -1,0 +1,60 @@
+/* Mobile-first. The measured failure this route answers was a 700px document
+   on a 390px viewport, so nothing here assumes a wide screen. */
+:root {
+  --paper: #fcfcfa;
+  --ink: #151515;
+  --muted: #4a4a4a;
+  --rule: #d8d8d2;
+  --accent: #a8242c;
+  --focus: #0b5fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #151515; --ink: #f6f6f3; --muted: #c2c2be; --rule: #3a3a38; --accent: #ff8a93; --focus: #7fb0ff; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrap { width: 100%; max-width: 42rem; margin: 0 auto; padding: 0 1rem 4rem; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 10; padding: 0.6rem 1rem; background: var(--ink); color: var(--paper); }
+
+.masthead { padding: 1.25rem 0; border-bottom: 1px solid var(--rule); font-family: system-ui, sans-serif; }
+.masthead a { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+h1 { margin: 1.5rem 0 0.25rem; font-size: clamp(1.75rem, 6vw, 2.5rem); line-height: 1.15; }
+h2 { margin: 2rem 0 0.5rem; font-family: system-ui, sans-serif; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+.meta { margin: 0 0 1.5rem; font-family: system-ui, sans-serif; color: var(--muted); font-size: 0.9375rem; }
+
+.portrait { width: 100%; max-width: 20rem; height: auto; margin: 0 0 1.5rem; border: 1px solid var(--rule); background: var(--rule); }
+
+.bio p { margin: 0 0 1rem; }
+
+.tags { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tags li { font-family: system-ui, sans-serif; font-size: 0.875rem; padding: 0.3rem 0.65rem; border: 1px solid var(--rule); border-radius: 999px; }
+
+.people { margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.people li { border-bottom: 1px solid var(--rule); }
+.people a { display: flex; gap: 0.875rem; align-items: center; padding: 0.75rem 0; text-decoration: none; }
+.people a:hover .name { text-decoration: underline; }
+.people img { width: 3rem; height: 3rem; object-fit: cover; flex: none; border: 1px solid var(--rule); background: var(--rule); }
+.people .name { font-size: 1.0625rem; }
+.people .year { margin-left: auto; font-family: system-ui, sans-serif; font-size: 0.875rem; color: var(--muted); }
+
+.source { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-family: system-ui, sans-serif; font-size: 0.875rem; color: var(--muted); }
