@@ -4,10 +4,13 @@ import { dirname } from 'node:path';
 import {
   availableLenses, displayablePortrait, facetable, isAttributable, lensAvailability,
   publishedPlaces, publishedRelationships,
+  crosswalkProgress, inductionRelationships,
+  type InducteeId, type InductionCrosswalk,
   type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
   publishableFilms, filmShortfalls,
   type PublishedFilm, type PublishedRelationship, type VisitorTarget,
 } from '@cihof/content';
+import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
 import { readVideoHoldings } from '../sources/media.ts';
 
@@ -45,6 +48,18 @@ export type RuntimeBundle = {
    * A release should be able to say why a wall is silent.
    */
   readonly filmReport: { readonly held: number; readonly blockedBy: Record<string, number> };
+  /**
+   * Why Connections is offered or withheld, in the terms a curator can act on.
+   * "Zero relationships" and "ninety-five names nobody has resolved yet" are
+   * the same count and different problems.
+   */
+  readonly relationshipReport: {
+    readonly published: number;
+    readonly fromCrosswalk: number;
+    readonly curated: number;
+    readonly crosswalkNamesUnresolved: number;
+    readonly crosswalkApproved: boolean;
+  };
 };
 
 /**
@@ -75,6 +90,8 @@ export type RuntimePerson = {
 export type BundleSources = {
   readonly places?: readonly unknown[];
   readonly relationships?: readonly unknown[];
+  /** Pass `null` to build as though the crosswalk had never been generated. */
+  readonly crosswalk?: InductionCrosswalk | null;
   /** Public site this release points its codes at. */
   readonly continuationBase?: string | null;
 };
@@ -100,7 +117,25 @@ export function buildRuntimeBundle(
     }
   }
   const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target);
-  const relationships = publishedRelationships(sources.relationships ?? readRelationships(), target);
+
+  // The roster's `inducted_by` column becomes relationships here, and only
+  // here. Resolving who a name refers to happens in the crosswalk under review;
+  // this reads that decision, it never makes one. With nothing resolved and no
+  // publication decision the generator yields nothing and Connections stays
+  // off, which is the collection's actual state today.
+  const crosswalk = sources.crosswalk === undefined ? readInductionCrosswalk() : sources.crosswalk;
+  const nameById = new Map(people.map((person) => [person.id, person.name] as const));
+  const fromCrosswalk = crosswalk
+    ? inductionRelationships(crosswalk, (id: InducteeId) => nameById.get(id))
+    : [];
+
+  // Curated records come first so a hand-written relationship wins over the
+  // generated one for the same pair rather than appearing twice and counting
+  // twice toward the lens threshold.
+  const curated = sources.relationships ?? readRelationships();
+  const relationships = dedupeById(publishedRelationships([...curated, ...fromCrosswalk], target));
+  const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length;
+  const progress = crosswalk ? crosswalkProgress(crosswalk) : null;
 
   const counts = {
     people: runtimePeople.length,
@@ -121,7 +156,29 @@ export function buildRuntimeBundle(
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
     filmReport: { held, blockedBy },
+    relationshipReport: {
+      published: relationships.length,
+      fromCrosswalk: relationships.filter(isFromCrosswalk).length,
+      curated: curatedPublished,
+      crosswalkNamesUnresolved: progress?.unresolved ?? 0,
+      crosswalkApproved: crosswalk?.publicationDecision !== undefined,
+    },
   };
+}
+
+function isFromCrosswalk(relationship: PublishedRelationship): boolean {
+  return relationship.kind === 'inducted';
+}
+
+function dedupeById(relationships: readonly PublishedRelationship[]): PublishedRelationship[] {
+  const seen = new Set<string>();
+  const kept: PublishedRelationship[] = [];
+  for (const relationship of relationships) {
+    if (seen.has(relationship.id)) continue;
+    seen.add(relationship.id);
+    kept.push(relationship);
+  }
+  return kept;
 }
 
 export function writeRuntimeBundle(bundle: RuntimeBundle, path: string): void {
