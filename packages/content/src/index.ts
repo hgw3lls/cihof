@@ -4,6 +4,7 @@ export * from './text.ts';
 export * from './time.ts';
 export * from './evidence.ts';
 export * from './connection.ts';
+export * from './crosswalk.ts';
 export * from './contribution.ts';
 export * from './person.ts';
 export * from './lenses.ts';
