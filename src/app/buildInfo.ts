@@ -11,6 +11,10 @@ export type BuildInfo = {
   gitCommitShort: string;
   gitBranch: string;
   builtAt: string;
+  /** Content revision of the bundle this artifact was built against. */
+  contentRevision: string;
+  /** Runtime bundle schema version this artifact expects. */
+  contentSchemaVersion: number;
 };
 
 export const buildInfo: BuildInfo = __CIHOF_BUILD_INFO__;

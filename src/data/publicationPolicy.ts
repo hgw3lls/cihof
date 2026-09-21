@@ -166,6 +166,68 @@ export function filterRuntimeEnrichmentForTarget(value: unknown, target: Visitor
   };
 }
 
+export type RuntimeBundleExpectations = {
+  /** Schema version this artifact was built for. A mismatch is refused, not coerced. */
+  schemaVersion: number;
+};
+
+export type RuntimeBundleValidation =
+  | { ok: true; bundle: JsonRecord; contentRevision: string }
+  | { ok: false; reasons: string[] };
+
+/**
+ * Gate for any runtime bundle that did not come from this artifact's own build.
+ *
+ * The build filters content at `vite.config.ts`. Anything reaching the loader
+ * afterwards — a staff import, a restored cache — has not been through that
+ * gate, so it goes through the same selectors here. The bundle is *filtered*
+ * rather than merely inspected, so an import carrying unreviewed enrichment is
+ * reduced to what the build would have published instead of being trusted or
+ * rejected wholesale.
+ *
+ * Refusals name their reason. A bundle with no recognised revision cannot be
+ * identified later and is refused for that alone.
+ */
+export function validateRuntimeBundleForTarget(
+  value: unknown,
+  target: VisitorContentTarget,
+  expectations: RuntimeBundleExpectations,
+): RuntimeBundleValidation {
+  const reasons: string[] = [];
+  const record = asRecord(value);
+
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return { ok: false, reasons: ['The file is not a runtime data bundle object.'] };
+  }
+
+  const inductees = Array.isArray(record.inductees) ? record.inductees : null;
+  if (!inductees) {
+    reasons.push('The bundle has no inductees array.');
+  } else if (!inductees.some(isBaseProfileEligible)) {
+    reasons.push('The bundle contains no person with both a canonical id and a name.');
+  }
+
+  const schemaVersion = typeof record.schemaVersion === 'number' ? record.schemaVersion : null;
+  if (schemaVersion !== expectations.schemaVersion) {
+    reasons.push(`The bundle declares schema version ${schemaVersion ?? 'none'}; this build reads version ${expectations.schemaVersion}.`);
+  }
+
+  const contentRevision = asRecord(record.contentContract).contentRevision;
+  if (!nonEmptyString(contentRevision)) {
+    reasons.push('The bundle carries no content revision, so what it contains could not be identified later.');
+  }
+
+  if (reasons.length > 0) return { ok: false, reasons };
+
+  const bundle = asRecord(filterRuntimeEnrichmentForTarget(record, target));
+  const issues = validatePublishedRuntimeReferences(bundle);
+  if (issues.length > 0) {
+    return { ok: false, reasons: [`The bundle has ${issues.length} unresolved reference${issues.length === 1 ? '' : 's'} after filtering.`, ...issues.slice(0, 5)] };
+  }
+
+  return { ok: true, bundle, contentRevision: String(contentRevision) };
+}
+
 export function validatePublishedRuntimeReferences(value: unknown) {
   const bundle = asRecord(value);
   const issues: string[] = [];

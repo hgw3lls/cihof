@@ -33,3 +33,6 @@ interface ImportMeta {
 }
 
 declare const __CIHOF_BUILD_INFO__: import('./app/buildInfo').BuildInfo;
+
+/** Allowlisted client-visible configuration, built by vite.config.ts. */
+declare const __CIHOF_RUNTIME_ENV__: Record<string, string | undefined>;

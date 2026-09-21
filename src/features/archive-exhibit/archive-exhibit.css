@@ -611,3 +611,13 @@ button { cursor: pointer; }
   .installation .focus__meta .focus__clear { min-width: 44px; font-size: 26px; }
   .installation .focus__meta .focus__back { min-width: 44px; font-size: 25px; }
 }
+
+/* An imported data file outranks the published artifact. It gets a row of its
+   own in the shell so it cannot be mistaken for part of the collection, and a
+   control that reverts to published data without reaching the staff passcode. */
+.installation[data-imported-content='true'] { grid-template-rows: minmax(clamp(82px, 9vh, 175px), auto) auto minmax(0, 1fr); }
+.imported-content { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 10px 20px; border-bottom: 2px solid var(--rule); background: var(--accent); color: var(--on-accent); }
+.imported-content__label { font-family: Bricolage, Arial, sans-serif; font-size: clamp(12px, 1.2vh, 22px); font-weight: 800; letter-spacing: 0.08em; }
+.imported-content p { max-width: none; margin: 0; font-family: Arial, sans-serif; font-size: clamp(13px, 1.3vh, 24px); line-height: 1.3; }
+.imported-content code { font-family: ui-monospace, Menlo, monospace; font-size: 0.95em; }
+.imported-content button { margin-left: auto; min-height: 44px; padding: 0 16px; border: 2px solid var(--on-accent); background: transparent; color: var(--on-accent); font-family: Bricolage, Arial, sans-serif; font-size: clamp(12px, 1.2vh, 22px); font-weight: 800; }

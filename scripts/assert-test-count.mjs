@@ -6,8 +6,13 @@ import { resolve } from 'node:path';
 // ordinary `playwright test`, but a CLI `--reporter` flag replaces the config's
 // reporters and silently removes it, so the assertion also runs here where no
 // flag can reach it.
-const suite = process.argv[2] === 'portal' ? 'portal' : 'visitor';
-const config = suite === 'portal' ? 'playwright.portal.config.ts' : 'playwright.config.ts';
+const configs = {
+  visitor: 'playwright.config.ts',
+  portal: 'playwright.portal.config.ts',
+  staff: 'playwright.staff.config.ts',
+};
+const suite = Object.hasOwn(configs, process.argv[2] ?? '') ? process.argv[2] : 'visitor';
+const config = configs[suite];
 const minimums = JSON.parse(readFileSync(resolve('tests/minimum-tests.json'), 'utf8'));
 const minimum = Number(process.env.CIHOF_MINIMUM_TESTS ?? minimums[suite]);
 
