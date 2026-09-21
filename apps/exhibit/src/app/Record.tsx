@@ -8,7 +8,7 @@ import type { RuntimePerson } from '../data/runtime.ts';
  * strands a keyboard or switch user at the top of the page with no idea where
  * they were.
  */
-export function Record({ person, onClose, onShare }: { person: RuntimePerson; onClose: () => void; onShare?: () => void }) {
+export function Record({ person, onClose, onShare, onPlay }: { person: RuntimePerson; onClose: () => void; onShare?: () => void; onPlay?: (filmId: string) => void }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const openedFrom = useRef<HTMLElement | null>(null);
 
@@ -42,6 +42,16 @@ export function Record({ person, onClose, onShare }: { person: RuntimePerson; on
         <div className="inner">
           <h2 ref={headingRef} tabIndex={-1}>{person.name}</h2>
           <p className="meta">{person.classYear ? `Inducted ${person.classYear}` : 'Induction year not recorded'}</p>
+
+          {onPlay && person.films.length > 0 && (
+            <p>
+              {person.films.map((film, index) => (
+                <button key={film.id} type="button" className="record__film" onClick={() => onPlay(film.id)}>
+                  Watch {person.films.length > 1 ? `film ${index + 1}` : 'the film'}
+                </button>
+              ))}
+            </p>
+          )}
 
           {person.contributions.length > 0 && (
             <ul className="tags" aria-label="Honored for">

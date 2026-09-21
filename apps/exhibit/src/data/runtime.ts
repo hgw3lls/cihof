@@ -1,4 +1,5 @@
 import type { RuntimeBundle, RuntimePerson } from '@cihof/pipeline';
+import type { PublishedFilm } from '@cihof/content';
 
 /**
  * Loads the published bundle.
@@ -29,4 +30,4 @@ function asBundle(value: unknown): RuntimeBundle | null {
   return candidate as RuntimeBundle;
 }
 
-export type { RuntimeBundle, RuntimePerson };
+export type { RuntimeBundle, RuntimePerson, PublishedFilm };
