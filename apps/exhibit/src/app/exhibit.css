@@ -1,0 +1,88 @@
+/* The installed display: screen size, orientation and input device are all
+   recorded as "not supplied" by the installation team, so nothing here assumes
+   a size. Type and targets scale with the viewport; the layout reflows. */
+:root {
+  --paper: #fcfcfa;
+  --ink: #151515;
+  --muted: #4f4f4f;
+  --rule: #151515;
+  --accent: #b02a33;
+  --on-accent: #fff;
+  --ground: #e8e8e4;
+  --focus: #0b5fff;
+  --tap: 48px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #141414; --ink: #f6f6f3; --muted: #bfbfbb; --rule: #f6f6f3; --accent: #ff6b76; --on-accent: #141414; --ground: #2a2a28; --focus: #7fb0ff; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #exhibit { height: 100%; margin: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* No text selection or callout on a display people touch all day. */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  overscroll-behavior: none;
+}
+
+:is(button, a, input, [tabindex]):focus-visible { outline: 4px solid var(--focus); outline-offset: -2px; }
+
+.shell { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; }
+
+.bar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; padding: 0.75rem clamp(0.75rem, 2vw, 1.5rem); border-bottom: 2px solid var(--rule); }
+.bar h1 { margin: 0; font-size: clamp(0.8rem, 1.4vh, 1rem); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; }
+.bar .spacer { margin-left: auto; }
+
+.lenses { display: flex; gap: 0.5rem; }
+.lenses button { min-height: var(--tap); min-width: var(--tap); padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.lenses button[aria-current='page'] { background: var(--ink); color: var(--paper); }
+
+.restart { min-height: var(--tap); padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.body { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; }
+@media (min-width: 60rem) { .body { grid-template-columns: minmax(16rem, 22%) minmax(0, 1fr); } }
+
+.focus { display: none; padding: clamp(1rem, 2vw, 2rem); border-right: 2px solid var(--rule); min-width: 0; }
+@media (min-width: 60rem) { .focus { display: block; } }
+.focus h2 { margin: 0 0 0.5rem; font-size: clamp(1.5rem, 3vh, 2.5rem); line-height: 1.1; overflow-wrap: anywhere; }
+.focus p { margin: 0; color: var(--muted); font-size: clamp(0.875rem, 1.5vh, 1.0625rem); line-height: 1.45; }
+.focus .prompt { color: var(--muted); }
+
+.stage { min-width: 0; min-height: 0; overflow-y: auto; padding: clamp(0.75rem, 2vw, 1.5rem); -webkit-overflow-scrolling: touch; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+.tools label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.tools input, .tools select { min-height: var(--tap); padding: 0 0.75rem; border: 2px solid var(--rule); background: var(--paper); color: inherit; font: inherit; }
+.tools .count { font-size: 0.8125rem; color: var(--muted); }
+.tools button { min-height: var(--tap); padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; }
+
+.grid { display: grid; gap: clamp(0.5rem, 1.5vw, 1rem); grid-template-columns: repeat(auto-fill, minmax(clamp(7rem, 14vw, 11rem), 1fr)); margin: 0; padding: 0; list-style: none; }
+.tile { display: block; width: 100%; padding: 0; border: 2px solid transparent; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.tile[aria-pressed='true'] { border-color: var(--accent); }
+.tile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--ground); }
+.tile .caption { display: block; padding: 0.5rem 0.25rem 0; font-size: clamp(0.8125rem, 1.4vh, 1rem); font-weight: 600; line-height: 1.25; }
+.tile .year { display: block; padding: 0 0.25rem; font-size: 0.8125rem; color: var(--muted); }
+
+.empty, .notice { padding: 2rem 0; color: var(--muted); }
+.notice button { min-height: var(--tap); margin-top: 1rem; padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; }
+
+.record { position: fixed; inset: 0; z-index: 20; display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--paper); }
+.record header { display: flex; gap: 1rem; align-items: center; padding: 0.75rem clamp(0.75rem, 2vw, 1.5rem); border-bottom: 2px solid var(--rule); }
+.record header button { min-height: var(--tap); padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.record .reading { overflow-y: auto; padding: clamp(1rem, 3vw, 2.5rem); }
+.record .reading .inner { max-width: 44rem; margin: 0 auto; }
+.record h2 { margin: 0 0 0.25rem; font-size: clamp(1.75rem, 4vh, 3rem); line-height: 1.1; }
+.record .meta { margin: 0 0 1.5rem; color: var(--muted); }
+.record .bio p { margin: 0 0 1rem; font-size: clamp(1rem, 1.8vh, 1.25rem); line-height: 1.6; }
+.record .credit { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.875rem; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.tags li { padding: 0.35rem 0.75rem; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.875rem; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
