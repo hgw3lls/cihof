@@ -5,6 +5,7 @@ import { layoutLinks } from './linkLayout';
 
 type Props = {
   people: Inductee[];
+  matchingIds: ReadonlySet<string>;
   relationships: RelationshipRecord[];
   relationshipsLoading: boolean;
   relationshipsError: string;
@@ -20,7 +21,7 @@ type Props = {
   portrait: ComponentType<{ person: Inductee; eager?: boolean }>;
 };
 
-export function LinksScene({ people, relationships, relationshipsLoading, relationshipsError, onRetryRelationships, selected, query, setQuery, activePersonId, setActivePersonId, onSelect, onRecord, onPersonRecord, portrait: Portrait }: Props) {
+export function LinksScene({ people, matchingIds, relationships, relationshipsLoading, relationshipsError, onRetryRelationships, selected, query, setQuery, activePersonId, setActivePersonId, onSelect, onRecord, onPersonRecord, portrait: Portrait }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [listOpen, setListOpen] = useState(false);
@@ -34,9 +35,7 @@ export function LinksScene({ people, relationships, relationshipsLoading, relati
   const layoutKey = `${selected?.id ?? ''}:${nodeSignature}:${size.width}:${size.height}`;
   const points = resolved?.key === layoutKey ? resolved.points : layout?.points;
   const counts = useMemo(() => publishedRelationshipCounts(people, relationships), [people, relationships]);
-  const matches = people.filter((person) => !query.trim()
-    || person.name.toLowerCase().includes(query.trim().toLowerCase())
-    || String(person.classYear ?? '').includes(query.trim()));
+  const matches = useMemo(() => people.filter((person) => matchingIds.has(person.id)), [people, matchingIds]);
   const activeNode = nodes.find((node) => node.person.id === activePersonId);
   const activeLinks = activeNode ? links.filter((link) => link.person.id === activeNode.person.id) : [];
   const previewNodes = useMemo(() => activeNode ? archiveLinkNodes(archiveLinks(activeNode.person, people, relationships)) : [], [activeNode, people, relationships]);

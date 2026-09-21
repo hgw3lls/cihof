@@ -1,4 +1,5 @@
 import type { ArchiveLead, Inductee, StorySectionRecord } from '../../data/types';
+import { isPublishedArchiveLead, isPublishedStoryBeat, type VisitorContentTarget } from '../../data/publicationPolicy';
 
 export type PeopleFilters = {
   contribution: string;
@@ -31,9 +32,10 @@ export function sourceLink(value?: string) {
 }
 
 export function archiveClearedForTarget(record: ArchiveLead, target: string) {
-  return record.status === 'visitor-ready' && record.visibility === 'visitor-ready'
+  const visitorTarget: VisitorContentTarget = target === 'public' ? 'public' : 'kiosk';
+  return isPublishedArchiveLead(record, visitorTarget)
     && Boolean(record.rightsNote?.trim()) && Boolean(sourceLink(record.sourceUrl))
-    && (target === 'public' ? record.approvedForPublicWeb === true : record.approvedForKiosk === true);
+    && (record.evidence?.length ? record.evidence.some((item) => Boolean(item.url || item.localCitation)) : true);
 }
 
 export function sourceBiographyText(person: Inductee) {
@@ -107,20 +109,23 @@ export function portraitObjectPosition(value: string) {
   return '50% 50%';
 }
 
-export function approvedClevelandContext(person: Inductee, record?: StorySectionRecord): ClevelandContextItem[] {
+export function approvedClevelandContext(person: Inductee, record: StorySectionRecord | undefined, target: string): ClevelandContextItem[] {
   if (!record || record.inducteeId !== person.id || !explicitSources.has(record.provenance)) return [];
+  const visitorTarget: VisitorContentTarget = target === 'public' ? 'public' : 'kiosk';
   return record.beats
-    .filter((beat) => beat.provenance !== 'inferred' && beat.contextScope === 'cleveland'
-      && beat.reviewStatus === 'approved' && Boolean(beat.sourceReference?.trim()))
-    .map((beat) => ({
-      id: beat.id,
-      headline: beat.headline,
-      body: beat.body,
-      place: beat.place?.trim() ?? '',
-      organization: beat.organization?.trim() ?? '',
-      sourceLabel: beat.sourceReference!,
-      sourceUrl: beat.sourceUrl ?? '',
-    }));
+    .filter((beat) => beat.contextScope === 'cleveland' && isPublishedStoryBeat(beat, visitorTarget))
+    .map((beat) => {
+      const evidence = beat.evidence?.[0];
+      return {
+        id: beat.id,
+        headline: beat.headline,
+        body: beat.body,
+        place: beat.place?.trim() ?? '',
+        organization: beat.organization?.trim() ?? '',
+        sourceLabel: beat.sourceReference?.trim() || evidence?.title || evidence?.localCitation || 'Source recorded',
+        sourceUrl: beat.sourceUrl ?? evidence?.url ?? '',
+      };
+    });
 }
 
 function sortedUnique(values: string[]) {
