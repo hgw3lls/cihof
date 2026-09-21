@@ -8,11 +8,13 @@ export type PortraitAsset = {
   readonly height: number | null;
 };
 
-const mediaUrl = new URL('../../../../data/media_manifest.json', import.meta.url);
+import { dataFile } from '../paths.ts';
+
+const mediaPath = () => dataFile('media_manifest.json');
 
 /** Primary portraits by canonical id. Rights live in the curated roster, not here. */
 export function readPortraits(): Map<string, PortraitAsset> {
-  const document = JSON.parse(readFileSync(mediaUrl, 'utf8')) as { assets: Record<string, Record<string, unknown>> };
+  const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };
   const portraits = new Map<string, PortraitAsset>();
 
   for (const [id, asset] of Object.entries(document.assets ?? {})) {

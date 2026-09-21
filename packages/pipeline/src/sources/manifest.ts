@@ -18,10 +18,12 @@ export type RosterRow = {
   readonly bioText: string;
 };
 
-const manifestUrl = new URL('../../../../data/cihof_kiosk_manifest.csv', import.meta.url);
+import { dataFile } from '../paths.ts';
+
+const manifestPath = () => dataFile('cihof_kiosk_manifest.csv');
 
 export function readRoster(): RosterRow[] {
-  return parseCsv(readFileSync(manifestUrl, 'utf8')).map((row) => ({
+  return parseCsv(readFileSync(manifestPath(), 'utf8')).map((row) => ({
     // The first column carries a UTF-8 BOM in the source file.
     name: (row['name'] ?? row['﻿name'] ?? '').trim(),
     classYear: (row['class_year'] ?? '').trim(),

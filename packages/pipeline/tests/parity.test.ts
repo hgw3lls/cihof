@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { test } from 'node:test';
+import { repoRoot } from '../src/paths.ts';
 import { buildPeople } from '../src/build/people.ts';
 
 /**
@@ -12,7 +14,7 @@ import { buildPeople } from '../src/build/people.ts';
  * either absent or listed below with a reason.
  */
 const published = JSON.parse(
-  readFileSync(new URL('../../../public/data/cihof-runtime-data.json', import.meta.url), 'utf8'),
+  readFileSync(resolve(repoRoot(), 'public/data/cihof-runtime-data.json'), 'utf8'),
 ).inductees as Array<Record<string, unknown>>;
 
 const rebuilt = new Map(buildPeople().map((person) => [person.id as string, person]));
