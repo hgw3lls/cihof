@@ -38,3 +38,33 @@ function searchText(person: RuntimePerson): string {
 function fold(value: string): string {
   return value.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').trim();
 }
+
+export type InductionClass = {
+  readonly year: number;
+  readonly people: readonly RuntimePerson[];
+};
+
+/**
+ * The collection by induction class, newest first.
+ *
+ * Only people with a recorded year appear. Someone undated is not placed in a
+ * guessed class — the collection says their year is not recorded, and the
+ * chronology says the same by leaving them out of it rather than inventing a
+ * home for them.
+ */
+export function inductionClasses(people: readonly RuntimePerson[]): InductionClass[] {
+  const byYear = new Map<number, RuntimePerson[]>();
+  for (const person of people) {
+    if (person.classYear === null) continue;
+    const bucket = byYear.get(person.classYear);
+    if (bucket) bucket.push(person); else byYear.set(person.classYear, [person]);
+  }
+  return [...byYear.entries()]
+    .sort(([a], [b]) => b - a)
+    .map(([year, members]) => ({ year, people: members.slice().sort((a, b) => a.sortName.localeCompare(b.sortName)) }));
+}
+
+/** How many people the chronology cannot place, stated rather than hidden. */
+export function undatedCount(people: readonly RuntimePerson[]): number {
+  return people.filter((person) => person.classYear === null).length;
+}
