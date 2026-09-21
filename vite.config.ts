@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process';
 import { copyFileSync, existsSync, linkSync, lstatSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { isVisitorReadyVideo, type VisitorMediaTarget } from './src/app/mediaPublication.ts';
@@ -23,7 +23,7 @@ const outDir = process.env.CIHOF_OUT_DIR || (buildTarget === 'portal' ? 'dist-po
 const buildInfo = createBuildInfo();
 const mediaPublicPaths = buildTarget === 'portal' ? null : readMediaPublicPaths(buildTarget);
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ command, mode }) => ({
   base,
   publicDir: command === 'build' ? false : 'public',
   build: {
@@ -34,6 +34,15 @@ export default defineConfig(({ command }) => ({
   },
   define: {
     __CIHOF_BUILD_INFO__: JSON.stringify(buildInfo),
+    __CIHOF_RUNTIME_ENV__: JSON.stringify(collectRuntimeEnv(mode)),
+  },
+  resolve: {
+    // The staff panel can replace the published dataset. It has no business in
+    // the public web artifact, so the public target resolves it to a stub that
+    // renders nothing and tree-shakes the rest away.
+    alias: buildTarget === 'public'
+      ? [{ find: /^.*\/admin\/AdminDataPanel$/, replacement: resolve('src/features/admin/AdminDataPanel.public-stub.tsx') }]
+      : [],
   },
   plugins: [react(), buildInfoPlugin(), selectivePublicCopyPlugin()],
 }));
@@ -195,6 +204,50 @@ function formatBytes(bytes: number) {
   return `${bytes} bytes`;
 }
 
+// Only these variables reach the client, and only through this list.
+//
+// An allowlist rather than a prefix match: VITE_CIHOF_ADMIN_PASSCODE shares the
+// VITE_CIHOF_ prefix and must not be inlined into an artifact that has no staff
+// panel. Reading import.meta.env by computed key used to inline every value,
+// passcode included, into every bundle.
+const runtimeEnvKeys = [
+  'VITE_CIHOF_ANIMATION_INTENSITY',
+  'VITE_CIHOF_ATTRACT_REGROUP_MS',
+  'VITE_CIHOF_DATA_CACHE_ENABLED',
+  'VITE_CIHOF_DEBUG',
+  'VITE_CIHOF_HEARTBEAT_MS',
+  'VITE_CIHOF_IDLE_TIMEOUT_MS',
+  'VITE_CIHOF_IDLE_WARNING_MS',
+  'VITE_CIHOF_KIOSK_GUARDS_ENABLED',
+  'VITE_CIHOF_KIOSK_IDLE_MS',
+  'VITE_CIHOF_KIOSK_RESET_WARNING_MS',
+  'VITE_CIHOF_LATEST_CLASS_FINALE_MS',
+  'VITE_CIHOF_LATEST_CLASS_GROUP_MS',
+  'VITE_CIHOF_LATEST_CLASS_INITIAL_DELAY_MS',
+  'VITE_CIHOF_LATEST_CLASS_INTRO_MS',
+  'VITE_CIHOF_LATEST_CLASS_LOOP_PAUSE_MS',
+  'VITE_CIHOF_LATEST_CLASS_PORTRAIT_MS',
+  'VITE_CIHOF_LATEST_CLASS_TAKEOVER_ENABLED',
+  'VITE_CIHOF_PARTICIPATORY_ENABLED',
+  'VITE_CIHOF_QR_AUTO_CLOSE_MS',
+  'VITE_CIHOF_QR_ENABLED',
+  'VITE_CIHOF_SHARED_PORTRAIT_MS',
+  'VITE_CIHOF_SHOW_KIOSK_TOGGLE',
+  'VITE_CIHOF_SOUND_ENABLED',
+  'VITE_CIHOF_STAFF_REVIEW_ENABLED',
+  'VITE_CIHOF_TRANSITION_INPUT_GUARD_MS',
+];
+
+function collectRuntimeEnv(mode: string) {
+  const loaded = loadEnv(mode, process.cwd(), 'VITE_');
+  const runtimeEnv: Record<string, string> = {};
+  for (const key of runtimeEnvKeys) {
+    const value = loaded[key] ?? process.env[key];
+    if (value !== undefined) runtimeEnv[key] = String(value);
+  }
+  return runtimeEnv;
+}
+
 function createBuildInfo() {
   const packageJson = readPackageJson();
   const gitCommit = process.env.GITHUB_SHA || readGitValue('git rev-parse HEAD');
@@ -213,7 +266,24 @@ function createBuildInfo() {
     gitCommitShort,
     gitBranch: process.env.GITHUB_REF_NAME || readGitValue('git rev-parse --abbrev-ref HEAD'),
     builtAt: process.env.CIHOF_BUILD_TIME || new Date().toISOString(),
+    ...readContentIdentity(),
   };
+}
+
+// The runtime needs to know which content this artifact was built against, so a
+// cache written by an earlier release can be told apart from the current one.
+// Without this the revision prepare-data computes is write-only metadata.
+function readContentIdentity() {
+  try {
+    const bundle = JSON.parse(readFileSync(resolve('public/data/cihof-runtime-data.json'), 'utf8')) as Record<string, unknown>;
+    const contract = asRecord(bundle.contentContract);
+    return {
+      contentRevision: typeof contract.contentRevision === 'string' ? contract.contentRevision : 'unknown',
+      contentSchemaVersion: typeof bundle.schemaVersion === 'number' ? bundle.schemaVersion : 0,
+    };
+  } catch {
+    return { contentRevision: 'unknown', contentSchemaVersion: 0 };
+  }
 }
 
 function readPackageJson(): { name?: string; version?: string } {

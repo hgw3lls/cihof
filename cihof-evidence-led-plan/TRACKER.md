@@ -10,8 +10,8 @@ one another.
 | Stage | Scope | Depends on | Gate | Status |
 |---|---|---|---|---|
 | [EV-00](stages/EV-00_adopt-and-baseline.md) | Adopt this plan; fix the baseline in place | — | — | Complete ([record](completions/EV-00.md)) |
-| [EV-01](stages/EV-01_trustworthy-suite.md) | A run that does not run, fails | EV-00 | — | Ready for review ([record](completions/EV-01.md)); 10/10 consecutive full-suite runs, 82 collected |
-| [EV-02](stages/EV-02_runtime-content-integrity.md) | The content boundary holds at runtime | EV-01 | — | Not started |
+| [EV-01](stages/EV-01_trustworthy-suite.md) | A run that does not run, fails | EV-00 | — | Ready for review ([record](completions/EV-01.md)); 10/10 consecutive full-suite runs |
+| [EV-02](stages/EV-02_runtime-content-integrity.md) | The content boundary holds at runtime | EV-01 | — | Ready for review ([record](completions/EV-02.md)); visitor 84/84, staff 2/2 |
 | [EV-03](stages/EV-03_offline-and-release-integrity.md) | Offline operation and a rollback-able release | EV-02 | Q3 | Not started; service-worker **replacement**, not extension |
 | [EV-04](stages/EV-04_honest-text.md) | Say which words the pipeline wrote | EV-01 | Q1, Q5 | Not started |
 | [EV-05](stages/EV-05_review-pipeline.md) | Legacy fields → reviewed records | EV-02, EV-04 | — | Not started; **critical path** |
@@ -57,8 +57,9 @@ one of these by implementing it.
 
 ## Standing baseline note
 
-As of 2026-09-21 the visitor suite collects 82 tests and passes 82, verified
-over 10 consecutive full-suite runs. The order-dependent focus flake in
+As of 2026-09-21 the visitor suite collects 84 and passes 84, the staff suite 2
+and 2, the portal suite 2. EV-02 split staff coverage onto its own kiosk
+artifact, so the three suites now match the three build targets. The order-dependent focus flake in
 `tests/links-relationships.spec.ts:221` was a product defect and is fixed.
 Before that date the suite collected **zero** tests and reported it as an
 ordinary failure. Every stage record must state its collected count.

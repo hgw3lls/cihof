@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import {
   canonicalPersonEntityId,
@@ -8,6 +8,7 @@ import {
   inducteeIdFromPersonEntityId,
   isBaseProfileEligible,
   validatePublishedRuntimeReferences,
+  validateRuntimeBundleForTarget,
 } from '../src/data/publicationPolicy';
 import {
   fixtureAffiliations,
@@ -87,4 +88,74 @@ test('public artifact preserves base profiles and excludes review seeds and fixt
   const serialized = JSON.stringify({ runtime, splitStories, splitPlaces, splitArchives });
   expect(serialized).not.toContain('fixture-person-');
   expect(serialized).not.toContain('Fixture Civic Hall');
+});
+
+const expectations = { schemaVersion: 2 };
+
+function importableBundle(overrides: Record<string, unknown> = {}) {
+  return {
+    schemaVersion: 2,
+    contentContract: { contentRevision: 'fixture-revision-0001' },
+    inductees: [{ id: fixtureIds.alpha, name: 'Fixture Alpha' }],
+    entities: { entities: [{ id: canonicalPersonEntityId(fixtureIds.alpha) }] },
+    entityRelationships: { relationships: [] },
+    storySections: { records: {} },
+    archiveLeads: { records: [] },
+    places: { places: [] },
+    ...overrides,
+  };
+}
+
+test('an import is refused with a reason rather than trusted', () => {
+  const wrongSchema = validateRuntimeBundleForTarget(importableBundle({ schemaVersion: 1 }), 'kiosk', expectations);
+  expect(wrongSchema.ok).toBe(false);
+  expect(wrongSchema.ok === false && wrongSchema.reasons.join(' ')).toContain('schema version 1');
+
+  const noRevision = validateRuntimeBundleForTarget(importableBundle({ contentContract: {} }), 'kiosk', expectations);
+  expect(noRevision.ok).toBe(false);
+  expect(noRevision.ok === false && noRevision.reasons.join(' ')).toContain('content revision');
+
+  const noPeople = validateRuntimeBundleForTarget(importableBundle({ inductees: [{ id: '', name: '' }] }), 'kiosk', expectations);
+  expect(noPeople.ok).toBe(false);
+
+  expect(validateRuntimeBundleForTarget('not a bundle', 'kiosk', expectations).ok).toBe(false);
+  expect(validateRuntimeBundleForTarget(null, 'kiosk', expectations).ok).toBe(false);
+});
+
+test('an import with a dangling reference is refused, naming the reference', () => {
+  const dangling = validateRuntimeBundleForTarget(importableBundle({
+    storySections: fixtureStoryDocument,
+  }), 'kiosk', expectations);
+
+  expect(dangling.ok).toBe(false);
+  expect(dangling.ok === false && dangling.reasons.join(' ')).toContain('unresolved reference');
+});
+
+test('an import cannot reinstate content the publication rules withhold', () => {
+  const accepted = validateRuntimeBundleForTarget(importableBundle({
+    places: fixturePlacesDocument,
+  }), 'public', expectations);
+
+  expect(accepted.ok).toBe(true);
+  if (!accepted.ok) return;
+
+  // The withheld fixture place is absent from what an import is allowed to show,
+  // even though the file offered it.
+  const places = (accepted.bundle.places as { places: Array<{ id: string }> }).places;
+  expect(places.map((place) => place.id)).toEqual([fixtureIds.place]);
+  expect(JSON.stringify(accepted.bundle)).not.toContain('Fixture-only staff note');
+  expect(accepted.contentRevision).toBe('fixture-revision-0001');
+});
+
+test('the public artifact contains no staff data-import path', () => {
+  const assets = readdirSync('dist/assets').filter((name) => name.startsWith('index-') && name.endsWith('.js'));
+  expect(assets.length).toBeGreaterThan(0);
+  const bundle = assets.map((name) => readFileSync(`dist/assets/${name}`, 'utf8')).join('');
+
+  for (const marker of ['Import Data File', 'Admin data tools unlocked', 'cihof.admin-passcode', 'cihof.admin-data.session']) {
+    expect(bundle).not.toContain(marker);
+  }
+  // A configured passcode must not reach the public bundle even indirectly: a
+  // computed import.meta.env lookup used to inline every VITE_ value.
+  expect(bundle).not.toContain('VITE_CIHOF_ADMIN_PASSCODE');
 });
