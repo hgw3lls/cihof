@@ -87,6 +87,83 @@ export type RelationshipType =
 export type RelationshipProvenance = 'documented' | 'curated' | 'inferred';
 export type RelationshipEntityType = 'person' | 'organization' | 'place' | 'community' | 'event' | 'theme' | 'media';
 
+export type ContentReviewStatus = 'draft' | 'needs-review' | 'approved' | 'withheld';
+export type ContentReview = {
+  status: ContentReviewStatus;
+  decisionReference?: string;
+  reviewedAt?: string;
+  contentVersion?: string;
+  note?: string;
+};
+
+export type PublicationTargets = {
+  publicWeb: boolean;
+  kiosk: boolean;
+  staffOnly?: boolean;
+};
+
+export type EvidenceKind = 'primary-source' | 'secondary-source' | 'catalogue' | 'oral-history' | 'collection-record' | 'other';
+export type EvidenceReference = {
+  id: string;
+  title: string;
+  kind: EvidenceKind;
+  url?: string;
+  localCitation?: string;
+  locator?: string;
+  excerpt?: string;
+};
+
+export type VocabularyKind =
+  | 'heritage-cultural-community'
+  | 'nationality'
+  | 'language-community'
+  | 'religious-community'
+  | 'organizational-affiliation'
+  | 'unresolved-legacy';
+
+export type CommunityAttributes = {
+  vocabularyKind: VocabularyKind;
+  legacyAliases?: string[];
+  sourceWording?: string;
+};
+
+export type PlaceGeometry =
+  | { kind: 'none' }
+  | { kind: 'schematic'; coordinateSystem: string; x: number; y: number; provenance?: EntityProvenance }
+  | { kind: 'geographic-point'; longitude: number; latitude: number; provenance: EntityProvenance }
+  | { kind: 'geographic-area'; assetId: string; provenance: EntityProvenance };
+
+export type PlaceAssociationRole = 'lived' | 'worked' | 'studied' | 'organized' | 'served' | 'associated';
+export type PlaceAttributes = {
+  placeKind: string;
+  currentName?: string;
+  historicalNames?: Array<{ name: string; dateRange?: EntityDateRange }>;
+  neighborhoodId?: string;
+  address?: string;
+  geometry: PlaceGeometry;
+  validDateRange?: EntityDateRange;
+};
+
+export type EventKind = 'induction' | 'historical-activity' | 'institutional-milestone' | 'contribution';
+export type EventAttributes = {
+  eventKind: EventKind;
+  dateRange: EntityDateRange;
+};
+
+export type AffiliationAssertion = {
+  id: string;
+  personId: string;
+  entityId: string;
+  vocabularyKind: VocabularyKind;
+  sourceWording: string;
+  evidence: EvidenceReference[];
+  dateRange?: EntityDateRange;
+  qualifier?: string;
+  provenance: RelationshipProvenance;
+  review: ContentReview;
+  publication: PublicationTargets;
+};
+
 export type RelationshipRecord = {
   id: string;
   sourcePersonId: string;
@@ -98,6 +175,10 @@ export type RelationshipRecord = {
   reverseDisplayLabel?: string;
   referenceNote?: string;
   provenance: RelationshipProvenance;
+  presentationKind?: RelationshipPresentationKind;
+  evidence?: EvidenceReference[];
+  review?: ContentReview;
+  publication?: PublicationTargets;
 };
 
 export type EntityType = 'Person' | 'Community' | 'Place' | 'Organization' | 'Event' | 'Theme' | 'Media';
@@ -121,6 +202,9 @@ export type EntityDateRange = {
   start?: string;
   end?: string;
   label?: string;
+  precision?: 'exact-date' | 'year' | 'bounded-interval' | 'approximate-interval' | 'unknown';
+  uncertain?: boolean;
+  sourceScope?: string;
 };
 
 export type EntityLocation = {
@@ -137,8 +221,13 @@ export type EntityRecord = {
   dateRange?: EntityDateRange;
   location?: EntityLocation;
   provenance: EntityProvenance;
+  evidence?: EvidenceReference[];
+  review?: ContentReview;
+  publication?: PublicationTargets;
   attributes?: Record<string, unknown>;
 };
+
+export type RelationshipPresentationKind = 'direct' | 'shared-context' | 'curatorial-comparison' | 'induction-context';
 
 export type EntityRelationshipType =
   | 'has_theme'
@@ -160,6 +249,11 @@ export type EntityRelationshipRecord = {
   displayLabel: string;
   shortDescription?: string;
   provenance: EntityProvenance;
+  presentationKind?: RelationshipPresentationKind;
+  evidence?: EvidenceReference[];
+  review?: ContentReview;
+  publication?: PublicationTargets;
+  dateRange?: EntityDateRange;
   attributes?: Record<string, unknown>;
 };
 
@@ -177,7 +271,10 @@ export type StoryBeatType =
 export type StoryBeat = {
   id: string;
   contextScope?: 'cleveland';
-  reviewStatus?: 'draft' | 'approved';
+  reviewStatus?: ContentReviewStatus;
+  review?: ContentReview;
+  publication?: PublicationTargets;
+  evidence?: EvidenceReference[];
   sourceReference?: string;
   sourceUrl?: string;
   type?: StoryBeatType;
@@ -189,6 +286,9 @@ export type StoryBeat = {
   place?: string;
   organization?: string;
   relatedPersonId?: string;
+  relatedEntityIds?: string[];
+  eventId?: string;
+  dateRange?: EntityDateRange;
   timelineMarker?: string;
   provenance?: RelationshipProvenance;
 };
@@ -198,6 +298,8 @@ export type StorySectionRecord = {
   provenance: RelationshipProvenance;
   updatedAt?: string;
   curatorNotes?: string[];
+  review?: ContentReview;
+  publication?: PublicationTargets;
   beats: StoryBeat[];
 };
 
@@ -238,6 +340,9 @@ export type ArchiveLead = {
   imageUrl?: string;
   imageAltText?: string;
   labels?: string[];
+  evidence?: EvidenceReference[];
+  review?: ContentReview;
+  publication?: PublicationTargets;
 };
 
 export type ArchiveLeadDocument = {

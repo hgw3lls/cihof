@@ -1,13 +1,22 @@
 import { defineConfig } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 const port = Number(process.env.CIHOF_PLAYWRIGHT_PORT ?? 4174);
 const basePath = process.env.CIHOF_PLAYWRIGHT_BASE_PATH ?? '/cihof/';
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${port}${basePath}`;
 const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEB_SERVER === '1';
 
+// Single source of truth, shared with scripts/assert-test-count.mjs.
+const minimumTests = Number(process.env.CIHOF_MINIMUM_TESTS ?? readMinimums().visitor);
+
+function readMinimums() {
+  return JSON.parse(readFileSync(new URL('./tests/minimum-tests.json', import.meta.url), 'utf8')) as Record<string, number>;
+}
+
 export default defineConfig({
   testDir: './tests',
   testIgnore: /portal-.*\.spec\.ts/,
+  reporter: [['list'], ['./tests/reporters/collected-count.ts', { minimum: minimumTests }]],
   timeout: 30_000,
   workers: 1,
   expect: {

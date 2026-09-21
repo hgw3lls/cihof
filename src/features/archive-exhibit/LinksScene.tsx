@@ -5,6 +5,7 @@ import { layoutLinks } from './linkLayout';
 
 type Props = {
   people: Inductee[];
+  matchingIds: ReadonlySet<string>;
   relationships: RelationshipRecord[];
   relationshipsLoading: boolean;
   relationshipsError: string;
@@ -20,7 +21,19 @@ type Props = {
   portrait: ComponentType<{ person: Inductee; eager?: boolean }>;
 };
 
-export function LinksScene({ people, relationships, relationshipsLoading, relationshipsError, onRetryRelationships, selected, query, setQuery, activePersonId, setActivePersonId, onSelect, onRecord, onPersonRecord, portrait: Portrait }: Props) {
+// Opening the list moves focus into it, but only if focus is still where the
+// click left it. Without this the deferred focus lands after anything that moved
+// focus in the same frame and pulls it back to the heading, which reads as an
+// intermittent failure and is a real trap for anyone operating this by keyboard.
+function focusListTitleUnlessMoved(toggle: HTMLElement) {
+  window.requestAnimationFrame(() => {
+    const active = document.activeElement;
+    const untouched = active === toggle || active === document.body || active === document.documentElement || active === null;
+    if (untouched) document.getElementById('linkRelationListTitle')?.focus();
+  });
+}
+
+export function LinksScene({ people, matchingIds, relationships, relationshipsLoading, relationshipsError, onRetryRelationships, selected, query, setQuery, activePersonId, setActivePersonId, onSelect, onRecord, onPersonRecord, portrait: Portrait }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [listOpen, setListOpen] = useState(false);
@@ -34,9 +47,7 @@ export function LinksScene({ people, relationships, relationshipsLoading, relati
   const layoutKey = `${selected?.id ?? ''}:${nodeSignature}:${size.width}:${size.height}`;
   const points = resolved?.key === layoutKey ? resolved.points : layout?.points;
   const counts = useMemo(() => publishedRelationshipCounts(people, relationships), [people, relationships]);
-  const matches = people.filter((person) => !query.trim()
-    || person.name.toLowerCase().includes(query.trim().toLowerCase())
-    || String(person.classYear ?? '').includes(query.trim()));
+  const matches = useMemo(() => people.filter((person) => matchingIds.has(person.id)), [people, matchingIds]);
   const activeNode = nodes.find((node) => node.person.id === activePersonId);
   const activeLinks = activeNode ? links.filter((link) => link.person.id === activeNode.person.id) : [];
   const previewNodes = useMemo(() => activeNode ? archiveLinkNodes(archiveLinks(activeNode.person, people, relationships)) : [], [activeNode, people, relationships]);
@@ -199,7 +210,7 @@ export function LinksScene({ people, relationships, relationshipsLoading, relati
     <header className="link-map__header">
       <div className="link-map__title"><strong>CLEVELAND CONSTELLATION</strong><span>{selected.name} AT THE CENTER</span></div>
       <button id="connectionListToggle" type="button" className="link-map__list-link" aria-expanded={listOpen} aria-controls="connectionList"
-        onClick={() => { setListOpen(!listOpen); if (!listOpen) window.requestAnimationFrame(() => document.getElementById('linkRelationListTitle')?.focus()); }}>Connection list</button>
+        onClick={(event) => { const toggle = event.currentTarget; setListOpen(!listOpen); if (!listOpen) focusListTitleUnlessMoved(toggle); }}>Connection list</button>
       <div className="link-map__legend">
         <span className="link-map__legend-item link-map__legend-item--documented" title="Solid lines mark separately approved relationship records">{documentedCount} DOCUMENTED {documentedCount === 1 ? 'RELATIONSHIP' : 'RELATIONSHIPS'}</span>
         <span className="link-map__legend-item link-map__legend-item--class" title="Dashed lines show shared induction-year context, not a personal relationship">{contextCount} HONORED IN THE SAME YEAR</span>
