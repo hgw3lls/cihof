@@ -14,7 +14,7 @@ const person = 'alex-machaskee-2010';
 
 const fixtureFilm = {
   id: 'fixture-film',
-  src: '/media/videos/__fixture__/chronology-test.mp4',
+  source: { kind: 'local-file', src: '/media/videos/__fixture__/chronology-test.mp4' },
   poster: '/media/videos/__fixture__/chronology-test.png',
   captions: '/media/videos/__fixture__/chronology-test.en.vtt',
   transcript: '/media/videos/__fixture__/chronology-test.transcript.txt',
@@ -135,4 +135,52 @@ test('no real film is published in the artifact', async ({ page }) => {
 
   expect(published.films, 'every holding is still withheld').toBe(0);
   expect(published.held).toBe(93);
+});
+
+test('a film served from the channel plays there and says whose captions those are', async ({ page }) => {
+  // The public build has no local MP4 to serve, so it publishes the embed.
+  // An iframe cannot be given our reviewed caption track, and the visitor is
+  // told so rather than left to assume the captions were checked.
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({
+      json: {
+        ...bundle,
+        people: bundle.people.map((entry: { id: string }) => entry.id === person
+          ? { ...entry, films: [{ ...fixtureFilm, source: { kind: 'youtube', videoId: 'abc123', embedUrl: 'https://www.youtube-nocookie.com/embed/abc123' } }] }
+          : entry),
+      },
+    });
+  });
+  await page.route('**/__fixture__/chronology-test.transcript.txt', (route) =>
+    route.fulfill({ path: `${fixtureRoot}/chronology-test.transcript.txt`, contentType: 'text/plain' }));
+  await page.route('https://www.youtube-nocookie.com/**', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<p>stand-in for the channel player</p>' }));
+
+  await openFilm(page);
+  const frame = page.locator('.film__embed iframe');
+  await expect(frame).toHaveAttribute('src', 'https://www.youtube-nocookie.com/embed/abc123');
+  await expect(page.locator('.film__note')).toContainText('own captions');
+  await expect(page.locator('.film video')).toHaveCount(0);
+  await expect(page.locator('.film__transcript')).toContainText('chronology');
+});
+
+test('a film with no usable source falls through to the words', async ({ page }) => {
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({
+      json: {
+        ...bundle,
+        people: bundle.people.map((entry: { id: string }) => entry.id === person
+          ? { ...entry, films: [{ ...fixtureFilm, source: { kind: 'local-file', src: '' } }] }
+          : entry),
+      },
+    });
+  });
+  await page.route('**/__fixture__/chronology-test.transcript.txt', (route) =>
+    route.fulfill({ path: `${fixtureRoot}/chronology-test.transcript.txt`, contentType: 'text/plain' }));
+
+  await openFilm(page);
+  await expect(page.locator('.film__problem')).toBeVisible();
+  await expect(page.locator('.film__transcript')).toContainText('chronology');
 });
