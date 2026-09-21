@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { filmShortfalls, publishableFilms } from '../src/index.ts';
+import { filmShortfalls, publishableFilms, youtubeEmbedUrl } from '../src/index.ts';
 
 const cleared = {
   runtimePath: '/media/videos/x/film.mp4',
@@ -51,4 +51,47 @@ test('the collection as it stands publishes no films', () => {
   const holding = { ...cleared, rightsStatus: 'needs-review', captionStatus: 'needs-review', transcriptStatus: 'needs-review', approvedForKiosk: false };
   assert.equal(publishableFilms([holding], 'kiosk').length, 0);
   assert.deepEqual(filmShortfalls(holding, 'kiosk'), ['captions', 'transcript', 'rights', 'target']);
+});
+
+test('a film served from YouTube still has to clear captions and rights', () => {
+  // The only thing delivery changes is where the picture comes from. Whether
+  // the film may be shown, and whether everyone can follow it, is untouched.
+  assert.deepEqual(filmShortfalls({ ...cleared, captionStatus: 'needs-review' }, 'kiosk', 'youtube'), ['captions']);
+  assert.deepEqual(filmShortfalls({ ...cleared, rightsStatus: 'needs-review' }, 'kiosk', 'youtube'), ['rights']);
+  assert.deepEqual(filmShortfalls({ ...cleared, transcriptRuntimePath: '' }, 'kiosk', 'youtube'), ['transcript']);
+});
+
+test('a missing local file is no obstacle on YouTube, and a missing id is', () => {
+  // The 41 GB of MP4 is not in the repository, so this is the state of every
+  // film on a fresh checkout.
+  const noFile = { ...cleared, runtimePath: '' };
+  assert.deepEqual(filmShortfalls(noFile, 'kiosk', 'local-file'), ['file']);
+  assert.deepEqual(filmShortfalls(noFile, 'kiosk', 'youtube'), []);
+  assert.deepEqual(filmShortfalls({ ...cleared, youtubeVideoId: '' }, 'kiosk', 'youtube'), ['file']);
+});
+
+test('each delivery publishes the source it can actually play', () => {
+  const [local] = publishableFilms([cleared], 'kiosk', 'local-file');
+  assert.deepEqual(local.source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
+
+  const [remote] = publishableFilms([cleared], 'kiosk', 'youtube');
+  assert.deepEqual(remote.source, {
+    kind: 'youtube',
+    videoId: 'abc123',
+    embedUrl: 'https://www.youtube-nocookie.com/embed/abc123',
+  });
+  assert.equal(remote.captions, local.captions, 'the reviewed captions travel either way');
+  assert.equal(remote.transcript, local.transcript);
+});
+
+test('the embed is the no-cookie player and the id is escaped', () => {
+  assert.equal(youtubeEmbedUrl('abc'), 'https://www.youtube-nocookie.com/embed/abc');
+  assert.ok(!youtubeEmbedUrl('abc').includes('//www.youtube.com'), 'no tracking-cookie host');
+  assert.equal(youtubeEmbedUrl('a/../b?x=1'), 'https://www.youtube-nocookie.com/embed/a%2F..%2Fb%3Fx%3D1');
+});
+
+test('local-file remains the default when nobody chooses', () => {
+  // A kiosk that silently needed the network would be the worst failure here.
+  assert.deepEqual(publishableFilms([cleared], 'kiosk')[0].source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
+  assert.deepEqual(filmShortfalls({ ...cleared, runtimePath: '' }, 'kiosk'), ['file']);
 });

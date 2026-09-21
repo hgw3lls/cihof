@@ -1,6 +1,35 @@
 import type { VisitorTarget } from './publication.ts';
 
 /**
+ * Where the moving picture comes from.
+ *
+ * The 93 films are 41 GB of MP4 and are deliberately not in the repository, so
+ * a build from a fresh checkout has captions, posters and transcripts but no
+ * video. `youtube` publishes the hall's own channel recording in its place.
+ *
+ * This is not a free swap. A YouTube film needs the network, so a kiosk set to
+ * `youtube` shows nothing the moment the connection drops — which is most of
+ * what the offline support in this exhibit exists to prevent. Keep kiosks on
+ * `local-file` unless somebody has decided otherwise knowing that.
+ */
+export type FilmDelivery = 'local-file' | 'youtube';
+
+export type FilmSource =
+  | { readonly kind: 'local-file'; readonly src: string }
+  | { readonly kind: 'youtube'; readonly videoId: string; readonly embedUrl: string };
+
+/**
+ * Privacy-preserving by default.
+ *
+ * `youtube-nocookie.com` is the same player without the tracking cookies a
+ * visitor never agreed to. A hall of fame wall should not be quietly building
+ * an advertising profile for whoever stops to watch.
+ */
+export function youtubeEmbedUrl(videoId: string): string {
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`;
+}
+
+/**
  * A film a visitor may be shown.
  *
  * Playing a film is the highest-stakes thing this exhibit does: it reproduces
@@ -14,7 +43,7 @@ import type { VisitorTarget } from './publication.ts';
  */
 export type PublishedFilm = {
   readonly id: string;
-  readonly src: string;
+  readonly source: FilmSource;
   readonly poster: string;
   readonly captions: string;
   readonly transcript: string;
@@ -30,10 +59,19 @@ export type FilmPrerequisite =
   | 'target';
 
 /** Every reason a holding is not publishable, so a report can say what is missing. */
-export function filmShortfalls(video: Record<string, unknown>, target: VisitorTarget): FilmPrerequisite[] {
+export function filmShortfalls(
+  video: Record<string, unknown>,
+  target: VisitorTarget,
+  delivery: FilmDelivery = 'local-file',
+): FilmPrerequisite[] {
   const missing: FilmPrerequisite[] = [];
 
-  if (!text(video['runtimePath'])) missing.push('file');
+  // Captions, transcript, poster and rights are required either way. Changing
+  // where the picture is served from decides nothing about whether the film may
+  // be shown, or whether everyone can follow it.
+  if (delivery === 'youtube') {
+    if (!text(video['youtubeVideoId'])) missing.push('file');
+  } else if (!text(video['runtimePath'])) missing.push('file');
   if (!text(video['posterRuntimePath'])) missing.push('poster');
   if (!text(video['captionRuntimePath']) || video['captionStatus'] !== 'approved') missing.push('captions');
   if (!text(video['transcriptRuntimePath']) || video['transcriptStatus'] !== 'approved') missing.push('transcript');
@@ -45,16 +83,23 @@ export function filmShortfalls(video: Record<string, unknown>, target: VisitorTa
   return missing;
 }
 
-export function publishableFilms(videos: readonly unknown[], target: VisitorTarget): PublishedFilm[] {
+export function publishableFilms(
+  videos: readonly unknown[],
+  target: VisitorTarget,
+  delivery: FilmDelivery = 'local-file',
+): PublishedFilm[] {
   return videos.flatMap((value) => {
     if (!value || typeof value !== 'object') return [];
     const video = value as Record<string, unknown>;
-    if (filmShortfalls(video, target).length > 0) return [];
+    if (filmShortfalls(video, target, delivery).length > 0) return [];
 
     const duration = video['durationSeconds'];
+    const videoId = text(video['youtubeVideoId']);
     return [{
-      id: text(video['youtubeVideoId']) || text(video['runtimePath']),
-      src: text(video['runtimePath']),
+      id: videoId || text(video['runtimePath']),
+      source: delivery === 'youtube'
+        ? { kind: 'youtube' as const, videoId, embedUrl: youtubeEmbedUrl(videoId) }
+        : { kind: 'local-file' as const, src: text(video['runtimePath']) },
       poster: text(video['posterRuntimePath']),
       captions: text(video['captionRuntimePath']),
       transcript: text(video['transcriptRuntimePath']),
