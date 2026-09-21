@@ -1,0 +1,11 @@
+{
+  "name": "@cihof/content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Domain model and publication rules. No framework, no DOM, no build step.",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "test": "node --test --experimental-strip-types tests/*.test.ts"
+  }
+}
