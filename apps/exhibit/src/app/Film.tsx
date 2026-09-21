@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Modal } from './Modal.tsx';
 import type { PublishedFilm } from '@cihof/content';
 import { mediaCountsAsActivity } from '../state/session.ts';
 
@@ -24,24 +25,16 @@ type Props = {
  */
 export function Film({ film, personName, onClose, onProgress }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const returnTo = useRef<HTMLElement | null>(null);
   const lastTime = useRef(0);
   const [problem, setProblem] = useState('');
   const [transcript, setTranscript] = useState('');
 
   useEffect(() => {
-    returnTo.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    headingRef.current?.focus();
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      // Stop the film before the element goes, so audio cannot outlive the panel.
-      videoRef.current?.pause();
-      if (returnTo.current?.isConnected) returnTo.current.focus();
-    };
-  }, [onClose]);
+    // Stop the film before the element goes, so audio cannot outlive the panel.
+    // Focus, Escape and inertness belong to the Modal.
+    const video = videoRef.current;
+    return () => { video?.pause(); };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -61,9 +54,9 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
   }, [onProgress]);
 
   return (
-    <section className="film" role="dialog" aria-modal="true" aria-labelledby="filmTitle">
+    <Modal className="film" labelledBy="filmTitle" onClose={onClose}>
       <header>
-        <h2 id="filmTitle" ref={headingRef} tabIndex={-1}>{personName}</h2>
+        <h2 id="filmTitle" data-autofocus tabIndex={-1}>{personName}</h2>
         <button type="button" onClick={onClose}>Close film</button>
       </header>
 
@@ -99,7 +92,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
             : <p className="film__problem">The transcript could not be loaded.</p>}
         </section>
       </div>
-    </section>
+    </Modal>
   );
 }
 

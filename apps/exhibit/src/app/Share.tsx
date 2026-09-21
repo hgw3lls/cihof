@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Modal } from './Modal.tsx';
 import QRCode from 'qrcode';
 import { continuationUrl, refusalMessage } from '@cihof/content';
 import type { RuntimePerson } from '../data/runtime.ts';
@@ -16,22 +17,9 @@ export function Share({ person, siteBase, onClose }: {
   onClose: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const returnTo = useRef<HTMLElement | null>(null);
   const [drawError, setDrawError] = useState('');
 
   const destination = continuationUrl(siteBase, person.id);
-
-  useEffect(() => {
-    returnTo.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    headingRef.current?.focus();
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      if (returnTo.current?.isConnected) returnTo.current.focus();
-    };
-  }, [onClose]);
 
   useEffect(() => {
     if (!destination.ok || !canvasRef.current) return;
@@ -44,9 +32,9 @@ export function Share({ person, siteBase, onClose }: {
   }, [destination.ok, destination.ok ? destination.url : '']);
 
   return (
-    <section className="share" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+    <Modal className="share" labelledBy="shareTitle" onClose={onClose}>
       <div className="share__panel">
-        <h2 id="shareTitle" ref={headingRef} tabIndex={-1}>Keep reading about {person.name}</h2>
+        <h2 id="shareTitle" data-autofocus tabIndex={-1}>Keep reading about {person.name}</h2>
 
         {destination.ok
           ? (
@@ -66,6 +54,6 @@ export function Share({ person, siteBase, onClose }: {
 
         <button type="button" onClick={onClose}>Close</button>
       </div>
-    </section>
+    </Modal>
   );
 }
