@@ -4,19 +4,101 @@ on:
   push:
     branches:
       - main
+  # Pull requests run the tests without building or deploying, so a change is
+  # checked before it reaches the branch that publishes.
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  # Deploys to main serialise and are never cancelled. Pull requests get their
+  # own group so a test run cannot delay a deploy, and a superseded push to a
+  # pull request cancels its predecessor rather than queueing behind it.
+  group: pages-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Only Chromium. The suites drive one browser, and installing three would
+      # add minutes to every deploy for coverage nothing asserts.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Cheapest and most valuable check here. A suite that collects nothing
+      # exits the same way as a suite with nothing to say, which is how two
+      # live regressions once hid behind a green-looking failure.
+      - name: Suite integrity
+        run: |
+          npm run test:count
+          npm run test:count:staff
+          npm run test:count:portal
+
+      - name: Shared packages
+        run: |
+          npm test --workspace @cihof/content
+          npm test --workspace @cihof/pipeline
+
+      - name: Exhibit state and selectors
+        run: npm test --workspace @cihof/exhibit
+
+      - name: Visitor suite
+        run: npx playwright test
+
+      - name: Staff suite
+        run: npx playwright test -c playwright.staff.config.ts
+
+      - name: Portal suite
+        run: npx playwright test -c playwright.portal.config.ts
+
+      - name: Rebuilt exhibit, in a browser
+        run: npx playwright test -c apps/exhibit/playwright.config.ts
+
+      - name: Companion site, in a browser
+        run: npx playwright test
+        working-directory: apps/web
+
+      # Only on failure, and only the traces — a passing run should not spend
+      # time or storage on artefacts nobody will open.
+      - name: Upload failure traces
+        if: failure()
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: playwright-traces
+          path: |
+            test-results/
+            apps/exhibit/test-results/
+            apps/web/test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
   build:
+    name: Build site
+    needs: test
+    # A pull request is checked, not published.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,7 +126,12 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
