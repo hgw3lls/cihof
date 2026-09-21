@@ -46,6 +46,7 @@
     "launch:readiness": "node scripts/launch-readiness-report.js",
     "launch:readiness:strict": "node scripts/launch-readiness-report.js --strict",
     "baseline:capture": "node scripts/capture-mg00-baseline.mjs",
+    "ce01:report": "npm run prepare:data && node scripts/report-city-content-migration.mjs",
     "mg01:capture": "node scripts/capture-mg01-review.mjs",
     "mg02:capture": "node scripts/capture-mg02-review.mjs",
     "mg03:capture": "node scripts/capture-mg03-review.mjs",

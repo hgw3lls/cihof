@@ -14,6 +14,7 @@ export type RuntimeDataBundle = {
   storyLenses?: unknown;
   mediaManifest?: unknown;
   archiveLeads?: unknown;
+  contentContract?: unknown;
   places?: unknown;
   cityQuestion?: unknown;
   worldLens?: unknown;

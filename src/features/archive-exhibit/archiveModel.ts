@@ -1,9 +1,10 @@
 import { buildInfo } from '../../app/buildInfo';
 import { isVisitorReadyVideo } from '../../app/mediaPublication';
 import { isVisitorPublishedRelationship } from '../../data/relationshipPublication';
+import { isBaseProfileEligible } from '../../data/publicationPolicy';
 import type { Inductee, RelationshipProvenance, RelationshipRecord, RelationshipType, RuntimeVideoAsset } from '../../data/types';
 
-export type Scene = 'people' | 'links' | 'years';
+export type Scene = 'people' | 'places' | 'links' | 'years';
 export type Film = { person: Inductee; asset: RuntimeVideoAsset; index: number; key: string };
 export type Link = {
   id: string;
@@ -25,7 +26,7 @@ export type LinkNode = {
 };
 
 export function isCollectionEligible(person: Inductee) {
-  return Boolean(person.id.trim() && person.name.trim());
+  return isBaseProfileEligible(person);
 }
 
 export function archiveLinks(person: Inductee, people: Inductee[], relationships: RelationshipRecord[]): Link[] {
