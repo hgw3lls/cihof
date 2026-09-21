@@ -3,3 +3,4 @@ export * from './publication.ts';
 export * from './text.ts';
 export * from './person.ts';
 export * from './lenses.ts';
+export * from './continuation.ts';

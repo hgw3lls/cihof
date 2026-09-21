@@ -105,3 +105,14 @@ body {
 .years { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 3rem); }
 .class h2 { display: flex; gap: 0.75rem; align-items: baseline; margin: 0 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--rule); font-size: clamp(1.25rem, 3vh, 2rem); }
 .class h2 span { font-size: clamp(0.75rem, 1.3vh, 0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+/* Continuation. The code is large enough to scan from standing distance, and
+   the address is readable for anyone who would rather type it. */
+.share { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 1.5rem; background: color-mix(in srgb, var(--paper) 92%, transparent); }
+.share__panel { width: min(30rem, 100%); padding: clamp(1.5rem, 4vw, 2.5rem); border: 3px solid var(--rule); background: var(--paper); text-align: center; }
+.share__panel h2 { margin: 0 0 0.5rem; font-size: clamp(1.25rem, 3vh, 1.85rem); line-height: 1.2; }
+.share__panel p { margin: 0 0 1rem; color: var(--muted); }
+.share__panel canvas { width: min(18rem, 100%); height: auto; margin: 0 auto 1rem; display: block; background: #fff; border: 1px solid var(--rule); }
+.share__url { font-family: ui-monospace, Menlo, monospace; font-size: clamp(0.8rem, 1.5vh, 1rem); overflow-wrap: anywhere; color: var(--ink) !important; }
+.share__problem { color: var(--accent) !important; }
+.share__panel button { min-height: var(--tap); margin-top: 0.5rem; padding: 0 1.5rem; border: 2px solid var(--rule); background: var(--ink); color: var(--paper); font: inherit; font-weight: 700; }

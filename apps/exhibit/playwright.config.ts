@@ -11,7 +11,7 @@ export default defineConfig({
   expect: { timeout: 15_000 },
   use: { baseURL, viewport: { width: 1280, height: 900 } },
   webServer: process.env.PLAYWRIGHT_SKIP_WEB_SERVER === '1' ? undefined : {
-    command: `VITE_CIHOF_TEST_MODE=1 VITE_CIHOF_IDLE_MS=2500 VITE_CIHOF_WARNING_MS=1200 npm run build && npx vite preview --port ${port}`,
+    command: `CIHOF_SITE_URL=https://clevelandinternationalhalloffame.com/cihof/ VITE_CIHOF_TEST_MODE=1 VITE_CIHOF_IDLE_MS=2500 VITE_CIHOF_WARNING_MS=1200 npm run build && npx vite preview --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

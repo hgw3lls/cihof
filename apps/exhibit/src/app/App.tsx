@@ -4,6 +4,7 @@ import { exhibitReducer, initialState } from '../state/exhibit.ts';
 import { People } from './People.tsx';
 import { Years } from './Years.tsx';
 import { Record } from './Record.tsx';
+import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
 import { useRelease } from './useRelease.ts';
@@ -41,6 +42,7 @@ export function App() {
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
+  const sharePerson = state.detail.kind === 'share' ? byId.get(state.detail.personId) ?? null : null;
 
   const release = useRelease();
 
@@ -142,7 +144,21 @@ export function App() {
         </div>
       </div>
 
-      {recordPerson && <Record person={recordPerson} onClose={() => dispatch({ type: 'close-detail' })} />}
+      {recordPerson && (
+        <Record
+          person={recordPerson}
+          onClose={() => dispatch({ type: 'close-detail' })}
+          onShare={bundle.continuationBase ? () => dispatch({ type: 'open-share', personId: recordPerson.id }) : undefined}
+        />
+      )}
+
+      {sharePerson && (
+        <Share
+          person={sharePerson}
+          siteBase={bundle.continuationBase}
+          onClose={() => dispatch({ type: 'open-record', personId: sharePerson.id })}
+        />
+      )}
 
       {session.phase === 'warning' && (
         <SessionWarning

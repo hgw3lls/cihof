@@ -32,6 +32,12 @@ export type RuntimeBundle = {
   readonly lenses: readonly LensId[];
   /** The full reckoning, including what fell short and by how much. */
   readonly lensReport: readonly LensAvailability[];
+  /**
+   * Where a visitor continues reading on their own phone, or null when this
+   * build has no publicly reachable site to send them to. Checked at publish
+   * time so an unusable destination never reaches a wall.
+   */
+  readonly continuationBase: string | null;
 };
 
 /**
@@ -60,6 +66,8 @@ export type RuntimePerson = {
 export type BundleSources = {
   readonly places?: readonly unknown[];
   readonly relationships?: readonly unknown[];
+  /** Public site this release points its codes at. */
+  readonly continuationBase?: string | null;
 };
 
 export function buildRuntimeBundle(
@@ -88,6 +96,7 @@ export function buildRuntimeBundle(
     relationships,
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
+    continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
   };
 }
 
