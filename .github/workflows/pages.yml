@@ -100,12 +100,6 @@ jobs:
     # A pull request is checked, not published.
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    # Configure Pages reads the repository's Pages settings, so this job needs
-    # the scope for that one GET. Publishing stays with deploy, which is the
-    # only job that may write.
-    permissions:
-      contents: read
-      pages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -121,9 +115,6 @@ jobs:
 
       - name: Build site
         run: npm run build:public
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v6.0.0
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5.0.0
