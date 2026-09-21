@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { matching, optionsFor, yearsIn } from '../src/state/selectors.ts';
+import { inductionClasses, matching, optionsFor, undatedCount, yearsIn } from '../src/state/selectors.ts';
 import { emptyDiscovery } from '../src/state/exhibit.ts';
 import type { RuntimePerson } from '../src/data/runtime.ts';
 
@@ -43,4 +43,23 @@ test('facet options and years come from the collection itself', () => {
 
 test('an empty discovery returns the whole collection', () => {
   assert.equal(matching(people, emptyDiscovery).length, 3);
+});
+
+test('the chronology groups by class, newest first, sorted within a class', () => {
+  const classes = inductionClasses([
+    person('a', 'Zoe Adams', 2010, [], []),
+    person('b', 'Al Brown', 2010, [], []),
+    person('c', 'Kim Cole', 2012, [], []),
+    person('d', 'No Year', null, [], []),
+  ]);
+
+  assert.deepEqual(classes.map((entry) => entry.year), [2012, 2010], 'newest class first');
+  assert.deepEqual(classes[1]!.people.map((p) => p.id), ['b', 'a'], 'sorted by sort name within a class');
+});
+
+test('an undated person is left out of the chronology rather than placed in a guessed class', () => {
+  const people = [person('a', 'Dated', 2010, [], []), person('b', 'Undated', null, [], [])];
+  const classes = inductionClasses(people);
+  assert.equal(classes.flatMap((entry) => entry.people).length, 1);
+  assert.equal(undatedCount(people), 1, 'the count is reported so the omission can be stated');
 });

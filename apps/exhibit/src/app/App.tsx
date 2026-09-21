@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState } from '../state/exhibit.ts';
 import { People } from './People.tsx';
+import { Years } from './Years.tsx';
 import { Record } from './Record.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
@@ -9,7 +10,17 @@ import { useRelease } from './useRelease.ts';
 import { useSession } from './useSession.ts';
 import './exhibit.css';
 
-const lenses = [{ id: 'people', label: 'People' }] as const;
+/**
+ * Labels only. Which lenses exist is decided by the published bundle, so a
+ * lens the content cannot support never reaches the navigation and the app has
+ * no threshold of its own to disagree about.
+ */
+const lensLabels: Record<string, string> = {
+  people: 'People',
+  years: 'Years',
+  links: 'Connections',
+  places: 'Places',
+};
 
 export function App() {
   const [bundle, setBundle] = useState<RuntimeBundle | null>(null);
@@ -25,6 +36,7 @@ export function App() {
   }, []);
 
   const people = bundle?.people ?? [];
+  const offered = bundle?.lenses ?? ['people'];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
   // The panel carries its own subject, so an open record always has someone to show.
@@ -63,18 +75,20 @@ export function App() {
     <div className="shell">
       <div className="bar">
         <h1>Cleveland International Hall of Fame</h1>
-        <nav className="lenses" aria-label="Ways to explore">
-          {lenses.map((lens) => (
-            <button
-              key={lens.id}
-              type="button"
-              aria-current={state.lens === lens.id ? 'page' : undefined}
-              onClick={() => dispatch({ type: 'lens', lens: lens.id })}
-            >
-              {lens.label}
-            </button>
-          ))}
-        </nav>
+        {offered.length > 1 && (
+          <nav className="lenses" aria-label="Ways to explore">
+            {offered.map((lens) => (
+              <button
+                key={lens}
+                type="button"
+                aria-current={state.lens === lens ? 'page' : undefined}
+                onClick={() => dispatch({ type: 'lens', lens })}
+              >
+                {lensLabels[lens] ?? lens}
+              </button>
+            ))}
+          </nav>
+        )}
         <span className="spacer" />
         <button id="restart" className="restart" type="button" onClick={restart}>Start over</button>
       </div>
@@ -102,17 +116,29 @@ export function App() {
         </aside>
 
         <div className="stage">
-          <People
-            people={people}
-            discovery={state.discovery}
-            selectedId={state.selectedId}
-            onQuery={(query) => dispatch({ type: 'query', query })}
-            onFacet={(dimension, value) => dispatch({ type: 'facet', dimension, value })}
-            onYear={(year) => dispatch({ type: 'year', year })}
-            onClear={() => dispatch({ type: 'clear-discovery' })}
-            onSelect={(personId) => dispatch({ type: 'select', personId })}
-            onOpen={(personId) => dispatch({ type: 'open-record', personId })}
-          />
+          {state.lens === 'years'
+            ? (
+              <Years
+                people={people}
+                discovery={state.discovery}
+                selectedId={state.selectedId}
+                onSelect={(personId) => dispatch({ type: 'select', personId })}
+                onOpen={(personId) => dispatch({ type: 'open-record', personId })}
+              />
+            )
+            : (
+              <People
+                people={people}
+                discovery={state.discovery}
+                selectedId={state.selectedId}
+                onQuery={(query) => dispatch({ type: 'query', query })}
+                onFacet={(dimension, value) => dispatch({ type: 'facet', dimension, value })}
+                onYear={(year) => dispatch({ type: 'year', year })}
+                onClear={() => dispatch({ type: 'clear-discovery' })}
+                onSelect={(personId) => dispatch({ type: 'select', personId })}
+                onOpen={(personId) => dispatch({ type: 'open-record', personId })}
+              />
+            )}
         </div>
       </div>
 

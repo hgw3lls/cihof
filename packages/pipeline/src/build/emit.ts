@@ -1,7 +1,13 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { displayablePortrait, facetable, isAttributable, type PublishedPerson, type VisitorTarget } from '@cihof/content';
+import {
+  availableLenses, displayablePortrait, facetable, isAttributable, lensAvailability,
+  publishedPlaces, publishedRelationships,
+  type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
+  type PublishedRelationship, type VisitorTarget,
+} from '@cihof/content';
+import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -16,6 +22,16 @@ export type RuntimeBundle = {
   readonly contentRevision: string;
   readonly generatedAt: string;
   readonly people: readonly RuntimePerson[];
+  readonly places: readonly PublishedPlace[];
+  readonly relationships: readonly PublishedRelationship[];
+  /**
+   * Which lenses this release offers, decided here rather than in the app.
+   * A lens the content cannot support is absent, so the app has nothing to
+   * render empty and no threshold of its own to get wrong.
+   */
+  readonly lenses: readonly LensId[];
+  /** The full reckoning, including what fell short and by how much. */
+  readonly lensReport: readonly LensAvailability[];
 };
 
 /**
@@ -40,14 +56,38 @@ export type RuntimePerson = {
   readonly sourceUrl: string | null;
 };
 
-export function buildRuntimeBundle(people: readonly PublishedPerson[], target: VisitorTarget): RuntimeBundle {
+/** Sources are injectable so the gate can be exercised at either side of a threshold. */
+export type BundleSources = {
+  readonly places?: readonly unknown[];
+  readonly relationships?: readonly unknown[];
+};
+
+export function buildRuntimeBundle(
+  people: readonly PublishedPerson[],
+  target: VisitorTarget,
+  sources: BundleSources = {},
+): RuntimeBundle {
   const runtimePeople = people.map((person) => toRuntimePerson(person));
+  const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target);
+  const relationships = publishedRelationships(sources.relationships ?? readRelationships(), target);
+
+  const counts = {
+    people: runtimePeople.length,
+    years: runtimePeople.filter((person) => person.classYear !== null).length,
+    links: relationships.length,
+    places: places.length,
+  };
+
   return {
     schemaVersion: 1,
     target,
     contentRevision: revisionOf(runtimePeople),
     generatedAt: new Date().toISOString(),
     people: runtimePeople,
+    places,
+    relationships,
+    lenses: availableLenses(counts),
+    lensReport: lensAvailability(counts),
   };
 }
 
