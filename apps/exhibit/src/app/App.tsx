@@ -5,6 +5,7 @@ import { People } from './People.tsx';
 import { Years } from './Years.tsx';
 import { Record } from './Record.tsx';
 import { Film } from './Film.tsx';
+import { Recovery } from './Recovery.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
@@ -50,6 +51,11 @@ export function App() {
     : null;
 
   const release = useRelease();
+  // Operator surface, opened by an explicit address. Read-only except for
+  // returning to the previous release; it cannot change what content says.
+  const [recoveryOpen, setRecoveryOpen] = useState(
+    () => new URLSearchParams(window.location.search).get('recovery') === '1',
+  );
 
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
@@ -180,6 +186,15 @@ export function App() {
           secondsRemaining={session.secondsRemaining}
           onContinue={session.noteActivity}
           onReset={restart}
+        />
+      )}
+
+      {recoveryOpen && (
+        <Recovery
+          status={release.status}
+          onRefresh={release.refreshStatus}
+          onRestore={release.restorePrevious}
+          onClose={() => setRecoveryOpen(false)}
         />
       )}
 
