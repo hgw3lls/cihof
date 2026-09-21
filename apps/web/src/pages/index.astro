@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Page.astro';
+import { buildPeople } from '@cihof/pipeline/src/build/people.ts';
+import { displayablePortrait } from '@cihof/content';
+
+const base = import.meta.env.BASE_URL;
+const people = buildPeople();
+const asset = (path: string) => `${base}${path.replace(/^\//, '')}`;
+---
+<Layout
+  title="Cleveland International Hall of Fame"
+  description={`${people.length} people recognised for their contribution to Greater Cleveland's international communities.`}
+>
+  <h1>The collection</h1>
+  <p class="meta">{people.length} people, {new Set(people.map((person) => person.classYear).filter(Boolean)).size} induction classes.</p>
+
+  <ul class="people">
+    {people.map((person) => {
+      const portrait = displayablePortrait(person.portrait);
+      return (
+        <li>
+          <a href={`${base}people/${person.id}/`}>
+            {portrait
+              ? <img src={asset(portrait.src)} alt="" width="48" height="48" loading="lazy" decoding="async" />
+              : <img src={asset('media/placeholder.svg')} alt="" width="48" height="48" aria-hidden="true" />}
+            <span class="name">{person.name}</span>
+            {person.classYear && <span class="year">{person.classYear}</span>}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</Layout>

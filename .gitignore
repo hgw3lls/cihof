@@ -45,3 +45,10 @@ artifacts/mg05-review/
 artifacts/mg06-review/
 artifacts/ce00-baseline/
 dist-kiosk/
+
+# Rewrite build output
+apps/*/dist/
+apps/web/public/media/
+apps/exhibit/public/data/
+apps/exhibit/test-results/
+apps/web/test-results/
