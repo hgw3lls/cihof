@@ -69,13 +69,27 @@ export function LinksScene({ people, matchingIds, relationships, relationshipsLo
   const documentedCount = links.filter((link) => link.kind === 'documented').length;
   const contextCount = links.filter((link) => link.kind === 'class').length;
 
+  // Nodes animate `left`/`top` for 650ms, so getBoundingClientRect reports
+  // wherever the transition currently has a portrait rather than where it is
+  // coming to rest. Placing the preview against those transient rectangles
+  // drops it into a gap that closes underneath it, and the panel then
+  // swallows the clicks and taps meant for the portrait now beneath it.
+  function settledRect(control: HTMLElement) {
+    const rect = control.getBoundingClientRect();
+    const point = points?.get(control.dataset.personId ?? '');
+    const stage = stageRef.current;
+    if (!point || !stage) return rect;
+    const stageBounds = stage.getBoundingClientRect();
+    return new DOMRect(stageBounds.left + point.x - rect.width / 2, stageBounds.top + point.y - rect.height / 2, rect.width, rect.height);
+  }
+
   function positionContext() {
     const viewport = viewportRef.current;
     const button = [...(stageRef.current?.querySelectorAll<HTMLElement>('button[data-person-id]') ?? [])]
       .find((element) => element.dataset.personId === activePersonId);
     if (!viewport || !button) return;
     const bounds = viewport.getBoundingClientRect();
-    const anchor = button.getBoundingClientRect();
+    const anchor = settledRect(button);
     const width = Math.min(320, bounds.width - 24);
     const height = Math.min(260, bounds.height * 0.48);
     const right = anchor.right - bounds.left + 16;
@@ -90,7 +104,7 @@ export function LinksScene({ people, matchingIds, relationships, relationshipsLo
       for (let x = 12; x <= bounds.width - width; x += 32) candidates.push(clamp(x, y));
     }
     const controls = [...stageRef.current!.querySelectorAll<HTMLButtonElement>('button[data-person-id]')];
-    const rectangles = controls.map((control) => ({ rect: control.getBoundingClientRect(), active: control === button }));
+    const rectangles = controls.map((control) => ({ rect: settledRect(control), active: control === button }));
     const score = (candidate: typeof preferred) => rectangles.reduce((total, { rect, active }) => {
       const overlapX = Math.max(0, Math.min(candidate.left + width, rect.right - bounds.left + 8) - Math.max(candidate.left, rect.left - bounds.left - 8));
       const overlapY = Math.max(0, Math.min(candidate.top + height, rect.bottom - bounds.top + 8) - Math.max(candidate.top, rect.top - bounds.top - 8));
@@ -100,6 +114,23 @@ export function LinksScene({ people, matchingIds, relationships, relationshipsLo
   }
 
   useLayoutEffect(positionContext, [activePersonId, size, resolved, listOpen]);
+
+  // Placement is only as good as the geometry it was computed against, and the
+  // constellation keeps moving after a portrait is chosen: nodes ease into place
+  // over 650ms, and late portraits and web fonts resize them again. Re-place the
+  // preview once the movement stops, so it cannot be stranded on top of a
+  // portrait and swallow the taps meant for it.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !activePersonId) return;
+    let frame = 0;
+    const settle = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(positionContext);
+    };
+    stage.addEventListener('transitionend', settle);
+    return () => { stage.removeEventListener('transitionend', settle); window.cancelAnimationFrame(frame); };
+  });
 
   function dismissContext() {
     const active = document.activeElement;

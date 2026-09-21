@@ -233,6 +233,8 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
   const unknownPeople = useMemo(() => people.filter((person) => person.classYear === null).sort((a, b) => a.name.localeCompare(b.name)), [people]);
   const chapters = useMemo<ChapterKey[]>(() => [...years, ...(unknownPeople.length ? ['unknown' as const] : [])], [years, unknownPeople.length]);
   const [currentChapter, setCurrentChapter] = useState<ChapterKey>(chapters[0] ?? 'unknown');
+  const pendingJump = useRef<ChapterKey | null>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; left: number } | null>(null);
   const dragged = useRef(false);
   const peopleByYear = useMemo(() => {
@@ -254,12 +256,47 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
     return viewportRef.current?.querySelector<HTMLElement>(`#${chapterId(key)}`);
   }
 
+  // Portraits and web fonts land after the first paint, and every one of them
+  // widens the class it belongs to. A scroll offset computed before that is
+  // pointing at a different class afterwards, which left the visitor in 2011
+  // having asked for 2026. Re-aim at the class they chose until it stops moving.
+  useEffect(() => {
+    const strip = stripRef.current;
+    const viewport = viewportRef.current;
+    if (!strip || !viewport || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => {
+      const key = pendingJump.current;
+      const target = key ? chapter(key) : null;
+      if (!target) return;
+      const left = chapterScrollLeft(viewport, target);
+      if (Math.abs(viewport.scrollLeft - left) > 2) viewport.scrollTo({ left, behavior: 'instant' });
+    });
+    observer.observe(strip);
+    return () => observer.disconnect();
+  }, []);
+
+  function revealInRail(key: ChapterKey) {
+    railRef.current?.querySelector<HTMLElement>(`[data-year='${key}']`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  function chapterScrollLeft(viewport: HTMLElement, target: HTMLElement) {
+    return Math.max(0, Math.min(target.offsetLeft, viewport.scrollWidth - viewport.clientWidth));
+  }
+
   function jump(key: ChapterKey, smooth = true) {
     const viewport = viewportRef.current;
     const target = chapter(key);
     if (!viewport || !target) return;
-    viewport.scrollTo({ left: target.offsetLeft, behavior: smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant' });
+    const left = chapterScrollLeft(viewport, target);
+    // A smooth jump crosses every class in between, and each of those scroll
+    // events used to re-announce the chronology and re-scroll the rail. That
+    // slid the year chips out from under the visitor mid-tap, so asking for
+    // 2026 could land on whichever year the animation happened to be passing.
+    // An explicit jump now owns the rail until the scroll reaches it.
+    pendingJump.current = Math.abs(viewport.scrollLeft - left) > 2 ? key : null;
+    viewport.scrollTo({ left, behavior: smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant' });
     setCurrentChapter(key);
+    revealInRail(key);
   }
 
   function visibleChapter() {
@@ -277,18 +314,25 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
     const viewport = viewportRef.current;
     if (!viewport) return;
     scrollRef.current = { personId: selected?.id, left: viewport.scrollLeft };
+    const pending = pendingJump.current;
+    if (pending) {
+      const target = chapter(pending);
+      if (target && Math.abs(viewport.scrollLeft - chapterScrollLeft(viewport, target)) > 2) return;
+      pendingJump.current = null;
+    }
     const key = visibleChapter();
     setCurrentChapter(key);
-    railRef.current?.querySelector<HTMLElement>(`[data-year='${key}']`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    revealInRail(key);
   }
 
   function relative(step: number) {
-    const index = chapters.indexOf(visibleChapter());
+    const index = chapters.indexOf(pendingJump.current ?? visibleChapter());
     jump(chapters[Math.max(0, Math.min(chapters.length - 1, index + step))]);
   }
 
   function onWheel(event: WheelEvent<HTMLDivElement>) {
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    pendingJump.current = null;
     event.currentTarget.scrollLeft += event.deltaY;
     event.preventDefault();
   }
@@ -301,7 +345,7 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
     if (!drag.current) return;
     if (Math.abs(event.clientX - drag.current.x) > 6) dragged.current = true;
-    if (dragged.current) event.currentTarget.scrollLeft = drag.current.left - (event.clientX - drag.current.x);
+    if (dragged.current) { pendingJump.current = null; event.currentTarget.scrollLeft = drag.current.left - (event.clientX - drag.current.x); }
   }
 
   function endDrag() {
@@ -318,6 +362,7 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport || !chapters.length) return;
+    pendingJump.current = null;
     const selectedChapter: ChapterKey | undefined = selected ? selected.classYear ?? 'unknown' : undefined;
     const key = selectedChapter ?? chapters[0];
     const target = chapter(key);
@@ -358,7 +403,7 @@ export function YearsScene({ years, people, films, selected, activeFilm, scrollR
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { relative(event.key === 'ArrowLeft' ? -1 : 1); event.preventDefault(); }
         if (event.key === 'Home' || event.key === 'End') { jump(event.key === 'Home' ? chapters[0] : chapters[chapters.length - 1]); event.preventDefault(); }
       }}>
-      <div className="film-line__strip">{chapters.map((key) => {
+      <div className="film-line__strip" ref={stripRef}>{chapters.map((key) => {
         const entries = key === 'unknown' ? unknownPeople : peopleByYear.get(key) ?? [];
         const availableFilmCount = entries.reduce((count, person) => count + (filmsByPerson.get(person.id)?.length ?? 0), 0);
         const selectedHere = selected ? (selected.classYear ?? 'unknown') === key : false;
