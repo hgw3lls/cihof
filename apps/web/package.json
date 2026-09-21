@@ -1,0 +1,19 @@
+{
+  "name": "@cihof/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Public companion site. A static page per person, readable without JavaScript.",
+  "scripts": {
+    "prebuild": "node --experimental-strip-types scripts/publish-assets.mjs",
+    "build": "npm run prebuild && astro build",
+    "dev": "npm run prebuild && astro dev",
+    "preview": "astro preview",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "astro": "^7.3.3",
+    "@cihof/content": "*",
+    "@cihof/pipeline": "*"
+  }
+}

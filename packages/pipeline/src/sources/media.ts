@@ -1,0 +1,47 @@
+import { readFileSync } from 'node:fs';
+
+/** A portrait as recorded in the media manifest, with its rights state. */
+export type PortraitAsset = {
+  readonly runtimePath: string;
+  readonly altText: string;
+  readonly width: number | null;
+  readonly height: number | null;
+};
+
+import { dataFile } from '../paths.ts';
+
+const mediaPath = () => dataFile('media_manifest.json');
+
+/** Raw video holdings by canonical id. Clearance is decided by the content package. */
+export function readVideoHoldings(): Map<string, unknown[]> {
+  const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };
+  const holdings = new Map<string, unknown[]>();
+  for (const [id, asset] of Object.entries(document.assets ?? {})) {
+    const videos = asset['videos'];
+    if (Array.isArray(videos) && videos.length > 0) holdings.set(id, videos);
+  }
+  return holdings;
+}
+
+/** Primary portraits by canonical id. Rights live in the curated roster, not here. */
+export function readPortraits(): Map<string, PortraitAsset> {
+  const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };
+  const portraits = new Map<string, PortraitAsset>();
+
+  for (const [id, asset] of Object.entries(document.assets ?? {})) {
+    const primary = asRecord(asRecord(asset['images'])['primary']);
+    const runtimePath = typeof primary['runtimePath'] === 'string' ? primary['runtimePath'] : '';
+    if (!runtimePath) continue;
+    portraits.set(id, {
+      runtimePath,
+      altText: typeof primary['altText'] === 'string' ? primary['altText'] : '',
+      width: typeof primary['width'] === 'number' ? primary['width'] : null,
+      height: typeof primary['height'] === 'number' ? primary['height'] : null,
+    });
+  }
+  return portraits;
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
+}
