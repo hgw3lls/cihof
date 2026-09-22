@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-21T21:01:06.267Z",
+  "generatedAt": "2026-09-22T01:55:26.870Z",
   "source": "data/cihof_kiosk_manifest.csv#inducted_by",
   "entries": [
     {
@@ -29,7 +29,10 @@
         {
           "inducteeId": "alex-machaskee-2010",
           "displayName": "Alex Machaskee",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Alex Machaskee.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/georgine-welo/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -57,7 +60,16 @@
         "johnny-k-wu-2024",
         "may-chen-2020"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "margaret-w-wong-2010",
+          "displayName": "Margaret W. Wong",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Margaret Wong.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -85,7 +97,10 @@
         {
           "inducteeId": "dick-russ-2015",
           "displayName": "Dick Russ",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dick Russ.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/alex-machaskee-2010/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -127,7 +142,18 @@
         {
           "inducteeId": "paul-burik-2019",
           "displayName": "Paul Burik",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Paul Burik.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
+          "verificationLayer": "canonical-profile-field"
+        },
+        {
+          "inducteeId": "wael-khoury-2017",
+          "displayName": "Wael Khoury",
+          "basis": "corpus-induction-record",
+          "evidence": "Berj Shakarian was inducted at the Centennial Plaza he designed by Paul Burik and Dr. Wael Khoury from the Cleveland Cultural Gardens Federation.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
+          "verificationLayer": "documented-in-profile"
         }
       ],
       "resolution": {
@@ -145,7 +171,10 @@
         {
           "inducteeId": "pierre-bejjani-2023",
           "displayName": "Pierre Bejjani",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Pierre Bejjani.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -163,7 +192,18 @@
         {
           "inducteeId": "sudarshan-sathe-2023",
           "displayName": "Sudarshan Sathe",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Sudarshan Sathe.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
+          "verificationLayer": "canonical-profile-field"
+        },
+        {
+          "inducteeId": "dr-jaya-shah-2012",
+          "displayName": "Dr. Jaya Shah",
+          "basis": "corpus-induction-record",
+          "evidence": "All of this work is a joint effort with his wife, Dr. Jaya Shah, a pediatrician who was herself inducted into the Cleveland International Hall of Fame in 2012.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
+          "verificationLayer": "documented-in-profile"
         }
       ],
       "resolution": {
@@ -191,7 +231,10 @@
         {
           "inducteeId": "aklilu-demessie-2026",
           "displayName": "Aklilu Demessie",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Aklilu Demessie.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/carl-robson/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -204,7 +247,16 @@
       "inducted": [
         "valarie-mccall-2020"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "albert-b-ratner-2011",
+          "displayName": "Albert B. Ratner",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Albert Ratner.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/valarie-mccall/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -248,7 +300,16 @@
       "inducted": [
         "taras-szmagala-2022"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "andy-fedynsky-2026",
+          "displayName": "Andy Fedynsky",
+          "basis": "corpus-induction-record",
+          "evidence": "Taras Szmagala inducted into Cleveland International Hall of Fame 2022 Class, by Andrew Fedynsky",
+          "sourceUrl": "https://www.clevelandpeople.com/hof/2022/cihf-2022-taras-szmagala.htm",
+          "verificationLayer": "archive-supported-external-source"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -296,7 +357,10 @@
         {
           "inducteeId": "august-pust-2010",
           "displayName": "August Pust",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by August Pust.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -324,7 +388,10 @@
         {
           "inducteeId": "basil-russo-2017",
           "displayName": "Basil Russo",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Basil Russo.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/joyce-mariani/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -407,7 +474,10 @@
         {
           "inducteeId": "dick-pogue-2015",
           "displayName": "Dick Pogue",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dick Pogue.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/jim-foster-2014/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -490,7 +560,10 @@
         {
           "inducteeId": "wael-khoury-2017",
           "displayName": "Wael Khoury",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dr. Wael Khoury.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/rep-mary-rose-oakar-2012/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -518,7 +591,10 @@
         {
           "inducteeId": "ernie-mihaly-2014",
           "displayName": "Ernie Mihaly",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ernie Mihaly.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/richard-fleischman/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -579,7 +655,10 @@
         {
           "inducteeId": "ingrida-bublys-2019",
           "displayName": "Ingrida Bublys",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ingrida Bublys.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/senator-george-voinovich-2010/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -596,7 +675,10 @@
         {
           "inducteeId": "jack-kahl-2016",
           "displayName": "Jack Kahl",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Jack Kahl.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/fr-jim-odonnell-2012/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -653,7 +735,16 @@
       "inducted": [
         "sister-alicia-alvarado-2018"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Jose Feliciano.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-south-america/sister-alicia-alvarado/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -664,7 +755,16 @@
       "inducted": [
         "honorable-jose-a-villanueva-2015"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by José Feliciano.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/honorable-jose-a-villanueva-2015/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -723,7 +823,10 @@
         {
           "inducteeId": "ken-kovach-2012",
           "displayName": "Ken Kovach",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ken Kovach.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/lucretia-stoica-2011/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -839,7 +942,10 @@
         {
           "inducteeId": "dr-maria-pujana-2013",
           "displayName": "Dr. Maria Pujana",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Maria Pujana.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -856,7 +962,10 @@
         {
           "inducteeId": "hon-mary-rose-oakar-2012",
           "displayName": "Hon. Mary Rose Oakar",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Mary Rose Oakar.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -928,7 +1037,10 @@
         {
           "inducteeId": "mona-alag-2017",
           "displayName": "Mona Alag",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Mona Alag.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -945,7 +1057,10 @@
         {
           "inducteeId": "pat-dowd-2023",
           "displayName": "Pat Dowd",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Pat Dowd.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/lonnie-mccauley-2010/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -958,7 +1073,16 @@
       "inducted": [
         "arnie-de-la-porte-2016-2016"
       ],
-      "candidates": [],
+      "candidates": [
+        {
+          "inducteeId": "ingrida-bublys-2019",
+          "displayName": "Ingrida Bublys",
+          "basis": "corpus-induction-record",
+          "evidence": "Here is a partial list of Arnie’s accomplishments: Past Co-Chairman of the Cleveland Tall Ship Festival Past Grand Commodore of the Ohio Commodores Honorary chair of the Rotary Club of Cleveland Honorary president of the Cleveland Rotary Club Past Chairman of the Cuyahoga Valley Scenic Railroad Past Chairman of the board of the Elyria Country Club Board member northern Ohio district export council (Nominated By US Secretary of Commerce) Founding Board member of the French American Chamber Founding Board member of the British American Chamber of Commerce Founding Board member of the Netherlands Chamber of Commerce Founding Board member of the Benelux Business Association Founding Board member of the German Roundtable Past president of the Cleveland World Trade Association Past board member of the Greater Cleveland Growth Association Past board member State of Ohio economic development Council Founding board member business advisory board Maine Maritime Academy, in Castine, ME Founding Board member Cleveland World Trade Association Foundation Founding board member North East Ohio Trade Network He was awarded the “Ordre National du Mérite” by the country of France His motto was: “Trading nations seldom go to war.” Peter de la Porte and Ingrida Bublys Cleveland International Hall of Fame Class of 2016 Arnie de la Porte was inducted into the 2016 Class of the Cleveland International Hall of Fame on the evening of April 26, 2016.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/arnie-de-la-porte-2016/",
+          "verificationLayer": "documented-in-profile"
+        }
+      ],
       "resolution": {
         "status": "unresolved"
       }
@@ -984,7 +1108,10 @@
         {
           "inducteeId": "ramesh-shah-2020",
           "displayName": "Ramesh Shah",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ramesh Shah.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/sree-sreenath/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -1034,7 +1161,10 @@
         {
           "inducteeId": "richard-fleischman-2019",
           "displayName": "Richard Fleischman",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Richard Fleischman.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ernie-mihaly-2014/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
@@ -1161,7 +1291,10 @@
         {
           "inducteeId": "valarie-mccall-2020",
           "displayName": "Valarie McCall",
-          "basis": "normalised-name"
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Valarie McCall.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/mayor-frank-jackson/",
+          "verificationLayer": "canonical-profile-field"
         }
       ],
       "resolution": {
