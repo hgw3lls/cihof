@@ -23,7 +23,7 @@ function resolved(count: number, over: Partial<InductionCrosswalk> = {}): Induct
     source: 'data/cihof_kiosk_manifest.csv#inducted_by',
     entries: [{
       id: 'inducter:fixture',
-      recordedName: people[0].name,
+      recordedName: people[0]!.name,
       inducted: ids.slice(1, 1 + count) as never,
       candidates: [],
       resolution: { status: 'inductee', inducteeId: inducter as never, decisionReference: 'cur-2026-039' },
@@ -83,12 +83,12 @@ test('an approval for the kiosk does not open Connections on the public site', (
 
 test('a generated relationship carries the real names of both people', () => {
   const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: resolved(1, { publicationDecision: decision }) });
-  const [link] = bundle.relationships;
+  const link = bundle.relationships[0]!;
   assert.equal(link.from, inducter);
-  assert.equal(link.to, ids[1]);
-  assert.equal(link.label, `inducted ${people[1].name}`);
-  assert.equal(link.inverseLabel, `was inducted by ${people[0].name}`);
-  assert.equal(link.evidence[0].excerpt, people[0].name, 'the roster wording that was resolved');
+  assert.equal(link.to, ids[1]!);
+  assert.equal(link.label, `inducted ${people[1]!.name}`);
+  assert.equal(link.inverseLabel, `was inducted by ${people[0]!.name}`);
+  assert.equal(link.evidence[0]?.excerpt, people[0]!.name, 'the roster wording that was resolved');
 });
 
 test('a curated record wins over the generated one for the same pair', () => {
@@ -105,7 +105,7 @@ test('a curated record wins over the generated one for the same pair', () => {
     relationships: [curated],
   });
   assert.equal(bundle.relationships.length, 1, 'counted once, not twice');
-  assert.equal(bundle.relationships[0].label, 'presented at the 2011 ceremony');
+  assert.equal(bundle.relationships[0]?.label, 'presented at the 2011 ceremony');
 });
 
 test('a missing crosswalk file builds rather than breaking the release', () => {

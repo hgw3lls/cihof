@@ -190,14 +190,19 @@ export function publishedPlaceAssociations(values: readonly unknown[], target: V
  * to know which field is missing, not that something is.
  */
 export function connectionProblems(value: unknown): string[] {
-  const candidate = value as Partial<DocumentedRelationship & CuratorialComparison>;
-  if (!candidate || typeof candidate !== 'object') return ['record is missing'];
-  if (candidate.claim === 'context') return sharedContextProblems(value);
+  if (!value || typeof value !== 'object') return ['record is missing'];
+  // Read the claim first, then look at the record as the kind it says it is.
+  // Intersecting the three shapes collapses `claim` to `never` — the literals
+  // are mutually exclusive — and takes every other field down with it.
+  const claim = (value as { claim?: unknown }).claim;
+  if (claim === 'context') return sharedContextProblems(value);
 
-  const problems = substantiationProblems(candidate);
-  if (!nonEmpty(candidate.id)) problems.push('no id');
+  const shared = value as Partial<Reviewed & Evidenced> & { id?: string };
+  const problems = substantiationProblems(shared);
+  if (!nonEmpty(shared.id)) problems.push('no id');
 
-  if (candidate.claim === 'documented') {
+  if (claim === 'documented') {
+    const candidate = value as Partial<DocumentedRelationship>;
     if (!nonEmpty(candidate.from) || !nonEmpty(candidate.to)) problems.push('missing an endpoint');
     else if (candidate.from === candidate.to) problems.push('both endpoints are the same person');
     if (!nonEmpty(candidate.label)) problems.push('no label');
@@ -207,7 +212,8 @@ export function connectionProblems(value: unknown): string[] {
     return problems;
   }
 
-  if (candidate.claim === 'comparison') {
+  if (claim === 'comparison') {
+    const candidate = value as Partial<CuratorialComparison>;
     if (!pairOfDistinctPeople(candidate.between)) problems.push('needs two distinct people');
     if (!nonEmpty(candidate.question)) problems.push('no shared question');
     const reading = candidate.reading;

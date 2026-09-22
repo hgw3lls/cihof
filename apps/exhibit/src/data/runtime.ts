@@ -12,7 +12,9 @@ import type { PublishedFilm } from '@cihof/content';
 const bundleUrl = `${import.meta.env.BASE_URL}data/exhibit.json`;
 
 export async function loadBundle(signal?: AbortSignal): Promise<RuntimeBundle> {
-  const response = await fetch(bundleUrl, { signal });
+  // `signal: undefined` is not the same as no signal under
+  // exactOptionalPropertyTypes, and fetch's own type says so.
+  const response = await fetch(bundleUrl, signal ? { signal } : {});
   if (!response.ok) throw new Error(`Collection data could not be loaded (${response.status}).`);
 
   const payload = (await response.json()) as unknown;
