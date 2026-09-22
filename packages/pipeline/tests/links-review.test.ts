@@ -41,10 +41,22 @@ test('the sheet covers every recorded name, not only the answerable ones', () =>
   assert.ok(progress.noCandidate > 0, 'rows the corpus could not help with are present');
 });
 
-test('the collection as it stands has every name still to review', () => {
+test('the collection as it stands has the 25 resolved and the rest still to review', () => {
+  // Signed 2026-09-22 under cur-2026-061: the 25 rows the corpus offered a
+  // single candidate for. The 68 with no candidate and the 2 with more than
+  // one are deliberately untouched.
   const progress = reviewProgress(sheet);
-  assert.equal(progress.resolved, 0);
-  assert.equal(progress.relationshipsResolved, 0);
+  assert.equal(progress.resolved, 25);
+  assert.equal(progress.unresolved, 70);
+  assert.equal(progress.relationshipsResolved, 31);
+});
+
+test('twice the threshold in resolutions still publishes nothing unsigned', () => {
+  // The separation, stated against the real file rather than a fixture: 31
+  // relationships are resolved and the lens is shut, because nobody has
+  // decided they may be shown.
+  const progress = reviewProgress(sheet);
+  assert.ok(progress.relationshipsResolved >= 15);
   assert.equal(progress.publicationDecisionSigned, false);
   assert.equal(progress.linksCount, 0);
   assert.equal(progress.linksWouldOpen, false);
