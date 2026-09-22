@@ -238,12 +238,26 @@ function signPublicationDecision() {
   }
   requireCleanTree();
 
-  crosswalk.publicationDecision = decision;
   backup(crosswalkPath);
-  writeFileSync(crosswalkPath, `${JSON.stringify(crosswalk, null, 2)}\n`);
+  writeFileSync(crosswalkPath, `${JSON.stringify(withDecision(crosswalk, decision), null, 2)}\n`);
   console.log(`\n  Written to ${crosswalkPath.replace(`${root}/`, '')}`);
   console.log('\n  Next: npm run review:links   (see whether the lens opens)');
   console.log();
+}
+
+/**
+ * The crosswalk with a publication decision, in the key order the builder uses.
+ *
+ * Assigning the property appends it after `entries`, and `crosswalk.mjs
+ * --check` compares serialised JSON, which is order-sensitive. So a signature
+ * written the obvious way left the file semantically identical to a rebuild and
+ * textually different from one — `crosswalk:check` failed, CI went red, and the
+ * fix was an unrelated-looking `npm run crosswalk`. Rebuilt here in the
+ * declared order instead.
+ */
+function withDecision(source, decision) {
+  const { schemaVersion, generatedAt, source: origin, entries } = source;
+  return { schemaVersion, generatedAt, source: origin, publicationDecision: decision, entries };
 }
 
 // ---------------------------------------------------------------------- shared

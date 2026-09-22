@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import type { CrosswalkEntry, InductionCrosswalk } from '@cihof/content';
-import { inductionRelationships, readyToConfirm, reviewProgress } from '@cihof/content';
+import { inductionRelationships, readyToConfirm, reviewProgress, reviewRemaining } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { buildRelationshipReviewSheet, reviewSheetCsv } from '../src/build/review.ts';
@@ -15,9 +15,12 @@ import { readInductionCrosswalk } from '../src/sources/crosswalk.ts';
  * fact about this collection and not about a shape. A fixture would keep
  * passing while the real sheet went empty.
  *
- * The publication decision *is* a fixture, and deliberately so: signing one is
- * a curatorial act, and a test that wrote a real-looking approval into `data/`
- * would forge exactly the record the whole model exists to require.
+ * A real decision now exists — cur-2026-062, kiosk only, signed 2026-09-22 —
+ * so these read it rather than inventing one. Where a test needs the unsigned
+ * case it removes the signature from a copy, and `fixtureDecision` remains for
+ * the cases that need a decision these resolutions did not make. Neither ever
+ * writes an approval into `data/`: that is a curatorial act, and a test that
+ * forged one would forge the record the whole model exists to require.
  */
 const people = buildPeople();
 const crosswalk = readInductionCrosswalk();
@@ -51,15 +54,24 @@ test('the collection as it stands has the 25 resolved and the rest still to revi
   assert.equal(progress.relationshipsResolved, 31);
 });
 
-test('twice the threshold in resolutions still publishes nothing unsigned', () => {
-  // The separation, stated against the real file rather than a fixture: 31
-  // relationships are resolved and the lens is shut, because nobody has
-  // decided they may be shown.
+test('the sheet reports the lens open, and says what signed it', () => {
   const progress = reviewProgress(sheet);
-  assert.ok(progress.relationshipsResolved >= 15);
+  assert.equal(progress.publicationDecisionSigned, true);
+  assert.equal(progress.linksCount, 31);
+  assert.equal(progress.linksWouldOpen, true);
+  assert.deepEqual(reviewRemaining(sheet), [], 'nothing stands between this and an open lens');
+});
+
+test('the same resolutions report a shut lens with the signature removed', () => {
+  // The separation, against the real resolutions rather than a fixture: the
+  // 31 are resolved either way, and only the decision makes them countable.
+  const unsigned = buildRelationshipReviewSheet(withoutDecision(crosswalk), people);
+  const progress = reviewProgress(unsigned);
+  assert.equal(progress.relationshipsResolved, 31, 'the review work is unchanged');
   assert.equal(progress.publicationDecisionSigned, false);
   assert.equal(progress.linksCount, 0);
   assert.equal(progress.linksWouldOpen, false);
+  assert.match(reviewRemaining(unsigned).join(' '), /publicationDecision/);
 });
 
 test('an ambiguous row proposes nothing', () => {
@@ -130,7 +142,7 @@ test('confirming the unambiguous candidates alone would clear the threshold', ()
 });
 
 test('confirming them without a publication decision still publishes nothing', () => {
-  const accepted = acceptSingleCandidates(crosswalk, {});
+  const accepted = acceptSingleCandidates(withoutDecision(crosswalk), {});
   const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: accepted });
   assert.equal(bundle.relationships.length, 0, 'resolving a name is not permission to show it');
   assert.equal(bundle.lenses.includes('links'), false);
@@ -198,6 +210,20 @@ function acceptSingleCandidates(
       : entry
   ));
   return { ...source, entries, ...over };
+}
+
+/**
+ * The crosswalk with its signature removed.
+ *
+ * Deleting the key rather than setting it undefined, so the result is the shape
+ * an unsigned file really has. Spreading `{...crosswalk}` is not enough now
+ * that the committed one carries a decision — the separation tests would
+ * inherit it and quietly stop testing the separation.
+ */
+function withoutDecision(source: InductionCrosswalk): InductionCrosswalk {
+  const { publicationDecision, ...rest } = source;
+  void publicationDecision;
+  return rest as InductionCrosswalk;
 }
 
 /** Splits one generated row. The generator only ever quotes whole cells. */
