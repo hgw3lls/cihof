@@ -37,7 +37,7 @@
     "validate:kiosk": "npm run curate:report && npm run media:validate -- --strict --profile=wall",
     "validate:media-clearance": "npm run media:validate -- --strict --profile=full",
     "validate:offline": "node scripts/validate-offline-package.js",
-    "typecheck": "npm run typecheck:app && npm run typecheck:packages && npm run typecheck:exhibit",
+    "typecheck": "npm run typecheck:app && npm run typecheck:packages && npm run typecheck:exhibit && npm run typecheck:web",
     "check:handoff": "npm run build && npm run build:portal && npm run validate:entities && npm run validate:offline",
     "build:kiosk": "npm run validate:kiosk && npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=kiosk vite build",
     "build:public": "npm run prepare:data && tsc -b && CIHOF_BUILD_TARGET=public vite build",
@@ -71,7 +71,8 @@
     "media:assert": "node scripts/assert-film-assets.mjs",
     "typecheck:app": "tsc -b --pretty false",
     "typecheck:packages": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false",
-    "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false"
+    "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false",
+    "typecheck:web": "npm run typecheck --workspace apps/web"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

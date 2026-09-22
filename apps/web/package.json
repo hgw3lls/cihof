@@ -9,11 +9,15 @@
     "build": "npm run prebuild && astro build",
     "dev": "npm run prebuild && astro dev",
     "preview": "astro preview",
-    "test": "playwright test"
+    "test": "playwright test",
+    "typecheck": "astro check"
   },
   "dependencies": {
-    "astro": "^7.3.3",
     "@cihof/content": "*",
-    "@cihof/pipeline": "*"
+    "@cihof/pipeline": "*",
+    "astro": "^7.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10"
   }
 }
