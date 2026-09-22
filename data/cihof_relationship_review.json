@@ -1,0 +1,2100 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-22T17:14:34.487Z",
+  "source": "data/cihof_induction_crosswalk.json",
+  "rows": [
+    {
+      "entryId": "inducter:sam-miller",
+      "recordedName": "Sam Miller",
+      "band": "no-candidate",
+      "inducted": [
+        "albert-b-ratner-2011",
+        "bishop-anthony-pilla-2015",
+        "milton-maltz-2012",
+        "thomas-j-scanlon-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:alex-machaskee",
+      "recordedName": "Alex Machaskee",
+      "band": "single-candidate",
+      "inducted": [
+        "georgine-welo-2023",
+        "ingrida-bublys-2019",
+        "jose-c-feliciano-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "alex-machaskee-2010",
+          "displayName": "Alex Machaskee",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Alex Machaskee.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/georgine-welo/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:alex-machaskee-2010:georgine-welo-2023",
+          "from": "alex-machaskee-2010",
+          "to": "georgine-welo-2023",
+          "kind": "inducted",
+          "label": "inducted Georgine Welo",
+          "inverseLabel": "was inducted by Alex Machaskee",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Alex Machaskee"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:alex-machaskee-2010:ingrida-bublys-2019",
+          "from": "alex-machaskee-2010",
+          "to": "ingrida-bublys-2019",
+          "kind": "inducted",
+          "label": "inducted Ingrida Bublys",
+          "inverseLabel": "was inducted by Alex Machaskee",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Alex Machaskee"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:alex-machaskee-2010:jose-c-feliciano-2012",
+          "from": "alex-machaskee-2010",
+          "to": "jose-c-feliciano-2012",
+          "kind": "inducted",
+          "label": "inducted José C. Feliciano",
+          "inverseLabel": "was inducted by Alex Machaskee",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Alex Machaskee"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:gerry-quinn",
+      "recordedName": "Gerry Quinn",
+      "band": "no-candidate",
+      "inducted": [
+        "margaret-lynch-2020",
+        "pat-dowd-2023",
+        "sheila-murphy-crawford-2018"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:margaret-wong",
+      "recordedName": "Margaret Wong",
+      "band": "single-candidate",
+      "inducted": [
+        "giahoa-ryan-2011",
+        "johnny-k-wu-2024",
+        "may-chen-2020"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "margaret-w-wong-2010",
+          "displayName": "Margaret W. Wong",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Margaret Wong.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:margaret-w-wong-2010:giahoa-ryan-2011",
+          "from": "margaret-w-wong-2010",
+          "to": "giahoa-ryan-2011",
+          "kind": "inducted",
+          "label": "inducted Giahoa Ryan",
+          "inverseLabel": "was inducted by Margaret W. Wong",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Margaret Wong"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:margaret-w-wong-2010:johnny-k-wu-2024",
+          "from": "margaret-w-wong-2010",
+          "to": "johnny-k-wu-2024",
+          "kind": "inducted",
+          "label": "inducted Johnny K. Wu",
+          "inverseLabel": "was inducted by Margaret W. Wong",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Margaret Wong"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:margaret-w-wong-2010:may-chen-2020",
+          "from": "margaret-w-wong-2010",
+          "to": "may-chen-2020",
+          "kind": "inducted",
+          "label": "inducted May Chen",
+          "inverseLabel": "was inducted by Margaret W. Wong",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Margaret Wong"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:blaine-griffin",
+      "recordedName": "Blaine Griffin",
+      "band": "no-candidate",
+      "inducted": [
+        "khalid-samad-2016-2016",
+        "lucy-torres-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dick-russ",
+      "recordedName": "Dick Russ",
+      "band": "single-candidate",
+      "inducted": [
+        "alex-machaskee-2010",
+        "ken-kovach-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dick-russ-2015",
+          "displayName": "Dick Russ",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dick Russ.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/alex-machaskee-2010/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:dick-russ-2015:alex-machaskee-2010",
+          "from": "dick-russ-2015",
+          "to": "alex-machaskee-2010",
+          "kind": "inducted",
+          "label": "inducted Alex Machaskee",
+          "inverseLabel": "was inducted by Dick Russ",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Dick Russ"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:dick-russ-2015:ken-kovach-2012",
+          "from": "dick-russ-2015",
+          "to": "ken-kovach-2012",
+          "kind": "inducted",
+          "label": "inducted Ken Kovach",
+          "inverseLabel": "was inducted by Dick Russ",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Dick Russ"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:joe-cimperman",
+      "recordedName": "Joe Cimperman",
+      "band": "no-candidate",
+      "inducted": [
+        "david-gilbert-2025",
+        "michael-d-polensek-2023"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mike-polensek",
+      "recordedName": "Mike Polensek",
+      "band": "no-candidate",
+      "inducted": [
+        "dona-brady-2024",
+        "joe-valencic-2020"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:paul-burik",
+      "recordedName": "Paul Burik",
+      "band": "ambiguous",
+      "inducted": [
+        "berj-shakarian-2020",
+        "leo-weidenthal-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "paul-burik-2019",
+          "displayName": "Paul Burik",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Paul Burik.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
+          "verificationLayer": "canonical-profile-field"
+        },
+        {
+          "inducteeId": "wael-khoury-2017",
+          "displayName": "Wael Khoury",
+          "basis": "corpus-induction-record",
+          "evidence": "Berj Shakarian was inducted at the Centennial Plaza he designed by Paul Burik and Dr. Wael Khoury from the Cleveland Cultural Gardens Federation.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/berj-shakarian/",
+          "verificationLayer": "documented-in-profile"
+        }
+      ],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:pierre-bejjani",
+      "recordedName": "Pierre Bejjani",
+      "band": "single-candidate",
+      "inducted": [
+        "abby-mina-2018",
+        "richard-a-ganim-2015"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "pierre-bejjani-2023",
+          "displayName": "Pierre Bejjani",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Pierre Bejjani.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:pierre-bejjani-2023:abby-mina-2018",
+          "from": "pierre-bejjani-2023",
+          "to": "abby-mina-2018",
+          "kind": "inducted",
+          "label": "inducted Abby Mina",
+          "inverseLabel": "was inducted by Pierre Bejjani",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Pierre Bejjani"
+            }
+          ]
+        },
+        {
+          "claim": "documented",
+          "id": "induction:pierre-bejjani-2023:richard-a-ganim-2015",
+          "from": "pierre-bejjani-2023",
+          "to": "richard-a-ganim-2015",
+          "kind": "inducted",
+          "label": "inducted Richard A. Ganim",
+          "inverseLabel": "was inducted by Pierre Bejjani",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Pierre Bejjani"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:sudarshan-sathe",
+      "recordedName": "Sudarshan Sathe",
+      "band": "ambiguous",
+      "inducted": [
+        "mona-alag-2017",
+        "ramesh-shah-2020"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "sudarshan-sathe-2023",
+          "displayName": "Sudarshan Sathe",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Sudarshan Sathe.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
+          "verificationLayer": "canonical-profile-field"
+        },
+        {
+          "inducteeId": "dr-jaya-shah-2012",
+          "displayName": "Dr. Jaya Shah",
+          "basis": "corpus-induction-record",
+          "evidence": "All of this work is a joint effort with his wife, Dr. Jaya Shah, a pediatrician who was herself inducted into the Cleveland International Hall of Fame in 2012.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ramesh-shah/",
+          "verificationLayer": "documented-in-profile"
+        }
+      ],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:aidan-cronin-consul-general-of-ireland",
+      "recordedName": "Aidan Cronin Consul General of Ireland",
+      "band": "no-candidate",
+      "inducted": [
+        "jack-coyne-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:aklilu-demessie",
+      "recordedName": "Aklilu Demessie",
+      "band": "single-candidate",
+      "inducted": [
+        "carl-robson-2022"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "aklilu-demessie-2026",
+          "displayName": "Aklilu Demessie",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Aklilu Demessie.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/carl-robson/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:aklilu-demessie-2026:carl-robson-2022",
+          "from": "aklilu-demessie-2026",
+          "to": "carl-robson-2022",
+          "kind": "inducted",
+          "label": "inducted Carl Robson",
+          "inverseLabel": "was inducted by Aklilu Demessie",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Aklilu Demessie"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:albert-ratner",
+      "recordedName": "Albert Ratner",
+      "band": "single-candidate",
+      "inducted": [
+        "valarie-mccall-2020"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "albert-b-ratner-2011",
+          "displayName": "Albert B. Ratner",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Albert Ratner.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/valarie-mccall/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:albert-b-ratner-2011:valarie-mccall-2020",
+          "from": "albert-b-ratner-2011",
+          "to": "valarie-mccall-2020",
+          "kind": "inducted",
+          "label": "inducted Valarie McCall",
+          "inverseLabel": "was inducted by Albert B. Ratner",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Albert Ratner"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:amb-byrne-nason",
+      "recordedName": "Amb Byrne Nason",
+      "band": "no-candidate",
+      "inducted": [
+        "ambassador-edward-f-crawford-2024"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:amb-kristjan-prikk",
+      "recordedName": "Amb Kristjan Prikk",
+      "band": "no-candidate",
+      "inducted": [
+        "erika-puussaar-2024"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:andres-gonzalez",
+      "recordedName": "Andres Gonzalez",
+      "band": "no-candidate",
+      "inducted": [
+        "luis-martinez-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:andrew-fedynsky",
+      "recordedName": "Andrew Fedynsky",
+      "band": "single-candidate",
+      "inducted": [
+        "taras-szmagala-2022"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "andy-fedynsky-2026",
+          "displayName": "Andy Fedynsky",
+          "basis": "corpus-induction-record",
+          "evidence": "Taras Szmagala inducted into Cleveland International Hall of Fame 2022 Class, by Andrew Fedynsky",
+          "sourceUrl": "https://www.clevelandpeople.com/hof/2022/cihf-2022-taras-szmagala.htm",
+          "verificationLayer": "archive-supported-external-source"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:andy-fedynsky-2026:taras-szmagala-2022",
+          "from": "andy-fedynsky-2026",
+          "to": "taras-szmagala-2022",
+          "kind": "inducted",
+          "label": "inducted Taras Szmagala",
+          "inverseLabel": "was inducted by Andy Fedynsky",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Andrew Fedynsky"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:angie-spitalieri",
+      "recordedName": "Angie Spitalieri",
+      "band": "no-candidate",
+      "inducted": [
+        "nacy-panzica-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:anthony-brancatelli",
+      "recordedName": "Anthony Brancatelli",
+      "band": "no-candidate",
+      "inducted": [
+        "ray-pianka-2018"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:armond-budish",
+      "recordedName": "Armond Budish",
+      "band": "no-candidate",
+      "inducted": [
+        "akram-boutros-2019"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:august-pust",
+      "recordedName": "August Pust",
+      "band": "single-candidate",
+      "inducted": [
+        "bill-miller-2017"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "august-pust-2010",
+          "displayName": "August Pust",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by August Pust.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:august-pust-2010:bill-miller-2017",
+          "from": "august-pust-2010",
+          "to": "bill-miller-2017",
+          "kind": "inducted",
+          "label": "inducted Bill Miller",
+          "inverseLabel": "was inducted by August Pust",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "August Pust"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:baiju-shah",
+      "recordedName": "Baiju Shah",
+      "band": "no-candidate",
+      "inducted": [
+        "sudarshan-sathe-2023"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:basil-russo",
+      "recordedName": "Basil Russo",
+      "band": "single-candidate",
+      "inducted": [
+        "joyce-mariani-2023"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "basil-russo-2017",
+          "displayName": "Basil Russo",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Basil Russo.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/joyce-mariani/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:basil-russo-2017:joyce-mariani-2023",
+          "from": "basil-russo-2017",
+          "to": "joyce-mariani-2023",
+          "kind": "inducted",
+          "label": "inducted Joyce Mariani",
+          "inverseLabel": "was inducted by Basil Russo",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Basil Russo"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:benstefanski",
+      "recordedName": "BenStefanski",
+      "band": "no-candidate",
+      "inducted": [
+        "eugene-bak-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:chris-ronayne",
+      "recordedName": "Chris Ronayne",
+      "band": "no-candidate",
+      "inducted": [
+        "paul-burik-2019"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:congressman-louis-stokes",
+      "recordedName": "Congressman Louis Stokes",
+      "band": "no-candidate",
+      "inducted": [
+        "reverend-dr-otis-moss-jr-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:councilman-joe-cimperman",
+      "recordedName": "Councilman Joe Cimperman",
+      "band": "no-candidate",
+      "inducted": [
+        "vladimir-rus-2012"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dagmar-celeste",
+      "recordedName": "Dagmar Celeste",
+      "band": "no-candidate",
+      "inducted": [
+        "anda-cook-2022"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dan-coughlin",
+      "recordedName": "Dan Coughlin",
+      "band": "no-candidate",
+      "inducted": [
+        "jack-kahl-2016"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dick-pogue",
+      "recordedName": "Dick Pogue",
+      "band": "single-candidate",
+      "inducted": [
+        "jim-foster-2014"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dick-pogue-2015",
+          "displayName": "Dick Pogue",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dick Pogue.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/jim-foster-2014/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:dick-pogue-2015:jim-foster-2014",
+          "from": "dick-pogue-2015",
+          "to": "jim-foster-2014",
+          "kind": "inducted",
+          "label": "inducted Jim Foster",
+          "inverseLabel": "was inducted by Dick Pogue",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Dick Pogue"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-alex-johnson",
+      "recordedName": "Dr. Alex Johnson",
+      "band": "no-candidate",
+      "inducted": [
+        "victor-ruiz-2022"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-andrew-p-roth",
+      "recordedName": "Dr. Andrew P. Roth",
+      "band": "no-candidate",
+      "inducted": [
+        "samuel-h-miller-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-anton-komar",
+      "recordedName": "Dr. Anton Komar",
+      "band": "no-candidate",
+      "inducted": [
+        "svetlana-stolyarova-2025"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-joe-wendel",
+      "recordedName": "Dr. Joe Wendel",
+      "band": "no-candidate",
+      "inducted": [
+        "robert-j-haas-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-menna-demessie-ph-d",
+      "recordedName": "Dr. Menna Demessie, Ph.D.",
+      "band": "no-candidate",
+      "inducted": [
+        "aklilu-demessie-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-nizar-zein",
+      "recordedName": "Dr. Nizar Zein",
+      "band": "no-candidate",
+      "inducted": [
+        "wael-khoury-2017"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:dr-wael-khoury",
+      "recordedName": "Dr. Wael Khoury",
+      "band": "single-candidate",
+      "inducted": [
+        "hon-mary-rose-oakar-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "wael-khoury-2017",
+          "displayName": "Wael Khoury",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Dr. Wael Khoury.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/rep-mary-rose-oakar-2012/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:wael-khoury-2017:hon-mary-rose-oakar-2012",
+          "from": "wael-khoury-2017",
+          "to": "hon-mary-rose-oakar-2012",
+          "kind": "inducted",
+          "label": "inducted Hon. Mary Rose Oakar",
+          "inverseLabel": "was inducted by Wael Khoury",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Dr. Wael Khoury"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:edith-lauer",
+      "recordedName": "Edith Lauer",
+      "band": "no-candidate",
+      "inducted": [
+        "jeanette-grasselli-brown-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ernie-mihaly",
+      "recordedName": "Ernie Mihaly",
+      "band": "single-candidate",
+      "inducted": [
+        "richard-fleischman-2019"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ernie-mihaly-2014",
+          "displayName": "Ernie Mihaly",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ernie Mihaly.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/richard-fleischman/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:ernie-mihaly-2014:richard-fleischman-2019",
+          "from": "ernie-mihaly-2014",
+          "to": "richard-fleischman-2019",
+          "kind": "inducted",
+          "label": "inducted Richard Fleischman",
+          "inverseLabel": "was inducted by Ernie Mihaly",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Ernie Mihaly"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:former-mayor-frank-g-jackson-remarks-by-valarie-mccall-and-matt-zone",
+      "recordedName": "Former Mayor Frank G. Jackson; remarks by Valarie McCall and Matt Zone",
+      "band": "no-candidate",
+      "inducted": [
+        "le-nguyen-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:gabriella-and-joseph-rosalina",
+      "recordedName": "Gabriella and Joseph Rosalina",
+      "band": "no-candidate",
+      "inducted": [
+        "basil-russo-2017"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:george-e-jaskiw-m-d",
+      "recordedName": "George E. Jaskiw, M.D.",
+      "band": "no-candidate",
+      "inducted": [
+        "andy-fedynsky-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:george-hwang",
+      "recordedName": "George Hwang",
+      "band": "no-candidate",
+      "inducted": [
+        "donna-hom-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ingrida-bublys",
+      "recordedName": "Ingrida Bublys",
+      "band": "single-candidate",
+      "inducted": [
+        "senator-george-voinovich-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ingrida-bublys-2019",
+          "displayName": "Ingrida Bublys",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ingrida Bublys.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/senator-george-voinovich-2010/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:ingrida-bublys-2019:senator-george-voinovich-2010",
+          "from": "ingrida-bublys-2019",
+          "to": "senator-george-voinovich-2010",
+          "kind": "inducted",
+          "label": "inducted Senator George Voinovich",
+          "inverseLabel": "was inducted by Ingrida Bublys",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Ingrida Bublys"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jack-kahl",
+      "recordedName": "Jack Kahl",
+      "band": "single-candidate",
+      "inducted": [
+        "fr-jim-o-donnell-2012"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "jack-kahl-2016",
+          "displayName": "Jack Kahl",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Jack Kahl.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/fr-jim-odonnell-2012/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:jack-kahl-2016:fr-jim-o-donnell-2012",
+          "from": "jack-kahl-2016",
+          "to": "fr-jim-o-donnell-2012",
+          "kind": "inducted",
+          "label": "inducted Fr. Jim O’Donnell",
+          "inverseLabel": "was inducted by Jack Kahl",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Jack Kahl"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jasmin-santana",
+      "recordedName": "Jasmin Santana",
+      "band": "no-candidate",
+      "inducted": [
+        "veronica-dahlberg-2024"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jason-lin",
+      "recordedName": "Jason Lin",
+      "band": "no-candidate",
+      "inducted": [
+        "joseph-p-meissner-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:john-borkowski",
+      "recordedName": "John Borkowski",
+      "band": "no-candidate",
+      "inducted": [
+        "helen-karpinski-1899-2002-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:john-o-brien-jr",
+      "recordedName": "John O'Brien Jr.",
+      "band": "no-candidate",
+      "inducted": [
+        "marilyn-madigan-2019"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jose-feliciano",
+      "recordedName": "Jose Feliciano",
+      "band": "single-candidate",
+      "inducted": [
+        "sister-alicia-alvarado-2018"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by Jose Feliciano.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-south-america/sister-alicia-alvarado/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:jose-c-feliciano-2012:sister-alicia-alvarado-2018",
+          "from": "jose-c-feliciano-2012",
+          "to": "sister-alicia-alvarado-2018",
+          "kind": "inducted",
+          "label": "inducted Sister Alicia Alvarado",
+          "inverseLabel": "was inducted by José C. Feliciano",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Jose Feliciano"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jose-feliciano",
+      "recordedName": "José Feliciano",
+      "band": "single-candidate",
+      "inducted": [
+        "honorable-jose-a-villanueva-2015"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "basis": "corpus-induction-record",
+          "evidence": "Original CIHOF profile lists inducted by José Feliciano.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/honorable-jose-a-villanueva-2015/",
+          "verificationLayer": "documented-source-candidate"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:jose-c-feliciano-2012:honorable-jose-a-villanueva-2015",
+          "from": "jose-c-feliciano-2012",
+          "to": "honorable-jose-a-villanueva-2015",
+          "kind": "inducted",
+          "label": "inducted Honorable José A. Villanueva",
+          "inverseLabel": "was inducted by José C. Feliciano",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "José Feliciano"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jure-zmauc-consul-general-of-slovenia",
+      "recordedName": "Jure Zmauc Consul General of Slovenia",
+      "band": "no-candidate",
+      "inducted": [
+        "bishop-a-edward-pevec-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:jure-zmauc-consul-general-of-slovenia",
+      "recordedName": "Jure Žmauc Consul General of Slovenia",
+      "band": "no-candidate",
+      "inducted": [
+        "august-pust-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:justice-terrence-o-donnell",
+      "recordedName": "Justice Terrence O'Donnell",
+      "band": "no-candidate",
+      "inducted": [
+        "ralph-j-perk-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:karin-mccutcheon",
+      "recordedName": "Karin McCutcheon",
+      "band": "no-candidate",
+      "inducted": [
+        "catherine-jorgensen-mccutcheon-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ken-kovach",
+      "recordedName": "Ken Kovach",
+      "band": "single-candidate",
+      "inducted": [
+        "lucretia-stoica-2011"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ken-kovach-2012",
+          "displayName": "Ken Kovach",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ken Kovach.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/lucretia-stoica-2011/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:ken-kovach-2012:lucretia-stoica-2011",
+          "from": "ken-kovach-2012",
+          "to": "lucretia-stoica-2011",
+          "kind": "inducted",
+          "label": "inducted Lucretia Stoica",
+          "inverseLabel": "was inducted by Ken Kovach",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Ken Kovach"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ken-lanci",
+      "recordedName": "Ken Lanci",
+      "band": "no-candidate",
+      "inducted": [
+        "ratanjit-s-sondhe-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ki-kim",
+      "recordedName": "Ki Kim",
+      "band": "no-candidate",
+      "inducted": [
+        "sam-kim-2017"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:kona-gant",
+      "recordedName": "Kona Gant",
+      "band": "no-candidate",
+      "inducted": [
+        "margaret-callander-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:len-komoroski",
+      "recordedName": "Len Komoroski",
+      "band": "no-candidate",
+      "inducted": [
+        "dr-maria-pujana-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:lisa-wong",
+      "recordedName": "Lisa Wong",
+      "band": "no-candidate",
+      "inducted": [
+        "beverly-kerecman-2025"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:loree-vick",
+      "recordedName": "Loree Vick",
+      "band": "no-candidate",
+      "inducted": [
+        "dick-russ-2015"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:lou-frangos",
+      "recordedName": "Lou Frangos",
+      "band": "no-candidate",
+      "inducted": [
+        "andy-chakalis-2026"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:lt-colonel-joe-meisner",
+      "recordedName": "Lt. Colonel Joe Meisner",
+      "band": "no-candidate",
+      "inducted": [
+        "dr-dieu-thuc-do-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:margot-maurer",
+      "recordedName": "Margot Maurer",
+      "band": "no-candidate",
+      "inducted": [
+        "josef-holzer-2013"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:maria-pujana",
+      "recordedName": "Maria Pujana",
+      "band": "single-candidate",
+      "inducted": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "dr-maria-pujana-2013",
+          "displayName": "Dr. Maria Pujana",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Maria Pujana.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:dr-maria-pujana-2013:carolyn-balogh-2016-2016",
+          "from": "dr-maria-pujana-2013",
+          "to": "carolyn-balogh-2016-2016",
+          "kind": "inducted",
+          "label": "inducted Carolyn Balogh",
+          "inverseLabel": "was inducted by Dr. Maria Pujana",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Maria Pujana"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mary-rose-oakar",
+      "recordedName": "Mary Rose Oakar",
+      "band": "single-candidate",
+      "inducted": [
+        "ralph-perk-jr-2018"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "hon-mary-rose-oakar-2012",
+          "displayName": "Hon. Mary Rose Oakar",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Mary Rose Oakar.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:hon-mary-rose-oakar-2012:ralph-perk-jr-2018",
+          "from": "hon-mary-rose-oakar-2012",
+          "to": "ralph-perk-jr-2018",
+          "kind": "inducted",
+          "label": "inducted Ralph Perk Jr.",
+          "inverseLabel": "was inducted by Hon. Mary Rose Oakar",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Mary Rose Oakar"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:matt-zone",
+      "recordedName": "Matt Zone",
+      "band": "no-candidate",
+      "inducted": [
+        "jim-craciun-2017"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mayor-jane-campbell",
+      "recordedName": "Mayor Jane Campbell",
+      "band": "no-candidate",
+      "inducted": [
+        "steve-mulloy-2015"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mayor-richard-dell-aquila",
+      "recordedName": "Mayor Richard Dell’Aquila",
+      "band": "no-candidate",
+      "inducted": [
+        "rev-mikhail-mikhail-2016"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mayor-tony-biasiotta",
+      "recordedName": "Mayor Tony Biasiotta",
+      "band": "no-candidate",
+      "inducted": [
+        "pierre-bejjani-2023"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:michael-shreshta",
+      "recordedName": "Michael Shreshta",
+      "band": "no-candidate",
+      "inducted": [
+        "shiv-k-aggarwal-2015"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:mona-alag",
+      "recordedName": "Mona Alag",
+      "band": "single-candidate",
+      "inducted": [
+        "paramjit-singh-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "mona-alag-2017",
+          "displayName": "Mona Alag",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Mona Alag.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:mona-alag-2017:paramjit-singh-2010",
+          "from": "mona-alag-2017",
+          "to": "paramjit-singh-2010",
+          "kind": "inducted",
+          "label": "inducted Paramjit Singh",
+          "inverseLabel": "was inducted by Mona Alag",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Mona Alag"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:pat-dowd",
+      "recordedName": "Pat Dowd",
+      "band": "single-candidate",
+      "inducted": [
+        "lonnie-mccauley-2010"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "pat-dowd-2023",
+          "displayName": "Pat Dowd",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Pat Dowd.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/lonnie-mccauley-2010/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:pat-dowd-2023:lonnie-mccauley-2010",
+          "from": "pat-dowd-2023",
+          "to": "lonnie-mccauley-2010",
+          "kind": "inducted",
+          "label": "inducted Lonnie McCauley",
+          "inverseLabel": "was inducted by Pat Dowd",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Pat Dowd"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:peter-de-la-porte",
+      "recordedName": "Peter de la Porte",
+      "band": "single-candidate",
+      "inducted": [
+        "arnie-de-la-porte-2016-2016"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ingrida-bublys-2019",
+          "displayName": "Ingrida Bublys",
+          "basis": "corpus-induction-record",
+          "evidence": "Here is a partial list of Arnie’s accomplishments: Past Co-Chairman of the Cleveland Tall Ship Festival Past Grand Commodore of the Ohio Commodores Honorary chair of the Rotary Club of Cleveland Honorary president of the Cleveland Rotary Club Past Chairman of the Cuyahoga Valley Scenic Railroad Past Chairman of the board of the Elyria Country Club Board member northern Ohio district export council (Nominated By US Secretary of Commerce) Founding Board member of the French American Chamber Founding Board member of the British American Chamber of Commerce Founding Board member of the Netherlands Chamber of Commerce Founding Board member of the Benelux Business Association Founding Board member of the German Roundtable Past president of the Cleveland World Trade Association Past board member of the Greater Cleveland Growth Association Past board member State of Ohio economic development Council Founding board member business advisory board Maine Maritime Academy, in Castine, ME Founding Board member Cleveland World Trade Association Foundation Founding board member North East Ohio Trade Network He was awarded the “Ordre National du Mérite” by the country of France His motto was: “Trading nations seldom go to war.” Peter de la Porte and Ingrida Bublys Cleveland International Hall of Fame Class of 2016 Arnie de la Porte was inducted into the 2016 Class of the Cleveland International Hall of Fame on the evening of April 26, 2016.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/arnie-de-la-porte-2016/",
+          "verificationLayer": "documented-in-profile"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:ingrida-bublys-2019:arnie-de-la-porte-2016-2016",
+          "from": "ingrida-bublys-2019",
+          "to": "arnie-de-la-porte-2016-2016",
+          "kind": "inducted",
+          "label": "inducted Arnie de la Porte",
+          "inverseLabel": "was inducted by Ingrida Bublys",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Peter de la Porte"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:raj-pillai",
+      "recordedName": "Raj Pillai",
+      "band": "no-candidate",
+      "inducted": [
+        "vijaya-l-emani-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ramesh-shah",
+      "recordedName": "Ramesh Shah",
+      "band": "single-candidate",
+      "inducted": [
+        "sree-sreenath-2019"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "ramesh-shah-2020",
+          "displayName": "Ramesh Shah",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Ramesh Shah.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/sree-sreenath/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:ramesh-shah-2020:sree-sreenath-2019",
+          "from": "ramesh-shah-2020",
+          "to": "sree-sreenath-2019",
+          "kind": "inducted",
+          "label": "inducted Sree Sreenath",
+          "inverseLabel": "was inducted by Ramesh Shah",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Ramesh Shah"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:ratanjit-sondhe",
+      "recordedName": "Ratanjit Sondhe",
+      "band": "no-candidate",
+      "inducted": [
+        "dr-jaya-shah-2012"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:rev-otis-moss-jr",
+      "recordedName": "Rev Otis Moss Jr.",
+      "band": "no-candidate",
+      "inducted": [
+        "dr-eugene-jordan-2024"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:richard-buoncore",
+      "recordedName": "Richard Buoncore",
+      "band": "no-candidate",
+      "inducted": [
+        "atul-mehta-2018"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:richard-fleischman",
+      "recordedName": "Richard Fleischman",
+      "band": "single-candidate",
+      "inducted": [
+        "ernie-mihaly-2014"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "richard-fleischman-2019",
+          "displayName": "Richard Fleischman",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Richard Fleischman.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/ernie-mihaly-2014/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:richard-fleischman-2019:ernie-mihaly-2014",
+          "from": "richard-fleischman-2019",
+          "to": "ernie-mihaly-2014",
+          "kind": "inducted",
+          "label": "inducted Ernie Mihaly",
+          "inverseLabel": "was inducted by Richard Fleischman",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Richard Fleischman"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:rose-wong",
+      "recordedName": "Rose Wong",
+      "band": "no-candidate",
+      "inducted": [
+        "margaret-w-wong-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:sanjiv-kapur",
+      "recordedName": "Sanjiv Kapur",
+      "band": "no-candidate",
+      "inducted": [
+        "dick-pogue-2015"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:stuart-muszynski",
+      "recordedName": "Stuart Muszynski",
+      "band": "no-candidate",
+      "inducted": [
+        "raj-aggarwal-2025"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:suresh-bafna",
+      "recordedName": "Suresh Bafna",
+      "band": "no-candidate",
+      "inducted": [
+        "mohan-bafna-2016"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:terry-stewart",
+      "recordedName": "Terry Stewart",
+      "band": "no-candidate",
+      "inducted": [
+        "tony-petkovsek-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:thomas-zenty",
+      "recordedName": "Thomas Zenty",
+      "band": "no-candidate",
+      "inducted": [
+        "monte-ahuja-2014"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:tom-scanlon",
+      "recordedName": "Tom Scanlon",
+      "band": "no-candidate",
+      "inducted": [
+        "gerald-m-quinn-2011"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:tom-turkaly",
+      "recordedName": "Tom Turkaly",
+      "band": "no-candidate",
+      "inducted": [
+        "branka-malinar-2025"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:umberto-fedeli",
+      "recordedName": "Umberto Fedeli",
+      "band": "no-candidate",
+      "inducted": [
+        "paul-sciria-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:urszula-gacek-polish-general-consul",
+      "recordedName": "Urszula Gacek Polish General Consul",
+      "band": "no-candidate",
+      "inducted": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:valarie-mccall",
+      "recordedName": "Valarie McCall",
+      "band": "single-candidate",
+      "inducted": [
+        "mayor-frank-jackson-2025"
+      ],
+      "candidates": [
+        {
+          "inducteeId": "valarie-mccall-2020",
+          "displayName": "Valarie McCall",
+          "basis": "corpus-induction-record",
+          "evidence": "Inducted by Valarie McCall.",
+          "sourceUrl": "https://clevelandinternationalhalloffame.com/mayor-frank-jackson/",
+          "verificationLayer": "canonical-profile-field"
+        }
+      ],
+      "proposes": [
+        {
+          "claim": "documented",
+          "id": "induction:valarie-mccall-2020:mayor-frank-jackson-2025",
+          "from": "valarie-mccall-2020",
+          "to": "mayor-frank-jackson-2025",
+          "kind": "inducted",
+          "label": "inducted Mayor Frank Jackson",
+          "inverseLabel": "was inducted by Valarie McCall",
+          "evidence": [
+            {
+              "id": "cihof-kiosk-manifest#inducted_by",
+              "title": "CIHOF kiosk manifest, inducted_by",
+              "kind": "collection-record",
+              "heldBy": "Cleveland International Hall of Fame",
+              "excerpt": "Valarie McCall"
+            }
+          ]
+        }
+      ],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:valerie-schwonek",
+      "recordedName": "Valerie Schwonek",
+      "band": "no-candidate",
+      "inducted": [
+        "irene-morrow-2010"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    },
+    {
+      "entryId": "inducter:wong-margaret",
+      "recordedName": "Wong, Margaret",
+      "band": "no-candidate",
+      "inducted": [
+        "anthony-yen-yan-yuan-tai-2012"
+      ],
+      "candidates": [],
+      "proposes": [],
+      "resolution": {
+        "status": "unresolved"
+      }
+    }
+  ]
+}

@@ -72,7 +72,9 @@
     "typecheck:app": "tsc -b --pretty false",
     "typecheck:packages": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false",
     "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false",
-    "typecheck:web": "npm run typecheck --workspace apps/web"
+    "typecheck:web": "npm run typecheck --workspace apps/web",
+    "review:links": "npm run review:links --workspace @cihof/pipeline",
+    "review:links:check": "npm run review:links --workspace @cihof/pipeline -- --check"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

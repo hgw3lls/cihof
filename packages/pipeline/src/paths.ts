@@ -46,3 +46,8 @@ export function publicFile(name: string): string {
 export function srcFile(name: string): string {
   return resolve(repoRoot(), 'src', name);
 }
+
+/** Any path relative to the workspace root, for sheets that live outside `data/`. */
+export function repoFile(relativePath: string): string {
+  return resolve(repoRoot(), relativePath);
+}
