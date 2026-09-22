@@ -23,11 +23,15 @@ The visitor entry is `src/app/main.tsx`. The old `src/app/App.tsx`, Living Hall 
 
 ## Media Clearance
 
-The collection currently has 111 inductees and 93 local film records. All 93 films are installed locally, but the manifest still marks their rights, captions, and transcripts as needing review. The public timeline shows those records as pending; it does not expose their video, poster, caption, or transcript files. The GitHub Pages workflow uses `npm run build:public`, which copies only fully approved film assets.
+The collection currently has 111 inductees and 93 local film records. **All 93 have been reviewed: rights, captions and transcripts are approved, and every film is approved for the kiosk. None is approved for the public web.** That refusal is a deliberate decision, not an outstanding task.
+
+This calls for more care than a pending queue would, not less. A kiosk artifact reaching a public URL does not leak unreviewed material — everything in it has been reviewed — it overrides a decision somebody made on purpose. And because every film also carries a YouTube id, a kiosk build can serve 93 embedded players without a megabyte of video leaving the repository, so an artifact containing no video file has not thereby withheld the films.
+
+The GitHub Pages workflow publishes a preview of `apps/exhibit` built for the public target, which carries no films, and refuses to deploy an artifact that turns out otherwise. See [DEPLOYMENT.md](DEPLOYMENT.md).
 
 An editable 93-row sheet is at [docs/media-approval-sheet.csv](docs/media-approval-sheet.csv). Review and apply it using [docs/media-approval-workflow.md](docs/media-approval-workflow.md). No approval is inferred from a file's presence. `npm run validate:media-clearance` is expected to report pending items until all are reviewed.
 
-`npm run build:kiosk` and the default `npm run build` produce a restricted offline package containing manifest-listed local film files even when review is pending. Do not publish those outputs publicly. `npm run build:portal` excludes film payloads.
+`npm run build:kiosk` and the default `npm run build` produce a restricted offline package containing the manifest-listed local film files. Those films are cleared for the kiosk and refused for the public web, so do not publish those outputs publicly. `npm run build:portal` excludes film payloads.
 
 ## Build And Test
 
