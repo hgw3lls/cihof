@@ -56,17 +56,35 @@ export type CrosswalkResolution =
       readonly note?: string;
     };
 
+/**
+ * Why a candidate was offered, weakest first.
+ *
+ * `normalised-name` means only that two strings matched after case, accents,
+ * punctuation and honorifics were removed. Nothing corroborates it.
+ *
+ * `corpus-induction-record` means the HOF World corpus carries an induction
+ * relationship for this honoree, resolved to an id, with the line a source
+ * actually says. It is joined to the roster by the honoree's id and never by
+ * comparing names, so it does not inherit the weakness above.
+ *
+ * Neither is a basis for publication. Both are prompts for a reviewer, and the
+ * second is a much better one.
+ */
+export type CandidateBasis = 'normalised-name' | 'corpus-induction-record';
+
 export type CrosswalkCandidate = {
   readonly inducteeId: InducteeId;
   readonly displayName: string;
+  readonly basis: CandidateBasis;
+  /** The words a source says, where the basis has any. Shown, never parsed. */
+  readonly evidence?: string;
+  readonly sourceUrl?: string;
   /**
-   * Why this was offered.
-   *
-   * `normalised-name` means only that two strings matched after case,
-   * accents, punctuation and honorifics were removed. It is a prompt for a
-   * reviewer, never a basis for publication.
+   * The corpus's own account of how firmly it holds this, carried across
+   * unchanged. A reviewer is owed the difference between a canonical profile
+   * field and a candidate somebody's heuristic proposed.
    */
-  readonly basis: 'normalised-name';
+  readonly verificationLayer?: string;
 };
 
 export type CrosswalkEntry = {
