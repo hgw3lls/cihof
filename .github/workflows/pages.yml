@@ -61,7 +61,10 @@ jobs:
           npm test --workspace @cihof/content
           npm test --workspace @cihof/pipeline
 
-      - name: Induction crosswalk is current
+      # Both curator sheets: who each recorded inducter name is, and what each
+      # person changed. A sheet that has drifted from the roster silently loses
+      # rows, and the rows are somebody's review work.
+      - name: Curator sheets are current
         run: npm run crosswalk:check
 
       # Catches the silent failure: a film's captions left untracked inside the
