@@ -4,7 +4,7 @@ import type { CrosswalkEntry, InductionCrosswalk } from '@cihof/content';
 import { inductionRelationships, readyToConfirm, reviewProgress, reviewRemaining } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
-import { buildRelationshipReviewSheet, reviewSheetCsv } from '../src/build/review.ts';
+import { buildRelationshipReviewSheet, decisionsInSheet, reviewSheetCsv } from '../src/build/review.ts';
 import { readInductionCrosswalk } from '../src/sources/crosswalk.ts';
 
 /**
@@ -244,3 +244,47 @@ function splitCsvRow(row: string): string[] {
   cells.push(value);
   return cells;
 }
+
+// -------------------------------------------- protecting a filled-in sheet
+
+const header = 'recordedName,band,decision,inducteeId,decisionReference,note';
+
+test('a freshly generated sheet reads as undecided', () => {
+  // Otherwise the generator refuses to regenerate its own output, including
+  // the rows it pre-fills `inducteeId` on because they are already resolved.
+  assert.deepEqual(decisionsInSheet(reviewSheetCsv(sheet)), []);
+});
+
+test('a typed decision is found, and named so the person recognises it', () => {
+  const filled = `${header}\nSam Miller,no-candidate,not-an-inductee,,cur-2026-063,`;
+  assert.deepEqual(decisionsInSheet(filled), ['Sam Miller: not-an-inductee [cur-2026-063]']);
+});
+
+test('a reference with no decision still counts as work in progress', () => {
+  // Somebody was part-way through. Overwriting that is the same loss.
+  const partial = `${header}\nSam Miller,no-candidate,,,cur-2026-063,`;
+  assert.equal(decisionsInSheet(partial).length, 1);
+});
+
+test('a sheet whose columns were reordered is still read correctly', () => {
+  // Spreadsheets move columns. Reading by position would find the decision in
+  // the wrong cell, or miss it entirely and overwrite the file.
+  const moved = 'decisionReference,decision,recordedName\ncur-2026-063,not-an-inductee,Sam Miller';
+  assert.deepEqual(decisionsInSheet(moved), ['Sam Miller: not-an-inductee [cur-2026-063]']);
+});
+
+test('a sheet with no decision columns refuses rather than reporting nothing', () => {
+  // The dangerous answer is the empty array, which reads as "safe to
+  // overwrite". An unrecognisable sheet is not a sheet with nothing in it.
+  assert.equal(decisionsInSheet('something,else\n1,2').length, 1);
+  assert.match(decisionsInSheet('something,else\n1,2')[0] ?? '', /refusing rather than guessing/);
+});
+
+test('an empty file is genuinely empty, not a refusal', () => {
+  assert.deepEqual(decisionsInSheet(''), []);
+});
+
+test('a quoted name carrying a comma survives detection', () => {
+  const quoted = `${header}\n"Wong, Margaret",no-candidate,inductee,margaret-w-wong-2010,cur-2026-063,`;
+  assert.deepEqual(decisionsInSheet(quoted), ['Wong, Margaret: inductee [cur-2026-063]']);
+});

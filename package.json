@@ -73,8 +73,8 @@
     "typecheck:packages": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false",
     "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false",
     "typecheck:web": "npm run typecheck --workspace apps/web",
-    "review:links": "npm run review:links --workspace @cihof/pipeline",
-    "review:links:check": "npm run review:links --workspace @cihof/pipeline -- --check",
+    "review:links": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs",
+    "review:links:check": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs --check",
     "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { readyToConfirm, reviewProgress, reviewRemaining, reviewRowProblems } from '@cihof/content';
-import { buildRelationshipReviewSheet, reviewSheetCsv } from '../src/build/review.ts';
+import { buildRelationshipReviewSheet, decisionsInSheet, reviewSheetCsv } from '../src/build/review.ts';
 import { buildPeople } from '../src/build/people.ts';
 import { dataFile, repoFile } from '../src/paths.ts';
 
@@ -41,23 +41,57 @@ const jsonCurrent = previous !== undefined && comparable(previous) === comparabl
 const csv = reviewSheetCsv(sheet);
 const csvCurrent = existsSync(csvPath) && readFileSync(csvPath, 'utf8') === csv;
 
-if (check && !(jsonCurrent && csvCurrent)) {
-  console.error('The induction review sheet is out of date. Run: npm run review:links');
+// The sheet is derived and safe to rebuild — unless somebody has written
+// decisions into it, which are not derived from anything and exist nowhere
+// else until `links:apply` runs. Regenerating over them destroys review work
+// silently, and the person who typed them is the last to find out.
+const signedRows = csvCurrent || !existsSync(csvPath) ? [] : decisionsInSheet(readFileSync(csvPath, 'utf8'));
+const wouldDestroy = signedRows.length > 0 && !process.argv.includes('--force');
+
+if (check) {
+  if (signedRows.length > 0) {
+    console.error(`\n${csvPath.replace(`${repoFile('.')}/`, '')} has ${signedRows.length} row(s) with a decision typed into it.`);
+    console.error('That is somebody\'s review work sitting in a derived file. Apply it, or move it aside:');
+    console.error('  npm run links:apply -- --input=docs/links-review-sheet.csv');
+    process.exit(1);
+  }
+  if (!(jsonCurrent && csvCurrent)) {
+    console.error('The induction review sheet is out of date. Run: npm run review:links');
+    process.exit(1);
+  }
+}
+
+if (!check && wouldDestroy) {
+  console.error(`\nRefusing to regenerate: ${csvPath.replace(`${repoFile('.')}/`, '')} has ${signedRows.length} row(s) with a decision in it.`);
+  for (const row of signedRows.slice(0, 5)) console.error(`  ${row}`);
+  if (signedRows.length > 5) console.error(`  … and ${signedRows.length - 5} more`);
+  console.error('\nRegenerating would discard them. Apply them first:');
+  console.error('  npm run links:apply -- --input=docs/links-review-sheet.csv');
+  console.error('\nOr move the file aside and run this again. --force overwrites, and means it.');
   process.exit(1);
 }
 
+let jsonWrote = false;
+let csvWrote = false;
 if (!check) {
-  if (!jsonCurrent) writeFileSync(jsonPath, `${JSON.stringify(sheet, null, 2)}\n`);
+  if (!jsonCurrent) { writeFileSync(jsonPath, `${JSON.stringify(sheet, null, 2)}\n`); jsonWrote = true; }
   if (!csvCurrent) {
     mkdirSync(dirname(csvPath), { recursive: true });
     writeFileSync(csvPath, csv);
+    csvWrote = true;
   }
 }
 
 const progress = reviewProgress(sheet);
 const known = new Set(people.map((person) => person.id));
 
-console.log(`\nInduction review sheet — ${jsonCurrent && csvCurrent ? 'already current' : 'written'}`);
+// Reported per file. One word covering both cannot say which of them moved,
+// and "written" against an unchanged sheet reads like something happened.
+const state = (wrote, current) => (check ? (current ? 'current' : 'STALE') : wrote ? 'written' : 'unchanged');
+console.log('\nInduction review sheet');
+console.log(`  data/cihof_relationship_review.json   ${state(jsonWrote, jsonCurrent)}`);
+console.log(`  docs/links-review-sheet.csv           ${state(csvWrote, csvCurrent)}`);
+console.log();
 console.log(`  recorded names            ${progress.names}`);
 console.log(`    one candidate           ${progress.singleCandidate}`);
 console.log(`    more than one           ${progress.ambiguous}`);
