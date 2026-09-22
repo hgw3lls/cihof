@@ -106,3 +106,75 @@ function csvCell(value: string): string {
   if (!/[",\n\r]/.test(value)) return value;
   return `"${value.replace(/"/g, '""')}"`;
 }
+
+/**
+ * Rows in a sheet somebody has already decided.
+ *
+ * The sheet is derived and safe to rebuild — except for these four columns,
+ * which are not derived from anything and exist nowhere else until
+ * `links:apply` runs. Regenerating over them destroys review work silently.
+ *
+ * Only `decision` and `decisionReference` count. `inducteeId` is pre-filled on
+ * rows that are already resolved, so treating it as a signal would make the
+ * generator refuse to regenerate its own output.
+ *
+ * Forgiving about what it is reading, and biased towards refusing: a sheet that
+ * has been through a spreadsheet may come back with reordered or extra columns,
+ * and "I could not parse this" must never be reported as "there is nothing
+ * here" — that is the one wrong answer, because it leads to an overwrite.
+ */
+export function decisionsInSheet(csvText: string): string[] {
+  let rows: string[][];
+  try {
+    rows = parseRows(csvText);
+  } catch {
+    return ['(this sheet could not be parsed; refusing rather than guessing)'];
+  }
+  const header = rows[0]?.map((cell) => cell.trim());
+  if (!header) return [];
+
+  const name = header.indexOf('recordedName');
+  const decision = header.indexOf('decision');
+  const reference = header.indexOf('decisionReference');
+  if (decision < 0 && reference < 0) {
+    return ['(this sheet has no decision columns; refusing rather than guessing)'];
+  }
+
+  const decided: string[] = [];
+  for (const cells of rows.slice(1)) {
+    const said = decision >= 0 ? (cells[decision] ?? '').trim() : '';
+    const traced = reference >= 0 ? (cells[reference] ?? '').trim() : '';
+    if (!said && !traced) continue;
+    const who = name >= 0 ? (cells[name] ?? '').trim() || '(unnamed row)' : '(unnamed row)';
+    decided.push(`${who}: ${said || '(no decision)'}${traced ? ` [${traced}]` : ''}`);
+  }
+  return decided;
+}
+
+/** Minimal RFC4180 reader. Only needs to survive what a spreadsheet writes. */
+function parseRows(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let value = '';
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (char === '"') {
+      if (quoted && text[index + 1] === '"') { value += '"'; index += 1; continue; }
+      quoted = !quoted;
+      continue;
+    }
+    if (char === ',' && !quoted) { row.push(value); value = ''; continue; }
+    if ((char === '\n' || char === '\r') && !quoted) {
+      if (char === '\r' && text[index + 1] === '\n') index += 1;
+      row.push(value);
+      if (row.some((cell) => cell.trim().length > 0)) rows.push(row);
+      row = []; value = '';
+      continue;
+    }
+    value += char;
+  }
+  row.push(value);
+  if (row.some((cell) => cell.trim().length > 0)) rows.push(row);
+  return rows;
+}
