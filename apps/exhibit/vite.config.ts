@@ -1,8 +1,11 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+// Same resolution as the publish step, so the bundle's content and the code
+// compiled to render it can never disagree about who this build is for.
+import { resolveTarget } from './scripts/target.mjs';
 
-const target = process.env.CIHOF_TARGET === 'public' ? 'public' : 'kiosk';
+const target = resolveTarget();
 
 export default defineConfig({
   base: process.env.CIHOF_BASE_PATH ?? '/cihof/',
