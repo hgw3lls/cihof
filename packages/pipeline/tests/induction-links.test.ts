@@ -33,11 +33,13 @@ function resolved(count: number, over: Partial<InductionCrosswalk> = {}): Induct
 }
 
 test('the crosswalk as it actually stands leaves Connections off', () => {
-  // The honest state of the collection: every name recorded, none resolved.
+  // The honest state of the collection: 25 names resolved against a single
+  // candidate, 70 still to review, and no publication decision. The count moves
+  // as review lands; what must not move is the rest of this test.
   const bundle = buildRuntimeBundle(people, 'kiosk');
   assert.equal(bundle.relationships.length, 0);
   assert.equal(bundle.lenses.includes('links'), false);
-  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 95);
+  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 70);
   assert.equal(bundle.relationshipReport.crosswalkApproved, false);
 });
 
@@ -47,7 +49,7 @@ test('the report distinguishes "no relationships" from "nobody has looked yet"',
   const unresolved = buildRuntimeBundle(people, 'kiosk').relationshipReport;
   const missing = buildRuntimeBundle(people, 'kiosk', { crosswalk: null }).relationshipReport;
   assert.equal(unresolved.published, missing.published);
-  assert.equal(unresolved.crosswalkNamesUnresolved, 95);
+  assert.equal(unresolved.crosswalkNamesUnresolved, 70);
   assert.equal(missing.crosswalkNamesUnresolved, 0, 'no crosswalk at all is a different report');
 });
 

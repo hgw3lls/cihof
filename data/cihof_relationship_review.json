@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T17:14:34.487Z",
+  "generatedAt": "2026-09-22T20:17:08.871Z",
   "source": "data/cihof_induction_crosswalk.json",
   "rows": [
     {
@@ -95,7 +95,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "alex-machaskee-2010",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.974Z"
       }
     },
     {
@@ -189,7 +192,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "margaret-w-wong-2010",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -263,7 +269,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "dick-russ-2015",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -382,7 +391,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "pierre-bejjani-2023",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -467,7 +479,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "aklilu-demessie-2026",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -508,7 +523,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "albert-b-ratner-2011",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -588,7 +606,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "andy-fedynsky-2026",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -668,7 +689,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "august-pust-2010",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -722,7 +746,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "basil-russo-2017",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -841,7 +868,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "dick-pogue-2015",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -960,7 +990,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "wael-khoury-2017",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1014,7 +1047,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ernie-mihaly-2014",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1107,7 +1143,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ingrida-bublys-2019",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1148,7 +1187,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "jack-kahl-2016",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1241,7 +1283,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "jose-c-feliciano-2012",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1282,7 +1327,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "jose-c-feliciano-2012",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1375,7 +1423,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ken-kovach-2012",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1533,7 +1584,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "dr-maria-pujana-2013",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1574,7 +1628,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "hon-mary-rose-oakar-2012",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1680,7 +1737,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "mona-alag-2017",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1721,7 +1781,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "pat-dowd-2023",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1762,7 +1825,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ingrida-bublys-2019",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1816,7 +1882,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ramesh-shah-2020",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -1896,7 +1965,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "richard-fleischman-2019",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
@@ -2067,7 +2139,10 @@
         }
       ],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "valarie-mccall-2020",
+        "decisionReference": "cur-2026-061",
+        "decidedAt": "2026-09-22T20:17:01.976Z"
       }
     },
     {
