@@ -29,6 +29,12 @@
       "format": "jpg",
       "quality": 84,
       "note": "Remote-only gallery images were downloaded, normalized for kiosk use, and linked into the media manifest."
+    },
+    "lastDecisionImport": {
+      "input": "kiosk-only.csv",
+      "appliedAt": "2026-09-22T02:00:37.184Z",
+      "rowsRead": 64,
+      "recordsChanged": 64
     }
   },
   "reviewGuidance": {
@@ -1483,11 +1489,12 @@
           "checksumSha256": "7b28fb4368f927335c6a07caa447022ef874db780bf61d7acbe95180ed973c7f",
           "durationSeconds": 825,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/KMVo49Zi-94?si=aH0AhM3kt1iGfG5_",
@@ -1503,11 +1510,12 @@
           "checksumSha256": "29c7432cd4d316e780326cd4953a06609c70af80a86232a569c94bdeb7bf00f9",
           "durationSeconds": 326,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -1780,11 +1788,12 @@
           "checksumSha256": "2648799118d4f41444f176c1c92ae9f8e49d16b67c02c7bce4d5b3d65966c175",
           "durationSeconds": 407,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/qtbU6qlpxRE?si=TuHMRsVv0cw28iim",
@@ -1800,11 +1809,12 @@
           "checksumSha256": "122466eda6dfb82b69814894890f7d68c1b2181b5341a22bfb480bf0cc2530fe",
           "durationSeconds": 591,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2065,11 +2075,12 @@
           "checksumSha256": "515ab0737ca5451eecf8decc3c2656c8286b0945af73e7b134dec7dc249087f5",
           "durationSeconds": 334,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/xJ9n1QOUafg?si=D3NIkcJAB-C0FoKP",
@@ -2085,11 +2096,12 @@
           "checksumSha256": "1363e0ed00ff26b2f472dbf66254b97548ad2ffb035096d95442d6025cabb0d6",
           "durationSeconds": 441,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2278,11 +2290,12 @@
           "checksumSha256": "d2d9c4e3a80830c5f2d847a92a2581a22db2dfb05bb5d0e83541b9d136932100",
           "durationSeconds": 551,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/i5FJexABnHI?si=KY6AQyNWMYQhencV",
@@ -2298,11 +2311,12 @@
           "checksumSha256": "6ec5b0c702bdd5c569ec1386a5b8e2c7f9ba53393354fa80593cd025cd979c8d",
           "durationSeconds": 698,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2419,11 +2433,12 @@
           "checksumSha256": "eb999385103dab9a541f7166b8a21d574fb1cef15889b5b8e75c19e70a64245f",
           "durationSeconds": 415,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/kofOH1CYKBQ?si=ccMZ9uCqNLvI7Sx3",
@@ -2439,11 +2454,12 @@
           "checksumSha256": "89f134f311fc09ad8825c1cf9bb8e71ad8a7fb6eeeed7e67607d8f414e087605",
           "durationSeconds": 187,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2596,11 +2612,12 @@
           "checksumSha256": "966e9230ab095be7df6f16705bb2e2146fb79b60c384dd97161990d69b0032e7",
           "durationSeconds": 194,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/-2OMPdY2pfw?si=dr4MsFglOQBhgwZK",
@@ -2616,11 +2633,12 @@
           "checksumSha256": "036ae0996455c4576cb0c9ccc49f5a33f5c99271177ec40b60c4afff4dafe454",
           "durationSeconds": 350,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2749,11 +2767,12 @@
           "checksumSha256": "29bf122b6df3db12a64cb8143c0c22d78051dc75e74d3ef3e37b20914a15508c",
           "durationSeconds": 672,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/GDfhVKV-PfY?si=4bPHWAZEkb8h915D",
@@ -2769,11 +2788,12 @@
           "checksumSha256": "608249814efd25c287d448a2472cead423f1f6f704e3bce349a453899df03866",
           "durationSeconds": 362,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2926,11 +2946,12 @@
           "checksumSha256": "302fffd70db4768462f026fa96cd6af2ecdaf6e787db744a978d09bc9be1805e",
           "durationSeconds": 56,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/QEdXti9t8jE?si=dLFTXDvztiaa5QZg",
@@ -2946,11 +2967,12 @@
           "checksumSha256": "ed81d990db68164a342f9fba043e82f6249de62e23564f371aa5d6378e92fa1a",
           "durationSeconds": 174,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/hmsfn1_1Kpg?si=xem--CWQj73ccYlq",
@@ -2966,11 +2988,12 @@
           "checksumSha256": "1a5cf09188c84bcb9c827f147ccd3a5958af99ddf2ad89ede373cd6763a4b6fb",
           "durationSeconds": 141,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3147,11 +3170,12 @@
           "checksumSha256": "8255e71c47c02006f54a4fe6775d7c433ddf9a28077a5d420242bee4f9f36541",
           "durationSeconds": 75,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/qzHokEDkXQc?si=OnOUWGKQf5bpxG9E",
@@ -3167,11 +3191,12 @@
           "checksumSha256": "33afcde373eb54be9b10e51f0187e79d9ef106e156454f72aa3b6bf3099fea8a",
           "durationSeconds": 262,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/e_C-YpIWjt8?si=Mrlx5ERnLjVLNT47",
@@ -3187,11 +3212,12 @@
           "checksumSha256": "c7f31a4ef4fc40b08c5ba137998dd0e81e43d66f35b06de367e70d544c9f34d2",
           "durationSeconds": 430,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3452,11 +3478,12 @@
           "checksumSha256": "3453800f7258e28b0a40e39d2cf2f5e33a5bf112e0044fdc0caf0e5d98bcbd08",
           "durationSeconds": 140,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/IbJbwBpHWgs?si=9Lkd4rIJNTahfAr1",
@@ -3472,11 +3499,12 @@
           "checksumSha256": "d81c11b2f3e6a00f87e4748456c026b78f6536d0ad4525dc0e10dd350d22c7e9",
           "durationSeconds": 81,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/Tsl-t9x0Ub0?si=4PlHf81cjI1AlUTu",
@@ -3492,11 +3520,12 @@
           "checksumSha256": "b06c33f13cf79d58998fef2c51c31319e860a8f911cd98e3a8cdf2d2b0684eef",
           "durationSeconds": 244,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/uw_NYpsccxM?si=3K74fLqmpr559H0-",
@@ -3512,11 +3541,12 @@
           "checksumSha256": "cc440e8fc9999742d67518cd954a50415d595502101d99ed4a2281cbd41bbe75",
           "durationSeconds": 333,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3765,11 +3795,12 @@
           "checksumSha256": "6999fd003a9a8e72aad74ed67cd4290a0c9d8b5851affb230ca84fed4951b069",
           "durationSeconds": 108,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/dW7qMIULLko?si=TjGiOsKIkgyT2WzM",
@@ -3785,11 +3816,12 @@
           "checksumSha256": "21c1d964384716560162159cbc30a4749c35748a6ed2d318108be38f34b0d964",
           "durationSeconds": 161,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/eKdfG3zz9Os?si=ImEeFHgzcCvxx-_j",
@@ -3805,11 +3837,12 @@
           "checksumSha256": "273048cc19432673f6dc47eccf66e0248ea2150cf7e2e436248e22665b44d273",
           "durationSeconds": 365,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -4046,11 +4079,12 @@
           "checksumSha256": "1d6bcbb995af6337f76ce28261f6e2f8bdbbfb5397639e89440f67fa4d1b2d9b",
           "durationSeconds": 63,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/kkjaaUZr2ps?si=UJuJTljl8hb7c1vc",
@@ -4066,11 +4100,12 @@
           "checksumSha256": "262459de8549330dd4e229d1f95198aaa5282c8fc29418d3bef2ecb5a92a192a",
           "durationSeconds": 331,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/mqCQvmZsu88?si=hlP7OTvRJEp3Zr_3",
@@ -4086,11 +4121,12 @@
           "checksumSha256": "67f90d55de1db9f518503a87b9b83179d7aa9a1bfa0f9224717ea836732b1793",
           "durationSeconds": 482,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -4723,11 +4759,12 @@
           "checksumSha256": "b291d0b8a9cbd272442ce82e746c59355c54c83a52a48efc4ad4ea6fbd8774ce",
           "durationSeconds": 81,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/KAhoZMRbZnA?si=naIpsNBE_cDXgL4H",
@@ -4743,11 +4780,12 @@
           "checksumSha256": "c30c74e9ddad5cb4db49b79e79c4d4828dbd3123e6f774929198f3ebbdf35119",
           "durationSeconds": 334,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/iX7-ecPZvy4?si=nTGmVayn8_Unh24s",
@@ -4763,11 +4801,12 @@
           "checksumSha256": "e1446ba9cd9420eaf5e1d9bbecb0360d2ebc134db908fa471bfc8d59abafa7cd",
           "durationSeconds": 82,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5044,11 +5083,12 @@
           "checksumSha256": "3ae522ac6748a992debbd39f4b40ad87e0cd866b747367f32ed572e99f13d5d5",
           "durationSeconds": 996,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5225,11 +5265,12 @@
           "checksumSha256": "a57d7c9f3f0d1637a48eb6543c732a17a58bb9ded983160852e9fe85d92be25c",
           "durationSeconds": 710,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5514,11 +5555,12 @@
           "checksumSha256": "dbbe54183d374601b16fffaae85f7d3215b009ed64d84ce2994f3a801cb57de6",
           "durationSeconds": 959,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6067,11 +6109,12 @@
           "checksumSha256": "cafde78b97df03ff5e2c0b795f5e61035c23395406c7e1e7e3b8b23806b4a2e2",
           "durationSeconds": 817,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6356,11 +6399,12 @@
           "checksumSha256": "e0efce72b2ed641e33a0231de6f502d94cfed411c3b5f5853ce7ce26a918ba5f",
           "durationSeconds": 383,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6621,11 +6665,12 @@
           "checksumSha256": "6c9f51435e0d4cea86e5fecae7f3538002d7a7b9a7f687e825e7a49138e3cc6e",
           "durationSeconds": 1201,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6946,11 +6991,12 @@
           "checksumSha256": "d8f1784fe1f58a2a7605546883b3a03409db7af965b21b0ded0b04e4ab3a4690",
           "durationSeconds": 405,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/0KJhQyWFjDI?si=Tk8BykFmZBnJA6r9",
@@ -6966,11 +7012,12 @@
           "checksumSha256": "42a2601f698b8b7aad183a2a8d7f680ae1e98c981fc9decbf01739eda889595a",
           "durationSeconds": 125,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/FwV6dXkUhnc?si=DeReCXnc4wqsLej6",
@@ -6986,11 +7033,12 @@
           "checksumSha256": "e56f1cb09d0c514b9e9ab35fc19bd587b50877e0e516a1c14cb12cebfbe53fbb",
           "durationSeconds": 722,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7443,11 +7491,12 @@
           "checksumSha256": "3ed3b0ed3013ba1dc763d22da3b541fa596e221c9b17944a60e7c09218e80cc7",
           "durationSeconds": 319,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/EATzGX8chuI?si=Ue-kri8xqYGDxeem",
@@ -7463,11 +7512,12 @@
           "checksumSha256": "cbc7886a0f171cdc3a09d09bd3c0f42a97d188c89af1ce540eb9908f9a62bfb7",
           "durationSeconds": 571,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7704,11 +7754,12 @@
           "checksumSha256": "0e2d6a19fd34c8413eb40b185c48c119591d059e13495cb8d1eeb57814b27e9a",
           "durationSeconds": 719,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/8CPuLovefwA?si=lHz3ruiZWG80xhmJ",
@@ -7724,11 +7775,12 @@
           "checksumSha256": "b40c411054fa5ef64cb35a2016bdeaa60d67d3ffa6eb12956a94049da491072b",
           "durationSeconds": 491,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7941,11 +7993,12 @@
           "checksumSha256": "5f3a59c30d6e95030f0e224251ca9a94b454085e5712cd6f37cf27ebe6263ec2",
           "durationSeconds": 831,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8303,11 +8356,12 @@
           "checksumSha256": "5d9a8185316ee5742a260698378612cadf8cd919cd64cb85f60ba11fd56cdd11",
           "durationSeconds": 468,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/i-iB8SADV8Q?si=ZALvr6qgqKjZ0BAr",
@@ -8323,11 +8377,12 @@
           "checksumSha256": "8c7998a04ee3742c230d7322aeb0cc04f575883f29a55812dac14530270e4f8a",
           "durationSeconds": 505,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8565,11 +8620,12 @@
           "checksumSha256": "a49f6b607a25b09094ed7bcbd5abb735d010a3496376665cf1d62ceb5fbf672c",
           "durationSeconds": 620,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/soPrjwdQWfw?si=caCbSsvOYJsCu6_0",
@@ -8585,11 +8641,12 @@
           "checksumSha256": "cfa4d464d60f434fa8a10bfe9f6dc2287f968349d50f85ac5790db1cf6d91b47",
           "durationSeconds": 213,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8718,11 +8775,12 @@
           "checksumSha256": "88274443880bcebe88e21a617e551da44618034fca5f2837568430d31e8027dc",
           "durationSeconds": 387,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8863,11 +8921,12 @@
           "checksumSha256": "077f2d0c3f0de1d0a7f3f3132def31f95c697db0fef5329d2215c9411601f2e5",
           "durationSeconds": 535,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8984,11 +9043,12 @@
           "checksumSha256": "0df0e24b0f94420a725caf7178cd9b92417388d1bfc0e57e68121268496eede9",
           "durationSeconds": 554,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9105,11 +9165,12 @@
           "checksumSha256": "9626ce9c9fd96b10a7bd156c847745681426d89810fb1396a0ea303740832014",
           "durationSeconds": 797,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9250,11 +9311,12 @@
           "checksumSha256": "5f548bc8e921553abb59de835ae946f578a2bda014974a37b8640591ce2c707f",
           "durationSeconds": 532,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9419,11 +9481,12 @@
           "checksumSha256": "126b0081a1b27ee9323513183070f54179fbe3073f1e953f2f2b5231aae59935",
           "durationSeconds": 878,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9564,11 +9627,12 @@
           "checksumSha256": "4b5b53a726762bb00c63bfc4070fd5d125d5c8b1bf921949fddff0171195baf3",
           "durationSeconds": 949,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/2KBxzdgiqJM",
@@ -9584,11 +9648,12 @@
           "checksumSha256": "faf5924916ec7c8201185d55eef0a2ac8955d23690e195d635d8224593e4e175",
           "durationSeconds": 309,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9753,11 +9818,12 @@
           "checksumSha256": "f9a04f4651152b56c19d55869f1c727c4e8ef2077e4b5c08bf17f5202500c209",
           "durationSeconds": 569,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9958,11 +10024,12 @@
           "checksumSha256": "992d8cdf6daeb38b63ca39e4a204791add30581930830ef5e7b38b2c24bc2d5c",
           "durationSeconds": 296,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10151,11 +10218,12 @@
           "checksumSha256": "11b72718296b494a104f73d7f9f15b8577c7f123babeb0ba29cd4856626c6e45",
           "durationSeconds": 416,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/QDE5BVEyNKg",
@@ -10171,11 +10239,12 @@
           "checksumSha256": "dc00bed647b4daea086d43f9292e672143452ab6dcc38a82741582512f06a4b4",
           "durationSeconds": 564,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10460,11 +10529,12 @@
           "checksumSha256": "e792f92fd981c9184b18496c1c0a7e993e9da6f11b803f9e68457f7f03995860",
           "durationSeconds": 1306,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/-5gDFAKdaXM?feature=oembed",
@@ -10480,11 +10550,12 @@
           "checksumSha256": "2ae1bbee48c8249d982c42da80e9f139bb050ffce074468e463bdae575aea6d4",
           "durationSeconds": 666,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10673,11 +10744,12 @@
           "checksumSha256": "6a6ebf1fa033a1c2743ca314a2dc98be0c0a4189349b44f244a2fd12361aaf4b",
           "durationSeconds": 294,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10831,11 +10903,12 @@
           "checksumSha256": "dcb94270611ecfcd6a63da7d3e9dd3ef53f49dbe3c8fb3eb710aa0d209c39568",
           "durationSeconds": 400,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11012,11 +11085,12 @@
           "checksumSha256": "d9a482cf383d9fbcbf42fc34f5497a8cfec147ef6987374a6a3f92ca60faf620",
           "durationSeconds": 351,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11193,11 +11267,12 @@
           "checksumSha256": "3d43c4d6f28d7b2c0b5c3b45ef8268fe5519f182f7c06312fbc57f50f1eda8f9",
           "durationSeconds": 272,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11398,11 +11473,12 @@
           "checksumSha256": "52d7bf5e01aecbc2d0f4750121eaec050e0a341a08c0b993ba057b067cfea967",
           "durationSeconds": 291,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11495,11 +11571,12 @@
           "checksumSha256": "d17d9dd954f89ce60bc9aaaf5a5a6c0096073611ef0be2a833377acba37358ae",
           "durationSeconds": 1036,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11581,11 +11658,12 @@
           "checksumSha256": "b1e3e7edfe1bfc6ed9d6bdfd58ae96d80ffb765323d17fb02becdf573eb75a74",
           "durationSeconds": 1226,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11690,11 +11768,12 @@
           "checksumSha256": "6295650f1d59afa8189645c8f114d90d4a064947469903d60c2815cf8132dbd0",
           "durationSeconds": 624,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11864,11 +11943,12 @@
           "checksumSha256": "f66140533450e0771e233b254b9d42152be022e5b64754f8792d4263de446177",
           "durationSeconds": 1360,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11950,11 +12030,12 @@
           "checksumSha256": "7ba11ff70cf29f52e24302d282f637f66dcce4327979ce3978796b86346d7083",
           "durationSeconds": 879,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12336,11 +12417,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12614,11 +12696,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12976,11 +13059,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -13337,11 +13421,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -13855,11 +13940,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14122,11 +14208,12 @@
           "checksumSha256": "618ed0011cdfa016b4ab46182a7de93b816c4c0359545b68454875b96945bf3f",
           "durationSeconds": 6263,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14316,11 +14403,12 @@
           "checksumSha256": "bd606b977708abb9cdb8017b62d545f9a1710f14debca75e74a8a63783612e00",
           "durationSeconds": 538,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14558,11 +14646,12 @@
           "checksumSha256": "79d9e148fadca32463fb6f9876780c9224793346064860b29182345a224c87b7",
           "durationSeconds": 941,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14824,11 +14913,12 @@
           "checksumSha256": "df13b09151f07aa6e81e24931474422f9d71e0c32256faeaed99c6513caf34cf",
           "durationSeconds": 821,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15234,11 +15324,12 @@
           "checksumSha256": "891fb9a6886f6aaff35eafe1288bc5c24782fe5d6d272a1858e2d5e17b163a1f",
           "durationSeconds": 581,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15332,11 +15423,12 @@
           "checksumSha256": "d2f0ed4eb69f0b85cb11f7b7233d4bea2bdb5ccdb2933abf637f418951ec15f1",
           "durationSeconds": 380,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15730,11 +15822,12 @@
           "checksumSha256": "c947141419e4f5d84da85bc5627ececd7093745c7236b549629cfeb90f777563",
           "durationSeconds": 997,
           "codec": "h264",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16032,11 +16125,12 @@
           "checksumSha256": "da5ad7c956cd36a5ac8fb3bdc89637fe75ced8724112c2b668efb7bf69ac1a80",
           "durationSeconds": 977,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16250,11 +16344,12 @@
           "checksumSha256": "499623f3bd6879780e3ccb63a38b4135f9ab4ce6533954453eb6b66668bee1c7",
           "durationSeconds": 1150,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16492,11 +16587,12 @@
           "checksumSha256": "79ccd472e257e8d1dad8bc9b1776128c25a9919590cbe970c9843c4f03489581",
           "durationSeconds": 921,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16662,11 +16758,12 @@
           "checksumSha256": "36d194baf6ce22041da7f324434b69d0611e55b3a440c7a0740a0e7b857e42fd",
           "durationSeconds": 863,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16868,11 +16965,12 @@
           "checksumSha256": "52fbafcaea7b08f7e60a64991e628eb56cfccaba67f127e7d1fa6f7045974576",
           "durationSeconds": 1528,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -17074,11 +17172,12 @@
           "checksumSha256": "8116a794b5e635858b59161e2b9bb219d54b170532de5b041f8cdfb1eb55be77",
           "durationSeconds": 347,
           "codec": "vp9",
-          "rightsStatus": "needs-review",
-          "captionStatus": "needs-review",
-          "transcriptStatus": "needs-review",
+          "rightsStatus": "approved",
+          "captionStatus": "approved",
+          "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
-          "approvedForKiosk": false
+          "approvedForKiosk": true,
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
