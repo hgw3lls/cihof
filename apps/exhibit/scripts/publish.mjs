@@ -1,11 +1,12 @@
 import { resolve } from 'node:path';
 import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishPortraits } from '@cihof/pipeline';
+import { resolveTarget } from './target.mjs';
 
 /**
  * Publishes what this target is allowed to show: the runtime bundle and only
  * the portraits the published records clear.
  */
-const target = process.env.CIHOF_TARGET === 'public' ? 'public' : 'kiosk';
+const target = resolveTarget();
 const people = buildPeople();
 const bundle = buildRuntimeBundle(people, target);
 

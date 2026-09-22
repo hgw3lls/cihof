@@ -19,6 +19,7 @@
     "prebuild": "node --experimental-strip-types scripts/publish.mjs",
     "dev": "npm run prebuild && vite",
     "build": "npm run prebuild && vite build && node scripts/release.mjs",
+    "assert:public": "node --experimental-strip-types scripts/assert-public-artifact.mjs",
     "preview": "vite preview",
     "test": "node --test --experimental-strip-types tests/*.test.ts"
   }

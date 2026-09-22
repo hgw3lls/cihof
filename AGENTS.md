@@ -17,9 +17,19 @@
 ## Build boundaries
 
 - Use Node 22 as pinned by `.nvmrc`.
-- `npm run build:public` writes the GitHub Pages artifact to `dist/` and must exclude uncleared film payloads.
-- `npm run build:kiosk` and the default `npm run build` create restricted local artifacts that may contain pending media. Never publish them as the public site.
+- `npm run build:public` writes a public-target artifact of the root app to `dist/` and must exclude film payloads not cleared for the public web. It is no longer what GitHub Pages publishes.
+- `npm run build:kiosk` and the default `npm run build` create restricted local artifacts containing film payloads. Never publish them as a public site.
 - `npm run build:portal` writes the separate staff artifact to `dist-portal/` and excludes film payloads.
+
+### The rewrite's targets (`apps/exhibit`)
+
+`apps/exhibit` has its own target switch and does not read `CIHOF_BUILD_TARGET`. Setting the wrong variable does nothing and raises no error, so check which one you mean.
+
+- `CIHOF_TARGET=public npm run build --workspace @cihof/exhibit` carries no films and is the artifact GitHub Pages publishes as a preview.
+- `CIHOF_TARGET=kiosk npm run build --workspace @cihof/exhibit` carries all 93 films. Never publish it.
+- `CIHOF_TARGET` is required under CI. An unrecognised value is always an error; an absent value defaults to `kiosk` only outside CI, and says so.
+- `npm run assert:public --workspace @cihof/exhibit` inspects the built artifact — not the sources — and fails if it carries films, a video file, an embedded player host, or a target other than `public`. It runs between build and deploy. A failure means do not publish; it does not mean loosen the check.
+- `CIHOF_SITE_URL` points the share panel's QR codes at a public site. Leave it unset for previews and local builds: a code printed into a visitor's browser history cannot be corrected afterwards, so it may only ever name a durable public address.
 - Do not push, publish, deploy, change permissions, or mark content approved without an explicit instruction for that operation.
 
 ## Verified workflow
