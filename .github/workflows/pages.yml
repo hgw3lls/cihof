@@ -1,3 +1,14 @@
+# Publishes a preview of the installed exhibit, built for the public target.
+#
+# Pages is a testing ground, not a product surface: somewhere to open the
+# exhibit in a browser and look at it. Nothing here is an address to give a
+# visitor, which is why CIHOF_SITE_URL is deliberately not set — the share
+# panel should report that this build has no public site to link to, because it
+# has not got one.
+#
+# The public target carries no films. That is the point of publishing it rather
+# than the kiosk build, and the "Artifact is cleared" step below refuses to
+# deploy anything that turns out otherwise.
 name: Deploy GitHub Pages
 
 on:
@@ -106,7 +117,7 @@ jobs:
           if-no-files-found: ignore
 
   build:
-    name: Build site
+    name: Build exhibit preview
     needs: test
     # A pull request is checked, not published.
     if: github.event_name != 'pull_request'
@@ -124,13 +135,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build site
-        run: npm run build:public
+      # CIHOF_TARGET is passed explicitly and the build refuses to run without
+      # it under CI. It used to fall through to the kiosk target, which is the
+      # one artifact that must never be published.
+      #
+      # CIHOF_SITE_URL is unset on purpose: a preview is a moving address, and
+      # a QR code printed into a stranger's browser history cannot be corrected
+      # afterwards. With no site configured the share panel says so.
+      - name: Build exhibit for the public target
+        run: npm run build --workspace @cihof/exhibit
+        env:
+          CIHOF_TARGET: public
+          CIHOF_BASE_PATH: /cihof/
+
+      # The only check in this repository that looks at the bytes being
+      # uploaded rather than the sources they came from. Everything else
+      # validates inputs; a misconfigured build passes all of those.
+      - name: Artifact is cleared for publication
+        run: npm run assert:public --workspace @cihof/exhibit
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5.0.0
         with:
-          path: dist
+          path: apps/exhibit/dist
 
   deploy:
     needs: build
