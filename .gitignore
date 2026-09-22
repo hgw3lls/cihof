@@ -22,6 +22,11 @@ artifacts/video-file-sync-report*.json
 artifacts/video-manifest-normalization-report*.json
 artifacts/video-whisper-transcription-report*.json
 
+# Local safety copies written by scripts/apply-media-decisions.js before it
+# edits the manifest. Useful on the machine that made the change, noise in the
+# repository — and one reached main before this rule existed.
+data/*.backup-*
+
 # Local downloaded video payloads are too large for normal Git storage:
 # 633 MP4s, 41 GB. They stay out.
 #
