@@ -123,18 +123,32 @@ test('a paused film does not hold the display open', async ({ page }) => {
   await expect(page.locator('.warning')).toBeVisible({ timeout: 15_000 });
 });
 
-test('no real film is published in the artifact', async ({ page }) => {
+test('every published film carries the things that make it usable', async ({ page }) => {
+  // This replaces an assertion that no film was published at all, which was
+  // true until the rights, captions and transcripts were cleared. The rule it
+  // was really protecting survives: nothing reaches a visitor without the
+  // captions and transcript that let everyone follow it.
   await page.goto('.');
   const published = await page.evaluate(async () => {
     const bundle = await (await fetch('data/exhibit.json')).json();
+    const films: Record<string, unknown>[] = bundle.people
+      .flatMap((person: { films: Record<string, unknown>[] }) => person.films);
     return {
-      films: bundle.people.reduce((n: number, p: { films: unknown[] }) => n + p.films.length, 0),
+      count: films.length,
       held: bundle.filmReport.held,
+      withoutCaptions: films.filter((film) => !film['captions']).length,
+      withoutTranscript: films.filter((film) => !film['transcript']).length,
+      withoutPoster: films.filter((film) => !film['poster']).length,
+      withoutSource: films.filter((film) => !film['source']).length,
     };
   });
 
-  expect(published.films, 'every holding is still withheld').toBe(0);
-  expect(published.held).toBe(93);
+  expect(published.count, 'the cleared holdings are published').toBe(93);
+  expect(published.held, 'and nothing is left withheld').toBe(0);
+  expect(published.withoutCaptions).toBe(0);
+  expect(published.withoutTranscript).toBe(0);
+  expect(published.withoutPoster).toBe(0);
+  expect(published.withoutSource).toBe(0);
 });
 
 test('a film served from the channel plays there and says whose captions those are', async ({ page }) => {
