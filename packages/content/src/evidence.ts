@@ -46,8 +46,23 @@ export function isUsableEvidence(value: Evidence | undefined): boolean {
   return nonEmpty(value.id) && nonEmpty(value.title);
 }
 
+/**
+ * The citations in a record that can actually be followed.
+ *
+ * Reads defensively because the records it is pointed at are not always this
+ * codebase's own. External corpora carry `evidence` as a prose sentence rather
+ * than a list, and a string has a `.filter` the way it has a `.length` — it
+ * does not. Assuming the shape here threw a TypeError out through
+ * `substantiationProblems` and `connectionProblems`, so a reviewer aiming the
+ * staff view at an imported file got a stack trace instead of the list of
+ * reasons those functions exist to produce.
+ *
+ * Anything that is not a list of citations carries no citation, which
+ * `substantiationProblems` then reports in those words.
+ */
 export function usableEvidence(values: readonly Evidence[] | undefined): readonly Evidence[] {
-  return (values ?? []).filter(isUsableEvidence);
+  if (!Array.isArray(values)) return [];
+  return values.filter(isUsableEvidence);
 }
 
 /**
@@ -74,7 +89,14 @@ export function substantiationProblems(value: (Partial<Reviewed> & Partial<Evide
     if (!nonEmpty(review.decisionReference)) problems.push('approved without a decision reference');
     if (!nonEmpty(review.contentVersion)) problems.push('approved without a content version');
   }
-  if (usableEvidence(value.evidence).length === 0) problems.push('no usable evidence');
+  // Named separately from "no usable evidence": a record whose evidence is a
+  // sentence has a citation somebody wrote and a shape nobody converted, and
+  // telling a reviewer to go and find a source would be wrong.
+  if (value.evidence !== undefined && !Array.isArray(value.evidence)) {
+    problems.push('evidence is not a list of citations');
+  } else if (usableEvidence(value.evidence).length === 0) {
+    problems.push('no usable evidence');
+  }
   return problems;
 }
 
