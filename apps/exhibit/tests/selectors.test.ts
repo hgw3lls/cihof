@@ -6,7 +6,7 @@ import type { RuntimePerson } from '../src/data/runtime.ts';
 
 const person = (id: string, name: string, classYear: number | null, communities: string[], contributions: string[]): RuntimePerson => ({
   id, name, sortName: name, classYear, portrait: null, biography: '', biographyCurated: false,
-  contributions, communities, countries: [], sourceUrl: null,
+  contributions, communities, countries: [], sourceUrl: null, films: [],
 });
 
 const people = [
