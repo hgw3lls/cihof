@@ -6,6 +6,7 @@ export * from './evidence.ts';
 export * from './connection.ts';
 export * from './crosswalk.ts';
 export * from './contribution.ts';
+export * from './worksheet.ts';
 export * from './person.ts';
 export * from './lenses.ts';
 export * from './continuation.ts';

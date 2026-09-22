@@ -5,12 +5,15 @@ import {
   availableLenses, displayablePortrait, facetable, isAttributable, lensAvailability,
   publishedPlaces, publishedRelationships,
   crosswalkProgress, inductionRelationships,
+  publishedContributions, worksheetContributions, worksheetProgress,
+  type Contribution, type ContributionWorksheet,
   type InducteeId, type InductionCrosswalk,
   type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
   publishableFilms, filmShortfalls,
   type FilmDelivery, type PublishedFilm, type PublishedRelationship, type VisitorTarget,
 } from '@cihof/content';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
+import { readContributionWorksheet } from '../sources/worksheet.ts';
 import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
 import { readVideoHoldings } from '../sources/media.ts';
 
@@ -29,6 +32,8 @@ export type RuntimeBundle = {
   readonly people: readonly RuntimePerson[];
   readonly places: readonly PublishedPlace[];
   readonly relationships: readonly PublishedRelationship[];
+  /** What each person changed, for the people a curator has written up. */
+  readonly contributions: readonly Contribution[];
   /**
    * Which lenses this release offers, decided here rather than in the app.
    * A lens the content cannot support is absent, so the app has nothing to
@@ -58,6 +63,18 @@ export type RuntimeBundle = {
    * "Zero relationships" and "ninety-five names nobody has resolved yet" are
    * the same count and different problems.
    */
+  /**
+   * How much of the collection can say what its people changed.
+   *
+   * "No contributions" and "a hundred and eleven rows nobody has written yet"
+   * are the same count and different problems.
+   */
+  readonly contributionReport: {
+    readonly published: number;
+    readonly written: number;
+    readonly peopleCovered: number;
+    readonly peopleNotStarted: number;
+  };
   readonly relationshipReport: {
     readonly published: number;
     readonly fromCrosswalk: number;
@@ -97,6 +114,8 @@ export type BundleSources = {
   readonly relationships?: readonly unknown[];
   /** Pass `null` to build as though the crosswalk had never been generated. */
   readonly crosswalk?: InductionCrosswalk | null;
+  /** Pass `null` to build as though the worksheet had never been generated. */
+  readonly worksheet?: ContributionWorksheet | null;
   /** Where films are served from. Defaults per target; see `filmDeliveryFor`. */
   readonly filmDelivery?: FilmDelivery;
   /** Public site this release points its codes at. */
@@ -146,6 +165,16 @@ export function buildRuntimeBundle(
   const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length;
   const progress = crosswalk ? crosswalkProgress(crosswalk) : null;
 
+  // Contributions are written by hand in the worksheet and read here. Nothing
+  // in this pipeline composes one: a generated account is the thing the record
+  // exists to replace, and `publishedContributions` refuses an action that is
+  // not somebody's own words.
+  const worksheet = sources.worksheet === undefined ? readContributionWorksheet() : sources.worksheet;
+  const contributions = worksheet
+    ? publishedContributions(worksheetContributions(worksheet), target)
+    : [];
+  const writing = worksheet ? worksheetProgress(worksheet) : null;
+
   const counts = {
     people: runtimePeople.length,
     years: runtimePeople.filter((person) => person.classYear !== null).length,
@@ -161,10 +190,17 @@ export function buildRuntimeBundle(
     people: runtimePeople,
     places,
     relationships,
+    contributions,
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
     filmReport: { held, blockedBy, delivery },
+    contributionReport: {
+      published: contributions.length,
+      written: writing?.written ?? 0,
+      peopleCovered: new Set(contributions.map((contribution) => contribution.subject)).size,
+      peopleNotStarted: writing?.notStarted ?? 0,
+    },
     relationshipReport: {
       published: relationships.length,
       fromCrosswalk: relationships.filter(isFromCrosswalk).length,
