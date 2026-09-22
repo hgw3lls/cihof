@@ -1,3 +1,4 @@
+import { labelFrom, type PublishedRelationship } from '@cihof/content';
 import type { RuntimePerson } from '../data/runtime.ts';
 import type { Discovery } from './exhibit.ts';
 
@@ -67,4 +68,59 @@ export function inductionClasses(people: readonly RuntimePerson[]): InductionCla
 /** How many people the chronology cannot place, stated rather than hidden. */
 export function undatedCount(people: readonly RuntimePerson[]): number {
   return people.filter((person) => person.classYear === null).length;
+}
+
+export type Tie = {
+  readonly other: RuntimePerson;
+  /** How the claim reads outwards from this person. Never composed here. */
+  readonly label: string;
+  readonly connectionId: string;
+};
+
+export type ConnectionNode = {
+  readonly person: RuntimePerson;
+  readonly ties: readonly Tie[];
+};
+
+/**
+ * Documented relationships, gathered per person.
+ *
+ * Note what this does not take: `Discovery`. Every other selector here narrows
+ * a list a visitor is choosing from, and narrowing this one removes the people
+ * the graph exists to reach.
+ *
+ * The one thing that could go wrong silently is direction. Reading a forward
+ * label from the far endpoint turns "mentored Ana Ruiz" into Ana Ruiz having
+ * mentored her own mentor, and the result is a grammatical sentence stating
+ * the opposite of what a curator approved. `labelFrom` returns null rather
+ * than guess, and a tie nobody can word is dropped rather than worded wrongly.
+ */
+export function connectionNodes(
+  people: readonly RuntimePerson[],
+  relationships: readonly PublishedRelationship[],
+): ConnectionNode[] {
+  const byId = new Map(people.map((person) => [person.id, person]));
+  const ties = new Map<string, Tie[]>();
+
+  for (const relationship of relationships) {
+    for (const viewpoint of [relationship.from, relationship.to] as readonly string[]) {
+      const person = byId.get(viewpoint);
+      const other = byId.get(viewpoint === relationship.from ? relationship.to : relationship.from);
+      if (!person || !other) continue;
+
+      const label = labelFrom(relationship, viewpoint as typeof relationship.from);
+      if (!label) continue;
+
+      const list = ties.get(viewpoint);
+      const tie = { other, label, connectionId: relationship.id as string };
+      if (list) list.push(tie); else ties.set(viewpoint, [tie]);
+    }
+  }
+
+  return [...ties.entries()]
+    .flatMap(([id, list]) => {
+      const person = byId.get(id);
+      return person ? [{ person, ties: list }] : [];
+    })
+    .sort((a, b) => b.ties.length - a.ties.length || a.person.sortName.localeCompare(b.person.sortName));
 }
