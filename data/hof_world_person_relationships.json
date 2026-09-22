@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": 1,
+  "dataset": "HOF_WORLD_VERIFIED_PERSON_RELATIONSHIPS",
+  "meta": {
+    "generatedAt": "2026-09-21T22:56:53.590130+00:00",
+    "sourceCorpus": {
+      "gitCommit": "dd57b058006d9629a4d2594971420750f3547382",
+      "contentRevision": "b81f21754dac02d1d10de0a78dcd7419d6975430d463254e88000ad7bafa4fd8",
+      "uploadedCanonical": "HOF_WORLD(1).zip"
+    },
+    "methodNote": "Derived from the canonical HOF_WORLD corpus. No unsupported historical facts are promoted; explicit profile statements are documentary evidence, while heuristic extractions remain review candidates."
+  },
+  "scopeNote": "The filename follows the requested dataset name. “Verified” here is limited to explicit documentary evidence inside the canonical CIHOF corpus (canonical inducted-by fields, source lines, or exact biography mentions); it is not a claim of independent external historical verification. Generic same-source/same-collection links remain in HOF_WORLD_ARCHIVAL_NETWORK rather than being promoted to direct person relationships.",
+  "summary": {
+    "relationshipCount": 77,
+    "relationshipTypes": {
+      "inducted_by": 33,
+      "documented_mention": 16,
+      "electoral_relationship": 1,
+      "friend": 1,
+      "collaborator": 2,
+      "family_spouse": 2,
+      "inducted_by_or_induction_connection": 14,
+      "family_relationship": 1,
+      "ceremonial_connection": 4,
+      "public_service_relationship": 2,
+      "joint_oral_history_participant": 1
+    },
+    "peopleCovered": 63,
+    "archiveCompletionAddedRelationships": 2
+  },
+  "relationships": [
+    {
+      "id": "person-rel:d6a19b264eda56",
+      "sourcePersonId": "alex-machaskee-2010",
+      "targetPersonId": "dick-russ-2015",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Dick Russ.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/alex-machaskee-2010/"
+      ]
+    },
+    {
+      "id": "person-rel:eff7275e30f34a",
+      "sourcePersonId": "leo-weidenthal-2010",
+      "targetPersonId": "paul-burik-2019",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Paul Burik.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/leo-weidenthal-2010/"
+      ]
+    },
+    {
+      "id": "person-rel:33a087e89b6879",
+      "sourcePersonId": "lonnie-mccauley-2010",
+      "targetPersonId": "pat-dowd-2023",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Pat Dowd.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/lonnie-mccauley-2010/"
+      ]
+    },
+    {
+      "id": "person-rel:b75f31e3d8671f",
+      "sourcePersonId": "paramjit-singh-2010",
+      "targetPersonId": "mona-alag-2017",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Mona Alag.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/"
+      ]
+    },
+    {
+      "id": "person-rel:5881a708446b26",
+      "sourcePersonId": "senator-george-voinovich-2010",
+      "targetPersonId": "ingrida-bublys-2019",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Ingrida Bublys.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/senator-george-voinovich-2010/"
+      ]
+    },
+    {
+      "id": "person-rel:3274cde652a8e1",
+      "sourcePersonId": "lucretia-stoica-2011",
+      "targetPersonId": "ken-kovach-2012",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Ken Kovach.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/lucretia-stoica-2011/"
+      ]
+    },
+    {
+      "id": "person-rel:c7831877bad4bb",
+      "sourcePersonId": "fr-jim-o-donnell-2012",
+      "targetPersonId": "jack-kahl-2016",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Jack Kahl.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/fr-jim-odonnell-2012/"
+      ]
+    },
+    {
+      "id": "person-rel:da54a60a1cca60",
+      "sourcePersonId": "hon-mary-rose-oakar-2012",
+      "targetPersonId": "wael-khoury-2017",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Dr. Wael Khoury.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/rep-mary-rose-oakar-2012/"
+      ]
+    },
+    {
+      "id": "person-rel:d08454427975bb",
+      "sourcePersonId": "jose-c-feliciano-2012",
+      "targetPersonId": "alex-machaskee-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Alex Machaskee.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jose-feliciano-2012/"
+      ]
+    },
+    {
+      "id": "person-rel:cfd06a931ed981",
+      "sourcePersonId": "ken-kovach-2012",
+      "targetPersonId": "dick-russ-2015",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Dick Russ.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ken-kovach-2012/"
+      ]
+    },
+    {
+      "id": "person-rel:2d8a2b80e21a8e",
+      "sourcePersonId": "ernie-mihaly-2014",
+      "targetPersonId": "richard-fleischman-2019",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Richard Fleischman.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ernie-mihaly-2014/"
+      ]
+    },
+    {
+      "id": "person-rel:bb727c3d331023",
+      "sourcePersonId": "jim-foster-2014",
+      "targetPersonId": "dick-pogue-2015",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Dick Pogue.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-foster-2014/"
+      ]
+    },
+    {
+      "id": "person-rel:2fec569a550425",
+      "sourcePersonId": "richard-a-ganim-2015",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Pierre Bejjani.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/richard-ganim-2015/"
+      ]
+    },
+    {
+      "id": "person-rel:f3aa3c00c7c185",
+      "sourcePersonId": "carolyn-balogh-2016-2016",
+      "targetPersonId": "dr-maria-pujana-2013",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Maria Pujana.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/"
+      ]
+    },
+    {
+      "id": "person-rel:045d13d54c55b9",
+      "sourcePersonId": "bill-miller-2017",
+      "targetPersonId": "august-pust-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by August Pust.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/"
+      ]
+    },
+    {
+      "id": "person-rel:7a64475e226225",
+      "sourcePersonId": "mona-alag-2017",
+      "targetPersonId": "sudarshan-sathe-2023",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Sudarshan Sathe.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/mona-alag/"
+      ]
+    },
+    {
+      "id": "person-rel:066d0ba949336d",
+      "sourcePersonId": "abby-mina-2018",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Pierre Bejjani.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/"
+      ]
+    },
+    {
+      "id": "person-rel:cc9415ea11d7f8",
+      "sourcePersonId": "ralph-perk-jr-2018",
+      "targetPersonId": "hon-mary-rose-oakar-2012",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Mary Rose Oakar.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/"
+      ]
+    },
+    {
+      "id": "person-rel:c1c05d093f1901",
+      "sourcePersonId": "ingrida-bublys-2019",
+      "targetPersonId": "alex-machaskee-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Alex Machaskee.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ingrida-bublys/"
+      ]
+    },
+    {
+      "id": "person-rel:79191341e7ebcf",
+      "sourcePersonId": "richard-fleischman-2019",
+      "targetPersonId": "ernie-mihaly-2014",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Ernie Mihaly.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/richard-fleischman/"
+      ]
+    },
+    {
+      "id": "person-rel:ec30d587b7229a",
+      "sourcePersonId": "sree-sreenath-2019",
+      "targetPersonId": "ramesh-shah-2020",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Ramesh Shah.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/sree-sreenath/"
+      ]
+    },
+    {
+      "id": "person-rel:61e8c048f84726",
+      "sourcePersonId": "berj-shakarian-2020",
+      "targetPersonId": "paul-burik-2019",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Paul Burik.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/berj-shakarian/"
+      ]
+    },
+    {
+      "id": "person-rel:7c116516c4b543",
+      "sourcePersonId": "ramesh-shah-2020",
+      "targetPersonId": "sudarshan-sathe-2023",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Sudarshan Sathe.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ramesh-shah/"
+      ]
+    },
+    {
+      "id": "person-rel:0a2187c00da2a4",
+      "sourcePersonId": "carl-robson-2022",
+      "targetPersonId": "aklilu-demessie-2026",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Aklilu Demessie.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/carl-robson/"
+      ]
+    },
+    {
+      "id": "person-rel:64a98613b1eeff",
+      "sourcePersonId": "georgine-welo-2023",
+      "targetPersonId": "alex-machaskee-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Alex Machaskee.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/georgine-welo/"
+      ]
+    },
+    {
+      "id": "person-rel:66b5e2fcf00ef9",
+      "sourcePersonId": "joyce-mariani-2023",
+      "targetPersonId": "basil-russo-2017",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Basil Russo.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/joyce-mariani/"
+      ]
+    },
+    {
+      "id": "person-rel:eb7345029b4cfd",
+      "sourcePersonId": "mayor-frank-jackson-2025",
+      "targetPersonId": "valarie-mccall-2020",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "canonical-profile-field",
+      "confidence": 0.98,
+      "evidence": "Inducted by Valarie McCall.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/mayor-frank-jackson/"
+      ]
+    },
+    {
+      "id": "person-rel:8633b90d7b685f",
+      "sourcePersonId": "honorable-jose-a-villanueva-2015",
+      "targetPersonId": "jose-c-feliciano-2012",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "documented-source-candidate",
+      "confidence": 0.78,
+      "evidence": "Original CIHOF profile lists inducted by José Feliciano.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/honorable-jose-a-villanueva-2015/"
+      ]
+    },
+    {
+      "id": "person-rel:34b9f1de65b3d4",
+      "sourcePersonId": "johnny-k-wu-2024",
+      "targetPersonId": "margaret-w-wong-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "documented-source-candidate",
+      "confidence": 0.78,
+      "evidence": "Original CIHOF profile lists inducted by Margaret Wong.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/"
+      ]
+    },
+    {
+      "id": "person-rel:a56c1574e5ff20",
+      "sourcePersonId": "may-chen-2020",
+      "targetPersonId": "margaret-w-wong-2010",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "documented-source-candidate",
+      "confidence": 0.78,
+      "evidence": "Original CIHOF profile lists inducted by Margaret Wong.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/may-chen/"
+      ]
+    },
+    {
+      "id": "person-rel:ec9a283a787874",
+      "sourcePersonId": "sister-alicia-alvarado-2018",
+      "targetPersonId": "jose-c-feliciano-2012",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "documented-source-candidate",
+      "confidence": 0.78,
+      "evidence": "Original CIHOF profile lists inducted by Jose Feliciano.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-south-america/sister-alicia-alvarado/"
+      ]
+    },
+    {
+      "id": "person-rel:fce4b94e39dab1",
+      "sourcePersonId": "valarie-mccall-2020",
+      "targetPersonId": "albert-b-ratner-2011",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "documented-source-candidate",
+      "confidence": 0.78,
+      "evidence": "Original CIHOF profile lists inducted by Albert Ratner.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/valarie-mccall/"
+      ]
+    },
+    {
+      "id": "person-rel:84a82b11be4191",
+      "sourcePersonId": "august-pust-2010",
+      "targetPersonId": "senator-george-voinovich-2010",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Prior to this appointment, he was the Director of Multicultural Affairs & International Relations in the Governor’s Office, State of Ohio (1991-2002) and he served as Executive Assistant to Cleveland Mayors George Voinovich and Michael White, for Ethnic Affairs/International Relations.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/august-pust-2010/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:b6d6c274603e3d",
+      "sourcePersonId": "paramjit-singh-2010",
+      "targetPersonId": "senator-george-voinovich-2010",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "He has served as President of FICA, Vice President NFIA, President of American Society of Engineers of Indian Origin, Cleveland Chapter, Founding member of Asian-Indian-American Business Group, Asian-Indian-American for Better Government, Executive member of Cleveland Mayor George Voinovich’s Asian Advisory Council, and more.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:bf085364d09f59",
+      "sourcePersonId": "ralph-j-perk-2011",
+      "targetPersonId": "senator-george-voinovich-2010",
+      "relationshipType": "electoral_relationship",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.9,
+      "evidence": "In 1971 he won the Republican primary, beating out George Voinovich.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:0622edc19194e9",
+      "sourcePersonId": "tony-petkovsek-2011",
+      "targetPersonId": "senator-george-voinovich-2010",
+      "relationshipType": "friend",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.9,
+      "evidence": "He later served Governor Voinovich on the Ohio Arts Council and also emceed two gubernatorial innaugurations in Columbus for longtime friend George Voinovich.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/tony-petkovsek-2011/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:9461272745110b",
+      "sourcePersonId": "dr-jaya-shah-2012",
+      "targetPersonId": "mona-alag-2017",
+      "relationshipType": "collaborator",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.92,
+      "evidence": "As a Community Activist, she with the help of Mona Alag, Gita Gidwani, Kamala Nagpal, Sayanies organized a Voluntary organization known as Community Helping Hands Organization.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:3c76d1ff7841cf",
+      "sourcePersonId": "dr-jaya-shah-2012",
+      "targetPersonId": "ramesh-shah-2020",
+      "relationshipType": "family_spouse",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.96,
+      "evidence": "With support & help from her husband, Ramesh Shah, she takes the team of 18-20 Physicians and 10-12 Volunteers from USA/UK/Canada to Indian Rural Villages and helps thousands of villagers who cannot afford good Medical help and/or who do not have access to good Professional Healthcare providers.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:e0392db8b27982",
+      "sourcePersonId": "samuel-h-miller-2013",
+      "targetPersonId": "nacy-panzica-2013",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Nacy Panzica Nacy Panzica has been in the construction industry for over 60 years.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/sam-miller-2013/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:1baa5ce919a41c",
+      "sourcePersonId": "richard-a-ganim-2015",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Ganim was inducted by Pierre Bejjani.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/richard-ganim-2015/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:e206058117f037",
+      "sourcePersonId": "arnie-de-la-porte-2016-2016",
+      "targetPersonId": "ingrida-bublys-2019",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Here is a partial list of Arnie’s accomplishments: Past Co-Chairman of the Cleveland Tall Ship Festival Past Grand Commodore of the Ohio Commodores Honorary chair of the Rotary Club of Cleveland Honorary president of the Cleveland Rotary Club Past Chairman of the Cuyahoga Valley Scenic Railroad Past Chairman of the board of the Elyria Country Club Board member northern Ohio district export council (Nominated By US Secretary of Commerce) Founding Board member of the French American Chamber Founding Board member of the British American Chamber of Commerce Founding Board member of the Netherlands Chamber of Commerce Founding Board member of the Benelux Business Association Founding Board member of the German Roundtable Past president of the Cleveland World Trade Association Past board member of the Greater Cleveland Growth Association Past board member State of Ohio economic development Council Founding board member business advisory board Maine Maritime Academy, in Castine, ME Founding Board member Cleveland World Trade Association Foundation Founding board member North East Ohio Trade Network He was awarded the “Ordre National du Mérite” by the country of France His motto was: “Trading nations seldom go to war.” Peter de la Porte and Ingrida Bublys Cleveland International Hall of Fame Class of 2016 Arnie de la Porte was inducted into the 2016 Class of the Cleveland International Hall of Fame on the evening of April 26, 2016.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/arnie-de-la-porte-2016/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:66a91c74c70bd9",
+      "sourcePersonId": "carolyn-balogh-2016-2016",
+      "targetPersonId": "dr-maria-pujana-2013",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Board of Directors: Cleveland Hungarian Development Panel, President Emerita and Economic Development Chair Hungarian Cultural Garden, President Geauga County Community Improvement Corporation, President Ohio University Foundation Board Ohio University College of Education Advisory Board Ohio University/University of Pecs Advisory Board Community Associations: Cleveland Federation of Cultural Gardens Women in Philanthropy- Ohio Women Geauga County Hungarian Club Hungarian Heritage Society Ohio University Women’s Club of Greater Cleveland, Past President Ohio University National Alumni Board Ohio University Alumni Association – Metal of Merit recipient Development Chair for 50th Anniversary Committee for the 1956 Revolution Geauga Growth Partnership Geauga Community Improvement Corporation- Past President El Barrio Jobs Committee Chairman Carolyn Balogh inducted by Maria Pujana Cleveland International Hall of Fame Class of 2016 Carolyn Balogh was inducted into the 2016 Class of the Cleveland International Hall of Fame on the evening of April 26, 2016.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/carolyn-balogh-2016/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:dae721bffb7476",
+      "sourcePersonId": "basil-russo-2017",
+      "targetPersonId": "bishop-anthony-pilla-2015",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "In 1995, Basil was instrumental in leading the effort to create the Bishop Anthony Pilla Italian American Studies program at John Carroll University.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:b31ed91caf948b",
+      "sourcePersonId": "basil-russo-2017",
+      "targetPersonId": "jim-craciun-2017",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Basil Russo’s son-in-law Joseph Rosalina and daughter Gabriella Basil Russo son-in-law Joseph Rosalina Basil Russo and daughter Gabriella Basil Russo giving his acceptance remarks Basil and Pat Russo Inductees Mona Alag, Jim Craciun and Basil Russo Joe Rosalina and Kelli Perk Standing Ovation for Basil Russo.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:953a64d58e4ad8",
+      "sourcePersonId": "basil-russo-2017",
+      "targetPersonId": "mona-alag-2017",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Basil Russo’s son-in-law Joseph Rosalina and daughter Gabriella Basil Russo son-in-law Joseph Rosalina Basil Russo and daughter Gabriella Basil Russo giving his acceptance remarks Basil and Pat Russo Inductees Mona Alag, Jim Craciun and Basil Russo Joe Rosalina and Kelli Perk Standing Ovation for Basil Russo.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:60145e83b23a01",
+      "sourcePersonId": "bill-miller-2017",
+      "targetPersonId": "august-pust-2010",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "2017 Class of the Cleveland International Hall of Fame Bill Miller was inducted by August Pust and his beloved wife Marianna Miller accepted the honor for her late husband In the video below, Cleveland International Hall of Fame co-founder Dan Hanson introduced August Pust who then inducted Bill’s widow Marianna Miller who gave her acceptance remarks.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:897f566075161f",
+      "sourcePersonId": "jim-craciun-2017",
+      "targetPersonId": "dick-pogue-2015",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:191450ac7d0cf8",
+      "sourcePersonId": "jim-craciun-2017",
+      "targetPersonId": "basil-russo-2017",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:4f74dddf1bb11e",
+      "sourcePersonId": "jim-craciun-2017",
+      "targetPersonId": "mona-alag-2017",
+      "relationshipType": "family_relationship",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:e9629e62fb9811",
+      "sourcePersonId": "wael-khoury-2017",
+      "targetPersonId": "sam-kim-2017",
+      "relationshipType": "ceremonial_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.88,
+      "evidence": "Dr. Nizar Zein inducts Dr. Wael Khoury Dr. Nizar Zein, Dr. Wael Khoury and Mrs. Sawssan Khoury Dr. Wael Khoury giving his acceptance remarks Inductees Dr. Wael Khoury, Marianna Miller and Sam Kim CCWA group honoring Dr. Wael Khoury Steve and Mrs. Petras, Dr. Wael Khoury and Amb.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/wael-khoury/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:575645cc2e223c",
+      "sourcePersonId": "wael-khoury-2017",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "ceremonial_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.88,
+      "evidence": "Heather Hodges Dr. Wael Khoury and George Koussa Friends of Dr. Wael Khoury Tony and Mrs Abdulkarim, Sawssan Khoury and Pierre Bejjani Dr. Nizar Zein and Pierre Bejjani honoring Dr. Khoury.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/wael-khoury/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:8f0ccae7a87bd7",
+      "sourcePersonId": "abby-mina-2018",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Cleveland International Hall of Fame 2018 Class Abdullah (Abby) Mina was inducted by his son Michael Mina and Pierre Bejjani.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-asia/abby-mina/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:61a0f917bd5739",
+      "sourcePersonId": "ralph-perk-jr-2018",
+      "targetPersonId": "hon-mary-rose-oakar-2012",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Cleveland International Hall of Fame 2018 Class Ralph J. (Rocky) Perk Jr. was inducted by Congresswoman Mary Rose Oakar.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/ralph-perk-jr/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:fd6cdfb5e00c3c",
+      "sourcePersonId": "ingrida-bublys-2019",
+      "targetPersonId": "alex-machaskee-2010",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Ingrida was inducted by Alex Machaskee (Former Plain Dealer Publisher).",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ingrida-bublys/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:70cd93605a01bb",
+      "sourcePersonId": "richard-fleischman-2019",
+      "targetPersonId": "ernie-mihaly-2014",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Richard was inducted by Ernie Mihaly.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/richard-fleischman/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:3cec471050402d",
+      "sourcePersonId": "sree-sreenath-2019",
+      "targetPersonId": "ramesh-shah-2020",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Sree was inducted by Ramesh Shah (Association of Indian Physicians of Northern Ohio).",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/sree-sreenath/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:e5a2d89b283fa7",
+      "sourcePersonId": "berj-shakarian-2020",
+      "targetPersonId": "leo-weidenthal-2010",
+      "relationshipType": "family_spouse",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.96,
+      "evidence": "He is not only a man committed to highlighting Cleveland as an international city, but he also has a deep knowledge and sensitivity to Cleveland history, and specifically to the history of the Cultural Gardens and the vision of Leo Weidenthal.” Berj has been married for almost 49 year to his wife, Carol, whom he met on the Rapid Transit while commuting to school.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/berj-shakarian/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:085302fb75078d",
+      "sourcePersonId": "berj-shakarian-2020",
+      "targetPersonId": "wael-khoury-2017",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Berj Shakarian was inducted at the Centennial Plaza he designed by Paul Burik and Dr. Wael Khoury from the Cleveland Cultural Gardens Federation.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/berj-shakarian/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:d180b2472d7f3e",
+      "sourcePersonId": "berj-shakarian-2020",
+      "targetPersonId": "paul-burik-2019",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Berj Shakarian was inducted at the Centennial Plaza he designed by Paul Burik and Dr. Wael Khoury from the Cleveland Cultural Gardens Federation.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/berj-shakarian/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:892660f65aeb45",
+      "sourcePersonId": "ramesh-shah-2020",
+      "targetPersonId": "paramjit-singh-2010",
+      "relationshipType": "ceremonial_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.88,
+      "evidence": "Ramesh Shah was inducted by Federation of India Community Associations Board Chairman Sudarshan Sathe and welcomed to the Hall by Inaugural CIHF inductee Paramjit Singh.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ramesh-shah/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:2a9f979f90dbec",
+      "sourcePersonId": "ramesh-shah-2020",
+      "targetPersonId": "dr-jaya-shah-2012",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "All of this work is a joint effort with his wife, Dr. Jaya Shah, a pediatrician who was herself inducted into the Cleveland International Hall of Fame in 2012.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ramesh-shah/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:25991f3a062f13",
+      "sourcePersonId": "ramesh-shah-2020",
+      "targetPersonId": "sudarshan-sathe-2023",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Ramesh Shah was inducted by Federation of India Community Associations Board Chairman Sudarshan Sathe and welcomed to the Hall by Inaugural CIHF inductee Paramjit Singh.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ramesh-shah/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:25328562312e4b",
+      "sourcePersonId": "joyce-mariani-2023",
+      "targetPersonId": "basil-russo-2017",
+      "relationshipType": "inducted_by_or_induction_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.94,
+      "evidence": "Joyce was inducted by Basil Russo.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/joyce-mariani/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:22c838ae73948c",
+      "sourcePersonId": "joyce-mariani-2023",
+      "targetPersonId": "mayor-frank-jackson-2025",
+      "relationshipType": "ceremonial_connection",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.88,
+      "evidence": "She was presented the Italian Heritage Award in 2008 by Mayor Frank Jackson at Cleveland City Hall for her re-education of the public about the historical importance of the 1930 Italian Cultural Garden as a public cultural monument to Italy and for her dedication to the cultural arts of Italy.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/joyce-mariani/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:8e40365f3332f3",
+      "sourcePersonId": "dr-eugene-jordan-2024",
+      "targetPersonId": "khalid-samad-2016-2016",
+      "relationshipType": "collaborator",
+      "directional": false,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.92,
+      "evidence": "Dr. Eugene Jordan on the steps of City Hall When very few people outside of Texas and Oklahoma had ever heard of Juneteenth, Dr. Jordan (along with Khalid Samad, Carl Ewing and a few others) told the story and pushed for its celebration.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/dr-eugene-jordan/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:f48514b32d2e5b",
+      "sourcePersonId": "erika-puussaar-2024",
+      "targetPersonId": "irene-morrow-2010",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Judge Ralph Perk Jr., Irene Morrow and Erika Puussaar Erika continues to support the local Estonian communities’ activities as well as keeping informed of conditions in her homeland.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:b85c29edad58f0",
+      "sourcePersonId": "erika-puussaar-2024",
+      "targetPersonId": "ralph-perk-jr-2018",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Judge Ralph Perk Jr., Irene Morrow and Erika Puussaar Erika continues to support the local Estonian communities’ activities as well as keeping informed of conditions in her homeland.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:a40112ef729606",
+      "sourcePersonId": "erika-puussaar-2024",
+      "targetPersonId": "ingrida-bublys-2019",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Estonian Ambassador Kristjan Prikk being introduced Estonian Ambassador Kristjan Prikk Erika Puussaar receives award from Estonian Ambassador Kristjan Prikk Erika Puussaar giving acceptance speech MC Russ Mitchell lends a hand to Erika Puussaar Erika Puussaar with Estonian Ambassador and friends Erika Puussaar table Ukrainian leaders Marta Kelleher and Dr. George Jaskiw with Estonian Ambassador Kristjan Prikk Erika Puussaar with Egyptian Garden delegate Samy Tanious Cleveland City Council President Blaine Griffin with Estonian Ambassador Kristkan Prikk Slovenian Consul General Alenka Jerak, Estonian Ambassador Kristjan Prikk and Honorary Consul of Lithuania Ingrida Bublys Erika Puussaar with 2023 inductee Pierre Bejjani Ukrainian leader Marta Kelleher with Estonian Ambassador Kristjan Prikk Ukrainian leaders Dr. George Jaskiw and Marta Kelleher Dan Hanson, Ambassador Kristjan Prikk, Russ Mitchell and Honorary Lithuanian Consul Ingrida Bublys Erika Puussaar and Oanh Loi-Powell.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:65f460e66edd9f",
+      "sourcePersonId": "erika-puussaar-2024",
+      "targetPersonId": "pierre-bejjani-2023",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Estonian Ambassador Kristjan Prikk being introduced Estonian Ambassador Kristjan Prikk Erika Puussaar receives award from Estonian Ambassador Kristjan Prikk Erika Puussaar giving acceptance speech MC Russ Mitchell lends a hand to Erika Puussaar Erika Puussaar with Estonian Ambassador and friends Erika Puussaar table Ukrainian leaders Marta Kelleher and Dr. George Jaskiw with Estonian Ambassador Kristjan Prikk Erika Puussaar with Egyptian Garden delegate Samy Tanious Cleveland City Council President Blaine Griffin with Estonian Ambassador Kristkan Prikk Slovenian Consul General Alenka Jerak, Estonian Ambassador Kristjan Prikk and Honorary Consul of Lithuania Ingrida Bublys Erika Puussaar with 2023 inductee Pierre Bejjani Ukrainian leader Marta Kelleher with Estonian Ambassador Kristjan Prikk Ukrainian leaders Dr. George Jaskiw and Marta Kelleher Dan Hanson, Ambassador Kristjan Prikk, Russ Mitchell and Honorary Lithuanian Consul Ingrida Bublys Erika Puussaar and Oanh Loi-Powell.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:a9a22722d7309e",
+      "sourcePersonId": "johnny-k-wu-2024",
+      "targetPersonId": "aklilu-demessie-2026",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Russ Mitcehll introduces Margaret Wong Margaret Wong inducting Johnny Wu Margaret Wong inducts Johnny Wu Margaret Wong and Johnny Wu Johnny Wu Hall of Fame acceptance speech Anjan Ghose, Dan Monroe, Ying Pu and Margaret Wong watching Johnny Wu speak Margaret Wong, Johnny Wu and Lisa and Wayne Wong Eddie Ni Table Li Wah Table Johnny Wu Table Johnny Wu and friends Li Wah Table Ethiopian leader Aklilu Demessie with Johnny Wu and Bill Franklin Johnny Wu friends selfie Li Wah/Asia Plaza Johnny Wu and Nick Mulbach Johnny Wu and Nada Martinovic Johnny Wu and Anthony Yen Johnny Wu and friends Johnny K.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:cc2b7b68c1ddbd",
+      "sourcePersonId": "andy-fedynsky-2026",
+      "targetPersonId": "hon-mary-rose-oakar-2012",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "Following completion of a Masters Degree at John Carroll University in 1980, he joined the Washington staff of Congresswoman Mary Rose Oakar working on Cleveland development and interfacing with a myriad of ethnic and other community groups.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/andy-fedynsky/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:f4681a01a1ab23",
+      "sourcePersonId": "le-nguyen-2026",
+      "targetPersonId": "senator-george-voinovich-2010",
+      "relationshipType": "public_service_relationship",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.92,
+      "evidence": "His work quickly earned the trust of city leadership, and under Mayor George Voinovich, Le became a key figure in community relations.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:5e81381bc906c0",
+      "sourcePersonId": "le-nguyen-2026",
+      "targetPersonId": "valarie-mccall-2020",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "But he wrote his remarks which were read by the Mayor’s former Chief of Staff Valarie McCall.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:1f7ceed61f472a",
+      "sourcePersonId": "le-nguyen-2026",
+      "targetPersonId": "mayor-frank-jackson-2025",
+      "relationshipType": "documented_mention",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.82,
+      "evidence": "He later served as the city’s Asian Liaison under Mayor Michael White and continued his work through the administrations of Mayor Jane Campbell and Mayor Frank Jackson.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "relationshipStrength": "mention-only"
+    },
+    {
+      "id": "person-rel:1786508f3c767c",
+      "sourcePersonId": "lucy-torres-2026",
+      "targetPersonId": "mayor-frank-jackson-2025",
+      "relationshipType": "public_service_relationship",
+      "directional": true,
+      "verificationLayer": "documented-in-profile",
+      "confidence": 0.92,
+      "evidence": "Her leadership extended into municipal government, where she served as a community liaison under Mayor Frank Jackson from 2006 to 2016.",
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/lucy-torres/"
+      ],
+      "relationshipStrength": "semantic"
+    },
+    {
+      "id": "person-rel:5fe4fe35dd73a2",
+      "sourcePersonId": "taras-szmagala-2022",
+      "targetPersonId": "andy-fedynsky-2026",
+      "relationshipType": "inducted_by",
+      "directional": true,
+      "verificationLayer": "archive-supported-external-source",
+      "confidence": 0.75,
+      "evidence": "Taras Szmagala inducted into Cleveland International Hall of Fame 2022 Class, by Andrew Fedynsky",
+      "sourceUrls": [
+        "https://www.clevelandpeople.com/hof/2022/cihf-2022-taras-szmagala.htm"
+      ],
+      "archiveResourceIds": [
+        "archive-resource:external:92b90b5b29d31a"
+      ]
+    },
+    {
+      "id": "person-rel:6d69f4f9d65b17",
+      "sourcePersonId": "sister-alicia-alvarado-2018",
+      "targetPersonId": "jose-c-feliciano-2012",
+      "relationshipType": "joint_oral_history_participant",
+      "directional": false,
+      "verificationLayer": "finding-aid-and-opened-online-source",
+      "confidence": 0.98,
+      "evidence": "Sister Alicia Alvarado and José C. Feliciano participated in the same September 18, 2017 Stokes oral-history interview.",
+      "sourceUrls": [
+        "https://catalog.wrhs.org/collections/view?docId=ead/MS5416.xml",
+        "https://catalog.wrhs.org/collections/view?docId=ead/MS5416.xml;query=\"Sister Alicia\";brand=default",
+        "https://engagedscholarship.csuohio.edu/crohc000/1201"
+      ],
+      "archiveResourceIds": [
+        "archive-resource:wrhs:4460a6e4a7df6d",
+        "archive-resource:wrhs:29e1918edbb06d",
+        "archive-resource:external:170a910e4ef89a"
+      ]
+    }
+  ]
+}
