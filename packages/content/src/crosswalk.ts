@@ -181,35 +181,57 @@ export function inductionRelationships(
     ...(decision.reviewedAt === undefined ? {} : { reviewedAt: decision.reviewedAt }),
   };
 
-  const relationships: DocumentedRelationship[] = [];
-  for (const entry of crosswalk.entries) {
-    if (entry.resolution.status !== 'inductee') continue;
-    const inducter = entry.resolution.inducteeId;
-    const inducterName = nameOf(inducter);
-    if (!inducterName) continue;
+  return crosswalk.entries.flatMap((entry) => {
+    if (entry.resolution.status !== 'inductee') return [];
+    return proposedRelationships(entry, entry.resolution.inducteeId, nameOf)
+      .map((proposal) => ({ ...proposal, review, publication: decision.publication }));
+  });
+}
 
-    for (const inducted of entry.inducted) {
-      // A roster row naming its own subject is a data error, not a loop in the
-      // civic record. Emitting it would draw a line from a portrait to itself.
-      if (inducted === inducter) continue;
-      const inductedName = nameOf(inducted);
-      if (!inductedName) continue;
+/**
+ * Everything about an induction relationship except the permission to show it.
+ *
+ * Split out so the review sheet can put the exact record in front of the person
+ * signing it off. A sheet that composed its own preview could show one label
+ * and the build emit another, and the difference would be invisible until it
+ * was on a wall. There is one composition, used twice.
+ */
+export type ProposedRelationship = Omit<DocumentedRelationship, 'review' | 'publication'>;
 
-      relationships.push({
-        claim: 'documented',
-        id: `induction:${inducter}:${inducted}` as ConnectionId,
-        from: inducter,
-        to: inducted,
-        kind: 'inducted',
-        label: `inducted ${inductedName}`,
-        inverseLabel: `was inducted by ${inducterName}`,
-        review,
-        publication: decision.publication,
-        evidence: [inductionEvidence(entry.recordedName)],
-      });
-    }
+/**
+ * What resolving one crosswalk row to one inductee would publish.
+ *
+ * Takes the candidate id rather than reading the resolution, so the sheet can
+ * preview a candidate nobody has accepted yet.
+ */
+export function proposedRelationships(
+  entry: CrosswalkEntry,
+  inducter: InducteeId,
+  nameOf: (id: InducteeId) => string | undefined,
+): ProposedRelationship[] {
+  const inducterName = nameOf(inducter);
+  if (!inducterName) return [];
+
+  const proposals: ProposedRelationship[] = [];
+  for (const inducted of entry.inducted) {
+    // A roster row naming its own subject is a data error, not a loop in the
+    // civic record. Emitting it would draw a line from a portrait to itself.
+    if (inducted === inducter) continue;
+    const inductedName = nameOf(inducted);
+    if (!inductedName) continue;
+
+    proposals.push({
+      claim: 'documented',
+      id: `induction:${inducter}:${inducted}` as ConnectionId,
+      from: inducter,
+      to: inducted,
+      kind: 'inducted',
+      label: `inducted ${inductedName}`,
+      inverseLabel: `was inducted by ${inducterName}`,
+      evidence: [inductionEvidence(entry.recordedName)],
+    });
   }
-  return relationships;
+  return proposals;
 }
 
 /**

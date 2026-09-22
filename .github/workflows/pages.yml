@@ -76,7 +76,9 @@ jobs:
       # person changed. A sheet that has drifted from the roster silently loses
       # rows, and the rows are somebody's review work.
       - name: Curator sheets are current
-        run: npm run crosswalk:check
+        run: |
+          npm run crosswalk:check
+          npm run review:links:check
 
       # Catches the silent failure: a film's captions left untracked inside the
       # ignored video folder, so the wall builds without them and says nothing.

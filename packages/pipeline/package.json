@@ -6,7 +6,8 @@
   "description": "Reads canonical sources and emits published artifacts. No framework.",
   "scripts": {
     "test": "node --test --experimental-strip-types tests/*.test.ts",
-    "crosswalk": "node --experimental-strip-types scripts/crosswalk.mjs"
+    "crosswalk": "node --experimental-strip-types scripts/crosswalk.mjs",
+    "review:links": "node --experimental-strip-types scripts/review-sheet.mjs"
   },
   "exports": {
     ".": "./src/index.ts",
