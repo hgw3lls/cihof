@@ -22,13 +22,55 @@ test('the generator resolves nothing on its own', () => {
   assert.equal(built.crosswalk.publicationDecision, undefined);
 });
 
-test('candidates say they are only a string match', () => {
+test('every candidate says what stands behind it', () => {
   const withCandidates = built.crosswalk.entries.filter((entry) => entry.candidates.length > 0);
-  assert.equal(withCandidates.length, 21, 'names that also appear as an inductee display name');
+  assert.equal(withCandidates.length, 27, 'recorded names the sources can offer somebody for');
   for (const entry of withCandidates) {
     for (const candidate of entry.candidates) {
-      assert.equal(candidate.basis, 'normalised-name');
+      assert.ok(['normalised-name', 'corpus-induction-record'].includes(candidate.basis));
+      // The stronger basis has to bring the words a source actually says;
+      // without them a reviewer is being asked to trust a machine's join.
+      if (candidate.basis === 'corpus-induction-record') {
+        assert.ok(candidate.evidence && candidate.evidence.length > 0, entry.recordedName);
+        assert.ok(candidate.verificationLayer, entry.recordedName);
+      }
     }
+  }
+});
+
+test('the corpus resolves names that string matching cannot see', () => {
+  // "Margaret Wong" is recorded on three rows and the roster calls her
+  // "Margaret W. Wong". No amount of normalising finds that; the corpus
+  // reaches her through the honoree's id instead.
+  const wong = built.crosswalk.entries.find((entry) => entry.recordedName === 'Margaret Wong')!;
+  assert.deepEqual(wong.candidates.map((candidate) => candidate.inducteeId), ['margaret-w-wong-2010']);
+  assert.equal(wong.candidates[0]?.basis, 'corpus-induction-record');
+  assert.equal(wong.inducted.length, 3);
+});
+
+test('a recorded name the sources disagree about offers both, not a winner', () => {
+  const contested = built.crosswalk.entries.filter((entry) => entry.candidates.length > 1);
+  assert.ok(contested.length > 0, 'the corpus does disagree about some names');
+  for (const entry of contested) {
+    const ids = entry.candidates.map((candidate) => candidate.inducteeId);
+    assert.equal(new Set(ids).size, ids.length, 'and never offers the same person twice');
+  }
+});
+
+test('the corpus never promotes a candidate to a resolution', () => {
+  // It says so itself: its edges "should be source-verified against
+  // ceremony/program records before being presented as fully verified".
+  for (const entry of built.crosswalk.entries) {
+    assert.equal(entry.resolution.status, 'unresolved');
+  }
+});
+
+test('an absent corpus leaves the string matcher working', () => {
+  const withoutCorpus = buildInductionCrosswalk(undefined, []);
+  const withCandidates = withoutCorpus.crosswalk.entries.filter((entry) => entry.candidates.length > 0);
+  assert.equal(withCandidates.length, 21, 'the original name matches, unchanged');
+  for (const entry of withCandidates) {
+    for (const candidate of entry.candidates) assert.equal(candidate.basis, 'normalised-name');
   }
 });
 
