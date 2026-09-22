@@ -74,7 +74,8 @@
     "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false",
     "typecheck:web": "npm run typecheck --workspace apps/web",
     "review:links": "npm run review:links --workspace @cihof/pipeline",
-    "review:links:check": "npm run review:links --workspace @cihof/pipeline -- --check"
+    "review:links:check": "npm run review:links --workspace @cihof/pipeline -- --check",
+    "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
