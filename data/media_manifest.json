@@ -31,8 +31,8 @@
       "note": "Remote-only gallery images were downloaded, normalized for kiosk use, and linked into the media manifest."
     },
     "lastDecisionImport": {
-      "input": "publish-films.csv",
-      "appliedAt": "2026-09-22T01:42:04.382Z",
+      "input": "kiosk-only.csv",
+      "appliedAt": "2026-09-22T02:00:37.184Z",
       "rowsRead": 64,
       "recordsChanged": 64
     }
@@ -1494,7 +1494,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/KMVo49Zi-94?si=aH0AhM3kt1iGfG5_",
@@ -1515,7 +1515,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -1793,7 +1793,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/qtbU6qlpxRE?si=TuHMRsVv0cw28iim",
@@ -1814,7 +1814,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2080,7 +2080,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/xJ9n1QOUafg?si=D3NIkcJAB-C0FoKP",
@@ -2101,7 +2101,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2295,7 +2295,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/i5FJexABnHI?si=KY6AQyNWMYQhencV",
@@ -2316,7 +2316,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2438,7 +2438,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/kofOH1CYKBQ?si=ccMZ9uCqNLvI7Sx3",
@@ -2459,7 +2459,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2617,7 +2617,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/-2OMPdY2pfw?si=dr4MsFglOQBhgwZK",
@@ -2638,7 +2638,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2772,7 +2772,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/GDfhVKV-PfY?si=4bPHWAZEkb8h915D",
@@ -2793,7 +2793,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -2951,7 +2951,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/QEdXti9t8jE?si=dLFTXDvztiaa5QZg",
@@ -2972,7 +2972,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/hmsfn1_1Kpg?si=xem--CWQj73ccYlq",
@@ -2993,7 +2993,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3175,7 +3175,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/qzHokEDkXQc?si=OnOUWGKQf5bpxG9E",
@@ -3196,7 +3196,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/e_C-YpIWjt8?si=Mrlx5ERnLjVLNT47",
@@ -3217,7 +3217,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3483,7 +3483,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/IbJbwBpHWgs?si=9Lkd4rIJNTahfAr1",
@@ -3504,7 +3504,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/Tsl-t9x0Ub0?si=4PlHf81cjI1AlUTu",
@@ -3525,7 +3525,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/uw_NYpsccxM?si=3K74fLqmpr559H0-",
@@ -3546,7 +3546,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -3800,7 +3800,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/dW7qMIULLko?si=TjGiOsKIkgyT2WzM",
@@ -3821,7 +3821,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/eKdfG3zz9Os?si=ImEeFHgzcCvxx-_j",
@@ -3842,7 +3842,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -4084,7 +4084,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/kkjaaUZr2ps?si=UJuJTljl8hb7c1vc",
@@ -4105,7 +4105,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/mqCQvmZsu88?si=hlP7OTvRJEp3Zr_3",
@@ -4126,7 +4126,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -4764,7 +4764,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/KAhoZMRbZnA?si=naIpsNBE_cDXgL4H",
@@ -4785,7 +4785,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/iX7-ecPZvy4?si=nTGmVayn8_Unh24s",
@@ -4806,7 +4806,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5088,7 +5088,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5270,7 +5270,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -5560,7 +5560,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6114,7 +6114,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6404,7 +6404,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6670,7 +6670,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -6996,7 +6996,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/0KJhQyWFjDI?si=Tk8BykFmZBnJA6r9",
@@ -7017,7 +7017,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/FwV6dXkUhnc?si=DeReCXnc4wqsLej6",
@@ -7038,7 +7038,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7496,7 +7496,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/EATzGX8chuI?si=Ue-kri8xqYGDxeem",
@@ -7517,7 +7517,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7759,7 +7759,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/8CPuLovefwA?si=lHz3ruiZWG80xhmJ",
@@ -7780,7 +7780,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -7998,7 +7998,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8361,7 +8361,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/i-iB8SADV8Q?si=ZALvr6qgqKjZ0BAr",
@@ -8382,7 +8382,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8625,7 +8625,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/soPrjwdQWfw?si=caCbSsvOYJsCu6_0",
@@ -8646,7 +8646,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8780,7 +8780,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -8926,7 +8926,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9048,7 +9048,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9170,7 +9170,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9316,7 +9316,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9486,7 +9486,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9632,7 +9632,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/2KBxzdgiqJM",
@@ -9653,7 +9653,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -9823,7 +9823,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10029,7 +10029,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10223,7 +10223,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/QDE5BVEyNKg",
@@ -10244,7 +10244,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10534,7 +10534,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         },
         {
           "sourceUrl": "https://www.youtube.com/embed/-5gDFAKdaXM?feature=oembed",
@@ -10555,7 +10555,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10749,7 +10749,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -10908,7 +10908,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11090,7 +11090,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11272,7 +11272,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11478,7 +11478,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11576,7 +11576,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11663,7 +11663,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11773,7 +11773,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -11948,7 +11948,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12035,7 +12035,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12422,7 +12422,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -12701,7 +12701,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -13064,7 +13064,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -13426,7 +13426,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -13945,7 +13945,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14213,7 +14213,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14408,7 +14408,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14651,7 +14651,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -14918,7 +14918,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15329,7 +15329,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15428,7 +15428,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -15827,7 +15827,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16130,7 +16130,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16349,7 +16349,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16592,7 +16592,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16763,7 +16763,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -16970,7 +16970,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
@@ -17177,7 +17177,7 @@
           "transcriptStatus": "approved",
           "audioDescriptionStatus": "review-needed",
           "approvedForKiosk": true,
-          "approvedForPublicWeb": true
+          "approvedForPublicWeb": false
         }
       ],
       "notes": [
