@@ -27,7 +27,11 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const lastTime = useRef(0);
   const [problem, setProblem] = useState('');
-  const [transcript, setTranscript] = useState('');
+  // Three states, not two. An empty string meant both "still fetching" and
+  // "could not be fetched", so every film announced that its transcript had
+  // failed for as long as the request was in flight — a message that is not
+  // true yet, on the one part of the panel a visitor is told to rely on.
+  const [transcript, setTranscript] = useState<string | null>(null);
 
   useEffect(() => {
     // Stop the film before the element goes, so audio cannot outlive the panel.
@@ -42,6 +46,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
       .then((response) => (response.ok ? response.text() : Promise.reject(new Error(String(response.status)))))
       .then((text) => { if (!cancelled) setTranscript(text); })
       .catch(() => { if (!cancelled) setTranscript(''); });
+    setTranscript(null);
     return () => { cancelled = true; };
   }, [film.transcript]);
 
@@ -113,9 +118,11 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
 
         <section className="film__transcript" aria-label={`Transcript of ${personName}`}>
           <h3>Transcript</h3>
-          {transcript
-            ? <div>{transcript.split(/\n{2,}/).map((part, index) => <p key={index}>{part.trim()}</p>)}</div>
-            : <p className="film__problem">The transcript could not be loaded.</p>}
+          {transcript === null
+            ? <p className="film__loading">Loading the transcript…</p>
+            : transcript
+              ? <div>{transcript.split(/\n{2,}/).map((part, index) => <p key={index}>{part.trim()}</p>)}</div>
+              : <p className="film__problem">The transcript could not be loaded.</p>}
         </section>
       </div>
     </Modal>

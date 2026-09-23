@@ -257,7 +257,7 @@ test('a freshly generated sheet reads as undecided', () => {
 
 test('a typed decision is found, and named so the person recognises it', () => {
   const filled = `${header}\nSam Miller,no-candidate,not-an-inductee,,cur-2026-063,`;
-  assert.deepEqual(decisionsInSheet(filled), ['Sam Miller: not-an-inductee [cur-2026-063]']);
+  assert.deepEqual(decisionsInSheet(filled), ['Sam Miller: not-an-inductee / cur-2026-063']);
 });
 
 test('a reference with no decision still counts as work in progress', () => {
@@ -270,7 +270,10 @@ test('a sheet whose columns were reordered is still read correctly', () => {
   // Spreadsheets move columns. Reading by position would find the decision in
   // the wrong cell, or miss it entirely and overwrite the file.
   const moved = 'decisionReference,decision,recordedName\ncur-2026-063,not-an-inductee,Sam Miller';
-  assert.deepEqual(decisionsInSheet(moved), ['Sam Miller: not-an-inductee [cur-2026-063]']);
+  // Reported in the order the columns were asked for, not the order the sheet
+  // happens to carry them, so the message reads the same whatever a
+  // spreadsheet did to the layout.
+  assert.deepEqual(decisionsInSheet(moved), ['Sam Miller: not-an-inductee / cur-2026-063']);
 });
 
 test('a sheet with no decision columns refuses rather than reporting nothing', () => {
@@ -286,5 +289,5 @@ test('an empty file is genuinely empty, not a refusal', () => {
 
 test('a quoted name carrying a comma survives detection', () => {
   const quoted = `${header}\n"Wong, Margaret",no-candidate,inductee,margaret-w-wong-2010,cur-2026-063,`;
-  assert.deepEqual(decisionsInSheet(quoted), ['Wong, Margaret: inductee [cur-2026-063]']);
+  assert.deepEqual(decisionsInSheet(quoted), ['Wong, Margaret: inductee / cur-2026-063']);
 });

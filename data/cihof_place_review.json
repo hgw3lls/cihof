@@ -1,0 +1,1302 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-23T02:46:02.171Z",
+  "source": "data/cihof_places.json + data/cihof_place_associations.json",
+  "rows": [
+    {
+      "placeId": "place:cleveland-ohio",
+      "name": "Cleveland, Ohio",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "anda-cook-2022",
+          "displayName": "Anda Cook",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "beverly-kerecman-2025",
+          "displayName": "Beverly Kerecman",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "bishop-a-edward-pevec-2013",
+          "displayName": "Bishop A. Edward Pevec",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "catherine-jorgensen-mccutcheon-2026",
+          "displayName": "Catherine Jorgensen McCutcheon",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "dr-dieu-thuc-do-2010",
+          "displayName": "Dr. Dieu Thuc Do",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "helen-karpinski-1899-2002-2010",
+          "displayName": "Helen Karpinski (1899 – 2002)",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "jack-coyne-2013",
+          "displayName": "Jack Coyne",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "jack-coyne-2013",
+          "displayName": "Jack Coyne",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "josef-holzer-2013",
+          "displayName": "Josef Holzer",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "lonnie-mccauley-2010",
+          "displayName": "Lonnie McCauley",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "pierre-bejjani-2023",
+          "displayName": "Pierre Bejjani",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "richard-a-ganim-2015",
+          "displayName": "Richard A. Ganim",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "taras-szmagala-2022",
+          "displayName": "Taras Szmagala",
+          "kind": "born_in",
+          "role": null
+        },
+        {
+          "person": "veronica-dahlberg-2024",
+          "displayName": "Veronica Dahlberg",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "victor-ruiz-2022",
+          "displayName": "Victor Ruiz",
+          "kind": "moved_to",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-cultural-gardens",
+      "name": "Cleveland Cultural Gardens",
+      "band": "researched",
+      "neighborhood": "Rockefeller Park",
+      "shortHistory": "The gardens are one of Cleveland's clearest physical expressions of immigrant memory, cultural pride, and civic welcome. Multiple inductee biographies connect community leaders to the gardens, their federation, and individual national gardens.",
+      "ties": [
+        {
+          "person": "anda-cook-2022",
+          "displayName": "Anda Cook",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "berj-shakarian-2020",
+          "displayName": "Berj Shakarian",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "branka-malinar-2025",
+          "displayName": "Branka Malinar",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "johnny-k-wu-2024",
+          "displayName": "Johnny K. Wu",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "joyce-mariani-2023",
+          "displayName": "Joyce Mariani",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "leo-weidenthal-2010",
+          "displayName": "Leo Weidenthal",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "paul-burik-2019",
+          "displayName": "Paul Burik",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "svetlana-stolyarova-2025",
+          "displayName": "Svetlana Stolyarova",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "wael-khoury-2017",
+          "displayName": "Wael Khoury",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-state-university",
+      "name": "Cleveland State University",
+      "band": "researched",
+      "neighborhood": "Campus District",
+      "shortHistory": "Cleveland State University connects education, civic leadership, law, business, and public service across the CIHOF collection. Several inductees are linked to CSU through study, leadership, or institutional service.",
+      "ties": [
+        {
+          "person": "alex-machaskee-2010",
+          "displayName": "Alex Machaskee",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "jeanette-grasselli-brown-2010",
+          "displayName": "Jeanette Grasselli Brown",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "margaret-w-wong-2010",
+          "displayName": "Margaret W. Wong",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "mayor-frank-jackson-2025",
+          "displayName": "Mayor Frank Jackson",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "monte-ahuja-2014",
+          "displayName": "Monte Ahuja",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-city-hall",
+      "name": "Cleveland City Hall",
+      "band": "researched",
+      "neighborhood": "Downtown",
+      "shortHistory": "City Hall appears in CIHOF records as a civic setting for international community recognition, including the City Hall Rotunda gatherings described in Mayor Frank Jackson's biography.",
+      "ties": [
+        {
+          "person": "dr-eugene-jordan-2024",
+          "displayName": "Dr. Eugene Jordan",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "joe-valencic-2020",
+          "displayName": "Joe Valencic",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "joyce-mariani-2023",
+          "displayName": "Joyce Mariani",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "mayor-frank-jackson-2025",
+          "displayName": "Mayor Frank Jackson",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "tony-petkovsek-2011",
+          "displayName": "Tony Petkovsek",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:one-world-day-rockefeller-park",
+      "name": "One World Day at Rockefeller Park",
+      "band": "researched",
+      "neighborhood": "Rockefeller Park",
+      "shortHistory": "One World Day brings Cleveland communities together in the Cultural Gardens corridor. The starter record groups inductees whose biographies mention One World Day or major public cultural programming connected to the gardens.",
+      "ties": [
+        {
+          "person": "anda-cook-2022",
+          "displayName": "Anda Cook",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "dona-brady-2024",
+          "displayName": "Dona Brady",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "georgine-welo-2023",
+          "displayName": "Georgine Welo",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "johnny-k-wu-2024",
+          "displayName": "Johnny K. Wu",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "sheila-murphy-crawford-2018",
+          "displayName": "Sheila Murphy Crawford",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:asiatown",
+      "name": "AsiaTown",
+      "band": "researched",
+      "neighborhood": "AsiaTown",
+      "shortHistory": "AsiaTown is a Cleveland neighborhood context for Asian cultural life, business, organizing, and public festivals. The starter record groups nearby business and community references from the collection.",
+      "ties": [
+        {
+          "person": "donna-hom-2014",
+          "displayName": "Donna Hom",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "giahoa-ryan-2011",
+          "displayName": "Giahoa Ryan",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "johnny-k-wu-2024",
+          "displayName": "Johnny K. Wu",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "margaret-w-wong-2010",
+          "displayName": "Margaret W. Wong",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-public-library",
+      "name": "Cleveland Public Library",
+      "band": "researched",
+      "neighborhood": "Downtown",
+      "shortHistory": "The library is a downtown cultural anchor and public memory institution. It appears in several inductee records as part of Cleveland's civic and cultural infrastructure.",
+      "ties": [
+        {
+          "person": "andy-chakalis-2026",
+          "displayName": "Andy Chakalis",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "beverly-kerecman-2025",
+          "displayName": "Beverly Kerecman",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "joe-valencic-2020",
+          "displayName": "Joe Valencic",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "leo-weidenthal-2010",
+          "displayName": "Leo Weidenthal",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:asia-plaza",
+      "name": "Asia Plaza",
+      "band": "researched",
+      "neighborhood": "AsiaTown",
+      "shortHistory": "Asia Plaza is represented here as a business and gathering place connected to Cleveland Asian community life in the inductee records.",
+      "ties": [
+        {
+          "person": "donna-hom-2014",
+          "displayName": "Donna Hom",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "johnny-k-wu-2024",
+          "displayName": "Johnny K. Wu",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:central-kinsman",
+      "name": "Central and Kinsman",
+      "band": "researched",
+      "neighborhood": "Central and Kinsman",
+      "shortHistory": "Mayor Frank Jackson's biography names Central and Kinsman as formative Cleveland neighborhoods. The place record creates a bridge from personal story to neighborhood history.",
+      "ties": [
+        {
+          "person": "mayor-frank-jackson-2025",
+          "displayName": "Mayor Frank Jackson",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "paul-sciria-2010",
+          "displayName": "Paul Sciria",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:sai-gon-plaza",
+      "name": "Sai Gon Plaza",
+      "band": "researched",
+      "neighborhood": "AsiaTown",
+      "shortHistory": "Sai Gon Plaza is included as a business and community gathering place tied to Vietnamese American leadership in the collection.",
+      "ties": [
+        {
+          "person": "dr-dieu-thuc-do-2010",
+          "displayName": "Dr. Dieu Thuc Do",
+          "kind": "associated_with_place",
+          "role": null
+        },
+        {
+          "person": "giahoa-ryan-2011",
+          "displayName": "Giahoa Ryan",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:united-states",
+      "name": "United States",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "giahoa-ryan-2011",
+          "displayName": "Giahoa Ryan",
+          "kind": "moved_to",
+          "role": null
+        },
+        {
+          "person": "shiv-k-aggarwal-2015",
+          "displayName": "Shiv K. Aggarwal",
+          "kind": "moved_to",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:ashtabula",
+      "name": "Ashtabula",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "veronica-dahlberg-2024",
+          "displayName": "Veronica Dahlberg",
+          "kind": "moved_to",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:beachwood-ohio",
+      "name": "Beachwood, Ohio",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "alex-machaskee-2010",
+          "displayName": "Alex Machaskee",
+          "kind": "lived_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:bentleyville-oh",
+      "name": "Bentleyville, OH",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "taras-szmagala-2022",
+          "displayName": "Taras Szmagala",
+          "kind": "lived_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cairo-egypt",
+      "name": "Cairo, Egypt",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "rev-mikhail-mikhail-2016",
+          "displayName": "Rev. Mikhail Mikhail",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:can-tho-vietnam",
+      "name": "Can Tho, Vietnam",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "le-nguyen-2026",
+          "displayName": "Le Nguyen",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:canton-ohio",
+      "name": "Canton, Ohio",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "veronica-dahlberg-2024",
+          "displayName": "Veronica Dahlberg",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland",
+      "name": "Cleveland",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "rev-mikhail-mikhail-2016",
+          "displayName": "Rev. Mikhail Mikhail",
+          "kind": "moved_to",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:detroit-michigan",
+      "name": "Detroit, Michigan",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "erika-puussaar-2024",
+          "displayName": "Erika Puussaar",
+          "kind": "moved_to",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:east-technical-high-school",
+      "name": "East Technical High School",
+      "band": "researched",
+      "neighborhood": "Central",
+      "shortHistory": "Mayor Frank Jackson's record identifies East Technical High School as the setting for his January 2, 2006 mayoral swearing-in, making it a civic memory point in this collection.",
+      "ties": [
+        {
+          "person": "mayor-frank-jackson-2025",
+          "displayName": "Mayor Frank Jackson",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:garracloon-county-mayo",
+      "name": "Garracloon, County Mayo",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "gerald-m-quinn-2011",
+          "displayName": "Gerald M. Quinn",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:greater-cleveland-ethnographic-museum",
+      "name": "Greater Cleveland Ethnographic Museum",
+      "band": "researched",
+      "neighborhood": "Greater Cleveland",
+      "shortHistory": "The museum initiative appears in August Pust's biography and points to the preservation of Cleveland's ethnic and cultural histories.",
+      "ties": [
+        {
+          "person": "august-pust-2010",
+          "displayName": "August Pust",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:guangdong-province-in-southern-china",
+      "name": "Guangdong province in southern China",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "donna-hom-2014",
+          "displayName": "Donna Hom",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:hong-kong",
+      "name": "Hong Kong",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "johnny-k-wu-2024",
+          "displayName": "Johnny K. Wu",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:india",
+      "name": "India",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "shiv-k-aggarwal-2015",
+          "displayName": "Shiv K. Aggarwal",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:kurnool",
+      "name": "Kurnool",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "vijaya-l-emani-2011",
+          "displayName": "Vijaya L. Emani",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:la-grange-ga",
+      "name": "La Grange, GA",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "reverend-dr-otis-moss-jr-2011",
+          "displayName": "Reverend Dr. Otis Moss, Jr.",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:max-s-hayes-high-school",
+      "name": "Max S. Hayes High School",
+      "band": "researched",
+      "neighborhood": "West Side",
+      "shortHistory": "Mayor Frank Jackson's biography identifies Max S. Hayes High School as part of his Cleveland education story before military service, college, law, and public office.",
+      "ties": [
+        {
+          "person": "mayor-frank-jackson-2025",
+          "displayName": "Mayor Frank Jackson",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:poland",
+      "name": "Poland",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "eugene-bak-2014",
+          "displayName": "Eugene Bak",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:puerto-rico",
+      "name": "Puerto Rico",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "victor-ruiz-2022",
+          "displayName": "Victor Ruiz",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:rach-gia-viet-nam",
+      "name": "Rach Gia, Viet Nam",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "dr-dieu-thuc-do-2010",
+          "displayName": "Dr. Dieu Thuc Do",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:rijeka-flume-croatia",
+      "name": "Rijeka (Flume), Croatia",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "vladimir-rus-2012",
+          "displayName": "Vladimir Rus",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:shaker-heights",
+      "name": "Shaker Heights",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "jack-coyne-2013",
+          "displayName": "Jack Coyne",
+          "kind": "lived_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:st-clair-superior",
+      "name": "St. Clair-Superior",
+      "band": "researched",
+      "neighborhood": "St. Clair-Superior",
+      "shortHistory": "St. Clair-Superior is included as an east side neighborhood shaped by cultural, business, and community organizations. This starter record keeps the place available for deeper neighborhood curation.",
+      "ties": [
+        {
+          "person": "carl-robson-2022",
+          "displayName": "Carl Robson",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:st-colman-church",
+      "name": "St. Colman Church",
+      "band": "researched",
+      "neighborhood": "Near West Side",
+      "shortHistory": "St. Colman appears in Fr. Jim O'Donnell's CIHOF record and represents the role of churches as neighborhood anchors in Cleveland's immigrant and civic life.",
+      "ties": [
+        {
+          "person": "fr-jim-o-donnell-2012",
+          "displayName": "Fr. Jim O’Donnell",
+          "kind": "associated_with_place",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:utuado-puerto-rico",
+      "name": "Utuado, Puerto Rico",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "honorable-jose-a-villanueva-2015",
+          "displayName": "Honorable José A. Villanueva",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:vietnam",
+      "name": "Vietnam",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "giahoa-ryan-2011",
+          "displayName": "Giahoa Ryan",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:villalba-puerto-rico",
+      "name": "Villalba, Puerto Rico",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "sister-alicia-alvarado-2018",
+          "displayName": "Sister Alicia Alvarado",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:warren-ohio-mr",
+      "name": "Warren, Ohio, Mr",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "alex-machaskee-2010",
+          "displayName": "Alex Machaskee",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:yauco-puerto-rico",
+      "name": "Yauco, Puerto Rico",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "jose-c-feliciano-2012",
+          "displayName": "José C. Feliciano",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:youngstown-ohio",
+      "name": "Youngstown, Ohio",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [
+        {
+          "person": "lucretia-stoica-2011",
+          "displayName": "Lucretia Stoica",
+          "kind": "born_in",
+          "role": null
+        }
+      ],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:albania",
+      "name": "Albania",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:beachwood",
+      "name": "Beachwood",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:buckeye",
+      "name": "Buckeye",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:china",
+      "name": "China",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-clinic",
+      "name": "Cleveland Clinic",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cleveland-heights",
+      "name": "Cleveland Heights",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:collinwood",
+      "name": "Collinwood",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:county-cork",
+      "name": "County Cork",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:county-mayo",
+      "name": "County Mayo",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:cultrual-garden",
+      "name": "Cultrual Garden",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:detroit-shoreway",
+      "name": "Detroit Shoreway",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:downtown",
+      "name": "Downtown",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:egypt",
+      "name": "Egypt",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:estonia",
+      "name": "Estonia",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:ethiopia",
+      "name": "Ethiopia",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:germany",
+      "name": "Germany",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:glenville",
+      "name": "Glenville",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:greater-cleveland",
+      "name": "Greater Cleveland",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:greece",
+      "name": "Greece",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:hungary",
+      "name": "Hungary",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:italian-garden",
+      "name": "Italian Garden",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:italy",
+      "name": "Italy",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:japan",
+      "name": "Japan",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:kinsman",
+      "name": "Kinsman",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:lakewood",
+      "name": "Lakewood",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:latvia",
+      "name": "Latvia",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:lebanon",
+      "name": "Lebanon",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:lithuania",
+      "name": "Lithuania",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:little-italy",
+      "name": "Little Italy",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:near-west-side",
+      "name": "Near West Side",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:norway",
+      "name": "Norway",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:rockefeller-park",
+      "name": "Rockefeller Park",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:russia",
+      "name": "Russia",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:slavic-village",
+      "name": "Slavic Village",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:st-clair",
+      "name": "St. Clair",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:tremont",
+      "name": "Tremont",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:ukraine",
+      "name": "Ukraine",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:university-circle",
+      "name": "University Circle",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:usa",
+      "name": "USA",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:ward-5",
+      "name": "Ward 5",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    },
+    {
+      "placeId": "place:west-park",
+      "name": "West Park",
+      "band": "lead",
+      "neighborhood": "",
+      "shortHistory": "",
+      "ties": [],
+      "reviewed": false
+    }
+  ]
+}

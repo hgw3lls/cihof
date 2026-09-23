@@ -227,3 +227,13 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .recovery__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 .recovery__actions button { min-height: var(--tap); padding: 0 1.25rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; }
 .recovery__actions button:disabled { opacity: 0.45; }
+
+/* Places. A reviewed place, its history, and the people a curator gave a role
+   at it. A place with no reviewed ties says so rather than looking deserted. */
+.places { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.5rem); }
+.places__note { margin: 0; color: var(--muted); font-size: clamp(0.8125rem, 1.5vh, 1rem); }
+.places__place h2 { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: baseline; margin: 0 0 0.5rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--rule); font-size: clamp(1.25rem, 3vh, 2rem); }
+.places__place h2 span { font-size: clamp(0.75rem, 1.3vh, 0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.places__history { margin: 0 0 1rem; max-width: 52rem; font-size: clamp(0.9375rem, 1.7vh, 1.125rem); line-height: 1.5; text-wrap: pretty; }
+.places__pending { margin: 0; color: var(--muted); font-size: clamp(0.8125rem, 1.5vh, 1rem); }
+.film__loading { margin: 0; color: var(--muted); }
