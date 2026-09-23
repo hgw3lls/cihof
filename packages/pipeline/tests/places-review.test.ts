@@ -168,3 +168,16 @@ function splitRow(row: string): string[] {
   cells.push(value);
   return cells;
 }
+
+test('the researched flag agrees with whether a history exists', () => {
+  // It was written onto the 68 ingested places and left off the 14 that were
+  // already here, so the field read backwards for exactly the records it was
+  // meant to mark. Nothing behaved wrongly — the review sheet bands on
+  // `shortHistory` — but a field that disagrees with the thing it describes is
+  // a trap for whoever reads it next.
+  for (const place of seeds as { id: string; shortHistory?: string; researched?: boolean }[]) {
+    const hasHistory = String(place.shortHistory ?? '').trim().length > 0;
+    assert.equal(place.researched, hasHistory, `${place.id} is marked ${place.researched} with history=${hasHistory}`);
+  }
+  assert.equal(seeds.filter((p) => (p as { researched?: boolean }).researched).length, 14);
+});
