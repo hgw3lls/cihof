@@ -3,6 +3,8 @@ import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState } from '../state/exhibit.ts';
 import { People } from './People.tsx';
 import { Years } from './Years.tsx';
+import { Links } from './Links.tsx';
+import { Places } from './Places.tsx';
 import { Record } from './Record.tsx';
 import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
@@ -39,6 +41,8 @@ export function App() {
   }, []);
 
   const people = bundle?.people ?? [];
+  const relationships = bundle?.relationships ?? [];
+  const places = bundle?.places ?? [];
   const offered = bundle?.lenses ?? ['people'];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
@@ -133,7 +137,27 @@ export function App() {
         </aside>
 
         <div className="stage">
-          {state.lens === 'years'
+          {state.lens === 'places'
+            ? (
+              <Places
+                places={places}
+                people={people}
+                selectedId={state.selectedId}
+                onSelect={(personId) => dispatch({ type: 'select', personId })}
+                onOpen={(personId) => dispatch({ type: 'open-record', personId })}
+              />
+            )
+            : state.lens === 'links'
+            ? (
+              <Links
+                people={people}
+                relationships={relationships}
+                selectedId={state.selectedId}
+                onSelect={(personId) => dispatch({ type: 'select', personId })}
+                onOpen={(personId) => dispatch({ type: 'open-record', personId })}
+              />
+            )
+            : state.lens === 'years'
             ? (
               <Years
                 people={people}

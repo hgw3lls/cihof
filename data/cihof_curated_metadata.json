@@ -5,10 +5,10 @@
     "baseData": "data/cihof_kiosk_manifest.csv",
     "recordCount": 111,
     "lastDecisionImport": {
-      "input": "cihof-first-pass-content.csv",
-      "appliedAt": "2026-09-12T20:05:25.027Z",
-      "rowsRead": 111,
-      "recordsChanged": 111
+      "input": "heritage-corrections-2026-09-22.csv",
+      "appliedAt": "2026-09-23T01:34:34.521Z",
+      "rowsRead": 3,
+      "recordsChanged": 3
     },
     "week1RemainingTextFlagsRepair": {
       "appliedAt": "2026-09-13T18:21:30.974Z",
@@ -1489,9 +1489,10 @@
         "Czech"
       ],
       "approvedCountryTags": [
-        "Czech"
+        "Czech",
+        "Slovak"
       ],
-      "countryNotes": "First-pass nationality/heritage tags promoted from CIHOF profile text and class/source-page context. Source: https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/",
+      "countryNotes": "Slovak heritage added alongside Czech, 2026-09-22.",
       "documentedContextLine": "Class of 2011 honoree connected to Czech. Inducted by Justice Terrence O'Donnell.",
       "honoredForSummary": "Contributions to civic leadership, law and justice, and arts and culture within Czech heritage communities and to Greater Cleveland's multicultural civic life.",
       "lifeWorkSummary": "Ralph J. Perk The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for his human rights advocacy and his anti-communist, anti-totalitarian stance. Before becoming Mayor, Perk served Ward 13 (Broadway/East 55th area) as its council member for five terms. In 1962, Perk, a Republican, won the first countywide election in Cuyahoga County in fifty years, and was elected as Auditor. He was re-elected to this position for two more terms. He had two unsuccessful attempts at a run for Mayor."
@@ -3639,8 +3640,10 @@
         "Life + Work summary repaired from existing CIHOF profile text on 2026-09-13; factual approval remains separate."
       ],
       "countryTagCandidates": [],
-      "approvedCountryTags": [],
-      "countryNotes": "Class-country attachment marks Dick Pogue as NA - Jones Day for a community-based induction; no nationality/heritage tag is assigned.",
+      "approvedCountryTags": [
+        "Scotch-Irish"
+      ],
+      "countryNotes": "Scotch-Irish heritage recorded 2026-09-22. Supersedes the earlier note that no nationality tag was assigned; the Jones Day community tag is the basis of the induction and is unchanged.",
       "documentedContextLine": "Class of 2015 honoree connected to Jones Day. Inducted by Sanjiv Kapur.",
       "honoredForSummary": "Contributions to education, law and justice, and diplomacy and global affairs and to Greater Cleveland's multicultural civic life.",
       "lifeWorkSummary": "Dick Pogue shaped Cleveland's legal, business, civic, and educational institutions through decades of leadership at Jones Day and regional boards. His career included military legal service, antitrust and corporate practice, managing-partner leadership during Jones Day's national and international growth, and sustained support for universities, arts organizations, and global business connections."
@@ -4848,9 +4851,10 @@
         "Slovenian"
       ],
       "approvedCountryTags": [
-        "Slovenian"
+        "Polish",
+        "German"
       ],
-      "countryNotes": "First-pass nationality/heritage tags promoted from CIHOF profile text and class/source-page context. Source: https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
+      "countryNotes": "Heritage corrected 2026-09-22: Polish and German, replacing an earlier Slovenian attribution.",
       "documentedContextLine": "Class of 2017 honoree connected to Slovenian. Inducted by August Pust.",
       "honoredForSummary": "Contributions to arts and culture, education, and media and storytelling within Slovenian heritage communities and to Greater Cleveland's multicultural civic life.",
       "lifeWorkSummary": "Bill Miller used storytelling, public curiosity, and civic engagement to connect Clevelanders across neighborhoods and communities. His work emphasized listening to people's lives, sharing local stories, and helping residents see the city's cultural depth, making media and public conversation part of his service to Greater Cleveland."

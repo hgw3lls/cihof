@@ -38,7 +38,28 @@ test('the same people, by canonical id', () => {
   assert.equal(rebuiltIds.size, 111);
 });
 
-test('every published field the web needs is reproduced', () => {
+/**
+ * Differences a curator has looked at and intends.
+ *
+ * The fixture is the record as the old pipeline published it, and it is frozen
+ * on purpose. When curated content is corrected the rebuild will rightly differ
+ * from it, and the honest way to record that is here — naming the difference
+ * and why — rather than by re-snapshotting the fixture, which would discard
+ * the evidence this test exists to produce.
+ *
+ * An entry is a decision, so it carries who decided and when. Anything not
+ * listed still fails.
+ */
+const reviewedDifferences = new Set([
+  // Heritage corrections supplied by the project owner, 2026-09-22.
+  'bill-miller-2017.countryTags: published [Slovenian] -> rebuilt [Polish, German]',
+  'ralph-j-perk-2011.countryTags: published [Czech] -> rebuilt [Czech, Slovak]',
+  // Pogue was inducted on a community basis and the record said no nationality
+  // tag was assigned. That decision was revisited, not overlooked.
+  'dick-pogue-2015.countryTags: published [] -> rebuilt [Scotch-Irish]',
+]);
+
+function collectDifferences(): string[] {
   const differences: string[] = [];
 
   for (const person of published) {
@@ -60,7 +81,23 @@ test('every published field the web needs is reproduced', () => {
     compareList(differences, id, 'countryTags', person['countryTags'], next.countries.values);
   }
 
-  assert.deepEqual(differences.slice(0, 12), [], `${differences.length} field differences`);
+  return differences;
+}
+
+test('every published field the web needs is reproduced', () => {
+  const differences = collectDifferences();
+  const unexplained = differences.filter((difference) => !reviewedDifferences.has(difference));
+  assert.deepEqual(unexplained.slice(0, 12), [], `${unexplained.length} unexplained field differences`);
+});
+
+test('every reviewed difference is still a real difference', () => {
+  // An entry that stops matching has been fixed, reverted, or mistyped, and
+  // leaving it here would quietly excuse a future regression that happened to
+  // read the same way.
+  const differences = new Set(collectDifferences());
+  for (const reviewed of reviewedDifferences) {
+    assert.ok(differences.has(reviewed), `no longer differs, so remove it from the list: ${reviewed}`);
+  }
 });
 
 test('provenance is recorded for text the published record left unmarked', () => {

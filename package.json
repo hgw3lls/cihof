@@ -72,7 +72,14 @@
     "typecheck:app": "tsc -b --pretty false",
     "typecheck:packages": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false",
     "typecheck:exhibit": "tsc -p apps/exhibit/tsconfig.json --pretty false",
-    "typecheck:web": "npm run typecheck --workspace apps/web"
+    "typecheck:web": "npm run typecheck --workspace apps/web",
+    "review:links": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs",
+    "review:links:check": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs --check",
+    "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
+    "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js",
+    "review:places": "node --experimental-strip-types packages/pipeline/scripts/place-sheet.mjs",
+    "review:places:check": "node --experimental-strip-types packages/pipeline/scripts/place-sheet.mjs --check",
+    "places:apply": "node --experimental-strip-types scripts/apply-place-decisions.js"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

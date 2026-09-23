@@ -106,6 +106,75 @@ body {
 .class h2 { display: flex; gap: 0.75rem; align-items: baseline; margin: 0 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--rule); font-size: clamp(1.25rem, 3vh, 2rem); }
 .class h2 span { font-size: clamp(0.75rem, 1.3vh, 0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 
+/* Connections, as a map that recentres on whoever is chosen.
+
+   Ties are SVG beneath; people are real buttons above it, so a touch target
+   stays a touch target and the tab order is the document's. Positions come
+   from `connectionMap` as percentages, and one animation loop moves the lines
+   and the portraits together. Nothing moves once it has arrived.
+
+   A node's box is its portrait and nothing else. The name is taken out of the
+   flow and hung beneath it, because a name in the box made every node as wide
+   as its longest word and forty-six of those overlapped into a single blob. */
+.map { display: flex; flex-direction: column; gap: 0.5rem; height: 100%; min-height: 0; }
+.map__note { margin: 0; color: var(--muted); font-size: clamp(0.8125rem, 1.5vh, 1rem); text-wrap: pretty; }
+
+.map__field { position: relative; flex: 1; min-height: min(68vh, 38rem); }
+.map__ties { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.map__tie { stroke: var(--rule); stroke-width: 1; opacity: 0.18; vector-effect: non-scaling-stroke; }
+.map__tie--focus { stroke: var(--accent); stroke-width: 2; opacity: 0.9; }
+
+.map__person {
+  position: absolute; translate: -50% -50%;
+  display: block; padding: 0; border: 0; background: transparent;
+  color: inherit; font: inherit; cursor: pointer; line-height: 0;
+}
+.map__person:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
+
+.map__portrait { display: block; overflow: hidden; border: 2px solid var(--rule); background: var(--ground); }
+.map__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Hung below the portrait, centred, and out of the node's own box. */
+.map__name, .map__label {
+  position: absolute; left: 50%; translate: -50% 0;
+  width: max-content; max-width: 8rem;
+  pointer-events: none; line-height: 1.15; text-align: center; text-wrap: balance;
+}
+.map__name { top: calc(100% + 0.25rem); font-size: 0.8125rem; font-weight: 600; }
+.map__label { top: calc(100% + 1.4rem); font-size: 0.6875rem; color: var(--muted); }
+
+/* Above the centre line the name goes above the portrait, so it never falls
+   across whoever is at the middle. */
+.map__person--nameup .map__name { top: auto; bottom: calc(100% + 1.4rem); }
+.map__person--nameup .map__label { top: auto; bottom: calc(100% + 0.25rem); }
+
+/* Size carries the ring, so the arrangement reads at a glance without relying
+   on colour. Only the centre and the people it touches are named outright;
+   naming all forty-six at once is the blob again. */
+.map__person--focus .map__portrait { width: clamp(4.5rem, 10vh, 6.5rem); aspect-ratio: 1; border-color: var(--accent); border-width: 3px; }
+.map__person--focus .map__name { top: calc(100% + 0.35rem); font-size: clamp(0.95rem, 1.9vh, 1.15rem); font-weight: 700; }
+
+.map__person--tie .map__portrait { width: clamp(3rem, 6.5vh, 4rem); aspect-ratio: 1; }
+
+.map__person--cluster .map__portrait { width: clamp(2.25rem, 4.5vh, 2.75rem); aspect-ratio: 1; opacity: 0.8; }
+.map__person--elsewhere .map__portrait { width: clamp(1.75rem, 3.5vh, 2.25rem); aspect-ratio: 1; opacity: 0.5; }
+
+/* The outer two rings stay silent until they are reached for. */
+.map__person--cluster .map__name, .map__person--elsewhere .map__name { opacity: 0; transition: opacity 120ms; font-size: 0.75rem; }
+.map__person--cluster:hover .map__name, .map__person--cluster:focus-visible .map__name,
+.map__person--elsewhere:hover .map__name, .map__person--elsewhere:focus-visible .map__name { opacity: 1; }
+.map__person--cluster:hover .map__portrait, .map__person--cluster:focus-visible .map__portrait,
+.map__person--elsewhere:hover .map__portrait, .map__person--elsewhere:focus-visible .map__portrait { opacity: 1; }
+
+/* However small a portrait is drawn, the thing a finger has to hit is not. */
+.map__person::after {
+  content: ''; position: absolute; top: 50%; left: 50%; translate: -50% -50%;
+  width: max(100%, var(--tap)); height: max(100%, var(--tap));
+}
+
+.map__reading { margin: 0; padding-top: 0.5rem; border-top: 2px solid var(--rule); font-size: clamp(0.8125rem, 1.6vh, 1.05rem); text-wrap: pretty; }
+.map__open { min-height: var(--tap); margin-left: 0.5rem; padding: 0 1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+
 /* Continuation. The code is large enough to scan from standing distance, and
    the address is readable for anyone who would rather type it. */
 .share { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 1.5rem; background: color-mix(in srgb, var(--paper) 92%, transparent); }
@@ -158,3 +227,13 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .recovery__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 .recovery__actions button { min-height: var(--tap); padding: 0 1.25rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; }
 .recovery__actions button:disabled { opacity: 0.45; }
+
+/* Places. A reviewed place, its history, and the people a curator gave a role
+   at it. A place with no reviewed ties says so rather than looking deserted. */
+.places { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.5rem); }
+.places__note { margin: 0; color: var(--muted); font-size: clamp(0.8125rem, 1.5vh, 1rem); }
+.places__place h2 { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: baseline; margin: 0 0 0.5rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--rule); font-size: clamp(1.25rem, 3vh, 2rem); }
+.places__place h2 span { font-size: clamp(0.75rem, 1.3vh, 0.9rem); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.places__history { margin: 0 0 1rem; max-width: 52rem; font-size: clamp(0.9375rem, 1.7vh, 1.125rem); line-height: 1.5; text-wrap: pretty; }
+.places__pending { margin: 0; color: var(--muted); font-size: clamp(0.8125rem, 1.5vh, 1rem); }
+.film__loading { margin: 0; color: var(--muted); }

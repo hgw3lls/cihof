@@ -32,22 +32,33 @@ function resolved(count: number, over: Partial<InductionCrosswalk> = {}): Induct
   };
 }
 
-test('the crosswalk as it actually stands leaves Connections off', () => {
-  // The honest state of the collection: every name recorded, none resolved.
+test('the crosswalk as it actually stands opens Connections on the wall', () => {
+  // The honest state of the collection: 25 names resolved against a single
+  // candidate under cur-2026-061, 70 still to review, and a kiosk-only
+  // publication decision under cur-2026-062. These counts move as review
+  // lands. The separation they rest on does not, and is tested below.
   const bundle = buildRuntimeBundle(people, 'kiosk');
-  assert.equal(bundle.relationships.length, 0);
-  assert.equal(bundle.lenses.includes('links'), false);
-  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 95);
-  assert.equal(bundle.relationshipReport.crosswalkApproved, false);
+  assert.equal(bundle.relationships.length, 31);
+  assert.equal(bundle.lenses.includes('links'), true);
+  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 70);
+  assert.equal(bundle.relationshipReport.crosswalkApproved, true);
+
+  // The decision named the kiosk. Nothing reaches the web on the strength of it.
+  const web = buildRuntimeBundle(people, 'public');
+  assert.equal(web.relationships.length, 0);
+  assert.equal(web.lenses.includes('links'), false);
 });
 
 test('the report distinguishes "no relationships" from "nobody has looked yet"', () => {
   // Both are a count of zero and they are different problems, so a release can
-  // say which one it is looking at.
-  const unresolved = buildRuntimeBundle(people, 'kiosk').relationshipReport;
+  // say which one it is looking at. Stated against a crosswalk nobody has
+  // resolved, because the committed one now has 25 rows that are decided.
+  const untouched = { ...resolved(3), entries: [{ ...resolved(3).entries[0]!, resolution: { status: 'unresolved' as const } }] };
+  const unresolved = buildRuntimeBundle(people, 'kiosk', { crosswalk: untouched }).relationshipReport;
   const missing = buildRuntimeBundle(people, 'kiosk', { crosswalk: null }).relationshipReport;
-  assert.equal(unresolved.published, missing.published);
-  assert.equal(unresolved.crosswalkNamesUnresolved, 95);
+  assert.equal(unresolved.published, 0);
+  assert.equal(missing.published, 0);
+  assert.equal(unresolved.crosswalkNamesUnresolved, 1, 'a name nobody has looked at');
   assert.equal(missing.crosswalkNamesUnresolved, 0, 'no crosswalk at all is a different report');
 });
 
@@ -118,5 +129,13 @@ test('the committed crosswalk is readable by the build', () => {
   const crosswalk = readInductionCrosswalk();
   assert.ok(crosswalk, 'the generated file is present and parses');
   assert.equal(crosswalk.entries.length, 95);
-  assert.equal(crosswalk.publicationDecision, undefined);
+
+  // Signed, and signed for one audience. A decision that had quietly acquired
+  // publicWeb would be the most expensive thing in this file to miss.
+  const decision = crosswalk.publicationDecision;
+  assert.ok(decision, 'a publication decision is on file');
+  assert.equal(decision.publication.kiosk, true);
+  assert.equal(decision.publication.publicWeb, false);
+  assert.ok(decision.decisionReference.trim().length > 0);
+  assert.ok(decision.contentVersion.trim().length > 0);
 });

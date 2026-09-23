@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import {
   availableLenses, displayablePortrait, facetable, isAttributable, lensAvailability,
-  publishedPlaces, publishedRelationships,
+  publishedPlaceAssociations, publishedPlaces, publishedRelationships,
   crosswalkProgress, inductionRelationships,
   publishedContributions, worksheetContributions, worksheetProgress,
   type Contribution, type ContributionWorksheet,
@@ -14,7 +14,7 @@ import {
 } from '@cihof/content';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { readContributionWorksheet } from '../sources/worksheet.ts';
-import { readPlaceSeeds, readRelationships } from '../sources/places.ts';
+import { readPlaceAssociations, readPlaceSeeds, readRelationships } from '../sources/places.ts';
 import { readVideoHoldings } from '../sources/media.ts';
 
 /**
@@ -111,6 +111,7 @@ export type RuntimePerson = {
 /** Sources are injectable so the gate can be exercised at either side of a threshold. */
 export type BundleSources = {
   readonly places?: readonly unknown[];
+  readonly placeAssociations?: readonly unknown[];
   readonly relationships?: readonly unknown[];
   /** Pass `null` to build as though the crosswalk had never been generated. */
   readonly crosswalk?: InductionCrosswalk | null;
@@ -144,7 +145,19 @@ export function buildRuntimeBundle(
       for (const reason of shortfalls) blockedBy[reason] = (blockedBy[reason] ?? 0) + 1;
     }
   }
-  const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target);
+  // A place is shown with the people a curator said belong to it, and a tie
+  // only counts once it carries a role — `associated` is refused too, because
+  // it does not say what the person did there. So a reviewed place with no
+  // reviewed ties shows as a place, not as a place with nobody in it.
+  const associations = publishedPlaceAssociations(sources.placeAssociations ?? readPlaceAssociations(), target);
+  const peopleByPlace = new Map<string, string[]>();
+  for (const association of associations) {
+    const list = peopleByPlace.get(association.place) ?? [];
+    if (!list.includes(association.person)) list.push(association.person);
+    peopleByPlace.set(association.place, list);
+  }
+  const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target)
+    .map((place) => ({ ...place, personIds: peopleByPlace.get(place.id) ?? place.personIds ?? [] }));
 
   // The roster's `inducted_by` column becomes relationships here, and only
   // here. Resolving who a name refers to happens in the crosswalk under review;

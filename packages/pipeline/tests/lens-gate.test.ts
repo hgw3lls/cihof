@@ -19,24 +19,39 @@ const relationship = (index: number) => ({
   evidence: [{ id: `fixture-ev-${index}`, title: 'Fixture collection record', kind: 'collection-record' }],
 });
 
-test('the collection as it stands offers People and Years only', () => {
-  const bundle = buildRuntimeBundle(people, 'kiosk');
-  assert.deepEqual(bundle.lenses, ['people', 'years']);
-  assert.equal(bundle.relationships.length, 0);
-  assert.equal(bundle.places.length, 0);
+test('the collection as it stands offers Connections on the wall and not the web', () => {
+  // Signed 2026-09-22 under cur-2026-062, kiosk only. Before that this read
+  // People and Years; the lens turned itself on when the content arrived,
+  // which is the whole point of deciding availability here.
+  const kiosk = buildRuntimeBundle(people, 'kiosk');
+  assert.deepEqual(kiosk.lenses, ['people', 'years', 'links']);
+  assert.equal(kiosk.relationships.length, 31);
 
-  const links = bundle.lensReport.find((lens) => lens.id === 'links')!;
-  assert.equal(links.available, false);
-  assert.equal(links.count, 0, 'there are no documented relationships to show');
+  const onWall = kiosk.lensReport.find((lens) => lens.id === 'links')!;
+  assert.equal(onWall.available, true);
+  assert.equal(onWall.count, 31);
+
+  const web = buildRuntimeBundle(people, 'public');
+  assert.deepEqual(web.lenses, ['people', 'years']);
+  assert.equal(web.relationships.length, 0, 'the approval named the kiosk and only the kiosk');
+
+  // Places has had no such decision, so it stays shut in both.
+  assert.equal(kiosk.places.length, 0);
+  assert.equal(kiosk.lensReport.find((lens) => lens.id === 'places')!.available, false);
 });
 
 test('Connections turns itself on when reviewed relationships reach the threshold', () => {
+  // `crosswalk: null` because this is about the threshold, not the collection.
+  // Without it the committed crosswalk's own 31 relationships are added and 14
+  // is no longer 14.
   const justShort = buildRuntimeBundle(people, 'kiosk', {
+    crosswalk: null,
     relationships: Array.from({ length: 14 }, (_, index) => relationship(index)),
   });
   assert.equal(justShort.lenses.includes('links'), false, '14 is below the threshold of 15');
 
   const enough = buildRuntimeBundle(people, 'kiosk', {
+    crosswalk: null,
     relationships: Array.from({ length: 15 }, (_, index) => relationship(index)),
   });
   assert.equal(enough.lenses.includes('links'), true, 'the lens appears without a code change');
@@ -48,7 +63,7 @@ test('unreviewed relationships do not count towards the threshold', () => {
     ...relationship(index),
     review: { status: 'needs-review' as const },
   }));
-  const bundle = buildRuntimeBundle(people, 'kiosk', { relationships: unreviewed });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: null, relationships: unreviewed });
   assert.equal(bundle.lenses.includes('links'), false, 'volume is not review');
   assert.equal(bundle.relationships.length, 0);
 });
@@ -58,6 +73,10 @@ test('a kiosk approval does not open the lens on the public target', () => {
     ...relationship(index),
     publication: { publicWeb: false, kiosk: true },
   }));
-  assert.equal(buildRuntimeBundle(people, 'kiosk', { relationships: kioskOnly }).lenses.includes('links'), true);
-  assert.equal(buildRuntimeBundle(people, 'public', { relationships: kioskOnly }).lenses.includes('links'), false);
+  // Isolated from the committed crosswalk too. Its relationships are kiosk-only
+  // today, so this would pass either way — and would quietly stop testing its
+  // own subject the day a public-web decision is signed.
+  const only = { crosswalk: null, relationships: kioskOnly };
+  assert.equal(buildRuntimeBundle(people, 'kiosk', only).lenses.includes('links'), true);
+  assert.equal(buildRuntimeBundle(people, 'public', only).lenses.includes('links'), false);
 });
