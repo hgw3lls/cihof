@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { placeReviewProgress, placeReviewRemaining } from '@cihof/content';
-import { buildPlaceReviewSheet, decisionsInSheet, placeReviewSheetCsv } from '../src/build/review.ts';
+import { buildPlaceReviewSheet, decisionsInSheet, placeReviewSheetCsv, placeRoles, placeTiesSheetCsv } from '../src/build/review.ts';
 import { buildPeople } from '../src/build/people.ts';
 import { dataFile, repoFile } from '../src/paths.ts';
 
@@ -36,19 +36,28 @@ const jsonCurrent = previous !== undefined && comparable(previous) === comparabl
 const csv = placeReviewSheetCsv(sheet);
 const csvCurrent = existsSync(csvPath) && readFileSync(csvPath, 'utf8') === csv;
 
+const tiesPathCsv = repoFile('docs/place-ties-sheet.csv');
+const tiesCsv = placeTiesSheetCsv(sheet);
+const tiesCurrent = existsSync(tiesPathCsv) && readFileSync(tiesPathCsv, 'utf8') === tiesCsv;
+
 // Same guard as the links sheet: what a curator types lives nowhere else until
 // it is applied, and regenerating over it destroys review work in silence.
-const signed = csvCurrent || !existsSync(csvPath)
-  ? []
-  : decisionsInSheet(readFileSync(csvPath, 'utf8'), ['approve', 'decisionReference', 'roles'], 'name');
+const signed = [
+  ...(csvCurrent || !existsSync(csvPath)
+    ? []
+    : decisionsInSheet(readFileSync(csvPath, 'utf8'), ['approve', 'decisionReference'], 'name')),
+  ...(tiesCurrent || !existsSync(tiesPathCsv)
+    ? []
+    : decisionsInSheet(readFileSync(tiesPathCsv, 'utf8'), ['role', 'decisionReference'], 'displayName')),
+];
 
 if (check) {
   if (signed.length > 0) {
     console.error(`\ndocs/places-review-sheet.csv has ${signed.length} row(s) with a decision typed into it.`);
-    console.error('Apply it, or move it aside:  npm run places:apply -- --input=docs/places-review-sheet.csv');
+    console.error('Apply it, or move it aside:  npm run places:apply -- --input=<the sheet>');
     process.exit(1);
   }
-  if (!(jsonCurrent && csvCurrent)) {
+  if (!(jsonCurrent && csvCurrent && tiesCurrent)) {
     console.error('The places review sheet is out of date. Run: npm run review:places');
     process.exit(1);
   }
@@ -64,9 +73,11 @@ if (!check && signed.length > 0 && !force) {
 
 let jsonWrote = false;
 let csvWrote = false;
+let tiesWrote = false;
 if (!check) {
   if (!jsonCurrent) { writeFileSync(jsonPath, `${JSON.stringify(sheet, null, 2)}\n`); jsonWrote = true; }
   if (!csvCurrent) { mkdirSync(dirname(csvPath), { recursive: true }); writeFileSync(csvPath, csv); csvWrote = true; }
+  if (!tiesCurrent) { writeFileSync(tiesPathCsv, tiesCsv); tiesWrote = true; }
 }
 
 const progress = placeReviewProgress(sheet);
@@ -74,6 +85,7 @@ const state = (wrote, current) => (check ? (current ? 'current' : 'STALE') : wro
 console.log('\nPlaces review sheet');
 console.log(`  data/cihof_place_review.json          ${state(jsonWrote, jsonCurrent)}`);
 console.log(`  docs/places-review-sheet.csv          ${state(csvWrote, csvCurrent)}`);
+console.log(`  docs/place-ties-sheet.csv             ${state(tiesWrote, tiesCurrent)}`);
 console.log();
 console.log(`  places                    ${progress.places}`);
 console.log(`    with a short history    ${progress.researched}`);
@@ -97,4 +109,11 @@ if (ready.length > 0) {
   }
   if (ready.length > 8) console.log(`    … and ${ready.length - 8} more`);
 }
+console.log();
+
+console.log('  Two sheets, two questions:');
+console.log('    docs/places-review-sheet.csv   one row per place — approve, decisionReference');
+console.log('    docs/place-ties-sheet.csv      one row per tie   — role, decisionReference');
+console.log(`    roles: ${placeRoles.join(', ')}`);
+console.log('    "associated" is refused: it does not say what the person did there.');
 console.log();

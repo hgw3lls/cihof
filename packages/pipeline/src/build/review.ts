@@ -249,13 +249,20 @@ export function buildPlaceReviewSheet(
   };
 }
 
-/** The places sheet as a CSV, reviewer columns generated empty. */
+/**
+ * The places sheet: one row per place, and the decision is whether to show it.
+ *
+ * Roles are not here. A place carries one approval and a place carries many
+ * ties, so a `roles` column on a place row would be a list a curator has to
+ * keep in the same order as a list they cannot see. Ties get their own sheet,
+ * one row each.
+ */
 export function placeReviewSheetCsv(sheet: PlaceReviewSheet): string {
   const header = [
-    'placeId', 'name', 'band', 'neighborhood', 'tieCount', 'people', 'kinds', 'shortHistory',
+    'placeId', 'name', 'band', 'neighborhood', 'tieCount', 'people', 'shortHistory',
     'currentlyReviewed',
     // The reviewer's. Generated empty, every time.
-    'approve', 'decisionReference', 'roles', 'note',
+    'approve', 'decisionReference', 'note',
   ];
   const lines = [header.join(',')];
   for (const row of sheet.rows) {
@@ -263,11 +270,45 @@ export function placeReviewSheetCsv(sheet: PlaceReviewSheet): string {
       row.placeId, row.name, row.band, row.neighborhood,
       String(row.ties.length),
       row.ties.map((tie) => tie.displayName).join(' | '),
-      row.ties.map((tie) => tie.kind).join(' | '),
       row.shortHistory.slice(0, 180),
       String(row.reviewed),
-      '', '', '', '',
+      '', '', '',
     ].map(csvCell).join(','));
   }
   return `${lines.join('\n')}\n`;
 }
+
+/**
+ * The ties sheet: one row per person-at-a-place, and the decision is the role.
+ *
+ * `kind` is the verb the archive harvested — `born_in`, `lived_in`, `moved_to`,
+ * or the catch-all `associated_with_place`. It is shown because it is a useful
+ * prompt and left out of the role column because it is not an answer: being
+ * born somewhere is not the claim that you lived there, and
+ * `associated_with_place` is forty-four of the eighty-six and says nothing at
+ * all about what the person did.
+ *
+ * Rows are grouped by place so a reviewer works through one place at a time.
+ */
+export function placeTiesSheetCsv(sheet: PlaceReviewSheet): string {
+  const header = [
+    'placeId', 'placeName', 'band', 'person', 'displayName', 'harvestedKind', 'currentRole',
+    // The reviewer's. Generated empty, every time.
+    'role', 'decisionReference', 'note',
+  ];
+  const lines = [header.join(',')];
+  for (const row of sheet.rows) {
+    for (const tie of row.ties) {
+      lines.push([
+        row.placeId, row.name, row.band, tie.person, tie.displayName, tie.kind, tie.role ?? '',
+        '', '', '',
+      ].map(csvCell).join(','));
+    }
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/** The roles `placeAssociationProblems` will accept, for the sheet's own guidance. */
+export const placeRoles: readonly string[] = [
+  'lived', 'worked', 'studied', 'taught', 'organized', 'served', 'founded',
+];
