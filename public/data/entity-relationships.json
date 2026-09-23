@@ -5153,12 +5153,28 @@
       }
     },
     {
-      "id": "rel:person-bill-miller-2017:member_of_community:community-slovenian",
+      "id": "rel:person-bill-miller-2017:member_of_community:community-german",
       "sourceEntityId": "person:bill-miller-2017",
-      "targetEntityId": "community:slovenian",
+      "targetEntityId": "community:german",
       "type": "member_of_community",
-      "displayLabel": "Nationality / Heritage: Slovenian",
-      "shortDescription": "Bill Miller is associated with Slovenian.",
+      "displayLabel": "Nationality / Heritage: German",
+      "shortDescription": "Bill Miller is associated with German.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bill-miller-2017",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-bill-miller-2017:member_of_community:community-polish",
+      "sourceEntityId": "person:bill-miller-2017",
+      "targetEntityId": "community:polish",
+      "type": "member_of_community",
+      "displayLabel": "Nationality / Heritage: Polish",
+      "shortDescription": "Bill Miller is associated with Polish.",
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
@@ -7585,6 +7601,22 @@
         "confidence": "curated",
         "sourceRecordId": "dick-pogue-2015",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-dick-pogue-2015:member_of_community:community-scotch-irish",
+      "sourceEntityId": "person:dick-pogue-2015",
+      "targetEntityId": "community:scotch-irish",
+      "type": "member_of_community",
+      "displayLabel": "Nationality / Heritage: Scotch-Irish",
+      "shortDescription": "Dick Pogue is associated with Scotch-Irish.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -23977,6 +24009,22 @@
         "confidence": "curated",
         "sourceRecordId": "ralph-j-perk-2011",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-ralph-j-perk-2011:member_of_community:community-slovak",
+      "sourceEntityId": "person:ralph-j-perk-2011",
+      "targetEntityId": "community:slovak",
+      "type": "member_of_community",
+      "displayLabel": "Nationality / Heritage: Slovak",
+      "shortDescription": "Ralph J. Perk is associated with Slovak.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-j-perk-2011",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {

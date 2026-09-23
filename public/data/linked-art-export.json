@@ -1621,7 +1621,8 @@
         "classYear": 2011,
         "region": "Europe",
         "countryTags": [
-          "Czech"
+          "Czech",
+          "Slovak"
         ],
         "countryTagsSource": "curated",
         "communityTags": [
@@ -3988,8 +3989,10 @@
         "id": "dick-pogue-2015",
         "classYear": 2015,
         "region": "Europe",
-        "countryTags": [],
-        "countryTagsSource": "none",
+        "countryTags": [
+          "Scotch-Irish"
+        ],
+        "countryTagsSource": "curated",
         "communityTags": [
           "Jones Day"
         ],
@@ -5216,7 +5219,8 @@
         "classYear": 2017,
         "region": "Europe",
         "countryTags": [
-          "Slovenian"
+          "Polish",
+          "German"
         ],
         "countryTagsSource": "curated",
         "communityTags": [
@@ -14359,11 +14363,26 @@
       }
     },
     {
-      "id": "rel:person-bill-miller-2017:member_of_community:community-slovenian",
+      "id": "rel:person-bill-miller-2017:member_of_community:community-german",
       "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
-      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovenian",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Agerman",
       "type": "member_of_community",
-      "label": "Nationality / Heritage: Slovenian",
+      "label": "Nationality / Heritage: German",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "bill-miller-2017",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
+      }
+    },
+    {
+      "id": "rel:person-bill-miller-2017:member_of_community:community-polish",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Apolish",
+      "type": "member_of_community",
+      "label": "Nationality / Heritage: Polish",
       "provenance": {
         "source": "legacy-inductee-adapter",
         "sourcePath": "data/cihof_kiosk_manifest.csv",
@@ -16636,6 +16655,21 @@
         "confidence": "curated",
         "sourceRecordId": "dick-pogue-2015",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-dick-pogue-2015:member_of_community:community-scotch-irish",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-pogue-2015",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ascotch-irish",
+      "type": "member_of_community",
+      "label": "Nationality / Heritage: Scotch-Irish",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "dick-pogue-2015",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {
@@ -31989,6 +32023,21 @@
         "confidence": "curated",
         "sourceRecordId": "ralph-j-perk-2011",
         "sourceField": "communityTags"
+      }
+    },
+    {
+      "id": "rel:person-ralph-j-perk-2011:member_of_community:community-slovak",
+      "source": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-j-perk-2011",
+      "target": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovak",
+      "type": "member_of_community",
+      "label": "Nationality / Heritage: Slovak",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceRecordId": "ralph-j-perk-2011",
+        "sourceField": "countryTags",
+        "note": "Approved nationality or heritage metadata."
       }
     },
     {

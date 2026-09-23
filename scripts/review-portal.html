@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIHOF review</title>
+<!--
+  The review queues, in a browser.
+
+  Local only: served by the portal runner on 127.0.0.1, behind the same token
+  as every other endpoint. This page holds no data of its own — it asks for the
+  token, then fetches.
+
+  Two rules run through it.
+
+  It never invents a decision reference. The field is required, the convention
+  is shown beside it, and nothing can be applied without one. A reference that
+  resolves to nothing passes `isApproved`, turns the gate green, and leaves an
+  audit trail that is decorative, which is the failure the field exists to stop.
+
+  It never writes to `data/`. Decisions become the same CSV a curator would
+  have filled in by hand and go out through `links:apply` and `places:apply`,
+  so the dry run, the hash match and the clean-tree check all still hold and
+  every decision lands as a diff somebody can read.
+-->
+<style>
+  :root {
+    --paper: #fcfcfa; --ink: #151515; --muted: #595959; --rule: #d8d8d2;
+    --accent: #b02a33; --ok: #1d6f42; --warn: #8a5a00; --ground: #f1f1ed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper: #161614; --ink: #f3f3ef; --muted: #a9a9a3; --rule: #34342f;
+            --accent: #ff6b76; --ok: #63c68d; --warn: #e0a83c; --ground: #201f1d; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+         font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center;
+           padding: .75rem 1.25rem; border-bottom: 2px solid var(--ink); }
+  header h1 { margin: 0; font-size: .8rem; letter-spacing: .09em; text-transform: uppercase; }
+  .spacer { margin-left: auto; }
+  .tabs { display: flex; gap: .4rem; }
+  .tabs button { min-height: 40px; padding: 0 .9rem; border: 2px solid var(--ink);
+                 background: transparent; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+  .tabs button[aria-current='true'] { background: var(--ink); color: var(--paper); }
+  main { max-width: 68rem; margin: 0 auto; padding: 1.25rem; }
+  .muted { color: var(--muted); }
+  .banner { padding: .8rem 1rem; border: 2px solid var(--rule); background: var(--ground); margin-bottom: 1rem; }
+  .banner.bad { border-color: var(--accent); }
+  .card { border: 2px solid var(--ink); padding: 1.1rem 1.25rem; margin-bottom: 1rem; }
+  .card h2 { margin: 0 0 .15rem; font-size: 1.4rem; line-height: 1.2; }
+  .sub { margin: 0 0 .9rem; color: var(--muted); font-size: .9rem; }
+  .band { display: inline-block; padding: .1rem .5rem; border: 1px solid var(--rule);
+          border-radius: 999px; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
+  .evidence { margin: .6rem 0; padding: .7rem .9rem; border-left: 4px solid var(--rule); background: var(--ground); }
+  .evidence p { margin: 0 0 .35rem; }
+  .evidence a { color: inherit; word-break: break-all; font-size: .82rem; }
+  .publishes { margin: .6rem 0; padding: .7rem .9rem; border: 1px dashed var(--rule); }
+  .publishes li { margin: .15rem 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+  .actions button { min-height: 44px; padding: 0 1rem; border: 2px solid var(--ink);
+                    background: transparent; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+  .actions button.primary { background: var(--ink); color: var(--paper); }
+  .actions button.danger { border-color: var(--accent); color: var(--accent); }
+  select, input[type=text], textarea {
+    min-height: 44px; padding: .4rem .6rem; border: 2px solid var(--rule);
+    background: var(--paper); color: inherit; font: inherit; width: 100%; }
+  label { display: block; margin: .6rem 0 .2rem; font-size: .78rem;
+          letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .targets { display: flex; gap: .5rem; flex-wrap: wrap; margin: .6rem 0; }
+  .pill { padding: .25rem .6rem; border: 2px solid var(--rule); font-size: .8rem; }
+  .pill.on { border-color: var(--ok); color: var(--ok); font-weight: 700; }
+  .pill.off { opacity: .65; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--rule); }
+  pre { overflow-x: auto; padding: .8rem; background: var(--ground); font-size: .8rem; }
+  .row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: flex-end; }
+  .row > * { flex: 1 1 14rem; }
+  .count { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CIHOF review</h1>
+  <div class="tabs" id="tabs"></div>
+  <span class="spacer"></span>
+  <span class="muted count" id="progress"></span>
+</header>
+<main id="main"><p class="muted">Loading…</p></main>
+
+<script>
+const api = (path, options) => fetch(path, {
+  ...options,
+  headers: { 'content-type': 'application/json', 'x-cihof-portal-token': token(), ...(options?.headers || {}) },
+}).then(async (r) => {
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.error || `${r.status}`);
+  return body;
+});
+
+// The token lives for the tab and no longer. Decisions in progress live in
+// localStorage, because losing an afternoon of review to a refresh is the
+// thing most likely to make somebody stop using this.
+function token() { return sessionStorage.getItem('cihof-token') || ''; }
+const DRAFTS = 'cihof-review-drafts';
+const loadDrafts = () => { try { return JSON.parse(localStorage.getItem(DRAFTS)) || {}; } catch { return {}; } };
+const saveDrafts = (d) => { try { localStorage.setItem(DRAFTS, JSON.stringify(d)); } catch { /* private window */ } };
+
+let state = { tab: 'links', queues: null, context: null, drafts: loadDrafts(), index: {}, job: null, message: '' };
+
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+async function boot() {
+  if (!token()) {
+    const supplied = prompt('Portal runner token (printed by npm run portal:server):');
+    if (!supplied) { document.getElementById('main').innerHTML = '<p class="muted">A token is needed to read the queues.</p>'; return; }
+    sessionStorage.setItem('cihof-token', supplied.trim());
+  }
+  try {
+    state.context = await api('/api/review/context');
+    state.queues = await api('/api/review/queues');
+    render();
+  } catch (error) {
+    sessionStorage.removeItem('cihof-token');
+    document.getElementById('main').innerHTML = `<div class="banner bad"><strong>${esc(error.message)}</strong><p class="muted">Reload to try the token again.</p></div>`;
+  }
+}
+
+function queue() {
+  const q = state.queues[state.tab];
+  const rows = q.rows || [];
+  return rows.filter((row) => !state.drafts[keyOf(row)]);
+}
+
+function keyOf(row) {
+  if (state.tab === 'links') return `links:${row.recordedName}`;
+  if (state.tab === 'places') return `places:${row.placeId}`;
+  return `ties:${row.placeId}|${row.person}`;
+}
+
+function render() {
+  const tabs = [
+    ['links', 'Names', state.queues.links.rows.length],
+    ['places', 'Places', state.queues.places.rows.length],
+    ['ties', 'Ties', state.queues.ties.rows.length],
+  ];
+  document.getElementById('tabs').innerHTML = tabs.map(([id, label, n]) =>
+    `<button data-tab="${id}" aria-current="${state.tab === id}">${label} <span class="count">${n}</span></button>`).join('');
+
+  const pending = Object.keys(state.drafts).filter((k) => k.startsWith(`${state.tab}:`)).length;
+  const left = queue().length;
+  document.getElementById('progress').textContent = `${left} to review · ${pending} decided, not yet applied`;
+
+  const row = queue()[0];
+  document.getElementById('main').innerHTML = [
+    state.message ? `<div class="banner">${state.message}</div>` : '',
+    gitBanner(),
+    row ? card(row) : done(),
+    pending > 0 ? applyPanel(pending) : '',
+  ].join('');
+  wire();
+}
+
+function gitBanner() {
+  const git = state.context.git;
+  if (!git?.available || !git.dirty) return '';
+  return `<div class="banner bad"><strong>The working tree has uncommitted changes.</strong>
+    <p class="muted">A preview will run, but applying is refused until the tree is clean, so each decision arrives as its own diff.</p></div>`;
+}
+
+function done() {
+  const q = state.queues[state.tab];
+  const extra = state.tab === 'links'
+    ? `<p class="muted">${q.decided} already decided. Publication decision: ${q.signed ? 'signed' : '<strong>not signed</strong> — resolving a name is not permission to show it.'}</p>`
+    : '';
+  return `<div class="card"><h2>Nothing left in this queue</h2><p class="sub">Every row here has been decided or applied.</p>${extra}</div>`;
+}
+
+// ------------------------------------------------------------------- a row
+
+function card(row) {
+  if (state.tab === 'links') return linkCard(row);
+  if (state.tab === 'places') return placeCard(row);
+  return tieCard(row);
+}
+
+function linkCard(row) {
+  const candidate = row.candidates?.[0];
+  const publishes = (row.proposes || []).map((p) => `<li>${esc(p.label)}</li>`).join('');
+  return `<div class="card" data-key="${esc(keyOf(row))}">
+    <span class="band">${esc(row.band.replace(/-/g, ' '))}</span>
+    <h2>${esc(row.recordedName)}</h2>
+    <p class="sub">Recorded on ${row.inducted.length} roster row${row.inducted.length === 1 ? '' : 's'} as the inducter. Who is this?</p>
+    ${row.candidates.length ? `<div class="evidence">
+      <p><strong>Proposed:</strong> ${row.candidates.map((c) => `${esc(c.displayName)} <span class="muted">(${esc(c.inducteeId)})</span>`).join(' &nbsp;or&nbsp; ')}</p>
+      ${candidate?.evidence ? `<p class="muted">“${esc(candidate.evidence)}”</p>` : ''}
+      ${candidate?.verificationLayer ? `<p class="muted">Basis: ${esc(candidate.basis)} · ${esc(candidate.verificationLayer)}</p>` : ''}
+      ${candidate?.sourceUrl ? `<p><a href="${esc(candidate.sourceUrl)}" target="_blank" rel="noreferrer noopener">${esc(candidate.sourceUrl)}</a></p>` : ''}
+    </div>` : '<p class="muted">The corpus offered no candidate. You are starting from the recorded name.</p>'}
+    ${publishes ? `<div class="publishes"><strong>Confirming publishes:</strong><ul>${publishes}</ul></div>` : ''}
+    ${row.candidates.length ? `<label for="pick">Resolve to</label>
+    <select id="pick">
+      <option value="">— choose —</option>
+      ${row.candidates.map((c) => `<option value="${esc(c.inducteeId)}">${esc(c.displayName)} (${esc(c.inducteeId)})</option>`).join('')}
+    </select>` : ''}
+    <!-- Sixty-eight of the ninety-five rows have no candidate, and on those a
+         reviewer who knows the person had no way to say so. The id is checked
+         against the roster by the apply script, which refuses one it cannot
+         find rather than attaching a claim to nobody. -->
+    <label for="typed">${row.candidates.length ? 'Or an id the corpus did not propose' : 'Inductee id'}</label>
+    <input type="text" id="typed" placeholder="e.g. samuel-h-miller-2013" autocomplete="off">
+    <label for="note">Note (optional)</label>
+    <input type="text" id="note" placeholder="Why, if it is not obvious">
+    <div class="actions">
+      <button class="primary" data-act="inductee">Confirm as inductee</button>
+      <button data-act="not-an-inductee">Not an inductee</button>
+      <button data-act="unidentifiable">Cannot tell</button>
+      <button data-act="research">Flag for research</button>
+      <button data-act="skip">Skip</button>
+    </div>
+  </div>`;
+}
+
+function placeCard(row) {
+  const lead = row.band === 'lead';
+  return `<div class="card" data-key="${esc(keyOf(row))}">
+    <span class="band">${esc(row.band)}</span>
+    <h2>${esc(row.name)}</h2>
+    <p class="sub">${esc(row.neighborhood || 'Neighbourhood not recorded')} · ${row.ties.length} ${row.ties.length === 1 ? 'person' : 'people'} tied here</p>
+    ${lead
+      ? `<div class="banner bad"><strong>No short history.</strong>
+         <p class="muted">A place needs one before it can be shown — approving it would publish a name and an empty paragraph. This is research, not review.</p></div>`
+      : `<div class="evidence"><p>${esc(row.shortHistory)}</p></div>`}
+    ${row.ties.length ? `<table><tbody>${row.ties.map((t) =>
+      `<tr><td>${esc(t.displayName)}</td><td class="muted">${esc(t.kind)}</td><td class="muted">${t.role ? esc(t.role) : 'no role yet'}</td></tr>`).join('')}</tbody></table>` : ''}
+    ${targets()}
+    <label for="note">Note (optional)</label>
+    <input type="text" id="note" placeholder="Why, if it is not obvious">
+    <div class="actions">
+      ${lead ? '' : '<button class="primary" data-act="yes">Approve for the kiosk</button>'}
+      <button data-act="research">Flag for research</button>
+      <button data-act="skip">Skip</button>
+    </div>
+  </div>`;
+}
+
+function tieCard(row) {
+  const roles = state.queues.ties.roles;
+  return `<div class="card" data-key="${esc(keyOf(row))}">
+    <span class="band">${esc(row.band)}</span>
+    <h2>${esc(row.displayName)}</h2>
+    <p class="sub">at ${esc(row.placeName)}</p>
+    <div class="evidence">
+      <p class="muted">The archive harvested this as <strong>${esc(row.kind)}</strong>, which is a prompt and not an answer.</p>
+      ${(row.evidence || []).map((e) => `<p>${esc(e.text || '')}</p>
+        ${(e.sourceUrls || []).map((u) => `<p><a href="${esc(u)}" target="_blank" rel="noreferrer noopener">${esc(u)}</a></p>`).join('')}`).join('')}
+    </div>
+    <label for="pick">What did they do there?</label>
+    <select id="pick">
+      <option value="">— choose —</option>
+      ${roles.map((r) => `<option value="${r}">${r}</option>`).join('')}
+    </select>
+    <p class="muted" style="font-size:.85rem">“associated” is not offered: it does not say what the person did there, and the build refuses it.</p>
+    ${targets()}
+    <label for="note">Note (optional)</label>
+    <input type="text" id="note" placeholder="Why, if it is not obvious">
+    <div class="actions">
+      <button class="primary" data-act="role">Record this role</button>
+      <button data-act="research">Flag for research</button>
+      <button data-act="skip">Skip</button>
+    </div>
+  </div>`;
+}
+
+/** Shown on anything that publishes, so the split is never assumed. */
+function targets() {
+  return `<div class="targets">
+    <span class="pill on">Kiosk — the installed display</span>
+    <span class="pill off">Public web — not covered by this approval</span>
+  </div>`;
+}
+
+// ----------------------------------------------------------------- applying
+
+function applyPanel(pending) {
+  const job = state.job;
+  return `<div class="card">
+    <h2>Apply ${pending} decision${pending === 1 ? '' : 's'}</h2>
+    <p class="sub">Written as the sheet the apply script reads, then run through it — dry run first, clean tree required.</p>
+    <label for="reference">Decision reference <span style="color:var(--accent)">required</span></label>
+    <input type="text" id="reference" placeholder="links-review-2026-09-23" value="${esc(state.reference || '')}">
+    <p class="muted" style="font-size:.85rem">
+      Convention: <code>&lt;subject&gt;-&lt;act&gt;-&lt;YYYY-MM-DD&gt;</code>, dated when the decision was made.
+      It has to resolve to something — the archived sheet in <code>data/curation-decisions/</code> is what it points at here.
+      Nothing is generated for you: an approval that traces to nobody is worse than none.
+    </p>
+    <label>Content version</label>
+    <p class="muted">Taken from the build, not composed: <code>content-${esc(state.context.contentRevisions?.kiosk || 'unavailable')}</code></p>
+    <div class="actions">
+      <button class="primary" data-act="preview">Preview</button>
+      <button data-act="apply" ${state.job?.status === 'success' && state.job?.meta?.dryRun ? '' : 'disabled'}>Apply</button>
+      <button class="danger" data-act="discard">Discard drafts</button>
+    </div>
+    ${job ? `<h3 style="font-size:.9rem;text-transform:uppercase;letter-spacing:.06em" class="muted">${esc(job.label)} — ${esc(job.status)}</h3>
+      <pre>${esc(job.output || '').slice(-4000)}</pre>` : ''}
+  </div>`;
+}
+
+function decisionsFor(tab) {
+  return Object.entries(state.drafts)
+    .filter(([key]) => key.startsWith(`${tab}:`))
+    .map(([, value]) => value)
+    .filter((d) => d.decision !== 'research' && d.decision !== 'skip');
+}
+
+async function preview(dryRun) {
+  const reference = document.getElementById('reference').value.trim();
+  if (!reference) { state.message = '<strong>A decision reference is required.</strong> Nothing is generated for you.'; render(); return; }
+  state.reference = reference;
+  const decisions = decisionsFor(state.tab);
+  if (decisions.length === 0) { state.message = 'Only research flags and skips here — nothing to apply.'; render(); return; }
+
+  try {
+    const body = { sheet: state.tab, decisions, reference, dryRun };
+    if (!dryRun) body.previewJobId = state.job?.id;
+    const result = await api('/api/review/apply', { method: 'POST', body: JSON.stringify(body) });
+    state.job = result.job;
+    state.message = '';
+    render();
+    poll(result.job.id, dryRun);
+  } catch (error) {
+    state.message = `<strong>${esc(error.message)}</strong>`;
+    render();
+  }
+}
+
+async function poll(id, wasDryRun) {
+  for (let attempt = 0; attempt < 180; attempt += 1) {
+    await new Promise((r) => setTimeout(r, 1000));
+    const { jobs } = await api('/api/jobs');
+    const job = jobs.find((j) => j.id === id);
+    if (!job) continue;
+    state.job = job;
+    render();
+    if (job.status === 'success' || job.status === 'error') {
+      if (job.status === 'success' && !wasDryRun) {
+        // Applied. The drafts are in the canonical data now, so holding them
+        // in the browser would re-apply them next time.
+        for (const key of Object.keys(state.drafts)) if (key.startsWith(`${state.tab}:`)) delete state.drafts[key];
+        saveDrafts(state.drafts);
+        state.job = job;
+        state.queues = await api('/api/review/queues');
+        state.context = await api('/api/review/context');
+        state.message = '<strong>Applied.</strong> Commit the diff to record it.';
+        render();
+      }
+      return;
+    }
+  }
+}
+
+// -------------------------------------------------------------------- wiring
+
+function wire() {
+  for (const button of document.querySelectorAll('[data-tab]')) {
+    button.onclick = () => { state.tab = button.dataset.tab; state.job = null; state.message = ''; render(); };
+  }
+  for (const button of document.querySelectorAll('[data-act]')) {
+    button.onclick = () => act(button.dataset.act);
+  }
+}
+
+function act(action) {
+  if (action === 'preview') return preview(true);
+  if (action === 'apply') return preview(false);
+  if (action === 'discard') {
+    for (const key of Object.keys(state.drafts)) if (key.startsWith(`${state.tab}:`)) delete state.drafts[key];
+    saveDrafts(state.drafts); state.job = null; state.message = 'Drafts discarded.'; return render();
+  }
+
+  const row = queue()[0];
+  if (!row) return;
+  const note = document.getElementById('note')?.value.trim() || '';
+  const typed = document.getElementById('typed')?.value.trim() || '';
+  const pick = typed || document.getElementById('pick')?.value || '';
+
+  if (action === 'skip') { state.drafts[keyOf(row)] = { decision: 'skip' }; saveDrafts(state.drafts); return render(); }
+  if (action === 'research') {
+    state.drafts[keyOf(row)] = { decision: 'research', note };
+    saveDrafts(state.drafts); state.message = 'Flagged for research. It stays in the sheet and is not applied.'; return render();
+  }
+
+  if (state.tab === 'links') {
+    if (action === 'inductee' && !pick) {
+      state.message = 'Say who this name refers to first — pick a candidate, or type the inductee id.';
+      return render();
+    }
+    state.drafts[keyOf(row)] = { decision: action, recordedName: row.recordedName, inducteeId: action === 'inductee' ? pick : '', note };
+  } else if (state.tab === 'places') {
+    state.drafts[keyOf(row)] = { decision: 'yes', approve: 'yes', placeId: row.placeId, name: row.name, note };
+  } else {
+    if (!pick) { state.message = 'Choose a role first. The harvested verb is not an answer.'; return render(); }
+    state.drafts[keyOf(row)] = { decision: 'role', placeId: row.placeId, person: row.person, displayName: row.displayName, role: pick, note };
+  }
+  state.message = '';
+  saveDrafts(state.drafts);
+  render();
+}
+
+boot();
+</script>
+</body>
+</html>
