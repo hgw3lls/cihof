@@ -106,11 +106,15 @@
     },
     {
       "country": "Slovenian",
-      "count": 9
+      "count": 8
     },
     {
       "country": "Italian",
       "count": 7
+    },
+    {
+      "country": "Polish",
+      "count": 6
     },
     {
       "country": "Puerto Rican",
@@ -133,8 +137,8 @@
       "count": 5
     },
     {
-      "country": "Polish",
-      "count": 5
+      "country": "German",
+      "count": 4
     },
     {
       "country": "Lebanese",
@@ -146,10 +150,6 @@
     },
     {
       "country": "Czech",
-      "count": 3
-    },
-    {
-      "country": "German",
       "count": 3
     },
     {
@@ -241,7 +241,15 @@
       "count": 1
     },
     {
+      "country": "Scotch-Irish",
+      "count": 1
+    },
+    {
       "country": "Scottish",
+      "count": 1
+    },
+    {
+      "country": "Slovak",
       "count": 1
     },
     {
@@ -459,8 +467,7 @@
     "shortBio": [],
     "withoutThemeTags": [],
     "withoutCountryTags": [
-      "jim-foster-2014",
-      "dick-pogue-2015"
+      "jim-foster-2014"
     ]
   },
   "curation": {
@@ -486,7 +493,7 @@
     ],
     "approvedSummaries": 111,
     "approvedThemeTags": 111,
-    "approvedCountryTags": 109,
+    "approvedCountryTags": 110,
     "inferredCountryTags": 0,
     "approvedCommunityTags": 111,
     "featured": [],

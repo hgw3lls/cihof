@@ -606,6 +606,23 @@
       }
     },
     {
+      "id": "community:scotch-irish",
+      "displayName": "Scotch-Irish",
+      "type": "Community",
+      "shortDescription": "Nationality or heritage label used for more specific browsing than broad region metadata.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceField": "countryTags",
+        "note": "Generated from curator-approved nationality or heritage metadata."
+      },
+      "attributes": {
+        "communityKind": "nationality-or-heritage",
+        "legacyRegion": "Europe"
+      }
+    },
+    {
       "id": "community:scottish",
       "displayName": "Scottish",
       "type": "Community",
@@ -654,6 +671,23 @@
       "attributes": {
         "communityKind": "nationality-or-heritage",
         "legacyRegion": "Asia"
+      }
+    },
+    {
+      "id": "community:slovak",
+      "displayName": "Slovak",
+      "type": "Community",
+      "shortDescription": "Nationality or heritage label used for more specific browsing than broad region metadata.",
+      "provenance": {
+        "source": "legacy-inductee-adapter",
+        "sourcePath": "data/cihof_kiosk_manifest.csv",
+        "confidence": "curated",
+        "sourceField": "countryTags",
+        "note": "Generated from curator-approved nationality or heritage metadata."
+      },
+      "attributes": {
+        "communityKind": "nationality-or-heritage",
+        "legacyRegion": "Europe"
       }
     },
     {
@@ -10742,7 +10776,8 @@
         "decade": "2010s",
         "region": "Europe",
         "countryTags": [
-          "Slovenian"
+          "Polish",
+          "German"
         ],
         "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/inductees-europe/bill-miller/",
@@ -11581,8 +11616,10 @@
         "classYear": 2015,
         "decade": "2010s",
         "region": "Europe",
-        "countryTags": [],
-        "countryTagsSource": "none",
+        "countryTags": [
+          "Scotch-Irish"
+        ],
+        "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/richard-pogue-2015/",
         "inductedBy": "Sanjiv Kapur",
         "approvalStatus": "draft",
@@ -17069,7 +17106,8 @@
         "decade": "2010s",
         "region": "Europe",
         "countryTags": [
-          "Czech"
+          "Czech",
+          "Slovak"
         ],
         "countryTagsSource": "curated",
         "profileUrl": "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/",

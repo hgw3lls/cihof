@@ -672,7 +672,8 @@
         "classYear": 2011,
         "region": "Europe",
         "countryTags": [
-          "Czech"
+          "Czech",
+          "Slovak"
         ],
         "countryTagsSource": "curated",
         "communityTags": [
@@ -1666,8 +1667,10 @@
         "id": "dick-pogue-2015",
         "classYear": 2015,
         "region": "Europe",
-        "countryTags": [],
-        "countryTagsSource": "none",
+        "countryTags": [
+          "Scotch-Irish"
+        ],
+        "countryTagsSource": "curated",
         "communityTags": [
           "Jones Day"
         ],
@@ -2179,7 +2182,8 @@
         "classYear": 2017,
         "region": "Europe",
         "countryTags": [
-          "Slovenian"
+          "Polish",
+          "German"
         ],
         "countryTagsSource": "curated",
         "communityTags": [
@@ -4694,6 +4698,26 @@
       }
     },
     {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ascotch-irish",
+      "type": "crm:E74_Group",
+      "rdfs:label": "Scotch-Irish",
+      "crm:P2_has_type": "Community",
+      "crm:P3_has_note": "Nationality or heritage label used for more specific browsing than broad region metadata.",
+      "cihof": {
+        "provenance": {
+          "source": "legacy-inductee-adapter",
+          "sourcePath": "data/cihof_kiosk_manifest.csv",
+          "confidence": "curated",
+          "sourceField": "countryTags",
+          "note": "Generated from curator-approved nationality or heritage metadata."
+        },
+        "attributes": {
+          "communityKind": "nationality-or-heritage",
+          "legacyRegion": "Europe"
+        }
+      }
+    },
+    {
       "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ascottish",
       "type": "crm:E74_Group",
       "rdfs:label": "Scottish",
@@ -4750,6 +4774,26 @@
         "attributes": {
           "communityKind": "nationality-or-heritage",
           "legacyRegion": "Asia"
+        }
+      }
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovak",
+      "type": "crm:E74_Group",
+      "rdfs:label": "Slovak",
+      "crm:P2_has_type": "Community",
+      "crm:P3_has_note": "Nationality or heritage label used for more specific browsing than broad region metadata.",
+      "cihof": {
+        "provenance": {
+          "source": "legacy-inductee-adapter",
+          "sourcePath": "data/cihof_kiosk_manifest.csv",
+          "confidence": "curated",
+          "sourceField": "countryTags",
+          "note": "Generated from curator-approved nationality or heritage metadata."
+        },
+        "attributes": {
+          "communityKind": "nationality-or-heritage",
+          "legacyRegion": "Europe"
         }
       }
     },
@@ -18648,11 +18692,11 @@
       }
     },
     {
-      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#relationship-rel:person-bill-miller-2017:member_of_community:community-slovenian",
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#relationship-rel:person-bill-miller-2017:member_of_community:community-german",
       "type": "crm:E13_Attribute_Assignment",
-      "rdfs:label": "Nationality / Heritage: Slovenian",
+      "rdfs:label": "Nationality / Heritage: German",
       "crm:P140_assigned_attribute_to": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
-      "crm:P141_assigned": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovenian",
+      "crm:P141_assigned": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Agerman",
       "crm:P2_has_type": "member_of_community",
       "cihof": {
         "provenance": {
@@ -18664,7 +18708,27 @@
           "note": "Approved nationality or heritage metadata."
         },
         "sourceField": "countryTags",
-        "note": "Bill Miller is associated with Slovenian."
+        "note": "Bill Miller is associated with German."
+      }
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#relationship-rel:person-bill-miller-2017:member_of_community:community-polish",
+      "type": "crm:E13_Attribute_Assignment",
+      "rdfs:label": "Nationality / Heritage: Polish",
+      "crm:P140_assigned_attribute_to": "https://clevelandinternationalhalloffame.com/cihof/?person=bill-miller-2017",
+      "crm:P141_assigned": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Apolish",
+      "crm:P2_has_type": "member_of_community",
+      "cihof": {
+        "provenance": {
+          "source": "legacy-inductee-adapter",
+          "sourcePath": "data/cihof_kiosk_manifest.csv",
+          "confidence": "curated",
+          "sourceRecordId": "bill-miller-2017",
+          "sourceField": "countryTags",
+          "note": "Approved nationality or heritage metadata."
+        },
+        "sourceField": "countryTags",
+        "note": "Bill Miller is associated with Polish."
       }
     },
     {
@@ -21700,6 +21764,26 @@
         },
         "sourceField": "communityTags",
         "note": "Dick Pogue is associated with Jones Day."
+      }
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#relationship-rel:person-dick-pogue-2015:member_of_community:community-scotch-irish",
+      "type": "crm:E13_Attribute_Assignment",
+      "rdfs:label": "Nationality / Heritage: Scotch-Irish",
+      "crm:P140_assigned_attribute_to": "https://clevelandinternationalhalloffame.com/cihof/?person=dick-pogue-2015",
+      "crm:P141_assigned": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Ascotch-irish",
+      "crm:P2_has_type": "member_of_community",
+      "cihof": {
+        "provenance": {
+          "source": "legacy-inductee-adapter",
+          "sourcePath": "data/cihof_kiosk_manifest.csv",
+          "confidence": "curated",
+          "sourceRecordId": "dick-pogue-2015",
+          "sourceField": "countryTags",
+          "note": "Approved nationality or heritage metadata."
+        },
+        "sourceField": "countryTags",
+        "note": "Dick Pogue is associated with Scotch-Irish."
       }
     },
     {
@@ -42248,6 +42332,26 @@
         },
         "sourceField": "communityTags",
         "note": "Ralph J. Perk is associated with European Heritage."
+      }
+    },
+    {
+      "id": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#relationship-rel:person-ralph-j-perk-2011:member_of_community:community-slovak",
+      "type": "crm:E13_Attribute_Assignment",
+      "rdfs:label": "Nationality / Heritage: Slovak",
+      "crm:P140_assigned_attribute_to": "https://clevelandinternationalhalloffame.com/cihof/?person=ralph-j-perk-2011",
+      "crm:P141_assigned": "https://clevelandinternationalhalloffame.com/cihof/data/cidoc-crm-export.json#community%3Aslovak",
+      "crm:P2_has_type": "member_of_community",
+      "cihof": {
+        "provenance": {
+          "source": "legacy-inductee-adapter",
+          "sourcePath": "data/cihof_kiosk_manifest.csv",
+          "confidence": "curated",
+          "sourceRecordId": "ralph-j-perk-2011",
+          "sourceField": "countryTags",
+          "note": "Approved nationality or heritage metadata."
+        },
+        "sourceField": "countryTags",
+        "note": "Ralph J. Perk is associated with Slovak."
       }
     },
     {
