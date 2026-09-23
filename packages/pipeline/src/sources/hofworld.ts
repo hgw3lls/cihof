@@ -164,3 +164,123 @@ export function isBlank(value: unknown): boolean {
   if (typeof value === 'object') return Object.keys(value as object).length === 0;
   return false;
 }
+
+// ------------------------------------------------------------------- places
+
+export type PlaceSeed = {
+  readonly id: string;
+  readonly name: string;
+  readonly type: string;
+  readonly shortHistory: string;
+  readonly neighborhood: string;
+  readonly address?: string;
+  /** What the archive says it knows: `curated`, or how the lead was found. */
+  readonly authorityStatus: string;
+  /**
+   * A place somebody wrote a history for, as against a name a harvester found.
+   *
+   * The distinction decides what the work is. Fourteen of v3's eighty-two are
+   * curated; the other sixty-eight carry no `shortHistory` at all, and
+   * `PublishedPlace` requires one. Those are not places awaiting review, they
+   * are leads awaiting research, and a review sheet that mixed the two would
+   * put sixty-eight blank rows in front of somebody expecting to approve.
+   */
+  readonly researched: boolean;
+};
+
+export function readPlaces(archiveRoot: string): PlaceSeed[] {
+  const path = resolve(archiveRoot, 'core/places.json');
+  const parsed = JSON.parse(readFileSync(path, 'utf8')) as { places?: unknown[] };
+  const places = Array.isArray(parsed.places) ? parsed.places : [];
+  return places.flatMap((value) => {
+    const place = value as Record<string, unknown>;
+    const id = typeof place['id'] === 'string' ? place['id'] : '';
+    if (!id.startsWith('place:')) return [];
+    const shortHistory = text(place['shortHistory']);
+    return [{
+      id,
+      name: text(place['name']),
+      type: text(place['type']),
+      shortHistory,
+      neighborhood: text(place['neighborhood']),
+      ...(text(place['address']) ? { address: text(place['address']) } : {}),
+      authorityStatus: text(place['authorityStatus']),
+      researched: shortHistory.length > 0,
+    }];
+  });
+}
+
+/** How v3 words a person's tie to a place, before anybody assigns a role. */
+export type PlaceTieKind = 'associated_with_place' | 'born_in' | 'lived_in' | 'moved_to';
+
+export type PlaceAssociationSeed = {
+  readonly id: string;
+  readonly person: string;
+  readonly place: string;
+  readonly kind: PlaceTieKind;
+  /** The role a curator assigns. Never guessed from the kind. */
+  readonly role: null;
+  readonly evidence: readonly { readonly text: string; readonly sourceUrls: readonly string[] }[];
+  readonly verificationLayer: string;
+};
+
+const placeTieKinds: readonly string[] = ['associated_with_place', 'born_in', 'lived_in', 'moved_to'];
+
+/**
+ * Person-to-place ties from the v3 edge table, with no role assigned.
+ *
+ * `lived_in` looks like it maps straight to the `lived` role and `born_in`
+ * looks close enough, and neither is this module's call to make. Being born
+ * somewhere is not the same claim as having lived there, and
+ * `associated_with_place` — forty-four of the eighty-six — is the catch-all
+ * that `placeAssociationProblems` refuses outright because it "does not say
+ * what the person did there". Filling the role in here would launder a
+ * harvester's verb into a curator's decision.
+ *
+ * Ties naming a person the id map does not carry are returned as unresolved
+ * rather than dropped, so an ingest can report them.
+ */
+export function readPlaceAssociations(archiveRoot: string, ids: HofWorldIds): {
+  readonly associations: readonly PlaceAssociationSeed[];
+  readonly unresolved: readonly string[];
+} {
+  const path = resolve(archiveRoot, 'edges/edges.json');
+  const parsed = JSON.parse(readFileSync(path, 'utf8')) as { edges?: unknown[] };
+  const edges = Array.isArray(parsed.edges) ? parsed.edges : [];
+
+  const associations: PlaceAssociationSeed[] = [];
+  const unresolved: string[] = [];
+
+  for (const value of edges) {
+    const edge = value as Record<string, unknown>;
+    const kind = text(edge['type']);
+    const subject = text(edge['subject']);
+    const object = text(edge['object']);
+    if (!placeTieKinds.includes(kind)) continue;
+    if (!subject.startsWith('person:') || !object.startsWith('place:')) continue;
+
+    const person = ids.toRepoId(subject);
+    if (!person) { unresolved.push(subject); continue; }
+
+    const evidence = Array.isArray(edge['evidence']) ? edge['evidence'] : [];
+    associations.push({
+      id: text(edge['id']),
+      person,
+      place: object,
+      kind: kind as PlaceTieKind,
+      role: null,
+      evidence: evidence.map((entry) => {
+        const record = entry as Record<string, unknown>;
+        const urls = record['sourceUrls'];
+        return { text: text(record['text']), sourceUrls: Array.isArray(urls) ? urls.map(String) : [] };
+      }),
+      verificationLayer: text((edge['verification'] as Record<string, unknown>)?.['layer']),
+    });
+  }
+
+  return { associations, unresolved };
+}
+
+function text(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
