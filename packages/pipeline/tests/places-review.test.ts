@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { placeReviewProgress, placeReviewRemaining, publishedPlaceAssociations, publishedPlaces } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
-import { buildPlaceReviewSheet, placeReviewSheetCsv } from '../src/build/review.ts';
+import { buildPlaceReviewSheet, placeReviewSheetCsv, placeTiesSheetCsv } from '../src/build/review.ts';
 import { readPlaceAssociations, readPlaceSeeds } from '../src/sources/places.ts';
 
 /**
@@ -70,16 +70,42 @@ test('the sheet names both things standing in the way', () => {
   assert.match(remaining.join(' '), /no role/);
 });
 
-test('the generated sheet carries no decision of its own', () => {
+test('the places sheet asks one question per place, and answers none of them', () => {
   const csv = placeReviewSheetCsv(sheet);
   const [header = '', ...rows] = csv.trim().split('\n');
   const columns = header.split(',');
-  for (const column of ['approve', 'decisionReference', 'roles']) {
-    assert.ok(columns.includes(column), `${column} is a reviewer column`);
-  }
+  assert.ok(columns.includes('approve'));
+  assert.ok(columns.includes('decisionReference'));
+  // Roles live on the ties sheet. A roles column here would be a list a
+  // curator has to keep in the same order as a list they cannot see.
+  assert.ok(!columns.includes('roles'), 'roles are not a place-level decision');
+  assert.equal(rows.length, 82, 'one row per place');
+
   const approve = columns.indexOf('approve');
+  const reference = columns.indexOf('decisionReference');
   for (const row of rows) {
-    assert.equal(splitRow(row)[approve], '', 'a pre-filled approval is not an approval');
+    const cells = splitRow(row);
+    assert.equal(cells[approve], '', 'a pre-filled approval is not an approval');
+    assert.equal(cells[reference], '', 'a generated reference traces to nobody');
+  }
+});
+
+test('the ties sheet asks one question per tie, and answers none of them', () => {
+  const csv = placeTiesSheetCsv(sheet);
+  const [header = '', ...rows] = csv.trim().split('\n');
+  const columns = header.split(',');
+  assert.equal(rows.length, 86, 'one row per tie');
+
+  // The harvested verb is shown as a prompt and kept out of the answer: being
+  // born somewhere is not the claim that you lived there.
+  assert.ok(columns.includes('harvestedKind'));
+  const role = columns.indexOf('role');
+  const kind = columns.indexOf('harvestedKind');
+  assert.ok(role > 0 && kind > 0 && role !== kind);
+  for (const row of rows) {
+    const cells = splitRow(row);
+    assert.equal(cells[role], '', 'a pre-filled role is not a decision');
+    assert.ok((cells[kind] ?? '').length > 0, 'the prompt is there to read');
   }
 });
 
