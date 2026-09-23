@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
-import { planMerge, readIdIndex } from '../packages/pipeline/src/sources/hofworld.ts';
+import { planMerge, readIdIndex, readPlaceAssociations, readPlaces } from '../packages/pipeline/src/sources/hofworld.ts';
 
 /**
  * Merges curated fields from an unpacked HOF_WORLD v3 archive.
@@ -105,26 +105,85 @@ if (refused.length > 0) {
   console.log('  An import is not a decision, and this one will not pretend otherwise.');
 }
 
-if (taken.length === 0) {
-  console.log('\n  Nothing to take: the archive holds no curated field this repository lacks.');
+// -------------------------------------------------------------------- places
+
+const placesPath = resolve(root, 'data/cihof_places.json');
+const placesDoc = JSON.parse(readFileSync(placesPath, 'utf8'));
+const held = new Map((placesDoc.places ?? []).map((place) => [place.id, place]));
+const incoming = readPlaces(archive);
+const newPlaces = incoming.filter((place) => !held.has(place.id));
+const researched = incoming.filter((place) => place.researched).length;
+
+console.log(`\nplaces`);
+console.log(`  in the archive            ${incoming.length}`);
+console.log(`    with a short history    ${researched}`);
+console.log(`    leads, no history yet   ${incoming.length - researched}`);
+console.log(`  already held here         ${incoming.length - newPlaces.length}`);
+console.log(`  would add as seeds        ${newPlaces.length}`);
+console.log(`  none carries a review, so none becomes publishable by being added.`);
+
+const associationsPath = resolve(root, 'data/cihof_place_associations.json');
+const { associations, unresolved } = readPlaceAssociations(archive, ids);
+const toResearched = associations.filter((tie) => incoming.find((p) => p.id === tie.place)?.researched).length;
+const byKind = {};
+for (const tie of associations) byKind[tie.kind] = (byKind[tie.kind] ?? 0) + 1;
+
+console.log(`\nperson-to-place ties`);
+console.log(`  in the archive            ${associations.length}`);
+for (const [kind, count] of Object.entries(byKind)) console.log(`    ${kind.padEnd(22)}${count}`);
+console.log(`  pointing at a researched place ${toResearched}`);
+if (unresolved.length > 0) console.log(`  naming an unmapped person ${unresolved.length}: ${unresolved.slice(0, 3).join(', ')}`);
+console.log(`  every one arrives with no role. A role is what says the person did`);
+console.log(`  something there, and it is a curator's word, not a harvester's verb.`);
+
+if (taken.length === 0 && newPlaces.length === 0 && associations.length === 0) {
+  console.log('\n  Nothing to take.');
   if (!apply) console.log();
   process.exit(0);
 }
 
 if (!apply) {
-  console.log(`\n  Dry run — nothing written. Add --apply to take the ${taken.length} field(s) above.`);
+  console.log(`\n  Dry run — nothing written. --apply would take ${taken.length} curated field(s),`);
+  console.log(`  add ${newPlaces.length} place seed(s) and write ${associations.length} unreviewed place tie(s).`);
   console.log();
   process.exit(0);
 }
 
 requireCleanTree();
-for (const entry of taken) put(targetRecords[entry.repoId], entry.path, entry.value);
-const backup = `${targetPath}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`;
-copyFileSync(targetPath, backup);
-writeFileSync(targetPath, `${JSON.stringify(target, null, 2)}\n`);
-console.log(`\n  Backup written to ${backup.replace(`${root}/`, '')}`);
-console.log(`  Wrote ${targetPath.replace(`${root}/`, '')} — ${taken.length} field(s) taken, ${refused.length} refused.`);
+
+if (newPlaces.length > 0) {
+  placesDoc.places = [...(placesDoc.places ?? []), ...newPlaces.map((place) => ({
+    id: place.id, name: place.name, type: place.type,
+    shortHistory: place.shortHistory, neighborhood: place.neighborhood,
+    ...(place.address ? { address: place.address } : {}),
+    provenance: { source: 'HOF_WORLD v3 core/places.json', authorityStatus: place.authorityStatus },
+    researched: place.researched,
+  }))];
+  backupAndWrite(placesPath, placesDoc);
+  console.log(`\n  Added ${newPlaces.length} place seed(s) to ${placesPath.replace(`${root}/`, '')}`);
+}
+
+writeFileSync(associationsPath, `${JSON.stringify({
+  schemaVersion: 1,
+  source: 'HOF_WORLD v3 edges/edges.json',
+  generatedAt: new Date().toISOString(),
+  note: 'Unreviewed. Every tie needs a PlaceRole and a review before it can be shown.',
+  associations,
+}, null, 2)}\n`);
+console.log(`  Wrote ${associations.length} unreviewed tie(s) to ${associationsPath.replace(`${root}/`, '')}`);
+
+
+if (taken.length > 0) {
+  for (const entry of taken) put(targetRecords[entry.repoId], entry.path, entry.value);
+  backupAndWrite(targetPath, target);
+  console.log(`  Wrote ${targetPath.replace(`${root}/`, '')} — ${taken.length} field(s) taken, ${refused.length} refused.`);
+}
 console.log();
+
+function backupAndWrite(path, document) {
+  copyFileSync(path, `${path}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`);
+  writeFileSync(path, `${JSON.stringify(document, null, 2)}\n`);
+}
 
 // ----------------------------------------------------------------------- parts
 
