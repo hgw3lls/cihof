@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T22:14:37.293Z",
+  "generatedAt": "2026-09-23T14:18:24.529Z",
   "source": "data/cihof_induction_crosswalk.json",
   "publicationDecision": {
-    "decisionReference": "cur-2026-062",
-    "contentVersion": "v7",
-    "reviewedAt": "2026-09-22T22:14:18.083Z",
+    "decisionReference": "links-publication-2026-09-22",
+    "contentVersion": "content-2e3082085018a330e07cd374937fe242",
+    "reviewedAt": "2026-09-23T14:17:53.404Z",
     "publication": {
       "publicWeb": false,
       "kiosk": true
@@ -106,8 +106,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "alex-machaskee-2010",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.974Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.563Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -203,8 +204,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "margaret-w-wong-2010",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -280,8 +282,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "dick-russ-2015",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -402,8 +405,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "pierre-bejjani-2023",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -490,8 +494,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "aklilu-demessie-2026",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -534,8 +539,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "albert-b-ratner-2011",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -617,8 +623,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "andy-fedynsky-2026",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -700,8 +707,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "august-pust-2010",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -757,8 +765,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "basil-russo-2017",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -879,8 +888,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "dick-pogue-2015",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1001,8 +1011,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "wael-khoury-2017",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1058,8 +1069,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "ernie-mihaly-2014",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1154,8 +1166,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "ingrida-bublys-2019",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1198,8 +1211,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "jack-kahl-2016",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1294,8 +1308,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "jose-c-feliciano-2012",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1338,8 +1353,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "jose-c-feliciano-2012",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1434,8 +1450,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "ken-kovach-2012",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1595,8 +1612,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "dr-maria-pujana-2013",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1639,8 +1657,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "hon-mary-rose-oakar-2012",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1748,8 +1767,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "mona-alag-2017",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1792,8 +1812,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "pat-dowd-2023",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1836,8 +1857,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "ingrida-bublys-2019",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1893,8 +1915,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "ramesh-shah-2020",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -1976,8 +1999,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "richard-fleischman-2019",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
@@ -2150,8 +2174,9 @@
       "resolution": {
         "status": "inductee",
         "inducteeId": "valarie-mccall-2020",
-        "decisionReference": "cur-2026-061",
-        "decidedAt": "2026-09-22T20:17:01.976Z"
+        "decisionReference": "links-review-2026-09-22",
+        "decidedAt": "2026-09-23T14:17:52.564Z",
+        "note": "Reference corrected: the original cur-2026-061 pointed at no record."
       }
     },
     {
