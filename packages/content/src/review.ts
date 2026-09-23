@@ -28,7 +28,7 @@ import type {
   InductionCrosswalk, ProposedRelationship,
 } from './crosswalk.ts';
 import type { InducteeId } from './identity.ts';
-import { linksThreshold } from './lenses.ts';
+import { linksThreshold, placesThreshold } from './lenses.ts';
 
 /**
  * How much judgement a row needs, decided by what the corpus could offer.
@@ -206,4 +206,102 @@ export function sheetMatchesCrosswalk(sheet: RelationshipReviewSheet, crosswalk:
 
 function nonEmpty(value: string | undefined): boolean {
   return typeof value === 'string' && value.trim().length > 0;
+}
+
+// ------------------------------------------------------------ places
+
+/**
+ * How much work a place row needs before it can be shown.
+ *
+ * Not a quality judgement. `lead` means the archive found a name and nobody has
+ * written a history for it, and `PublishedPlace` requires one — so a lead
+ * cannot be approved into existence however willing the reviewer.
+ */
+export type PlaceBand = 'researched' | 'lead';
+
+export type PlaceReviewRow = {
+  readonly placeId: string;
+  readonly name: string;
+  readonly band: PlaceBand;
+  readonly neighborhood: string;
+  readonly shortHistory: string;
+  /** People the archive ties to this place, with the verb it used. */
+  readonly ties: readonly {
+    readonly person: string;
+    readonly displayName: string;
+    readonly kind: string;
+    readonly role: string | null;
+  }[];
+  readonly reviewed: boolean;
+};
+
+export type PlaceReviewSheet = {
+  readonly schemaVersion: 1;
+  readonly generatedAt: string;
+  readonly source: string;
+  readonly rows: readonly PlaceReviewRow[];
+};
+
+export type PlaceReviewProgress = {
+  readonly places: number;
+  readonly researched: number;
+  readonly leads: number;
+  readonly reviewed: number;
+  readonly ties: number;
+  readonly tiesWithRole: number;
+  /** Places that could be published today: reviewed, and with a history. */
+  readonly publishable: number;
+  readonly placesThreshold: number;
+  readonly placesWouldOpen: boolean;
+};
+
+export function placeReviewProgress(sheet: PlaceReviewSheet): PlaceReviewProgress {
+  let researched = 0;
+  let reviewed = 0;
+  let ties = 0;
+  let tiesWithRole = 0;
+  let publishable = 0;
+
+  for (const row of sheet.rows) {
+    if (row.band === 'researched') researched += 1;
+    if (row.reviewed) reviewed += 1;
+    // A review on a place with no history publishes a name and a blank
+    // paragraph, so it does not count towards the lens however it is marked.
+    if (row.reviewed && row.band === 'researched') publishable += 1;
+    ties += row.ties.length;
+    tiesWithRole += row.ties.filter((tie) => tie.role !== null && tie.role !== '').length;
+  }
+
+  return {
+    places: sheet.rows.length,
+    researched,
+    leads: sheet.rows.length - researched,
+    reviewed,
+    ties,
+    tiesWithRole,
+    publishable,
+    placesThreshold,
+    placesWouldOpen: publishable >= placesThreshold,
+  };
+}
+
+/** What still stands between this sheet and an open Places lens. */
+export function placeReviewRemaining(sheet: PlaceReviewSheet): string[] {
+  const progress = placeReviewProgress(sheet);
+  const remaining: string[] = [];
+
+  if (progress.publishable < placesThreshold) {
+    const short = placesThreshold - progress.publishable;
+    remaining.push(
+      `${progress.publishable} of ${placesThreshold} places are reviewed and have a history; `
+      + `${short} more needed, and ${progress.researched - progress.publishable} researched place(s) are still unreviewed`,
+    );
+  }
+  if (progress.tiesWithRole < progress.ties) {
+    remaining.push(
+      `${progress.ties - progress.tiesWithRole} of ${progress.ties} person-to-place ties have no role, `
+      + 'and a tie without one does not say what the person did there',
+    );
+  }
+  return remaining;
 }

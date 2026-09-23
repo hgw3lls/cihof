@@ -39,6 +39,7 @@ export const lensThresholds: readonly LensThreshold[] = [
  * gate it is reporting against.
  */
 export const linksThreshold: number = lensThresholds.find((t) => t.id === 'links')?.minimum ?? 15;
+export const placesThreshold: number = lensThresholds.find((t) => t.id === 'places')?.minimum ?? 8;
 
 export type LensCounts = Record<LensId, number>;
 

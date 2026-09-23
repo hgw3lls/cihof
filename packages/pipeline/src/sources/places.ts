@@ -26,3 +26,23 @@ export function readRelationships(): unknown[] {
     return [];
   }
 }
+
+/**
+ * Person-to-place ties, as ingested and as curators have left them.
+ *
+ * Read defensively for the same reason the contribution worksheet is: the file
+ * is hand-edited between runs, and a half-written one should yield nothing
+ * rather than a crash or a partial list. Everything it carries still passes
+ * `publishedPlaceAssociations` before it reaches anyone — which today rejects
+ * all of them, because none has a role.
+ */
+export function readPlaceAssociations(): unknown[] {
+  try {
+    const document = JSON.parse(readFileSync(dataFile('cihof_place_associations.json'), 'utf8')) as {
+      associations?: unknown[];
+    };
+    return Array.isArray(document.associations) ? document.associations : [];
+  } catch {
+    return [];
+  }
+}

@@ -1,5 +1,6 @@
 import type {
-  InductionCrosswalk, InducteeId, PublishedPerson, RelationshipReviewSheet, ReviewRow,
+  InductionCrosswalk, InducteeId, PlaceReviewRow, PlaceReviewSheet, PublishedPerson,
+  RelationshipReviewSheet, ReviewRow,
 } from '@cihof/content';
 import { bandOf, proposedRelationships } from '@cihof/content';
 
@@ -123,7 +124,11 @@ function csvCell(value: string): string {
  * and "I could not parse this" must never be reported as "there is nothing
  * here" — that is the one wrong answer, because it leads to an overwrite.
  */
-export function decisionsInSheet(csvText: string): string[] {
+export function decisionsInSheet(
+  csvText: string,
+  decisionColumns: readonly string[] = ['decision', 'decisionReference'],
+  labelColumn = 'recordedName',
+): string[] {
   let rows: string[][];
   try {
     rows = parseRows(csvText);
@@ -133,20 +138,18 @@ export function decisionsInSheet(csvText: string): string[] {
   const header = rows[0]?.map((cell) => cell.trim());
   if (!header) return [];
 
-  const name = header.indexOf('recordedName');
-  const decision = header.indexOf('decision');
-  const reference = header.indexOf('decisionReference');
-  if (decision < 0 && reference < 0) {
+  const label = header.indexOf(labelColumn);
+  const columns = decisionColumns.map((column) => header.indexOf(column)).filter((index) => index >= 0);
+  if (columns.length === 0) {
     return ['(this sheet has no decision columns; refusing rather than guessing)'];
   }
 
   const decided: string[] = [];
   for (const cells of rows.slice(1)) {
-    const said = decision >= 0 ? (cells[decision] ?? '').trim() : '';
-    const traced = reference >= 0 ? (cells[reference] ?? '').trim() : '';
-    if (!said && !traced) continue;
-    const who = name >= 0 ? (cells[name] ?? '').trim() || '(unnamed row)' : '(unnamed row)';
-    decided.push(`${who}: ${said || '(no decision)'}${traced ? ` [${traced}]` : ''}`);
+    const written = columns.map((index) => (cells[index] ?? '').trim()).filter(Boolean);
+    if (written.length === 0) continue;
+    const who = label >= 0 ? (cells[label] ?? '').trim() || '(unnamed row)' : '(unnamed row)';
+    decided.push(`${who}: ${written.join(' / ')}`);
   }
   return decided;
 }
@@ -177,4 +180,94 @@ function parseRows(text: string): string[][] {
   row.push(value);
   if (row.some((cell) => cell.trim().length > 0)) rows.push(row);
   return rows;
+}
+
+// ------------------------------------------------------------------- places
+
+/**
+ * Builds the places review sheet from the seeds and the ingested ties.
+ *
+ * Derived, like its sibling: reviews live in `data/cihof_places.json` and roles
+ * in `data/cihof_place_associations.json`, and this shows them rather than
+ * holding them. Rows are banded by whether anybody has written a history,
+ * because a reviewer cannot approve a place into existence without one.
+ */
+export function buildPlaceReviewSheet(
+  places: readonly unknown[],
+  associations: readonly unknown[],
+  people: readonly PublishedPerson[],
+): PlaceReviewSheet {
+  // Keyed by plain string: a tie's person id arrives from an ingested file and
+  // has not been through the brand, so looking it up as one would not compile
+  // and casting it would assert something nothing has checked.
+  const nameById = new Map<string, string>(people.map((person) => [person.id as string, person.name]));
+  const tiesByPlace = new Map<string, PlaceReviewRow['ties'][number][]>();
+
+  for (const value of associations) {
+    const tie = value as Record<string, unknown>;
+    const place = typeof tie['place'] === 'string' ? tie['place'] : '';
+    const person = typeof tie['person'] === 'string' ? tie['person'] : '';
+    if (!place || !person) continue;
+    const role = tie['role'];
+    const list = tiesByPlace.get(place) ?? [];
+    list.push({
+      person,
+      displayName: nameById.get(person) ?? person,
+      kind: typeof tie['kind'] === 'string' ? tie['kind'] : '',
+      role: typeof role === 'string' && role.trim().length > 0 ? role.trim() : null,
+    });
+    tiesByPlace.set(place, list);
+  }
+
+  const rows: PlaceReviewRow[] = places.flatMap((value) => {
+    const place = value as Record<string, unknown>;
+    const id = typeof place['id'] === 'string' ? place['id'] : '';
+    if (!id) return [];
+    const shortHistory = typeof place['shortHistory'] === 'string' ? place['shortHistory'].trim() : '';
+    const ties = (tiesByPlace.get(id) ?? [])
+      .sort((a, b) => a.displayName.localeCompare(b.displayName));
+    return [{
+      placeId: id,
+      name: typeof place['name'] === 'string' ? place['name'] : '',
+      band: shortHistory.length > 0 ? ('researched' as const) : ('lead' as const),
+      neighborhood: typeof place['neighborhood'] === 'string' ? place['neighborhood'] : '',
+      shortHistory,
+      ties,
+      // A review record is the thing that publishes a place. Its presence is
+      // read, never written here.
+      reviewed: Boolean(place['review']),
+    }];
+  });
+
+  rows.sort((a, b) => b.ties.length - a.ties.length || a.name.localeCompare(b.name));
+
+  return {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    source: 'data/cihof_places.json + data/cihof_place_associations.json',
+    rows,
+  };
+}
+
+/** The places sheet as a CSV, reviewer columns generated empty. */
+export function placeReviewSheetCsv(sheet: PlaceReviewSheet): string {
+  const header = [
+    'placeId', 'name', 'band', 'neighborhood', 'tieCount', 'people', 'kinds', 'shortHistory',
+    'currentlyReviewed',
+    // The reviewer's. Generated empty, every time.
+    'approve', 'decisionReference', 'roles', 'note',
+  ];
+  const lines = [header.join(',')];
+  for (const row of sheet.rows) {
+    lines.push([
+      row.placeId, row.name, row.band, row.neighborhood,
+      String(row.ties.length),
+      row.ties.map((tie) => tie.displayName).join(' | '),
+      row.ties.map((tie) => tie.kind).join(' | '),
+      row.shortHistory.slice(0, 180),
+      String(row.reviewed),
+      '', '', '', '',
+    ].map(csvCell).join(','));
+  }
+  return `${lines.join('\n')}\n`;
 }
