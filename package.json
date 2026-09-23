@@ -75,7 +75,8 @@
     "typecheck:web": "npm run typecheck --workspace apps/web",
     "review:links": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs",
     "review:links:check": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs --check",
-    "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js"
+    "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
+    "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
