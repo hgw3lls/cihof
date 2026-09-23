@@ -78,7 +78,8 @@
     "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
     "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js",
     "review:places": "node --experimental-strip-types packages/pipeline/scripts/place-sheet.mjs",
-    "review:places:check": "node --experimental-strip-types packages/pipeline/scripts/place-sheet.mjs --check"
+    "review:places:check": "node --experimental-strip-types packages/pipeline/scripts/place-sheet.mjs --check",
+    "places:apply": "node --experimental-strip-types scripts/apply-place-decisions.js"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
