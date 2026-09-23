@@ -31,6 +31,16 @@ export const lensThresholds: readonly LensThreshold[] = [
   { id: 'places', minimum: 8, counts: 'reviewed places' },
 ];
 
+/**
+ * The Links threshold, by name.
+ *
+ * Read by the review sheet, which has to tell a curator how far off they are.
+ * Taken from the table rather than restated, so the sheet cannot drift from the
+ * gate it is reporting against.
+ */
+export const linksThreshold: number = lensThresholds.find((t) => t.id === 'links')?.minimum ?? 15;
+export const placesThreshold: number = lensThresholds.find((t) => t.id === 'places')?.minimum ?? 8;
+
 export type LensCounts = Record<LensId, number>;
 
 export type LensAvailability = {
