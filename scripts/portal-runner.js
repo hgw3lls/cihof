@@ -276,6 +276,26 @@ const server = createServer(async (request, response) => {
       return;
     }
 
+    // The page itself carries no data — it is markup that then asks for the
+    // token and fetches everything over the authenticated API. Serving it
+    // unauthenticated is what makes the token promptable in a browser at all;
+    // serving anything else that way would not be.
+    if (request.method === 'GET' && (request.url === '/review' || request.url === '/review/')) {
+      if (!existsSync(reviewPagePath)) {
+        sendJson(response, 404, { error: 'Review portal page is missing.' });
+        return;
+      }
+      response.writeHead(200, {
+        'content-type': 'text/html; charset=utf-8',
+        'cache-control': 'no-store',
+        // No network egress from the page, and nothing framed.
+        'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'self'; form-action 'none'; frame-ancestors 'none'",
+        'referrer-policy': 'no-referrer',
+      });
+      response.end(readFileSync(reviewPagePath));
+      return;
+    }
+
     if (!isAuthorizedRequest(request)) {
       sendJson(response, 401, {
         error: 'Portal runner token is required. Copy the token printed by npm run portal:server into the Staff Portal runner token field.',
@@ -394,6 +414,90 @@ const server = createServer(async (request, response) => {
       return;
     }
 
+
+    // ------------------------------------------------------- review portal
+    //
+    // The queues a curator works through, and the one way decisions leave the
+    // browser. Reads are plain JSON off the committed sheets; writes go out
+    // through the same apply scripts the command line uses, so the dry run,
+    // the hash match and the clean-tree check all still hold. Nothing here
+    // writes to `data/` directly.
+
+    if (request.method === 'GET' && url.pathname === '/api/review/context') {
+      sendJson(response, 200, readReviewContext());
+      return;
+    }
+
+    if (request.method === 'GET' && url.pathname === '/api/review/queues') {
+      sendJson(response, 200, readReviewQueues());
+      return;
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/review/apply') {
+      const body = await readJsonBody(request);
+      const sheet = String(body.sheet || '');
+      const decisions = Array.isArray(body.decisions) ? body.decisions : [];
+      const reference = String(body.reference || '').trim();
+      const dryRun = body.dryRun !== false;
+
+      if (!['links', 'places', 'ties'].includes(sheet)) {
+        sendJson(response, 400, { error: 'Unknown sheet. Expected links, places or ties.' });
+        return;
+      }
+      if (decisions.length === 0) {
+        sendJson(response, 400, { error: 'No decisions to apply.' });
+        return;
+      }
+      // The refusal this portal exists to keep. A reference is what traces a
+      // claim back to a person, and the browser is not allowed to invent one.
+      if (!reference) {
+        sendJson(response, 400, {
+          error: 'A decision reference is required. See data/curation-decisions/README.md for the convention.',
+        });
+        return;
+      }
+
+      const csv = buildReviewCsv(sheet, decisions, reference);
+      const csvHash = hashText(csv);
+
+      if (!dryRun) {
+        const previewJob = jobs.get(String(body.previewJobId || ''));
+        const gitStatus = readGitStatus();
+        if (!previewJob || previewJob.status !== 'success' || previewJob.meta?.kind !== 'review-apply' || previewJob.meta?.dryRun !== true) {
+          sendJson(response, 409, { error: 'Run a successful dry run from this session before applying.' });
+          return;
+        }
+        if (previewJob.meta?.csvHash !== csvHash) {
+          sendJson(response, 409, { error: 'The decisions changed after the dry run. Preview again before applying.' });
+          return;
+        }
+        if (gitStatus.available && gitStatus.dirty) {
+          sendJson(response, 409, {
+            error: 'The repo has uncommitted changes. Commit, stash or discard them so this decision arrives as its own diff.',
+            git: gitStatus,
+          });
+          return;
+        }
+      }
+
+      mkdirSync(decisionsDir, { recursive: true });
+      const decisionPath = resolve(decisionsDir, `review-${sheet}-${new Date().toISOString().replace(/[:.]/g, '-')}.csv`);
+      writeFileSync(decisionPath, csv);
+
+      const script = sheet === 'links' ? 'links:apply' : 'places:apply';
+      const command = ['run', script, '--', `--input=${decisionPath}`];
+      if (!dryRun) command.push('--apply', `--expect-hash=${csvHash}`);
+
+      const job = createJob(
+        `${dryRun ? 'Preview' : 'Apply'} ${sheet} decisions`,
+        [{ label: `${dryRun ? 'Dry run' : 'Apply'} ${script}`, command }],
+        { kind: 'review-apply', sheet, dryRun, csvHash, decisionPath, decisions: decisions.length, reference },
+      );
+      runJob(job);
+      sendJson(response, 202, { job: toPublicJob(job), csvHash });
+      return;
+    }
+
     if (request.method === 'POST' && url.pathname === '/api/apply-decisions') {
       const body = await readJsonBody(request);
       const csv = typeof body.csv === 'string' ? body.csv.trim() : '';
@@ -484,6 +588,7 @@ server.listen(port, host, () => {
   }
   console.log(`Persistent job logs: ${relative(repoRoot, jobsDir)}`);
   console.log('Use the Staff Portal runner controls to execute whitelisted scripts.');
+  console.log(`Review portal: http://${host}:${port}/review`);
 });
 
 function readRelationshipRecords() {
@@ -1194,4 +1299,128 @@ function toPublicJob(job) {
     logPath: job.logPath,
     persistedAt: job.persistedAt,
   };
+}
+
+// ---------------------------------------------------------- review portal
+
+const reviewPagePath = resolve('scripts/review-portal.html');
+
+/**
+ * What a curator needs to see before deciding anything.
+ *
+ * The content version is read from the build rather than composed, because a
+ * version nothing produced is the failure this whole surface exists to avoid.
+ * `revisionOf` hashes the published people, so the value here is the value the
+ * artifact will carry.
+ */
+function readReviewContext() {
+  const convention = existsSync(resolve('data/curation-decisions/README.md'))
+    ? readFileSync(resolve('data/curation-decisions/README.md'), 'utf8')
+    : '';
+  let revisions = {};
+  try {
+    const out = execFileSync(
+      process.execPath,
+      ['--experimental-strip-types', '-e', `
+        import('./packages/pipeline/src/build/emit.ts').then(async (m) => {
+          const { buildPeople } = await import('./packages/pipeline/src/build/people.ts');
+          const people = buildPeople();
+          process.stdout.write(JSON.stringify({
+            kiosk: m.buildRuntimeBundle(people, 'kiosk').contentRevision,
+            public: m.buildRuntimeBundle(people, 'public').contentRevision,
+          }));
+        });`],
+      { cwd: repoRoot, encoding: 'utf8', timeout: 120000 },
+    );
+    revisions = JSON.parse(out);
+  } catch (error) {
+    revisions = { error: String(error?.message || error) };
+  }
+  return {
+    convention,
+    contentRevisions: revisions,
+    git: readGitStatus(),
+    // Stated so the browser can show it beside every approval rather than
+    // relying on the person remembering it.
+    targets: {
+      kiosk: 'The installed display in the building.',
+      publicWeb: 'The open internet. A kiosk approval is not a public-web approval.',
+    },
+  };
+}
+
+/** The two queues, read straight off the committed sheets. */
+function readReviewQueues() {
+  const links = readJsonIfPresent(resolve('data/cihof_relationship_review.json'));
+  const places = readJsonIfPresent(resolve('data/cihof_place_review.json'));
+  const ties = readJsonIfPresent(resolve('data/cihof_place_associations.json'));
+  const tieByKey = new Map(
+    (ties?.associations ?? []).map((tie) => [`${tie.person}|${tie.place}`, tie]),
+  );
+
+  return {
+    links: {
+      // Only what is still open. A queue of things already decided is a list,
+      // not a queue.
+      rows: (links?.rows ?? []).filter((row) => row.resolution?.status === 'unresolved'),
+      decided: (links?.rows ?? []).filter((row) => row.resolution?.status !== 'unresolved').length,
+      signed: Boolean(links?.publicationDecision),
+    },
+    places: {
+      rows: (places?.rows ?? []).filter((row) => !row.reviewed),
+      reviewed: (places?.rows ?? []).filter((row) => row.reviewed).length,
+    },
+    ties: {
+      rows: (places?.rows ?? []).flatMap((row) => row.ties
+        .filter((tie) => !tie.role)
+        .map((tie) => ({
+          placeId: row.placeId,
+          placeName: row.name,
+          band: row.band,
+          person: tie.person,
+          displayName: tie.displayName,
+          kind: tie.kind,
+          evidence: tieByKey.get(`${tie.person}|${row.placeId}`)?.evidence ?? [],
+        }))),
+      roles: ['lived', 'worked', 'studied', 'taught', 'organized', 'served', 'founded'],
+    },
+  };
+}
+
+/**
+ * The decisions as the sheet the apply script already reads.
+ *
+ * Deliberately produces the same CSV a curator would have filled in by hand,
+ * so the browser is a faster way to fill a sheet and not a second way to write
+ * canonical data.
+ */
+function buildReviewCsv(sheet, decisions, reference) {
+  const cell = (value) => {
+    const text = String(value ?? '');
+    return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  if (sheet === 'links') {
+    const header = ['recordedName', 'decision', 'inducteeId', 'decisionReference', 'note'];
+    return `${[header.join(','), ...decisions.map((d) => [
+      d.recordedName, d.decision, d.inducteeId ?? '', reference, d.note ?? '',
+    ].map(cell).join(','))].join('\n')}\n`;
+  }
+  if (sheet === 'places') {
+    const header = ['placeId', 'name', 'approve', 'decisionReference', 'note'];
+    return `${[header.join(','), ...decisions.map((d) => [
+      d.placeId, d.name ?? '', d.approve, reference, d.note ?? '',
+    ].map(cell).join(','))].join('\n')}\n`;
+  }
+  const header = ['placeId', 'person', 'displayName', 'role', 'decisionReference', 'note'];
+  return `${[header.join(','), ...decisions.map((d) => [
+    d.placeId, d.person, d.displayName ?? '', d.role, reference, d.note ?? '',
+  ].map(cell).join(','))].join('\n')}\n`;
+}
+
+function readJsonIfPresent(path) {
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch {
+    return null;
+  }
 }

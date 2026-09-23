@@ -66,7 +66,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:one-world-day-rockefeller-park",
@@ -103,7 +104,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Initial festival-location connection; event details should be reviewed by curators."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:cleveland-city-hall",
@@ -142,7 +144,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:cleveland-public-library",
@@ -179,7 +182,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:cleveland-state-university",
@@ -218,7 +222,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Seeded from biographies that mention Cleveland State University."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:max-s-hayes-high-school",
@@ -251,7 +256,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter school entry based on Mayor Frank Jackson's biography."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:st-colman-church",
@@ -282,7 +288,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter church entry based on Fr. Jim O'Donnell's biography."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:asiatown",
@@ -320,7 +327,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:asia-plaza",
@@ -352,7 +360,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter business entry based on biographies mentioning Asia Plaza."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:sai-gon-plaza",
@@ -383,7 +392,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter business entry based on biographies mentioning Sai Gon Plaza."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:st-clair-superior",
@@ -416,7 +426,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter neighborhood entry based on biographies mentioning St. Clair-Superior."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:central-kinsman",
@@ -450,7 +461,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter neighborhood entry based on biographies mentioning Central or Kinsman."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:greater-cleveland-ethnographic-museum",
@@ -480,7 +492,8 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter community-organization entry based on August Pust's biography."
-      }
+      },
+      "researched": true
     },
     {
       "id": "place:east-technical-high-school",
@@ -514,7 +527,824 @@
         "confidence": "curated",
         "sourceField": "bioText",
         "note": "Starter historic-address entry based on Mayor Frank Jackson's biography."
-      }
+      },
+      "researched": true
+    },
+    {
+      "id": "place:collinwood",
+      "name": "Collinwood",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:downtown",
+      "name": "Downtown",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:shaker-heights",
+      "name": "Shaker Heights",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:st-clair",
+      "name": "St. Clair",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:beachwood",
+      "name": "Beachwood",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:near-west-side",
+      "name": "Near West Side",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:rockefeller-park",
+      "name": "Rockefeller Park",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:buckeye",
+      "name": "Buckeye",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:kinsman",
+      "name": "Kinsman",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:university-circle",
+      "name": "University Circle",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:west-park",
+      "name": "West Park",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cleveland-heights",
+      "name": "Cleveland Heights",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:detroit-shoreway",
+      "name": "Detroit Shoreway",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:glenville",
+      "name": "Glenville",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:lakewood",
+      "name": "Lakewood",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:little-italy",
+      "name": "Little Italy",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:slavic-village",
+      "name": "Slavic Village",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:tremont",
+      "name": "Tremont",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:ward-5",
+      "name": "Ward 5",
+      "type": "neighborhood",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-text-lead"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:hungary",
+      "name": "Hungary",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:india",
+      "name": "India",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:egypt",
+      "name": "Egypt",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cleveland-clinic",
+      "name": "Cleveland Clinic",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:puerto-rico",
+      "name": "Puerto Rico",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:lithuania",
+      "name": "Lithuania",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cultrual-garden",
+      "name": "Cultrual Garden",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:china",
+      "name": "China",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:latvia",
+      "name": "Latvia",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:ethiopia",
+      "name": "Ethiopia",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:ukraine",
+      "name": "Ukraine",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:italian-garden",
+      "name": "Italian Garden",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:italy",
+      "name": "Italy",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:albania",
+      "name": "Albania",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:estonia",
+      "name": "Estonia",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:japan",
+      "name": "Japan",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:russia",
+      "name": "Russia",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:norway",
+      "name": "Norway",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:vietnam",
+      "name": "Vietnam",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:germany",
+      "name": "Germany",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:usa",
+      "name": "USA",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:greater-cleveland",
+      "name": "Greater Cleveland",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cleveland",
+      "name": "Cleveland",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:county-cork",
+      "name": "County Cork",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:county-mayo",
+      "name": "County Mayo",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:lebanon",
+      "name": "Lebanon",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:greece",
+      "name": "Greece",
+      "type": "country_or_region",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "review-candidate"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:warren-ohio-mr",
+      "name": "Warren, Ohio, Mr",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:beachwood-ohio",
+      "name": "Beachwood, Ohio",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:rach-gia-viet-nam",
+      "name": "Rach Gia, Viet Nam",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cleveland-ohio",
+      "name": "Cleveland, Ohio",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:garracloon-county-mayo",
+      "name": "Garracloon, County Mayo",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:united-states",
+      "name": "United States",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:youngstown-ohio",
+      "name": "Youngstown, Ohio",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:la-grange-ga",
+      "name": "La Grange, GA",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:kurnool",
+      "name": "Kurnool",
+      "type": "place",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:yauco-puerto-rico",
+      "name": "Yauco, Puerto Rico",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:rijeka-flume-croatia",
+      "name": "Rijeka (Flume), Croatia",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:guangdong-province-in-southern-china",
+      "name": "Guangdong province in southern China",
+      "type": "place",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:poland",
+      "name": "Poland",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:utuado-puerto-rico",
+      "name": "Utuado, Puerto Rico",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:cairo-egypt",
+      "name": "Cairo, Egypt",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:villalba-puerto-rico",
+      "name": "Villalba, Puerto Rico",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:bentleyville-oh",
+      "name": "Bentleyville, OH",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:detroit-michigan",
+      "name": "Detroit, Michigan",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:hong-kong",
+      "name": "Hong Kong",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:canton-ohio",
+      "name": "Canton, Ohio",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:ashtabula",
+      "name": "Ashtabula",
+      "type": "place",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
+    },
+    {
+      "id": "place:can-tho-vietnam",
+      "name": "Can Tho, Vietnam",
+      "type": "city_or_locality",
+      "shortHistory": "",
+      "neighborhood": "",
+      "provenance": {
+        "source": "HOF_WORLD v3 core/places.json",
+        "authorityStatus": "documented-in-profile"
+      },
+      "researched": false
     }
   ]
 }
