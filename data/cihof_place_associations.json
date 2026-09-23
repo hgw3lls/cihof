@@ -1,0 +1,1002 @@
+{
+  "schemaVersion": 1,
+  "source": "HOF_WORLD v3 edges/edges.json",
+  "generatedAt": "2026-09-23T02:34:42.562Z",
+  "note": "Unreviewed. Every tie needs a PlaceRole and a review before it can be shown.",
+  "associations": [
+    {
+      "id": "edge:8a74bc52cac2d3",
+      "person": "leo-weidenthal-2010",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:e881a9961b8e81",
+      "person": "wael-khoury-2017",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:0a997a7f5792fb",
+      "person": "paul-burik-2019",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:c631d0a40c2a93",
+      "person": "berj-shakarian-2020",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:b70407ad466399",
+      "person": "anda-cook-2022",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:4928e839eeb812",
+      "person": "joyce-mariani-2023",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:191a5a0f27fd94",
+      "person": "johnny-k-wu-2024",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:15ac1b5fdb82d5",
+      "person": "svetlana-stolyarova-2025",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:b1d983b25df3d3",
+      "person": "branka-malinar-2025",
+      "place": "place:cleveland-cultural-gardens",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:3049b1eb2310ad",
+      "person": "sheila-murphy-crawford-2018",
+      "place": "place:one-world-day-rockefeller-park",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Initial festival-location connection; event details should be reviewed by curators.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:5b70749661da69",
+      "person": "anda-cook-2022",
+      "place": "place:one-world-day-rockefeller-park",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Initial festival-location connection; event details should be reviewed by curators.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:05a9295d117a8f",
+      "person": "georgine-welo-2023",
+      "place": "place:one-world-day-rockefeller-park",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Initial festival-location connection; event details should be reviewed by curators.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:44afb399598845",
+      "person": "dona-brady-2024",
+      "place": "place:one-world-day-rockefeller-park",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Initial festival-location connection; event details should be reviewed by curators.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:5fc56c26701b03",
+      "person": "johnny-k-wu-2024",
+      "place": "place:one-world-day-rockefeller-park",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Initial festival-location connection; event details should be reviewed by curators.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:aa9ad1ca39876f",
+      "person": "mayor-frank-jackson-2025",
+      "place": "place:cleveland-city-hall",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:ed4da560f1c86e",
+      "person": "tony-petkovsek-2011",
+      "place": "place:cleveland-city-hall",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:7ace1bcaa8c7a5",
+      "person": "joe-valencic-2020",
+      "place": "place:cleveland-city-hall",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:097b608891f3e9",
+      "person": "joyce-mariani-2023",
+      "place": "place:cleveland-city-hall",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:aedf25d844feec",
+      "person": "dr-eugene-jordan-2024",
+      "place": "place:cleveland-city-hall",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:be99b95ea51f41",
+      "person": "leo-weidenthal-2010",
+      "place": "place:cleveland-public-library",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:13026d1b2c8ded",
+      "person": "joe-valencic-2020",
+      "place": "place:cleveland-public-library",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:e8200b4a971af8",
+      "person": "beverly-kerecman-2025",
+      "place": "place:cleveland-public-library",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:8b0ef536d20055",
+      "person": "andy-chakalis-2026",
+      "place": "place:cleveland-public-library",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:a8241bc9deb0c6",
+      "person": "mayor-frank-jackson-2025",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:3024abc00da321",
+      "person": "alex-machaskee-2010",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:4615450734b534",
+      "person": "jeanette-grasselli-brown-2010",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:474404f04e9865",
+      "person": "margaret-w-wong-2010",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:b0fc4cae1fe69e",
+      "person": "jose-c-feliciano-2012",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:c00d7f8f97e256",
+      "person": "monte-ahuja-2014",
+      "place": "place:cleveland-state-university",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Seeded from biographies that mention Cleveland State University.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:686ae95a6cf1da",
+      "person": "mayor-frank-jackson-2025",
+      "place": "place:max-s-hayes-high-school",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter school entry based on Mayor Frank Jackson's biography.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:c93cc9b8d3ef5d",
+      "person": "fr-jim-o-donnell-2012",
+      "place": "place:st-colman-church",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter church entry based on Fr. Jim O'Donnell's biography.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:abef149e74357f",
+      "person": "donna-hom-2014",
+      "place": "place:asiatown",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:39806b323238d5",
+      "person": "johnny-k-wu-2024",
+      "place": "place:asiatown",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:dc06f3bd03e52d",
+      "person": "margaret-w-wong-2010",
+      "place": "place:asiatown",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:69ac8a777f8ec0",
+      "person": "giahoa-ryan-2011",
+      "place": "place:asiatown",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:45d1ec0986d506",
+      "person": "donna-hom-2014",
+      "place": "place:asia-plaza",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter business entry based on biographies mentioning Asia Plaza.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:648389d5c63151",
+      "person": "johnny-k-wu-2024",
+      "place": "place:asia-plaza",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter business entry based on biographies mentioning Asia Plaza.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:ec8cfbfb460562",
+      "person": "dr-dieu-thuc-do-2010",
+      "place": "place:sai-gon-plaza",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter business entry based on biographies mentioning Sai Gon Plaza.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:77172babfe4d5c",
+      "person": "giahoa-ryan-2011",
+      "place": "place:sai-gon-plaza",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter business entry based on biographies mentioning Sai Gon Plaza.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:a88c7942245fbc",
+      "person": "carl-robson-2022",
+      "place": "place:st-clair-superior",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter neighborhood entry based on biographies mentioning St. Clair-Superior.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:76bcccd67b9684",
+      "person": "paul-sciria-2010",
+      "place": "place:central-kinsman",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:0406573cb7186d",
+      "person": "mayor-frank-jackson-2025",
+      "place": "place:central-kinsman",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:cb684acf4c5c46",
+      "person": "august-pust-2010",
+      "place": "place:greater-cleveland-ethnographic-museum",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter community-organization entry based on August Pust's biography.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:a8ea64ca5a8f6b",
+      "person": "mayor-frank-jackson-2025",
+      "place": "place:east-technical-high-school",
+      "kind": "associated_with_place",
+      "role": null,
+      "evidence": [
+        {
+          "text": "Starter historic-address entry based on Mayor Frank Jackson's biography.",
+          "sourceUrls": []
+        }
+      ],
+      "verificationLayer": "curated"
+    },
+    {
+      "id": "edge:3e6ce4e0f6ad5b",
+      "person": "alex-machaskee-2010",
+      "place": "place:warren-ohio-mr",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:b217c30c00de20",
+      "person": "alex-machaskee-2010",
+      "place": "place:beachwood-ohio",
+      "kind": "lived_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:d6b5217c5efaff",
+      "person": "dr-dieu-thuc-do-2010",
+      "place": "place:rach-gia-viet-nam",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:5264d913b61707",
+      "person": "dr-dieu-thuc-do-2010",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:1a8c622ad57081",
+      "person": "helen-karpinski-1899-2002-2010",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:87da81ca5f438b",
+      "person": "lonnie-mccauley-2010",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:1ac9d42585ec6d",
+      "person": "gerald-m-quinn-2011",
+      "place": "place:garracloon-county-mayo",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:c5751a8f74d9b8",
+      "person": "giahoa-ryan-2011",
+      "place": "place:vietnam",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:1e7e0e8c341e34",
+      "person": "giahoa-ryan-2011",
+      "place": "place:united-states",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:903c99bc90c42e",
+      "person": "lucretia-stoica-2011",
+      "place": "place:youngstown-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:42733d61fb8a49",
+      "person": "reverend-dr-otis-moss-jr-2011",
+      "place": "place:la-grange-ga",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:363850d4776f7f",
+      "person": "vijaya-l-emani-2011",
+      "place": "place:kurnool",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:6e7bf9b92946a1",
+      "person": "jose-c-feliciano-2012",
+      "place": "place:yauco-puerto-rico",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:d17b440b6e3cc5",
+      "person": "vladimir-rus-2012",
+      "place": "place:rijeka-flume-croatia",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:c9dc56b32f7a26",
+      "person": "bishop-a-edward-pevec-2013",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:93ef34c7ca570c",
+      "person": "jack-coyne-2013",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:5981d1c1ce63dd",
+      "person": "jack-coyne-2013",
+      "place": "place:shaker-heights",
+      "kind": "lived_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:52bcec08870f5b",
+      "person": "jack-coyne-2013",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:ed049cc9f9ef70",
+      "person": "josef-holzer-2013",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:866a77d587fc81",
+      "person": "donna-hom-2014",
+      "place": "place:guangdong-province-in-southern-china",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:21275ebf2c0c78",
+      "person": "eugene-bak-2014",
+      "place": "place:poland",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:93bb98d6c6c92e",
+      "person": "honorable-jose-a-villanueva-2015",
+      "place": "place:utuado-puerto-rico",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:119d89b5897966",
+      "person": "richard-a-ganim-2015",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:b540daff5008ef",
+      "person": "shiv-k-aggarwal-2015",
+      "place": "place:india",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:12b447e838f8d8",
+      "person": "shiv-k-aggarwal-2015",
+      "place": "place:united-states",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:fffc8576565a50",
+      "person": "rev-mikhail-mikhail-2016",
+      "place": "place:cairo-egypt",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:cf6b0d490c43af",
+      "person": "rev-mikhail-mikhail-2016",
+      "place": "place:cleveland",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:a81e0d5fdc5847",
+      "person": "sister-alicia-alvarado-2018",
+      "place": "place:villalba-puerto-rico",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:bd33adcf1b293f",
+      "person": "anda-cook-2022",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:5fafe83fc066fb",
+      "person": "taras-szmagala-2022",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:ebee92209bf84c",
+      "person": "taras-szmagala-2022",
+      "place": "place:bentleyville-oh",
+      "kind": "lived_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:0fc478f4a8bb4b",
+      "person": "victor-ruiz-2022",
+      "place": "place:puerto-rico",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:5c327d61826d11",
+      "person": "victor-ruiz-2022",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:ce17894ed38c12",
+      "person": "pierre-bejjani-2023",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:660ab95e52798c",
+      "person": "erika-puussaar-2024",
+      "place": "place:detroit-michigan",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:3d449a81a12398",
+      "person": "johnny-k-wu-2024",
+      "place": "place:hong-kong",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:2828bb37b1e33e",
+      "person": "veronica-dahlberg-2024",
+      "place": "place:canton-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:359bdef28ef9f2",
+      "person": "veronica-dahlberg-2024",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:de22be6bccc90e",
+      "person": "veronica-dahlberg-2024",
+      "place": "place:ashtabula",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:07de271f77ad82",
+      "person": "beverly-kerecman-2025",
+      "place": "place:cleveland-ohio",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:42a1790c7d098b",
+      "person": "catherine-jorgensen-mccutcheon-2026",
+      "place": "place:cleveland-ohio",
+      "kind": "moved_to",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    },
+    {
+      "id": "edge:5e0d130b95ce93",
+      "person": "le-nguyen-2026",
+      "place": "place:can-tho-vietnam",
+      "kind": "born_in",
+      "role": null,
+      "evidence": [],
+      "verificationLayer": "documented-in-profile"
+    }
+  ]
+}
