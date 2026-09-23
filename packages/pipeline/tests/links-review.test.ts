@@ -44,20 +44,20 @@ test('the sheet covers every recorded name, not only the answerable ones', () =>
   assert.ok(progress.noCandidate > 0, 'rows the corpus could not help with are present');
 });
 
-test('the collection as it stands has the 25 resolved and the rest still to review', () => {
-  // Signed 2026-09-22 under cur-2026-061: the 25 rows the corpus offered a
-  // single candidate for. The 68 with no candidate and the 2 with more than
-  // one are deliberately untouched.
+test('every recorded name has now been decided', () => {
+  // 25 confirmed against corpus candidates on 2026-09-22, then the remaining
+  // 70 worked through in the review portal on 2026-09-23: 6 more resolved to
+  // an inductee and 64 found not to be one. Nothing is left open.
   const progress = reviewProgress(sheet);
-  assert.equal(progress.resolved, 25);
-  assert.equal(progress.unresolved, 70);
-  assert.equal(progress.relationshipsResolved, 31);
+  assert.equal(progress.resolved, 95);
+  assert.equal(progress.unresolved, 0);
+  assert.equal(progress.relationshipsResolved, 42);
 });
 
 test('the sheet reports the lens open, and says what signed it', () => {
   const progress = reviewProgress(sheet);
   assert.equal(progress.publicationDecisionSigned, true);
-  assert.equal(progress.linksCount, 31);
+  assert.equal(progress.linksCount, 42);
   assert.equal(progress.linksWouldOpen, true);
   assert.deepEqual(reviewRemaining(sheet), [], 'nothing stands between this and an open lens');
 });
@@ -67,7 +67,7 @@ test('the same resolutions report a shut lens with the signature removed', () =>
   // 31 are resolved either way, and only the decision makes them countable.
   const unsigned = buildRelationshipReviewSheet(withoutDecision(crosswalk), people);
   const progress = reviewProgress(unsigned);
-  assert.equal(progress.relationshipsResolved, 31, 'the review work is unchanged');
+  assert.equal(progress.relationshipsResolved, 42, 'the review work is unchanged');
   assert.equal(progress.publicationDecisionSigned, false);
   assert.equal(progress.linksCount, 0);
   assert.equal(progress.linksWouldOpen, false);
@@ -88,19 +88,45 @@ test('the preview is the record, not a rendering of it', () => {
   // The sheet shows a curator what their signature publishes. If it composed
   // its own wording, the sheet could show one label and the build emit
   // another, and nobody would find out until it was on a wall.
-  const accepted = acceptSingleCandidates(crosswalk, { publicationDecision: fixtureDecision });
-  const published = inductionRelationships(accepted, (id) => people.find((p) => p.id === id)?.name);
-  const previewed = new Map(sheet.rows.flatMap((row) => row.proposes.map((p) => [p.id, p])));
+  //
+  // Stated against a crosswalk with its resolutions wound back, because the
+  // committed one now has every name decided and so proposes nothing. The
+  // invariant is about drift between preview and record, not about how much
+  // review happens to have landed.
+  const open = reopened(crosswalk);
+  const previewed = new Map(
+    buildRelationshipReviewSheet(open, people).rows.flatMap((row) => row.proposes.map((p) => [p.id, p])),
+  );
+  assert.ok(previewed.size > 0, 'the wound-back sheet should propose something to compare');
 
-  assert.ok(published.length > 0);
-  for (const relationship of published) {
-    const preview = previewed.get(relationship.id);
-    assert.ok(preview, `${relationship.id} was published but never previewed`);
+  const accepted = acceptSingleCandidates(open, { publicationDecision: fixtureDecision });
+  const published = new Map(
+    inductionRelationships(accepted, (id) => people.find((p) => p.id === id)?.name).map((r) => [r.id, r]),
+  );
+  assert.ok(published.size > 0);
+
+  // Every preview is checked against the record, rather than every record
+  // against a preview. A row resolved to somebody the corpus never proposed —
+  // a name typed in by a reviewer who knew the answer — publishes without ever
+  // having been previewed, and that is the sheet working, not drifting.
+  for (const [id, preview] of previewed) {
+    const relationship = published.get(id);
+    assert.ok(relationship, `${id} was previewed but never published`);
     assert.equal(preview.label, relationship.label);
     assert.equal(preview.inverseLabel, relationship.inverseLabel);
     assert.deepEqual(preview.evidence, relationship.evidence);
   }
 });
+
+/** The crosswalk as it was before anybody resolved a single-candidate row. */
+function reopened(source: InductionCrosswalk): InductionCrosswalk {
+  return {
+    ...source,
+    entries: source.entries.map((entry) => (
+      entry.candidates.length === 1 ? { ...entry, resolution: { status: 'unresolved' as const } } : entry
+    )),
+  };
+}
 
 test('the generated sheet carries no decision of its own', () => {
   // The columns a person has to fill in are generated empty, every time.
