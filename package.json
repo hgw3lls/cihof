@@ -10,7 +10,8 @@
     "build:public": "CIHOF_TARGET=public npm run build --workspace @cihof/exhibit && npm run assert:public --workspace @cihof/exhibit",
     "build:preview": "CIHOF_TARGET=kiosk CIHOF_PREVIEW=all npm run build --workspace @cihof/exhibit",
     "package:kiosk": "node scripts/package-kiosk.mjs",
-    "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit",
+    "package:kiosk-app": "node scripts/package-kiosk-app.mjs",
+    "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit && node --test apps/kiosk-app/tests/*.test.mjs",
     "test:browser": "playwright test -c apps/exhibit/playwright.config.ts",
     "test:web": "npm test --workspace @cihof/web",
     "typecheck": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false && tsc -p apps/exhibit/tsconfig.json --pretty false && npm run typecheck --workspace @cihof/web",
@@ -41,6 +42,7 @@
   },
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/exhibit",
+    "apps/web"
   ]
 }
