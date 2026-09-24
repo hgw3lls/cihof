@@ -9,7 +9,7 @@ import { dataFile, repoFile } from '../src/paths.ts';
  * Regenerates the induction review sheet:
  *
  *   data/cihof_relationship_review.json  what each signature would publish
- *   docs/links-review-sheet.csv          the same, to fill in away from here
+ *   data/review-sheets/links-review-sheet.csv          the same, to fill in away from here
  *
  * Wholly derived from `data/cihof_induction_crosswalk.json`, so it is safe to
  * re-run and safe to delete. Decisions are written back to the crosswalk by
@@ -30,7 +30,7 @@ const people = buildPeople();
 const sheet = buildRelationshipReviewSheet(crosswalk, people);
 
 const jsonPath = dataFile('cihof_relationship_review.json');
-const csvPath = repoFile('docs/links-review-sheet.csv');
+const csvPath = repoFile('data/review-sheets/links-review-sheet.csv');
 
 // The timestamp changes on every run, so --check compares the content that
 // matters rather than reporting the sheet stale every time it is inspected.
@@ -52,7 +52,7 @@ if (check) {
   if (signedRows.length > 0) {
     console.error(`\n${csvPath.replace(`${repoFile('.')}/`, '')} has ${signedRows.length} row(s) with a decision typed into it.`);
     console.error('That is somebody\'s review work sitting in a derived file. Apply it, or move it aside:');
-    console.error('  npm run links:apply -- --input=docs/links-review-sheet.csv');
+    console.error('  npm run links:apply -- --input=data/review-sheets/links-review-sheet.csv');
     process.exit(1);
   }
   if (!(jsonCurrent && csvCurrent)) {
@@ -66,7 +66,7 @@ if (!check && wouldDestroy) {
   for (const row of signedRows.slice(0, 5)) console.error(`  ${row}`);
   if (signedRows.length > 5) console.error(`  … and ${signedRows.length - 5} more`);
   console.error('\nRegenerating would discard them. Apply them first:');
-  console.error('  npm run links:apply -- --input=docs/links-review-sheet.csv');
+  console.error('  npm run links:apply -- --input=data/review-sheets/links-review-sheet.csv');
   console.error('\nOr move the file aside and run this again. --force overwrites, and means it.');
   process.exit(1);
 }
@@ -90,7 +90,7 @@ const known = new Set(people.map((person) => person.id));
 const state = (wrote, current) => (check ? (current ? 'current' : 'STALE') : wrote ? 'written' : 'unchanged');
 console.log('\nInduction review sheet');
 console.log(`  data/cihof_relationship_review.json   ${state(jsonWrote, jsonCurrent)}`);
-console.log(`  docs/links-review-sheet.csv           ${state(csvWrote, csvCurrent)}`);
+console.log(`  data/review-sheets/links-review-sheet.csv           ${state(csvWrote, csvCurrent)}`);
 console.log();
 console.log(`  recorded names            ${progress.names}`);
 console.log(`    one candidate           ${progress.singleCandidate}`);
@@ -132,7 +132,7 @@ if (ready.length > 0) {
   }
   if (sorted.length > 8) console.log(`    … and ${sorted.length - 8} more`);
   console.log(`\n  Fill in ${csvPath.replace(`${resolve(import.meta.dirname, '..', '..', '..')}/`, '')} and run:`);
-  console.log('    npm run links:apply -- --input=docs/links-review-sheet.csv          (dry run)');
-  console.log('    npm run links:apply -- --input=docs/links-review-sheet.csv --apply  (writes)');
+  console.log('    npm run links:apply -- --input=data/review-sheets/links-review-sheet.csv          (dry run)');
+  console.log('    npm run links:apply -- --input=data/review-sheets/links-review-sheet.csv --apply  (writes)');
 }
 console.log();

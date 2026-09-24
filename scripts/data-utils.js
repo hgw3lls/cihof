@@ -6,7 +6,7 @@ export const curatedMetadataPath = resolve('data/cihof_curated_metadata.json');
 export const countryInferencePath = resolve('data/cihof_country_inferences.json');
 export const mediaManifestPath = resolve('data/media_manifest.json');
 export const physicalWallMetadataPath = resolve('data/physical_wall_positions.json');
-export const communityTaxonomyPath = resolve('src/data/communityTaxonomy.json');
+export const communityTaxonomyPath = resolve('data/community_taxonomy.json');
 
 const communityTaxonomy = loadCommunityTaxonomy();
 
