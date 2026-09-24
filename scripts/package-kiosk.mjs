@@ -57,7 +57,11 @@ const out = resolve(root, 'release', `cihof-kiosk-${release.revision}`);
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 cpSync(dist, join(out, 'site'), { recursive: true });
-for (const file of ['server.mjs', 'start-kiosk.sh', 'start-kiosk.cmd']) {
+for (const file of [
+  'server.mjs', 'launch.mjs',
+  'start-kiosk.cmd', 'stop-kiosk.cmd', 'install-autostart.cmd', 'uninstall-autostart.cmd',
+  'start-kiosk.sh', 'stop-kiosk.sh', 'install-autostart.sh', 'uninstall-autostart.sh',
+]) {
   cpSync(join(exhibit, 'kiosk', file), join(out, file));
 }
 
@@ -97,7 +101,7 @@ console.log(`  release ${release.revision}, content ${bundle.contentRevision.sli
 console.log(`  ${bundle.people.length} people · lenses: ${bundle.lenses.join(', ')} · ${bundle.relationships.length} relationships`);
 console.log(`  films: ${filmLine}`);
 console.log(`  ${(manifest.bytes / 1e6).toFixed(1)} MB`);
-console.log('\n  Start it on the display with start-kiosk.cmd or start-kiosk.sh, then open http://localhost:8080/.');
+console.log('\n  On the display: start-kiosk (or install-autostart to start at sign-in). See README.txt.');
 console.log('  KIOSK ONLY. Never publish this folder.\n');
 
 function gitCommit() {
