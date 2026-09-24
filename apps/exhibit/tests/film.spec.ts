@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 
 /**
@@ -9,7 +9,7 @@ import { expect, test, type Page } from '@playwright/test';
  * finished and verified before a reviewer clears anything, and the fixture is
  * injected per test so it can never reach an artifact.
  */
-const fixtureRoot = resolve('tests/fixtures/media');
+const fixtureRoot = fileURLToPath(new URL('./fixtures/media', import.meta.url));
 const person = 'alex-machaskee-2010';
 
 const fixtureFilm = {
