@@ -32,6 +32,7 @@
     "media:approval-sheet": "node scripts/export-media-approval-sheet.js",
     "media:validate": "node scripts/validate-media.js",
     "media:assert": "node scripts/assert-film-assets.mjs",
+    "portraits:record": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/record-portraits.js",
     "parity:report": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/parity.js report",
     "parity:record": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/parity.js record",
     "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js",
