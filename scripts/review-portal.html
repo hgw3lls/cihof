@@ -120,6 +120,11 @@ async function boot() {
   try {
     state.context = await api('/api/review/context');
     state.queues = await api('/api/review/queues');
+    const dropped = reconcileDrafts();
+    if (dropped > 0) {
+      state.message = `<strong>${dropped} saved decision${dropped === 1 ? '' : 's'} dropped.</strong>`
+        + ' Those rows were decided elsewhere since you last had this open, so they are no longer yours to apply.';
+    }
     render();
   } catch (error) {
     sessionStorage.removeItem('cihof-token');
@@ -133,9 +138,46 @@ function queue() {
   return rows.filter((row) => !state.drafts[keyOf(row)]);
 }
 
-function keyOf(row) {
-  if (state.tab === 'links') return `links:${row.recordedName}`;
-  if (state.tab === 'places') return `places:${row.placeId}`;
+/**
+ * Every row still open, across all three queues, as draft keys.
+ *
+ * The server only returns undecided rows, so a draft whose key is absent is a
+ * row somebody has since decided — through this portal on another machine,
+ * through the command line, or by a revert.
+ */
+function liveKeys() {
+  const keys = new Set();
+  for (const tab of ['links', 'places', 'ties']) {
+    for (const row of state.queues[tab].rows || []) keys.add(keyOf(row, tab));
+  }
+  return keys;
+}
+
+/**
+ * Drops drafts for rows that are no longer open.
+ *
+ * The browser holds decisions until they are applied, and the data underneath
+ * moves without asking it: an apply from the command line, a revert, a branch
+ * change. A draft left pointing at a row that has since been decided is
+ * invisible — it is not in any queue, so no card shows it — and it would still
+ * be submitted on the next apply, re-deciding something somebody has already
+ * settled. That happened once and is the reason this exists.
+ *
+ * Reconciling drops them and says how many, rather than silently either way.
+ */
+function reconcileDrafts() {
+  const live = liveKeys();
+  const stale = Object.keys(state.drafts).filter((key) => !live.has(key));
+  if (stale.length === 0) return 0;
+  for (const key of stale) delete state.drafts[key];
+  saveDrafts(state.drafts);
+  return stale.length;
+}
+
+/** A row's draft key. The tab is a parameter so nothing has to move state to ask. */
+function keyOf(row, tab = state.tab) {
+  if (tab === 'links') return `links:${row.recordedName}`;
+  if (tab === 'places') return `places:${row.placeId}`;
   return `ties:${row.placeId}|${row.person}`;
 }
 
@@ -148,7 +190,10 @@ function render() {
   document.getElementById('tabs').innerHTML = tabs.map(([id, label, n]) =>
     `<button data-tab="${id}" aria-current="${state.tab === id}">${label} <span class="count">${n}</span></button>`).join('');
 
-  const pending = Object.keys(state.drafts).filter((k) => k.startsWith(`${state.tab}:`)).length;
+  // Counted against the live queue, so a draft the data has overtaken is not
+  // offered as something still to apply.
+  const live = liveKeys();
+  const pending = Object.keys(state.drafts).filter((k) => k.startsWith(`${state.tab}:`) && live.has(k)).length;
   const left = queue().length;
   document.getElementById('progress').textContent = `${left} to review · ${pending} decided, not yet applied`;
 
@@ -308,8 +353,12 @@ function applyPanel(pending) {
 }
 
 function decisionsFor(tab) {
+  // Checked against the live queue again at submit time, not only on load: the
+  // data can move while the tab sits open, and the cost of being wrong here is
+  // overwriting somebody else's decision.
+  const live = liveKeys();
   return Object.entries(state.drafts)
-    .filter(([key]) => key.startsWith(`${tab}:`))
+    .filter(([key]) => key.startsWith(`${tab}:`) && live.has(key))
     .map(([, value]) => value)
     .filter((d) => d.decision !== 'research' && d.decision !== 'skip');
 }
@@ -352,7 +401,9 @@ async function poll(id, wasDryRun) {
         state.job = job;
         state.queues = await api('/api/review/queues');
         state.context = await api('/api/review/context');
-        state.message = '<strong>Applied.</strong> Commit the diff to record it.';
+        const dropped = reconcileDrafts();
+        state.message = '<strong>Applied.</strong> Commit the diff to record it.'
+          + (dropped > 0 ? ` ${dropped} other saved decision${dropped === 1 ? ' was' : 's were'} dropped as already settled.` : '');
         render();
       }
       return;
