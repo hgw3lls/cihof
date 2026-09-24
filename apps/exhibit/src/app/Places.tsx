@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
-import type { PublishedPlace } from '@cihof/content';
-import type { RuntimePerson } from '../data/runtime.ts';
+import type { RuntimePerson, RuntimePlace } from '../data/runtime.ts';
 
 type Props = {
-  places: readonly PublishedPlace[];
+  places: readonly RuntimePlace[];
   people: readonly RuntimePerson[];
   selectedId: string | null;
   onSelect: (personId: string) => void;
@@ -48,10 +47,14 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
     return <p className="empty">No reviewed place is published in this release.</p>;
   }
 
+  const unreviewed = shown.filter(({ place }) => place.unreviewed).length;
+
   return (
     <div className="places">
       <p className="places__note">
-        {shown.length} {shown.length === 1 ? 'place' : 'places'} in Greater Cleveland, each one reviewed.
+        {unreviewed === 0
+          ? `${shown.length} ${shown.length === 1 ? 'place' : 'places'} in Greater Cleveland, each one reviewed.`
+          : `${shown.length} ${shown.length === 1 ? 'place' : 'places'}, ${unreviewed} of them not yet reviewed.`}
       </p>
 
       {shown.map(({ place, present }) => (
@@ -59,6 +62,7 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
           <h2 id={`place-${place.id}`}>
             {place.name}
             {place.neighborhood && <span>{place.neighborhood}</span>}
+            {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
           </h2>
 
           {place.shortHistory && <p className="places__history">{place.shortHistory}</p>}
@@ -94,8 +98,9 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
             )
             : (
               <p className="places__pending">
-                Nobody is shown here yet. The place has been reviewed; the people connected to it
-                have not.
+                {place.unreviewed
+                  ? 'Nobody is tied to this place in the sources yet.'
+                  : 'Nobody is shown here yet. The place has been reviewed; the people connected to it have not.'}
               </p>
             )}
         </section>

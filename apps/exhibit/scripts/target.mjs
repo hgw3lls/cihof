@@ -60,3 +60,32 @@ export function resolveTarget(env = process.env) {
 
   return /** @type {VisitorTarget} */ (value);
 }
+
+/**
+ * Whether this build is an editor's preview.
+ *
+ * A preview shows unreviewed places and proposed ties, each marked, so an
+ * editor can see everything the sources hold and decide what stays. It is for a
+ * screen in front of that editor and nowhere else, so it is refused in any
+ * automated build and for the public target, and a value other than `all` is
+ * an error rather than a guess.
+ *
+ * @param {VisitorTarget} target
+ * @param {Record<string, string | undefined>} [env]
+ * @returns {boolean}
+ */
+export function resolvePreview(target, env = process.env) {
+  const raw = env.CIHOF_PREVIEW;
+  if (raw === undefined || raw.trim() === '') return false;
+  if (raw.trim() !== 'all') {
+    throw new Error(`CIHOF_PREVIEW is "${raw}". Use CIHOF_PREVIEW=all, or leave it unset.`);
+  }
+  if (env.CI) {
+    throw new Error('CIHOF_PREVIEW is set in an automated build. A preview shows unreviewed content and is built by hand, locally, only.');
+  }
+  if (target !== 'kiosk') {
+    throw new Error('CIHOF_PREVIEW is set for the public target. A preview shows unreviewed content and is never built for publication.');
+  }
+  console.warn('CIHOF_PREVIEW=all: this build shows unreviewed places and proposed ties, marked. Never publish it.');
+  return true;
+}

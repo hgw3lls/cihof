@@ -312,3 +312,137 @@ export function placeTiesSheetCsv(sheet: PlaceReviewSheet): string {
 export const placeRoles: readonly string[] = [
   'lived', 'worked', 'studied', 'taught', 'organized', 'served', 'founded',
 ];
+
+// ------------------------------------------------------------ proposed ties
+
+/**
+ * A tie the HOF World corpus proposes between two inductees, as a row to decide.
+ *
+ * Grouped by pair and corpus category, the same way the preview draws them, so
+ * a row here is a line on the preview map. Where the corpus recorded the same
+ * tie from both ends, both passages are kept: the second is often the one that
+ * settles it.
+ */
+export type ProposedTieRow = {
+  /** The preview's id for this tie, so a row can be found on the map. */
+  readonly tieId: string;
+  readonly corpusIds: readonly string[];
+  readonly personA: string;
+  readonly personAName: string;
+  readonly personB: string;
+  readonly personBName: string;
+  readonly sourceType: string;
+  /** A kind the corpus category plainly maps to, as a prompt. Never a decision. */
+  readonly suggestedKind: string;
+  readonly verificationLayer: string;
+  readonly evidence: readonly string[];
+  readonly sourceUrls: readonly string[];
+  /** What has been decided so far: `unreviewed`, or the decision on file. */
+  readonly currentStatus: string;
+};
+
+/**
+ * Only the categories that name a relationship outright get a suggestion.
+ * "Named in a profile" and "ceremony connection" are mostly two people in the
+ * same caption or on the same stage; suggesting a kind for those would be the
+ * sheet deciding for the reviewer.
+ */
+const suggestedKinds: Record<string, string> = {
+  collaborator: 'collaborated-with',
+  family_spouse: 'family-of',
+  family_relationship: 'family-of',
+};
+
+export function buildProposedTiesSheet(
+  connections: readonly CorpusConnectionLike[],
+  people: readonly PublishedPerson[],
+  decisions: readonly { readonly corpusIds: readonly string[]; readonly decision: string }[] = [],
+): ProposedTieRow[] {
+  const decidedAs = new Map<string, string>();
+  for (const decision of decisions) for (const id of decision.corpusIds) decidedAs.set(id, decision.decision);
+  const nameOf = new Map<string, string>(people.map((person) => [person.id as string, person.name]));
+  const grouped = new Map<string, {
+    first: CorpusConnectionLike; corpusIds: string[]; evidence: string[]; sourceUrls: string[];
+  }>();
+
+  for (const connection of connections) {
+    if (!nameOf.has(connection.from) || !nameOf.has(connection.to)) continue;
+    const key = `${[connection.from, connection.to].sort().join('|')}|${connection.sourceType}`;
+    const group = grouped.get(key) ?? { first: connection, corpusIds: [], evidence: [], sourceUrls: [] };
+    group.corpusIds.push(connection.id);
+    if (connection.evidence && !group.evidence.includes(connection.evidence)) group.evidence.push(connection.evidence);
+    if (connection.sourceUrl && !group.sourceUrls.includes(connection.sourceUrl)) group.sourceUrls.push(connection.sourceUrl);
+    grouped.set(key, group);
+  }
+
+  const rows = [...grouped.values()].map(({ first, corpusIds, evidence, sourceUrls }): ProposedTieRow => ({
+    tieId: `preview:${first.id}`,
+    corpusIds,
+    personA: first.from,
+    personAName: nameOf.get(first.from) ?? first.from,
+    personB: first.to,
+    personBName: nameOf.get(first.to) ?? first.to,
+    sourceType: first.sourceType,
+    suggestedKind: suggestedKinds[first.sourceType] ?? '',
+    verificationLayer: first.verificationLayer,
+    evidence,
+    sourceUrls,
+    currentStatus: corpusIds.map((id) => decidedAs.get(id)).find(Boolean) ?? 'unreviewed',
+  }));
+
+  // The rows that name a relationship outright first, so a reviewer starts with
+  // the decisions most likely to be quick, then one category at a time.
+  return rows.sort((a, b) =>
+    Number(b.suggestedKind !== '') - Number(a.suggestedKind !== '')
+    || a.sourceType.localeCompare(b.sourceType)
+    || a.personAName.localeCompare(b.personAName)
+    || a.personBName.localeCompare(b.personBName));
+}
+
+/** The shape `readCorpusConnections` returns, without importing a source reader here. */
+export type CorpusConnectionLike = {
+  readonly id: string;
+  readonly from: string;
+  readonly to: string;
+  readonly sourceType: string;
+  readonly evidence: string;
+  readonly sourceUrl: string;
+  readonly verificationLayer: string;
+};
+
+/**
+ * One row per proposed tie. The reviewer's columns are last and generated empty.
+ *
+ *   decision           relationship | context | reject
+ *   kind               for a relationship: one of `relationshipKinds`
+ *   label              how it reads from person A: "married Ramesh Shah"
+ *   inverseLabel       how it reads from person B; required when the kind is directional
+ *   decisionReference  who decided and when, e.g. ties-review-2026-09-25
+ *
+ * "context" is for two people who appear together — a caption, a stage, a
+ * session — where no source says their work touched. It keeps the pairing
+ * without claiming a relationship.
+ */
+export function proposedTiesSheetCsv(rows: readonly ProposedTieRow[]): string {
+  const header = [
+    'tieId', 'personA', 'personAName', 'personB', 'personBName',
+    'sourceType', 'suggestedKind', 'verificationLayer', 'evidence', 'sourceUrls', 'corpusIds', 'currentStatus',
+    // The reviewer's. Generated empty, every time.
+    'decision', 'kind', 'label', 'inverseLabel', 'decisionReference', 'note',
+  ];
+  const lines = [header.join(',')];
+  for (const row of rows) {
+    lines.push([
+      row.tieId, row.personA, row.personAName, row.personB, row.personBName,
+      row.sourceType, row.suggestedKind, row.verificationLayer,
+      row.evidence.join(' || '), row.sourceUrls.join(' '), row.corpusIds.join(' '), row.currentStatus,
+      '', '', '', '', '', '',
+    ].map(csvCell).join(','));
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/** Relationship kinds the model accepts, for the sheet's own guidance. */
+export const relationshipKinds: readonly string[] = [
+  'collaborated-with', 'founded-with', 'mentored', 'taught', 'succeeded', 'employed', 'family-of', 'nominated',
+];

@@ -78,8 +78,16 @@ export type DocumentedRelationship = Reviewed & Evidenced & {
   readonly active?: Timespan;
 };
 
-/** What two records have in common. Computed, not decided. */
-export type ContextBasis = 'induction-year' | 'community' | 'contribution' | 'place';
+/**
+ * What two records have in common.
+ *
+ * All but one are computed from the base records. `appeared-together` is a
+ * reviewer's reading of a source that puts two people in the same caption, on
+ * the same stage or in the same session without saying their work touched: it
+ * keeps the pairing a visitor might find interesting while claiming nothing
+ * about the relationship, which is exactly what context is for.
+ */
+export type ContextBasis = 'induction-year' | 'community' | 'contribution' | 'place' | 'appeared-together';
 
 export type SharedContext = {
   readonly claim: 'context';

@@ -8,14 +8,18 @@ import {
   publishedContributions, worksheetContributions, worksheetProgress,
   type Contribution, type ContributionWorksheet,
   type InducteeId, type InductionCrosswalk,
-  type LensAvailability, type LensId, type PublishedPerson, type PublishedPlace,
+  type LensAvailability, type LensId, type PublishedPerson,
   publishableFilms, filmShortfalls,
-  type FilmDelivery, type PublishedFilm, type PublishedRelationship, type VisitorTarget,
+  type FilmDelivery, type PublishedFilm, type PublishedRelationship, type SharedContext, type VisitorTarget,
 } from '@cihof/content';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { readContributionWorksheet } from '../sources/worksheet.ts';
 import { readPlaceAssociations, readPlaceSeeds, readRelationships } from '../sources/places.ts';
 import { readVideoHoldings } from '../sources/media.ts';
+import { readCorpusConnections, type CorpusConnection } from '../sources/corpus.ts';
+import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
+import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
+import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -27,11 +31,24 @@ import { readVideoHoldings } from '../sources/media.ts';
 export type RuntimeBundle = {
   readonly schemaVersion: 1;
   readonly target: VisitorTarget;
+  /**
+   * True for an editor's preview, which also shows what nobody has reviewed,
+   * each item marked. Never true for a public build, and `assert:public`
+   * refuses an artifact where it is.
+   */
+  readonly preview: boolean;
   readonly contentRevision: string;
   readonly generatedAt: string;
   readonly people: readonly RuntimePerson[];
-  readonly places: readonly PublishedPlace[];
+  readonly places: readonly RuntimePlace[];
   readonly relationships: readonly PublishedRelationship[];
+  /**
+   * Pairs a reviewer kept as context — two people who appear together in a
+   * source that does not say their work touched. Never counted as relationships.
+   */
+  readonly contexts: readonly SharedContext[];
+  /** Ties the sources propose and nobody has reviewed. Empty unless previewing. */
+  readonly candidates: readonly PreviewTie[];
   /** What each person changed, for the people a curator has written up. */
   readonly contributions: readonly Contribution[];
   /**
@@ -79,6 +96,8 @@ export type RuntimeBundle = {
     readonly published: number;
     readonly fromCrosswalk: number;
     readonly curated: number;
+    /** From reviewed decisions on the ties the corpus proposes. */
+    readonly fromTies: number;
     readonly crosswalkNamesUnresolved: number;
     readonly crosswalkApproved: boolean;
   };
@@ -127,6 +146,12 @@ export type BundleSources = {
   readonly filmDelivery?: FilmDelivery;
   /** Public site this release points its codes at. */
   readonly continuationBase?: string | null;
+  /** Also show unreviewed places and proposed ties, marked. Kiosk target only. */
+  readonly preview?: boolean;
+  /** Decisions on the corpus's proposed ties, injectable for tests. */
+  readonly tieDecisions?: readonly TieDecision[];
+  /** The corpus's proposed ties, injectable for tests. */
+  readonly corpusConnections?: readonly CorpusConnection[];
 };
 
 export function buildRuntimeBundle(
@@ -134,6 +159,10 @@ export function buildRuntimeBundle(
   target: VisitorTarget,
   sources: BundleSources = {},
 ): RuntimeBundle {
+  const preview = sources.preview === true;
+  if (preview && target !== 'kiosk') {
+    throw new Error('A preview shows unreviewed content and is built for the kiosk target only, never for public.');
+  }
   const holdings = readVideoHoldings();
   const delivery = sources.filmDelivery ?? filmDeliveryFor(target);
   const publishedIds = new Set<string>(people.map((person) => person.id as string));
@@ -156,15 +185,30 @@ export function buildRuntimeBundle(
   // only counts once it carries a role — `associated` is refused too, because
   // it does not say what the person did there. So a reviewed place with no
   // reviewed ties shows as a place, not as a place with nobody in it.
-  const associations = publishedPlaceAssociations(sources.placeAssociations ?? readPlaceAssociations(), target);
+  const associationSource = sources.placeAssociations ?? readPlaceAssociations();
+  const associations = publishedPlaceAssociations(associationSource, target);
   const peopleByPlace = new Map<string, string[]>();
   for (const association of associations) {
     const list = peopleByPlace.get(association.place) ?? [];
     if (!list.includes(association.person)) list.push(association.person);
     peopleByPlace.set(association.place, list);
   }
-  const places = publishedPlaces(sources.places ?? readPlaceSeeds(), target)
+  const placeSeeds = sources.places ?? readPlaceSeeds();
+  const reviewedPlaces = publishedPlaces(placeSeeds, target)
     .map((place) => ({ ...place, personIds: peopleByPlace.get(place.id) ?? place.personIds ?? [] }));
+  const places: RuntimePlace[] = preview
+    ? previewPlaces(placeSeeds, associationSource, reviewedPlaces, publishedIds)
+    : reviewedPlaces;
+  // Proposed ties never count toward the Connections threshold: only
+  // documented, reviewed relationships decide whether the lens is offered. A
+  // tie somebody has decided is not proposed again, whichever way it went.
+  const tieDecisions = sources.tieDecisions ?? readTieDecisions();
+  const decided = decidedCorpusIds(tieDecisions);
+  const candidates = preview
+    ? previewTies((sources.corpusConnections ?? readCorpusConnections()).filter((row) => !decided.has(row.id)), publishedIds)
+    : [];
+  const contexts = tieContexts(tieDecisions, target)
+    .filter((context) => context.between.every((id) => publishedIds.has(id as string)));
 
   // The roster's `inducted_by` column becomes relationships here, and only
   // here. Resolving who a name refers to happens in the crosswalk under review;
@@ -181,8 +225,10 @@ export function buildRuntimeBundle(
   // generated one for the same pair rather than appearing twice and counting
   // twice toward the lens threshold.
   const curated = sources.relationships ?? readRelationships();
-  const relationships = dedupeById(publishedRelationships([...curated, ...fromCrosswalk], target));
-  const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length;
+  const fromTies = tieRelationships(tieDecisions);
+  const relationships = dedupeById(publishedRelationships([...curated, ...fromTies, ...fromCrosswalk], target));
+  const tiesPublished = relationships.filter(isFromTies).length;
+  const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length - tiesPublished;
   const progress = crosswalk ? crosswalkProgress(crosswalk) : null;
 
   // Contributions are written by hand in the worksheet and read here. Nothing
@@ -205,11 +251,14 @@ export function buildRuntimeBundle(
   return {
     schemaVersion: 1,
     target,
+    preview,
     contentRevision: revisionOf(runtimePeople),
     generatedAt: new Date().toISOString(),
     people: runtimePeople,
     places,
     relationships,
+    contexts,
+    candidates,
     contributions,
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
@@ -225,6 +274,7 @@ export function buildRuntimeBundle(
       published: relationships.length,
       fromCrosswalk: relationships.filter(isFromCrosswalk).length,
       curated: curatedPublished,
+      fromTies: tiesPublished,
       crosswalkNamesUnresolved: progress?.unresolved ?? 0,
       crosswalkApproved: crosswalk?.publicationDecision !== undefined,
     },
@@ -248,6 +298,10 @@ export function filmDeliveryFor(target: VisitorTarget): FilmDelivery {
 
 function isFromCrosswalk(relationship: PublishedRelationship): boolean {
   return relationship.kind === 'inducted';
+}
+
+function isFromTies(relationship: PublishedRelationship): boolean {
+  return (relationship.id as string).startsWith('tie:');
 }
 
 function dedupeById(relationships: readonly PublishedRelationship[]): PublishedRelationship[] {

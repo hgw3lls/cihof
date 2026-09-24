@@ -60,6 +60,16 @@ if (bundle.target !== 'public') {
   fail(`the bundle declares target "${bundle.target}", not "public" — this artifact was built for a different audience`);
 }
 
+// An editor's preview shows what nobody has reviewed. The build refuses to make
+// a public one; this catches an artifact that got here some other way.
+if (bundle.preview !== false && bundle.preview !== undefined) {
+  fail('the bundle is an editor\'s preview, which shows unreviewed content');
+}
+const candidates = Array.isArray(bundle.candidates) ? bundle.candidates : [];
+if (candidates.length > 0) fail(`the bundle carries ${candidates.length} proposed ties nobody has reviewed`);
+const unreviewedPlaces = (Array.isArray(bundle.places) ? bundle.places : []).filter((place) => place?.unreviewed);
+if (unreviewedPlaces.length > 0) fail(`the bundle carries ${unreviewedPlaces.length} unreviewed places`);
+
 const people = Array.isArray(bundle.people) ? bundle.people : [];
 if (people.length === 0) fail('the bundle carries no people at all, which is not a publishable artifact');
 
