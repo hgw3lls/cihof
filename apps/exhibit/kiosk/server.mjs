@@ -23,6 +23,7 @@
 
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
+import { pipeline } from 'node:stream';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -89,14 +90,27 @@ export function createKioskServer({ root }) {
         'Content-Length': range.end - range.start + 1,
       });
       if (request.method === 'HEAD') { response.end(); return; }
-      createReadStream(file.path, range).pipe(response);
+      send(createReadStream(file.path, range), response);
       return;
     }
 
     response.writeHead(200, { ...headers, 'Content-Length': file.size });
     if (request.method === 'HEAD') { response.end(); return; }
-    createReadStream(file.path).pipe(response);
+    send(createReadStream(file.path), response);
   });
+}
+
+/**
+ * Streams a file to a response and closes the file whatever happens.
+ *
+ * A video player cancels its request every time a visitor seeks, and `.pipe`
+ * leaves the file open when the response closes early. On a display that runs
+ * for months that is a slow leak of file handles until nothing can be opened.
+ * `pipeline` destroys both ends on an abort or an error, and a read error (a
+ * file removed mid-stream) ends that one response rather than the server.
+ */
+function send(file, response) {
+  pipeline(file, response, () => {});
 }
 
 /**
