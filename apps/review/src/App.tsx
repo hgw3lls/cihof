@@ -3,9 +3,10 @@ import { loadReview, putDraft, type Draft, type Review } from './api.ts';
 import { Biographies } from './Biographies.tsx';
 import { Connections } from './Connections.tsx';
 import { Places } from './Places.tsx';
+import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 
-type Screen = 'home' | 'ties' | 'places' | 'bios' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'save';
 
 /**
  * The staff review app.
@@ -20,6 +21,7 @@ export function App() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [screen, setScreen] = useState<Screen>('home');
   const [error, setError] = useState<string | null>(null);
+  const [biographyFor, setBiographyFor] = useState<string | null>(null);
   const saving = useRef<Promise<unknown>>(Promise.resolve());
 
   const reload = useCallback(async () => {
@@ -56,11 +58,12 @@ export function App() {
   }
 
   const counts = {
+    profiles: Object.keys(draft.profiles).length,
     ties: Object.keys(draft.ties).length,
     places: Object.values(draft.places).filter((value) => value.approve).length + Object.keys(draft.placeTies).length,
     bios: Object.keys(draft.bios).length,
   };
-  const waiting = counts.ties + counts.places + counts.bios;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios;
   const back = () => setScreen('home');
 
   return (
@@ -83,9 +86,15 @@ export function App() {
           onOpen={setScreen}
         />
       )}
+      {screen === 'profiles' && (
+        <Profiles review={review} draft={draft} update={update} onDone={back}
+          onCorrectBiography={() => setScreen('bios')} onBiography={setBiographyFor} />
+      )}
       {screen === 'ties' && <Connections review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'places' && <Places review={review} draft={draft} update={update} onDone={back} />}
-      {screen === 'bios' && <Biographies review={review} draft={draft} update={update} onDone={back} />}
+      {screen === 'bios' && (
+        <Biographies review={review} draft={draft} update={update} onDone={() => { setBiographyFor(null); back(); }} startWith={biographyFor} />
+      )}
       {screen === 'save' && (
         <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }} />
       )}
@@ -120,7 +129,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { ties: number; places: number; bios: number };
+  counts: { profiles: number; ties: number; places: number; bios: number };
   onOpen: (screen: Screen) => void;
 }) {
   const tiesOpen = review.ties.filter((tie) => tie.status === 'unreviewed' && !draft.ties[tie.tieId]).length;
@@ -135,6 +144,13 @@ function Home({ review, draft, waiting, counts, onOpen }: {
       <p className="lead">Pick one. You can stop at any point; your choices are kept on this computer.</p>
 
       <div className="cards">
+        <Card
+          title="Profiles"
+          body="Each inductee's profile as visitors see it. Approve it, or say what needs changing."
+          progress={{ done: review.profiles.filter((profile) => profile.state === 'approved').length, total: review.profiles.length }}
+          pending={counts.profiles}
+          onOpen={() => onOpen('profiles')}
+        />
         <Card
           title="Connections"
           body="Links the research found between two inductees. Say whether each is a real relationship, two people who simply appear together, or a mistake."
