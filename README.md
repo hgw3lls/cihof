@@ -35,9 +35,21 @@ npm run typecheck      # packages, exhibit and companion site
 npm run build:kiosk    # apps/exhibit/dist with all 93 films. Never publish.
 npm run build:public   # no films; also runs the artifact assertion
 npm run build:preview  # kiosk build with unreviewed content, marked. Local viewing only.
+npm run package:kiosk  # the kiosk build packaged for a display: release/cihof-kiosk-<release>/
 ```
 
 All 93 films are approved for the kiosk and for the public web on none of them. That refusal is deliberate. `apps/exhibit` reads `CIHOF_TARGET`, which is required under CI; an unknown value is always an error. GitHub Pages publishes only the public build, and only after `assert:public` has inspected the built bytes. Set `CIHOF_SITE_URL` only for a durable public address, never for a preview.
+
+## Kiosk package
+
+`npm run package:kiosk` builds the kiosk target served at the root of a local address and writes `release/cihof-kiosk-<release>/`:
+
+- `site/`, the exhibit
+- `server.mjs`, a dependency-free local server (Node 22). It listens on 127.0.0.1, answers the byte-range requests films seek with, and never serves outside `site/`
+- `start-kiosk.cmd` / `start-kiosk.sh`, and a `README.txt` for museum staff
+- `MANIFEST.json`: release, content revision, source commit, and every film whose video file was missing on the machine that built it
+
+On the display: start the server, open `http://localhost:8080/` in the browser's kiosk mode. The first visit stores the release for offline use; a new release takes over at the next idle reset. `release/` is ignored by git. The package carries kiosk-only films: never publish it.
 
 ## Editor's preview
 
