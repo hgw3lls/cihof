@@ -90,7 +90,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {} };
 }
 
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
@@ -103,6 +103,7 @@ function normaliseDraft(value) {
     places: object(draft.places),
     placeTies: object(draft.placeTies),
     bios: object(draft.bios),
+    profiles: object(draft.profiles),
   };
 }
 

@@ -45,6 +45,9 @@ The application looks after itself:
 
 ## 2. Installing a display (Administrator, once)
 
+For the first installation, work through [`windows-checklist.md`](windows-checklist.md)
+as well: it tests each step below on the real machine and records what to correct here.
+
 ### 2.1 The PC
 
 1. **A dedicated Windows account** for the exhibit: a standard local account,
@@ -240,6 +243,15 @@ Two principles are built into every step and cannot be switched off:
 The easiest way to review. It runs on one office computer that holds a copy
 of the project, and it takes you through each review one item at a time:
 
+- **Profiles**: each inductee's profile exactly as visitors see it: name,
+  class, portrait, the lines under the name, tags and biography. Approve it,
+  or say what needs changing. Lines marked *written by the computer* were
+  composed from the tags, not by a person: check they say nothing untrue.
+  An approval covers those exact words and that picture. If anything on the
+  profile changes later, it comes back as *changed since approval* to be
+  looked at again. Approving does not hide or show anyone; it records that
+  the museum stands behind what is on screen. Every release says how many
+  profiles are approved.
 - **Connections**: links the research found between two inductees. For each,
   say whether it is a real connection (and what kind, and which way round),
   two people who simply appear together, or wrong. You write the words
@@ -286,6 +298,7 @@ push. `npm run review` starts the app from a terminal.
 | `data/review-sheets/proposed-ties-sheet.csv` | Each connection the research proposes: keep it as a *relationship* (with its kind and wording), as *context* (two people who appear together in a record), or *reject* it |
 | `data/review-sheets/media-approval-sheet.csv` | For each film: rights, captions, transcript, and kiosk approval |
 | **Biographies**: `npm run review:bios` writes `reports/biographies-sheet.csv` | A corrected biography for anyone, or putting a curator's biography back to the institution's text |
+| **Profiles**: `npm run review:profiles` writes `reports/profiles-sheet.csv` | For each person: `approve`, or `changes` with a note saying what. The app is easier |
 | **A new class**: `npm run class:template` writes a blank sheet | One row per new inductee: name, year, sort name, region, inducter, the institution's biography, tags, portrait file and its rights |
 
 How to work on one:
@@ -330,8 +343,9 @@ npm run ties:apply   -- --input=<sheet> --targets=kiosk      # or kiosk,public-w
 # 2. Apply exactly the sheet that was previewed.
 npm run <tool>:apply -- --input=<sheet> [same options] --apply --expect-hash=<hash>
 
-# Biographies and new classes work the same way.
+# Biographies, profile approvals and new classes work the same way.
 npm run bios:apply   -- --input=reports/biographies-sheet.csv
+npm run profiles:apply -- --input=reports/profiles-sheet.csv
 npm run class:add    -- --input=<folder>/class-2027.csv
 
 # Curated metadata and media approvals preview the same way; --apply writes.
