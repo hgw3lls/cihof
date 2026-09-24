@@ -1,4 +1,5 @@
 import { labelFrom, type PublishedRelationship } from '@cihof/content';
+import type { PreviewTie } from '@cihof/pipeline';
 import type { RuntimePerson } from '../data/runtime.ts';
 import type { Discovery } from './exhibit.ts';
 
@@ -75,6 +76,8 @@ export type Tie = {
   /** How the claim reads outwards from this person. Never composed here. */
   readonly label: string;
   readonly connectionId: string;
+  /** A tie the sources propose that nobody has reviewed. Preview builds only. */
+  readonly unreviewed?: boolean;
 };
 
 export type ConnectionNode = {
@@ -98,6 +101,7 @@ export type ConnectionNode = {
 export function connectionNodes(
   people: readonly RuntimePerson[],
   relationships: readonly PublishedRelationship[],
+  candidates: readonly PreviewTie[] = [],
 ): ConnectionNode[] {
   const byId = new Map(people.map((person) => [person.id, person]));
   const ties = new Map<string, Tie[]>();
@@ -113,6 +117,19 @@ export function connectionNodes(
 
       const list = ties.get(viewpoint);
       const tie = { other, label, connectionId: relationship.id as string };
+      if (list) list.push(tie); else ties.set(viewpoint, [tie]);
+    }
+  }
+
+  // Proposed ties read the same from both ends, because nobody has decided
+  // which way they read. They are marked, and never outrank a reviewed tie.
+  for (const candidate of candidates) {
+    for (const viewpoint of [candidate.from, candidate.to]) {
+      const person = byId.get(viewpoint);
+      const other = byId.get(viewpoint === candidate.from ? candidate.to : candidate.from);
+      if (!person || !other) continue;
+      const list = ties.get(viewpoint);
+      const tie = { other, label: candidate.label, connectionId: candidate.id, unreviewed: true };
       if (list) list.push(tie); else ties.set(viewpoint, [tie]);
     }
   }
@@ -135,6 +152,8 @@ export type PlacedPerson = {
   readonly ring: MapRing;
   /** How this person's tie to the focus reads, when they have one. */
   readonly label: string | null;
+  /** True when that tie is only proposed, not reviewed. */
+  readonly labelUnreviewed?: boolean;
 };
 
 export type PlacedTie = {
@@ -144,6 +163,7 @@ export type PlacedTie = {
   /** Reads from the focused person outwards. Null when neither end is focused. */
   readonly label: string | null;
   readonly touchesFocus: boolean;
+  readonly unreviewed: boolean;
 };
 
 export type ConnectionMap = {
@@ -197,14 +217,21 @@ export function connectionMap(
   }];
 
   // Ring one: sorted so the same person lands in the same place every time.
-  const ties = [...chosen.ties].sort((a, b) => a.other.sortName.localeCompare(b.other.sortName));
+  // One place per person. A preview can hold a reviewed and a proposed tie to
+  // the same person, and the reviewed wording is the one worth reading.
+  const firstTieTo = new Map<string, Tie>();
+  for (const tie of chosen.ties) {
+    const held = firstTieTo.get(tie.other.id);
+    if (!held || (held.unreviewed && !tie.unreviewed)) firstTieTo.set(tie.other.id, tie);
+  }
+  const ties = [...firstTieTo.values()].sort((a, b) => a.other.sortName.localeCompare(b.other.sortName));
   const angleOf = new Map<string, number>();
   ties.forEach((tie, index) => {
     const angle = (index / Math.max(ties.length, 1)) * Math.PI * 2 - Math.PI / 2;
     angleOf.set(tie.other.id, angle);
     placed.push({
       person: tie.other, x: Math.cos(angle) * 0.54, y: Math.sin(angle) * 0.54,
-      ring: 'tie', label: tie.label,
+      ring: 'tie', label: tie.label, labelUnreviewed: tie.unreviewed === true,
     });
   });
 
@@ -267,9 +294,10 @@ export function connectionMap(
         // Only worded when the focus is an endpoint, and always read outwards
         // from them. A label shown from the wrong end reverses the claim.
         label: touchesFocus
-          ? (node.person.id === chosen.person.id ? tie.label : (byId.get(tie.other.id)?.ties.find((t) => t.other.id === node.person.id)?.label ?? null))
+          ? (node.person.id === chosen.person.id ? tie.label : (byId.get(tie.other.id)?.ties.find((t) => t.connectionId === tie.connectionId)?.label ?? null))
           : null,
         touchesFocus,
+        unreviewed: tie.unreviewed === true,
       });
     }
   }

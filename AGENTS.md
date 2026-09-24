@@ -22,6 +22,7 @@
 - `apps/exhibit` reads `CIHOF_TARGET` (`public` or `kiosk`). It is required under CI; an unrecognised value is always an error; absent locally it defaults to `kiosk` and says so.
 - `npm run build:kiosk` carries all 93 films. Never publish it.
 - `npm run build:public` carries no films and runs `assert:public`, which inspects the built artifact. A failure means do not publish; it never means loosen the check.
+- `CIHOF_PREVIEW=all` (`dev:preview`, `build:preview`) shows unreviewed places and proposed ties, marked, for an editor. It changes no review state, is refused under CI and for the public target, and must never be published. Showing something in preview is not approving it.
 - Set `CIHOF_SITE_URL` only for a durable public address, never for a preview.
 - Do not push, publish, deploy, change permissions, or mark content approved without an explicit instruction for that operation.
 
