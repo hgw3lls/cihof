@@ -1,52 +1,60 @@
-# CIHOF Archive Exhibit
+# CIHOF
 
-Touch-first visitor exhibit for the Cleveland International Hall of Fame, built with Vite, React, and TypeScript. The public experience is a single screen with three ways into the same collection:
+The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model. A new staff portal for editing that data comes next (see Roadmap).
 
-- **People:** searchable, consistently cropped portraits. No inductee is selected on entry. Choosing one pins their identity without repeating the portrait in the grid; the full biography, record notes, and take-home QR are available from there.
-- **Links:** a neutral relationship index until someone is selected, then a portrait map centered on that person. Choosing a connected inductee re-centers the map. Archive references and shared induction classes are distinguished.
-- **Years:** a horizontal film timeline navigable by touch swipe, mouse drag, wheel, year rail, arrows, and keyboard. Choosing a film carries that inductee into People and Links. Approved films have captions and a transcript; pending films have no public playback.
+## Layout
 
-The selected person persists between scenes, and light mode is the default with a persistent dark-mode switch. The design study remains under `docs/design-concepts/2026-09-17/`; the visitor app is the implementation in `src/features/archive-exhibit/`.
+| Path | What it is |
+| --- | --- |
+| `data/` | Canonical sources: the actual product. `data/review-sheets/` holds the curator sheets. |
+| `public/media/` | Media store (portraits, film captions, posters, transcripts). Video files are local-only and gitignored. |
+| `packages/content/` | Domain model and publication rules. No framework, no DOM. |
+| `packages/pipeline/` | Reads `data/`, emits the published bundle. |
+| `apps/exhibit/` | The kiosk. React and Vite, offline service worker, release manifest, recovery panel. |
+| `apps/web/` | Static companion pages for the QR take-home. Kept until the QR decision is made (roadmap). |
+| `scripts/` | Data maintenance: apply curator decisions, reports, media validation, film-asset check. |
+| `plans/` | Archive of every plan, audit and report. Start at `plans/README.md`. |
 
 ## Run
 
 Use Node 22 (`.nvmrc`).
 
 ```sh
-npm install
-npm run dev
+npm ci
+npm run dev            # kiosk, local dev (kiosk target)
+npm test               # content, pipeline and exhibit unit tests
+npm run test:browser   # exhibit browser suite (Playwright)
+npm run typecheck
 ```
 
-Open the visitor URL printed by Vite. The staff review portal is separate at `portal.html` (`npm run dev:portal`). The local portal runner is started with `npm run portal:server` in another terminal.
-
-The visitor entry is `src/app/main.tsx`. The old `src/app/App.tsx`, Living Hall components, and their CSS remain in source for rollback but are not imported into the public visitor bundle. The portal still uses its own entry and review components.
-
-## Media Clearance
-
-The collection currently has 111 inductees and 93 local film records. **All 93 have been reviewed: rights, captions and transcripts are approved, and every film is approved for the kiosk. None is approved for the public web.** That refusal is a deliberate decision, not an outstanding task.
-
-This calls for more care than a pending queue would, not less. A kiosk artifact reaching a public URL does not leak unreviewed material — everything in it has been reviewed — it overrides a decision somebody made on purpose. And because every film also carries a YouTube id, a kiosk build can serve 93 embedded players without a megabyte of video leaving the repository, so an artifact containing no video file has not thereby withheld the films.
-
-The GitHub Pages workflow publishes a preview of `apps/exhibit` built for the public target, which carries no films, and refuses to deploy an artifact that turns out otherwise. See [DEPLOYMENT.md](DEPLOYMENT.md).
-
-An editable 93-row sheet is at [data/review-sheets/media-approval-sheet.csv](data/review-sheets/media-approval-sheet.csv). Review and apply it using [docs/media-approval-workflow.md](docs/media-approval-workflow.md). No approval is inferred from a file's presence. `npm run validate:media-clearance` is expected to report pending items until all are reviewed.
-
-`npm run build:kiosk` and the default `npm run build` produce a restricted offline package containing the manifest-listed local film files. Those films are cleared for the kiosk and refused for the public web, so do not publish those outputs publicly. `npm run build:portal` excludes film payloads.
-
-## Build And Test
+## Build targets
 
 ```sh
-npm run build:public
-npm run build:portal
-npm run validate:entities
-npm run test:kiosk
-npm run test:portal
+npm run build:kiosk    # apps/exhibit/dist with all 93 films. Never publish.
+npm run build:public   # no films; also runs the artifact assertion
 ```
 
-The public output is `dist/`; the portal output is `dist-portal/`. Playwright tests cover People, Links, Years, pending and approved media states, touch swiping, responsive layouts, hidden admin access, and portal workflows. If the default preview port is occupied, use `CIHOF_PLAYWRIGHT_PORT=4176 npm run test:kiosk` or `CIHOF_PORTAL_PLAYWRIGHT_PORT=4177 npm run test:portal`.
+All 93 films are approved for the kiosk and for the public web on none of them. That refusal is deliberate. `apps/exhibit` reads `CIHOF_TARGET`, which is required under CI; an unknown value is always an error. GitHub Pages publishes only the public build, and only after `assert:public` has inspected the built bytes. Set `CIHOF_SITE_URL` only for a durable public address, never for a preview.
 
-## Data And Operations
+## Keeping data current
 
-Canonical data is under `data/`; `npm run prepare:data` generates `public/data/cihof-runtime-data.json` and standards exports. The runtime bundle currently contains 544 entities and 2,041 entity relationships. Links uses direct person-person archive references plus induction-class context, and does not claim inferred personal relationships as documented facts.
+```sh
+npm run crosswalk:check && npm run review:links:check && npm run review:places:check
+npm run links:apply | places:apply | curate:apply | media:apply
+npm run media:validate && npm run curate:report   # reports go to reports/ (ignored)
+npm run media:assert                             # every film asset is tracked
+```
 
-The hidden visitor admin (`?admin=1`, then password) supports local bundle import/export, idle reset, admin access settings, review metrics, and diagnostics. Profile curation belongs in the separate portal. Earlier architecture and launch-planning documents under `docs/` describe prior exhibit iterations; this README and the current code are authoritative for the visitor UI.
+Change canonical sources, never generated output. Never invent historical claims, relationships, dates or portraits, and never change an approval state without an authorized editorial decision.
+
+## Roadmap
+
+The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.md). Remaining work, in order:
+
+1. **Kiosk admin settings**: passcode-gated idle timeout, warning, motion, touch cue and hotkey. First settle whether runtime settings may only lengthen timings (§5.2).
+2. **Review-record write path** in `packages/content`: `decisionReference`, `contentVersion` and evidence per claim (§3).
+3. **New staff portal** on that model. Port the old `scripts/portal-runner.js` from `main`, keeping its dry-run, hash-match and clean-tree gates, and include the review queue and diagnostics.
+4. **QR take-home decision** (§5.1): host `apps/web` durably, or drop Share.
+5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
+
+The old visitor app and old portal remain on `main` for reference until the new portal has run through one real editorial cycle.
