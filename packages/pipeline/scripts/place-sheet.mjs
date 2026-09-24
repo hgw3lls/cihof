@@ -9,7 +9,7 @@ import { dataFile, repoFile } from '../src/paths.ts';
  * Regenerates the places review sheet:
  *
  *   data/cihof_place_review.json   what each place holds and who is tied to it
- *   docs/places-review-sheet.csv   the same, to fill in away from here
+ *   data/review-sheets/places-review-sheet.csv   the same, to fill in away from here
  *
  * Derived from `data/cihof_places.json` and
  * `data/cihof_place_associations.json`. Decisions go back through
@@ -27,7 +27,7 @@ const associations = existsSync(tiesPath)
 
 const sheet = buildPlaceReviewSheet(places, associations, buildPeople());
 const jsonPath = dataFile('cihof_place_review.json');
-const csvPath = repoFile('docs/places-review-sheet.csv');
+const csvPath = repoFile('data/review-sheets/places-review-sheet.csv');
 
 const comparable = (value) => JSON.stringify({ ...value, generatedAt: null }, null, 2);
 const previous = existsSync(jsonPath) ? JSON.parse(readFileSync(jsonPath, 'utf8')) : undefined;
@@ -36,7 +36,7 @@ const jsonCurrent = previous !== undefined && comparable(previous) === comparabl
 const csv = placeReviewSheetCsv(sheet);
 const csvCurrent = existsSync(csvPath) && readFileSync(csvPath, 'utf8') === csv;
 
-const tiesPathCsv = repoFile('docs/place-ties-sheet.csv');
+const tiesPathCsv = repoFile('data/review-sheets/place-ties-sheet.csv');
 const tiesCsv = placeTiesSheetCsv(sheet);
 const tiesCurrent = existsSync(tiesPathCsv) && readFileSync(tiesPathCsv, 'utf8') === tiesCsv;
 
@@ -53,7 +53,7 @@ const signed = [
 
 if (check) {
   if (signed.length > 0) {
-    console.error(`\ndocs/places-review-sheet.csv has ${signed.length} row(s) with a decision typed into it.`);
+    console.error(`\ndata/review-sheets/places-review-sheet.csv has ${signed.length} row(s) with a decision typed into it.`);
     console.error('Apply it, or move it aside:  npm run places:apply -- --input=<the sheet>');
     process.exit(1);
   }
@@ -64,7 +64,7 @@ if (check) {
 }
 
 if (!check && signed.length > 0 && !force) {
-  console.error(`\nRefusing to regenerate: docs/places-review-sheet.csv has ${signed.length} row(s) with a decision in it.`);
+  console.error(`\nRefusing to regenerate: data/review-sheets/places-review-sheet.csv has ${signed.length} row(s) with a decision in it.`);
   for (const row of signed.slice(0, 5)) console.error(`  ${row}`);
   if (signed.length > 5) console.error(`  … and ${signed.length - 5} more`);
   console.error('\nApply them first, or move the file aside. --force overwrites, and means it.');
@@ -84,8 +84,8 @@ const progress = placeReviewProgress(sheet);
 const state = (wrote, current) => (check ? (current ? 'current' : 'STALE') : wrote ? 'written' : 'unchanged');
 console.log('\nPlaces review sheet');
 console.log(`  data/cihof_place_review.json          ${state(jsonWrote, jsonCurrent)}`);
-console.log(`  docs/places-review-sheet.csv          ${state(csvWrote, csvCurrent)}`);
-console.log(`  docs/place-ties-sheet.csv             ${state(tiesWrote, tiesCurrent)}`);
+console.log(`  data/review-sheets/places-review-sheet.csv          ${state(csvWrote, csvCurrent)}`);
+console.log(`  data/review-sheets/place-ties-sheet.csv             ${state(tiesWrote, tiesCurrent)}`);
 console.log();
 console.log(`  places                    ${progress.places}`);
 console.log(`    with a short history    ${progress.researched}`);
@@ -112,8 +112,8 @@ if (ready.length > 0) {
 console.log();
 
 console.log('  Two sheets, two questions:');
-console.log('    docs/places-review-sheet.csv   one row per place — approve, decisionReference');
-console.log('    docs/place-ties-sheet.csv      one row per tie   — role, decisionReference');
+console.log('    data/review-sheets/places-review-sheet.csv   one row per place — approve, decisionReference');
+console.log('    data/review-sheets/place-ties-sheet.csv      one row per tie   — role, decisionReference');
 console.log(`    roles: ${placeRoles.join(', ')}`);
 console.log('    "associated" is refused: it does not say what the person did there.');
 console.log();

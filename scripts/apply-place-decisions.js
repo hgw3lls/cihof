@@ -12,8 +12,8 @@ import { parseCsv } from './data-utils.js';
  * recognised by its header rather than by a flag, so a curator cannot apply one
  * as though it were the other.
  *
- *   docs/places-review-sheet.csv   approve, decisionReference  -> data/cihof_places.json
- *   docs/place-ties-sheet.csv      role, decisionReference     -> data/cihof_place_associations.json
+ *   data/review-sheets/places-review-sheet.csv   approve, decisionReference  -> data/cihof_places.json
+ *   data/review-sheets/place-ties-sheet.csv      role, decisionReference     -> data/cihof_place_associations.json
  *
  * It refuses to invent what makes an approval an approval. A row that approves
  * with no decisionReference is rejected rather than written with a placeholder,
@@ -25,7 +25,7 @@ import { parseCsv } from './data-utils.js';
  * --expect-hash on apply so nothing lands unpreviewed, and a clean tree so the
  * change arrives as its own diff.
  *
- *   node scripts/apply-place-decisions.js --input=docs/places-review-sheet.csv
+ *   node scripts/apply-place-decisions.js --input=data/review-sheets/places-review-sheet.csv
  *   node scripts/apply-place-decisions.js --input=… --apply --expect-hash=<sha>
  */
 
@@ -38,8 +38,8 @@ const inputPath = args.input ? resolve(args.input) : '';
 
 if (!inputPath || !existsSync(inputPath)) {
   console.error('\nUsage:');
-  console.error('  node scripts/apply-place-decisions.js --input=docs/places-review-sheet.csv');
-  console.error('  node scripts/apply-place-decisions.js --input=docs/place-ties-sheet.csv');
+  console.error('  node scripts/apply-place-decisions.js --input=data/review-sheets/places-review-sheet.csv');
+  console.error('  node scripts/apply-place-decisions.js --input=data/review-sheets/place-ties-sheet.csv');
   console.error('\nDry run is the default. Nothing is written without --apply.');
   process.exit(1);
 }

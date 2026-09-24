@@ -1,0 +1,32 @@
+# Plans archive
+
+Every plan, audit, tracker and report written for CIHOF before the clean-up on 2026-09-24. They are kept here exactly as written. File paths inside them point at the old layout (`docs/`, `src/`, `artifacts/`, the root `scripts/`). To see those files, check out the last commit before the clean-up on `main`.
+
+**Start here:** [`docs/CLEAN_APP_PLAN.md`](docs/CLEAN_APP_PLAN.md) is the live roadmap. It covers the two-surface end state (kiosk plus staff portal), the open decisions and the step order. The clean-up carried out its archive and delete steps. What remains is kiosk admin, the review-record write path, and the new portal.
+
+## Plan packages
+
+| Folder | What it is |
+| --- | --- |
+| [`city-experience/`](city-experience/README_START_HERE.md) | "From portrait archive to an explorable city": Places and Cleveland traces plan, data contracts, task tracker, acceptance tests |
+| [`evidence-led-plan/`](evidence-led-plan/README.md) | Evidence-led upgrade plan: staged plan, audit, decisions, tracker |
+| [`museum-upgrade/`](museum-upgrade/README.md) | Museum-interactive upgrade package: grade audit, upgrade plan, MG task tracker and completions |
+| [`artifacts/`](artifacts/) | Generated review evidence: design-review screenshots, validation passes, repair and readiness reports |
+
+## Documents (`docs/`)
+
+**Roadmap and architecture:** CLEAN_APP_PLAN, rebuild-plan, current-architecture, upgrade-feature-plan, recent-changes-and-next-plan, permanent-installation-upgrade-plan, launch-readiness-plan, release-handoff-checklist, node-runtime
+
+**Scopes for open work:** LINKS_REVIEW_SCOPE (opening the Links lens), HOF_WORLD_V3_INGEST_SCOPE
+
+**Editorial workflows** (still describe how curators work): media-approval-workflow, relationship-publication-workflow, interpretive-content-workflow, staff-portal-runner
+
+**Audits:** software-audit-2026-09-14, museum-upgrade-baseline-2026-09-20, accessibility-installation-review, visitor-portrait-media-audit, automatic-validation-pass-report
+
+**Content and media reports:** visitor-content-first-pass, non-external-content-review, profile-text-readiness, story-summary repair and draft-sync, life-work-summary repair, week1-remaining-text-flags repair, video-offline-readiness, youtube-media-acquisition, demo-timeline
+
+**Design studies:** `design-concepts/2026-09-16` and `design-concepts/2026-09-17`
+
+## Not archived
+
+The curator review sheets are live working data, so they moved to [`data/review-sheets/`](../data/review-sheets/) instead: links, places, place ties, media approval, and the 2026-09-22 links decisions.
