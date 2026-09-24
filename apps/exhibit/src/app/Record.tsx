@@ -25,7 +25,14 @@ export function Record({ person, onClose, onShare, onPlay }: {
       <div className="reading">
         <div className="inner">
           <h2 id="recordTitle" data-autofocus tabIndex={-1}>{person.name}</h2>
-          <p className="meta">{person.classYear ? `Inducted ${person.classYear}` : 'Induction year not recorded'}</p>
+          <p className="meta">
+            {person.classYear ? `Inducted ${person.classYear}` : 'Induction year not recorded'}
+            {/* The roster's own record of who presented them. Text, not a link
+                into the graph: 63 of the 111 were presented by somebody who is
+                not in the hall, and a name a visitor can press and find nothing
+                behind is worse than a name they cannot. */}
+            {person.presentedBy && <span className="meta__presenter">Inducted by {person.presentedBy.recordedName}</span>}
+          </p>
 
           {onPlay && person.films.length > 0 && (
             <p>
