@@ -9,23 +9,34 @@ import { readPlaceAssociations, readPlaceSeeds } from '../src/sources/places.ts'
 /**
  * Places, against the collection as it actually stands.
  *
- * Eighty-two places and eighty-six ties arrived from the HOF_WORLD v3 archive.
- * None of it is reviewed, and the point of these is that volume does not
- * substitute for review however much of it there is.
+ * Eighty-two places and eighty-six ties arrived from the HOF_WORLD v3 archive,
+ * unreviewed. Reviewers have approved some since, and will approve more. The
+ * point of these is that volume does not substitute for review, so the
+ * threshold tests start from the sheet with every review cleared.
  */
 const people = buildPeople();
 const seeds = readPlaceSeeds();
 const ties = readPlaceAssociations();
 const sheet = buildPlaceReviewSheet(seeds, ties, people);
+const unreviewed = {
+  ...sheet,
+  rows: sheet.rows.map((row) => ({ ...row, reviewed: false, ties: row.ties.map((tie) => ({ ...tie, role: null })) })),
+};
 
 const approved = { status: 'approved', decisionReference: 'fixture', contentVersion: 'fixture-v1' } as const;
 const everywhere = { publicWeb: true, kiosk: true };
 
-test('the ingest landed, and none of it is publishable', () => {
+test('the ingest landed, and only reviewed places and roled ties are publishable', () => {
   assert.equal(seeds.length, 82);
   assert.equal(ties.length, 86);
-  assert.equal(publishedPlaces(seeds, 'kiosk').length, 0, 'no place carries a review');
-  assert.equal(publishedPlaceAssociations(ties, 'kiosk').length, 0, 'no tie carries a role');
+  const reviewedWithHistory = (seeds as Array<Record<string, unknown>>)
+    .filter((seed) => seed['review'] && String(seed['shortHistory'] ?? '').trim().length > 0).map((seed) => seed['id']);
+  for (const place of publishedPlaces(seeds, 'kiosk')) {
+    assert.ok(reviewedWithHistory.includes(place.id), `${place.id} is published without a review and a history`);
+  }
+  for (const tie of publishedPlaceAssociations(ties, 'kiosk')) {
+    assert.ok(typeof tie.role === 'string' && tie.role.length > 0, 'a published tie says what the person did there');
+  }
 });
 
 test('a lead is separated from a place somebody wrote a history for', () => {
@@ -42,8 +53,8 @@ test('a reviewed lead still does not count towards the lens', () => {
   // whatever is nearest. A place with no history publishes a name and a blank
   // paragraph, so approval alone is not enough.
   const withLeadsApproved = {
-    ...sheet,
-    rows: sheet.rows.map((row) => (row.band === 'lead' ? { ...row, reviewed: true } : row)),
+    ...unreviewed,
+    rows: unreviewed.rows.map((row) => (row.band === 'lead' ? { ...row, reviewed: true } : row)),
   };
   const progress = placeReviewProgress(withLeadsApproved);
   assert.equal(progress.reviewed, 68);
@@ -53,18 +64,18 @@ test('a reviewed lead still does not count towards the lens', () => {
 
 test('the lens opens on eight reviewed places that have a history', () => {
   let remaining = 8;
-  const rows = sheet.rows.map((row) => {
+  const rows = unreviewed.rows.map((row) => {
     if (row.band !== 'researched' || remaining === 0) return row;
     remaining -= 1;
     return { ...row, reviewed: true };
   });
-  const progress = placeReviewProgress({ ...sheet, rows });
+  const progress = placeReviewProgress({ ...unreviewed, rows });
   assert.equal(progress.publishable, 8);
   assert.equal(progress.placesWouldOpen, true);
 });
 
 test('the sheet names both things standing in the way', () => {
-  const remaining = placeReviewRemaining(sheet);
+  const remaining = placeReviewRemaining(unreviewed);
   assert.equal(remaining.length, 2);
   assert.match(remaining.join(' '), /8 places are reviewed/);
   assert.match(remaining.join(' '), /no role/);

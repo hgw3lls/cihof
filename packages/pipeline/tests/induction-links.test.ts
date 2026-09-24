@@ -6,6 +6,9 @@ import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { readInductionCrosswalk } from '../src/sources/crosswalk.ts';
 import { readRoster } from '../src/sources/manifest.ts';
 
+// Tests that state their own crosswalk leave out the collection's real tie
+// decisions and places, which reviewers keep adding to.
+const alone = { tieDecisions: [], places: [], placeAssociations: [] } as const;
 const people = buildPeople();
 const ids = people.map((person) => person.id);
 const inducter = ids[0];
@@ -45,10 +48,10 @@ test('the crosswalk as it actually stands opens Connections on the wall', () => 
   assert.equal(bundle.lenses.includes('links'), true);
   assert.equal(bundle.relationshipReport.crosswalkApproved, true);
 
-  // The decision named the kiosk. Nothing reaches the web on the strength of it.
+  // The decision named the kiosk. No induction link reaches the web on the
+  // strength of it. (Ties decided since may carry a web decision of their own.)
   const web = buildRuntimeBundle(people, 'public');
-  assert.equal(web.relationships.length, 0);
-  assert.equal(web.lenses.includes('links'), false);
+  assert.equal(web.relationships.filter((link) => String(link.id).startsWith('induction:')).length, 0);
 });
 
 test('the report distinguishes "no relationships" from "nobody has looked yet"', () => {
@@ -56,8 +59,8 @@ test('the report distinguishes "no relationships" from "nobody has looked yet"',
   // say which one it is looking at. Stated against a crosswalk nobody has
   // resolved, because the committed one now has 25 rows that are decided.
   const untouched = { ...resolved(3), entries: [{ ...resolved(3).entries[0]!, resolution: { status: 'unresolved' as const } }] };
-  const unresolved = buildRuntimeBundle(people, 'kiosk', { crosswalk: untouched }).relationshipReport;
-  const missing = buildRuntimeBundle(people, 'kiosk', { crosswalk: null }).relationshipReport;
+  const unresolved = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: untouched }).relationshipReport;
+  const missing = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: null }).relationshipReport;
   assert.equal(unresolved.published, 0);
   assert.equal(missing.published, 0);
   assert.equal(unresolved.crosswalkNamesUnresolved, 1, 'a name nobody has looked at');
@@ -67,7 +70,7 @@ test('the report distinguishes "no relationships" from "nobody has looked yet"',
 test('resolving every name does not publish a single relationship', () => {
   // The separation, carried all the way through the build rather than only
   // asserted in the unit tests.
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: resolved(20) });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: resolved(20) });
   assert.equal(bundle.relationships.length, 0);
   assert.equal(bundle.lenses.includes('links'), false);
   assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 0, 'the work is done');
@@ -75,11 +78,11 @@ test('resolving every name does not publish a single relationship', () => {
 });
 
 test('Connections turns itself on when the crosswalk is resolved and approved', () => {
-  const justShort = buildRuntimeBundle(people, 'kiosk', { crosswalk: resolved(14, { publicationDecision: decision }) });
+  const justShort = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: resolved(14, { publicationDecision: decision }) });
   assert.equal(justShort.relationships.length, 14);
   assert.equal(justShort.lenses.includes('links'), false, '14 is below the threshold of 15');
 
-  const enough = buildRuntimeBundle(people, 'kiosk', { crosswalk: resolved(15, { publicationDecision: decision }) });
+  const enough = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: resolved(15, { publicationDecision: decision }) });
   assert.equal(enough.lenses.includes('links'), true, 'the lens appears without a code change');
   assert.equal(enough.relationships.length, 15);
   assert.equal(enough.relationshipReport.fromCrosswalk, 15);
@@ -90,12 +93,12 @@ test('an approval for the kiosk does not open Connections on the public site', (
   const kioskOnly = resolved(20, {
     publicationDecision: { ...decision, publication: { publicWeb: false, kiosk: true } },
   });
-  assert.equal(buildRuntimeBundle(people, 'kiosk', { crosswalk: kioskOnly }).lenses.includes('links'), true);
-  assert.equal(buildRuntimeBundle(people, 'public', { crosswalk: kioskOnly }).lenses.includes('links'), false);
+  assert.equal(buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: kioskOnly }).lenses.includes('links'), true);
+  assert.equal(buildRuntimeBundle(people, 'public', { ...alone, crosswalk: kioskOnly }).lenses.includes('links'), false);
 });
 
 test('a generated relationship carries the real names of both people', () => {
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: resolved(1, { publicationDecision: decision }) });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: resolved(1, { publicationDecision: decision }) });
   const link = bundle.relationships[0]!;
   assert.equal(link.from, inducter);
   assert.equal(link.to, ids[1]!);
@@ -114,6 +117,7 @@ test('a curated record wins over the generated one for the same pair', () => {
     evidence: [{ id: 'ev-1', title: 'Ceremony programme, 2011', kind: 'primary-source' }],
   };
   const bundle = buildRuntimeBundle(people, 'kiosk', {
+    ...alone,
     crosswalk: resolved(1, { publicationDecision: decision }),
     relationships: [curated],
   });
@@ -122,7 +126,7 @@ test('a curated record wins over the generated one for the same pair', () => {
 });
 
 test('a missing crosswalk file builds rather than breaking the release', () => {
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: null });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { ...alone, crosswalk: null });
   assert.equal(bundle.relationships.length, 0);
   assert.deepEqual(bundle.lenses, ['people', 'years']);
 });
