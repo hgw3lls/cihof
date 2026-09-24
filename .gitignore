@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 dist/
 .env
 .env.local
@@ -49,3 +49,7 @@ apps/exhibit/public/media/videos/
 # The kiosk app's staged copy (npm run stage in apps/kiosk-app): generated, and
 # it holds a kiosk build with kiosk-only films.
 apps/kiosk-app/stage/
+
+# The staff review app's drafts and the sheets it writes for the apply tools.
+# A reviewer's work in progress on this computer; saved decisions are commits.
+/.review/

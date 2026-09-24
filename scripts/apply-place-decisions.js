@@ -129,7 +129,14 @@ function applyPlaces() {
 function applyTies() {
   const path = resolve(root, 'data/cihof_place_associations.json');
   const document = JSON.parse(readFileSync(path, 'utf8'));
-  const index = new Map(document.associations.map((tie) => [`${tie.person}|${tie.place}`, tie]));
+  // The research sometimes records one person at one place twice (born here,
+  // and moved here). A role is decided per person and place, so it goes on
+  // every record of that pair, not only the last one read.
+  const index = new Map();
+  for (const tie of document.associations) {
+    const key = `${tie.person}|${tie.place}`;
+    index.set(key, [...(index.get(key) ?? []), tie]);
+  }
 
   rows.forEach((row, index_) => {
     const line = index_ + 2;
@@ -138,8 +145,8 @@ function applyTies() {
     const role = (row.role ?? '').trim().toLowerCase();
     if (!person || !placeId || role === '' || role === 'skip') return;
 
-    const tie = index.get(`${person}|${placeId}`);
-    if (!tie) { errors.push(`line ${line}: no tie between ${person} and ${placeId}`); return; }
+    const ties = index.get(`${person}|${placeId}`);
+    if (!ties) { errors.push(`line ${line}: no tie between ${person} and ${placeId}`); return; }
 
     const reference = (row.decisionReference ?? '').trim();
     if (!reference) { errors.push(`line ${line} (${person} at ${placeId}): a role with no decisionReference`); return; }
@@ -152,7 +159,7 @@ function applyTies() {
       errors.push(`line ${line} (${person} at ${placeId}): "${role}" is not a role — use ${roles.join(', ')}`);
       return;
     }
-    changes.push({ tie, role, reference, note: (row.note ?? '').trim() });
+    for (const tie of ties) changes.push({ tie, role, reference, note: (row.note ?? '').trim() });
   });
 
   report('ties', changes.length, `${changes.length} tie(s) would be given a role`);
@@ -211,7 +218,7 @@ function finish() {
 }
 
 function write(path, document) {
-  copyFileSync(path, `${path}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`);
+  if (!args.noBackup) copyFileSync(path, `${path}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`);
   writeFileSync(path, `${JSON.stringify(document, null, 2)}\n`);
   const decisions = resolve(root, 'data/curation-decisions');
   mkdirSync(decisions, { recursive: true });

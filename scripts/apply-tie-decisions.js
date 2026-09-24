@@ -29,6 +29,12 @@ import { readTieDecisions } from '../packages/pipeline/src/sources/ties.ts';
  * directional kind without its inverse wording; no audience unless one is
  * named with --targets.
  *
+ * A directional relationship (mentored, taught, succeeded, employed,
+ * nominated) runs from person A to person B. When the record shows it the
+ * other way round, an optional `direction` column set to `b-to-a` records it
+ * from B to A, and label then reads from B. The two people are still the
+ * corpus's; only the order is the reviewer's.
+ *
  * Gates, as for the links and places sheets:
  *
  *   1. dry run is the default; --apply is required to write
@@ -107,6 +113,12 @@ rows.forEach((row, index) => {
   const label = (row.label ?? '').trim();
   const inverseLabel = (row.inverseLabel ?? '').trim();
   const note = (row.note ?? '').trim();
+  const direction = (row.direction ?? '').trim().toLowerCase();
+  if (!['', 'a-to-b', 'b-to-a'].includes(direction)) {
+    errors.push(`line ${line} (${who}): direction is a-to-b, b-to-a or empty, not "${direction}"`);
+    return;
+  }
+  const reversed = decision === 'relationship' && direction === 'b-to-a';
 
   if (decision === 'relationship' && !relationshipKinds.includes(kind)) {
     errors.push(`line ${line} (${who}): a relationship needs a kind — one of ${relationshipKinds.join(', ')}`);
@@ -123,12 +135,13 @@ rows.forEach((row, index) => {
     return;
   }
 
-  const content = [decision, kind, label, inverseLabel, ...tie.evidence].join('␞');
+  const content = [decision, kind, label, inverseLabel, reversed ? 'b-to-a' : 'a-to-b', ...tie.evidence].join('␞');
   const record = {
     tieId,
     corpusIds: tie.corpusIds,
-    personA: tie.personA,
-    personB: tie.personB,
+    personA: reversed ? tie.personB : tie.personA,
+    personB: reversed ? tie.personA : tie.personB,
+    ...(reversed ? { reversed: true } : {}),
     sourceType: tie.sourceType,
     decision,
     ...(decision === 'relationship' ? { kind } : {}),

@@ -1,0 +1,103 @@
+/**
+ * A reviewer's draft, turned into the sheets the apply tools already read.
+ *
+ * The review app decides nothing of its own. Everything a reviewer chooses is
+ * written into the same CSV a curator would fill in by hand, and applied by
+ * the same tool, with the same checks: the app is a friendlier way to fill in
+ * a sheet, not a second way to change the data.
+ *
+ * A draft, as the app keeps it between visits:
+ *
+ *   {
+ *     reviewer: "Jane Smith",
+ *     ties:      { [tieId]: { decision, kind, direction, label, inverseLabel, note } },
+ *     places:    { [placeId]: { approve: true, note } },
+ *     placeTies: { ["placeId|personId"]: { role, note } },
+ *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
+ *   }
+ */
+
+/** The decision reference for one kind of review on one day. */
+export function decisionReference(task, day) {
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies' }[task];
+  if (!subject) throw new Error(`Unknown review: ${task}`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
+  return `${subject}-review-${day}`;
+}
+
+/** The note each decision carries: the reviewer's words, then who decided. */
+export function signedNote(note, reviewer) {
+  const who = `Reviewed by ${reviewer} in the staff review app.`;
+  const text = String(note ?? '').trim();
+  if (!text) return who;
+  return `${/[.!?)"'”’]$/.test(text) ? text : `${text}.`} ${who}`;
+}
+
+export function tiesCsv(draft, day) {
+  const reference = decisionReference('ties', day);
+  const rows = Object.entries(draft.ties ?? {}).map(([tieId, value]) => [
+    tieId,
+    value.decision,
+    value.decision === 'relationship' ? value.kind ?? '' : '',
+    value.decision === 'relationship' ? value.direction ?? 'a-to-b' : '',
+    value.decision === 'reject' ? '' : value.label ?? '',
+    value.decision === 'relationship' ? value.inverseLabel ?? '' : '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['tieId', 'decision', 'kind', 'direction', 'label', 'inverseLabel', 'decisionReference', 'note'], rows);
+}
+
+export function placesCsv(draft, day) {
+  const reference = decisionReference('places', day);
+  const rows = Object.entries(draft.places ?? {})
+    .filter(([, value]) => value.approve === true)
+    .map(([placeId, value]) => [placeId, 'yes', reference, signedNote(value.note, draft.reviewer)]);
+  return csv(['placeId', 'approve', 'decisionReference', 'note'], rows);
+}
+
+export function placeTiesCsv(draft, day) {
+  const reference = decisionReference('placeTies', day);
+  const rows = Object.entries(draft.placeTies ?? {}).map(([key, value]) => {
+    const [placeId, person] = splitTieKey(key);
+    return [placeId, person, value.role, reference, signedNote(value.note, draft.reviewer)];
+  });
+  return csv(['placeId', 'person', 'role', 'decisionReference', 'note'], rows);
+}
+
+/** The biography sheet's own columns; the copied ones are for reading and are left empty. */
+export function biosCsv(draft, day) {
+  const reference = decisionReference('bios', day);
+  const rows = Object.entries(draft.bios ?? {}).map(([id, value]) => [
+    id, '', '', '', '',
+    value.useSourceText ? '' : value.correctedText ?? '',
+    value.useSourceText ? 'yes' : '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['id', 'name', 'classYear', 'provenance', 'currentText', 'correctedText', 'useSourceText', 'decisionReference', 'note'], rows);
+}
+
+export function splitTieKey(key) {
+  const at = key.lastIndexOf('|');
+  return [key.slice(0, at), key.slice(at + 1)];
+}
+
+/** How many decisions a draft holds for each review. */
+export function draftCounts(draft) {
+  return {
+    ties: Object.keys(draft.ties ?? {}).length,
+    places: Object.values(draft.places ?? {}).filter((value) => value.approve === true).length,
+    placeTies: Object.keys(draft.placeTies ?? {}).length,
+    bios: Object.keys(draft.bios ?? {}).length,
+  };
+}
+
+function csv(header, rows) {
+  return `${[header, ...rows].map((cells) => cells.map(cell).join(',')).join('\n')}\n`;
+}
+
+function cell(value) {
+  const text = String(value ?? '');
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}

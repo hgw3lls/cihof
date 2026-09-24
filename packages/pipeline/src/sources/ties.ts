@@ -15,6 +15,8 @@ export type TieDecision = {
   readonly corpusIds: readonly string[];
   readonly personA: string;
   readonly personB: string;
+  /** True when the reviewer recorded the relationship from the corpus's person B to A. */
+  readonly reversed?: boolean;
   readonly sourceType: string;
   readonly decision: 'relationship' | 'context' | 'reject';
   /** For a relationship. */
