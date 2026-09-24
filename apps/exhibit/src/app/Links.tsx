@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { PublishedRelationship } from '@cihof/content';
+import type { PublishedRelationship, SharedContext } from '@cihof/content';
 import type { PreviewTie, RuntimePerson } from '../data/runtime.ts';
 import { connectionMap, connectionNodes } from '../state/selectors.ts';
 
 type Props = {
   people: readonly RuntimePerson[];
   relationships: readonly PublishedRelationship[];
+  /** Pairs a reviewer kept as context: they appear together, nothing more. */
+  contexts?: readonly SharedContext[];
   /** Proposed, unreviewed ties. Only a preview build carries any. */
   candidates?: readonly PreviewTie[];
   selectedId: string | null;
@@ -31,9 +33,11 @@ const settleMs = 620;
  *
  * Three things this deliberately does not do.
  *
- * It does not draw shared context. Twelve dashed lines per person meaning
+ * It does not draw computed context. Twelve dashed lines per person meaning
  * "inducted the same year" is what the previous Links scene showed, and beside
- * a documented relationship they were indistinguishable in shape.
+ * a documented relationship they were indistinguishable in shape. The only
+ * context drawn is a pair a reviewer chose to keep, on its own layer, in its
+ * own quieter line and with its own wording.
  *
  * It does not take `discovery`. A search term narrowing a relationship graph
  * removes the people a visitor came to the graph to find.
@@ -43,12 +47,18 @@ const settleMs = 620;
  * ties — is a scatter of specks that jitters and never settles, and perpetual
  * motion on a display that runs for months is a heater and a burn-in risk.
  */
-export function Links({ people, relationships, candidates = [], selectedId, onSelect, onOpen }: Props) {
-  // In a preview the proposed ties are a separate layer an editor can switch
-  // off, so the reviewed map can always be seen as a visitor would see it.
+export function Links({ people, relationships, contexts = [], candidates = [], selectedId, onSelect, onOpen }: Props) {
+  // Each weaker kind of tie is its own layer that can be switched off, so the
+  // documented relationships can always be seen on their own. Proposed ties
+  // exist only in an editor's preview.
+  const [showContext, setShowContext] = useState(true);
   const [showProposed, setShowProposed] = useState(true);
+  const together = showContext ? contexts : [];
   const proposed = showProposed ? candidates : [];
-  const nodes = useMemo(() => connectionNodes(people, relationships, proposed), [people, relationships, proposed]);
+  const nodes = useMemo(
+    () => connectionNodes(people, relationships, proposed, together),
+    [people, relationships, proposed, together],
+  );
   const map = useMemo(() => connectionMap(nodes, selectedId), [nodes, selectedId]);
   const at = useSettling(map, selectedId);
 
@@ -67,6 +77,13 @@ export function Links({ people, relationships, candidates = [], selectedId, onSe
         {' '}Touch anyone to bring them to the centre.
       </p>
 
+      {contexts.length > 0 && (
+        <label className="map__layer map__layer--context">
+          <input type="checkbox" checked={showContext} onChange={(event) => setShowContext(event.target.checked)} />
+          Show {contexts.length} {contexts.length === 1 ? 'pair' : 'pairs'} who appear together in the records
+        </label>
+      )}
+
       {candidates.length > 0 && (
         <label className="map__layer">
           <input type="checkbox" checked={showProposed} onChange={(event) => setShowProposed(event.target.checked)} />
@@ -83,7 +100,7 @@ export function Links({ people, relationships, candidates = [], selectedId, onSe
             return (
               <line
                 key={tie.connectionId}
-                className={`map__tie${tie.touchesFocus ? ' map__tie--focus' : ''}${tie.unreviewed ? ' map__tie--unreviewed' : ''}`}
+                className={`map__tie${tie.touchesFocus ? ' map__tie--focus' : ''}${tie.unreviewed ? ' map__tie--unreviewed' : ''}${tie.context ? ' map__tie--context' : ''}`}
                 x1={50 + (a.x / 2.4) * 100} y1={50 + (a.y / 2.4) * 100}
                 x2={50 + (b.x / 2.4) * 100} y2={50 + (b.y / 2.4) * 100}
               />
@@ -107,7 +124,7 @@ export function Links({ people, relationships, candidates = [], selectedId, onSe
               // The approved wording, so a screen reader hears the claim rather
               // than two names and a line it cannot see.
               aria-label={entry.label
-                ? `${entry.person.name} — ${entry.labelUnreviewed ? 'unreviewed: ' : ''}${entry.label}`
+                ? `${entry.person.name} — ${entry.labelUnreviewed ? 'unreviewed: ' : entry.labelContext ? 'appeared together: ' : ''}${entry.label}`
                 : entry.person.name}
               onClick={() => onSelect(entry.person.id)}
               onDoubleClick={() => onOpen(entry.person.id)}
@@ -131,8 +148,10 @@ export function Links({ people, relationships, candidates = [], selectedId, onSe
               <span className="map__caption">
                 <span className="map__name">{entry.person.name}</span>
                 {entry.label && (
-                  <span className={entry.labelUnreviewed ? 'map__label map__label--unreviewed' : 'map__label'}>
-                    {entry.labelUnreviewed ? `Unreviewed · ${entry.label}` : entry.label}
+                  <span className={`map__label${entry.labelUnreviewed ? ' map__label--unreviewed' : ''}${entry.labelContext ? ' map__label--context' : ''}`}>
+                    {entry.labelUnreviewed
+                      ? `Unreviewed · ${entry.label}`
+                      : entry.labelContext ? `Appeared together · ${entry.label}` : entry.label}
                   </span>
                 )}
               </span>

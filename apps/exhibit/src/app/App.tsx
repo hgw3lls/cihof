@@ -152,6 +152,7 @@ export function App() {
               <Links
                 people={people}
                 relationships={relationships}
+                contexts={bundle.contexts ?? []}
                 candidates={bundle.candidates ?? []}
                 selectedId={state.selectedId}
                 onSelect={(personId) => dispatch({ type: 'select', personId })}
