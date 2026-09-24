@@ -2,6 +2,8 @@
 
 The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model. A new staff portal for editing that data comes next (see Roadmap).
 
+Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy.
+
 ## Layout
 
 | Path | What it is |
