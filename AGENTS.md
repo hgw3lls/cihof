@@ -20,7 +20,7 @@
 
 - Use Node 22 as pinned by `.nvmrc`.
 - `apps/exhibit` reads `CIHOF_TARGET` (`public` or `kiosk`). It is required under CI; an unrecognised value is always an error; absent locally it defaults to `kiosk` and says so.
-- `npm run build:kiosk` carries all 93 films. Never publish it. The same goes for `npm run package:kiosk`, which writes that build with its server to `release/` (git-ignored) for a display.
+- `npm run build:kiosk` carries all 93 films. Never publish it. The same goes for `npm run package:kiosk`, which writes that build with its server to `release/` (git-ignored) for a display, and for `npm run package:kiosk-app`, the desktop app built from it (`apps/kiosk-app`, outside the workspaces).
 - `npm run build:public` carries no films and runs `assert:public`, which inspects the built artifact. A failure means do not publish; it never means loosen the check.
 - `CIHOF_PREVIEW=all` (`dev:preview`, `build:preview`) shows unreviewed places and proposed ties, marked, for an editor. It changes no review state, is refused under CI and for the public target, and must never be published. Showing something in preview is not approving it.
 - Set `CIHOF_SITE_URL` only for a durable public address, never for a preview.
