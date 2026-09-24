@@ -10,11 +10,13 @@
   --on-accent: #fff;
   --ground: #e8e8e4;
   --focus: #0b5fff;
+  /* Unreviewed content, shown only in an editor's preview. Amber, never the accent. */
+  --unreviewed: #8a5200;
   --tap: 48px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root { --paper: #141414; --ink: #f6f6f3; --muted: #bfbfbb; --rule: #f6f6f3; --accent: #ff6b76; --on-accent: #141414; --ground: #2a2a28; --focus: #7fb0ff; }
+  :root { --paper: #141414; --ink: #f6f6f3; --muted: #bfbfbb; --rule: #f6f6f3; --accent: #ff6b76; --on-accent: #141414; --ground: #2a2a28; --focus: #7fb0ff; --unreviewed: #f0b429; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -34,6 +36,8 @@ body {
 :is(button, a, input, [tabindex]):focus-visible { outline: 4px solid var(--focus); outline-offset: -2px; }
 
 .shell { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; }
+/* Room for the preview banner, so it never sits over the navigation. */
+.shell--preview { padding-top: 1.75rem; }
 
 .bar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; padding: 0.75rem clamp(0.75rem, 2vw, 1.5rem); border-bottom: 2px solid var(--rule); }
 .bar h1 { margin: 0; font-size: clamp(0.8rem, 1.4vh, 1rem); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; }
@@ -99,6 +103,8 @@ body {
 
 /* A build with test timings says so, so it cannot be mistaken for production. */
 .testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; padding: 0.25rem 0.6rem; background: var(--accent); color: var(--on-accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }
+.previewbuild { position: fixed; z-index: 50; left: 0; right: 0; top: 0; margin: 0; padding: 0.3rem 0.75rem; background: #f0b429; color: #141414; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
+.unreviewed { margin-left: 0.75rem; padding: 0.1rem 0.45rem; border: 1px solid var(--unreviewed); color: var(--unreviewed); font-size: 0.6875rem; font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle; }
 
 /* The chronology. Each class is a section with its own heading, so the
    structure is navigable by heading as well as by eye. */
@@ -123,6 +129,13 @@ body {
 .map__ties { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .map__tie { stroke: var(--rule); stroke-width: 1; opacity: 0.18; vector-effect: non-scaling-stroke; }
 .map__tie--focus { stroke: var(--accent); stroke-width: 2; opacity: 0.9; }
+/* Proposed ties are dashed and never take the accent colour a reviewed claim
+   uses, so an editor cannot mistake one for the other at a glance. */
+.map__tie--unreviewed { stroke: var(--unreviewed); stroke-dasharray: 3 3; opacity: 0.55; }
+.map__tie--unreviewed.map__tie--focus { stroke: var(--unreviewed); stroke-width: 2; opacity: 0.95; }
+.map__label--unreviewed { color: var(--unreviewed); font-style: italic; }
+.map__layer { display: flex; gap: 0.5rem; align-items: center; min-height: var(--tap); color: var(--unreviewed); font-size: clamp(0.8125rem, 1.5vh, 1rem); }
+.map__layer input { width: 1.5rem; height: 1.5rem; accent-color: var(--unreviewed); }
 
 .map__person {
   position: absolute; translate: -50% -50%;
@@ -134,25 +147,27 @@ body {
 .map__portrait { display: block; overflow: hidden; border: 2px solid var(--rule); background: var(--ground); }
 .map__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Hung below the portrait, centred, and out of the node's own box. */
-.map__name, .map__label {
-  position: absolute; left: 50%; translate: -50% 0;
+/* Hung below the portrait, centred, and out of the node's own box. Name and
+   label share one block, so however either wraps they stack, never overlap. */
+.map__caption {
+  position: absolute; top: calc(100% + 0.25rem); left: 50%; translate: -50% 0;
+  display: flex; flex-direction: column; gap: 0.15rem;
   width: max-content; max-width: 8rem;
   pointer-events: none; line-height: 1.15; text-align: center; text-wrap: balance;
 }
-.map__name { top: calc(100% + 0.25rem); font-size: 0.8125rem; font-weight: 600; }
-.map__label { top: calc(100% + 1.4rem); font-size: 0.6875rem; color: var(--muted); }
+.map__name { font-size: 0.8125rem; font-weight: 600; }
+.map__label { font-size: 0.6875rem; color: var(--muted); }
 
-/* Above the centre line the name goes above the portrait, so it never falls
+/* Above the centre line the caption goes above the portrait, so it never falls
    across whoever is at the middle. */
-.map__person--nameup .map__name { top: auto; bottom: calc(100% + 1.4rem); }
-.map__person--nameup .map__label { top: auto; bottom: calc(100% + 0.25rem); }
+.map__person--nameup .map__caption { top: auto; bottom: calc(100% + 0.25rem); }
 
 /* Size carries the ring, so the arrangement reads at a glance without relying
    on colour. Only the centre and the people it touches are named outright;
    naming all forty-six at once is the blob again. */
 .map__person--focus .map__portrait { width: clamp(4.5rem, 10vh, 6.5rem); aspect-ratio: 1; border-color: var(--accent); border-width: 3px; }
-.map__person--focus .map__name { top: calc(100% + 0.35rem); font-size: clamp(0.95rem, 1.9vh, 1.15rem); font-weight: 700; }
+.map__person--focus .map__caption { top: calc(100% + 0.35rem); }
+.map__person--focus .map__name { font-size: clamp(0.95rem, 1.9vh, 1.15rem); font-weight: 700; }
 
 .map__person--tie .map__portrait { width: clamp(3rem, 6.5vh, 4rem); aspect-ratio: 1; }
 

@@ -93,7 +93,7 @@ export function App() {
   }
 
   return (
-    <div className="shell">
+    <div className={bundle.preview ? 'shell shell--preview' : 'shell'}>
       <div className="bar">
         <h1>Cleveland International Hall of Fame</h1>
         {offered.length > 1 && (
@@ -152,6 +152,7 @@ export function App() {
               <Links
                 people={people}
                 relationships={relationships}
+                candidates={bundle.candidates ?? []}
                 selectedId={state.selectedId}
                 onSelect={(personId) => dispatch({ type: 'select', personId })}
                 onOpen={(personId) => dispatch({ type: 'open-record', personId })}
@@ -229,6 +230,11 @@ export function App() {
       )}
 
       {isTestBuild && <p className="testbuild">Test build — short session timings</p>}
+      {bundle.preview && (
+        <p className="previewbuild" role="status">
+          Editor preview — includes unreviewed places and proposed ties. Not for visitors.
+        </p>
+      )}
     </div>
   );
 }
