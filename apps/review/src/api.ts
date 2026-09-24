@@ -1,0 +1,104 @@
+export type Person = {
+  id: string;
+  name: string;
+  classYear: number | null;
+  portrait: string | null;
+  biography: string;
+};
+
+export type Tie = {
+  tieId: string;
+  a: Person;
+  b: Person;
+  sourceType: string;
+  suggestedKind: string;
+  verificationLayer: string;
+  evidence: string[];
+  sourceUrls: string[];
+  status: string;
+};
+
+export type Place = {
+  placeId: string;
+  name: string;
+  neighborhood: string;
+  address: string;
+  dates: string;
+  shortHistory: string;
+  canApprove: boolean;
+  reviewed: boolean;
+  ties: { person: Person; harvested: string; role: string | null }[];
+};
+
+export type Bio = {
+  id: string;
+  name: string;
+  classYear: string;
+  portrait: string | null;
+  provenance: string;
+  text: string;
+};
+
+export type Kind = { kind: string; label: string; directional: boolean; example: string; inverse?: string; sentence?: string };
+export type Role = { role: string; label: string };
+
+export type TieDecision = {
+  decision: 'relationship' | 'context' | 'reject';
+  kind?: string;
+  direction?: 'a-to-b' | 'b-to-a';
+  label?: string;
+  inverseLabel?: string;
+  note?: string;
+};
+
+export type Draft = {
+  reviewer: string;
+  ties: Record<string, TieDecision>;
+  places: Record<string, { approve: boolean; note?: string }>;
+  placeTies: Record<string, { role: string; note?: string }>;
+  bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
+};
+
+export type Counts = { ties: number; places: number; placeTies: number; bios: number };
+export type GitState = { clean: boolean; unpushed: number | null };
+
+export type Review = {
+  ties: Tie[];
+  places: Place[];
+  bios: Bio[];
+  kinds: Kind[];
+  roles: Role[];
+  draft: Draft;
+  counts: Counts;
+  git: GitState;
+};
+
+export type StepResult = { task: string; title: string; ok: boolean; count?: number; commit?: string | null; output: string };
+export type Audience = 'kiosk' | 'kiosk-and-web';
+
+export async function loadReview(): Promise<Review> {
+  return request('/api/review');
+}
+
+export async function putDraft(draft: Draft): Promise<{ counts: Counts }> {
+  return request('/api/draft', { method: 'PUT', body: JSON.stringify(draft) });
+}
+
+export async function checkDecisions(audience: Audience): Promise<{ results: StepResult[] }> {
+  return request('/api/check', { method: 'POST', body: JSON.stringify({ audience }) });
+}
+
+export async function saveDecisions(audience: Audience): Promise<{ results: StepResult[]; counts: Counts; git: GitState }> {
+  return request('/api/save', { method: 'POST', body: JSON.stringify({ audience }) });
+}
+
+async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const response = await fetch(path, { ...init, headers: { 'content-type': 'application/json' } });
+  const value = await response.json().catch(() => ({ error: response.statusText }));
+  if (!response.ok) throw new Error((value as { error?: string }).error ?? response.statusText);
+  return value as T;
+}
+
+export function tieKey(placeId: string, personId: string): string {
+  return `${placeId}|${personId}`;
+}

@@ -87,6 +87,10 @@ jobs:
       - name: Companion site, in a browser
         run: npm run test:web
 
+      # Saves by committing, so the spec works on a throwaway git worktree.
+      - name: Staff review app, in a browser
+        run: npm run test:review
+
       # Only on failure, and only the traces — a passing run should not spend
       # time or storage on artefacts nobody will open.
       - name: Upload failure traces
@@ -97,6 +101,7 @@ jobs:
           path: |
             apps/exhibit/test-results/
             apps/web/test-results/
+            apps/review/test-results/
           retention-days: 7
           if-no-files-found: ignore
 
