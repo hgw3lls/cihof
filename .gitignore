@@ -63,6 +63,9 @@ dist-kiosk/
 apps/*/dist/
 apps/web/public/media/
 apps/exhibit/public/data/
+# Film assets the kiosk build stages from public/media/videos; the originals are
+# the tracked (or deliberately untracked) ones.
+apps/exhibit/public/media/videos/
 apps/exhibit/test-results/
 apps/web/test-results/
 
