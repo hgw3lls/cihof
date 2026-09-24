@@ -8,7 +8,7 @@ import { dataFile } from '@cihof/pipeline/src/paths.ts';
  *
  * Every other check in this repository validates inputs: `media:validate`
  * checks the manifest is internally consistent, `media:assert` checks the
- * caption files are tracked, `validate:kiosk` checks images are wall-ready.
+ * caption files are tracked.
  * None of them looks at the bytes about to be uploaded and asks whether those
  * bytes are cleared for the audience about to receive them. This does.
  *

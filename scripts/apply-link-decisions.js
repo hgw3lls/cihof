@@ -20,9 +20,9 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
  * made it, and a generated one would trace it to nobody while looking as though
  * it traced to someone.
  *
- * Gates, in the order they are checked — the same three the portal applies to
- * curation and media decisions, implemented here because a curator signing 25
- * rows should not have to run a server to do it:
+ * Gates, in the order they are checked — the same three the old staff portal
+ * applied to curation and media decisions, implemented here because a curator
+ * signing 25 rows should not have to run a server to do it:
  *
  *   1. dry run is the default; --apply is required to write
  *   2. --apply requires --expect-hash matching the CSV, so nothing is applied
