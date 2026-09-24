@@ -81,6 +81,7 @@ npm run links:apply   -- --sign-publication --decision-reference=… --content-v
 npm run places:apply  -- --input=<sheet>              # place approvals, or tie roles
 npm run ties:apply    -- --input=<sheet> --targets=kiosk   # proposed ties
 npm run bios:apply    -- --input=<sheet>              # biography corrections
+npm run profiles:apply -- --input=<sheet>             # profile approvals
 npm run class:add     -- --input=<sheet>              # a new induction class
 npm run curate:apply  -- --input=<sheet> --decision-reference=…   # curated metadata
 ```

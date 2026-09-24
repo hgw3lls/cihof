@@ -26,7 +26,16 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     const tie = review.ties.find((item) => item.tieId === id);
     return tie ? `${tie.a.name} & ${tie.b.name}` : id;
   };
-  const unfinished = Object.entries(draft.ties).filter(([, value]) => !isComplete(value, review.kinds));
+  const unfinished = [
+    ...Object.entries(draft.ties).filter(([, value]) => !isComplete(value, review.kinds)).map(([id]) => tieName(id)),
+    ...Object.entries(draft.profiles).filter(([, value]) => value.decision === 'changes' && !value.note?.trim())
+      .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile`),
+    // An approval covers the words the reviewer saw. A biography correction
+    // for the same person would change them straight after, so the two cannot
+    // be saved together: save the correction first, then approve.
+    ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
+      .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
+  ];
   const shown = Object.values(draft.ties).some((value) => value.decision !== 'reject');
   const lines = summary(review, draft, tieName);
 
@@ -87,7 +96,7 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
 
       {unfinished.length > 0 && (
         <p className="notice">
-          Not finished: {unfinished.map(([id]) => tieName(id)).join(', ')}. Finish or clear {unfinished.length === 1 ? 'it' : 'them'} in Connections first.
+          Not finished: {unfinished.join(', ')}. Finish or clear {unfinished.length === 1 ? 'it' : 'them'} first.
         </p>
       )}
 
@@ -149,6 +158,10 @@ function Details({ output, open = false }: { output: string; open?: boolean }) {
 
 function summary(review: Review, draft: Draft, tieName: (id: string) => string): string[] {
   const lines: string[] = [];
+  for (const [id, value] of Object.entries(draft.profiles)) {
+    const name = review.profiles.find((profile) => profile.id === id)?.name ?? id;
+    lines.push(`Profiles: ${name}: ${value.decision === 'approve' ? 'approved' : `changes needed (${value.note ?? ''})`}`);
+  }
   for (const [id, value] of Object.entries(draft.ties)) {
     const what = value.decision === 'relationship'
       ? `a connection (${review.kinds.find((kind) => kind.kind === value.kind)?.label.toLowerCase() ?? 'kind not chosen'})`

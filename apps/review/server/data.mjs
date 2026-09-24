@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { buildBiographySheet } from '../../../packages/pipeline/src/build/biographies.ts';
 import { buildPeople } from '../../../packages/pipeline/src/build/people.ts';
+import { profileContentVersion, profileState, readPortraitChecksums, readProfileReviews } from '../../../packages/pipeline/src/build/profiles.ts';
 import { buildPlaceReviewSheet, buildProposedTiesSheet, placeRoles, relationshipKinds } from '../../../packages/pipeline/src/build/review.ts';
 import { readCorpusConnections } from '../../../packages/pipeline/src/sources/corpus.ts';
 import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts';
@@ -108,10 +109,42 @@ export function loadReview() {
     text: row.currentText,
   }));
 
+  // Each profile as a visitor sees it, with what a curator has said about it.
+  const reviews = readProfileReviews();
+  const checksums = readPortraitChecksums();
+  const profiles = [...people]
+    .sort((a, b) => (a.classYear ?? 0) - (b.classYear ?? 0) || a.sortName.localeCompare(b.sortName))
+    .map((person) => {
+      const contentVersion = profileContentVersion(person, checksums.get(person.id) ?? '');
+      const review = reviews.get(person.id);
+      return {
+        id: person.id,
+        name: person.name,
+        classYear: person.classYear,
+        portrait: person.portrait
+          ? { src: person.portrait.src, alt: person.portrait.alt, shown: person.portrait.rights === 'approved', rights: person.portrait.rights }
+          : null,
+        biography: person.biography ? { text: person.biography.text, provenance: person.biography.provenance } : null,
+        contribution: person.contribution ? { text: person.contribution.text, provenance: person.contribution.provenance } : null,
+        context: person.context ? { text: person.context.text, provenance: person.context.provenance } : null,
+        tags: {
+          contributions: person.contributions.values,
+          communities: person.communities.values,
+          countries: person.countries.values,
+        },
+        presentedBy: person.presentedBy?.recordedName ?? null,
+        sourceUrl: person.sourceUrl,
+        contentVersion,
+        state: profileState(review, contentVersion),
+        reviewNote: review?.note ?? '',
+      };
+    });
+
   return {
     ties,
     places,
     bios,
+    profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };

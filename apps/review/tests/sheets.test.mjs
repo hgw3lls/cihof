@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { biosCsv, decisionReference, draftCounts, placeTiesCsv, placesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { biosCsv, decisionReference, draftCounts, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -13,6 +13,7 @@ const draft = {
   places: { 'place:a': { approve: true }, 'place:b': { approve: false } },
   placeTies: { 'place:a|person-2020': { role: 'worked' } },
   bios: { 'p-2010': { correctedText: 'Line one,\nline two.' }, 'q-2011': { useSourceText: true } },
+  profiles: { 'p-2010': { decision: 'approve', seenVersion: 'profile-abc' }, 'q-2011': { decision: 'changes', seenVersion: 'profile-def', note: 'Wrong year' } },
 };
 
 const rows = (csv) => {
@@ -60,6 +61,16 @@ test('a corrected biography survives commas and line breaks', () => {
   assert.equal(restored.correctedText, '');
 });
 
+test('a profile decision carries the version the reviewer saw', () => {
+  const [approved, queried] = rows(profilesCsv(draft, '2026-10-01'));
+  assert.deepEqual(approved, {
+    id: 'p-2010', contentVersion: 'profile-abc', decision: 'approve',
+    decisionReference: 'profiles-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.',
+  });
+  assert.equal(queried.decision, 'changes');
+  assert.match(queried.note, /^Wrong year\. Reviewed by Jane Smith/);
+});
+
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 1, placeTies: 1, bios: 2 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 1, placeTies: 1, bios: 2, profiles: 2 });
 });

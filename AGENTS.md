@@ -15,6 +15,7 @@
 - Never invent historical claims, relationships, dates, identity fields, portraits, or quotations. Do not change rights, caption, transcript, relationship, or publication approval states without an authorized editorial decision.
 - Keep generated entity relationships, explicit curated relationships, and shared induction-class context distinct. Two people inducted the same year share a context, not a relationship.
 - Keep `publicWeb` and `kiosk` publication flags separate.
+- A profile approval (`profileReview` on the curated record) covers the profile's content version: everything a visitor sees, portrait file included. It records that the museum stands behind the profile; it never decides whether a person is shown. Only `profiles:apply` writes it.
 - `packages/pipeline/reference/published-runtime-data.json` is the frozen record the exhibit first published. Never re-snapshot it. Every visible difference from it is recorded in `data/cihof_reviewed_differences.json` with the decision that made it; the apply tools do this for the people their sheet changed. Never record a difference no decision made: that is a regression to fix.
 
 ## Build boundaries
