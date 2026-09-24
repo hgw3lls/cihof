@@ -27,7 +27,7 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     return tie ? `${tie.a.name} & ${tie.b.name}` : id;
   };
   const unfinished = [
-    ...Object.entries(draft.ties).filter(([, value]) => !isComplete(value, review.kinds)).map(([id]) => tieName(id)),
+    ...Object.entries(draft.ties).filter(([, value]) => !isComplete(value, review.kinds, review.limits.label)).map(([id]) => tieName(id)),
     ...Object.entries(draft.profiles).filter(([, value]) => value.decision === 'changes' && !value.note?.trim())
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile`),
     // An approval covers the words the reviewer saw. A biography correction
