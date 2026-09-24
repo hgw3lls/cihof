@@ -1,6 +1,7 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { curatedMetadataPath, loadCuratedMetadata, loadInductees, parseCsv, validateCuratedMetadata } from './data-utils.js';
+import { changesWhatVisitorsSee, printVisibleChanges, visibleChanges, writeRecordedDifferences } from './parity-utils.js';
 
 const args = parseArgs(process.argv.slice(2));
 const inputPath = args.input ? resolve(args.input) : '';
@@ -84,16 +85,39 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
+// What this changes on screen, from the published record. A change visitors
+// will see is recorded with the decision that made it, or npm test fails; so
+// such a change needs a decision reference before it is written.
+const writesCanonical = outputPath === curatedMetadataPath;
+const reference = decisionReference(args, decisions);
+const visible = writesCanonical
+  ? visibleChanges({ sources: { curated: metadata }, ids: applied.map(({ id }) => id), decisionReference: reference })
+  : null;
+if (visible) printVisibleChanges(visible);
+if (visible && changesWhatVisitorsSee(visible) && !reference) {
+  console.error('\nThis sheet changes what visitors see, so it needs the decision it rests on:');
+  console.error('  add --decision-reference=<reference>, or a decision_reference column with one value.');
+  console.error('  See data/curation-decisions/README.md for how references are named.');
+  if (!dryRun) {
+    console.error('Nothing was written.');
+    process.exit(1);
+  }
+}
+
 if (dryRun) {
-  console.log(`Preview only. No files were written. To write them: npm run curate:apply -- --input=${args.input} --apply`);
+  console.log(`\nPreview only. No files were written. To write them: npm run curate:apply -- --input=${args.input}${reference && args.decisionReference ? ` --decision-reference=${reference}` : ''} --apply`);
 } else {
-  if (outputPath === curatedMetadataPath && !noBackup) {
+  if (writesCanonical && !noBackup) {
     const backupPath = `${curatedMetadataPath}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`;
     copyFileSync(curatedMetadataPath, backupPath);
     console.log(`Backup written to ${backupPath}`);
   }
   writeFileSync(outputPath, `${JSON.stringify(metadata, null, 2)}\n`);
   console.log(`Wrote ${outputPath}`);
+  if (visible && changesWhatVisitorsSee(visible)) {
+    writeRecordedDifferences(visible);
+    console.log(`Recorded what visitors see differently under ${reference} in data/cihof_reviewed_differences.json`);
+  }
 }
 
 function readDecisionRows(path) {
@@ -278,6 +302,7 @@ function parseArgs(values) {
     else if (value === '--apply') parsed.apply = true;
     else if (value === '--clear-empty') parsed.clearEmpty = true;
     else if (value === '--no-backup') parsed.noBackup = true;
+    else if (value.startsWith('--decision-reference=')) parsed.decisionReference = value.slice('--decision-reference='.length).trim();
     else if (value.startsWith('--input=')) parsed.input = value.slice('--input='.length);
     else if (value === '--input') {
       parsed.input = values[index + 1];
@@ -304,4 +329,19 @@ Supported editable columns include:
   transcript_status, transcript_approved, video_rights_status, video_rights_approved,
   primary_image_alt_text, accessibility_approved, curator_notes
 `);
+}
+
+/**
+ * The decision a sheet rests on: --decision-reference, or the one value of the
+ * sheet's decision_reference column. Two different values in one sheet are
+ * two decisions, and are applied as two sheets.
+ */
+function decisionReference(parsedArgs, sheetRows) {
+  if (parsedArgs.decisionReference) return parsedArgs.decisionReference;
+  const values = new Set(sheetRows.map((row) => getCell(row, ['decision_reference', 'decisionreference']) ?? '').filter(Boolean));
+  if (values.size > 1) {
+    console.error(`This sheet names ${values.size} decision references (${[...values].join(', ')}). Split it into one sheet per decision.`);
+    process.exit(1);
+  }
+  return [...values][0] ?? '';
 }

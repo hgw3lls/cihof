@@ -32,7 +32,12 @@ import { dataFile } from '../paths.ts';
 const curatedPath = () => dataFile('cihof_curated_metadata.json');
 
 export function readCuratedRoster(): Map<string, CuratedRecord> {
-  const document = JSON.parse(readFileSync(curatedPath(), 'utf8')) as { inductees: Record<string, Record<string, unknown>> };
+  return curatedRosterFrom(JSON.parse(readFileSync(curatedPath(), 'utf8')));
+}
+
+/** The same, from a document already in memory: a change an apply tool is previewing. */
+export function curatedRosterFrom(source: unknown): Map<string, CuratedRecord> {
+  const document = source as { inductees: Record<string, Record<string, unknown>> };
   const records = new Map<string, CuratedRecord>();
 
   for (const [id, raw] of Object.entries(document.inductees)) {
