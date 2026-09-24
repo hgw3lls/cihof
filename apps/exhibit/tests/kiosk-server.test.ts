@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, writeFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -64,4 +64,28 @@ test('only reading is allowed', async () => {
   const response = await fetch(`${base}/`, { method: 'POST' });
   assert.equal(response.status, 405);
   await response.arrayBuffer();
+});
+
+test('a cancelled video request closes its file', { skip: !existsSync('/proc/self/fd') && 'needs /proc to count open files' }, async () => {
+  // Large enough that no response can finish before it is cancelled.
+  writeFileSync(join(site, 'media', 'long.mp4'), Buffer.alloc(8 * 1024 * 1024, 1));
+  const openFiles = () => readdirSync('/proc/self/fd').length;
+  const settle = () => new Promise((resolve) => setTimeout(resolve, 300));
+
+  await settle();
+  const before = openFiles();
+  // A visitor seeking back and forth: every request is abandoned mid-stream.
+  for (let index = 0; index < 40; index += 1) {
+    const controller = new AbortController();
+    const response = await fetch(`${base}/media/long.mp4`, {
+      headers: { Range: `bytes=${index * 1024}-` },
+      signal: controller.signal,
+    });
+    const reader = response.body!.getReader();
+    await reader.read();
+    controller.abort();
+    await reader.read().catch(() => {});
+  }
+  await settle();
+  assert.ok(openFiles() - before < 10, `${openFiles() - before} files left open after 40 cancelled requests`);
 });
