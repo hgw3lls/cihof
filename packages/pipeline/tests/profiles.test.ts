@@ -20,6 +20,9 @@ test('the version changes with anything a visitor sees, and only that', () => {
   assert.notEqual(profileContentVersion({ ...person, name: `${person.name}.` }, 'abc'), version);
   assert.notEqual(profileContentVersion({ ...person, biography: { ...person.biography!, text: 'Another text.' } }, 'abc'), version);
   assert.notEqual(profileContentVersion(person, 'a replaced portrait file'), version);
+  const other = person.biography!.provenance === 'curated' ? 'source' : 'curated';
+  assert.notEqual(profileContentVersion({ ...person, biography: { ...person.biography!, provenance: other } }, 'abc'), version,
+    'the same words credited differently are a different profile');
 });
 
 test('an approval reads as approved until the profile changes', () => {
@@ -42,6 +45,11 @@ test('a request for changes says what, and every decision names its reference', 
   assert.match(profileDecisions(sheet('changes'), rows).errors[0] ?? '', /say in the note what needs changing/);
   assert.match(profileDecisions(sheet('approve', { reference: '' }), rows).errors[0] ?? '', /no decisionReference/);
   assert.equal(profileDecisions(sheet('changes', { note: 'Wrong class year' }), rows).decisions[0]?.status, 'changes-requested');
+});
+
+test('a request for changes keeps the version the reviewer saw, even if the profile moved on', () => {
+  const [decision] = profileDecisions(sheet('changes', { note: 'Portrait is wrong', version: 'profile-seen0000000' }), rows).decisions;
+  assert.equal(decision?.contentVersion, 'profile-seen0000000');
 });
 
 test('the decision is written beside the legacy status, which follows it', () => {

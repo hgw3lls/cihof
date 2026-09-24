@@ -77,7 +77,13 @@ export function Profiles({ review, draft, update, onDone, onCorrectBiography, on
       <section className="panel">
         <h2 className="question">Is this profile right to show visitors?</h2>
         <p className="quiet">Check the name, the class year, the biography, the lines above it and the picture.</p>
-        {biographyPending
+        {biographyPending && value?.decision === 'approve' && (
+          <p className="notice">
+            You approved this profile, then corrected the biography. The approval would not cover the corrected words:
+            clear it, save the correction, then approve again.
+          </p>
+        )}
+        {biographyPending && value?.decision !== 'approve'
           ? (
             <p className="notice">
               You have corrected this biography but not saved the correction yet. Save it first, then approve the profile,

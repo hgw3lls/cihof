@@ -30,6 +30,11 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.ties).filter(([, value]) => !isComplete(value, review.kinds)).map(([id]) => tieName(id)),
     ...Object.entries(draft.profiles).filter(([, value]) => value.decision === 'changes' && !value.note?.trim())
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile`),
+    // An approval covers the words the reviewer saw. A biography correction
+    // for the same person would change them straight after, so the two cannot
+    // be saved together: save the correction first, then approve.
+    ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
+      .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
   ];
   const shown = Object.values(draft.ties).some((value) => value.decision !== 'reject');
   const lines = summary(review, draft, tieName);

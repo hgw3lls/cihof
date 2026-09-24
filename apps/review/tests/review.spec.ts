@@ -117,6 +117,25 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByLabel('What needs changing?').fill('Test: the class year needs checking');
   await page.getByRole('button', { name: 'Stop for now' }).click();
 
+  // Approving a profile, then correcting that person's biography, cannot be
+  // saved together: the approval would cover words that are about to change.
+  await page.getByRole('button', { name: /^Biographies/ }).click();
+  await page.getByLabel(/Search/).fill(approvedName);
+  await page.getByRole('button', { name: new RegExp(escape(approvedName)) }).first().click();
+  const other = page.locator('textarea');
+  await other.fill(`${await other.inputValue()} (test)`);
+  await page.getByRole('button', { name: 'Keep this correction' }).click();
+  await page.getByRole('button', { name: 'Back to the start' }).click();
+  await page.getByRole('button', { name: 'Check and save' }).click();
+  await expect(page.getByText(/must be saved first/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Check my decisions' })).toBeDisabled();
+  await page.getByRole('button', { name: 'Back', exact: true }).click();
+  await page.getByRole('button', { name: /^Biographies/ }).click();
+  await page.getByLabel(/Search/).fill(approvedName);
+  await page.getByRole('button', { name: new RegExp(escape(approvedName)) }).first().click();
+  await page.getByRole('button', { name: 'Undo my correction' }).click();
+  await page.getByRole('button', { name: 'Back to the start' }).click();
+
   // Nothing is written until the reviewer saves.
   expect(git('status', '--porcelain').trim()).toBe('');
   expect(git('rev-parse', 'HEAD').trim()).toBe(before);

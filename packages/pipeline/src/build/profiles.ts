@@ -58,9 +58,12 @@ export function profileContentVersion(person: PublishedPerson, portraitChecksum 
     portrait: person.portrait
       ? { src: person.portrait.src, alt: person.portrait.alt, rights: person.portrait.rights, focalPoint: person.portrait.focalPoint ?? '', file: portraitChecksum }
       : null,
-    biography: person.biography?.text ?? '',
-    contribution: person.contribution?.text ?? '',
-    context: person.context?.text ?? '',
+    // Provenance as well as words: the exhibit credits a curated biography
+    // differently from the institution's own, so a change of provenance alone
+    // changes what a visitor reads.
+    biography: [person.biography?.text ?? '', person.biography?.provenance ?? ''],
+    contribution: [person.contribution?.text ?? '', person.contribution?.provenance ?? ''],
+    context: [person.context?.text ?? '', person.context?.provenance ?? ''],
     communities: person.communities.values,
     contributions: person.contributions.values,
     countries: person.countries.values,
@@ -178,9 +181,13 @@ export function profileDecisions(csvText: string, rows: readonly ProfileRow[]) {
       errors.push(`line ${line}: ${who} has changed since this sheet was made, so the approval would cover words nobody reviewed. Look at it again.`);
       return;
     }
+    // A request for changes is about the profile the reviewer saw, which may
+    // not be the one there now; it keeps that version, so it never claims to
+    // be about a portrait or a wording nobody looked at.
+    const sawVersion = cell(cells, 'contentVersion') || row.contentVersion;
     decisions.push({
       id, name: row.name, status: decision === 'approve' ? 'approved' : 'changes-requested',
-      contentVersion: row.contentVersion, decisionReference: reference, note,
+      contentVersion: decision === 'approve' ? row.contentVersion : sawVersion, decisionReference: reference, note,
     });
   });
 
