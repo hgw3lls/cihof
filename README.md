@@ -41,14 +41,14 @@ All 93 films are approved for the kiosk and for the public web on none of them. 
 
 ## Editor's preview
 
-`npm run dev:preview` shows everything the sources hold: every seeded place and every tie the HOF World corpus proposes, alongside what is already approved. Each unreviewed item is marked in amber, and Connections can switch the proposed ties off to show the map as a visitor sees it. Nothing is approved by being shown. Decide in the review sheets under `data/review-sheets/` and apply them, and a normal build then shows what was kept.
+`npm run dev:preview` shows everything the sources hold: every seeded place and every tie the HOF World corpus proposes, alongside what is already approved. Each unreviewed item is marked in amber, and Connections can switch the proposed ties off to show the map as a visitor sees it. The proposed ties are listed one per row in `data/review-sheets/proposed-ties-sheet.csv` (`npm run review:ties`), with the corpus's evidence and empty columns for the decision. Nothing is approved by being shown. Decide in the review sheets under `data/review-sheets/` and apply them, and a normal build then shows what was kept.
 
 A preview is refused under CI and for the public target, and `assert:public` fails on any artifact that carries one.
 
 ## Keeping data current
 
 ```sh
-npm run crosswalk:check && npm run review:links:check && npm run review:places:check
+npm run crosswalk:check && npm run review:links:check && npm run review:places:check && npm run review:ties:check
 
 # Apply signed-off curator decisions from data/review-sheets/
 npm run links:apply

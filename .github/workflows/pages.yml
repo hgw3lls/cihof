@@ -71,6 +71,7 @@ jobs:
           npm run crosswalk:check
           npm run review:links:check
           npm run review:places:check
+          npm run review:ties:check
 
       # Catches the silent failure: a film's captions left untracked inside the
       # ignored video folder, so the wall builds without them and says nothing.

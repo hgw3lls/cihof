@@ -32,7 +32,7 @@
 npm ci
 npm run typecheck
 npm test
-npm run crosswalk:check && npm run review:links:check && npm run review:places:check
+npm run crosswalk:check && npm run review:links:check && npm run review:places:check && npm run review:ties:check
 npm run media:assert
 npm run test:browser
 npm run test:web
