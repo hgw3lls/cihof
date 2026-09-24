@@ -1,8 +1,0 @@
-{
-  "schemaVersion": 1,
-  "source": {
-    "name": "CIHOF physical portrait wall positions",
-    "note": "Optional mapping between digital inductee ids and physical portrait positions. Fill positions as the installed wall is measured."
-  },
-  "positions": {}
-}

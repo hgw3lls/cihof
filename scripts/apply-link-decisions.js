@@ -8,7 +8,7 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
 /**
  * Writes induction review decisions into the canonical crosswalk.
  *
- * The sheet at `docs/links-review-sheet.csv` is where a curator says who each
+ * The sheet at `data/review-sheets/links-review-sheet.csv` is where a curator says who each
  * recorded name is. This is the only thing that moves those answers into
  * `data/cihof_induction_crosswalk.json`, and it does so as an ordinary file
  * change, so every decision arrives as a diff somebody can read in a pull
@@ -30,7 +30,7 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
  *   3. --apply refuses on a dirty working tree, so the diff it produces is its
  *      own
  *
- *   node scripts/apply-link-decisions.js --input=docs/links-review-sheet.csv
+ *   node scripts/apply-link-decisions.js --input=data/review-sheets/links-review-sheet.csv
  *   node scripts/apply-link-decisions.js --input=… --apply --expect-hash=<sha>
  *
  * Signing the publication decision is a separate act and has its own flags:
@@ -345,7 +345,7 @@ function parseArgs(argv) {
 
 function printUsage() {
   console.error('\nUsage:');
-  console.error('  node scripts/apply-link-decisions.js --input=docs/links-review-sheet.csv');
+  console.error('  node scripts/apply-link-decisions.js --input=data/review-sheets/links-review-sheet.csv');
   console.error('  node scripts/apply-link-decisions.js --input=… --apply --expect-hash=<sha256>');
   console.error('  node scripts/apply-link-decisions.js --sign-publication --decision-reference=… --content-version=… --targets=kiosk --apply');
   console.error('\nDry run is the default. Nothing is written without --apply.');

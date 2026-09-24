@@ -23,6 +23,11 @@ const assets = files
     return { path: `${base}${relativePath}`, sha256: sha256(path), bytes: statSync(path).size };
   })
   .filter((asset) => !asset.path.endsWith('/sw.js') && !asset.path.endsWith('/release.json'))
+  // Video streams from the display's own server instead. The worker reads each
+  // precached file whole to check it, which a film of several hundred megabytes
+  // would do to a modest device's memory, and a cached response cannot answer
+  // the range requests that seeking in a film makes.
+  .filter((asset) => !isVideo(asset.path))
   .sort((a, b) => a.path.localeCompare(b.path));
 
 // The release identifies the exact bytes, so a rebuild of identical sources
@@ -37,6 +42,10 @@ const worker = readFileSync(resolve('src/sw.js'), 'utf8').replace('__CIHOF_RELEA
 writeFileSync(join(dist, 'sw.js'), worker);
 
 console.log(`Release ${revision}: ${assets.length} assets, ${(totalBytes / 1e6).toFixed(1)} MB precached.`);
+
+function isVideo(path) {
+  return /\.(mp4|webm|mov|m4v|mkv|ogv|avi)$/i.test(path);
+}
 
 function walk(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
