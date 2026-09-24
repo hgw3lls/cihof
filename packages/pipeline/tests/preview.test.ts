@@ -79,3 +79,16 @@ test('the corpus rows the preview reads are the non-induction ones', () => {
   assert.equal(bundle.candidates.some((tie) => tie.sourceType.startsWith('inducted_by')), false,
     'induction rows reach the map through the reviewed crosswalk, not as proposals');
 });
+
+test('a place reviewed for another audience is not shown in preview as unreviewed', () => {
+  const approved = { status: 'approved', decisionReference: 'places-fixture', contentVersion: 'v1' } as const;
+  const webOnly = {
+    id: 'place:web-only', name: 'Web-only place', shortHistory: 'History.', neighborhood: '',
+    review: approved, publication: { publicWeb: true, kiosk: false },
+  };
+  const withheld = { id: 'place:withheld', name: 'Withheld place', review: { status: 'withheld' } };
+  const open = { id: 'place:open', name: 'Nobody has looked at this' };
+  const bundle = buildRuntimeBundle(people, 'kiosk', { preview: true, places: [webOnly, withheld, open], placeAssociations: [] });
+  assert.deepEqual(bundle.places.map((place) => place.id), ['place:open'],
+    'the decisions stand: neither reappears marked as never reviewed');
+});
