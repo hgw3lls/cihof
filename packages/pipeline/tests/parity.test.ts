@@ -57,6 +57,14 @@ const reviewedDifferences = new Set([
   // Pogue was inducted on a community basis and the record said no nationality
   // tag was assigned. That decision was revisited, not overlooked.
   'dick-pogue-2015.countryTags: published [] -> rebuilt [Scotch-Irish]',
+  // Sort-name repairs requested by the project owner, 2026-09-24. The old
+  // generator took the last word as the surname, so life dates and alternate
+  // names in parentheses became surnames, a suffix left a doubled comma, and one
+  // honorific was kept. These are the "Last, First" forms the other 107 use.
+  'helen-karpinski-1899-2002-2010.sortName: published "2002), Helen Karpinski (1899 –" -> rebuilt "Karpinski, Helen"',
+  'reverend-dr-otis-moss-jr-2011.sortName: published "Moss,, Dr. Otis" -> rebuilt "Moss, Otis, Jr."',
+  'anthony-yen-yan-yuan-tai-2012.sortName: published "Tai), Anthony Yen (Yan Yuan" -> rebuilt "Yen, Anthony"',
+  'honorable-jose-a-villanueva-2015.sortName: published "Villanueva, Honorable José A." -> rebuilt "Villanueva, José A."',
 ]);
 
 function collectDifferences(): string[] {
