@@ -364,7 +364,7 @@ Three things hold the exhibit. Everything else can be rebuilt from them.
 | What | Where | Size | How |
 | --- | --- | --- | --- |
 | **The project repository**: all content, decisions, signed sheets, the code | GitHub (`hgw3lls/cihof`) | small | GitHub keeps it. Also make a local copy after each release: `git bundle create cihof-<date>.bundle --all` and store it with the video backup. |
-| **The film video files**: 633 MP4s | `public/media/videos/` on the developer's machine. **Not in the repository.** | about 41 GB | Copy the whole folder to two external drives, one kept off site. Refresh after any new film. |
+| **The film video files**: the 93 films the exhibit shows | `public/media/videos/` on the developer's machine. **Not in the repository.** The folder may also hold other downloads; back up all of it. | tens of GB (the folder was about 41 GB) | Copy the whole folder to two external drives, one kept off site. Refresh after any new film. |
 | **The installer of each release** | `release/app/` | varies | Keep the current and the previous installer on the same drives. They contain kiosk-only films: store them like the videos, never on a shared link. |
 
 The display itself holds nothing that cannot be reinstalled. Its
@@ -374,7 +374,8 @@ passcode again.
 
 Check the backup at least once: restore the bundle into a fresh folder
 (`git clone cihof-<date>.bundle`), copy the videos into place, and confirm
-`npm run media:assert` and `npm run package:kiosk` succeed.
+`npm run media:assert` and `npm run package:kiosk` succeed, and that the
+package reports all 93 films with their video file.
 
 ---
 
