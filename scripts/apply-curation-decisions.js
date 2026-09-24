@@ -5,7 +5,10 @@ import { curatedMetadataPath, loadCuratedMetadata, loadInductees, parseCsv, vali
 const args = parseArgs(process.argv.slice(2));
 const inputPath = args.input ? resolve(args.input) : '';
 const outputPath = args.output ? resolve(args.output) : curatedMetadataPath;
-const dryRun = Boolean(args.dryRun);
+// A preview unless --apply is given, like every other apply tool here: a
+// sheet is read, checked and summarised first, and nothing is written by
+// accident. --dry-run is still accepted and still means a preview.
+const dryRun = !args.apply || Boolean(args.dryRun);
 const clearEmpty = Boolean(args.clearEmpty);
 const noBackup = Boolean(args.noBackup);
 
@@ -82,7 +85,7 @@ if (errors.length > 0) {
 }
 
 if (dryRun) {
-  console.log('Dry run only. No files were written.');
+  console.log(`Preview only. No files were written. To write them: npm run curate:apply -- --input=${args.input} --apply`);
 } else {
   if (outputPath === curatedMetadataPath && !noBackup) {
     const backupPath = `${curatedMetadataPath}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`;
@@ -272,6 +275,7 @@ function parseArgs(values) {
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
     if (value === '--dry-run') parsed.dryRun = true;
+    else if (value === '--apply') parsed.apply = true;
     else if (value === '--clear-empty') parsed.clearEmpty = true;
     else if (value === '--no-backup') parsed.noBackup = true;
     else if (value.startsWith('--input=')) parsed.input = value.slice('--input='.length);
@@ -289,8 +293,8 @@ function parseArgs(values) {
 
 function printUsage() {
   console.error(`Usage:
-  npm run curate:apply -- --input=/path/to/edited-review.csv --dry-run
-  npm run curate:apply -- --input=/path/to/edited-review.csv
+  npm run curate:apply -- --input=/path/to/edited-review.csv            (preview; writes nothing)
+  npm run curate:apply -- --input=/path/to/edited-review.csv --apply    (writes)
 
 Supported editable columns include:
   approval_status, review_priority, approve_profile, approved_summary,
