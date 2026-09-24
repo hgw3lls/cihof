@@ -1,6 +1,5 @@
 node_modules/
 dist/
-dist-portal/
 .env
 .env.local
 
@@ -9,18 +8,6 @@ dist-portal/
 *.bak
 *.bak.*
 *.tsbuildinfo
-
-# Local generated audit output
-plans/artifacts/data-audit.local.json
-plans/artifacts/launch-readiness.local.json
-plans/artifacts/video-caption-transcript-report*.csv
-plans/artifacts/video-caption-transcript-report*.json
-plans/artifacts/video-file-download-queue.csv
-plans/artifacts/video-file-download-queue.json
-plans/artifacts/video-file-sync-report*.csv
-plans/artifacts/video-file-sync-report*.json
-plans/artifacts/video-manifest-normalization-report*.json
-plans/artifacts/video-whisper-transcription-report*.json
 
 # Local safety copies written by scripts/apply-media-decisions.js before it
 # edits the manifest. Useful on the machine that made the change, noise in the
@@ -36,38 +23,21 @@ data/*.backup-*
 # manifest references are tracked by an explicit `git add -f`, which this
 # pattern cannot undo. A NEW film's assets will not be picked up automatically:
 # add them the same way. `npm run media:assert` fails when one is missing.
-public/videos/
 public/media/videos/*
 !public/media/videos/.gitkeep
-data/media-acquisition/youtube-download-archive.txt
-tools/whisper-models/*.bin
-plans/artifacts/whisper-audio-cache/
-
-# Local staff portal runner scratch files
-.portal/
 
 # Local Playwright artifacts
 test-results/
 playwright-report/
-plans/artifacts/mg00-baseline/
-plans/artifacts/mg01-review/
-plans/artifacts/mg02-review/
-plans/artifacts/mg03-review/
-plans/artifacts/mg04-review/
-plans/artifacts/mg05-review/
-plans/artifacts/mg06-review/
-plans/artifacts/ce00-baseline/
-dist-kiosk/
 
-# Rewrite build output
-apps/*/dist/
+# Build output the apps generate from the sources above
 apps/web/public/media/
+# Astro regenerates these on every check, build and preview.
+apps/web/.astro/
 apps/exhibit/public/data/
 # Film assets the kiosk build stages from public/media/videos; the originals are
 # the tracked (or deliberately untracked) ones.
 apps/exhibit/public/media/videos/
-apps/exhibit/test-results/
-apps/web/test-results/
 
 # Local reports written by the data scripts
 /reports/

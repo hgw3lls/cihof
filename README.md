@@ -12,7 +12,7 @@ The Cleveland International Hall of Fame exhibit: an offline touch kiosk built o
 | `packages/pipeline/` | Reads `data/`, emits the published bundle. |
 | `apps/exhibit/` | The kiosk. React and Vite, offline service worker, release manifest, recovery panel. |
 | `apps/web/` | Static companion pages for the QR take-home. Kept until the QR decision is made (roadmap). |
-| `scripts/` | Data maintenance: apply curator decisions, reports, media validation, film-asset check. |
+| `scripts/` | Data maintenance: apply curator decisions, reports, media validation and approval sheet, film-asset check, HOF World ingest, external-research collection. |
 | `plans/` | Archive of every plan, audit and report. Start at `plans/README.md`. |
 
 ## Run
@@ -24,7 +24,8 @@ npm ci
 npm run dev            # kiosk, local dev (kiosk target)
 npm test               # content, pipeline and exhibit unit tests
 npm run test:browser   # exhibit browser suite (Playwright)
-npm run typecheck
+npm run test:web       # companion site browser suite
+npm run typecheck      # packages, exhibit and companion site
 ```
 
 ## Build targets
@@ -40,9 +41,19 @@ All 93 films are approved for the kiosk and for the public web on none of them. 
 
 ```sh
 npm run crosswalk:check && npm run review:links:check && npm run review:places:check
-npm run links:apply | places:apply | curate:apply | media:apply
+
+# Apply signed-off curator decisions from data/review-sheets/
+npm run links:apply
+npm run places:apply
+npm run curate:apply
+npm run media:apply
+
 npm run media:validate && npm run curate:report   # reports go to reports/ (ignored)
 npm run media:assert                             # every film asset is tracked
+
+# Collect outside sources for review (network); see data/external-research/README.md
+npm run source:external-research
+npm run source:external-contributions
 ```
 
 Change canonical sources, never generated output. Never invent historical claims, relationships, dates or portraits, and never change an approval state without an authorized editorial decision.
@@ -57,4 +68,4 @@ The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.m
 4. **QR take-home decision** (§5.1): host `apps/web` durably, or drop Share.
 5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
 
-The old visitor app and old portal remain on `main` for reference until the new portal has run through one real editorial cycle.
+The old visitor app and old portal are in git history at `c8f749c`, the last commit before the clean-up. Keep that reference until the new portal has run through one real editorial cycle.

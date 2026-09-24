@@ -3,13 +3,14 @@
 ## Surfaces
 
 - The kiosk is `apps/exhibit` (`@cihof/exhibit`). It is the only visitor surface.
-- A new staff portal is planned and does not exist yet on this branch. The old one lives on `main` (`portal.html`, `src/features/review-dashboard/`, `scripts/portal-runner.js`) for reference only.
+- A new staff portal is planned and does not exist yet. The old one is in git history at `c8f749c`, the last commit before the clean-up (`portal.html`, `src/features/review-dashboard/`, `scripts/portal-runner.js`), for reference only.
 - `apps/web` is the static QR companion, kept pending the QR decision in `plans/docs/CLEAN_APP_PLAN.md` §5.1.
 - `plans/` is an archive. Paths inside it describe the old layout. Do not implement from it without checking the current code.
 
 ## Content and data
 
 - Canonical sources live under `data/`; curator sheets under `data/review-sheets/`; media under `public/media/`. The pipeline (`packages/pipeline`) reads them directly.
+- `data/external-research/` is collected, unreviewed material from outside sources. Nothing reads it into the exhibit; a curator promotes facts from it into authored sources.
 - Change canonical sources or generator logic, never generated output.
 - Never invent historical claims, relationships, dates, identity fields, portraits, or quotations. Do not change rights, caption, transcript, relationship, or publication approval states without an authorized editorial decision.
 - Keep generated entity relationships, explicit curated relationships, and shared induction-class context distinct. Two people inducted the same year share a context, not a relationship.
@@ -33,6 +34,7 @@ npm test
 npm run crosswalk:check && npm run review:links:check && npm run review:places:check
 npm run media:assert
 npm run test:browser
+npm run test:web
 npm run build:public
 ```
 
