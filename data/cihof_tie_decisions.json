@@ -1,0 +1,786 @@
+{
+  "schemaVersion": 1,
+  "source": "data/review-sheets/proposed-ties-sheet.csv, applied by scripts/apply-tie-decisions.js",
+  "note": "Decisions on the ties data/hof_world_person_relationships.json proposes beyond induction. Written only by npm run ties:apply.",
+  "decisions": [
+    {
+      "tieId": "preview:person-rel:0622edc19194e9",
+      "corpusIds": [
+        "person-rel:0622edc19194e9"
+      ],
+      "personA": "tony-petkovsek-2011",
+      "personB": "senator-george-voinovich-2010",
+      "sourceType": "friend",
+      "decision": "relationship",
+      "kind": "family-of",
+      "label": "Tony Petkovsek and George Voinovich were longtime friends whose relationship connected Cleveland’s Slovenian community with civic and public life. Voinovich appointed Petkovsek to public-service roles in Cleveland and on the Ohio Arts Council, while Petkovsek supported Voinovich through community outreach and served as master of ceremonies for two of his gubernatorial inaugurations.",
+      "evidence": [
+        "He later served Governor Voinovich on the Ohio Arts Council and also emceed two gubernatorial innaugurations in Columbus for longtime friend George Voinovich."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/tony-petkovsek-2011/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-1e7f42e41be9",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:1786508f3c767c",
+      "corpusIds": [
+        "person-rel:1786508f3c767c"
+      ],
+      "personA": "lucy-torres-2026",
+      "personB": "mayor-frank-jackson-2025",
+      "sourceType": "public_service_relationship",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Lucy Torres worked closely with Mayor Frank Jackson during a decade of service as a community liaison in his administration. From 2006 to 2016, she helped connect Cleveland’s Latino and multicultural communities with City Hall through outreach, community initiatives, and the Mayor’s Advisory Board.",
+      "evidence": [
+        "Her leadership extended into municipal government, where she served as a community liaison under Mayor Frank Jackson from 2006 to 2016."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/lucy-torres/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-35d2037611c0",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:1f7ceed61f472a",
+      "corpusIds": [
+        "person-rel:1f7ceed61f472a"
+      ],
+      "personA": "le-nguyen-2026",
+      "personB": "mayor-frank-jackson-2025",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Le Nguyen worked with Mayor Frank Jackson through Cleveland’s Community Relations Board, serving as the city’s Asian Liaison during Jackson’s administration. Jackson recognized Nguyen’s decades of service with a proclamation of appreciation in 2012 and later wrote the remarks for Nguyen’s 2026 induction into the Cleveland International Hall of Fame.",
+      "evidence": [
+        "He later served as the city’s Asian Liaison under Mayor Michael White and continued his work through the administrations of Mayor Jane Campbell and Mayor Frank Jackson."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-bac8fc8aba0f",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:22c838ae73948c",
+      "corpusIds": [
+        "person-rel:22c838ae73948c"
+      ],
+      "personA": "joyce-mariani-2023",
+      "personB": "mayor-frank-jackson-2025",
+      "sourceType": "ceremonial_connection",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Joyce Mariani worked with Mayor Frank Jackson through Cleveland’s Italian cultural and civic community. In 2008, Jackson presented Mariani with the Italian Heritage Award at Cleveland City Hall in recognition of her work restoring the Italian Cultural Garden and promoting Italian arts and culture. The two also participated together in public events at the Italian Cultural Garden during Jackson’s tenure as mayor.",
+      "evidence": [
+        "She was presented the Italian Heritage Award in 2008 by Mayor Frank Jackson at Cleveland City Hall for her re-education of the public about the historical importance of the 1930 Italian Cultural Garden as a public cultural monument to Italy and for her dedication to the cultural arts of Italy."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/joyce-mariani/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-8f14c6fa7f45",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:3c76d1ff7841cf",
+      "corpusIds": [
+        "person-rel:3c76d1ff7841cf"
+      ],
+      "personA": "dr-jaya-shah-2012",
+      "personB": "ramesh-shah-2020",
+      "sourceType": "family_spouse",
+      "decision": "relationship",
+      "kind": "family-of",
+      "label": "Dr. Jaya Shah and her husband, Ramesh Shah, have worked together for decades on humanitarian and medical-service initiatives. Through AIPNO’s Medical Yatra program, they helped organize teams of physicians and volunteers providing care to underserved communities in India and around the world. Both were later inducted into the Cleveland International Hall of Fame, becoming its first married couple to receive the honor.",
+      "evidence": [
+        "With support & help from her husband, Ramesh Shah, she takes the team of 18-20 Physicians and 10-12 Volunteers from USA/UK/Canada to Indian Rural Villages and helps thousands of villagers who cannot afford good Medical help and/or who do not have access to good Professional Healthcare providers."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-d345418dc33a",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:4f74dddf1bb11e",
+      "corpusIds": [
+        "person-rel:4f74dddf1bb11e"
+      ],
+      "personA": "jim-craciun-2017",
+      "personB": "mona-alag-2017",
+      "sourceType": "family_relationship",
+      "decision": "context",
+      "label": "Mona Alag and Jim Craciun were fellow members of the Cleveland International Hall of Fame’s 2017 class and longtime participants in Cleveland’s multicultural civic community. Representing the Indian and Romanian communities respectively, both helped strengthen the city’s ethnic and cultural networks and were recognized together for their community service and advocacy.",
+      "evidence": [
+        "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-f8a6abbd325c",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:575645cc2e223c",
+      "corpusIds": [
+        "person-rel:575645cc2e223c"
+      ],
+      "personA": "wael-khoury-2017",
+      "personB": "pierre-bejjani-2023",
+      "sourceType": "ceremonial_connection",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Wael Khoury and Pierre Bejjani have worked together for years through Cleveland’s Cultural Gardens and Middle Eastern civic community. While Khoury served as president of the Cleveland Cultural Gardens Federation, Bejjani served on its executive board, and the two collaborated around initiatives including the development of the Lebanese Cultural Garden and broader efforts celebrating Cleveland’s immigrant and cultural communities.",
+      "evidence": [
+        "Heather Hodges Dr. Wael Khoury and George Koussa Friends of Dr. Wael Khoury Tony and Mrs Abdulkarim, Sawssan Khoury and Pierre Bejjani Dr. Nizar Zein and Pierre Bejjani honoring Dr. Khoury."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/wael-khoury/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-573e42ebe421",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:5e81381bc906c0",
+      "corpusIds": [
+        "person-rel:5e81381bc906c0"
+      ],
+      "personA": "le-nguyen-2026",
+      "personB": "valarie-mccall-2020",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Le Nguyen and Valarie McCall worked within Cleveland City Hall’s community and multicultural affairs network during the Frank Jackson administration. Their connection was highlighted again in 2026, when McCall inducted Nguyen into the Cleveland International Hall of Fame and delivered the remarks prepared by former Mayor Jackson.",
+      "evidence": [
+        "But he wrote his remarks which were read by the Mayor’s former Chief of Staff Valarie McCall."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-c404e56e495a",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:65f460e66edd9f",
+      "corpusIds": [
+        "person-rel:65f460e66edd9f"
+      ],
+      "personA": "erika-puussaar-2024",
+      "personB": "pierre-bejjani-2023",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Erika Puussaar and Pierre Bejjani worked together through the Cleveland Cultural Gardens Federation. As Federation vice president, Puussaar helped welcome the Lebanese community into the Gardens network, while Bejjani became a key leader in developing the Lebanese Cultural Garden and later served on the Federation’s executive board.",
+      "evidence": [
+        "Estonian Ambassador Kristjan Prikk being introduced Estonian Ambassador Kristjan Prikk Erika Puussaar receives award from Estonian Ambassador Kristjan Prikk Erika Puussaar giving acceptance speech MC Russ Mitchell lends a hand to Erika Puussaar Erika Puussaar with Estonian Ambassador and friends Erika Puussaar table Ukrainian leaders Marta Kelleher and Dr. George Jaskiw with Estonian Ambassador Kristjan Prikk Erika Puussaar with Egyptian Garden delegate Samy Tanious Cleveland City Council President Blaine Griffin with Estonian Ambassador Kristkan Prikk Slovenian Consul General Alenka Jerak, Estonian Ambassador Kristjan Prikk and Honorary Consul of Lithuania Ingrida Bublys Erika Puussaar with 2023 inductee Pierre Bejjani Ukrainian leader Marta Kelleher with Estonian Ambassador Kristjan Prikk Ukrainian leaders Dr. George Jaskiw and Marta Kelleher Dan Hanson, Ambassador Kristjan Prikk, Russ Mitchell and Honorary Lithuanian Consul Ingrida Bublys Erika Puussaar and Oanh Loi-Powell."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-cb692c4810e0",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:6d69f4f9d65b17",
+      "corpusIds": [
+        "person-rel:6d69f4f9d65b17"
+      ],
+      "personA": "sister-alicia-alvarado-2018",
+      "personB": "jose-c-feliciano-2012",
+      "sourceType": "joint_oral_history_participant",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Sister Alicia Alvarado and José C. Feliciano have known one another since their school years and spent decades serving Cleveland’s Hispanic community. They partnered on community initiatives, later reflected together on Cleveland’s Hispanic civic history, and Feliciano personally inducted Alvarado into the Cleveland International Hall of Fame in 2018.",
+      "evidence": [
+        "Sister Alicia Alvarado and José C. Feliciano participated in the same September 18, 2017 Stokes oral-history interview."
+      ],
+      "sourceUrls": [
+        "https://catalog.wrhs.org/collections/view?docId=ead/MS5416.xml"
+      ],
+      "verificationLayer": "finding-aid-and-opened-online-source",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-f6c2b2c246b9",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:84a82b11be4191",
+      "corpusIds": [
+        "person-rel:84a82b11be4191"
+      ],
+      "personA": "august-pust-2010",
+      "personB": "senator-george-voinovich-2010",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "August Pust worked closely with George Voinovich in both city and state government, serving as Voinovich’s Executive Assistant for Ethnic Affairs and International Relations while he was Mayor of Cleveland and later directing multicultural and international affairs in the Ohio Governor’s Office. Their work together helped strengthen Cleveland and Ohio’s relationships with immigrant, ethnic, and international communities.",
+      "evidence": [
+        "Prior to this appointment, he was the Director of Multicultural Affairs & International Relations in the Governor’s Office, State of Ohio (1991-2002) and he served as Executive Assistant to Cleveland Mayors George Voinovich and Michael White, for Ethnic Affairs/International Relations."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/august-pust-2010/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-9a375e61e524",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:892660f65aeb45",
+      "corpusIds": [
+        "person-rel:892660f65aeb45"
+      ],
+      "personA": "ramesh-shah-2020",
+      "personB": "paramjit-singh-2010",
+      "sourceType": "ceremonial_connection",
+      "decision": "context",
+      "label": "Ramesh Shah and Paramjit Singh were connected through decades of Indian-American civic and community leadership in Northeast Ohio. Singh, a pioneering leader in organizations such as FICA, later personally welcomed Shah into the Cleveland International Hall of Fame and presented him with his Hall of Fame pin, symbolically linking two generations of community service.",
+      "evidence": [
+        "Ramesh Shah was inducted by Federation of India Community Associations Board Chairman Sudarshan Sathe and welcomed to the Hall by Inaugural CIHF inductee Paramjit Singh."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ramesh-shah/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-c38702c05778",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:897f566075161f",
+      "corpusIds": [
+        "person-rel:897f566075161f"
+      ],
+      "personA": "jim-craciun-2017",
+      "personB": "dick-pogue-2015",
+      "sourceType": "documented_mention",
+      "decision": "context",
+      "label": "Jim Craciun and Dick Pogue are connected through Cleveland’s international and multicultural civic community. Both built long records of service involving international affairs and community organizations and later became members of the Cleveland International Hall of Fame, where they remained active participants in the Hall’s broader network.",
+      "evidence": [
+        "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-132424cbe5ef",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:8e40365f3332f3",
+      "corpusIds": [
+        "person-rel:8e40365f3332f3"
+      ],
+      "personA": "dr-eugene-jordan-2024",
+      "personB": "khalid-samad-2016-2016",
+      "sourceType": "collaborator",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Dr. Eugene Jordan and Khalid Samad were longtime collaborators and close community allies in Cleveland’s Black civic and cultural life. Together they helped promote early Juneteenth celebrations in Northeast Ohio and were regular participants in Cleveland’s Black History Month traditions, including the annual flag-raising at City Hall. Their work repeatedly intersected around Black history, youth and community advocacy, cultural remembrance, and the African American Cultural Garden.",
+      "evidence": [
+        "Dr. Eugene Jordan on the steps of City Hall When very few people outside of Texas and Oklahoma had ever heard of Juneteenth, Dr. Jordan (along with Khalid Samad, Carl Ewing and a few others) told the story and pushed for its celebration."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/dr-eugene-jordan/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-a4909f3f4d27",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "longtime collaborator / fellow activist / community ally. Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:9461272745110b",
+      "corpusIds": [
+        "person-rel:9461272745110b"
+      ],
+      "personA": "dr-jaya-shah-2012",
+      "personB": "mona-alag-2017",
+      "sourceType": "collaborator",
+      "decision": "relationship",
+      "kind": "founded-with",
+      "label": "Dr. Jaya Shah and Mona Alag were longtime community collaborators and co-founders of Helping Hands, an organization created to support members of Northeast Ohio’s Indian community facing medical, family, immigration, domestic violence, and other crises. Their shared volunteer work became part of a broader network of service within Cleveland’s Indian community and the Federation of India Community Associations (FICA).",
+      "evidence": [
+        "As a Community Activist, she with the help of Mona Alag, Gita Gidwani, Kamala Nagpal, Sayanies organized a Voluntary organization known as Community Helping Hands Organization."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/dr-jaya-shah-2012/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-3c785a501a31",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:953a64d58e4ad8",
+      "corpusIds": [
+        "person-rel:953a64d58e4ad8"
+      ],
+      "personA": "basil-russo-2017",
+      "personB": "mona-alag-2017",
+      "sourceType": "documented_mention",
+      "decision": "context",
+      "label": "Basil Russo and Mona Alag were fellow members of the Cleveland International Hall of Fame’s 2017 class. Both were recognized for longstanding leadership in Cleveland’s ethnic and multicultural communities and became part of the same cross-cultural civic network through the Hall of Fame.",
+      "evidence": [
+        "Basil Russo’s son-in-law Joseph Rosalina and daughter Gabriella Basil Russo son-in-law Joseph Rosalina Basil Russo and daughter Gabriella Basil Russo giving his acceptance remarks Basil and Pat Russo Inductees Mona Alag, Jim Craciun and Basil Russo Joe Rosalina and Kelli Perk Standing Ovation for Basil Russo."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-16c17aeb5ecc",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:a40112ef729606",
+      "corpusIds": [
+        "person-rel:a40112ef729606"
+      ],
+      "personA": "erika-puussaar-2024",
+      "personB": "ingrida-bublys-2019",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Erika Puussaar and Ingrida Bublys worked together for years through Cleveland’s Baltic community, including the Baltic American Committee of Greater Cleveland. Representing the Estonian and Lithuanian communities respectively, they collaborated in preserving Baltic heritage and participating in commemorations, cultural programs, and events throughout the Cleveland Cultural Gardens.",
+      "evidence": [
+        "Estonian Ambassador Kristjan Prikk being introduced Estonian Ambassador Kristjan Prikk Erika Puussaar receives award from Estonian Ambassador Kristjan Prikk Erika Puussaar giving acceptance speech MC Russ Mitchell lends a hand to Erika Puussaar Erika Puussaar with Estonian Ambassador and friends Erika Puussaar table Ukrainian leaders Marta Kelleher and Dr. George Jaskiw with Estonian Ambassador Kristjan Prikk Erika Puussaar with Egyptian Garden delegate Samy Tanious Cleveland City Council President Blaine Griffin with Estonian Ambassador Kristkan Prikk Slovenian Consul General Alenka Jerak, Estonian Ambassador Kristjan Prikk and Honorary Consul of Lithuania Ingrida Bublys Erika Puussaar with 2023 inductee Pierre Bejjani Ukrainian leader Marta Kelleher with Estonian Ambassador Kristjan Prikk Ukrainian leaders Dr. George Jaskiw and Marta Kelleher Dan Hanson, Ambassador Kristjan Prikk, Russ Mitchell and Honorary Lithuanian Consul Ingrida Bublys Erika Puussaar and Oanh Loi-Powell."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-ce411d20f178",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:a9a22722d7309e",
+      "corpusIds": [
+        "person-rel:a9a22722d7309e"
+      ],
+      "personA": "johnny-k-wu-2024",
+      "personB": "aklilu-demessie-2026",
+      "sourceType": "documented_mention",
+      "decision": "context",
+      "label": "Johnny K. Wu and Aklilu Demessie are longtime participants in Cleveland’s multicultural civic community, representing the Chinese-American and Ethiopian-American communities respectively. Their work has overlapped through cross-cultural events, the Cleveland Cultural Gardens network, and efforts to strengthen connections among the region’s diverse international communities.",
+      "evidence": [
+        "Russ Mitcehll introduces Margaret Wong Margaret Wong inducting Johnny Wu Margaret Wong inducts Johnny Wu Margaret Wong and Johnny Wu Johnny Wu Hall of Fame acceptance speech Anjan Ghose, Dan Monroe, Ying Pu and Margaret Wong watching Johnny Wu speak Margaret Wong, Johnny Wu and Lisa and Wayne Wong Eddie Ni Table Li Wah Table Johnny Wu Table Johnny Wu and friends Li Wah Table Ethiopian leader Aklilu Demessie with Johnny Wu and Bill Franklin Johnny Wu friends selfie Li Wah/Asia Plaza Johnny Wu and Nick Mulbach Johnny Wu and Nada Martinovic Johnny Wu and Anthony Yen Johnny Wu and friends Johnny K."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/johnny-k-wu/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-bd4753d79607",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:b31ed91caf948b",
+      "corpusIds": [
+        "person-rel:b31ed91caf948b",
+        "person-rel:191450ac7d0cf8"
+      ],
+      "personA": "basil-russo-2017",
+      "personB": "jim-craciun-2017",
+      "sourceType": "documented_mention",
+      "decision": "context",
+      "label": "Basil Russo and Jim Craciun were fellow members of the Cleveland International Hall of Fame’s 2017 class and part of Cleveland’s broader ethnic and cultural civic network. Both were recognized for longstanding leadership within their respective communities and contributions to the city’s multicultural life.",
+      "evidence": [
+        "Basil Russo’s son-in-law Joseph Rosalina and daughter Gabriella Basil Russo son-in-law Joseph Rosalina Basil Russo and daughter Gabriella Basil Russo giving his acceptance remarks Basil and Pat Russo Inductees Mona Alag, Jim Craciun and Basil Russo Joe Rosalina and Kelli Perk Standing Ovation for Basil Russo.",
+        "Jim Craciun and Matt Zone Matt Zone inducting Jim Craciun Jim Craciun giving his acceptance remarks Father Remus Grama from St Mary Romanian Orthodox Cathedral gave the invocation Inductees Mona Alag and Jim Craciun Inductees Mona Alag, Jim Craciun and Basil Russo Jim Craciun with friends and family Tom Patton, Dick Pogue, Jim Craciun, Rocky and Kelli Perk."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/",
+        "https://clevelandinternationalhalloffame.com/jim-craciun/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-45a19ed77713",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:b6d6c274603e3d",
+      "corpusIds": [
+        "person-rel:b6d6c274603e3d"
+      ],
+      "personA": "paramjit-singh-2010",
+      "personB": "senator-george-voinovich-2010",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Paramjit Singh worked with George Voinovich through the Mayor’s Asian Advisory Council, where Singh served as an executive member and helped strengthen communication between Cleveland City Hall and the region’s growing Asian communities. Their shared civic legacy was later recognized when both became members of the Cleveland International Hall of Fame’s inaugural 2010 class.",
+      "evidence": [
+        "He has served as President of FICA, Vice President NFIA, President of American Society of Engineers of Indian Origin, Cleveland Chapter, Founding member of Asian-Indian-American Business Group, Asian-Indian-American for Better Government, Executive member of Cleveland Mayor George Voinovich’s Asian Advisory Council, and more."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/paramjit-singh-2010/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-0dceb688ed57",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:b85c29edad58f0",
+      "corpusIds": [
+        "person-rel:b85c29edad58f0"
+      ],
+      "personA": "erika-puussaar-2024",
+      "personB": "ralph-perk-jr-2018",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Erika Puussaar and Ralph Perk Jr. were connected through Cleveland’s American Nationalities Movement. While Perk served as president of the organization, Puussaar was recognized with its Freedom Award in 2016 for her longstanding service to the Estonian community and her advocacy for Baltic heritage and freedom.",
+      "evidence": [
+        "Judge Ralph Perk Jr., Irene Morrow and Erika Puussaar Erika continues to support the local Estonian communities’ activities as well as keeping informed of conditions in her homeland."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-4b18b722a087",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:bf085364d09f59",
+      "corpusIds": [
+        "person-rel:bf085364d09f59"
+      ],
+      "personA": "ralph-j-perk-2011",
+      "personB": "senator-george-voinovich-2010",
+      "sourceType": "electoral_relationship",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Ralph J. Perk and George Voinovich were close friends, political allies, and major figures in Cleveland public life. Although they competed for the Republican mayoral nomination in 1971, Perk later appointed Voinovich as Cuyahoga County Auditor. Voinovich went on to serve as Cleveland mayor, Ohio governor, and U.S. senator, continuing a civic and political relationship rooted in Cleveland.",
+      "evidence": [
+        "In 1971 he won the Republican primary, beating out George Voinovich."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/ralph-perk-2011/mayor-ralph-perk-2011/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-08e6ad2a2576",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:cc2b7b68c1ddbd",
+      "corpusIds": [
+        "person-rel:cc2b7b68c1ddbd"
+      ],
+      "personA": "andy-fedynsky-2026",
+      "personB": "hon-mary-rose-oakar-2012",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Andy Fedynsky worked closely with Congresswoman Mary Rose Oakar for more than a decade, joining her staff in 1980 and eventually serving as her chief of staff. His work focused on Cleveland development and relationships with the region’s ethnic communities, experience he later drew on in his leadership of the Ukrainian Museum-Archives and Cleveland’s Ukrainian-American community.",
+      "evidence": [
+        "Following completion of a Masters Degree at John Carroll University in 1980, he joined the Washington staff of Congresswoman Mary Rose Oakar working on Cleveland development and interfacing with a myriad of ethnic and other community groups."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/andy-fedynsky/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-2820c81ccaaf",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:dae721bffb7476",
+      "corpusIds": [
+        "person-rel:dae721bffb7476"
+      ],
+      "personA": "basil-russo-2017",
+      "personB": "bishop-anthony-pilla-2015",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Basil Russo shared a strong civic, cultural, and Catholic connection with Bishop Anthony Pilla. In 1995, Russo helped lead the creation of the Bishop Anthony Pilla Italian American Studies Program at John Carroll University, preserving Pilla’s legacy through the study of Italian-American history and culture. Russo also served in leadership roles within the Cleveland Catholic Diocese, further connecting their work in the city’s religious and Italian-American communities.",
+      "evidence": [
+        "In 1995, Basil was instrumental in leading the effort to create the Bishop Anthony Pilla Italian American Studies program at John Carroll University."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees-europe/basil-russo/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-8272c8b918b6",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:e0392db8b27982",
+      "corpusIds": [
+        "person-rel:e0392db8b27982"
+      ],
+      "personA": "samuel-h-miller-2013",
+      "personB": "nacy-panzica-2013",
+      "sourceType": "documented_mention",
+      "decision": "context",
+      "label": "Samuel H. Miller and Nacy Panzica were part of the same Cleveland philanthropic and Catholic civic network, with overlapping ties to John Carroll University and diocesan institutions. Their shared record of community service was recognized in 2013, when both were inducted into the Cleveland International Hall of Fame.",
+      "evidence": [
+        "Nacy Panzica Nacy Panzica has been in the construction industry for over 60 years."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/sam-miller-2013/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-4781dc93dd0c",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:e5a2d89b283fa7",
+      "corpusIds": [
+        "person-rel:e5a2d89b283fa7"
+      ],
+      "personA": "berj-shakarian-2020",
+      "personB": "leo-weidenthal-2010",
+      "sourceType": "family_spouse",
+      "decision": "relationship",
+      "kind": "succeeded",
+      "label": "Berj Shakarian’s work with the Cleveland Cultural Gardens carries forward the vision established by founder Leo Weidenthal. As architect of the Armenian Cultural Garden, a Cultural Gardens Federation board member, and designer of projects including the Centennial Peace Plaza, Shakarian helped extend Weidenthal’s original idea of the Gardens as a place for Cleveland’s diverse communities to represent their cultures while promoting peace and mutual understanding.",
+      "inverseLabel": "Leo Weidenthal’s vision for the Cleveland Cultural Gardens continued through later generations of civic leaders and designers, including architect Berj Shakarian. Shakarian helped expand and reinterpret that legacy through his work on the Armenian Cultural Garden, the Cultural Gardens Federation, and the Centennial Peace Plaza.",
+      "evidence": [
+        "He is not only a man committed to highlighting Cleveland as an international city, but he also has a deep knowledge and sensitivity to Cleveland history, and specifically to the history of the Cultural Gardens and the vision of Leo Weidenthal.” Berj has been married for almost 49 year to his wife, Carol, whom he met on the Rapid Transit while commuting to school."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/berj-shakarian/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-c61b8208eeaf",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:e9629e62fb9811",
+      "corpusIds": [
+        "person-rel:e9629e62fb9811"
+      ],
+      "personA": "wael-khoury-2017",
+      "personB": "sam-kim-2017",
+      "sourceType": "ceremonial_connection",
+      "decision": "context",
+      "label": "Wael Khoury and Seung “Sam” Kim were fellow members of the Cleveland International Hall of Fame’s 2017 class. Representing Cleveland’s Syrian-American and Korean-American communities respectively, both were recognized for decades of cultural leadership, community service, and contributions to the region’s multicultural civic life.",
+      "evidence": [
+        "Dr. Nizar Zein inducts Dr. Wael Khoury Dr. Nizar Zein, Dr. Wael Khoury and Mrs. Sawssan Khoury Dr. Wael Khoury giving his acceptance remarks Inductees Dr. Wael Khoury, Marianna Miller and Sam Kim CCWA group honoring Dr. Wael Khoury Steve and Mrs. Petras, Dr. Wael Khoury and Amb."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/wael-khoury/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-4813cb8672d9",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:f4681a01a1ab23",
+      "corpusIds": [
+        "person-rel:f4681a01a1ab23"
+      ],
+      "personA": "le-nguyen-2026",
+      "personB": "senator-george-voinovich-2010",
+      "sourceType": "public_service_relationship",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Le Nguyen worked with George Voinovich during Voinovich’s tenure as Mayor of Cleveland, helping strengthen relationships between City Hall and the city’s Asian-American communities. Nguyen worked in community relations and helped support the Mayor’s Asian Advisory Council, part of a broader effort to give Cleveland’s growing Asian communities a stronger voice in city government.",
+      "evidence": [
+        "His work quickly earned the trust of city leadership, and under Mayor George Voinovich, Le became a key figure in community relations."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/le-nguyen-class-of-2026-vietnames-heritage-cleveland-international-hall-of-fame/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-190cf798be04",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "tieId": "preview:person-rel:f48514b32d2e5b",
+      "corpusIds": [
+        "person-rel:f48514b32d2e5b"
+      ],
+      "personA": "erika-puussaar-2024",
+      "personB": "irene-morrow-2010",
+      "sourceType": "documented_mention",
+      "decision": "relationship",
+      "kind": "collaborated-with",
+      "label": "Erika Puussaar and Irene Morrow were connected through Cleveland’s ethnic and nationality organizations, particularly the American Nationalities Movement. Morrow was a longtime leader and past president of the organization, which honored Puussaar with its Freedom Award in 2016 for her service to Cleveland’s Estonian and broader multicultural community.",
+      "evidence": [
+        "Judge Ralph Perk Jr., Irene Morrow and Erika Puussaar Erika continues to support the local Estonian communities’ activities as well as keeping informed of conditions in her homeland."
+      ],
+      "sourceUrls": [
+        "https://clevelandinternationalhalloffame.com/inductees/erika-puussaar/"
+      ],
+      "verificationLayer": "documented-in-profile",
+      "decisionReference": "connections-review-2026-09-24",
+      "contentVersion": "tie-0a968fec4709",
+      "reviewedAt": "2026-09-24T23:37:34.465Z",
+      "publication": {
+        "publicWeb": true,
+        "kiosk": true
+      },
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    }
+  ]
+}
