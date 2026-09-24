@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 /**
@@ -62,6 +62,8 @@ if (!existsSync(join(app, 'node_modules', 'electron', 'dist'))) {
 // 3. Stage and build.
 run(process.execPath, [join(app, 'scripts', 'stage.mjs'), `--site=${join(newest, 'site')}`], { cwd: app });
 run('npx', ['electron-builder', ...builderArgs], { cwd: app });
+// Beside the installer, so whoever installs it has the guide for that release.
+copyFileSync(join(root, 'docs', 'staff-guide.md'), join(releases, 'app', 'STAFF-GUIDE.md'));
 
 console.log(`\nKiosk app for ${target} written to ${join(releases, 'app')}`);
 console.log('KIOSK ONLY: it carries kiosk-only films. Never publish it.\n');

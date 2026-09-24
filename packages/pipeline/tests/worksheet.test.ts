@@ -23,9 +23,9 @@ const written = {
 };
 
 test('the worksheet covers the roster and starts empty', () => {
-  assert.equal(built.worksheet.entries.length, 111);
+  assert.equal(built.worksheet.entries.length, people.length);
   const progress = worksheetProgress(built.worksheet);
-  assert.equal(progress.notStarted, 111);
+  assert.equal(progress.notStarted, people.length);
   assert.equal(progress.written, 0);
   assert.equal(built.orphaned.length, 0);
 });
@@ -34,7 +34,7 @@ test('every row carries the biography a curator writes from', () => {
   // The sheet cannot draft an account, but it can put the source in front of
   // whoever is writing one.
   const withSource = built.worksheet.entries.filter((entry) => entry.sourceBiography.length > 0);
-  assert.equal(withSource.length, 111, 'every person has the institution’s own text');
+  assert.equal(withSource.length, people.length, 'every person has the institution’s own text');
 });
 
 test('the sheet never offers a generated line as source material', () => {
@@ -85,10 +85,10 @@ test('an untouched row that left the roster is simply dropped', () => {
     'nobody spent anything on that row');
 });
 
-test('the collection as it stands publishes no contribution', () => {
-  const bundle = buildRuntimeBundle(people, 'kiosk');
+test('a worksheet nobody has written in publishes no contribution', () => {
+  const bundle = buildRuntimeBundle(people, 'kiosk', { worksheet: built.worksheet });
   assert.equal(bundle.contributions.length, 0);
-  assert.equal(bundle.contributionReport.peopleNotStarted, 111);
+  assert.equal(bundle.contributionReport.peopleNotStarted, people.length);
   assert.equal(bundle.contributionReport.written, 0);
 });
 
@@ -132,5 +132,5 @@ test('an honorific never reaches the bundle however the row is marked', () => {
 test('the committed worksheet is readable by the build', () => {
   const worksheet = readContributionWorksheet();
   assert.ok(worksheet, 'the generated file is present and parses');
-  assert.equal(worksheet.entries.length, 111);
+  assert.equal(worksheet.entries.length, people.length, 'one row per person; regenerate with npm run crosswalk');
 });

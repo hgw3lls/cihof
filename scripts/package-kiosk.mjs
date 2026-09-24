@@ -30,7 +30,10 @@ if (process.env.CIHOF_PREVIEW) {
 // Pages preview is.
 const env = { ...process.env, CIHOF_TARGET: 'kiosk', CIHOF_BASE_PATH: '/' };
 delete env.CIHOF_PREVIEW;
-const build = spawnSync('npm', ['run', 'build', '--workspace', '@cihof/exhibit'], { cwd: root, env, stdio: 'inherit' });
+// A shell on Windows so that `npm` resolves to npm.cmd.
+const build = spawnSync('npm', ['run', 'build', '--workspace', '@cihof/exhibit'], {
+  cwd: root, env, stdio: 'inherit', shell: process.platform === 'win32',
+});
 if (build.status !== 0) {
   console.error('\nThe kiosk build failed. Nothing was packaged.');
   process.exit(build.status ?? 1);
@@ -64,6 +67,9 @@ for (const file of [
 ]) {
   cpSync(join(exhibit, 'kiosk', file), join(out, file));
 }
+// The staff guide travels with every release, so the display's own copy
+// matches what is installed on it.
+cpSync(join(root, 'docs', 'staff-guide.md'), join(out, 'STAFF-GUIDE.md'));
 
 const commit = gitCommit();
 const shortCommit = `${commit.slice(0, 7)}${commit.endsWith('+uncommitted') ? ' with uncommitted changes' : ''}`;
