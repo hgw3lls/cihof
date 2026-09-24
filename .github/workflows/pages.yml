@@ -84,8 +84,7 @@ jobs:
         run: npx playwright test -c apps/exhibit/playwright.config.ts
 
       - name: Companion site, in a browser
-        run: npx playwright test
-        working-directory: apps/web
+        run: npm run test:web
 
       # Only on failure, and only the traces — a passing run should not spend
       # time or storage on artefacts nobody will open.
