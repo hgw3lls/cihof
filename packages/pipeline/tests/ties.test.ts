@@ -86,3 +86,15 @@ test('the sheet shows what has been decided', () => {
   assert.equal(rows.find((row) => row.corpusIds.includes(session.id))?.currentStatus, 'reject');
   assert.equal(rows.filter((row) => row.currentStatus === 'unreviewed').length, 27);
 });
+
+test('every decided tie is worded to fit the map', async () => {
+  // Checked against the decisions on file, not a fixture: a paragraph saved as
+  // a label would run over the other people on the Connections map.
+  const { connectionLabelProblem } = await import('@cihof/content');
+  const { readTieDecisions } = await import('../src/sources/ties.ts');
+  const problems = readTieDecisions().flatMap((decision) => [decision.label, decision.inverseLabel]
+    .map((label) => connectionLabelProblem(label))
+    .filter((problem): problem is string => problem !== null)
+    .map((problem) => `${decision.tieId}: ${problem}`));
+  assert.deepEqual(problems, []);
+});
