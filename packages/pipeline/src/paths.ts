@@ -43,7 +43,7 @@ export function publicFile(name: string): string {
 }
 
 
-/** Any path relative to the workspace root, for sheets that live outside `data/`. */
+/** Any path relative to the workspace root, given in full (e.g. `data/review-sheets/...`). */
 export function repoFile(relativePath: string): string {
   return resolve(repoRoot(), relativePath);
 }

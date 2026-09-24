@@ -66,7 +66,7 @@ function validateMediaManifest(manifestData, expectedInductees, options) {
   const expectedIds = new Set(expectedInductees.map((item) => item.id));
   const assets = manifestData?.assets;
 
-  if (manifestData.missingManifest) errors.push('Missing data/media_manifest.json. Run npm run media:manifest.');
+  if (manifestData.missingManifest) errors.push('Missing data/media_manifest.json. Restore it from git; the script that generated it was retired in the clean-up.');
   if (manifestData.parseError) errors.push(`Could not parse data/media_manifest.json: ${manifestData.parseError}`);
   if (typeof manifestData.schemaVersion !== 'number') warnings.push('Missing numeric schemaVersion.');
   if (!assets || typeof assets !== 'object' || Array.isArray(assets)) errors.push('Media manifest must contain an assets object.');
