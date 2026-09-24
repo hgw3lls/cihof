@@ -3,7 +3,7 @@
 ## Surfaces
 
 - The kiosk is `apps/exhibit` (`@cihof/exhibit`). It is the only visitor surface.
-- A new staff portal is planned and does not exist yet. The old one is in git history at `c8f749c`, the last commit before the clean-up (`portal.html`, `src/features/review-dashboard/`, `scripts/portal-runner.js`), for reference only.
+- `apps/review` (`@cihof/review`, `npm run review`) is the staff review app. It runs on one staff computer, answers only 127.0.0.1, fills in the same sheets a curator would and applies them with the same apply tools, then makes one local commit per kind of review with the reviewer's name. It never pushes, never decides anything the reviewer did not choose, and must never be exposed beyond that computer. The old portal is in git history at `c8f749c`, for reference only.
 - `apps/web` is the static QR companion, kept pending the QR decision in `plans/docs/CLEAN_APP_PLAN.md` §5.1.
 - `plans/` is an archive. Paths inside it describe the old layout. Do not implement from it without checking the current code.
 
@@ -37,6 +37,7 @@ npm run crosswalk:check && npm run review:links:check && npm run review:places:c
 npm run media:assert
 npm run test:browser
 npm run test:web
+npm run test:review
 npm run build:public
 ```
 

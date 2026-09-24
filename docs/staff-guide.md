@@ -235,7 +235,48 @@ Two principles are built into every step and cannot be switched off:
   `data/curation-decisions/` beside the change it produced. See that
   folder's README for the naming convention.
 
-### 7.1 The review sheets (Staff: curator)
+### 7.1 The staff review app (Staff: curator)
+
+The easiest way to review. It runs on one office computer that holds a copy
+of the project, and it takes you through each review one item at a time:
+
+- **Connections**: links the research found between two inductees. For each,
+  say whether it is a real connection (and what kind, and which way round),
+  two people who simply appear together, or wrong. You write the words
+  visitors will read.
+- **Places**: whether to show each place, and what each person did there
+  (lived, worked, studied, taught, organized, served, founded). A place with
+  no written history cannot be shown yet, and the app says so.
+- **Biographies**: find a person, correct the text, and see exactly what you
+  changed before keeping it.
+
+To use it:
+
+1. Double-click **Start staff review** on the desktop. A black window opens
+   (leave it open) and then the app opens in the browser.
+2. Enter your name. It is saved with every decision you make.
+3. Choose a review and work through it. You can stop at any point: your
+   choices are kept on that computer until you save them.
+4. When you are ready, choose **Check and save**. Say who may see the
+   connections you kept (the exhibit only, unless it has been agreed they
+   may go online), then **Check my decisions**. If something needs fixing, the
+   app says what. When everything checks out, **Save**.
+5. Tell the developer. Your decisions are saved on that computer, one change
+   per kind of review, with your name on each. They reach the exhibit when
+   the developer publishes them and makes a release (7.4).
+
+Nothing in the app is approved by being shown, and nothing leaves the
+computer: it answers only that computer, and it never publishes anything
+itself.
+
+**Setting it up (Developer, once).** On the office computer: install
+Node.js 22 and Git, clone the project, run `npm ci`, and put a desktop
+shortcut named *Start staff review* to `apps/review/start-review.cmd`
+(on macOS or Linux, `apps/review/start-review.sh`). To publish what was
+saved there, push from that computer, or pull its commits onto yours and
+push. `npm run review` starts the app from a terminal.
+
+### 7.2 The review sheets, by hand (Staff: curator)
 
 | Sheet | Decides |
 | --- | --- |
@@ -275,7 +316,7 @@ To see proposed content before deciding, ask the developer for a **preview
 build** (`npm run dev:preview`). It shows everything the sources hold, marked.
 It is for editors only and is never installed on the display or published.
 
-### 7.2 Applying a sheet (Developer)
+### 7.3 Applying a sheet (Developer)
 
 Every apply tool **previews first and writes nothing** until told to. Commit
 or stash any work first; the tools that take `--expect-hash` refuse a working
@@ -332,7 +373,7 @@ it. Find the decision behind it and record it with
 `npm run parity:record -- --ids=<id> --decision-reference=<reference>`; a
 difference no decision made is a fault to fix, not to record.
 
-### 7.3 Making a release (Developer, on the machine with the videos)
+### 7.4 Making a release (Developer, on the machine with the videos)
 
 ```sh
 npm ci
@@ -384,9 +425,11 @@ package reports all 93 films with their video file.
 Every content task has a sheet and a tool. What still needs someone who
 works in the repository:
 
-1. **Running the tools.** Applying a sheet, testing and making a release are
-   commands, run by a developer on the machine that holds the videos. The
-   planned staff review app is meant to put these behind buttons.
+1. **Publishing and releasing.** The staff review app (7.1) saves
+   connections, places and biographies on its computer; pushing those
+   changes, and making a release, are a developer's commands. Links, film
+   approvals and new classes are still reviewed in sheets (7.2) and applied
+   by a developer (7.3).
 2. **A new film.** Its captions, poster and transcript must be added to git
    explicitly (`git add -f`); `npm run media:assert` fails until they are.
 3. **A person's id.** It is permanent and is never changed. A name spelled
