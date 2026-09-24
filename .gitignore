@@ -41,3 +41,7 @@ apps/exhibit/public/media/videos/
 
 # Local reports written by the data scripts
 /reports/
+
+# Kiosk packages from npm run package:kiosk. They carry kiosk-only films and
+# are handed to the display, never committed or published.
+/release/

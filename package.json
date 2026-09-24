@@ -9,6 +9,7 @@
     "build:kiosk": "CIHOF_TARGET=kiosk npm run build --workspace @cihof/exhibit",
     "build:public": "CIHOF_TARGET=public npm run build --workspace @cihof/exhibit && npm run assert:public --workspace @cihof/exhibit",
     "build:preview": "CIHOF_TARGET=kiosk CIHOF_PREVIEW=all npm run build --workspace @cihof/exhibit",
+    "package:kiosk": "node scripts/package-kiosk.mjs",
     "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit",
     "test:browser": "playwright test -c apps/exhibit/playwright.config.ts",
     "test:web": "npm test --workspace @cihof/web",
