@@ -33,14 +33,15 @@ function resolved(count: number, over: Partial<InductionCrosswalk> = {}): Induct
 }
 
 test('the crosswalk as it actually stands opens Connections on the wall', () => {
-  // The honest state of the collection: 25 names resolved against a single
-  // candidate under cur-2026-061, 70 still to review, and a kiosk-only
-  // publication decision under cur-2026-062. These counts move as review
-  // lands. The separation they rest on does not, and is tested below.
+  // The honest state of the collection: all 95 recorded names decided — 31
+  // resolved to an inductee, 64 found not to be one — under
+  // links-review-2026-09-22 and names-review-2026-09-23, with a kiosk-only
+  // publication decision. These counts move as review lands. The separation
+  // they rest on does not, and is tested below.
   const bundle = buildRuntimeBundle(people, 'kiosk');
-  assert.equal(bundle.relationships.length, 31);
+  assert.equal(bundle.relationships.length, 48);
   assert.equal(bundle.lenses.includes('links'), true);
-  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 70);
+  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 0);
   assert.equal(bundle.relationshipReport.crosswalkApproved, true);
 
   // The decision named the kiosk. Nothing reaches the web on the strength of it.
