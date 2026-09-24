@@ -25,6 +25,31 @@ export function visibleChanges({ sources = {}, ids, decisionReference = '', note
   });
 }
 
+/**
+ * The same for a sheet whose rows rest on different decisions: each group of
+ * people is recorded under its own reference.
+ *
+ * @param {{ sources?: import('../packages/pipeline/src/build/people.ts').PeopleSources, groups: Map<string, Iterable<string>> }} change
+ */
+export function visibleChangesByReference({ sources = {}, groups }) {
+  const differences = collectDifferences(buildPeople(sources));
+  const recordedAt = new Date().toISOString();
+  let ledger = readReviewedDifferences();
+  const added = [];
+  const removed = [];
+  const touched = new Set();
+  for (const [decisionReference, ids] of groups) {
+    const idSet = new Set(ids);
+    for (const id of idSet) touched.add(id);
+    const outcome = recordDecision(ledger, differences, { ids: idSet, decisionReference, recordedAt });
+    ledger = outcome.ledger;
+    added.push(...outcome.added);
+    removed.push(...outcome.removed);
+  }
+  const elsewhere = recordDecision(ledger, differences, { ids: touched, decisionReference: '', recordedAt }).elsewhere;
+  return { ledger, added, removed, elsewhere };
+}
+
 /** True when the change alters something a visitor sees. */
 export function changesWhatVisitorsSee(outcome) {
   return outcome.added.length > 0 || outcome.removed.length > 0;

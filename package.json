@@ -26,6 +26,8 @@
     "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
     "places:apply": "node --experimental-strip-types scripts/apply-place-decisions.js",
     "ties:apply": "node --experimental-strip-types scripts/apply-tie-decisions.js",
+    "review:bios": "node --experimental-strip-types --no-warnings=ExperimentalWarning packages/pipeline/scripts/bio-sheet.mjs",
+    "bios:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-biography-decisions.js",
     "curate:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-curation-decisions.js",
     "curate:report": "node scripts/curation-report.js",
     "media:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-media-decisions.js",
