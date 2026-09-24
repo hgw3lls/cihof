@@ -1,0 +1,3 @@
+Synthetic chronology fixture begins.
+
+Playback, captions, seeking, and replay are under test. This final sentence verifies that the complete transcript is preserved.
