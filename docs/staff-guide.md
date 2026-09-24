@@ -45,6 +45,9 @@ The application looks after itself:
 
 ## 2. Installing a display (Administrator, once)
 
+For the first installation, work through [`windows-checklist.md`](windows-checklist.md)
+as well: it tests each step below on the real machine and records what to correct here.
+
 ### 2.1 The PC
 
 1. **A dedicated Windows account** for the exhibit: a standard local account,
