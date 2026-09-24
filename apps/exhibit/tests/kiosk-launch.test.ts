@@ -131,3 +131,23 @@ test('the launcher serves the exhibit, holds a browser on it, and stop-kiosk end
     launcher.kill();
   }
 });
+
+test('a browser that cannot be started at all is retried, not left for dead', async () => {
+  let attempts = 0;
+  const spawnBrowser = (() => {
+    attempts += 1;
+    const failing = new EventEmitter() as unknown as ChildProcess;
+    // Only an error, and no exit: what Node reports for a file it cannot run.
+    setImmediate(() => failing.emit('error', new Error('spawn EACCES')));
+    return failing;
+  }) as unknown as typeof spawn;
+  const lines: string[] = [];
+  const browser = keepBrowserRunning({
+    command: 'browser', args: [], spawnBrowser, log: (line) => lines.push(line),
+    quickExitMs: 1000, minBackoffMs: 10, maxBackoffMs: 40,
+  });
+  await wait(200);
+  browser.stop();
+  assert.ok(attempts >= 3, `${attempts} attempts`);
+  assert.ok(lines.some((line) => /could not be started \(spawn EACCES\)/.test(line)));
+});

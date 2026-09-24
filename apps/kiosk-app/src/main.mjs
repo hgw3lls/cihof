@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
+import { freezeWatch } from './watch.mjs';
 import { attemptPasscode, hashPasscode, loadSettings, passcodeProblem, saveSettings } from './settings.mjs';
 
 /**
@@ -135,7 +136,10 @@ function createExhibitWindow() {
 
   // A crashed or frozen page comes back rather than leaving a blank wall.
   contents.on('render-process-gone', () => setTimeout(() => !win.isDestroyed() && contents.reload(), 1000));
-  win.on('unresponsive', () => setTimeout(() => !win.isDestroyed() && contents.forcefullyCrashRenderer(), 30_000));
+  const frozen = freezeWatch({ onFrozen: () => !win.isDestroyed() && contents.forcefullyCrashRenderer() });
+  win.on('unresponsive', frozen.unresponsive);
+  win.on('responsive', frozen.responsive);
+  win.on('closed', frozen.dispose);
 
   // Alt+F4 and the like: the exhibit window only closes when the app is quitting.
   win.on('close', (event) => { if (!quitting && win === exhibit) event.preventDefault(); });

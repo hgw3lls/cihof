@@ -136,15 +136,24 @@ export function keepBrowserRunning({
     if (stopped) return;
     launches += 1;
     const started = Date.now();
-    child = spawnBrowser(command, args, { stdio: 'ignore' });
-    child.on('error', (error) => log(`The browser could not be started: ${error.message}`));
-    child.on('exit', () => {
-      child = null;
+    const current = spawnBrowser(command, args, { stdio: 'ignore' });
+    child = current;
+    // A browser that cannot be started at all (bad permissions, blocked by the
+    // system) reports an error and may never report an exit, so both lead to
+    // the same retry, once.
+    let ended = false;
+    const end = (reason) => {
+      if (ended) return;
+      ended = true;
+      if (child === current) child = null;
       if (stopped) return;
       backoff = Date.now() - started < quickExitMs ? Math.min(Math.max(backoff * 2, minBackoffMs), maxBackoffMs) : 0;
-      log(backoff > 0 ? `The browser closed quickly. Starting it again in ${backoff / 1000}s.` : 'The browser closed. Starting it again.');
+      const what = reason ? `The browser could not be started (${reason})` : backoff > 0 ? 'The browser closed quickly' : 'The browser closed';
+      log(backoff > 0 ? `${what}. Starting it again in ${backoff / 1000}s.` : `${what}. Starting it again.`);
       timer = setTimeout(launch, backoff);
-    });
+    };
+    current.on('error', (error) => end(error.message));
+    current.on('exit', () => end(null));
   };
 
   launch();
