@@ -1,6 +1,7 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 /**
  * Builds the installed exhibit and packages it for a display.
@@ -50,6 +51,10 @@ if (release.base !== '/') {
   process.exit(1);
 }
 
+// How many of the profiles on this release a curator has approved as they
+// stand. A release does not wait on it, but it says so.
+const profileCounts = profiles();
+
 const films = bundle.people.flatMap((person) => person.films.map((film) => ({ person: person.id, film })));
 const local = films.filter(({ film }) => film.source.kind === 'local-file');
 const missing = local
@@ -84,6 +89,7 @@ const manifest = {
   people: bundle.people.length,
   lenses: bundle.lenses,
   relationships: bundle.relationships.length,
+  profiles: profileCounts,
   films: { total: films.length, localFiles: local.length, videoPresent: local.length - missing.length, videoMissing: missing },
   precachedAssets: release.assets.length,
   bytes: folderBytes(join(out, 'site')),
@@ -106,9 +112,24 @@ console.log(`  ${relative(root, out)}/`);
 console.log(`  release ${release.revision}, content ${bundle.contentRevision.slice(0, 12)}, from ${shortCommit}`);
 console.log(`  ${bundle.people.length} people · lenses: ${bundle.lenses.join(', ')} · ${bundle.relationships.length} relationships`);
 console.log(`  films: ${filmLine}`);
+if (profileCounts) {
+  console.log(`  profiles approved: ${profileCounts.approved} of ${profileCounts.total}`
+    + (profileCounts.changedSinceApproval ? `, ${profileCounts.changedSinceApproval} changed since approval` : '')
+    + (profileCounts.approved < profileCounts.total ? '  (npm run review:profiles -- --report)' : ''));
+}
 console.log(`  ${(manifest.bytes / 1e6).toFixed(1)} MB`);
 console.log('\n  On the display: start-kiosk (or install-autostart to start at sign-in). See README.txt.');
 console.log('  KIOSK ONLY. Never publish this folder.\n');
+
+function profiles() {
+  const result = spawnSync(process.execPath, [
+    '--experimental-strip-types', '--no-warnings=ExperimentalWarning', '--input-type=module', '-e',
+    `const { buildPeople } = await import(${JSON.stringify(pathToFileURL(join(root, 'packages/pipeline/src/build/people.ts')).href)});
+     const { buildProfileSheet, profileProgress } = await import(${JSON.stringify(pathToFileURL(join(root, 'packages/pipeline/src/build/profiles.ts')).href)});
+     console.log(JSON.stringify(profileProgress(buildProfileSheet(buildPeople()))));`,
+  ], { cwd: root, encoding: 'utf8' });
+  try { return JSON.parse(result.stdout); } catch { return null; }
+}
 
 function gitCommit() {
   try {

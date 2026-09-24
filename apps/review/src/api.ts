@@ -39,6 +39,26 @@ export type Bio = {
   text: string;
 };
 
+export type Text = { text: string; provenance: string };
+
+export type Profile = {
+  id: string;
+  name: string;
+  classYear: number | null;
+  portrait: { src: string; alt: string; shown: boolean; rights: string } | null;
+  biography: Text | null;
+  contribution: Text | null;
+  context: Text | null;
+  tags: { contributions: string[]; communities: string[]; countries: string[] };
+  presentedBy: string | null;
+  sourceUrl: string | null;
+  contentVersion: string;
+  state: 'unreviewed' | 'approved' | 'changed-since-approval' | 'changes-requested';
+  reviewNote: string;
+};
+
+export type ProfileDecision = { decision: 'approve' | 'changes'; seenVersion: string; note?: string };
+
 export type Kind = { kind: string; label: string; directional: boolean; example: string; inverse?: string; sentence?: string };
 export type Role = { role: string; label: string };
 
@@ -57,15 +77,17 @@ export type Draft = {
   places: Record<string, { approve: boolean; note?: string }>;
   placeTies: Record<string, { role: string; note?: string }>;
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
+  profiles: Record<string, ProfileDecision>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
   ties: Tie[];
   places: Place[];
   bios: Bio[];
+  profiles: Profile[];
   kinds: Kind[];
   roles: Role[];
   draft: Draft;

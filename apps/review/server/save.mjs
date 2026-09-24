@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { biosCsv, decisionReference, placeTiesCsv, placesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { biosCsv, decisionReference, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -30,6 +30,14 @@ const steps = [
     task: 'placeTies', title: 'What people did at places', script: 'places:apply', csv: placeTiesCsv,
     refresh: ['review:places'], checks: ['review:places:check'],
     keys: (draft) => Object.keys(draft.placeTies ?? {}),
+  },
+  // Before biographies: an approval covers the profile as the reviewer saw it,
+  // and the app will not approve a profile whose biography correction is
+  // still waiting to be saved.
+  {
+    task: 'profiles', title: 'Profiles', script: 'profiles:apply', csv: profilesCsv,
+    refresh: [], checks: [],
+    keys: (draft) => Object.keys(draft.profiles ?? {}),
   },
   {
     task: 'bios', title: 'Biographies', script: 'bios:apply', csv: biosCsv,
