@@ -78,7 +78,11 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
-  if (new URL(request.url).origin !== self.location.origin) return;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+  // Films stream straight from the display's server: the release manifest
+  // leaves them out, and a cached response cannot answer a range request.
+  if (/\.(mp4|webm|mov|m4v|mkv|ogv|avi)$/i.test(url.pathname)) return;
 
   if (request.mode === 'navigate') { event.respondWith(serveDocument(request)); return; }
   event.respondWith(serveAsset(request));
