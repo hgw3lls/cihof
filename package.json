@@ -9,7 +9,8 @@
     "build:public": "CIHOF_TARGET=public npm run build --workspace @cihof/exhibit && npm run assert:public --workspace @cihof/exhibit",
     "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit",
     "test:browser": "playwright test -c apps/exhibit/playwright.config.ts",
-    "typecheck": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false && tsc -p apps/exhibit/tsconfig.json --pretty false",
+    "test:web": "npm test --workspace @cihof/web",
+    "typecheck": "tsc -p packages/content/tsconfig.json --pretty false && tsc -p packages/pipeline/tsconfig.json --pretty false && tsc -p apps/exhibit/tsconfig.json --pretty false && npm run typecheck --workspace @cihof/web",
     "crosswalk": "npm run crosswalk --workspace @cihof/pipeline",
     "crosswalk:check": "npm run crosswalk --workspace @cihof/pipeline -- --check",
     "review:links": "node --experimental-strip-types packages/pipeline/scripts/review-sheet.mjs",
@@ -24,26 +25,13 @@
     "media:approval-sheet": "node scripts/export-media-approval-sheet.js",
     "media:validate": "node scripts/validate-media.js",
     "media:assert": "node scripts/assert-film-assets.mjs",
-    "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js"
-  },
-  "dependencies": {
-    "@types/qrcode": "^1.5.6",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^6.1.1",
-    "d3-force": "^3.0.0",
-    "qrcode": "^1.5.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.5.4",
-    "vite": "^8.3.0"
+    "ingest:hofworld": "node --experimental-strip-types scripts/ingest-hofworld.js",
+    "source:external-research": "node scripts/collect-external-research.js",
+    "source:external-contributions": "node scripts/filter-external-contributions.js"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
-    "@types/pngjs": "^6.0.5",
-    "jsqr": "^1.4.0",
-    "pngjs": "^7.0.0"
+    "typescript": "^5.5.4"
   },
   "workspaces": [
     "packages/*",

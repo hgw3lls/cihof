@@ -6,8 +6,9 @@
   "description": "Public companion site. A static page per person, readable without JavaScript.",
   "scripts": {
     "prebuild": "node --experimental-strip-types scripts/publish-assets.mjs",
-    "build": "npm run prebuild && astro build",
-    "dev": "npm run prebuild && astro dev",
+    "build": "astro build",
+    "predev": "npm run prebuild",
+    "dev": "astro dev",
     "preview": "astro preview",
     "test": "playwright test",
     "typecheck": "astro check"
@@ -18,6 +19,7 @@
     "astro": "^7.3.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10"
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0"
   }
 }
