@@ -30,7 +30,10 @@ if (process.env.CIHOF_PREVIEW) {
 // Pages preview is.
 const env = { ...process.env, CIHOF_TARGET: 'kiosk', CIHOF_BASE_PATH: '/' };
 delete env.CIHOF_PREVIEW;
-const build = spawnSync('npm', ['run', 'build', '--workspace', '@cihof/exhibit'], { cwd: root, env, stdio: 'inherit' });
+// A shell on Windows so that `npm` resolves to npm.cmd.
+const build = spawnSync('npm', ['run', 'build', '--workspace', '@cihof/exhibit'], {
+  cwd: root, env, stdio: 'inherit', shell: process.platform === 'win32',
+});
 if (build.status !== 0) {
   console.error('\nThe kiosk build failed. Nothing was packaged.');
   process.exit(build.status ?? 1);

@@ -11,7 +11,7 @@ export default defineConfig({
   expect: { timeout: 15_000 },
   use: { baseURL, viewport: { width: 1280, height: 900 } },
   webServer: process.env.PLAYWRIGHT_SKIP_WEB_SERVER === '1' ? undefined : {
-    command: `CIHOF_SITE_URL=https://clevelandinternationalhalloffame.com/cihof/ VITE_CIHOF_TEST_MODE=1 VITE_CIHOF_IDLE_MS=2500 VITE_CIHOF_WARNING_MS=1200 npm run build && npx vite preview --port ${port}`,
+    command: `npm run build && npx vite preview --port ${port}`,
     // These specs exercise the installed exhibit, so they need the kiosk
     // build: `recovery.spec.ts` opens the operator panel, which a public
     // target aliases to a stub that renders nothing. The target used to be
@@ -23,7 +23,17 @@ export default defineConfig({
     // `vite preview` loads `vite.config.ts` too, and that resolves the target
     // at module scope. A prefix on the build alone leaves the preview to fail
     // the same way one step later.
-    env: { CIHOF_TARGET: 'kiosk' },
+    //
+    // The rest go here too, rather than as a `NAME=value` prefix on the command,
+    // which Windows' command prompt cannot run. Test timings, and a site
+    // address for the continuation-code specs to decode.
+    env: {
+      CIHOF_TARGET: 'kiosk',
+      CIHOF_SITE_URL: 'https://clevelandinternationalhalloffame.com/cihof/',
+      VITE_CIHOF_TEST_MODE: '1',
+      VITE_CIHOF_IDLE_MS: '2500',
+      VITE_CIHOF_WARNING_MS: '1200',
+    },
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
