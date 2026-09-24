@@ -42,14 +42,16 @@ All 93 films are approved for the kiosk and for the public web on none of them. 
 
 ## Kiosk package
 
-`npm run package:kiosk` builds the kiosk target served at the root of a local address and writes `release/cihof-kiosk-<release>/`:
+`npm run package:kiosk` builds the kiosk target served at the root of a local address and writes `release/cihof-kiosk-<release>/`, ready to copy to a display (Windows, macOS or Linux):
 
-- `site/`, the exhibit
-- `server.mjs`, a dependency-free local server (Node 22). It listens on 127.0.0.1, answers the byte-range requests films seek with, and never serves outside `site/`
-- `start-kiosk.cmd` / `start-kiosk.sh`, and a `README.txt` for museum staff
-- `MANIFEST.json`: release, content revision, source commit, and every film whose video file was missing on the machine that built it
+- `site/`: the exhibit
+- `launch.mjs`: starts the local server and holds Edge or Chrome full screen on it in its own profile. It relaunches the browser if it closes (backing off if it keeps failing) and restarts it daily at 04:00 (`--restart-at`)
+- `server.mjs`: a dependency-free local server (Node 22). It listens on 127.0.0.1, answers the byte-range requests films seek with, closes files when a request is cancelled, and never serves outside `site/`
+- `start-kiosk` / `stop-kiosk` (`.cmd` and `.sh`): start, which restarts the launcher if it dies, and a clean stop that stays stopped
+- `install-autostart` / `uninstall-autostart`: start at sign-in. Windows uses a Startup shortcut and sets screen and sleep to never; macOS a LaunchAgent; Linux an autostart entry
+- `README.txt` for museum staff, and `MANIFEST.json`: release, content revision, source commit, and every film whose video file was missing on the machine that built it
 
-On the display: start the server, open `http://localhost:8080/` in the browser's kiosk mode. The first visit stores the release for offline use; a new release takes over at the next idle reset. `release/` is ignored by git. The package carries kiosk-only films: never publish it.
+Signing in automatically, powering on after a power cut, and Windows Assigned Access are set on the PC itself; `README.txt` says how. `release/` is ignored by git. The package carries kiosk-only films: never publish it.
 
 ## Editor's preview
 
