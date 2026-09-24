@@ -1,6 +1,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { buildProposedTiesSheet, decisionsInSheet, proposedTiesSheetCsv, relationshipKinds } from '../src/build/review.ts';
+import {
+  buildProposedTiesSheet, decisionsInSheet, proposedTieReviewerColumns, proposedTiesSheetCsv, relationshipKinds,
+} from '../src/build/review.ts';
 import { buildPeople } from '../src/build/people.ts';
 import { readCorpusConnections } from '../src/sources/corpus.ts';
 import { readTieDecisions } from '../src/sources/ties.ts';
@@ -25,11 +27,12 @@ const csvPath = repoFile('data/review-sheets/proposed-ties-sheet.csv');
 const csv = proposedTiesSheetCsv(rows);
 const current = existsSync(csvPath) && readFileSync(csvPath, 'utf8') === csv;
 
-// A decision typed into the sheet lives nowhere else yet. Regenerating over it
-// would destroy review work in silence.
+// Anything typed into the sheet lives nowhere else yet, including a half-done
+// row with only a note or an inverse label. Regenerating over it would destroy
+// review work in silence.
 const signed = current || !existsSync(csvPath)
   ? []
-  : decisionsInSheet(readFileSync(csvPath, 'utf8'), ['decision', 'kind', 'label', 'decisionReference'], 'tieId');
+  : decisionsInSheet(readFileSync(csvPath, 'utf8'), proposedTieReviewerColumns, 'tieId');
 
 if (check) {
   if (signed.length > 0) {
