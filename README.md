@@ -4,7 +4,7 @@ The Cleveland International Hall of Fame exhibit: an offline touch kiosk built o
 
 Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy.
 
-Staff reviewing content: `npm run review` opens the staff review app (`apps/review`) on this computer. It takes a reviewer through proposed connections, places and biography corrections one at a time, then applies their decisions with the same tools as the sheets below and commits each kind of review with their name. It answers only this computer and never pushes. See section 7.1 of the staff guide.
+Staff reviewing content: `npm run review` opens the staff review app (`apps/review`) on this computer. It takes a reviewer through profile approvals, proposed connections, places and biography corrections one at a time, then applies their decisions with the same tools as the sheets below and commits each kind of review with their name. It answers only this computer and never pushes. See section 7.1 of the staff guide.
 
 ## Layout
 
@@ -87,6 +87,7 @@ npm run ties:apply       # the proposed-ties sheet; needs --targets=kiosk (or ki
 npm run curate:apply     # previews; --decision-reference=… --apply to write
 npm run media:apply      # previews; --decision-reference=… --apply to write
 npm run review:bios && npm run bios:apply      # correct a biography (sheet in reports/)
+npm run review:profiles && npm run profiles:apply   # approve profiles as they stand; --report for the counts
 npm run class:template && npm run class:add    # add a new induction class
 npm run portraits:record                       # checksum and size of a new or replaced portrait
 
@@ -112,7 +113,7 @@ The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.m
 
 1. **Kiosk admin settings**: passcode-gated idle timeout, warning, motion, touch cue and hotkey. First settle whether runtime settings may only lengthen timings (§5.2).
 2. **Review-record write path** in `packages/content`: `decisionReference`, `contentVersion` and evidence per claim (§3).
-3. **Staff review app, next reviews**: `apps/review` covers connections, places and biographies. Links, film approvals and new classes are still sheets; add them as reviews when they are next needed.
+3. **Staff review app, next reviews**: `apps/review` covers profiles, connections, places and biographies. Links, film approvals and new classes are still sheets; add them as reviews when they are next needed.
 4. **QR take-home decision** (§5.1): host `apps/web` durably, or drop Share.
 5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
 
