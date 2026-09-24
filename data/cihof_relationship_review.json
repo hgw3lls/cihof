@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T14:18:24.529Z",
+  "generatedAt": "2026-09-23T23:26:11.390Z",
   "source": "data/cihof_induction_crosswalk.json",
   "publicationDecision": {
     "decisionReference": "links-publication-2026-09-22",
@@ -25,7 +25,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "samuel-h-miller-2013",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.529Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     },
     {
@@ -123,7 +127,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "gerald-m-quinn-2011",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T23:26:10.635Z",
+        "note": "Gerald M. Quinn on the official inductee list; Gerry is the same person."
       }
     },
     {
@@ -220,7 +228,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -298,7 +308,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -312,7 +324,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "michael-d-polensek-2023",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T23:26:10.636Z",
+        "note": "Michael Polensek on the official inductee list."
       }
     },
     {
@@ -343,7 +359,11 @@
       ],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "paul-burik-2019",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     },
     {
@@ -438,7 +458,11 @@
       ],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "sudarshan-sathe-2023",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     },
     {
@@ -451,7 +475,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -554,7 +580,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -567,7 +595,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -580,7 +610,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -638,7 +670,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -651,7 +685,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -664,7 +700,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -722,7 +760,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -780,7 +820,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -793,7 +835,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -806,7 +850,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -819,7 +865,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -832,7 +880,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -845,7 +895,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -903,7 +955,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -916,7 +970,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -929,7 +985,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -942,7 +1000,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -955,7 +1015,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -968,7 +1030,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1026,7 +1090,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1084,7 +1150,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1097,7 +1165,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1110,7 +1180,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1123,7 +1195,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1226,7 +1300,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1239,7 +1315,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1252,7 +1330,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1265,7 +1345,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1368,7 +1450,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1381,7 +1465,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1394,7 +1480,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1407,7 +1495,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1465,7 +1555,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1478,7 +1570,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1491,7 +1585,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1504,7 +1600,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1517,7 +1615,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1530,7 +1630,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1543,7 +1645,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1556,7 +1660,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1569,7 +1675,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1672,7 +1780,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1685,7 +1795,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1698,7 +1810,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1711,7 +1825,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1724,7 +1840,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1872,7 +1990,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -1930,7 +2050,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "ratanjit-s-sondhe-2013",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     },
     {
@@ -1943,7 +2067,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "reverend-dr-otis-moss-jr-2011",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     },
     {
@@ -1956,7 +2084,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2014,7 +2144,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2027,7 +2159,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2040,7 +2174,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2053,7 +2189,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2066,7 +2204,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2079,7 +2219,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2092,7 +2234,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "thomas-j-scanlon-2014",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T23:26:10.636Z",
+        "note": "Thomas J. Scanlon on the official inductee list."
       }
     },
     {
@@ -2105,7 +2251,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2118,7 +2266,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2131,7 +2281,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2189,7 +2341,9 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "not-an-inductee",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z"
       }
     },
     {
@@ -2202,7 +2356,11 @@
       "candidates": [],
       "proposes": [],
       "resolution": {
-        "status": "unresolved"
+        "status": "inductee",
+        "inducteeId": "margaret-w-wong-2010",
+        "decisionReference": "names-review-2026-09-23",
+        "decidedAt": "2026-09-23T21:53:52.531Z",
+        "note": "Exact name match; recorded 2026-09-23."
       }
     }
   ]

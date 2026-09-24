@@ -7,6 +7,7 @@ import { inducteeId } from '../identity.ts';
 import { readCuratedRoster } from '../sources/curated.ts';
 import { readPortraits } from '../sources/media.ts';
 import { readRoster } from '../sources/manifest.ts';
+import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { normalizeBioText, normalizeCommunityTags } from '../text/biography.ts';
 
 /**
@@ -20,6 +21,7 @@ import { normalizeBioText, normalizeCommunityTags } from '../text/biography.ts';
 export function buildPeople(): PublishedPerson[] {
   const curated = readCuratedRoster();
   const portraits = readPortraits();
+  const resolvedPresenters = presentersByRecordedName();
   const people: PublishedPerson[] = [];
 
   for (const row of readRoster()) {
@@ -58,6 +60,10 @@ export function buildPeople(): PublishedPerson[] {
       communities: tags(communities),
       contributions: tags(themes),
       countries: tags(countries),
+      // The roster's own `inducted_by` column, carried as a fact rather than
+      // as the sentence `composeContextLine` makes of it. The sentence is
+      // generated prose; the name is the institution's record.
+      presentedBy: presenterFor(row.inductedBy, resolvedPresenters),
       sourceUrl: row.profileUrl || null,
     };
 
@@ -94,4 +100,28 @@ function portraitFor(
     rights,
   } as const;
   return focalPoint ? { ...base, focalPoint } : base;
+}
+
+/**
+ * Recorded presenter names that a curator resolved to somebody in the hall.
+ *
+ * Read from the crosswalk, which is where that decision lives, so a name
+ * printed on a record and a line drawn on the Connections map can never
+ * disagree about who it refers to. A name nobody has resolved, or one resolved
+ * to a person outside the hall, maps to nothing and prints as plain text.
+ */
+function presentersByRecordedName(): Map<string, InducteeId> {
+  const crosswalk = readInductionCrosswalk();
+  const resolved = new Map<string, InducteeId>();
+  for (const entry of crosswalk?.entries ?? []) {
+    if (entry.resolution.status !== 'inductee') continue;
+    resolved.set(entry.recordedName, entry.resolution.inducteeId);
+  }
+  return resolved;
+}
+
+function presenterFor(recordedName: string, resolved: Map<string, InducteeId>) {
+  const name = recordedName.trim();
+  if (name.length === 0) return null;
+  return { recordedName: name, inducteeId: resolved.get(name) ?? null };
 }

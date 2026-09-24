@@ -14,7 +14,7 @@ import type { RuntimePerson } from '../src/data/runtime.ts';
 
 const person = (id: string, name: string): RuntimePerson => ({
   id, name, sortName: name, classYear: 2010, portrait: null, biography: '', biographyCurated: false,
-  contributions: [], communities: [], countries: [], sourceUrl: null, films: [],
+  contributions: [], communities: [], countries: [], sourceUrl: null, presentedBy: null, films: [],
 });
 
 const people = [person('miller', 'Samuel H. Miller'), person('ratner', 'Albert B. Ratner'), person('pilla', 'Bishop Anthony Pilla')];

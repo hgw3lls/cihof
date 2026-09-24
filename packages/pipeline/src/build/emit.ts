@@ -104,6 +104,12 @@ export type RuntimePerson = {
   readonly communities: readonly string[];
   readonly countries: readonly string[];
   readonly sourceUrl: string | null;
+  /**
+   * Who presented this person, as the roster records it. Text, not a link into
+   * the graph: most presenters are not in the hall and have nothing behind
+   * their name. `inducteeId` is set only for the ones who are.
+   */
+  readonly presentedBy: { readonly recordedName: string; readonly inducteeId: string | null } | null;
   /** Films cleared for this target. Empty for every person today. */
   readonly films: readonly PublishedFilm[];
 };
@@ -130,8 +136,9 @@ export function buildRuntimeBundle(
 ): RuntimeBundle {
   const holdings = readVideoHoldings();
   const delivery = sources.filmDelivery ?? filmDeliveryFor(target);
+  const publishedIds = new Set<string>(people.map((person) => person.id as string));
   const runtimePeople = people.map((person) =>
-    toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target, delivery)));
+    toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target, delivery), publishedIds));
 
   // Count what the withheld holdings are waiting on, so a silent wall is
   // explainable rather than mysterious.
@@ -259,7 +266,11 @@ export function writeRuntimeBundle(bundle: RuntimeBundle, path: string): void {
   writeFileSync(path, `${JSON.stringify(bundle, null, 2)}\n`);
 }
 
-function toRuntimePerson(person: PublishedPerson, films: readonly PublishedFilm[]): RuntimePerson {
+function toRuntimePerson(
+  person: PublishedPerson,
+  films: readonly PublishedFilm[],
+  published: ReadonlySet<string>,
+): RuntimePerson {
   const portrait = displayablePortrait(person.portrait);
   const biography = isAttributable(person.biography) ? person.biography : null;
   return {
@@ -278,6 +289,16 @@ function toRuntimePerson(person: PublishedPerson, films: readonly PublishedFilm[
     communities: facetable(person.communities),
     countries: facetable(person.countries),
     sourceUrl: person.sourceUrl,
+    // Only linked where the name resolves to somebody published in this
+    // release. A link to a person the target withholds is a dead end.
+    presentedBy: person.presentedBy
+      ? {
+        recordedName: person.presentedBy.recordedName,
+        inducteeId: person.presentedBy.inducteeId && published.has(person.presentedBy.inducteeId)
+          ? person.presentedBy.inducteeId
+          : null,
+      }
+      : null,
     films,
   };
 }

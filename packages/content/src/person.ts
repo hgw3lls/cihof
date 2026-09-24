@@ -38,6 +38,29 @@ export type PublishedPerson = {
   readonly countries: TagSet;
   /** The institution's own page for this person, when it has one. */
   readonly sourceUrl: string | null;
+  /**
+   * Who presented this person at their induction, as the roster records it.
+   *
+   * Not a relationship. Seventy-two of the hundred and eleven were presented by
+   * somebody who is not in the hall — sixty-seven distinct people with no
+   * portrait, no record and no page to open — so drawing a line to them would
+   * put nodes on the Connections map that a visitor can reach and then find
+   * nothing behind. It is what the institution wrote down about the ceremony,
+   * carried as text.
+   *
+   * `inducteeId` is set only where the induction crosswalk resolved the name to
+   * somebody in the hall. That is the same resolution Connections uses, so the
+   * two can never disagree about who a name refers to: one draws a line, the
+   * other prints a name, and both read the same decision.
+   */
+  readonly presentedBy: Presenter | null;
+};
+
+export type Presenter = {
+  /** Exactly as the roster records it. Never cleaned up. */
+  readonly recordedName: string;
+  /** Set when a curator resolved this name to somebody in the hall. */
+  readonly inducteeId: InducteeId | null;
 };
 
 const explicitTagProvenance = new Set<TagProvenance>(['curated', 'documented']);
