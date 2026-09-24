@@ -14,6 +14,10 @@ WHAT THE DISPLAY NEEDS
   .cmd files; on macOS and Linux the .sh files.
 
 
+STAFF-GUIDE.md, beside this file, is the full guide: installing, daily
+operation, updating content, backups and troubleshooting.
+
+
 EVERYDAY USE
 
   Start:  start-kiosk.cmd

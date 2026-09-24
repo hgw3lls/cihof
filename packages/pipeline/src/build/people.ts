@@ -4,9 +4,9 @@ import {
 } from '@cihof/content';
 import { classifyComposed, composeContextLine, composeHonoredFor } from '../compose.ts';
 import { inducteeId } from '../identity.ts';
-import { readCuratedRoster } from '../sources/curated.ts';
-import { readPortraits } from '../sources/media.ts';
-import { readRoster } from '../sources/manifest.ts';
+import { curatedRosterFrom, readCuratedRoster } from '../sources/curated.ts';
+import { portraitsFrom, readPortraits } from '../sources/media.ts';
+import { readRoster, rosterFrom } from '../sources/manifest.ts';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { normalizeBioText, normalizeCommunityTags } from '../text/biography.ts';
 
@@ -17,14 +17,28 @@ import { normalizeBioText, normalizeCommunityTags } from '../text/biography.ts';
  * decided. The kiosk manifest supplies the institution's biography and the
  * harvested facts. The media manifest supplies the portrait. Nothing here
  * invents a value that no source asserts.
+ *
+ * Each source is read from `data/` unless it is passed in. The apply tools pass
+ * the version they are about to write, so a preview can say what a sheet would
+ * change on screen before anything is written.
  */
-export function buildPeople(): PublishedPerson[] {
-  const curated = readCuratedRoster();
-  const portraits = readPortraits();
+export type PeopleSources = {
+  /** `cihof_curated_metadata.json`, parsed. */
+  readonly curated?: unknown;
+  /** `media_manifest.json`, parsed. */
+  readonly media?: unknown;
+  /** `cihof_kiosk_manifest.csv`, as text. */
+  readonly rosterCsv?: string;
+};
+
+export function buildPeople(sources: PeopleSources = {}): PublishedPerson[] {
+  const curated = sources.curated === undefined ? readCuratedRoster() : curatedRosterFrom(sources.curated);
+  const portraits = sources.media === undefined ? readPortraits() : portraitsFrom(sources.media);
+  const roster = sources.rosterCsv === undefined ? readRoster() : rosterFrom(sources.rosterCsv);
   const resolvedPresenters = presentersByRecordedName();
   const people: PublishedPerson[] = [];
 
-  for (const row of readRoster()) {
+  for (const row of roster) {
     const id = inducteeId(row.name, row.classYear);
     const record = curated.get(id);
     if (!record) continue;

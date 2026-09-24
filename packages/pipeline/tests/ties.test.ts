@@ -41,6 +41,9 @@ const marriage = decided(spouse, {
 });
 const together = decided(session, { decision: 'context', label: 'Both recorded in the same 2017 oral-history session' });
 
+// The relationships the crosswalk gives today, without any decided tie.
+const inductionOnly = () => buildRuntimeBundle(people, 'kiosk', { tieDecisions: [] }).relationships.length;
+
 test('a decided relationship is published to the audience it names, and no other', () => {
   const kiosk = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [marriage] });
   const tie = kiosk.relationships.find((relationship) => (relationship.id as string) === `tie:${spouse.id}`);
@@ -48,7 +51,7 @@ test('a decided relationship is published to the audience it names, and no other
   assert.equal(tie.kind, 'family-of');
   assert.equal(tie.evidence[0]?.excerpt, spouse.evidence, 'the corpus passage travels with it as its citation');
   assert.equal(kiosk.relationshipReport.fromTies, 1);
-  assert.equal(kiosk.relationships.length, 49, 'counted with the 48 induction relationships');
+  assert.equal(kiosk.relationships.length, inductionOnly() + 1, 'counted with the induction relationships');
 
   const web = buildRuntimeBundle(people, 'public', { tieDecisions: [marriage] });
   assert.equal(web.relationships.some((relationship) => (relationship.id as string).startsWith('tie:')), false);
@@ -64,7 +67,7 @@ test('context stays context: drawn apart, never counted as a relationship', () =
   const kiosk = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [together] });
   assert.equal(kiosk.contexts.length, 1);
   assert.equal(kiosk.contexts[0]!.basis, 'appeared-together');
-  assert.equal(kiosk.relationships.length, 48);
+  assert.equal(kiosk.relationships.length, inductionOnly());
   assert.equal(buildRuntimeBundle(people, 'public', { tieDecisions: [together] }).contexts.length, 0);
 });
 
@@ -74,7 +77,7 @@ test('a decided tie, whichever way it went, is no longer proposed in preview', (
   const after = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [rejected, together] });
   assert.equal(after.candidates.length, before.candidates.length - 2);
   assert.equal(after.contexts.length, 1);
-  assert.equal(after.relationships.length, 48, 'a rejection publishes nothing');
+  assert.equal(after.relationships.length, inductionOnly(), 'a rejection publishes nothing');
 });
 
 test('the sheet shows what has been decided', () => {

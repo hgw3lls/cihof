@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 /**
- * The kiosk manifest is the roster of record: 111 rows, one per inductee.
+ * The kiosk manifest is the roster of record: one row per inductee.
  *
  * It is a canonical source, not a generated artifact, and is never rewritten by
  * this pipeline.
@@ -23,7 +23,12 @@ import { dataFile } from '../paths.ts';
 const manifestPath = () => dataFile('cihof_kiosk_manifest.csv');
 
 export function readRoster(): RosterRow[] {
-  return parseCsv(readFileSync(manifestPath(), 'utf8')).map((row) => ({
+  return rosterFrom(readFileSync(manifestPath(), 'utf8'));
+}
+
+/** The same, from CSV text already in memory: a change an apply tool is previewing. */
+export function rosterFrom(csv: string): RosterRow[] {
+  return parseCsv(csv).map((row) => ({
     // The first column carries a UTF-8 BOM in the source file.
     name: (row['name'] ?? row['﻿name'] ?? '').trim(),
     classYear: (row['class_year'] ?? '').trim(),

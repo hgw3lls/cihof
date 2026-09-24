@@ -1,11 +1,15 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { loadInductees, loadMediaManifest, mediaManifestPath, parseCsv } from './data-utils.js';
+import { changesWhatVisitorsSee, printVisibleChanges, visibleChanges, writeRecordedDifferences } from './parity-utils.js';
 
 const args = parseArgs(process.argv.slice(2));
 const inputPath = args.input ? resolve(args.input) : '';
 const outputPath = args.output ? resolve(args.output) : mediaManifestPath;
-const dryRun = Boolean(args.dryRun);
+// A preview unless --apply is given, like every other apply tool here: a
+// sheet is read, checked and summarised first, and nothing is written by
+// accident. --dry-run is still accepted and still means a preview.
+const dryRun = !args.apply || Boolean(args.dryRun);
 const clearEmpty = Boolean(args.clearEmpty);
 const noBackup = Boolean(args.noBackup);
 
@@ -81,16 +85,39 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
+// What this changes on screen, from the published record. A change visitors
+// will see is recorded with the decision that made it, or npm test fails; so
+// such a change needs a decision reference before it is written.
+const writesCanonical = outputPath === mediaManifestPath;
+const reference = decisionReference(args, rows);
+const visible = writesCanonical
+  ? visibleChanges({ sources: { media: manifest }, ids: applied.map(({ id }) => id), decisionReference: reference })
+  : null;
+if (visible) printVisibleChanges(visible);
+if (visible && changesWhatVisitorsSee(visible) && !reference) {
+  console.error('\nThis sheet changes what visitors see, so it needs the decision it rests on:');
+  console.error('  add --decision-reference=<reference>, or a decision_reference column with one value.');
+  console.error('  See data/curation-decisions/README.md for how references are named.');
+  if (!dryRun) {
+    console.error('Nothing was written.');
+    process.exit(1);
+  }
+}
+
 if (dryRun) {
-  console.log('Dry run only. No files were written.');
+  console.log(`\nPreview only. No files were written. To write them: npm run media:apply -- --input=${args.input}${reference && args.decisionReference ? ` --decision-reference=${reference}` : ''} --apply`);
 } else {
-  if (outputPath === mediaManifestPath && !noBackup) {
+  if (writesCanonical && !noBackup) {
     const backupPath = `${mediaManifestPath}.backup-${new Date().toISOString().replace(/[:.]/g, '-')}`;
     copyFileSync(mediaManifestPath, backupPath);
     console.log(`Backup written to ${backupPath}`);
   }
   writeFileSync(outputPath, `${JSON.stringify(manifest, null, 2)}\n`);
   console.log(`Wrote ${outputPath}`);
+  if (visible && changesWhatVisitorsSee(visible)) {
+    writeRecordedDifferences(visible);
+    console.log(`Recorded what visitors see differently under ${reference} in data/cihof_reviewed_differences.json`);
+  }
 }
 
 function applyRow(record, row, rowNumber, errors) {
@@ -492,8 +519,10 @@ function parseArgs(values) {
   for (let index = 0; index < values.length; index += 1) {
     const value = values[index];
     if (value === '--dry-run') parsed.dryRun = true;
+    else if (value === '--apply') parsed.apply = true;
     else if (value === '--clear-empty') parsed.clearEmpty = true;
     else if (value === '--no-backup') parsed.noBackup = true;
+    else if (value.startsWith('--decision-reference=')) parsed.decisionReference = value.slice('--decision-reference='.length).trim();
     else if (value.startsWith('--input=')) parsed.input = value.slice('--input='.length);
     else if (value === '--input') {
       parsed.input = values[index + 1];
@@ -509,8 +538,8 @@ function parseArgs(values) {
 
 function printUsage() {
   console.error(`Usage:
-  npm run media:apply -- --input=/path/to/edited-media-review.csv --dry-run
-  npm run media:apply -- --input=/path/to/edited-media-review.csv
+  npm run media:apply -- --input=/path/to/edited-media-review.csv            (preview; writes nothing)
+  npm run media:apply -- --input=/path/to/edited-media-review.csv --apply    (writes)
 
 Supported editable columns include:
   image_rights_approved, primary_image_kiosk_approved,
@@ -524,4 +553,19 @@ Supported editable columns include:
 Use a blank video_index or "all" for status approvals across every video.
 Use a 1-based video_index when editing video file/path fields on profiles with multiple videos.
 `);
+}
+
+/**
+ * The decision a sheet rests on: --decision-reference, or the one value of the
+ * sheet's decision_reference column. Two different values in one sheet are
+ * two decisions, and are applied as two sheets.
+ */
+function decisionReference(parsedArgs, sheetRows) {
+  if (parsedArgs.decisionReference) return parsedArgs.decisionReference;
+  const values = new Set(sheetRows.map((row) => getCell(row, ['decision_reference', 'decisionreference']) ?? '').filter(Boolean));
+  if (values.size > 1) {
+    console.error(`This sheet names ${values.size} decision references (${[...values].join(', ')}). Split it into one sheet per decision.`);
+    process.exit(1);
+  }
+  return [...values][0] ?? '';
 }

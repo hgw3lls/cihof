@@ -2,6 +2,8 @@
 
 The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model. A new staff portal for editing that data comes next (see Roadmap).
 
+Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy.
+
 ## Layout
 
 | Path | What it is |
@@ -80,8 +82,17 @@ npm run crosswalk:check && npm run review:links:check && npm run review:places:c
 npm run links:apply
 npm run places:apply
 npm run ties:apply       # the proposed-ties sheet; needs --targets=kiosk (or kiosk,public-web)
-npm run curate:apply
-npm run media:apply
+npm run curate:apply     # previews; --decision-reference=… --apply to write
+npm run media:apply      # previews; --decision-reference=… --apply to write
+npm run review:bios && npm run bios:apply      # correct a biography (sheet in reports/)
+npm run class:template && npm run class:add    # add a new induction class
+npm run portraits:record                       # checksum and size of a new or replaced portrait
+
+# What visitors see differently from the published record, and the decision
+# behind each: data/cihof_reviewed_differences.json. The tools above record
+# it; npm test fails on anything unrecorded.
+npm run parity:report
+npm run parity:record -- --ids=… --decision-reference=…
 
 npm run media:validate && npm run curate:report   # reports go to reports/ (ignored)
 npm run media:assert                             # every film asset is tracked
