@@ -80,8 +80,8 @@ npm run crosswalk:check && npm run review:links:check && npm run review:places:c
 npm run links:apply
 npm run places:apply
 npm run ties:apply       # the proposed-ties sheet; needs --targets=kiosk (or kiosk,public-web)
-npm run curate:apply
-npm run media:apply
+npm run curate:apply     # previews; add --apply to write
+npm run media:apply      # previews; add --apply to write
 
 npm run media:validate && npm run curate:report   # reports go to reports/ (ignored)
 npm run media:assert                             # every film asset is tracked
