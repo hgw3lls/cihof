@@ -2,7 +2,7 @@
 
 This folder is a separated external-source collection area.
 
-It is not canonical CIHOF content, is not generated into `public/data/`, and should not be used by the visitor app until a curator reviews and promotes specific facts into authored source files.
+It is not canonical CIHOF content, is not read by the pipeline or the exhibit, and should not be used by either until a curator reviews and promotes specific facts into authored source files.
 
 Excluded primary source domains for this collection:
 
