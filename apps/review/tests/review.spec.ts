@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { execFileSync, spawn, type ChildProcess } from 'node:child_process';
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
@@ -25,6 +25,18 @@ test.beforeAll(async () => {
   execFileSync('git', ['worktree', 'add', '--detach', worktree, 'HEAD'], { cwd: repo, stdio: 'ignore' });
   symlinkSync(join(repo, 'node_modules'), join(worktree, 'node_modules'), 'junction');
   cpSync(join(repo, 'apps/review/dist'), join(worktree, 'apps/review/dist'), { recursive: true });
+
+  // Start from connections nobody has decided, whatever the real collection's
+  // review has reached: the copy's tie decisions are cleared, its sheet
+  // regenerated, and that committed, so the copy is clean.
+  const decisionsPath = join(worktree, 'data/cihof_tie_decisions.json');
+  if (existsSync(decisionsPath)) {
+    const document = JSON.parse(readFileSync(decisionsPath, 'utf8'));
+    writeFileSync(decisionsPath, `${JSON.stringify({ ...document, decisions: [] }, null, 2)}\n`);
+    execFileSync(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning',
+      join(worktree, 'packages/pipeline/scripts/ties-sheet.mjs'), '--force'], { cwd: worktree, stdio: 'ignore' });
+    git('-c', 'user.name=Test', '-c', 'user.email=test@cihof.invalid', 'commit', '-q', '-am', 'test: start from undecided connections');
+  }
 
   server = spawn(process.execPath, [
     '--experimental-strip-types', '--no-warnings=ExperimentalWarning',
