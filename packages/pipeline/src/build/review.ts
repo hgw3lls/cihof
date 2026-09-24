@@ -442,6 +442,15 @@ export function proposedTiesSheetCsv(rows: readonly ProposedTieRow[]): string {
   return `${lines.join('\n')}\n`;
 }
 
+/**
+ * Every column the reviewer owns. All of them count as review work, including a
+ * half-done row with only a note or an inverse label, so regenerating the sheet
+ * can never discard anything somebody typed.
+ */
+export const proposedTieReviewerColumns: readonly string[] = [
+  'decision', 'kind', 'label', 'inverseLabel', 'decisionReference', 'note',
+];
+
 /** Relationship kinds the model accepts, for the sheet's own guidance. */
 export const relationshipKinds: readonly string[] = [
   'collaborated-with', 'founded-with', 'mentored', 'taught', 'succeeded', 'employed', 'family-of', 'nominated',

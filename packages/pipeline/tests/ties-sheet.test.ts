@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { buildPeople } from '../src/build/people.ts';
-import { buildProposedTiesSheet, decisionsInSheet, proposedTiesSheetCsv } from '../src/build/review.ts';
+import { buildProposedTiesSheet, decisionsInSheet, proposedTieReviewerColumns, proposedTiesSheetCsv } from '../src/build/review.ts';
 import { readCorpusConnections, type CorpusConnection } from '../src/sources/corpus.ts';
 
 /**
@@ -47,4 +47,18 @@ test('the sheet is generated with every decision column empty', () => {
   const csv = proposedTiesSheetCsv(buildProposedTiesSheet(readCorpusConnections(), people));
   assert.deepEqual(decisionsInSheet(csv, ['decision', 'kind', 'label', 'decisionReference'], 'tieId'), []);
   assert.equal(csv.trim().split('\n').length - 1, 29);
+});
+
+test('a half-done row with only a note or an inverse label still counts as review work', () => {
+  const csv = proposedTiesSheetCsv(buildProposedTiesSheet(readCorpusConnections(), people));
+  const lines = csv.split('\n');
+  const header = lines[0]!.split(',');
+  for (const column of ['inverseLabel', 'note']) {
+    const cells = lines[1]!.split(',');
+    // The generated reviewer columns are the last six and always empty, so
+    // this row has no commas inside quotes to trip over at those positions.
+    cells[cells.length - header.length + header.indexOf(column)] = 'half done';
+    const edited = [lines[0], cells.join(','), ...lines.slice(2)].join('\n');
+    assert.equal(decisionsInSheet(edited, proposedTieReviewerColumns, 'tieId').length, 1, `${column} alone counts`);
+  }
 });

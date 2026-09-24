@@ -1,4 +1,4 @@
-import type { PublishedPlace } from '@cihof/content';
+import { isApproved, type PublishedPlace, type Review } from '@cihof/content';
 import type { CorpusConnection } from '../sources/corpus.ts';
 
 /**
@@ -97,9 +97,13 @@ export function previewPlaces(
   for (const value of seeds) {
     const seed = value as {
       id?: unknown; name?: unknown; shortHistory?: unknown; neighborhood?: unknown;
-      related?: { people?: unknown };
+      related?: { people?: unknown }; review?: Review;
     };
     if (typeof seed.id !== 'string' || typeof seed.name !== 'string' || reviewedIds.has(seed.id)) continue;
+    // A place somebody has decided about is not unreviewed, whatever audience
+    // the decision named. One approved for the web only, or withheld, stays out
+    // of a kiosk preview rather than reappearing marked as never reviewed.
+    if (isApproved(seed.review) || seed.review?.status === 'withheld') continue;
     const related = Array.isArray(seed.related?.people)
       ? seed.related.people.filter((id): id is string => typeof id === 'string' && published.has(id))
       : [];
