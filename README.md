@@ -1,8 +1,10 @@
 # CIHOF
 
-The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model. A new staff portal for editing that data comes next (see Roadmap).
+The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model, and a guided staff review app for the decisions behind it.
 
 Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy.
+
+Staff reviewing content: `npm run review` opens the staff review app (`apps/review`) on this computer. It takes a reviewer through proposed connections, places and biography corrections one at a time, then applies their decisions with the same tools as the sheets below and commits each kind of review with their name. It answers only this computer and never pushes. See section 7.1 of the staff guide.
 
 ## Layout
 
@@ -110,7 +112,7 @@ The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.m
 
 1. **Kiosk admin settings**: passcode-gated idle timeout, warning, motion, touch cue and hotkey. First settle whether runtime settings may only lengthen timings (§5.2).
 2. **Review-record write path** in `packages/content`: `decisionReference`, `contentVersion` and evidence per claim (§3).
-3. **New staff portal** on that model: a visual, guided review app, so approving content is one clear step at a time rather than a spreadsheet of blank columns. Build on the editor's preview (`CIHOF_PREVIEW=all`), which already shows unreviewed items in place. Port the old `scripts/portal-runner.js` from `c8f749c`, keeping its dry-run, hash-match and clean-tree gates, and include the review queue and diagnostics.
+3. **Staff review app, next reviews**: `apps/review` covers connections, places and biographies. Links, film approvals and new classes are still sheets; add them as reviews when they are next needed.
 4. **QR take-home decision** (§5.1): host `apps/web` durably, or drop Share.
 5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
 
