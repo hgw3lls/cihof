@@ -73,7 +73,7 @@ test('context stays context: drawn apart, never counted as a relationship', () =
 
 test('a decided tie, whichever way it went, is no longer proposed in preview', () => {
   const rejected = decided(spouse, { decision: 'reject' });
-  const before = buildRuntimeBundle(people, 'kiosk', { preview: true });
+  const before = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [] });
   const after = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [rejected, together] });
   assert.equal(after.candidates.length, before.candidates.length - 2);
   assert.equal(after.contexts.length, 1);
