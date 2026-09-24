@@ -14,12 +14,13 @@
  *     places:    { [placeId]: { approve: true, note } },
  *     placeTies: { ["placeId|personId"]: { role, note } },
  *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
+ *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
  *   }
  */
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -78,6 +79,18 @@ export function biosCsv(draft, day) {
   return csv(['id', 'name', 'classYear', 'provenance', 'currentText', 'correctedText', 'useSourceText', 'decisionReference', 'note'], rows);
 }
 
+/**
+ * The version is the one the reviewer saw. profiles:apply refuses an approval
+ * whose profile has changed since, so nobody approves words they did not read.
+ */
+export function profilesCsv(draft, day) {
+  const reference = decisionReference('profiles', day);
+  const rows = Object.entries(draft.profiles ?? {}).map(([id, value]) => [
+    id, value.seenVersion ?? '', value.decision, reference, signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['id', 'contentVersion', 'decision', 'decisionReference', 'note'], rows);
+}
+
 export function splitTieKey(key) {
   const at = key.lastIndexOf('|');
   return [key.slice(0, at), key.slice(at + 1)];
@@ -90,6 +103,7 @@ export function draftCounts(draft) {
     places: Object.values(draft.places ?? {}).filter((value) => value.approve === true).length,
     placeTies: Object.keys(draft.placeTies ?? {}).length,
     bios: Object.keys(draft.bios ?? {}).length,
+    profiles: Object.keys(draft.profiles ?? {}).length,
   };
 }
 

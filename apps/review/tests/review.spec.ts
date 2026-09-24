@@ -101,6 +101,22 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('button', { name: 'Keep this correction' }).click();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
+  // Profiles. Hers waits until the correction is saved; the next is approved,
+  // the one after has changes asked for.
+  await page.getByRole('button', { name: /^Profiles/ }).click();
+  await expect(page.getByRole('heading', { name: 'Jeanette Grasselli Brown' })).toBeVisible();
+  await expect(page.getByText(/Save it first, then approve the profile/)).toBeVisible();
+  await expect(page.getByRole('button', { name: /Yes, approve it/ })).toHaveCount(0);
+  await page.getByRole('button', { name: /Skip for now/ }).click();
+  const approvedName = await page.locator('.profile h2').innerText();
+  await page.getByRole('button', { name: /Yes, approve it/ }).click();
+  await page.getByRole('button', { name: 'Next →' }).click();
+  const queriedName = await page.locator('.profile h2').innerText();
+  await page.getByRole('button', { name: /Something needs changing/ }).click();
+  await expect(page.getByText(/Not finished yet: say what needs changing/)).toBeVisible();
+  await page.getByLabel('What needs changing?').fill('Test: the class year needs checking');
+  await page.getByRole('button', { name: 'Stop for now' }).click();
+
   // Nothing is written until the reviewer saves.
   expect(git('status', '--porcelain').trim()).toBe('');
   expect(git('rev-parse', 'HEAD').trim()).toBe(before);
@@ -116,6 +132,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: places, 1 decision');
   expect(log).toContain('review: what people did at places, 1 decision');
   expect(log).toContain('review: biographies, 1 decision');
+  expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('Reviewed-by: Playwright Reviewer');
   expect(git('status', '--porcelain').trim()).toBe('');
 
@@ -128,6 +145,12 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
 
   const curated = JSON.parse(readFileSync(join(worktree, 'data/cihof_curated_metadata.json'), 'utf8'));
   expect(curated.inductees['jeanette-grasselli-brown-2010'].bioTextOverride).toContain('spent 38 (test) years');
+  const byName = (name: string) => Object.values(curated.inductees).find((record) => (record as { displayName: string }).displayName === name) as Record<string, any>;
+  expect(byName(approvedName).profileReview).toMatchObject({ status: 'approved', decisionReference: expect.stringMatching(/^profiles-review-/) });
+  expect(byName(approvedName).approvalStatus).toBe('approved');
+  expect(byName(queriedName).profileReview).toMatchObject({ status: 'changes-requested' });
+  expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
+  expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 
   // The home page now says the saves are waiting for the developer, and nothing is left to save.
   await page.getByRole('button', { name: 'Back to the start' }).click();

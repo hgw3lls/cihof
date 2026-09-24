@@ -7,6 +7,8 @@ type Props = {
   draft: Draft;
   update: (change: (current: Draft) => Draft) => void;
   onDone: () => void;
+  /** Open straight on this person's biography, as from their profile. */
+  startWith?: string | null;
 };
 
 /**
@@ -14,9 +16,9 @@ type Props = {
  * changed, and keep it. The institution's own text is never altered; a
  * correction is shown as a curator's text, with the decision beside it.
  */
-export function Biographies({ review, draft, update, onDone }: Props) {
+export function Biographies({ review, draft, update, onDone, startWith = null }: Props) {
   const [query, setQuery] = useState('');
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(startWith);
   const open = review.bios.find((bio) => bio.id === openId) ?? null;
 
   const matches = useMemo(() => {
