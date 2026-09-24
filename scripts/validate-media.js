@@ -4,7 +4,7 @@ import { generatedAtFor } from './stable-generated-at.js';
 import { loadInductees } from './data-utils.js';
 
 const manifestPath = resolve('data/media_manifest.json');
-const reportPath = resolve('public/data/media-report.json');
+const reportPath = resolve('reports/media-report.json');
 const args = parseArgs(process.argv.slice(2));
 const strict = Boolean(args.strict);
 const strictProfile = strict ? args.profile || (args.wall ? 'wall' : 'full') : 'report';

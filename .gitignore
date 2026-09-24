@@ -11,16 +11,16 @@ dist-portal/
 *.tsbuildinfo
 
 # Local generated audit output
-artifacts/data-audit.local.json
-artifacts/launch-readiness.local.json
-artifacts/video-caption-transcript-report*.csv
-artifacts/video-caption-transcript-report*.json
-artifacts/video-file-download-queue.csv
-artifacts/video-file-download-queue.json
-artifacts/video-file-sync-report*.csv
-artifacts/video-file-sync-report*.json
-artifacts/video-manifest-normalization-report*.json
-artifacts/video-whisper-transcription-report*.json
+plans/artifacts/data-audit.local.json
+plans/artifacts/launch-readiness.local.json
+plans/artifacts/video-caption-transcript-report*.csv
+plans/artifacts/video-caption-transcript-report*.json
+plans/artifacts/video-file-download-queue.csv
+plans/artifacts/video-file-download-queue.json
+plans/artifacts/video-file-sync-report*.csv
+plans/artifacts/video-file-sync-report*.json
+plans/artifacts/video-manifest-normalization-report*.json
+plans/artifacts/video-whisper-transcription-report*.json
 
 # Local safety copies written by scripts/apply-media-decisions.js before it
 # edits the manifest. Useful on the machine that made the change, noise in the
@@ -41,7 +41,7 @@ public/media/videos/*
 !public/media/videos/.gitkeep
 data/media-acquisition/youtube-download-archive.txt
 tools/whisper-models/*.bin
-artifacts/whisper-audio-cache/
+plans/artifacts/whisper-audio-cache/
 
 # Local staff portal runner scratch files
 .portal/
@@ -49,14 +49,14 @@ artifacts/whisper-audio-cache/
 # Local Playwright artifacts
 test-results/
 playwright-report/
-artifacts/mg00-baseline/
-artifacts/mg01-review/
-artifacts/mg02-review/
-artifacts/mg03-review/
-artifacts/mg04-review/
-artifacts/mg05-review/
-artifacts/mg06-review/
-artifacts/ce00-baseline/
+plans/artifacts/mg00-baseline/
+plans/artifacts/mg01-review/
+plans/artifacts/mg02-review/
+plans/artifacts/mg03-review/
+plans/artifacts/mg04-review/
+plans/artifacts/mg05-review/
+plans/artifacts/mg06-review/
+plans/artifacts/ce00-baseline/
 dist-kiosk/
 
 # Rewrite build output
@@ -65,3 +65,6 @@ apps/web/public/media/
 apps/exhibit/public/data/
 apps/exhibit/test-results/
 apps/web/test-results/
+
+# Local reports written by the data scripts
+/reports/
