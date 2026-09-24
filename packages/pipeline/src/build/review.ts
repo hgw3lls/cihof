@@ -103,7 +103,7 @@ export function reviewSheetCsv(sheet: RelationshipReviewSheet): string {
  * and quotation marks; a sheet that mangled them would send a reviewer looking
  * for a person the roster does not record.
  */
-function csvCell(value: string): string {
+export function csvCell(value: string): string {
   if (!/[",\n\r]/.test(value)) return value;
   return `"${value.replace(/"/g, '""')}"`;
 }
@@ -155,7 +155,7 @@ export function decisionsInSheet(
 }
 
 /** Minimal RFC4180 reader. Only needs to survive what a spreadsheet writes. */
-function parseRows(text: string): string[][] {
+export function parseRows(text: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
   let value = '';
