@@ -39,7 +39,7 @@ test('the crosswalk as it actually stands opens Connections on the wall', () => 
   // publication decision. These counts move as review lands. The separation
   // they rest on does not, and is tested below.
   const bundle = buildRuntimeBundle(people, 'kiosk');
-  assert.equal(bundle.relationships.length, 42);
+  assert.equal(bundle.relationships.length, 48);
   assert.equal(bundle.lenses.includes('links'), true);
   assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 0);
   assert.equal(bundle.relationshipReport.crosswalkApproved, true);

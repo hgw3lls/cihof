@@ -46,18 +46,20 @@ test('the sheet covers every recorded name, not only the answerable ones', () =>
 
 test('every recorded name has now been decided', () => {
   // 25 confirmed against corpus candidates on 2026-09-22, then the remaining
-  // 70 worked through in the review portal on 2026-09-23: 6 more resolved to
-  // an inductee and 64 found not to be one. Nothing is left open.
+  // 70 worked through in the review portal on 2026-09-23. Nine of those turned
+  // out to be in the hall — six caught by name, three more (Gerry Quinn, Mike
+  // Polensek, Tom Scanlon) only against the institution's own published list,
+  // because a nickname is not a string match. Nothing is left open.
   const progress = reviewProgress(sheet);
   assert.equal(progress.resolved, 95);
   assert.equal(progress.unresolved, 0);
-  assert.equal(progress.relationshipsResolved, 42);
+  assert.equal(progress.relationshipsResolved, 48);
 });
 
 test('the sheet reports the lens open, and says what signed it', () => {
   const progress = reviewProgress(sheet);
   assert.equal(progress.publicationDecisionSigned, true);
-  assert.equal(progress.linksCount, 42);
+  assert.equal(progress.linksCount, 48);
   assert.equal(progress.linksWouldOpen, true);
   assert.deepEqual(reviewRemaining(sheet), [], 'nothing stands between this and an open lens');
 });
@@ -67,7 +69,7 @@ test('the same resolutions report a shut lens with the signature removed', () =>
   // 31 are resolved either way, and only the decision makes them countable.
   const unsigned = buildRelationshipReviewSheet(withoutDecision(crosswalk), people);
   const progress = reviewProgress(unsigned);
-  assert.equal(progress.relationshipsResolved, 42, 'the review work is unchanged');
+  assert.equal(progress.relationshipsResolved, 48, 'the review work is unchanged');
   assert.equal(progress.publicationDecisionSigned, false);
   assert.equal(progress.linksCount, 0);
   assert.equal(progress.linksWouldOpen, false);
@@ -316,4 +318,60 @@ test('an empty file is genuinely empty, not a refusal', () => {
 test('a quoted name carrying a comma survives detection', () => {
   const quoted = `${header}\n"Wong, Margaret",no-candidate,inductee,margaret-w-wong-2010,cur-2026-063,`;
   assert.deepEqual(decisionsInSheet(quoted), ['Wong, Margaret: inductee / cur-2026-063']);
+});
+
+// ------------------------------------------------------------- presenters
+
+test('every inductee carries the presenter the roster recorded', () => {
+  // 111 of 111. The roster names somebody for each, and losing that was the
+  // cost of answering "not an inductee" and nothing else.
+  const withPresenter = people.filter((person) => person.presentedBy !== null);
+  assert.equal(withPresenter.length, people.length);
+  for (const person of withPresenter) {
+    assert.ok((person.presentedBy?.recordedName ?? '').trim().length > 0, `${person.id} has a blank presenter`);
+  }
+});
+
+test('a presenter is linked only where a curator resolved them to the hall', () => {
+  // The same decision Connections reads, so a name printed on a record and a
+  // line drawn on the map can never disagree about who it refers to.
+  const crosswalk = readInductionCrosswalk();
+  const resolved = new Map(
+    (crosswalk?.entries ?? [])
+      .filter((entry) => entry.resolution.status === 'inductee')
+      .map((entry) => [entry.recordedName, (entry.resolution as { inducteeId: string }).inducteeId]),
+  );
+  for (const person of people) {
+    const presenter = person.presentedBy;
+    if (!presenter) continue;
+    assert.equal(presenter.inducteeId, resolved.get(presenter.recordedName) ?? null,
+      `${person.id}: presenter link disagrees with the crosswalk`);
+  }
+});
+
+test('most presenters are not in the hall, and are carried as text', () => {
+  // The reason this is an attribute rather than a relationship: drawing a line
+  // to them would put nodes on the map with no portrait and no record behind.
+  const outside = people.filter((p) => p.presentedBy && !p.presentedBy.inducteeId).length;
+  assert.ok(outside > people.length / 2, `${outside} of ${people.length} presenters are outside the hall`);
+});
+
+test('a presenter is never published as a relationship', () => {
+  // The whole point of choosing an attribute. Every endpoint on the Connections
+  // map is somebody a visitor can open.
+  const ids = new Set(people.map((person) => person.id as string));
+  const bundle = buildRuntimeBundle(people, 'kiosk');
+  for (const relationship of bundle.relationships) {
+    assert.ok(ids.has(relationship.from as string), `${relationship.from} is not a published person`);
+    assert.ok(ids.has(relationship.to as string), `${relationship.to} is not a published person`);
+  }
+});
+
+test('a presenter link never points at somebody this release withholds', () => {
+  const bundle = buildRuntimeBundle(people, 'public');
+  const shown = new Set(bundle.people.map((person) => person.id));
+  for (const person of bundle.people) {
+    const id = person.presentedBy?.inducteeId;
+    if (id) assert.ok(shown.has(id), `${person.id} links to ${id}, who is not in this release`);
+  }
 });
