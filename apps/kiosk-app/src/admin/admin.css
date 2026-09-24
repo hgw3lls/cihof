@@ -1,0 +1,26 @@
+:root { --paper: #fcfcfa; --ink: #151515; --muted: #4f4f4f; --rule: #151515; --accent: #b02a33; --warn: #8a5200; --tap: 56px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font: 17px/1.4 system-ui, sans-serif; }
+body { display: flex; flex-direction: column; border: 3px solid var(--rule); user-select: none; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 2px solid var(--rule); }
+h1 { margin: 0; font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; }
+h2 { margin: 1.5rem 0 0.5rem; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+main { flex: 1; overflow-y: auto; padding: 1rem 1.25rem 1.5rem; }
+button { min-height: var(--tap); padding: 0 1.1rem; border: 2px solid var(--rule); background: transparent; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+button:active { background: var(--ink); color: var(--paper); }
+button.danger { border-color: var(--accent); color: var(--accent); }
+p { margin: 0.5rem 0; }
+.muted { color: var(--muted); }
+.error { color: var(--accent); font-weight: 600; min-height: 1.4em; }
+.pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; max-width: 22rem; margin: 1rem auto; }
+.pad button { min-height: 72px; font-size: 1.5rem; }
+.dots { text-align: center; font-size: 2rem; letter-spacing: 0.4em; min-height: 2.6rem; margin: 0.75rem 0 0; }
+.prompt { text-align: center; }
+.row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1rem; margin: 0; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: ui-monospace, monospace; }
+.toggle { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: var(--tap); border-bottom: 1px solid #d8d8d4; }
+.toggle button[aria-pressed='true'] { background: var(--warn); border-color: var(--warn); color: #fff; }
+.note { border-left: 4px solid var(--warn); padding: 0.4rem 0.75rem; color: var(--warn); }
+select { min-height: var(--tap); font: inherit; padding: 0 0.5rem; border: 2px solid var(--rule); background: var(--paper); }
