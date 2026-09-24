@@ -244,6 +244,8 @@ Two principles are built into every step and cannot be switched off:
 | `data/review-sheets/place-ties-sheet.csv` | What tie a person has to a place |
 | `data/review-sheets/proposed-ties-sheet.csv` | Each connection the research proposes: keep it as a *relationship* (with its kind and wording), as *context* (two people who appear together in a record), or *reject* it |
 | `data/review-sheets/media-approval-sheet.csv` | For each film: rights, captions, transcript, and kiosk approval |
+| **Biographies**: `npm run review:bios` writes `reports/biographies-sheet.csv` | A corrected biography for anyone, or putting a curator's biography back to the institution's text |
+| **A new class**: `npm run class:template` writes a blank sheet | One row per new inductee: name, year, sort name, region, inducter, the institution's biography, tags, portrait file and its rights |
 
 How to work on one:
 
@@ -253,8 +255,21 @@ How to work on one:
    columns. Do not change the id columns or the evidence.
 3. Fill in `decisionReference` on every row you decide, and a `note` where
    the reason is worth keeping. (The media sheet has no reference column:
-   record who approved the films, and when, in `media_notes`.)
+   record who approved the films, and when, in `media_notes`, and give the
+   developer the reference to pass with `--decision-reference`.)
 4. Save it as CSV and give it to the developer.
+
+For the biography sheet, `correctedText` is the **whole** corrected
+biography, not only the changed words. A corrected biography is shown as a
+curator's text; the institution's original is kept untouched in the
+roster.
+
+For a new class, put each portrait in the same folder as the sheet and
+give its file name in `portraitFile`. Every new person needs a portrait
+file. Its rights can be `pending`, and the portrait stays off screen until
+they are `approved`. Take the name exactly as the institution records it:
+the person's permanent id is made from the name and year and never
+changes.
 
 To see proposed content before deciding, ask the developer for a **preview
 build** (`npm run dev:preview`). It shows everything the sources hold, marked.
@@ -274,12 +289,26 @@ npm run ties:apply   -- --input=<sheet> --targets=kiosk      # or kiosk,public-w
 # 2. Apply exactly the sheet that was previewed.
 npm run <tool>:apply -- --input=<sheet> [same options] --apply --expect-hash=<hash>
 
+# Biographies and new classes work the same way.
+npm run bios:apply   -- --input=reports/biographies-sheet.csv
+npm run class:add    -- --input=<folder>/class-2027.csv
+
 # Curated metadata and media approvals preview the same way; --apply writes.
-npm run curate:apply -- --input=<sheet>
-npm run curate:apply -- --input=<sheet> --apply
-npm run media:apply  -- --input=<sheet>
-npm run media:apply  -- --input=<sheet> --apply
+# A change visitors will see needs the decision it rests on.
+npm run curate:apply -- --input=<sheet> --decision-reference=<reference>
+npm run curate:apply -- --input=<sheet> --decision-reference=<reference> --apply
+npm run media:apply  -- --input=<sheet> --decision-reference=<reference> [--apply]
+
+# A replaced portrait: put the new file where the old one was, then
+npm run portraits:record -- --ids=<id> --decision-reference=<reference> [--apply]
 ```
+
+Every preview lists **what visitors will see differently** from the record
+the exhibit first published. On `--apply` each tool records those
+differences, with the decision reference, in
+`data/cihof_reviewed_differences.json`, so `npm test` keeps passing. It
+records only the people its own sheet changed: a difference nobody decided
+still fails the tests, which is how a broken build is caught.
 
 `media:apply` checks that every film approved for the kiosk has its video
 file, so it must run on the machine that holds the videos
@@ -293,8 +322,15 @@ npm run crosswalk:check && npm run review:links:check && npm run review:places:c
 npm run media:assert
 ```
 
-A change that alters what a visitor sees also fails the parity test until it
-is recorded (see [What still needs a developer](#what-still-needs-a-developer)).
+After a new class, also run `npm run media:validate`, check the new people
+with `npm run dev`, and commit any portrait the build copies into
+`apps/exhibit/public/media/images/`. If the class brought a new inducter
+name, it is waiting in the links sheet for review.
+
+If a test reports an unrecorded difference, `npm run parity:report` lists
+it. Find the decision behind it and record it with
+`npm run parity:record -- --ids=<id> --decision-reference=<reference>`; a
+difference no decision made is a fault to fix, not to record.
 
 ### 7.3 Making a release (Developer, on the machine with the videos)
 
@@ -344,28 +380,17 @@ Check the backup at least once: restore the bundle into a fresh folder
 
 ## What still needs a developer
 
-These are honest gaps in the current tooling. They are listed so nobody
-expects staff to do them from a spreadsheet yet. The planned staff review
-app is meant to close most of them.
+Every content task has a sheet and a tool. What still needs someone who
+works in the repository:
 
-1. **Recording a visible change for the parity test.** Any applied change
-   that alters what visitors see makes `npm test` fail until a developer
-   adds it to `reviewedDifferences` in
-   `packages/pipeline/tests/parity.test.ts`. This is deliberate (no visible
-   change goes unnoticed), but it means every content update needs a
-   developer step.
-2. **Adding a new induction class.** There is no supported import yet. New
-   people, their curated records and their media records are added by hand,
-   and some tests assume the current count of 111 people.
-3. **Correcting a biography.** For people without a curated summary, the
-   text comes from the source CSV and is corrected there by hand. A
-   corrected curated summary goes through `curate:apply`.
-4. **Adding or replacing a portrait.** Each portrait's checksum and size are
-   recorded by hand; no tool computes them yet.
-5. **A new film.** Its captions, poster and transcript must be added to git
+1. **Running the tools.** Applying a sheet, testing and making a release are
+   commands, run by a developer on the machine that holds the videos. The
+   planned staff review app is meant to put these behind buttons.
+2. **A new film.** Its captions, poster and transcript must be added to git
    explicitly (`git add -f`); `npm run media:assert` fails until they are.
-
----
+3. **A person's id.** It is permanent and is never changed. A name spelled
+   wrongly when the person was added is corrected in `displayName`
+   (`curate:apply`), not by changing the id.
 
 ## Checks that people must do
 

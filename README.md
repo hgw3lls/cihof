@@ -82,8 +82,17 @@ npm run crosswalk:check && npm run review:links:check && npm run review:places:c
 npm run links:apply
 npm run places:apply
 npm run ties:apply       # the proposed-ties sheet; needs --targets=kiosk (or kiosk,public-web)
-npm run curate:apply     # previews; add --apply to write
-npm run media:apply      # previews; add --apply to write
+npm run curate:apply     # previews; --decision-reference=… --apply to write
+npm run media:apply      # previews; --decision-reference=… --apply to write
+npm run review:bios && npm run bios:apply      # correct a biography (sheet in reports/)
+npm run class:template && npm run class:add    # add a new induction class
+npm run portraits:record                       # checksum and size of a new or replaced portrait
+
+# What visitors see differently from the published record, and the decision
+# behind each: data/cihof_reviewed_differences.json. The tools above record
+# it; npm test fails on anything unrecorded.
+npm run parity:report
+npm run parity:record -- --ids=… --decision-reference=…
 
 npm run media:validate && npm run curate:report   # reports go to reports/ (ignored)
 npm run media:assert                             # every film asset is tracked

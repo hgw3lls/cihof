@@ -15,6 +15,7 @@
 - Never invent historical claims, relationships, dates, identity fields, portraits, or quotations. Do not change rights, caption, transcript, relationship, or publication approval states without an authorized editorial decision.
 - Keep generated entity relationships, explicit curated relationships, and shared induction-class context distinct. Two people inducted the same year share a context, not a relationship.
 - Keep `publicWeb` and `kiosk` publication flags separate.
+- `packages/pipeline/reference/published-runtime-data.json` is the frozen record the exhibit first published. Never re-snapshot it. Every visible difference from it is recorded in `data/cihof_reviewed_differences.json` with the decision that made it; the apply tools do this for the people their sheet changed. Never record a difference no decision made: that is a regression to fix.
 
 ## Build boundaries
 
