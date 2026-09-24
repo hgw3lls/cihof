@@ -1,0 +1,382 @@
+# CIHOF exhibit: staff guide
+
+For the staff of the Western Reserve Historical Society who look after the
+Cleveland International Hall of Fame touchscreen. It covers installing the
+display, starting and stopping it, running it day to day, updating content,
+backups and troubleshooting.
+
+Each task is marked with who can do it:
+
+- **Staff**: from the display itself, with no technical knowledge.
+- **Administrator**: someone with Windows administrator rights on the display PC.
+- **Developer**: someone who works in the project repository with Node.js.
+  Some content tasks still need one. They are listed as such in
+  [What still needs a developer](#what-still-needs-a-developer), not hidden.
+
+> **The kiosk build contains films approved for the kiosk only.** Never put
+> the installer, the kiosk folder or a copy of the display's files on a
+> website, a public share or a shared drive other people can download from.
+
+---
+
+## 1. What the exhibit is
+
+One Windows PC and a touchscreen, running one application: **CIHOF Exhibit**.
+The application fills the screen and has no menus, no address bar and no way
+for a visitor to leave it. Everything it shows (profiles, portraits, films,
+the timeline, the map and Connections) lives on the PC. It needs no internet
+connection.
+
+The first screen is a single call to action. When a visitor stops touching
+the screen, the exhibit shows a warning after about 90 seconds and returns to
+the first screen 30 seconds later. The next visitor always starts fresh.
+
+The application looks after itself:
+
+| If… | It… |
+| --- | --- |
+| the page crashes | reloads it within a second |
+| the page freezes | waits briefly, then restarts the page |
+| it has run all day | restarts itself at 04:00 (you can change the time) |
+| the PC restarts or the power returns | starts again when Windows signs in |
+| the display tries to sleep | keeps it awake |
+
+---
+
+## 2. Installing a display (Administrator, once)
+
+### 2.1 The PC
+
+1. **A dedicated Windows account** for the exhibit: a standard local account,
+   not an administrator, used for nothing else.
+2. **Automatic sign-in** for that account, so the PC comes back into the
+   exhibit after a restart or a power cut without anyone typing a password.
+3. **Power on after power loss**: in the PC's BIOS/UEFI settings, set it to
+   power on when power is restored. The name varies by manufacturer
+   ("AC Power Recovery", "Restore on AC Power Loss", "After Power Failure").
+4. **Windows Update**: set active hours or a maintenance window outside
+   opening hours, so an update never restarts the PC in front of visitors.
+5. **Notifications**: turn them off for the exhibit account (Settings,
+   System, Notifications).
+6. **Optional, strictest lockdown**: Windows 11 Pro/Enterprise can run one
+   app alone on an account ("Assigned Access": Settings, Accounts, Other
+   users, Set up a kiosk). The exhibit does not require it.
+
+### 2.2 The application
+
+1. Sign in as the exhibit account.
+2. Run the installer (`CIHOF-Exhibit-Setup-<version>.exe`). The developer
+   provides it on a USB drive or by direct hand-over, **never by a public
+   link** (see the warning at the top). It installs for all users of the
+   PC, so Windows asks for an administrator's password.
+3. Windows may warn that the publisher is unknown ("Windows protected your
+   PC"). The installer is not yet code-signed. Choose **More info**, then
+   **Run anyway**.
+4. The exhibit opens full screen and adds itself to start at sign-in.
+
+### 2.3 Set the admin passcode (do this straight away)
+
+The admin panel is protected by a passcode that you choose. On a new
+install there is none yet, and it can only be set **with a keyboard**:
+
+1. Plug in a keyboard and press **Ctrl + Shift + A**.
+2. Choose a passcode of 4 to 12 digits, then enter it again.
+3. Write it down and keep it where your team keeps other building codes.
+
+Holding the corner of the screen never offers to set a first passcode. This
+stops a visitor from setting one on a new display and locking staff out.
+
+### 2.4 Check it
+
+Restart the PC. Without anyone touching it, it should sign in and come up
+straight into the exhibit. Then:
+
+- open a profile, play a film, try the timeline, search and Connections;
+- leave it alone for three minutes and confirm it returns to the first
+  screen;
+- open the admin panel (below) and note the **Release** and **Content** it
+  shows in your records.
+
+---
+
+## 3. Daily operation (Staff)
+
+### Starting
+
+Switch on the PC. The exhibit starts by itself.
+
+### Shutting down
+
+Use the admin panel: **Exit to desktop**, then shut Windows down from the
+Start menu as usual. Cutting the power also works (the exhibit writes
+nothing while it runs), but a normal shutdown is kinder to the PC.
+
+### Every day
+
+Nothing is required. Worth a glance when opening:
+
+- the screen is on and showing the first screen;
+- the touchscreen responds where you touch it;
+- the screen is clean.
+
+### The admin panel
+
+Open it by **holding the top-left corner of the screen for 5 seconds**, or
+with **Ctrl + Shift + A** on a keyboard. Enter the passcode on the keypad.
+Five wrong tries lock the keypad for a minute, and longer after further
+wrong tries.
+
+| Section | What it does |
+| --- | --- |
+| **This display** | Which release and content are installed, how many people it holds. Quote these when you report a problem. |
+| **Back to the start** | Returns the exhibit to its first screen. |
+| **Reload** | Reloads the exhibit, as if it had just started. |
+| **Recovery panel** | Opens the release and recovery panel (section 5). |
+| **Restart app** | Closes and reopens the application. |
+| **Exit to desktop** | Closes the exhibit. It stays closed until someone starts it (Start menu, *CIHOF Exhibit*) or the PC restarts. |
+| **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
+| **Daily restart** | The time of the nightly restart, or Off. 04:00 unless changed. |
+| **Start at sign-in** | Whether the exhibit opens when Windows signs in. Leave it On. |
+| **Change passcode** | Choose a new passcode. |
+
+Close the panel with **Close** at the top right.
+
+### Forgotten passcode (Administrator)
+
+1. With a keyboard, press **Ctrl + Alt + Delete**, open **Task Manager** and
+   end **CIHOF Exhibit**.
+2. Open `%APPDATA%\CIHOF Exhibit\settings.json` in Notepad. *(This location
+   is where the application is expected to keep its settings on Windows;
+   confirm it on the installed PC and correct this guide if it differs.)*
+3. Change the `"passcode"` line to `"passcode": null,` and save.
+4. Start *CIHOF Exhibit* from the Start menu, then press **Ctrl + Shift + A**
+   to choose a new passcode.
+
+---
+
+## 4. Installing a new release (Administrator)
+
+When content changes, the developer builds a new installer (section 7) and
+hands it over, again never by a public link.
+
+1. Open the admin panel. Note the current **Release** and **Content**.
+2. **Exit to desktop**.
+3. Run the new installer. It replaces the old version.
+4. Start *CIHOF Exhibit* from the Start menu, or restart the PC.
+5. Open the admin panel. **Release** and **Content** should show the new
+   values.
+
+The display keeps the previous release it had stored. If the new one
+misbehaves, the recovery panel can go back to it (section 5). Keep the
+previous installer too (section 8) in case you need to reinstall it.
+
+---
+
+## 5. The recovery panel (Staff)
+
+Open it from the admin panel: **Recovery panel**. It shows:
+
+| Line | Meaning |
+| --- | --- |
+| **Serving** | The release visitors are seeing now. |
+| **Previous** | The release before it, if the display still holds one. |
+| **Releases held** | How many releases the display has stored. |
+| **Provisioning** | *complete* when every file of the release was stored. Otherwise it counts the unusable files and lists them. |
+
+Buttons:
+
+- **Re-check** refreshes what it shows.
+- **Restore previous release** goes back to the previous release. When it
+  finishes, the panel says *Restored to … from …*. **Write that down** and
+  tell the developer.
+- **Close** returns to the exhibit.
+
+A display switches to a new release only at an idle reset, never in the
+middle of a visitor's session.
+
+---
+
+## 6. Troubleshooting
+
+Before calling for help, open the admin panel and note **Release**,
+**Content** and what you saw.
+
+| What you see | Try | Then |
+| --- | --- | --- |
+| A black or blank screen | Is the screen on? Is the PC on? Press the PC's power button once. | Restart the PC. |
+| The exhibit is frozen | Wait 30 seconds; it restarts a frozen page by itself. | Admin panel: **Reload**, then **Restart app**. |
+| Touches land in the wrong place | Clean the screen. | Windows *Calibrate the screen for pen or touch input* (Administrator). |
+| A film does not play | Other films? If only one: its captions and transcript are shown instead when its video file is missing. | Report the person's name and the release. |
+| The Windows desktop is showing | Start *CIHOF Exhibit* from the Start menu. | Restart the PC. If it happens after every restart, check **Start at sign-in** is On and automatic sign-in is set (2.1). |
+| "Port 8080 is already in use" | Another copy is already running. Restart the PC. | Report it. |
+| "The exhibit could not start" | Restart the PC. | Reinstall the current release (section 4). |
+| The new release looks wrong | Recovery panel: **Restore previous release**. | Report it with both release numbers. |
+| Some content is missing after an update | Recovery panel: is **Provisioning** complete? | Reinstall the release. |
+| The keypad says *Too many tries* | Wait the time it shows. | Forgotten passcode (section 3). |
+| A Windows update prompt is on screen | Let it finish, outside opening hours. | Set active hours (2.1). |
+
+---
+
+## 7. Updating content
+
+Content comes from the project's source files and from **review sheets**:
+spreadsheets (CSV) a curator fills in and signs. A developer applies a signed
+sheet, rebuilds and makes a new installer.
+
+Two principles are built into every step and cannot be switched off:
+
+- **Nothing is approved by being shown.** A preview can show proposed ties
+  and unreviewed places for an editor, marked in amber. Only a signed
+  decision changes what visitors see.
+- **Every decision names the occasion it was made on.** The links, places,
+  place-ties and proposed-ties sheets have a `decisionReference` column,
+  such as `links-review-2026-09-22`, and their apply tools refuse a decision
+  without one. The signed sheet is archived in
+  `data/curation-decisions/` beside the change it produced. See that
+  folder's README for the naming convention.
+
+### 7.1 The review sheets (Staff: curator)
+
+| Sheet | Decides |
+| --- | --- |
+| `data/review-sheets/links-review-sheet.csv` | Who each inducter name refers to, and whether those links may be shown |
+| `data/review-sheets/places-review-sheet.csv` | Places on the map, and their approval |
+| `data/review-sheets/place-ties-sheet.csv` | What tie a person has to a place |
+| `data/review-sheets/proposed-ties-sheet.csv` | Each connection the research proposes: keep it as a *relationship* (with its kind and wording), as *context* (two people who appear together in a record), or *reject* it |
+| `data/review-sheets/media-approval-sheet.csv` | For each film: rights, captions, transcript, and kiosk approval |
+
+How to work on one:
+
+1. Ask the developer for a **copy** of the sheet (or take one from the
+   repository). Work on the copy, not the file in the repository.
+2. Open it in Excel or Google Sheets. Fill in only the empty decision
+   columns. Do not change the id columns or the evidence.
+3. Fill in `decisionReference` on every row you decide, and a `note` where
+   the reason is worth keeping. (The media sheet has no reference column:
+   record who approved the films, and when, in `media_notes`.)
+4. Save it as CSV and give it to the developer.
+
+To see proposed content before deciding, ask the developer for a **preview
+build** (`npm run dev:preview`). It shows everything the sources hold, marked.
+It is for editors only and is never installed on the display or published.
+
+### 7.2 Applying a sheet (Developer)
+
+Every apply tool **previews first and writes nothing** until told to. Commit
+or stash any work first; the tools that take `--expect-hash` refuse a working
+tree with uncommitted changes, so their result is a clean, reviewable diff.
+
+```sh
+# 1. Preview. Prints what would change and the sheet's hash.
+npm run links:apply  -- --input=<sheet>
+npm run places:apply -- --input=<sheet>
+npm run ties:apply   -- --input=<sheet> --targets=kiosk      # or kiosk,public-web
+# 2. Apply exactly the sheet that was previewed.
+npm run <tool>:apply -- --input=<sheet> [same options] --apply --expect-hash=<hash>
+
+# Curated metadata and media approvals preview the same way; --apply writes.
+npm run curate:apply -- --input=<sheet>
+npm run curate:apply -- --input=<sheet> --apply
+npm run media:apply  -- --input=<sheet>
+npm run media:apply  -- --input=<sheet> --apply
+```
+
+`media:apply` checks that every film approved for the kiosk has its video
+file, so it must run on the machine that holds the videos
+(`public/media/videos/`, section 8).
+
+Then run the checks, review the diff and commit:
+
+```sh
+npm run typecheck && npm test
+npm run crosswalk:check && npm run review:links:check && npm run review:places:check && npm run review:ties:check
+npm run media:assert
+```
+
+A change that alters what a visitor sees also fails the parity test until it
+is recorded (see [What still needs a developer](#what-still-needs-a-developer)).
+
+### 7.3 Making a release (Developer, on the machine with the videos)
+
+```sh
+npm ci
+npm run package:kiosk-app              # on Windows: the installer, in release/app/
+npm run package:kiosk-app -- --target=win-zip   # from any system: a portable Windows folder
+```
+
+The installer can only be built on Windows (or with Wine). Before handing it
+over:
+
+- read the summary it prints: people, relationships, and how many films have
+  their video file. **All of them should.** `MANIFEST.json` in
+  `release/cihof-kiosk-<release>/` lists any that do not;
+- note the release and content numbers for the handover.
+
+There is also a browser-based package (`npm run package:kiosk`) that runs
+with Edge instead of the app, documented in the `README.txt` inside it. The
+app is the supported route; the browser package is a fallback.
+
+`release/` is ignored by git on purpose. Nothing in it is ever committed or
+published.
+
+---
+
+## 8. Backups (Developer and Administrator)
+
+Three things hold the exhibit. Everything else can be rebuilt from them.
+
+| What | Where | Size | How |
+| --- | --- | --- | --- |
+| **The project repository**: all content, decisions, signed sheets, the code | GitHub (`hgw3lls/cihof`) | small | GitHub keeps it. Also make a local copy after each release: `git bundle create cihof-<date>.bundle --all` and store it with the video backup. |
+| **The film video files**: 633 MP4s | `public/media/videos/` on the developer's machine. **Not in the repository.** | about 41 GB | Copy the whole folder to two external drives, one kept off site. Refresh after any new film. |
+| **The installer of each release** | `release/app/` | varies | Keep the current and the previous installer on the same drives. They contain kiosk-only films: store them like the videos, never on a shared link. |
+
+The display itself holds nothing that cannot be reinstalled. Its
+`settings.json` contains only the passcode (stored scrambled), the restart
+time and start-at-sign-in. To rebuild a display, reinstall and set the
+passcode again.
+
+Check the backup at least once: restore the bundle into a fresh folder
+(`git clone cihof-<date>.bundle`), copy the videos into place, and confirm
+`npm run media:assert` and `npm run package:kiosk` succeed.
+
+---
+
+## What still needs a developer
+
+These are honest gaps in the current tooling. They are listed so nobody
+expects staff to do them from a spreadsheet yet. The planned staff review
+app is meant to close most of them.
+
+1. **Recording a visible change for the parity test.** Any applied change
+   that alters what visitors see makes `npm test` fail until a developer
+   adds it to `reviewedDifferences` in
+   `packages/pipeline/tests/parity.test.ts`. This is deliberate (no visible
+   change goes unnoticed), but it means every content update needs a
+   developer step.
+2. **Adding a new induction class.** There is no supported import yet. New
+   people, their curated records and their media records are added by hand,
+   and some tests assume the current count of 111 people.
+3. **Correcting a biography.** For people without a curated summary, the
+   text comes from the source CSV and is corrected there by hand. A
+   corrected curated summary goes through `curate:apply`.
+4. **Adding or replacing a portrait.** Each portrait's checksum and size are
+   recorded by hand; no tool computes them yet.
+5. **A new film.** Its captions, poster and transcript must be added to git
+   explicitly (`git add -f`); `npm run media:assert` fails until they are.
+
+---
+
+## Checks that people must do
+
+The automated tests check the software in a browser. They do not certify
+the installation. These stay with the people responsible for them:
+
+- reach and mounting height of the screen, for standing and seated visitors;
+- touch accuracy across the whole screen;
+- assistive technology and accessibility review;
+- endurance: the display running unattended for several days;
+- curatorial review of the content shown;
+- rights for every portrait and film.
+
+Record who checked each one and when.

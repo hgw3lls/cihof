@@ -67,6 +67,9 @@ for (const file of [
 ]) {
   cpSync(join(exhibit, 'kiosk', file), join(out, file));
 }
+// The staff guide travels with every release, so the display's own copy
+// matches what is installed on it.
+cpSync(join(root, 'docs', 'staff-guide.md'), join(out, 'STAFF-GUIDE.md'));
 
 const commit = gitCommit();
 const shortCommit = `${commit.slice(0, 7)}${commit.endsWith('+uncommitted') ? ' with uncommitted changes' : ''}`;
