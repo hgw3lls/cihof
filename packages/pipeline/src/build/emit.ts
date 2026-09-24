@@ -10,7 +10,7 @@ import {
   type InducteeId, type InductionCrosswalk,
   type LensAvailability, type LensId, type PublishedPerson,
   publishableFilms, filmShortfalls,
-  type FilmDelivery, type PublishedFilm, type PublishedRelationship, type VisitorTarget,
+  type FilmDelivery, type PublishedFilm, type PublishedRelationship, type SharedContext, type VisitorTarget,
 } from '@cihof/content';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
 import { readContributionWorksheet } from '../sources/worksheet.ts';
@@ -18,6 +18,8 @@ import { readPlaceAssociations, readPlaceSeeds, readRelationships } from '../sou
 import { readVideoHoldings } from '../sources/media.ts';
 import { readCorpusConnections, type CorpusConnection } from '../sources/corpus.ts';
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
+import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
+import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -40,6 +42,11 @@ export type RuntimeBundle = {
   readonly people: readonly RuntimePerson[];
   readonly places: readonly RuntimePlace[];
   readonly relationships: readonly PublishedRelationship[];
+  /**
+   * Pairs a reviewer kept as context — two people who appear together in a
+   * source that does not say their work touched. Never counted as relationships.
+   */
+  readonly contexts: readonly SharedContext[];
   /** Ties the sources propose and nobody has reviewed. Empty unless previewing. */
   readonly candidates: readonly PreviewTie[];
   /** What each person changed, for the people a curator has written up. */
@@ -89,6 +96,8 @@ export type RuntimeBundle = {
     readonly published: number;
     readonly fromCrosswalk: number;
     readonly curated: number;
+    /** From reviewed decisions on the ties the corpus proposes. */
+    readonly fromTies: number;
     readonly crosswalkNamesUnresolved: number;
     readonly crosswalkApproved: boolean;
   };
@@ -139,6 +148,8 @@ export type BundleSources = {
   readonly continuationBase?: string | null;
   /** Also show unreviewed places and proposed ties, marked. Kiosk target only. */
   readonly preview?: boolean;
+  /** Decisions on the corpus's proposed ties, injectable for tests. */
+  readonly tieDecisions?: readonly TieDecision[];
   /** The corpus's proposed ties, injectable for tests. */
   readonly corpusConnections?: readonly CorpusConnection[];
 };
@@ -189,10 +200,15 @@ export function buildRuntimeBundle(
     ? previewPlaces(placeSeeds, associationSource, reviewedPlaces, publishedIds)
     : reviewedPlaces;
   // Proposed ties never count toward the Connections threshold: only
-  // documented, reviewed relationships decide whether the lens is offered.
+  // documented, reviewed relationships decide whether the lens is offered. A
+  // tie somebody has decided is not proposed again, whichever way it went.
+  const tieDecisions = sources.tieDecisions ?? readTieDecisions();
+  const decided = decidedCorpusIds(tieDecisions);
   const candidates = preview
-    ? previewTies(sources.corpusConnections ?? readCorpusConnections(), publishedIds)
+    ? previewTies((sources.corpusConnections ?? readCorpusConnections()).filter((row) => !decided.has(row.id)), publishedIds)
     : [];
+  const contexts = tieContexts(tieDecisions, target)
+    .filter((context) => context.between.every((id) => publishedIds.has(id as string)));
 
   // The roster's `inducted_by` column becomes relationships here, and only
   // here. Resolving who a name refers to happens in the crosswalk under review;
@@ -209,8 +225,10 @@ export function buildRuntimeBundle(
   // generated one for the same pair rather than appearing twice and counting
   // twice toward the lens threshold.
   const curated = sources.relationships ?? readRelationships();
-  const relationships = dedupeById(publishedRelationships([...curated, ...fromCrosswalk], target));
-  const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length;
+  const fromTies = tieRelationships(tieDecisions);
+  const relationships = dedupeById(publishedRelationships([...curated, ...fromTies, ...fromCrosswalk], target));
+  const tiesPublished = relationships.filter(isFromTies).length;
+  const curatedPublished = relationships.length - relationships.filter(isFromCrosswalk).length - tiesPublished;
   const progress = crosswalk ? crosswalkProgress(crosswalk) : null;
 
   // Contributions are written by hand in the worksheet and read here. Nothing
@@ -239,6 +257,7 @@ export function buildRuntimeBundle(
     people: runtimePeople,
     places,
     relationships,
+    contexts,
     candidates,
     contributions,
     lenses: availableLenses(counts),
@@ -255,6 +274,7 @@ export function buildRuntimeBundle(
       published: relationships.length,
       fromCrosswalk: relationships.filter(isFromCrosswalk).length,
       curated: curatedPublished,
+      fromTies: tiesPublished,
       crosswalkNamesUnresolved: progress?.unresolved ?? 0,
       crosswalkApproved: crosswalk?.publicationDecision !== undefined,
     },
@@ -278,6 +298,10 @@ export function filmDeliveryFor(target: VisitorTarget): FilmDelivery {
 
 function isFromCrosswalk(relationship: PublishedRelationship): boolean {
   return relationship.kind === 'inducted';
+}
+
+function isFromTies(relationship: PublishedRelationship): boolean {
+  return (relationship.id as string).startsWith('tie:');
 }
 
 function dedupeById(relationships: readonly PublishedRelationship[]): PublishedRelationship[] {

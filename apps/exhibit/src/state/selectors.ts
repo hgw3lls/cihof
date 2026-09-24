@@ -1,4 +1,4 @@
-import { labelFrom, type PublishedRelationship } from '@cihof/content';
+import { labelFrom, type PublishedRelationship, type SharedContext } from '@cihof/content';
 import type { PreviewTie } from '@cihof/pipeline';
 import type { RuntimePerson } from '../data/runtime.ts';
 import type { Discovery } from './exhibit.ts';
@@ -78,6 +78,8 @@ export type Tie = {
   readonly connectionId: string;
   /** A tie the sources propose that nobody has reviewed. Preview builds only. */
   readonly unreviewed?: boolean;
+  /** Two people who appear together, which a reviewer kept as context, not a relationship. */
+  readonly context?: boolean;
 };
 
 export type ConnectionNode = {
@@ -102,6 +104,7 @@ export function connectionNodes(
   people: readonly RuntimePerson[],
   relationships: readonly PublishedRelationship[],
   candidates: readonly PreviewTie[] = [],
+  contexts: readonly SharedContext[] = [],
 ): ConnectionNode[] {
   const byId = new Map(people.map((person) => [person.id, person]));
   const ties = new Map<string, Tie[]>();
@@ -117,6 +120,20 @@ export function connectionNodes(
 
       const list = ties.get(viewpoint);
       const tie = { other, label, connectionId: relationship.id as string };
+      if (list) list.push(tie); else ties.set(viewpoint, [tie]);
+    }
+  }
+
+  // Context reads the same from both ends: it is a statement about a source
+  // that shows both people, not about either of them.
+  for (const context of contexts) {
+    const [a, b] = context.between as readonly string[];
+    for (const viewpoint of [a!, b!]) {
+      const person = byId.get(viewpoint);
+      const other = byId.get(viewpoint === a ? b! : a!);
+      if (!person || !other) continue;
+      const list = ties.get(viewpoint);
+      const tie = { other, label: context.statement, connectionId: context.id as string, context: true };
       if (list) list.push(tie); else ties.set(viewpoint, [tie]);
     }
   }
@@ -154,6 +171,8 @@ export type PlacedPerson = {
   readonly label: string | null;
   /** True when that tie is only proposed, not reviewed. */
   readonly labelUnreviewed?: boolean;
+  /** True when that tie is context: the two appear together, nothing more. */
+  readonly labelContext?: boolean;
 };
 
 export type PlacedTie = {
@@ -164,6 +183,7 @@ export type PlacedTie = {
   readonly label: string | null;
   readonly touchesFocus: boolean;
   readonly unreviewed: boolean;
+  readonly context: boolean;
 };
 
 export type ConnectionMap = {
@@ -217,12 +237,14 @@ export function connectionMap(
   }];
 
   // Ring one: sorted so the same person lands in the same place every time.
-  // One place per person. A preview can hold a reviewed and a proposed tie to
-  // the same person, and the reviewed wording is the one worth reading.
+  // One place per person. Two people can be tied more than one way, and the
+  // strongest claim is the wording worth reading: a documented relationship,
+  // then context, then a tie nobody has reviewed.
+  const strength = (tie: Tie) => (tie.unreviewed ? 0 : tie.context ? 1 : 2);
   const firstTieTo = new Map<string, Tie>();
   for (const tie of chosen.ties) {
     const held = firstTieTo.get(tie.other.id);
-    if (!held || (held.unreviewed && !tie.unreviewed)) firstTieTo.set(tie.other.id, tie);
+    if (!held || strength(tie) > strength(held)) firstTieTo.set(tie.other.id, tie);
   }
   const ties = [...firstTieTo.values()].sort((a, b) => a.other.sortName.localeCompare(b.other.sortName));
   const angleOf = new Map<string, number>();
@@ -231,7 +253,7 @@ export function connectionMap(
     angleOf.set(tie.other.id, angle);
     placed.push({
       person: tie.other, x: Math.cos(angle) * 0.54, y: Math.sin(angle) * 0.54,
-      ring: 'tie', label: tie.label, labelUnreviewed: tie.unreviewed === true,
+      ring: 'tie', label: tie.label, labelUnreviewed: tie.unreviewed === true, labelContext: tie.context === true,
     });
   });
 
@@ -298,6 +320,7 @@ export function connectionMap(
           : null,
         touchesFocus,
         unreviewed: tie.unreviewed === true,
+        context: tie.context === true,
       });
     }
   }

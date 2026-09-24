@@ -337,6 +337,8 @@ export type ProposedTieRow = {
   readonly verificationLayer: string;
   readonly evidence: readonly string[];
   readonly sourceUrls: readonly string[];
+  /** What has been decided so far: `unreviewed`, or the decision on file. */
+  readonly currentStatus: string;
 };
 
 /**
@@ -354,7 +356,10 @@ const suggestedKinds: Record<string, string> = {
 export function buildProposedTiesSheet(
   connections: readonly CorpusConnectionLike[],
   people: readonly PublishedPerson[],
+  decisions: readonly { readonly corpusIds: readonly string[]; readonly decision: string }[] = [],
 ): ProposedTieRow[] {
+  const decidedAs = new Map<string, string>();
+  for (const decision of decisions) for (const id of decision.corpusIds) decidedAs.set(id, decision.decision);
   const nameOf = new Map<string, string>(people.map((person) => [person.id as string, person.name]));
   const grouped = new Map<string, {
     first: CorpusConnectionLike; corpusIds: string[]; evidence: string[]; sourceUrls: string[];
@@ -382,6 +387,7 @@ export function buildProposedTiesSheet(
     verificationLayer: first.verificationLayer,
     evidence,
     sourceUrls,
+    currentStatus: corpusIds.map((id) => decidedAs.get(id)).find(Boolean) ?? 'unreviewed',
   }));
 
   // The rows that name a relationship outright first, so a reviewer starts with
@@ -420,7 +426,7 @@ export type CorpusConnectionLike = {
 export function proposedTiesSheetCsv(rows: readonly ProposedTieRow[]): string {
   const header = [
     'tieId', 'personA', 'personAName', 'personB', 'personBName',
-    'sourceType', 'suggestedKind', 'verificationLayer', 'evidence', 'sourceUrls', 'corpusIds',
+    'sourceType', 'suggestedKind', 'verificationLayer', 'evidence', 'sourceUrls', 'corpusIds', 'currentStatus',
     // The reviewer's. Generated empty, every time.
     'decision', 'kind', 'label', 'inverseLabel', 'decisionReference', 'note',
   ];
@@ -429,7 +435,7 @@ export function proposedTiesSheetCsv(rows: readonly ProposedTieRow[]): string {
     lines.push([
       row.tieId, row.personA, row.personAName, row.personB, row.personBName,
       row.sourceType, row.suggestedKind, row.verificationLayer,
-      row.evidence.join(' || '), row.sourceUrls.join(' '), row.corpusIds.join(' '),
+      row.evidence.join(' || '), row.sourceUrls.join(' '), row.corpusIds.join(' '), row.currentStatus,
       '', '', '', '', '', '',
     ].map(csvCell).join(','));
   }

@@ -61,3 +61,23 @@ test('without proposals the map is exactly the reviewed one', () => {
   assert.equal(plain.ties.every((tie) => !tie.unreviewed), true);
   assert.equal(plain.placed.length, 2);
 });
+
+test('context joins the map on its own layer, and a documented tie outranks it', () => {
+  const context = {
+    claim: 'context', id: 'context:1', between: ['ana', 'cal'], basis: 'appeared-together',
+    value: 'joint_oral_history_participant', statement: 'Both recorded in the same session',
+  } as unknown as import('@cihof/content').SharedContext;
+
+  const map = connectionMap(connectionNodes(people, [documented], [], [context]), 'ana');
+  const cal = map.placed.find((entry) => entry.person.id === 'cal')!;
+  assert.equal(cal.labelContext, true);
+  assert.equal(cal.labelUnreviewed, false);
+  assert.equal(map.ties.find((tie) => tie.connectionId === 'context:1')!.context, true);
+
+  const both = connectionMap(connectionNodes(people, [documented], [proposed({ to: 'ben' })], [
+    { ...context, between: ['ana', 'ben'] } as unknown as typeof context,
+  ]), 'ana');
+  const ben = both.placed.filter((entry) => entry.person.id === 'ben');
+  assert.equal(ben.length, 1);
+  assert.equal(ben[0]!.label, 'worked with Ben Cole', 'documented beats context beats proposed');
+});

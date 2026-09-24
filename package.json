@@ -23,6 +23,7 @@
     "review:ties:check": "node --experimental-strip-types packages/pipeline/scripts/ties-sheet.mjs --check",
     "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
     "places:apply": "node --experimental-strip-types scripts/apply-place-decisions.js",
+    "ties:apply": "node --experimental-strip-types scripts/apply-tie-decisions.js",
     "curate:apply": "node scripts/apply-curation-decisions.js",
     "curate:report": "node scripts/curation-report.js",
     "media:apply": "node scripts/apply-media-decisions.js",

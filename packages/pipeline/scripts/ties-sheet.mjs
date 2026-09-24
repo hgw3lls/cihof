@@ -3,6 +3,7 @@ import { dirname } from 'node:path';
 import { buildProposedTiesSheet, decisionsInSheet, proposedTiesSheetCsv, relationshipKinds } from '../src/build/review.ts';
 import { buildPeople } from '../src/build/people.ts';
 import { readCorpusConnections } from '../src/sources/corpus.ts';
+import { readTieDecisions } from '../src/sources/ties.ts';
 import { repoFile } from '../src/paths.ts';
 
 /**
@@ -19,7 +20,7 @@ import { repoFile } from '../src/paths.ts';
 const check = process.argv.includes('--check');
 const force = process.argv.includes('--force');
 
-const rows = buildProposedTiesSheet(readCorpusConnections(), buildPeople());
+const rows = buildProposedTiesSheet(readCorpusConnections(), buildPeople(), readTieDecisions());
 const csvPath = repoFile('data/review-sheets/proposed-ties-sheet.csv');
 const csv = proposedTiesSheetCsv(rows);
 const current = existsSync(csvPath) && readFileSync(csvPath, 'utf8') === csv;
@@ -33,7 +34,7 @@ const signed = current || !existsSync(csvPath)
 if (check) {
   if (signed.length > 0) {
     console.error(`\ndata/review-sheets/proposed-ties-sheet.csv has ${signed.length} row(s) with a decision typed into it.`);
-    console.error('They are not applied yet. Keep the sheet somewhere safe until they are.');
+    console.error('Apply them, or move the sheet aside:  npm run ties:apply -- --input=<the sheet>');
     process.exit(1);
   }
   if (!current) {
@@ -46,7 +47,7 @@ if (!check && signed.length > 0 && !force) {
   console.error(`\nRefusing to regenerate: data/review-sheets/proposed-ties-sheet.csv has ${signed.length} row(s) with a decision in it.`);
   for (const row of signed.slice(0, 5)) console.error(`  ${row}`);
   if (signed.length > 5) console.error(`  … and ${signed.length - 5} more`);
-  console.error('\nMove the file aside first. --force overwrites, and means it.');
+  console.error('\nApply them first (npm run ties:apply), or move the file aside. --force overwrites, and means it.');
   process.exit(1);
 }
 
@@ -63,7 +64,8 @@ const state = check ? (current ? 'current' : 'STALE') : wrote ? 'written' : 'unc
 
 console.log('\nProposed-ties review sheet');
 console.log(`  data/review-sheets/proposed-ties-sheet.csv   ${state}`);
-console.log(`\n  ${rows.length} proposed ties, none reviewed`);
+const decidedCount = rows.filter((row) => row.currentStatus !== 'unreviewed').length;
+console.log(`\n  ${rows.length} proposed ties, ${decidedCount} decided, ${rows.length - decidedCount} to go`);
 for (const [type, count] of [...byType.entries()].sort((a, b) => b[1] - a[1])) {
   console.log(`    ${type.padEnd(32)} ${count}`);
 }
