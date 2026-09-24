@@ -25,7 +25,12 @@ export function readVideoHoldings(): Map<string, unknown[]> {
 
 /** Primary portraits by canonical id. Rights live in the curated roster, not here. */
 export function readPortraits(): Map<string, PortraitAsset> {
-  const document = JSON.parse(readFileSync(mediaPath(), 'utf8')) as { assets: Record<string, Record<string, unknown>> };
+  return portraitsFrom(JSON.parse(readFileSync(mediaPath(), 'utf8')));
+}
+
+/** The same, from a manifest already in memory: a change an apply tool is previewing. */
+export function portraitsFrom(source: unknown): Map<string, PortraitAsset> {
+  const document = source as { assets: Record<string, Record<string, unknown>> };
   const portraits = new Map<string, PortraitAsset>();
 
   for (const [id, asset] of Object.entries(document.assets ?? {})) {

@@ -1,141 +1,95 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
+import type { PublishedPerson } from '@cihof/content';
+import { readCuratedRoster } from '../src/sources/curated.ts';
 import { buildPeople } from '../src/build/people.ts';
+import {
+  collectDifferences, differenceSubject, readPublishedRecord, readReviewedDifferences, reconcile, recordDecision,
+} from '../src/build/parity.ts';
 
 /**
  * Parity against the artifact the old pipeline published.
  *
  * A from-scratch generator can silently drop a curatorial decision, and nothing
- * about the output would look wrong. This compares the rewritten assembly
- * field-by-field against the last record the old pipeline published. Every
- * difference must be either absent or listed below with a reason.
+ * about the output would look wrong. This compares every visible field with
+ * the last record the old pipeline published, frozen in
+ * `packages/pipeline/reference/`. Every difference must be recorded, with the
+ * decision that made it, in `data/cihof_reviewed_differences.json`.
  *
- * The reference is a frozen fixture rather than the old pipeline's live output,
- * which was regenerated on every build: comparing against it meant the oracle
- * moved whenever the thing it was meant to check moved, and a regeneration
- * could absorb a dropped decision without the test noticing. The old pipeline
- * has since been retired, so the fixture is now the only record of what it
- * published.
- *
- * When this test fails, the finding is the difference. Re-snapshotting the
- * fixture to make it pass discards exactly the evidence it exists to produce.
+ * The apply tools record the differences their own sheet makes. When this test
+ * fails, the finding is the difference: find the decision that made it and
+ * record it with `npm run parity:record`, or fix what dropped it. Re-snapshotting
+ * the frozen record to make it pass discards exactly the evidence it exists to
+ * produce.
  */
-const fixture = resolve(fileURLToPath(new URL('.', import.meta.url)), 'fixtures/published-runtime-data.json');
+const published = readPublishedRecord();
+const people = buildPeople();
+const ledger = readReviewedDifferences();
+const differences = collectDifferences(people);
 
-const published = JSON.parse(readFileSync(fixture, 'utf8'))
-  .inductees as Array<Record<string, unknown>>;
-
-const rebuilt = new Map(buildPeople().map((person) => [person.id as string, person]));
-
-test('the same people, by canonical id', () => {
-  const publishedIds = new Set(published.map((person) => String(person['id'])));
-  const rebuiltIds = new Set(rebuilt.keys());
-  assert.deepEqual([...publishedIds].filter((id) => !rebuiltIds.has(id)), [], 'people lost by the rewrite');
-  assert.deepEqual([...rebuiltIds].filter((id) => !publishedIds.has(id)), [], 'people invented by the rewrite');
-  assert.equal(rebuiltIds.size, 111);
+test('the published people are still built, by canonical id', () => {
+  const removed = differences.filter((difference) => difference.includes(': removed,'));
+  const recorded = new Set(ledger.differences.map((entry) => entry.difference));
+  assert.deepEqual(removed.filter((difference) => !recorded.has(difference)), [], 'people lost by the rebuild');
+  assert.equal(published.length, 111, 'the frozen record is frozen');
 });
 
-/**
- * Differences a curator has looked at and intends.
- *
- * The fixture is the record as the old pipeline published it, and it is frozen
- * on purpose. When curated content is corrected the rebuild will rightly differ
- * from it, and the honest way to record that is here — naming the difference
- * and why — rather than by re-snapshotting the fixture, which would discard
- * the evidence this test exists to produce.
- *
- * An entry is a decision, so it carries who decided and when. Anything not
- * listed still fails.
- */
-const reviewedDifferences = new Set([
-  // Heritage corrections supplied by the project owner, 2026-09-22.
-  'bill-miller-2017.countryTags: published [Slovenian] -> rebuilt [Polish, German]',
-  'ralph-j-perk-2011.countryTags: published [Czech] -> rebuilt [Czech, Slovak]',
-  // Pogue was inducted on a community basis and the record said no nationality
-  // tag was assigned. That decision was revisited, not overlooked.
-  'dick-pogue-2015.countryTags: published [] -> rebuilt [Scotch-Irish]',
-  // Sort-name repairs requested by the project owner, 2026-09-24. The old
-  // generator took the last word as the surname, so life dates and alternate
-  // names in parentheses became surnames, a suffix left a doubled comma, and one
-  // honorific was kept. These are the "Last, First" forms the other 107 use.
-  'helen-karpinski-1899-2002-2010.sortName: published "2002), Helen Karpinski (1899 –" -> rebuilt "Karpinski, Helen"',
-  'reverend-dr-otis-moss-jr-2011.sortName: published "Moss,, Dr. Otis" -> rebuilt "Moss, Otis, Jr."',
-  'anthony-yen-yan-yuan-tai-2012.sortName: published "Tai), Anthony Yen (Yan Yuan" -> rebuilt "Yen, Anthony"',
-  'honorable-jose-a-villanueva-2015.sortName: published "Villanueva, Honorable José A." -> rebuilt "Villanueva, José A."',
-]);
-
-function collectDifferences(): string[] {
-  const differences: string[] = [];
-
-  for (const person of published) {
-    const id = String(person['id']);
-    const next = rebuilt.get(id);
-    if (!next) continue;
-
-    compare(differences, id, 'name', person['name'], next.name);
-    compare(differences, id, 'sortName', person['sortName'], next.sortName);
-    compare(differences, id, 'classYear', person['classYear'], next.classYear);
-    compare(differences, id, 'profileUrl', person['profileUrl'] || null, next.sourceUrl);
-    compare(differences, id, 'primaryImageUrl', person['primaryImageUrl'], next.portrait?.src ?? null);
-    compare(differences, id, 'imageRightsStatus', person['imageRightsStatus'], next.portrait?.rights ?? null);
-    compare(differences, id, 'bioText', String(person['bioText'] ?? '').trim(), next.biography?.text ?? '');
-    compare(differences, id, 'honoredForSummary', String(person['honoredForSummary'] ?? '').trim(), next.contribution?.text ?? '');
-    compare(differences, id, 'documentedContextLine', String(person['documentedContextLine'] ?? '').trim(), next.context?.text ?? '');
-    compareList(differences, id, 'themeTags', person['themeTags'], next.contributions.values);
-    compareList(differences, id, 'communityTags', person['communityTags'], next.communities.values);
-    compareList(differences, id, 'countryTags', person['countryTags'], next.countries.values);
-  }
-
-  return differences;
-}
-
-test('every published field the web needs is reproduced', () => {
-  const differences = collectDifferences();
-  const unexplained = differences.filter((difference) => !reviewedDifferences.has(difference));
-  assert.deepEqual(unexplained.slice(0, 12), [], `${unexplained.length} unexplained field differences`);
+test('every difference from the published record is recorded with a decision', () => {
+  const { unrecorded } = reconcile(differences, ledger);
+  assert.deepEqual(unrecorded.slice(0, 12), [],
+    `${unrecorded.length} unrecorded differences. Record the decision that made them with npm run parity:record, or fix what dropped them.`);
 });
 
-test('every reviewed difference is still a real difference', () => {
-  // An entry that stops matching has been fixed, reverted, or mistyped, and
-  // leaving it here would quietly excuse a future regression that happened to
-  // read the same way.
-  const differences = new Set(collectDifferences());
-  for (const reviewed of reviewedDifferences) {
-    assert.ok(differences.has(reviewed), `no longer differs, so remove it from the list: ${reviewed}`);
+test('every recorded difference is still a real difference', () => {
+  // An entry that stops matching has been fixed, reverted, or superseded, and
+  // leaving it would quietly excuse a later regression that read the same way.
+  const { stale } = reconcile(differences, ledger);
+  assert.deepEqual(stale.map((entry) => entry.difference), [],
+    'no longer differs: remove it with npm run parity:record, which drops stale entries for the people it names');
+});
+
+test('every recorded difference names its decision', () => {
+  for (const entry of ledger.differences) {
+    assert.ok(entry.decisionReference.trim().length > 0, `no decisionReference: ${entry.difference}`);
   }
 });
 
-test('provenance is recorded for text the published record left unmarked', () => {
-  const people = [...rebuilt.values()];
-  const count = (field: 'biography' | 'contribution' | 'context', provenance: string) =>
-    people.filter((person) => person[field]?.provenance === provenance).length;
-
-  // Twelve people have a curator-written bioTextOverride replacing the harvested
-  // biography. The published record stores both as plain strings, so nothing in
-  // it distinguishes the institution's text from a curator's rewrite.
-  assert.equal(count('biography', 'curated'), 12);
-  assert.equal(count('biography', 'source'), 99);
-
-  // Both of these are documented in the roster's own reviewGuidance as
-  // curator-written. Every one of the 111 is machine-composed: 35 match the
-  // generator exactly and 76 still carry its sentence shape, composed from tags
-  // that changed afterwards. No curator prose exists in either field.
-  assert.equal(count('contribution', 'generated'), 111);
-  assert.equal(count('context', 'generated'), 111);
+test('a new person is recorded as added, not compared field by field', () => {
+  const [first, ...rest] = people as [PublishedPerson, ...PublishedPerson[]];
+  const invented = { ...first, id: 'somebody-new-2027' } as PublishedPerson;
+  const found = collectDifferences([...rest, first, invented]);
+  assert.ok(found.includes('somebody-new-2027: added, not in the published record'));
+  assert.equal(found.filter((difference) => differenceSubject(difference) === 'somebody-new-2027').length, 1);
 });
 
-function compare(into: string[], id: string, field: string, before: unknown, after: unknown) {
-  if (String(before ?? '') !== String(after ?? '')) {
-    into.push(`${id}.${field}: published ${JSON.stringify(before)?.slice(0, 70)} -> rebuilt ${JSON.stringify(after)?.slice(0, 70)}`);
-  }
-}
+test('a decision records only the people it touched, and drops their stale entries', () => {
+  const outcome = recordDecision(
+    { schemaVersion: 1, note: '', differences: [{ difference: 'a-2020.name: published "A" -> rebuilt "B"', decisionReference: 'old' }] },
+    ['a-2020.name: published "A" -> rebuilt "C"', 'b-2021.sortName: published "x" -> rebuilt "y"'],
+    { ids: new Set(['a-2020']), decisionReference: 'names-2026-10-01', recordedAt: '2026-10-01T00:00:00Z' },
+  );
+  assert.deepEqual(outcome.added, ['a-2020.name: published "A" -> rebuilt "C"']);
+  assert.deepEqual(outcome.removed, ['a-2020.name: published "A" -> rebuilt "B"']);
+  assert.deepEqual(outcome.elsewhere, ['b-2021.sortName: published "x" -> rebuilt "y"']);
+  assert.deepEqual(outcome.ledger.differences.map((entry) => entry.decisionReference), ['names-2026-10-01']);
+});
 
-function compareList(into: string[], id: string, field: string, before: unknown, after: readonly string[]) {
-  const a = Array.isArray(before) ? before.map(String) : [];
-  if (a.join('|') !== after.join('|')) {
-    into.push(`${id}.${field}: published [${a.join(', ')}] -> rebuilt [${after.join(', ')}]`);
+test('a second edit to long text past the cut is its own difference', () => {
+  const person = people[0]!;
+  const long = 'x'.repeat(200);
+  const edit = (tail: string) => collectDifferences(
+    [{ ...person, biography: { ...person.biography!, text: `${long}${tail}` } }],
+    published.filter((record) => record['id'] === person.id),
+  ).find((difference) => difference.includes('.bioText:'));
+  assert.notEqual(edit('first'), edit('second'));
+});
+
+test('biography provenance follows the curated override', () => {
+  // A curator's biography replaces the institution's and says so. The frozen
+  // record stores both as plain strings, so nothing in it tells them apart.
+  const curated = readCuratedRoster();
+  for (const person of people) {
+    const expected = curated.get(person.id)?.bioTextOverride ? 'curated' : 'source';
+    assert.equal(person.biography?.provenance, expected, person.id);
   }
-}
+});

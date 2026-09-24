@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "note": "Differences from the frozen published record that a decision made. Written by the apply tools and npm run parity:record; read by packages/pipeline/tests/parity.test.ts.",
+  "differences": [
+    {
+      "difference": "anthony-yen-yan-yuan-tai-2012.sortName: published \"Tai), Anthony Yen (Yan Yuan\" -> rebuilt \"Yen, Anthony\"",
+      "decisionReference": "sort-names-2026-09-24",
+      "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    },
+    {
+      "difference": "bill-miller-2017.countryTags: published [Slovenian] -> rebuilt [Polish, German]",
+      "decisionReference": "heritage-corrections-2026-09-22",
+      "note": "Heritage corrections supplied by the project owner, 2026-09-22. Signed sheet: data/curation-decisions/heritage-corrections-2026-09-22.csv."
+    },
+    {
+      "difference": "dick-pogue-2015.countryTags: published [] -> rebuilt [Scotch-Irish]",
+      "decisionReference": "heritage-corrections-2026-09-22",
+      "note": "Pogue was inducted on a community basis and the record said no nationality tag was assigned. That decision was revisited, not overlooked: see the same signed sheet."
+    },
+    {
+      "difference": "helen-karpinski-1899-2002-2010.sortName: published \"2002), Helen Karpinski (1899 –\" -> rebuilt \"Karpinski, Helen\"",
+      "decisionReference": "sort-names-2026-09-24",
+      "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    },
+    {
+      "difference": "honorable-jose-a-villanueva-2015.sortName: published \"Villanueva, Honorable José A.\" -> rebuilt \"Villanueva, José A.\"",
+      "decisionReference": "sort-names-2026-09-24",
+      "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    },
+    {
+      "difference": "ralph-j-perk-2011.countryTags: published [Czech] -> rebuilt [Czech, Slovak]",
+      "decisionReference": "heritage-corrections-2026-09-22",
+      "note": "Heritage corrections supplied by the project owner, 2026-09-22. Signed sheet: data/curation-decisions/heritage-corrections-2026-09-22.csv."
+    },
+    {
+      "difference": "reverend-dr-otis-moss-jr-2011.sortName: published \"Moss,, Dr. Otis\" -> rebuilt \"Moss, Otis, Jr.\"",
+      "decisionReference": "sort-names-2026-09-24",
+      "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    }
+  ]
+}
