@@ -11,9 +11,13 @@ const delayMs = Number.isFinite(args.delayMs) ? args.delayMs : 1250;
 const minStrongMatchScore = Number.isFinite(args.minScore) ? args.minScore : 0.72;
 const requestTimeoutMs = Number.isFinite(args.timeoutMs) ? args.timeoutMs : 8000;
 const personFilter = args.person ? new Set(String(args.person).split(',').map((item) => item.trim()).filter(Boolean)) : null;
-const records = {};
 
 const inductees = loadInductees({ includeMedia: false });
+// A partial run (--person or --limit) refreshes the people it selects and keeps
+// everyone else's last collected record. Otherwise retrying one rate-limited
+// person would rewrite the whole report as a one-record file.
+const partialRun = Boolean(personFilter) || Number.isFinite(args.limit);
+const records = partialRun ? previousRecords(inductees) : {};
 const selectedInductees = inductees
   .filter((person) => !personFilter || personFilter.has(person.id) || personFilter.has(person.name))
   .slice(0, limit);
@@ -55,6 +59,17 @@ console.log(`${report.summary.wikidataStrongMatches} strong Wikidata matches.`);
 console.log(`${report.summary.recordsWithOfficialSiteLeads} records with official-site leads.`);
 console.log(`Wrote ${outputPath}`);
 console.log(`Wrote ${csvOutputPath}`);
+
+function previousRecords(currentInductees) {
+  let previous;
+  try {
+    previous = JSON.parse(readFileSync(outputPath, 'utf8')).records ?? {};
+  } catch {
+    return {};
+  }
+  const currentIds = new Set(currentInductees.map((person) => person.id));
+  return Object.fromEntries(Object.entries(previous).filter(([id]) => currentIds.has(id)));
+}
 
 function parseArgs(rawArgs) {
   const parsed = {};
