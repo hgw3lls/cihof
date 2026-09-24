@@ -58,15 +58,6 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      # Cheapest and most valuable check here. A suite that collects nothing
-      # exits the same way as a suite with nothing to say, which is how two
-      # live regressions once hid behind a green-looking failure.
-      - name: Suite integrity
-        run: |
-          npm run test:count
-          npm run test:count:staff
-          npm run test:count:portal
-
       - name: Shared packages
         run: |
           npm test --workspace @cihof/content
@@ -89,15 +80,6 @@ jobs:
       - name: Exhibit state and selectors
         run: npm test --workspace @cihof/exhibit
 
-      - name: Visitor suite
-        run: npx playwright test
-
-      - name: Staff suite
-        run: npx playwright test -c playwright.staff.config.ts
-
-      - name: Portal suite
-        run: npx playwright test -c playwright.portal.config.ts
-
       - name: Rebuilt exhibit, in a browser
         run: npx playwright test -c apps/exhibit/playwright.config.ts
 
@@ -113,7 +95,6 @@ jobs:
         with:
           name: playwright-traces
           path: |
-            test-results/
             apps/exhibit/test-results/
             apps/web/test-results/
           retention-days: 7

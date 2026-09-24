@@ -29,7 +29,7 @@ This calls for more care than a pending queue would, not less. A kiosk artifact 
 
 The GitHub Pages workflow publishes a preview of `apps/exhibit` built for the public target, which carries no films, and refuses to deploy an artifact that turns out otherwise. See [DEPLOYMENT.md](DEPLOYMENT.md).
 
-An editable 93-row sheet is at [docs/media-approval-sheet.csv](docs/media-approval-sheet.csv). Review and apply it using [docs/media-approval-workflow.md](docs/media-approval-workflow.md). No approval is inferred from a file's presence. `npm run validate:media-clearance` is expected to report pending items until all are reviewed.
+An editable 93-row sheet is at [data/review-sheets/media-approval-sheet.csv](data/review-sheets/media-approval-sheet.csv). Review and apply it using [docs/media-approval-workflow.md](docs/media-approval-workflow.md). No approval is inferred from a file's presence. `npm run validate:media-clearance` is expected to report pending items until all are reviewed.
 
 `npm run build:kiosk` and the default `npm run build` produce a restricted offline package containing the manifest-listed local film files. Those films are cleared for the kiosk and refused for the public web, so do not publish those outputs publicly. `npm run build:portal` excludes film payloads.
 
