@@ -62,3 +62,52 @@ function text(value: unknown): string {
 function firstUrl(value: unknown): string {
   return Array.isArray(value) && typeof value[0] === 'string' ? value[0] : '';
 }
+
+/**
+ * Every other person-to-person row in the HOF World corpus.
+ *
+ * None of these carries a review, and several are plainly photo captions read
+ * as ties, so nothing here can reach a visitor. Preview builds show them marked
+ * as unreviewed so an editor can see what the corpus proposes and decide.
+ */
+export type CorpusConnection = {
+  readonly id: string;
+  readonly from: string;
+  readonly to: string;
+  /** The corpus's own classification, e.g. `documented_mention`. */
+  readonly sourceType: string;
+  readonly evidence: string;
+  readonly sourceUrl: string;
+  readonly verificationLayer: string;
+};
+
+export function readCorpusConnections(): CorpusConnection[] {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(dataFile('hof_world_person_relationships.json'), 'utf8'));
+  } catch {
+    return [];
+  }
+  const rows = (parsed as { relationships?: unknown[] }).relationships;
+  if (!Array.isArray(rows)) return [];
+
+  const connections: CorpusConnection[] = [];
+  for (const value of rows) {
+    const row = value as Record<string, unknown>;
+    const sourceType = text(row['relationshipType']);
+    if (!sourceType || inductionTypes.has(sourceType)) continue;
+    const from = text(row['sourcePersonId']);
+    const to = text(row['targetPersonId']);
+    if (!from || !to || from === to) continue;
+    connections.push({
+      id: text(row['id']) || `${from}|${to}|${sourceType}`,
+      from,
+      to,
+      sourceType,
+      evidence: text(row['evidence']),
+      sourceUrl: firstUrl(row['sourceUrls']),
+      verificationLayer: text(row['verificationLayer']),
+    });
+  }
+  return connections;
+}

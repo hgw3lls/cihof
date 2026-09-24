@@ -1,4 +1,4 @@
-import type { RuntimeBundle, RuntimePerson } from '@cihof/pipeline';
+import type { PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace } from '@cihof/pipeline';
 import type { PublishedFilm } from '@cihof/content';
 
 /**
@@ -32,4 +32,4 @@ function asBundle(value: unknown): RuntimeBundle | null {
   return candidate as RuntimeBundle;
 }
 
-export type { RuntimeBundle, RuntimePerson, PublishedFilm };
+export type { PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace, PublishedFilm };
