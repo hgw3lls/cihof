@@ -79,8 +79,19 @@ the sheet here:
 npm run links:apply   -- --input=<sheet>              # induction resolutions
 npm run links:apply   -- --sign-publication --decision-reference=… --content-version=… --targets=kiosk
 npm run places:apply  -- --input=<sheet>              # place approvals, or tie roles
-npm run curate:apply  -- --input=<sheet>              # curated metadata
+npm run ties:apply    -- --input=<sheet> --targets=kiosk   # proposed ties
+npm run bios:apply    -- --input=<sheet>              # biography corrections
+npm run class:add     -- --input=<sheet>              # a new induction class
+npm run curate:apply  -- --input=<sheet> --decision-reference=…   # curated metadata
 ```
+
+`curate:apply` and `media:apply` are older: they preview by default, but take
+no hash, do not check the working tree and do not archive. Commit the sheet
+here yourself, beside the change it made.
+
+A change visitors will see is also recorded, with its reference, in
+`data/cihof_reviewed_differences.json`: the difference from the record the
+exhibit first published, and the decision that made it.
 
 Each refuses a decision with no reference rather than writing a placeholder.
 That refusal is the point of them.
