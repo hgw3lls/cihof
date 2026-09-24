@@ -25,11 +25,11 @@ test('the collection as it stands offers Connections on the wall and not the web
   // which is the whole point of deciding availability here.
   const kiosk = buildRuntimeBundle(people, 'kiosk');
   assert.deepEqual(kiosk.lenses, ['people', 'years', 'links']);
-  assert.equal(kiosk.relationships.length, 48);
+  assert.ok(kiosk.relationships.length > 0);
 
   const onWall = kiosk.lensReport.find((lens) => lens.id === 'links')!;
   assert.equal(onWall.available, true);
-  assert.equal(onWall.count, 48);
+  assert.equal(onWall.count, kiosk.relationships.length);
 
   const web = buildRuntimeBundle(people, 'public');
   assert.deepEqual(web.lenses, ['people', 'years']);

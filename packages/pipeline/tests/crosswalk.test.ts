@@ -2,13 +2,15 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { crosswalkProgress, type InductionCrosswalk } from '@cihof/content';
 import { buildInductionCrosswalk, normalizeForCandidates } from '../src/build/crosswalk.ts';
+import { readRoster } from '../src/sources/manifest.ts';
 
 const built = buildInductionCrosswalk();
 
 test('the crosswalk covers every roster row that names an inducter', () => {
   const rows = built.crosswalk.entries.reduce((total, entry) => total + entry.inducted.length, 0);
-  assert.equal(rows, 111, 'the canonical roster is 111 rows and every one names an inducter');
-  assert.equal(built.crosswalk.entries.length, 95, '95 distinct recorded names');
+  const roster = readRoster().filter((row) => row.inductedBy.trim().length > 0);
+  assert.equal(rows, roster.length, 'every roster row that names an inducter is covered');
+  assert.equal(built.crosswalk.entries.length, new Set(roster.map((row) => row.inductedBy.trim())).size, 'one entry per distinct recorded name');
   assert.equal(built.droppedResolved.length, 0);
 });
 
@@ -104,7 +106,7 @@ test('a refresh carries resolutions forward and leaves the roster parts rebuilt'
   const again = buildInductionCrosswalk(resolvedOnce);
   const machaskee = again.crosswalk.entries.find((entry) => entry.recordedName === 'Alex Machaskee')!;
   assert.equal(machaskee.resolution.status, 'inductee', 'review work survives a regeneration');
-  assert.equal(crosswalkProgress(again.crosswalk).unresolved, 94);
+  assert.equal(crosswalkProgress(again.crosswalk).unresolved, built.crosswalk.entries.length - 1);
   assert.deepEqual(again.added, [], 'nothing is new the second time');
 });
 

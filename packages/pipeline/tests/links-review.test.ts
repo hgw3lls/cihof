@@ -6,6 +6,7 @@ import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { buildRelationshipReviewSheet, decisionsInSheet, reviewSheetCsv } from '../src/build/review.ts';
 import { readInductionCrosswalk } from '../src/sources/crosswalk.ts';
+import { readPublishedRecord } from '../src/build/parity.ts';
 
 /**
  * The review sheet, against the crosswalk as it actually stands.
@@ -44,22 +45,28 @@ test('the sheet covers every recorded name, not only the answerable ones', () =>
   assert.ok(progress.noCandidate > 0, 'rows the corpus could not help with are present');
 });
 
-test('every recorded name has now been decided', () => {
+test('every name recorded for the original hall has been decided', () => {
   // 25 confirmed against corpus candidates on 2026-09-22, then the remaining
   // 70 worked through in the review portal on 2026-09-23. Nine of those turned
   // out to be in the hall — six caught by name, three more (Gerry Quinn, Mike
   // Polensek, Tom Scanlon) only against the institution's own published list,
-  // because a nickname is not a string match. Nothing is left open.
-  const progress = reviewProgress(sheet);
-  assert.equal(progress.resolved, 95);
-  assert.equal(progress.unresolved, 0);
-  assert.equal(progress.relationshipsResolved, 48);
+  // because a nickname is not a string match. Nothing was left open.
+  //
+  // A new class can bring a new name, which waits in the links sheet for its
+  // own review. A name recorded for the original hall going back to open would
+  // be a lost decision.
+  const original = new Set(readPublishedRecord().map((record) => String(record['id'])));
+  const reopened = (crosswalk?.entries ?? [])
+    .filter((entry) => entry.resolution.status === 'unresolved')
+    .filter((entry) => entry.inducted.some((id) => original.has(id as string)))
+    .map((entry) => entry.recordedName);
+  assert.deepEqual(reopened, []);
 });
 
 test('the sheet reports the lens open, and says what signed it', () => {
   const progress = reviewProgress(sheet);
   assert.equal(progress.publicationDecisionSigned, true);
-  assert.equal(progress.linksCount, 48);
+  assert.equal(progress.linksCount, progress.relationshipsResolved, 'signed, every resolved relationship counts');
   assert.equal(progress.linksWouldOpen, true);
   assert.deepEqual(reviewRemaining(sheet), [], 'nothing stands between this and an open lens');
 });
@@ -69,7 +76,7 @@ test('the same resolutions report a shut lens with the signature removed', () =>
   // 31 are resolved either way, and only the decision makes them countable.
   const unsigned = buildRelationshipReviewSheet(withoutDecision(crosswalk), people);
   const progress = reviewProgress(unsigned);
-  assert.equal(progress.relationshipsResolved, 48, 'the review work is unchanged');
+  assert.equal(progress.relationshipsResolved, reviewProgress(sheet).relationshipsResolved, 'the review work is unchanged');
   assert.equal(progress.publicationDecisionSigned, false);
   assert.equal(progress.linksCount, 0);
   assert.equal(progress.linksWouldOpen, false);

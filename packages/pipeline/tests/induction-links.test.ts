@@ -4,6 +4,7 @@ import type { InductionCrosswalk } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { readInductionCrosswalk } from '../src/sources/crosswalk.ts';
+import { readRoster } from '../src/sources/manifest.ts';
 
 const people = buildPeople();
 const ids = people.map((person) => person.id);
@@ -33,15 +34,15 @@ function resolved(count: number, over: Partial<InductionCrosswalk> = {}): Induct
 }
 
 test('the crosswalk as it actually stands opens Connections on the wall', () => {
-  // The honest state of the collection: all 95 recorded names decided — 31
-  // resolved to an inductee, 64 found not to be one — under
+  // The state of the collection when this was written: all 95 recorded names
+  // decided (31 resolved to an inductee, 64 found not to be one) under
   // links-review-2026-09-22 and names-review-2026-09-23, with a kiosk-only
-  // publication decision. These counts move as review lands. The separation
-  // they rest on does not, and is tested below.
+  // publication decision, giving 48 relationships. Those counts move as review
+  // lands and are not pinned here, so a curator's decision never fails the
+  // build. The separation they rest on does not move, and is tested.
   const bundle = buildRuntimeBundle(people, 'kiosk');
-  assert.equal(bundle.relationships.length, 48);
+  assert.ok(bundle.relationships.length > 0);
   assert.equal(bundle.lenses.includes('links'), true);
-  assert.equal(bundle.relationshipReport.crosswalkNamesUnresolved, 0);
   assert.equal(bundle.relationshipReport.crosswalkApproved, true);
 
   // The decision named the kiosk. Nothing reaches the web on the strength of it.
@@ -129,7 +130,8 @@ test('a missing crosswalk file builds rather than breaking the release', () => {
 test('the committed crosswalk is readable by the build', () => {
   const crosswalk = readInductionCrosswalk();
   assert.ok(crosswalk, 'the generated file is present and parses');
-  assert.equal(crosswalk.entries.length, 95);
+  assert.equal(crosswalk.entries.length, new Set(readRoster().map((row) => row.inductedBy.trim()).filter(Boolean)).size,
+    'one entry per distinct recorded name; regenerate with npm run crosswalk');
 
   // Signed, and signed for one audience. A decision that had quietly acquired
   // publicWeb would be the most expensive thing in this file to miss.
