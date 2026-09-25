@@ -3,7 +3,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
-import { biosCsv, decisionReference, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { attractCsv, biosCsv, decisionReference, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -39,6 +39,11 @@ const steps = [
     task: 'profiles', title: 'Profiles', script: 'profiles:apply', csv: profilesCsv,
     refresh: [], checks: [],
     keys: (draft) => Object.keys(draft.profiles ?? {}),
+  },
+  {
+    task: 'attract', title: 'Attract screen words', script: 'text:apply', csv: attractCsv,
+    refresh: [], checks: [],
+    keys: (draft) => Object.keys(draft.attract ?? {}),
   },
   {
     task: 'bios', title: 'Biographies', script: 'bios:apply', csv: biosCsv,

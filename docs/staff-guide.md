@@ -277,6 +277,12 @@ of the project, and it takes you through each review one item at a time:
   no written history cannot be shown yet, and the app says so.
 - **Biographies**: find a person, correct the text, and see exactly what you
   changed before keeping it.
+- **Attract screen words**: the headline and the line beneath it on the
+  display while nobody is using it. Approve them as they are, or write your
+  own (a headline of up to 60 characters, a line of up to 140); your own words
+  are approved as you write them. Until they are approved, the display shows
+  the Hall of Fame's name instead. They appear on the display only: the
+  website has no attract screen.
 
 To use it:
 
@@ -362,6 +368,7 @@ npm run <tool>:apply -- --input=<sheet> [same options] --apply --expect-hash=<ha
 # Biographies, profile approvals and new classes work the same way.
 npm run bios:apply   -- --input=reports/biographies-sheet.csv
 npm run profiles:apply -- --input=reports/profiles-sheet.csv
+npm run text:apply   -- --input=<sheet>                      # the attract screen's words
 npm run class:add    -- --input=<folder>/class-2027.csv
 
 # Curated metadata and media approvals preview the same way; --apply writes.
@@ -385,16 +392,14 @@ still fails the tests, which is how a broken build is caught.
 file, so it must run on the machine that holds the videos
 (`public/media/videos/`, section 8).
 
-**The attract screen's words** live in `data/cihof_exhibit_text.json`. They
-are shown only once a curator approves the exact words for a target. There
-is no sheet for two lines of text: `npm run build:kiosk` prints the
-`contentVersion` an approval of the current words must name, and a developer
-records the curator's decision in the file's `review` block (`status:
-approved`, the `decisionReference` and that `contentVersion`) and in the
-`publication` block (`kiosk`, `publicWeb`). Changing a word afterwards holds
-the words back until they are approved again. `npm run build:preview` shows
-unapproved words on the attract screen, marked, so they can be judged in
-place.
+**The attract screen's words** live in `data/cihof_exhibit_text.json` and
+are shown only once a curator approves the exact words. The staff review app
+does this (7.1). By hand, `npm run text:apply` takes a one-row sheet:
+`block,decision,contentVersion,headline,tagline,decisionReference,note`, with
+`approve` and the `contentVersion` that `npm run build:kiosk` prints, or
+`reword` with the new words. Changing a word afterwards holds the words back
+until they are approved again. `npm run build:preview` shows unapproved words
+on the attract screen, marked, so they can be judged in place.
 
 Then run the checks, review the diff and commit:
 

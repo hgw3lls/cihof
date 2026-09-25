@@ -126,3 +126,9 @@ ins { background: #e2f3e4; color: var(--done); padding: 0 2px; }
 .suggestion { background: #eef6ee; border: 1px solid #b9dcbc; border-radius: var(--radius); padding: 0.8rem 1rem; margin: 0.75rem 0; }
 .suggestion p { margin: 0.25rem 0; }
 .notice p { margin: 0.25rem 0; }
+
+/* The attract screen's words, set roughly as the display sets them. */
+.attract-preview { background: #121211; color: #f2f1ec; }
+.attract-preview .quiet { color: #a19f97; }
+.attract-preview__headline { margin: 0.25rem 0; font-size: 2rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+.attract-preview__tagline { margin: 0.5rem 0 0; color: #c9c7bf; font-size: 1.1rem; }
