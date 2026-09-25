@@ -5,6 +5,7 @@ import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { buildPlaceReviewSheet, placeReviewSheetCsv, placeTiesSheetCsv } from '../src/build/review.ts';
 import { readPlaceAssociations, readPlaceSeeds } from '../src/sources/places.ts';
+import { placeTextVersion } from '../src/build/place-text.ts';
 
 /**
  * Places, against the collection as it actually stands.
@@ -25,6 +26,9 @@ const unreviewed = {
 
 const approved = { status: 'approved', decisionReference: 'fixture', contentVersion: 'fixture-v1' } as const;
 const everywhere = { publicWeb: true, kiosk: true };
+/** A place approved in the words it has: the approval names their fingerprint. */
+const approvedPlace = <T extends { name: string; neighborhood?: string; shortHistory?: string }>(place: T) =>
+  ({ ...place, review: { ...approved, contentVersion: placeTextVersion(place) }, publication: everywhere });
 
 test('the ingest landed, and only reviewed places and roled ties are publishable', () => {
   assert.equal(seeds.length, 82);
@@ -121,10 +125,7 @@ test('the ties sheet asks one question per tie, and answers none of them', () =>
 });
 
 test('a place shows the people whose tie carries a role, and only those', () => {
-  const place = {
-    id: 'place:fixture', name: 'Fixture Gardens', shortHistory: 'A history.', neighborhood: 'Rockefeller Park',
-    review: approved, publication: everywhere,
-  };
+  const place = approvedPlace({ id: 'place:fixture', name: 'Fixture Gardens', shortHistory: 'A history.', neighborhood: 'Rockefeller Park' });
   const withRole = {
     id: 'tie-1', person: people[0]!.id, place: 'place:fixture', role: 'organized',
     review: approved, publication: everywhere, evidence: [{ id: 'e1', title: 'A source', kind: 'collection-record' }],
@@ -141,10 +142,7 @@ test('a place shows the people whose tie carries a role, and only those', () => 
 });
 
 test('a reviewed place with no reviewed tie is still a place', () => {
-  const place = {
-    id: 'place:quiet', name: 'Quiet Square', shortHistory: 'A history.', neighborhood: 'Downtown',
-    review: approved, publication: everywhere,
-  };
+  const place = approvedPlace({ id: 'place:quiet', name: 'Quiet Square', shortHistory: 'A history.', neighborhood: 'Downtown' });
   const bundle = buildRuntimeBundle(people, 'kiosk', { places: [place], placeAssociations: [], crosswalk: null });
   const published = bundle.places.find((entry) => entry.id === 'place:quiet');
   assert.ok(published, 'the place is shown');
@@ -152,9 +150,8 @@ test('a reviewed place with no reviewed tie is still a place', () => {
 });
 
 test('eight reviewed places open the lens through the real build', () => {
-  const eight = Array.from({ length: 8 }, (_, index) => ({
+  const eight = Array.from({ length: 8 }, (_, index) => approvedPlace({
     id: `place:fixture-${index}`, name: `Fixture ${index}`, shortHistory: 'A history.', neighborhood: 'Somewhere',
-    review: approved, publication: everywhere,
   }));
   const short = buildRuntimeBundle(people, 'kiosk', { places: eight.slice(0, 7), crosswalk: null });
   assert.equal(short.lenses.includes('places'), false, '7 is below the threshold of 8');

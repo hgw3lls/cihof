@@ -11,7 +11,7 @@
  *   {
  *     reviewer: "Jane Smith",
  *     ties:      { [tieId]: { decision, kind, direction, label, inverseLabel, note } },
- *     places:    { [placeId]: { approve: true, note } },
+ *     places:    { [placeId]: { approve: true, seenVersion, history?, note } | { approve: false } },
  *     placeTies: { ["placeId|personId"]: { role, note } },
  *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
@@ -53,8 +53,10 @@ export function placesCsv(draft, day) {
   const reference = decisionReference('places', day);
   const rows = Object.entries(draft.places ?? {})
     .filter(([, value]) => value.approve === true)
-    .map(([placeId, value]) => [placeId, 'yes', reference, signedNote(value.note, draft.reviewer)]);
-  return csv(['placeId', 'approve', 'decisionReference', 'note'], rows);
+    // The version of the words the reviewer saw, and their own words when
+    // they wrote some. The apply tool refuses a version that no longer matches.
+    .map(([placeId, value]) => [placeId, 'yes', value.seenVersion ?? '', typeof value.history === 'string' ? value.history.trim() : '', reference, signedNote(value.note, draft.reviewer)]);
+  return csv(['placeId', 'approve', 'contentVersion', 'newHistory', 'decisionReference', 'note'], rows);
 }
 
 export function placeTiesCsv(draft, day) {

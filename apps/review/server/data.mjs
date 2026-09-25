@@ -8,6 +8,7 @@ import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts
 import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content';
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
+import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 
 /**
  * Everything the review screens show, read fresh from `data/` each time, so a
@@ -100,6 +101,10 @@ export function loadReview() {
     ? JSON.parse(readFileSync(associationsPath, 'utf8')).associations ?? []
     : [];
   const seeds = new Map((placesDocument.places ?? []).map((place) => [place.id, place]));
+  // Suggested rewordings, each drafted from particular words. One whose words
+  // have since changed is not offered: it was a rewording of something else.
+  const placeDraftsPath = dataFile('review-sheets/place-drafts.json');
+  const placeDrafts = existsSync(placeDraftsPath) ? JSON.parse(readFileSync(placeDraftsPath, 'utf8')).drafts ?? {} : {};
   const places = buildPlaceReviewSheet(placesDocument.places ?? [], associations, people).rows.map((row) => {
     const seed = seeds.get(row.placeId) ?? {};
     return {
@@ -111,6 +116,11 @@ export function loadReview() {
       shortHistory: row.shortHistory,
       canApprove: row.band === 'researched',
       reviewed: row.reviewed,
+      // What an approval of the words shown records, and whether the approval
+      // on file covers them (see packages/pipeline/src/build/place-text.ts).
+      contentVersion: row.contentVersion,
+      words: row.words,
+      suggestion: placeDrafts[row.placeId]?.from === row.contentVersion ? placeDrafts[row.placeId].text : null,
       // A role is decided once per person and place. The research sometimes
       // records the same person there twice (born here, and moved here), so
       // those are one row carrying both notes.
@@ -169,7 +179,7 @@ export function loadReview() {
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
-    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline },
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
 }

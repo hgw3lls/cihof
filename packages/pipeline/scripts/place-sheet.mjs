@@ -45,7 +45,7 @@ const tiesCurrent = existsSync(tiesPathCsv) && readFileSync(tiesPathCsv, 'utf8')
 const signed = [
   ...(csvCurrent || !existsSync(csvPath)
     ? []
-    : decisionsInSheet(readFileSync(csvPath, 'utf8'), ['approve', 'decisionReference'], 'name')),
+    : decisionsInSheet(readFileSync(csvPath, 'utf8'), ['approve', 'newHistory', 'decisionReference'], 'name')),
   ...(tiesCurrent || !existsSync(tiesPathCsv)
     ? []
     : decisionsInSheet(readFileSync(tiesPathCsv, 'utf8'), ['role', 'decisionReference'], 'displayName')),
