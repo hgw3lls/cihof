@@ -132,7 +132,9 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   counts: { profiles: number; ties: number; places: number; bios: number };
   onOpen: (screen: Screen) => void;
 }) {
-  const tiesOpen = review.ties.filter((tie) => tie.status === 'unreviewed' && !draft.ties[tie.tieId]).length;
+  // Undecided, or decided with wording that cannot go on the map: the same
+  // ties the Connections screen brings back.
+  const tiesOpen = review.ties.filter((tie) => (tie.status === 'unreviewed' || tie.wordingProblem) && !draft.ties[tie.tieId]).length;
   // Only places with something to decide count: a place with no history and
   // nobody tied to it has nothing to review yet.
   const reviewable = review.places.filter((place) => (place.canApprove && !place.reviewed) || place.ties.length > 0);

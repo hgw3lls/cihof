@@ -38,9 +38,9 @@
       "because": "The evidence is photo captions from an induction ceremony: it shows the two at the same event, not that they worked together."
     },
     "preview:person-rel:5e81381bc906c0": {
-      "decision": "context",
-      "label": "Valarie McCall read Le Nguyen's remarks",
-      "because": "The evidence is that she read his written remarks at an event, not that they worked together."
+      "decision": "reject",
+      "label": "",
+      "because": "The evidence is that Valarie McCall read remarks Le Nguyen had written, which suggests he was not there himself. It does not say they worked together. None of the kinds fits, and \"appear together\" would claim they were at the same event, which the evidence does not show. Reject it unless a source shows more."
     },
     "preview:person-rel:65f460e66edd9f": {
       "decision": "context",
@@ -103,9 +103,9 @@
       "because": "The evidence is photo captions from an induction ceremony: it shows the two at the same event, not that they worked together."
     },
     "preview:person-rel:bf085364d09f59": {
-      "decision": "context",
-      "label": "faced each other in the 1971 Republican primary",
-      "because": "The evidence is that Perk beat Voinovich in the 1971 Republican primary: it shows them as opponents, not collaborators or friends."
+      "decision": "reject",
+      "label": "",
+      "because": "The evidence is that Perk beat Voinovich in the 1971 Republican primary: opponents, not collaborators or friends. None of the kinds fits, and \"appear together\" would claim they were at the same event, which the evidence does not show. Reject it unless a source shows more."
     },
     "preview:person-rel:cc2b7b68c1ddbd": {
       "decision": "relationship",
@@ -113,9 +113,9 @@
       "label": "worked together on Cleveland development"
     },
     "preview:person-rel:dae721bffb7476": {
-      "decision": "context",
-      "label": "Basil Russo led a program named for Bishop Pilla",
-      "because": "The evidence is that Russo led the creation of a study program named for Bishop Pilla. It does not say the two worked together."
+      "decision": "reject",
+      "label": "",
+      "because": "The evidence is that Russo led the creation of a study program named for Bishop Pilla. It does not say the two worked together. None of the kinds fits, and \"appear together\" would claim they were at the same event, which the evidence does not show. Reject it unless a source shows more."
     },
     "preview:person-rel:e0392db8b27982": {
       "decision": "reject",

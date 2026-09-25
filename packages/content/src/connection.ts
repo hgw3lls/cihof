@@ -238,6 +238,11 @@ export function connectionProblems(value: unknown): string[] {
     if (candidate.kind && isDirectional(candidate.kind) && !nonEmpty(candidate.inverseLabel)) {
       problems.push(`${candidate.kind} reads differently from each end but has no inverse label`);
     }
+    // Wherever the relationship came from, its wording has to fit the map.
+    for (const label of [candidate.label, candidate.inverseLabel]) {
+      const problem = connectionLabelProblem(label);
+      if (problem) problems.push(problem);
+    }
     return problems;
   }
 
@@ -262,6 +267,8 @@ export function sharedContextProblems(value: unknown): string[] {
   if (!pairOfDistinctPeople(candidate.between)) problems.push('needs two distinct people');
   if (!nonEmpty(candidate.value)) problems.push('no shared value');
   if (!nonEmpty(candidate.statement)) problems.push('no statement');
+  const tooLong = connectionLabelProblem(candidate.statement);
+  if (tooLong) problems.push(tooLong);
   return problems;
 }
 
