@@ -16,6 +16,9 @@ export type Tie = {
   evidence: string[];
   sourceUrls: string[];
   status: string;
+  current: { decision: string; kind: string; label: string; inverseLabel: string; reversed: boolean } | null;
+  wordingProblem: string | null;
+  suggestion: (TieDecision & { because?: string }) | null;
 };
 
 export type Place = {
@@ -89,6 +92,7 @@ export type Review = {
   bios: Bio[];
   profiles: Profile[];
   kinds: Kind[];
+  limits: { label: number };
   roles: Role[];
   draft: Draft;
   counts: Counts;

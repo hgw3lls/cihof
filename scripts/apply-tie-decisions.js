@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { basename, resolve } from 'node:path';
-import { connectionProblems, sharedContextProblems } from '@cihof/content';
+import { connectionLabelProblem, connectionProblems, sharedContextProblems } from '@cihof/content';
 import { parseCsv } from './data-utils.js';
 import { buildPeople } from '../packages/pipeline/src/build/people.ts';
 import { buildProposedTiesSheet, relationshipKinds } from '../packages/pipeline/src/build/review.ts';
@@ -128,6 +128,11 @@ rows.forEach((row, index) => {
     errors.push(`line ${line} (${who}): a ${decision} needs a label — ${decision === 'relationship'
       ? 'how it reads from person A'
       : 'what the source shows, e.g. "Both photographed at the 2017 induction ceremony"'}`);
+    return;
+  }
+  const tooLong = [label, decision === 'relationship' ? inverseLabel : ''].map(connectionLabelProblem).find(Boolean);
+  if (decision !== 'reject' && tooLong) {
+    errors.push(`line ${line} (${who}): ${tooLong}`);
     return;
   }
   if (decision !== 'reject' && !targets) {

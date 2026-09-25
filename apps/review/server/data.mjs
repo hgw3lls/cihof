@@ -5,6 +5,7 @@ import { profileContentVersion, profileState, readPortraitChecksums, readProfile
 import { buildPlaceReviewSheet, buildProposedTiesSheet, placeRoles, relationshipKinds } from '../../../packages/pipeline/src/build/review.ts';
 import { readCorpusConnections } from '../../../packages/pipeline/src/sources/corpus.ts';
 import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts';
+import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content';
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 
 /**
@@ -18,9 +19,12 @@ import { dataFile } from '../../../packages/pipeline/src/paths.ts';
  * the shape; the reviewer types what the record actually says.
  */
 export const kindGuide = {
-  'collaborated-with': { label: 'Worked together', directional: false, example: 'worked with {B} on …' },
-  'founded-with': { label: 'Founded something together', directional: false, example: 'founded … with {B}' },
-  'family-of': { label: 'Family', directional: false, example: 'married to {B}  /  sister of {B}' },
+  // No direction: the same words show on both people's side, so they name
+  // neither of them.
+  'collaborated-with': { label: 'Worked together', directional: false, example: 'worked together to promote Juneteenth' },
+  'founded-with': { label: 'Founded something together', directional: false, example: 'founded Community Helping Hands together' },
+  'family-of': { label: 'Family', directional: false, example: 'married  /  siblings' },
+  'friend-of': { label: 'Friends', directional: false, example: 'longtime friends' },
   mentored: { sentence: '{A} mentored {B}', label: 'Mentored', directional: true, example: 'mentored {B}', inverse: 'was mentored by {A}' },
   taught: { sentence: '{A} taught {B}', label: 'Taught', directional: true, example: 'taught {B} at …', inverse: 'was taught by {A} at …' },
   succeeded: { sentence: '{A} took over a role from {B}', label: 'Followed in a role', directional: true, example: 'succeeded {B} as …', inverse: 'was succeeded by {A} as …' },
@@ -60,7 +64,16 @@ export function loadReview() {
     };
   };
 
-  const ties = buildProposedTiesSheet(readCorpusConnections(), people, readTieDecisions()).map((row) => ({
+  const decisions = readTieDecisions();
+  const decisionByTie = new Map(decisions.map((decision) => [decision.tieId, decision]));
+  const draftsPath = dataFile('review-sheets/connection-drafts.json');
+  const drafts = existsSync(draftsPath) ? JSON.parse(readFileSync(draftsPath, 'utf8')).drafts ?? {} : {};
+  const ties = buildProposedTiesSheet(readCorpusConnections(), people, decisions).map((row) => {
+    const current = decisionByTie.get(row.tieId);
+    const wordingProblem = current
+      ? [current.label, current.inverseLabel].map(connectionLabelProblem).find(Boolean) ?? null
+      : null;
+    return {
     tieId: row.tieId,
     a: summary(row.personA),
     b: summary(row.personB),
@@ -70,7 +83,15 @@ export function loadReview() {
     evidence: row.evidence,
     sourceUrls: row.sourceUrls,
     status: row.currentStatus,
-  }));
+    // What is on file now, so a reviewer revisiting a tie sees what they are replacing.
+    current: current
+      ? { decision: current.decision, kind: current.kind ?? '', label: current.label ?? '', inverseLabel: current.inverseLabel ?? '', reversed: Boolean(current.reversed) }
+      : null,
+    // A decision whose wording cannot go on the map comes back to be looked at.
+    wordingProblem,
+    suggestion: drafts[row.tieId] ?? null,
+    };
+  });
 
   const placesDocument = JSON.parse(readFileSync(dataFile('cihof_places.json'), 'utf8'));
   const associationsPath = dataFile('cihof_place_associations.json');
@@ -146,6 +167,7 @@ export function loadReview() {
     bios,
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
+    limits: { label: maxConnectionLabelLength },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
 }

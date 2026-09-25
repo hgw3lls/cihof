@@ -65,7 +65,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   const first = await names(page);
   await page.getByRole('button', { name: /A real connection/ }).click();
   await page.getByRole('button', { name: /Worked together/ }).click();
-  await page.getByPlaceholder(/worked with/).fill(`worked with ${first[1]} on a test`);
+  await page.getByPlaceholder(/worked together/).fill('worked together on a test');
   await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Next →' }).click();
 
@@ -74,8 +74,8 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('button', { name: /^Mentored/ }).click();
   await page.getByRole('button', { name: `${second[1]} mentored ${second[0]}` }).click();
   await expect(page.getByText(/Not finished yet/)).toBeVisible();
-  await page.getByLabel(new RegExp(`On ${escape(second[1])}'s profile`)).fill(`mentored ${second[0]} (test)`);
-  await page.getByLabel(new RegExp(`On ${escape(second[0])}'s profile`)).fill(`was mentored by ${second[1]} (test)`);
+  await page.getByLabel(new RegExp(`Next to ${escape(second[1])}:`)).fill(`mentored ${second[0]} (test)`);
+  await page.getByLabel(new RegExp(`Next to ${escape(second[0])}:`)).fill(`was mentored by ${second[1]} (test)`);
   await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Next →' }).click();
 
