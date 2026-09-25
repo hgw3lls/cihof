@@ -122,3 +122,7 @@ ins { background: #e2f3e4; color: var(--done); padding: 0 2px; }
 .small { font-size: 0.85rem; }
 .profile h3 { margin: 1.2rem 0 0.3rem; }
 .tags .tag { margin: 0 0.35rem 0.35rem 0; }
+
+.suggestion { background: #eef6ee; border: 1px solid #b9dcbc; border-radius: var(--radius); padding: 0.8rem 1rem; margin: 0.75rem 0; }
+.suggestion p { margin: 0.25rem 0; }
+.notice p { margin: 0.25rem 0; }
