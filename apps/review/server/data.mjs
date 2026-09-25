@@ -7,6 +7,7 @@ import { readCorpusConnections } from '../../../packages/pipeline/src/sources/co
 import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts';
 import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content';
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
+import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 
 /**
  * Everything the review screens show, read fresh from `data/` each time, so a
@@ -167,7 +168,22 @@ export function loadReview() {
     bios,
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
-    limits: { label: maxConnectionLabelLength },
+    attract: attractWords(),
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
+  };
+}
+
+/** The attract screen's words as they stand, and whether the display may show them. */
+function attractWords() {
+  const stored = readExhibitText().attract ?? {};
+  const status = publishedAttractText('kiosk');
+  return {
+    headline: typeof stored.headline === 'string' ? stored.headline : '',
+    tagline: typeof stored.tagline === 'string' ? stored.tagline : '',
+    contentVersion: status.contentVersion ?? '',
+    approved: status.problem === null && status.text !== null,
+    problem: status.problem,
+    reviewedAt: stored.review?.reviewedAt ?? null,
   };
 }

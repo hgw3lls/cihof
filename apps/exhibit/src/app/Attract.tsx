@@ -48,6 +48,7 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
   const candidates = mode === 'mosaic' ? cells.map((_, index) => index).filter((index) => !underPanel(index)) : cells.map((_, index) => index);
   const spot = useSpotlight(candidates, spotlightMs, mode === 'stacked');
   const spotPerson = spot === null ? null : cells[spot] ?? null;
+  const reduced = usePrefersReducedMotion();
 
   // With approved words, the name sits small above the headline. Without
   // them, the name with its skyline is the headline.
@@ -86,8 +87,10 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
                   type="button"
                   className="attract__face"
                   aria-current={index === spot ? 'true' : undefined}
-                  // A repeated face is the same person again; one button each is enough to hear.
-                  {...(cells.indexOf(person) !== index ? { tabIndex: -1, 'aria-hidden': true } : {})}
+                  // A repeated face is the same person again, and a face under the
+                  // text panel cannot be seen: neither is offered to a keyboard or
+                  // a screen reader, so nothing opens a person nobody can see.
+                  {...(cells.indexOf(person) !== index || underPanel(index) ? { tabIndex: -1, 'aria-hidden': true } : {})}
                   aria-label={person.name}
                   onClick={() => onBeginWith(person.id)}
                 >
@@ -115,7 +118,7 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
             </button>
             <div className="attract__words">{words}</div>
           </div>
-          <NameRows people={order} rows={mode === 'names' ? 6 : 3} spotId={spotPerson?.id ?? null} onBeginWith={onBeginWith} />
+          <NameRows people={order} rows={mode === 'names' ? 6 : 3} spotId={spotPerson?.id ?? null} still={!motion || reduced} onBeginWith={onBeginWith} />
 
           {mode === 'stacked' && (
             <ul className="attract__strip" aria-label="Inductees">
@@ -145,41 +148,74 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
 /**
  * Rows of names drifting sideways. Each row holds its names twice so the loop
  * has no seam; the second copy is for the eye only.
+ *
+ * Standing still (motion off, or a visitor who asked for less motion), a row
+ * can only show the names that fit across the screen. So each row starts from
+ * a different name every time the spotlight moves, and the row holding the lit
+ * name starts with it: over a few minutes every name has its turn, and nothing
+ * slides to get there.
  */
-function NameRows({ people, rows, spotId, onBeginWith }: {
+function NameRows({ people, rows, spotId, still, onBeginWith }: {
   people: readonly RuntimePerson[];
   rows: number;
   spotId: string | null;
+  still: boolean;
   onBeginWith: (personId: string) => void;
 }) {
   const lines = Array.from({ length: rows }, (_, row) => people.filter((_, index) => index % rows === row));
+  const turn = useTurns(spotId);
   return (
     <div className="attract__names">
-      {lines.map((line, row) => (
-        <div
-          key={row}
-          className={`attract__row${row % 2 === 1 ? ' attract__row--dim' : ''}`}
-          style={{ '--row-seconds': `${120 + row * 14}s`, '--row-direction': row % 2 === 0 ? 'normal' : 'reverse' } as CSSProperties}
-        >
-          <ul className="attract__track">
-            {[0, 1].flatMap((copy) => line.map((person) => (
-              <li key={`${copy}:${person.id}`} {...(copy === 1 ? { 'aria-hidden': true } : {})}>
-                <button
-                  type="button"
-                  className="attract__name"
-                  aria-current={person.id === spotId ? 'true' : undefined}
-                  {...(copy === 1 ? { tabIndex: -1 } : {})}
-                  onClick={() => onBeginWith(person.id)}
-                >
-                  {person.name}
-                </button>
-              </li>
-            )))}
-          </ul>
-        </div>
-      ))}
+      {lines.map((line, row) => {
+        const lit = spotId === null ? -1 : line.findIndex((person) => person.id === spotId);
+        const start = still && line.length > 0 ? (lit >= 0 ? lit : (turn * 3 + row) % line.length) : 0;
+        const shown = still ? [...line.slice(start), ...line.slice(0, start)] : line;
+        return (
+          <div
+            key={row}
+            className={`attract__row${row % 2 === 1 ? ' attract__row--dim' : ''}`}
+            style={{ '--row-seconds': `${120 + row * 14}s`, '--row-direction': row % 2 === 0 ? 'normal' : 'reverse' } as CSSProperties}
+          >
+            <ul className="attract__track">
+              {(still ? [0] : [0, 1]).flatMap((copy) => shown.map((person) => (
+                <li key={`${copy}:${person.id}`} {...(copy === 1 ? { 'aria-hidden': true } : {})}>
+                  <button
+                    type="button"
+                    className="attract__name"
+                    aria-current={person.id === spotId ? 'true' : undefined}
+                    {...(copy === 1 ? { tabIndex: -1 } : {})}
+                    onClick={() => onBeginWith(person.id)}
+                  >
+                    {person.name}
+                  </button>
+                </li>
+              )))}
+            </ul>
+          </div>
+        );
+      })}
     </div>
   );
+}
+
+/** How many times the spotlight has moved since the screen appeared. */
+function useTurns(spotId: string | null): number {
+  const [turns, setTurns] = useState(0);
+  useEffect(() => { setTurns((count) => count + 1); }, [spotId]);
+  return turns;
+}
+
+function usePrefersReducedMotion(): boolean {
+  const query = typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const [reduced, setReduced] = useState(query?.matches ?? false);
+  useEffect(() => {
+    if (!query) return undefined;
+    const change = () => setReduced(query.matches);
+    query.addEventListener('change', change);
+    return () => query.removeEventListener('change', change);
+    // The query string never changes; the listener is set once.
+  }, []);
+  return reduced;
 }
 
 /**

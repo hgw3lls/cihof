@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { loadReview, putDraft, type Draft, type Review } from './api.ts';
+import { AttractWords } from './AttractWords.tsx';
 import { Biographies } from './Biographies.tsx';
 import { Connections } from './Connections.tsx';
 import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'save';
 
 /**
  * The staff review app.
@@ -62,8 +63,9 @@ export function App() {
     ties: Object.keys(draft.ties).length,
     places: Object.values(draft.places).filter((value) => value.approve).length + Object.keys(draft.placeTies).length,
     bios: Object.keys(draft.bios).length,
+    attract: Object.keys(draft.attract ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract;
   const back = () => setScreen('home');
 
   return (
@@ -95,6 +97,7 @@ export function App() {
       {screen === 'bios' && (
         <Biographies review={review} draft={draft} update={update} onDone={() => { setBiographyFor(null); back(); }} startWith={biographyFor} />
       )}
+      {screen === 'attract' && <AttractWords review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
         <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }} />
       )}
@@ -129,7 +132,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -172,6 +175,13 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           body="Correct a biography: a misspelt name, a wrong date, a sentence that needs fixing."
           pending={counts.bios}
           onOpen={() => onOpen('bios')}
+        />
+        <Card
+          title="Attract screen words"
+          body="The headline and line beneath on the display while nobody is using it. Approve them, or write your own."
+          progress={{ done: review.attract.approved ? 1 : 0, total: 1 }}
+          pending={counts.attract}
+          onOpen={() => onOpen('attract')}
         />
       </div>
 
