@@ -548,9 +548,10 @@ npm run readiness -- --strict  # and fail if anything is
 
 It lists what the staff review app still has open (profiles, places, the
 attract words, where ceremony films start) and every sign-off in
-`data/cihof_opening_signoffs.json`: the logo, the caption choices, the
-Windows checklist, the six sections of the sign-off sheet and the approval
-to open. The same list heads the review app's home page.
+`data/cihof_opening_signoffs.json`: the logo, the caption choices, whether
+the public website goes live (and so whether the display shows take-home
+codes), audio description for the films, the Windows checklist, the six
+sections of the sign-off sheet and the approval to open. The same list heads the review app's home page.
 
 It only reads the records. A sign-off counts once its entry names who signed
 (`by`), when (`date`) and what it rests on (`reference`: the scanned sheet,
