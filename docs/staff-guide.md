@@ -253,9 +253,16 @@ of the project, and it takes you through each review one item at a time:
   the museum stands behind what is on screen. Every release says how many
   profiles are approved.
 - **Connections**: links the research found between two inductees. For each,
-  say whether it is a real connection (and what kind, and which way round),
-  two people who simply appear together, or wrong. You write the words
-  visitors will read.
+  say whether it is a real connection (and what kind: worked together,
+  founded something, family, friends, mentored and so on, and which way
+  round), two people who simply appear together, or wrong. Decide from the
+  evidence shown: a photo caption from a ceremony shows two people at the
+  same event, not that they worked together. You write the words visitors
+  will read: a short phrase of at most 60 characters, shown under a portrait
+  on the Connections map ("worked together to promote Juneteenth"). Where
+  the same words show next to both people, name neither of them. Where the
+  app shows a *Suggested* decision, it was drafted from the evidence by the
+  developer's AI assistant: check it, use it, change it or ignore it.
 - **Places**: whether to show each place, and what each person did there
   (lived, worked, studied, taught, organized, served, founded). A place with
   no written history cannot be shown yet, and the app says so.
