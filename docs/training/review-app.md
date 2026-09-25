@@ -99,6 +99,21 @@ words**: your own words are approved as you write them. Until they are
 approved, the display shows the Hall of Fame's name instead, so leaving them
 is always safe.
 
+### Where ceremony films start
+
+Six inductees from 2024 share one film: the whole ceremony, an hour and
+three quarters long. For each of them, the app suggests where their part
+begins, shows what the captions say there, and links to the film from that
+second. **Watch before choosing**: the captions mishear names (Erika
+Puussaar's comes out as *"Erica pisar"*). Then choose **Open at…**, type **a
+different time**, or keep **From the beginning**.
+
+### Ready for opening?
+
+The box at the top of the home page lists what is still open before the
+exhibit opens: your reviews, and the sign-offs other people give. It fills in
+by itself as work is saved; nothing in it is ticked by hand.
+
 ## 4. Check and save
 
 When you have made some decisions, the home page shows **Check and save**.

@@ -298,6 +298,18 @@ of the project, and it takes you through each review one item at a time:
   are approved as you write them. Until they are approved, the display shows
   the Hall of Fame's name instead. They appear on the display only: the
   website has no attract screen.
+- **Where ceremony films start**: some inductees' film is a whole induction
+  ceremony shared with others (the 2024 ceremony, 1 hour 44 minutes, stands
+  for six people). For each of them, choose where it opens, so a visitor sees
+  their part first. The app suggests a time from the captions (the stretch
+  that names them, and the announcement just before it) with what is said
+  there and a link to watch from that second. The captions mishear names, so
+  watch before choosing. The display adds a **From the beginning** button.
+
+The home page opens with **Ready for opening?**: everything that still
+stands between the exhibit and opening day, read from the records (see
+*Ready for opening* below). It changes as reviews are saved and sign-offs
+recorded; nothing in it is ticked by hand.
 
 To use it:
 
@@ -414,6 +426,13 @@ words have changed since the sheet was made, and a `newHistory` column
 replaces the history with the reviewer's words, approved as written.
 `npm run build:kiosk` names any place held back because its words changed.
 
+**Ceremony film starts** live in `data/cihof_film_starts.json`. The staff
+review app does this (7.1). By hand, `npm run films:starts:apply` takes a
+sheet `personId,filmId,decision,startSeconds,decisionReference,note`, with
+`start` and a time (`1:17:42`) or `beginning`. An approval names the exact
+second it covers. `npm run review:film-starts` redrafts the suggestions in
+`data/review-sheets/film-start-drafts.json` from the captions.
+
 **The attract screen's words** live in `data/cihof_exhibit_text.json` and
 are shown only once a curator approves the exact words. The staff review app
 does this (7.1). By hand, `npm run text:apply` takes a one-row sheet:
@@ -519,3 +538,23 @@ the installation. These stay with the people responsible for them:
 Record who checked each one and when on the printed
 [sign-off sheet](sign-off.md), before the exhibit opens and again after any
 move of the display.
+
+## Ready for opening
+
+```sh
+npm run readiness              # what is still open
+npm run readiness -- --strict  # and fail if anything is
+```
+
+It lists what the staff review app still has open (profiles, places, the
+attract words, where ceremony films start) and every sign-off in
+`data/cihof_opening_signoffs.json`: the logo, the caption choices, the
+Windows checklist, the six sections of the sign-off sheet and the approval
+to open. The same list heads the review app's home page.
+
+It only reads the records. A sign-off counts once its entry names who signed
+(`by`), when (`date`) and what it rests on (`reference`: the scanned sheet,
+kept in `data/curation-decisions/`, or the decision's own reference). Fill an
+entry in only from a real signature; the check will show it done straight
+away. It cannot see anything the records do not hold, such as a connection
+someone thinks deserves a second look: raise those in the review app.

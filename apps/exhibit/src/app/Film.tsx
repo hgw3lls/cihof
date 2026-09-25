@@ -25,7 +25,12 @@ type Props = {
  */
 export function Film({ film, personName, onClose, onProgress }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const lastTime = useRef(0);
+  // A ceremony film opens at this person's part of it, when a curator has
+  // approved where that is. Seeking there is not a visitor watching, so it
+  // does not count as progress.
+  const start = film.startSeconds ?? 0;
+  const lastTime = useRef(start);
+  const seeked = useRef(false);
   const [problem, setProblem] = useState('');
   // Three states, not two. An empty string meant both "still fetching" and
   // "could not be fetched", so every film announced that its transcript had
@@ -76,6 +81,18 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
     if (!video) return;
     if (video.paused) void video.play().catch(() => undefined); else video.pause();
   };
+  const openAtStart = () => {
+    const video = videoRef.current;
+    if (video && start > 0 && !seeked.current) {
+      seeked.current = true;
+      video.currentTime = start;
+    }
+    reportProgress();
+  };
+  const fromBeginning = () => {
+    const video = videoRef.current;
+    if (video) video.currentTime = 0;
+  };
   const back = () => {
     const video = videoRef.current;
     if (video) video.currentTime = Math.max(0, video.currentTime - 10);
@@ -92,7 +109,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
     <Modal className="film" labelledBy="filmTitle" onClose={onClose}>
       <header className="film__header">
         <h2 id="filmTitle" data-autofocus tabIndex={-1}>{personName}</h2>
-        <span>Film</span>
+        <span>{start > 0 ? 'Film · from their part of the ceremony' : 'Film'}</span>
       </header>
 
       <div className="film__body">
@@ -131,7 +148,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
                     preload="metadata"
                     poster={asset(film.poster)}
                     onTimeUpdate={reportProgress}
-                    onLoadedMetadata={reportProgress}
+                    onLoadedMetadata={openAtStart}
                     onPlay={() => setPlayingNow(true)}
                     onPause={() => setPlayingNow(false)}
                     onEnded={() => setPlayingNow(false)}
@@ -167,6 +184,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
               {playingNow ? 'Pause' : 'Play'}
             </button>
             <button type="button" onClick={back}>Back 10 s</button>
+            {start > 0 && <button type="button" className="film__beginning" onClick={fromBeginning}>From the beginning</button>}
           </>
         )}
         <span className="film__who">{personName}</span>
@@ -180,10 +198,13 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
   );
 }
 
-/** m:ss, for the times under the film. */
+/** m:ss, or h:mm:ss for a ceremony, for the times under the film. */
 function clock(seconds: number): string {
   const whole = Math.max(0, Math.floor(seconds));
-  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
+  const h = Math.floor(whole / 3600);
+  const mm = Math.floor(whole / 60) % 60;
+  const ss = String(whole % 60).padStart(2, '0');
+  return h > 0 ? `${h}:${String(mm).padStart(2, '0')}:${ss}` : `${mm}:${ss}`;
 }
 
 function asset(path: string): string {
