@@ -42,6 +42,10 @@ The attract screen's headline and tagline are visitor text like any other.
 Until a curator approves the exact words (7.3), it shows the hall's name
 alone.
 
+The exhibit is dark as designed; the admin panel can switch it to light
+colours for a bright room (below). Films always play on black. The public
+website follows the visitor's phone or computer.
+
 The application looks after itself:
 
 | If… | It… |
@@ -151,7 +155,7 @@ wrong tries.
 | **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
 | **Daily restart** | The time of the nightly restart, or Off. 04:00 unless changed. |
 | **Start at sign-in** | Whether the exhibit opens when Windows signs in. Leave it On. |
-| **Attract screen** | What the display shows while nobody is using it: **Mosaic** (every portrait in greyscale, one in colour), **Name wall** (every name in slow rows, no photographs) or **Stacked** (names above a strip of portraits). **Rotate through all three** shows a different one each time the display goes idle. **Spotlight moves every** 4, 6 or 10 seconds. **Motion** Off stops the drifting rows. **Preview for 30 s** shows your choice without saving it; **Save** keeps it and shows it straight away. |
+| **Attract screen** | What the display shows while nobody is using it: **Mosaic** (every portrait in greyscale, one in colour), **Name wall** (every name in slow rows, no photographs) or **Stacked** (names above a strip of portraits). **Rotate through all three** shows a different one each time the display goes idle. **Spotlight moves every** 4, 6 or 10 seconds. **Motion** Off stops the drifting rows. **Colours**: **Dark** (as designed) or **Light**, for the whole exhibit. **Preview for 30 s** shows your choice without saving it; **Save** keeps it and shows it straight away. |
 | **Change passcode** | Choose a new passcode. |
 
 Close the panel with **Close** at the top right.
@@ -275,9 +279,17 @@ of the project, and it takes you through each review one item at a time:
   the same words show next to both people, name neither of them. Where the
   app shows a *Suggested* decision, it was drafted from the evidence by the
   developer's AI assistant: check it, use it, change it or ignore it.
-- **Places**: whether to show each place, and what each person did there
-  (lived, worked, studied, taught, organized, served, founded). A place with
-  no written history cannot be shown yet, and the app says so.
+- **Places**: the words visitors read about each place, and what each
+  person did there (lived, worked, studied, taught, organized, served,
+  founded). Approve a place's words as they are, start from the plainer
+  wording the app suggests, or write your own (one paragraph, up to 420
+  characters); your own words are approved as you write them. An approval
+  covers exactly those words: if they change later, the place is hidden
+  until someone approves the new ones. Places approved before approvals
+  recorded the words are still shown, and the app asks for them to be
+  looked at again. A place with no history can be given one here. The
+  suggested wordings were drafted by the developer's AI assistant from each
+  place's own words, adding nothing: check them against the records.
 - **Biographies**: find a person, correct the text, and see exactly what you
   changed before keeping it.
 - **Attract screen words**: the headline and the line beneath it on the
@@ -394,6 +406,13 @@ still fails the tests, which is how a broken build is caught.
 `media:apply` checks that every film approved for the kiosk has its video
 file, so it must run on the machine that holds the videos
 (`public/media/videos/`, section 8).
+
+**A place's words** (name, neighbourhood and history, in
+`data/cihof_places.json`) are covered by its approval: the places sheet
+carries each place's `contentVersion`, `places:apply` refuses a row whose
+words have changed since the sheet was made, and a `newHistory` column
+replaces the history with the reviewer's words, approved as written.
+`npm run build:kiosk` names any place held back because its words changed.
 
 **The attract screen's words** live in `data/cihof_exhibit_text.json` and
 are shown only once a curator approves the exact words. The staff review app

@@ -1,5 +1,9 @@
 # CIHOF skyline lockup: usage guide
 
+> **Light theme.** When the exhibit is set to light colours, the lockup is
+> drawn in one colour, the ink, as section 2C asks for light paper; the four
+> bands appear only on the dark ground.
+>
 > **In this repository.** The exhibit uses `apps/exhibit/public/brand/skyline-mask.png`
 > as a CSS mask, filled with the lens bands or one colour (`src/app/Lockup.tsx`,
 > `.skyline` in `exhibit.css`); the kiosk app's icon is drawn from the same mask
