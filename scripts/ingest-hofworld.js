@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { resolve } from 'node:path';
 import { planMerge, readIdIndex, readPlaceAssociations, readPlaces } from '../packages/pipeline/src/sources/hofworld.ts';
 
@@ -206,7 +206,7 @@ function short(value) {
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch {
     return;
   }

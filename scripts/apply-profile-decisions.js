@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildPeople } from '../packages/pipeline/src/build/people.ts';
@@ -94,7 +94,7 @@ console.log('  Next: npm test, review the diff, commit.\n');
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch {
     return;
   }
