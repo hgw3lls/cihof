@@ -17,6 +17,9 @@ Each task is marked with who can do it:
 > the installer, the kiosk folder or a copy of the display's files on a
 > website, a public share or a shared drive other people can download from.
 
+
+New to the display or the review app? Start with the illustrated walkthroughs in [`training/`](training/): [gallery staff](training/gallery-staff.md) and [reviewers](training/review-app.md).
+
 ---
 
 ## 1. What the exhibit is
