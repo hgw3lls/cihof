@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, linkSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, linkSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { publicFile } from '../paths.ts';
 import { displayablePortrait, type PublishedFilm, type PublishedPerson } from '@cihof/content';
@@ -43,18 +43,20 @@ export function publishPortraits(people: readonly PublishedPerson[], targetDir: 
 }
 
 /**
- * The transcript as a visitor reads it.
+ * Whether a transcript still opens with the generator's note to staff.
  *
  * The tool that drew the transcripts from the captions opened each one with a
- * note for staff: where it came from, when, and that it needed review. The
- * review has happened, and the note is not anything anyone said, so it is
- * left out of what the display shows. The words themselves pass through
- * unchanged; correcting them is an editorial decision, not a build step.
+ * note: where it came from, when, and "Review required before kiosk approval".
+ * It is not anything anyone said, and it was removed from the transcript files
+ * themselves on 25 September 2026 (data/curation-decisions/
+ * transcripts-staff-note-2026-09-25.md). The build stages transcripts exactly
+ * as approved and refuses one that carries the note, so a transcript
+ * regenerated the same way cannot bring it back to a visitor.
  */
-const staffNote = /^Draft transcript generated from [^\n]*\nGenerated: [^\n]*\nReview required before kiosk approval\.[ \t]*\n+/;
+const staffNote = /^\uFEFF?Draft transcript generated from [^\n]*\nGenerated: [^\n]*\nReview required before kiosk approval\./;
 
-export function visitorTranscript(text: string): string {
-  return text.replace(/^\uFEFF/, '').replace(staffNote, '');
+export function opensWithStaffNote(text: string): boolean {
+  return staffNote.test(text);
 }
 
 /**
@@ -65,8 +67,8 @@ export function visitorTranscript(text: string): string {
  * films. Like the portraits, it copies from the published records rather than
  * the directory, so nothing a record has not cleared can arrive.
  *
- * Posters, captions and transcripts are tracked and must be present; a
- * transcript is staged without the generator's note to staff (above). The MP4s
+ * Posters, captions and transcripts are tracked and must be present, and a
+ * transcript still carrying the generator's note to staff is refused (above). The MP4s
  * are not in the repository, so a checkout without them still builds; each one
  * absent is counted, and that film falls back to its words on the wall.
  * Video is hard-linked where the filesystem allows it, so staging several
@@ -81,7 +83,7 @@ export function publishFilms(
   }
 
   const sourceRoot = publicFile('.');
-  const stage = (src: string, { required, video, transform }: { required: boolean; video: boolean; transform?: (text: string) => string }): boolean => {
+  const stage = (src: string, { required, video }: { required: boolean; video: boolean }): boolean => {
     const relative = src.replace(/^\//, '');
     if (!relative.startsWith(`${mediaRoot}/`)) throw new Error(`A film asset outside ${mediaRoot}/: ${src}`);
     const from = join(sourceRoot, relative);
@@ -92,10 +94,6 @@ export function publishFilms(
     const to = join(targetDir, relative);
     mkdirSync(dirname(to), { recursive: true });
     rmSync(to, { force: true });
-    if (transform) {
-      writeFileSync(to, transform(readFileSync(from, 'utf8')));
-      return true;
-    }
     if (video) {
       try { linkSync(from, to); return true; } catch { /* another filesystem: copy instead */ }
     }
@@ -110,7 +108,11 @@ export function publishFilms(
       films += 1;
       stage(film.poster, { required: true, video: false });
       stage(film.captions, { required: true, video: false });
-      stage(film.transcript, { required: true, video: false, transform: visitorTranscript });
+      const transcript = publicFile(film.transcript.replace(/^\//, ''));
+      if (existsSync(transcript) && opensWithStaffNote(readFileSync(transcript, 'utf8'))) {
+        throw new Error(`${film.transcript} opens with the transcript generator's note to staff; remove it from the file before publishing.`);
+      }
+      stage(film.transcript, { required: true, video: false });
       if (film.source.kind === 'local-file' && !stage(film.source.src, { required: false, video: true })) {
         videosMissing += 1;
       }

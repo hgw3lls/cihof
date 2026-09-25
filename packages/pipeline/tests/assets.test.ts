@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { displayablePortrait } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
-import { publishFilms, publishPortraits, visitorTranscript } from '../src/build/assets.ts';
+import { opensWithStaffNote, publishFilms, publishPortraits } from '../src/build/assets.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 
 test('publishing portraits does not delete anything else in the target', () => {
@@ -55,26 +55,21 @@ test('a kiosk build stages every published film, with its words, beside the port
     'staging films leaves the portraits in place');
 });
 
-test('a staged transcript leaves out the generator\'s note to staff, and nothing else', () => {
+test('every transcript reaches a visitor exactly as approved, and none carries the note to staff', () => {
   const target = mkdtempSync(join(tmpdir(), 'cihof-films-'));
   const bundle = buildRuntimeBundle(buildPeople(), 'kiosk', { filmDelivery: 'local-file' });
   publishFilms(bundle, target);
   for (const film of bundle.people.flatMap((person) => person.films)) {
     const source = readFileSync(join(import.meta.dirname, '../../..', film.transcript.replace(/^\//, 'public/')), 'utf8');
-    const staged = readFileSync(join(target, film.transcript), 'utf8');
-    assert.doesNotMatch(staged, /Draft transcript generated|Review required before kiosk approval/, `${film.transcript} reaches a visitor clean`);
-    assert.ok(source.endsWith(staged), 'the words themselves are unchanged');
-    assert.ok(staged.trim().length > 0, 'a transcript is never emptied');
+    assert.equal(opensWithStaffNote(source), false, `${film.transcript} opens with the note to staff`);
+    assert.equal(readFileSync(join(target, film.transcript), 'utf8'), source, 'staged unchanged');
   }
 });
 
-test('a transcript with no note passes through exactly', () => {
-  assert.equal(visitorTranscript('What was said.\n'), 'What was said.\n');
-  assert.equal(
-    visitorTranscript('Draft transcript generated from x.vtt.\nGenerated: 2026-09-14T00:00:00Z.\nReview required before kiosk approval.\n\nWhat was said.\n'),
-    'What was said.\n',
-  );
-  // Only a note at the very start is the generator's; the same words later are somebody's.
-  const quoted = 'She said: Review required before kiosk approval.\n';
-  assert.equal(visitorTranscript(quoted), quoted);
+test('the note to staff is recognised only where the generator put it', () => {
+  const note = 'Draft transcript generated from x.vtt.\nGenerated: 2026-09-14T00:00:00Z.\nReview required before kiosk approval.\n\nWhat was said.\n';
+  assert.equal(opensWithStaffNote(note), true);
+  assert.equal(opensWithStaffNote('What was said.\n'), false);
+  // The same words later in a transcript are somebody's.
+  assert.equal(opensWithStaffNote('She said: Review required before kiosk approval.\n'), false);
 });
