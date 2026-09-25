@@ -30,7 +30,10 @@ const argument = process.argv.slice(2).find((a) => a.startsWith('--target='));
 const host = { win32: 'win', darwin: 'mac' }[process.platform] ?? 'linux';
 const target = argument ? argument.slice('--target='.length) : host;
 const builderArgs = {
-  win: ['--win', 'nsis', '--x64'],
+  // The installer is built on Windows (or Wine), where the program file can be
+  // given its icon and version details; the portable zip is built anywhere, so
+  // it leaves the program file as Electron ships it.
+  win: ['--win', 'nsis', '--x64', '-c.win.signAndEditExecutable=true'],
   'win-zip': ['--win', 'zip', '--x64'],
   mac: ['--mac', 'dmg'],
   linux: ['--linux', 'AppImage'],

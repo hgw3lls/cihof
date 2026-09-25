@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('cihofAdmin', {
   setPasscode: (code) => ipcRenderer.invoke('admin:set-passcode', code),
   setDebug: (next) => ipcRenderer.invoke('admin:set-debug', next),
   setSetting: (name, value) => ipcRenderer.invoke('admin:set-setting', { name, value }),
+  previewAttract: (candidate) => ipcRenderer.invoke('admin:preview-attract', candidate),
   action: (name) => ipcRenderer.invoke('admin:action', name),
 });

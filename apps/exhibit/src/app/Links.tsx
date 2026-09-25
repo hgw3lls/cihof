@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PublishedRelationship, SharedContext } from '@cihof/content';
 import type { PreviewTie, RuntimePerson } from '../data/runtime.ts';
 import { connectionMap, connectionNodes } from '../state/selectors.ts';
+import { Portrait } from './Portrait.tsx';
 
 type Props = {
   people: readonly RuntimePerson[];
@@ -69,110 +70,131 @@ export function Links({ people, relationships, contexts = [], candidates = [], s
   const focusId = map.focus?.id ?? null;
   // Unit space is -1.2..1.2 with the focus at the origin; the rim sits at 1.06.
   const toPercent = (value: number) => `${50 + (value / 2.4) * 100}%`;
+  const ties = map.placed.filter((entry) => entry.ring === 'tie');
 
   return (
-    <div className="map">
-      <p className="map__note">
-        {relationships.length} documented {relationships.length === 1 ? 'relationship' : 'relationships'}.
-        {' '}Touch anyone to bring them to the centre.
-      </p>
+    <div className="links">
+      <div className="map">
+        <p className="map__note">
+          {relationships.length} documented {relationships.length === 1 ? 'relationship' : 'relationships'}
+        </p>
 
-      {contexts.length > 0 && (
-        <label className="map__layer map__layer--context">
-          <input type="checkbox" checked={showContext} onChange={(event) => setShowContext(event.target.checked)} />
-          Show {contexts.length} {contexts.length === 1 ? 'pair' : 'pairs'} who appear together in the records
-        </label>
-      )}
+        <div className="map__field">
+          <svg className="map__ties" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <ellipse className="map__rim" cx="50" cy="50" rx="44" ry="44" />
+            {map.ties.map((tie) => {
+              const a = at(tie.from);
+              const b = at(tie.to);
+              if (!a || !b) return null;
+              return (
+                <line
+                  key={tie.connectionId}
+                  className={`map__tie${tie.touchesFocus ? ' map__tie--focus' : ''}${tie.unreviewed ? ' map__tie--unreviewed' : ''}${tie.context ? ' map__tie--context' : ''}`}
+                  x1={50 + (a.x / 2.4) * 100} y1={50 + (a.y / 2.4) * 100}
+                  x2={50 + (b.x / 2.4) * 100} y2={50 + (b.y / 2.4) * 100}
+                />
+              );
+            })}
+          </svg>
 
-      {candidates.length > 0 && (
-        <label className="map__layer">
-          <input type="checkbox" checked={showProposed} onChange={(event) => setShowProposed(event.target.checked)} />
-          Show {candidates.length} proposed {candidates.length === 1 ? 'tie' : 'ties'} nobody has reviewed
-        </label>
-      )}
-
-      <div className="map__field">
-        <svg className="map__ties" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          {map.ties.map((tie) => {
-            const a = at(tie.from);
-            const b = at(tie.to);
-            if (!a || !b) return null;
+          {map.placed.map((entry) => {
+            const position = at(entry.person.id) ?? entry;
+            const isFocus = entry.person.id === focusId;
+            // A name hung below a portrait that sits above the centre lands on
+            // the centre. Hang it on whichever side faces away from the middle.
+            const outward = position.y < -0.04 ? ' map__person--nameup' : '';
             return (
-              <line
-                key={tie.connectionId}
-                className={`map__tie${tie.touchesFocus ? ' map__tie--focus' : ''}${tie.unreviewed ? ' map__tie--unreviewed' : ''}${tie.context ? ' map__tie--context' : ''}`}
-                x1={50 + (a.x / 2.4) * 100} y1={50 + (a.y / 2.4) * 100}
-                x2={50 + (b.x / 2.4) * 100} y2={50 + (b.y / 2.4) * 100}
-              />
+              <button
+                key={entry.person.id}
+                type="button"
+                className={`map__person map__person--${entry.ring}${outward}`}
+                style={{ left: toPercent(position.x), top: toPercent(position.y) }}
+                aria-pressed={isFocus}
+                // The approved wording, so a screen reader hears the claim rather
+                // than two names and a line it cannot see.
+                aria-label={entry.label
+                  ? `${entry.person.name} — ${entry.labelUnreviewed ? 'unreviewed: ' : entry.labelContext ? 'appeared together: ' : ''}${entry.label}`
+                  : entry.person.name}
+                onClick={() => onSelect(entry.person.id)}
+                onDoubleClick={() => onOpen(entry.person.id)}
+              >
+                <span className="map__portrait">
+                  <Portrait person={entry.person} decorative lazy />
+                </span>
+                {/* Name and label hang together, so a label that wraps pushes the
+                    name away instead of running into it. */}
+                <span className="map__caption">
+                  <span className="map__name">{entry.person.name}</span>
+                  {entry.label && (
+                    <span className={`map__label${entry.labelUnreviewed ? ' map__label--unreviewed' : ''}${entry.labelContext ? ' map__label--context' : ''}`}>
+                      {entry.labelUnreviewed
+                        ? `Unreviewed · ${entry.label}`
+                        : entry.labelContext ? `Appeared together · ${entry.label}` : entry.label}
+                    </span>
+                  )}
+                </span>
+              </button>
             );
           })}
-        </svg>
-
-        {map.placed.map((entry) => {
-          const position = at(entry.person.id) ?? entry;
-          const isFocus = entry.person.id === focusId;
-          // A name hung below a portrait that sits above the centre lands on
-          // the centre. Hang it on whichever side faces away from the middle.
-          const outward = position.y < -0.04 ? ' map__person--nameup' : '';
-          return (
-            <button
-              key={entry.person.id}
-              type="button"
-              className={`map__person map__person--${entry.ring}${outward}`}
-              style={{ left: toPercent(position.x), top: toPercent(position.y) }}
-              aria-pressed={isFocus}
-              // The approved wording, so a screen reader hears the claim rather
-              // than two names and a line it cannot see.
-              aria-label={entry.label
-                ? `${entry.person.name} — ${entry.labelUnreviewed ? 'unreviewed: ' : entry.labelContext ? 'appeared together: ' : ''}${entry.label}`
-                : entry.person.name}
-              onClick={() => onSelect(entry.person.id)}
-              onDoubleClick={() => onOpen(entry.person.id)}
-            >
-              <span className="map__portrait">
-                {entry.person.portrait
-                  ? (
-                    <img
-                      src={asset(entry.person.portrait.src)}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      decoding="async"
-                      {...(entry.person.portrait.focalPoint ? { style: { objectPosition: entry.person.portrait.focalPoint } } : {})}
-                    />
-                  )
-                  : <img src={asset('media/placeholder.svg')} alt="" aria-hidden="true" />}
-              </span>
-              {/* Name and label hang together, so a label that wraps pushes the
-                  name away instead of running into it. */}
-              <span className="map__caption">
-                <span className="map__name">{entry.person.name}</span>
-                {entry.label && (
-                  <span className={`map__label${entry.labelUnreviewed ? ' map__label--unreviewed' : ''}${entry.labelContext ? ' map__label--context' : ''}`}>
-                    {entry.labelUnreviewed
-                      ? `Unreviewed · ${entry.label}`
-                      : entry.labelContext ? `Appeared together · ${entry.label}` : entry.label}
-                  </span>
-                )}
-              </span>
-            </button>
-          );
-        })}
+        </div>
       </div>
 
-      {map.focus && (
-        <p className="map__reading">
-          <strong>{map.focus.name}</strong>
-          {map.clusterSize > 1
-            ? ` connects to ${map.clusterSize - 1} ${map.clusterSize === 2 ? 'person' : 'people'} here.`
-            : ' has no documented relationship in this release.'}
-          {map.islands > 0 && ` ${map.islands} other ${map.islands === 1 ? 'group sits' : 'groups sit'} around the edge.`}
-          {' '}
-          <button type="button" className="map__open" onClick={() => onOpen(map.focus!.id)}>
+      <aside className="links__panel" aria-label="The person at the centre">
+        {map.focus
+          ? (
+            <>
+              <p className="links__kicker">At the centre</p>
+              <h2 className="links__name">{map.focus.name}</h2>
+              <p className="map__reading">
+                {map.clusterSize > 1
+                  ? `connects to ${map.clusterSize - 1} ${map.clusterSize === 2 ? 'person' : 'people'} here. Touch anyone on the map to bring them to the centre.`
+                  : 'has no documented relationship in this release. Touch anyone on the map to bring them to the centre.'}
+                {map.islands > 0 && ` ${map.islands} other ${map.islands === 1 ? 'group sits' : 'groups sit'} around the edge.`}
+              </p>
+
+              {ties.length > 0 && (
+                <ul className="links__ties">
+                  {ties.map((entry) => (
+                    <li key={entry.person.id}>
+                      <button type="button" onClick={() => onSelect(entry.person.id)}>
+                        <Portrait person={entry.person} decorative lazy />
+                        <span>
+                          {entry.label && (
+                            <span className={`links__label${entry.labelUnreviewed ? ' map__label--unreviewed' : ''}${entry.labelContext ? ' map__label--context' : ''}`}>
+                              {entry.labelUnreviewed ? `Unreviewed · ${entry.label}` : entry.labelContext ? `Appeared together · ${entry.label}` : entry.label}
+                            </span>
+                          )}
+                          <strong>{entry.person.name}</strong>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )
+          : <p className="map__reading">Touch anyone on the map to bring them to the centre.</p>}
+
+        {contexts.length > 0 && (
+          <label className="map__layer map__layer--context">
+            <input type="checkbox" checked={showContext} onChange={(event) => setShowContext(event.target.checked)} />
+            Show {contexts.length} {contexts.length === 1 ? 'pair' : 'pairs'} who appear together in the records
+          </label>
+        )}
+
+        {candidates.length > 0 && (
+          <label className="map__layer">
+            <input type="checkbox" checked={showProposed} onChange={(event) => setShowProposed(event.target.checked)} />
+            Show {candidates.length} proposed {candidates.length === 1 ? 'tie' : 'ties'} nobody has reviewed
+          </label>
+        )}
+
+        {map.focus && (
+          <button type="button" className="block block--lens map__open" onClick={() => onOpen(map.focus!.id)}>
             Read the record
           </button>
-        </p>
-      )}
+        )}
+      </aside>
     </div>
   );
 }
@@ -231,8 +253,4 @@ function useSettling(map: ReturnType<typeof connectionMap>, selectedId: string |
   }, [targets, selectedId]);
 
   return (id: string) => current.current.get(id) ?? targets.get(id) ?? null;
-}
-
-function asset(path: string): string {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 }

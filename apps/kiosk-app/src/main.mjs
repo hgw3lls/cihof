@@ -6,7 +6,7 @@ import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch } from './watch.mjs';
-import { attemptPasscode, hashPasscode, loadSettings, passcodeProblem, saveSettings } from './settings.mjs';
+import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings } from './settings.mjs';
 
 /**
  * The installed exhibit as an application of its own.
@@ -44,6 +44,7 @@ let adminSetupAllowed = false;
 let quitting = false;
 let origin = '';
 let restartTimer = null;
+let previewTimer = null;
 
 async function start() {
   session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
@@ -91,7 +92,7 @@ function createExhibitWindow() {
     fullscreen: !windowed,
     frame: windowed,
     autoHideMenuBar: !windowed,
-    backgroundColor: '#fcfcfa',
+    backgroundColor: '#121211',
     title: 'CIHOF Exhibit',
     webPreferences: {
       preload: join(here, 'preload.cjs'),
@@ -145,7 +146,7 @@ function createExhibitWindow() {
   win.on('close', (event) => { if (!quitting && win === exhibit) event.preventDefault(); });
 
   win.once('ready-to-show', () => win.show());
-  win.loadURL(`${origin}/`);
+  win.loadURL(exhibitAddress(origin, settings));
   return win;
 }
 
@@ -199,7 +200,7 @@ function openAdmin({ setupAllowed }) {
     frame: false,
     resizable: false,
     alwaysOnTop: true,
-    backgroundColor: '#fcfcfa',
+    backgroundColor: '#121211',
     title: 'Exhibit settings',
     webPreferences: {
       preload: join(here, 'admin-preload.cjs'),
@@ -235,7 +236,7 @@ function adminState() {
     unlocked: adminUnlocked,
     lockedForMs: Math.max(settings.lockout.until - Date.now(), 0),
     debug: { ...debug },
-    settings: { restartAt: settings.restartAt, startAtLogin: settings.startAtLogin, port: settings.port },
+    settings: { restartAt: settings.restartAt, startAtLogin: settings.startAtLogin, port: settings.port, ...attractSettings(settings) },
     app: { version: app.getVersion(), platform: process.platform, ...releaseInfo() },
   };
 }
@@ -288,6 +289,14 @@ function registerAdminHandlers() {
     } else if (name === 'startAtLogin') {
       settings = { ...settings, startAtLogin: Boolean(value) };
       applyStartAtLogin();
+    } else if (['attractMode', 'attractRotate', 'spotlightSeconds', 'motion'].includes(name)) {
+      // The exhibit reads these as it loads, so it is reopened on its attract
+      // screen straight away. Staff have the admin panel open, so nobody is
+      // in the middle of a visit.
+      const problem = attractProblem(name, value);
+      if (problem) throw new Error(problem);
+      settings = { ...settings, [name]: value };
+      exhibit?.loadURL(exhibitAddress(origin, settings));
     } else {
       throw new Error(`Unknown setting: ${name}`);
     }
@@ -295,12 +304,30 @@ function registerAdminHandlers() {
     return adminState();
   });
 
+  // Shows an attract screen for thirty seconds without saving it, then puts
+  // the exhibit back as it was saved and brings the panel back.
+  handle('admin:preview-attract', (candidate = {}) => {
+    const trial = { ...settings };
+    for (const name of ['attractMode', 'attractRotate', 'spotlightSeconds', 'motion']) {
+      if (name in candidate && !attractProblem(name, candidate[name])) trial[name] = candidate[name];
+    }
+    if (previewTimer) clearTimeout(previewTimer);
+    admin?.hide();
+    exhibit?.loadURL(exhibitAddress(origin, trial));
+    previewTimer = setTimeout(() => {
+      previewTimer = null;
+      exhibit?.loadURL(exhibitAddress(origin, settings));
+      if (admin && !admin.isDestroyed()) { admin.show(); admin.focus(); }
+    }, 30_000);
+    return true;
+  });
+
   handle('admin:action', (action) => {
     if (action === 'close') { admin?.close(); return true; }
     if (!adminUnlocked) throw new Error('Enter the passcode first.');
     if (action === 'reload') { exhibit?.webContents.reload(); admin?.close(); return true; }
-    if (action === 'recovery') { exhibit?.loadURL(`${origin}/?recovery=1`); admin?.close(); return true; }
-    if (action === 'home') { exhibit?.loadURL(`${origin}/`); admin?.close(); return true; }
+    if (action === 'recovery') { exhibit?.loadURL(exhibitAddress(origin, settings, { recovery: '1' })); admin?.close(); return true; }
+    if (action === 'home') { exhibit?.loadURL(exhibitAddress(origin, settings)); admin?.close(); return true; }
     if (action === 'restart') { restartApp(); return true; }
     if (action === 'exit') { quitting = true; app.quit(); return true; }
     throw new Error(`Unknown action: ${action}`);
