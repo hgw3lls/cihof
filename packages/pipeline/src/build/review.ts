@@ -351,6 +351,7 @@ const suggestedKinds: Record<string, string> = {
   collaborator: 'collaborated-with',
   family_spouse: 'family-of',
   family_relationship: 'family-of',
+  friend: 'friend-of',
 };
 
 export function buildProposedTiesSheet(
@@ -453,5 +454,5 @@ export const proposedTieReviewerColumns: readonly string[] = [
 
 /** Relationship kinds the model accepts, for the sheet's own guidance. */
 export const relationshipKinds: readonly string[] = [
-  'collaborated-with', 'founded-with', 'mentored', 'taught', 'succeeded', 'employed', 'family-of', 'nominated',
+  'collaborated-with', 'founded-with', 'mentored', 'taught', 'succeeded', 'employed', 'family-of', 'friend-of', 'nominated',
 ];

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import type { Draft, Kind, Review, Tie, TieDecision } from './api.ts';
 import { Portrait } from './Portrait.tsx';
 
@@ -18,7 +18,8 @@ type Props = {
 export function Connections({ review, draft, update, onDone }: Props) {
   const [showAll, setShowAll] = useState(false);
   const list = useMemo(
-    () => review.ties.filter((tie) => showAll || tie.status === 'unreviewed'),
+    // Undecided ties, and decided ones whose wording cannot go on the map.
+    () => review.ties.filter((tie) => showAll || tie.status === 'unreviewed' || tie.wordingProblem),
     [review.ties, showAll],
   );
   const firstOpen = list.findIndex((tie) => !draft.ties[tie.tieId]);
@@ -56,7 +57,7 @@ export function Connections({ review, draft, update, onDone }: Props) {
         </p>
       </div>
 
-      <TieCard key={tie.tieId} tie={tie} kinds={review.kinds} value={draft.ties[tie.tieId]} onChange={set} />
+      <TieCard key={tie.tieId} tie={tie} kinds={review.kinds} limit={review.limits.label} value={draft.ties[tie.tieId]} onChange={set} />
 
       <nav className="pager">
         <button type="button" disabled={index === 0} onClick={() => setIndex(index - 1)}>← Previous</button>
@@ -69,9 +70,10 @@ export function Connections({ review, draft, update, onDone }: Props) {
   );
 }
 
-function TieCard({ tie, kinds, value, onChange }: {
+function TieCard({ tie, kinds, limit, value, onChange }: {
   tie: Tie;
   kinds: Kind[];
+  limit: number;
   value: TieDecision | undefined;
   onChange: (value: TieDecision | undefined) => void;
 }) {
@@ -88,11 +90,39 @@ function TieCard({ tie, kinds, value, onChange }: {
   );
   const patch = (change: Partial<TieDecision>) => onChange({ ...(value as TieDecision), ...change });
 
-  const complete = isComplete(value, kinds);
+  const complete = isComplete(value, kinds, limit);
+  const kindName = (name: string) => kinds.find((item) => item.kind === name)?.label ?? name;
+  const decisionName = (decision: string, name: string) => decision === 'relationship'
+    ? `a connection: ${kindName(name).toLowerCase()}` : decision === 'context' ? 'they appear together' : 'wrong, not shown';
+  const useSuggestion = () => {
+    const suggested = tie.suggestion!;
+    onChange({
+      decision: suggested.decision,
+      ...(suggested.decision === 'relationship' ? { kind: suggested.kind ?? '', direction: suggested.direction ?? 'a-to-b', inverseLabel: suggested.inverseLabel ?? '' } : {}),
+      label: suggested.label ?? '',
+    });
+  };
 
   return (
     <article className="panel">
-      {tie.status !== 'unreviewed' && <p className="notice">Already decided: <strong>{tie.status}</strong>. A new decision here replaces it.</p>}
+      {tie.current && (
+        <div className="notice">
+          <p><strong>Decided now:</strong> {decisionName(tie.current.decision, tie.current.kind)}. A new decision here replaces it.</p>
+          {tie.current.label && <p className="quiet small">Wording on file: “{tie.current.label}”</p>}
+          {tie.wordingProblem && <p className="problem small">This wording cannot go on the map: {tie.wordingProblem}.</p>}
+        </div>
+      )}
+      {tie.suggestion && (
+        <div className="suggestion">
+          <p>
+            <strong>Suggested:</strong> {decisionName(tie.suggestion.decision, tie.suggestion.kind ?? '')}
+            {tie.suggestion.label && <> · “{tie.suggestion.label}”</>}
+          </p>
+          {tie.suggestion.because && <p className="small">Why: {tie.suggestion.because}</p>}
+          <p className="quiet small">Drafted by the developer's AI assistant from the evidence below. Check it against the evidence; you decide.</p>
+          <button type="button" onClick={useSuggestion}>Use this suggestion</button>
+        </div>
+      )}
 
       <div className="pair">
         <PersonCard person={tie.a} />
@@ -154,17 +184,19 @@ function TieCard({ tie, kinds, value, onChange }: {
           {kind && (
             <section>
               <h2 className="question">{kind.directional ? '4.' : '3.'} How should it read?</h2>
-              <p className="quiet">Say only what the record says. This is what visitors will read.</p>
-              <label className="field">
-                <span>On {first.name}'s profile: <em>{first.name} …</em></span>
-                <input value={value?.label ?? ''} placeholder={fill(kind.example)} onChange={(event) => patch({ label: event.target.value })} />
-              </label>
+              <p className="quiet">
+                A short phrase, shown under a portrait on the Connections map. Say only what the record says.
+                {!kind.directional && ' The same words show next to both of them, so name neither.'}
+              </p>
+              <Wording
+                caption={kind.directional ? <>Next to {first.name}: <em>{first.name} …</em></> : <>Next to both of them</>}
+                value={value?.label ?? ''} placeholder={fill(kind.example)} limit={limit}
+                onChange={(text) => patch({ label: text })} />
               {kind.directional && (
-                <label className="field">
-                  <span>On {second.name}'s profile: <em>{second.name} …</em></span>
-                  <input value={value?.inverseLabel ?? ''} placeholder={fill(kind.inverse)}
-                    onChange={(event) => patch({ inverseLabel: event.target.value })} />
-                </label>
+                <Wording
+                  caption={<>Next to {second.name}: <em>{second.name} …</em></>}
+                  value={value?.inverseLabel ?? ''} placeholder={fill(kind.inverse)} limit={limit}
+                  onChange={(text) => patch({ inverseLabel: text })} />
               )}
             </section>
           )}
@@ -174,11 +206,8 @@ function TieCard({ tie, kinds, value, onChange }: {
       {choice === 'context' && (
         <section>
           <h2 className="question">2. What does the record show them doing together?</h2>
-          <label className="field">
-            <span>Shown between the two of them</span>
-            <input value={value?.label ?? ''} placeholder="Both photographed at the 2017 induction ceremony"
-              onChange={(event) => patch({ label: event.target.value })} />
-          </label>
+          <Wording caption={<>Shown between the two of them</>} value={value?.label ?? ''} limit={limit}
+            placeholder="pictured together at their induction" onChange={(text) => patch({ label: text })} />
         </section>
       )}
 
@@ -203,11 +232,31 @@ function sentence(kind: Kind, from: string, to: string): string {
   return (kind.sentence ?? `{A} ${kind.label.toLowerCase()} {B}`).replaceAll('{A}', from).replaceAll('{B}', to);
 }
 
+function Wording({ caption, value, placeholder, limit, onChange }: {
+  caption: ReactNode;
+  value: string;
+  placeholder: string;
+  limit: number;
+  onChange: (text: string) => void;
+}) {
+  const length = value.trim().length;
+  return (
+    <label className="field">
+      <span>{caption}</span>
+      <input value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
+      <span className={length > limit ? 'problem small' : 'quiet small'}>
+        {length} of {limit} characters{length > limit ? ': too long for the map, shorten it' : ''}
+      </span>
+    </label>
+  );
+}
+
 /** Mirrors what ties:apply will refuse, so the reviewer hears it here first. */
-export function isComplete(value: TieDecision | undefined, kinds: Kind[]): boolean {
+export function isComplete(value: TieDecision | undefined, kinds: Kind[], limit = Infinity): boolean {
   if (!value) return false;
   if (value.decision === 'reject') return true;
   if (!value.label?.trim()) return false;
+  if (value.label.trim().length > limit || (value.inverseLabel ?? '').trim().length > limit) return false;
   if (value.decision === 'context') return true;
   const kind = kinds.find((item) => item.kind === value.kind);
   if (!kind) return false;

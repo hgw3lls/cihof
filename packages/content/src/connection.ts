@@ -52,8 +52,29 @@ export type RelationshipKind =
   | 'succeeded'
   | 'employed'
   | 'family-of'
+  | 'friend-of'
   | 'nominated'
   | 'inducted';
+
+/**
+ * How long a connection's wording may be.
+ *
+ * On the Connections map it is a caption under a person's portrait, at most
+ * 8rem wide in small type: about three short lines. A paragraph there runs
+ * over the other people on the map. The longer story belongs in a
+ * biography, where the evidence is also cited.
+ */
+export const maxConnectionLabelLength = 60;
+
+/** Why this wording cannot be used as a connection label, or null. */
+export function connectionLabelProblem(label: string | undefined): string | null {
+  const text = (label ?? '').trim();
+  if (text.length === 0) return null;
+  if (text.length > maxConnectionLabelLength) {
+    return `the wording is ${text.length} characters; the map has room for ${maxConnectionLabelLength}. Say it in a short phrase, e.g. "worked together to promote Juneteenth"`;
+  }
+  return null;
+}
 
 /** Kinds that read differently from each end and so need both labels. */
 const directionalKinds = new Set<RelationshipKind>([
@@ -217,6 +238,11 @@ export function connectionProblems(value: unknown): string[] {
     if (candidate.kind && isDirectional(candidate.kind) && !nonEmpty(candidate.inverseLabel)) {
       problems.push(`${candidate.kind} reads differently from each end but has no inverse label`);
     }
+    // Wherever the relationship came from, its wording has to fit the map.
+    for (const label of [candidate.label, candidate.inverseLabel]) {
+      const problem = connectionLabelProblem(label);
+      if (problem) problems.push(problem);
+    }
     return problems;
   }
 
@@ -241,6 +267,8 @@ export function sharedContextProblems(value: unknown): string[] {
   if (!pairOfDistinctPeople(candidate.between)) problems.push('needs two distinct people');
   if (!nonEmpty(candidate.value)) problems.push('no shared value');
   if (!nonEmpty(candidate.statement)) problems.push('no statement');
+  const tooLong = connectionLabelProblem(candidate.statement);
+  if (tooLong) problems.push(tooLong);
   return problems;
 }
 

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
-  connectionProblems, documentedCount, endpoints, isDirectional, isDocumented, labelFrom,
+  connectionProblems, documentedCount, maxConnectionLabelLength, endpoints, isDirectional, isDocumented, labelFrom,
   placeAssociationProblems, publishedConnections, publishedPlaceAssociations, publishedRelationships,
   type Connection, type DocumentedRelationship, type SharedContext,
 } from '../src/index.ts';
@@ -127,4 +127,17 @@ test("a place association that will not say what the person did there is flagged
   assert.deepEqual(placeAssociationProblems(vague), ["role is 'associated', which does not say what the person did there"]);
   assert.equal(publishedPlaceAssociations([vague], 'public').length, 0);
   assert.equal(publishedPlaceAssociations([{ ...vague, role: 'founded' }], 'public').length, 1);
+});
+
+test('wording too long for the map is refused wherever the relationship comes from', () => {
+  const base = {
+    claim: 'documented', id: 'rel-long', from: 'a-2010', to: 'b-2011', kind: 'collaborated-with',
+    review: { status: 'approved', decisionReference: 'r', contentVersion: 'v1' },
+    publication: { publicWeb: true, kiosk: true },
+    evidence: [{ id: 'ev', title: 'A record', kind: 'collection-record' }],
+  };
+  assert.deepEqual(connectionProblems({ ...base, label: 'worked together to promote Juneteenth' }), []);
+  assert.match(connectionProblems({ ...base, label: 'x'.repeat(maxConnectionLabelLength + 1) }).join(' '), /room for 60/);
+  const context = { claim: 'context', id: 'ctx', between: ['a-2010', 'b-2011'], basis: 'appeared-together', value: 'photo', statement: 'y'.repeat(61) };
+  assert.match(connectionProblems(context).join(' '), /room for 60/);
 });
