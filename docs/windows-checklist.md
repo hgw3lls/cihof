@@ -30,7 +30,7 @@ Date: ____________  Tested by: ______________________
 - [ ] Its summary says **93 of 93 films** have their video file.
       If not, which are missing (MANIFEST.json): ______________________
 - [ ] Its summary line "profiles approved: __ of 111" (write it down).
-- [ ] `release/app/` holds `CIHOF-Exhibit-Setup-<version>.exe`, `STAFF-GUIDE.md` and `SIGN-OFF.md`.
+- [ ] `release/app/` holds `CIHOF-Exhibit-Setup-<version>.exe`, `STAFF-GUIDE.md` and `sign-off.md`.
       Copy all three to a USB drive. **Not** to a shared or online folder: it carries kiosk-only films.
 
 ## B. Display PC (Administrator), about two hours

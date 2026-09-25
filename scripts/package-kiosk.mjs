@@ -75,7 +75,8 @@ for (const file of [
 // The staff guide travels with every release, so the display's own copy
 // matches what is installed on it.
 cpSync(join(root, 'docs', 'staff-guide.md'), join(out, 'STAFF-GUIDE.md'));
-cpSync(join(root, 'docs', 'sign-off.md'), join(out, 'SIGN-OFF.md'));
+// Under its own name, which the guide links to.
+cpSync(join(root, 'docs', 'sign-off.md'), join(out, 'sign-off.md'));
 
 const commit = gitCommit();
 const shortCommit = `${commit.slice(0, 7)}${commit.endsWith('+uncommitted') ? ' with uncommitted changes' : ''}`;
