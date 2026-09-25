@@ -77,6 +77,8 @@ for (const file of [
 cpSync(join(root, 'docs', 'staff-guide.md'), join(out, 'STAFF-GUIDE.md'));
 // Under its own name, which the guide links to.
 cpSync(join(root, 'docs', 'sign-off.md'), join(out, 'sign-off.md'));
+// The walkthroughs the guide links to, with their screenshots.
+cpSync(join(root, 'docs', 'training'), join(out, 'training'), { recursive: true });
 
 const commit = gitCommit();
 const shortCommit = `${commit.slice(0, 7)}${commit.endsWith('+uncommitted') ? ' with uncommitted changes' : ''}`;

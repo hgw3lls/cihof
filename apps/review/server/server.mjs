@@ -90,7 +90,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {} };
 }
 
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
@@ -104,6 +104,8 @@ function normaliseDraft(value) {
     placeTies: object(draft.placeTies),
     bios: object(draft.bios),
     profiles: object(draft.profiles),
+    // One block of exhibit text so far; nothing else can name a block.
+    attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
   };
 }
 

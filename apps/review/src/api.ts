@@ -62,6 +62,20 @@ export type Profile = {
 
 export type ProfileDecision = { decision: 'approve' | 'changes'; seenVersion: string; note?: string };
 
+/** The attract screen's words, as they stand. */
+export type AttractWords = {
+  headline: string;
+  tagline: string;
+  contentVersion: string;
+  approved: boolean;
+  problem: string | null;
+  reviewedAt: string | null;
+};
+
+export type AttractDecision =
+  | { decision: 'approve'; seenVersion: string; note?: string }
+  | { decision: 'reword'; headline: string; tagline: string; note?: string };
+
 export type Kind = { kind: string; label: string; directional: boolean; example: string; inverse?: string; sentence?: string };
 export type Role = { role: string; label: string };
 
@@ -81,9 +95,10 @@ export type Draft = {
   placeTies: Record<string, { role: string; note?: string }>;
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
   profiles: Record<string, ProfileDecision>;
+  attract: Record<string, AttractDecision>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -92,7 +107,8 @@ export type Review = {
   bios: Bio[];
   profiles: Profile[];
   kinds: Kind[];
-  limits: { label: number };
+  attract: AttractWords;
+  limits: { label: number; headline: number; tagline: number };
   roles: Role[];
   draft: Draft;
   counts: Counts;

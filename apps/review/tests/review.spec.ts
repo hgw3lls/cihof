@@ -148,6 +148,16 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('button', { name: 'Undo my correction' }).click();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
+  // The attract screen's words: rewritten, and refused while too long.
+  await page.getByRole('button', { name: /^Attract screen words/ }).click();
+  await page.getByRole('button', { name: /Use different words/ }).click();
+  await page.getByLabel(/^Headline/).fill('x'.repeat(61));
+  await expect(page.getByText(/Not finished yet: the headline is too long/)).toBeVisible();
+  await page.getByLabel(/^Headline/).fill('Test: the world, at home here.');
+  await page.getByLabel(/^The line beneath/).fill('Test tagline.');
+  await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+  await page.getByRole('button', { name: 'Back', exact: true }).click();
+
   // Nothing is written until the reviewer saves.
   expect(git('status', '--porcelain').trim()).toBe('');
   expect(git('rev-parse', 'HEAD').trim()).toBe(before);
@@ -164,6 +174,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: what people did at places, 1 decision');
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
+  expect(log).toContain('review: attract screen words, 1 decision');
   expect(log).toContain('Reviewed-by: Playwright Reviewer');
   expect(git('status', '--porcelain').trim()).toBe('');
 
@@ -180,6 +191,13 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(byName(approvedName).profileReview).toMatchObject({ status: 'approved', decisionReference: expect.stringMatching(/^profiles-review-/) });
   expect(byName(approvedName).approvalStatus).toBe('approved');
   expect(byName(queriedName).profileReview).toMatchObject({ status: 'changes-requested' });
+
+  const words = JSON.parse(readFileSync(join(worktree, 'data/cihof_exhibit_text.json'), 'utf8')).attract;
+  expect(words).toMatchObject({
+    headline: 'Test: the world, at home here.', tagline: 'Test tagline.',
+    review: { status: 'approved', decisionReference: expect.stringMatching(/^attract-words-review-/) },
+    publication: { kiosk: true, publicWeb: false },
+  });
   expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
   expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 

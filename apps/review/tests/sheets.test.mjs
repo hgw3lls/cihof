@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { biosCsv, decisionReference, draftCounts, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, biosCsv, decisionReference, draftCounts, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -72,5 +72,17 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 1, placeTies: 1, bios: 2, profiles: 2 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 1, placeTies: 1, bios: 2, profiles: 2, attract: 0 });
+});
+
+test('an attract-words decision carries the version seen, or the new words, never both', () => {
+  const approve = rows(attractCsv({ reviewer: 'Jane Smith', attract: { attract: { decision: 'approve', seenVersion: 'text-abc', note: '' } } }, '2026-10-01'))[0];
+  assert.deepEqual(approve, {
+    block: 'attract', decision: 'approve', contentVersion: 'text-abc', headline: '', tagline: '',
+    decisionReference: 'attract-words-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.',
+  });
+  const reword = rows(attractCsv({ reviewer: 'Jane Smith', attract: { attract: { decision: 'reword', headline: 'Home, "here"', tagline: 'A line.', seenVersion: 'text-abc' } } }, '2026-10-01'))[0];
+  assert.equal(reword.contentVersion, '');
+  assert.equal(reword.headline, 'Home, "here"');
+  assert.equal(reword.tagline, 'A line.');
 });
