@@ -9,238 +9,442 @@
       "person": "leo-weidenthal-2010",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "founded",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:8a74bc52cac2d3:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:e881a9961b8e81",
       "person": "wael-khoury-2017",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:e881a9961b8e81:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:0a997a7f5792fb",
       "person": "paul-burik-2019",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:0a997a7f5792fb:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:c631d0a40c2a93",
       "person": "berj-shakarian-2020",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:c631d0a40c2a93:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:b70407ad466399",
       "person": "anda-cook-2022",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:b70407ad466399:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:4928e839eeb812",
       "person": "joyce-mariani-2023",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:4928e839eeb812:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:191a5a0f27fd94",
       "person": "johnny-k-wu-2024",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:191a5a0f27fd94:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:15ac1b5fdb82d5",
       "person": "svetlana-stolyarova-2025",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "founded",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:15ac1b5fdb82d5:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:b1d983b25df3d3",
       "person": "branka-malinar-2025",
       "place": "place:cleveland-cultural-gardens",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
-          "sourceUrls": []
+          "id": "edge:b1d983b25df3d3:src0",
+          "title": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:3049b1eb2310ad",
       "person": "sheila-murphy-crawford-2018",
       "place": "place:one-world-day-rockefeller-park",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Initial festival-location connection; event details should be reviewed by curators.",
-          "sourceUrls": []
+          "id": "edge:3049b1eb2310ad:src0",
+          "title": "Initial festival-location connection; event details should be reviewed by curators.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:5b70749661da69",
       "person": "anda-cook-2022",
       "place": "place:one-world-day-rockefeller-park",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Initial festival-location connection; event details should be reviewed by curators.",
-          "sourceUrls": []
+          "id": "edge:5b70749661da69:src0",
+          "title": "Initial festival-location connection; event details should be reviewed by curators.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:05a9295d117a8f",
       "person": "georgine-welo-2023",
       "place": "place:one-world-day-rockefeller-park",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Initial festival-location connection; event details should be reviewed by curators.",
-          "sourceUrls": []
+          "id": "edge:05a9295d117a8f:src0",
+          "title": "Initial festival-location connection; event details should be reviewed by curators.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:44afb399598845",
       "person": "dona-brady-2024",
       "place": "place:one-world-day-rockefeller-park",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Initial festival-location connection; event details should be reviewed by curators.",
-          "sourceUrls": []
+          "id": "edge:44afb399598845:src0",
+          "title": "Initial festival-location connection; event details should be reviewed by curators.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:5fc56c26701b03",
       "person": "johnny-k-wu-2024",
       "place": "place:one-world-day-rockefeller-park",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Initial festival-location connection; event details should be reviewed by curators.",
-          "sourceUrls": []
+          "id": "edge:5fc56c26701b03:src0",
+          "title": "Initial festival-location connection; event details should be reviewed by curators.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:aa9ad1ca39876f",
       "person": "mayor-frank-jackson-2025",
       "place": "place:cleveland-city-hall",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
-          "sourceUrls": []
+          "id": "edge:aa9ad1ca39876f:src0",
+          "title": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:ed4da560f1c86e",
       "person": "tony-petkovsek-2011",
       "place": "place:cleveland-city-hall",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
-          "sourceUrls": []
+          "id": "edge:ed4da560f1c86e:src0",
+          "title": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:7ace1bcaa8c7a5",
       "person": "joe-valencic-2020",
       "place": "place:cleveland-city-hall",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
-          "sourceUrls": []
+          "id": "edge:7ace1bcaa8c7a5:src0",
+          "title": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:097b608891f3e9",
@@ -261,42 +465,78 @@
       "person": "dr-eugene-jordan-2024",
       "place": "place:cleveland-city-hall",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
-          "sourceUrls": []
+          "id": "edge:aedf25d844feec:src0",
+          "title": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:be99b95ea51f41",
       "person": "leo-weidenthal-2010",
       "place": "place:cleveland-public-library",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
-          "sourceUrls": []
+          "id": "edge:be99b95ea51f41:src0",
+          "title": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:13026d1b2c8ded",
       "person": "joe-valencic-2020",
       "place": "place:cleveland-public-library",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
-          "sourceUrls": []
+          "id": "edge:13026d1b2c8ded:src0",
+          "title": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:e8200b4a971af8",
@@ -331,28 +571,52 @@
       "person": "mayor-frank-jackson-2025",
       "place": "place:cleveland-state-university",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "studied",
       "evidence": [
         {
-          "text": "Seeded from biographies that mention Cleveland State University.",
-          "sourceUrls": []
+          "id": "edge:a8241bc9deb0c6:src0",
+          "title": "Seeded from biographies that mention Cleveland State University.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:3024abc00da321",
       "person": "alex-machaskee-2010",
       "place": "place:cleveland-state-university",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that mention Cleveland State University.",
-          "sourceUrls": []
+          "id": "edge:3024abc00da321:src0",
+          "title": "Seeded from biographies that mention Cleveland State University.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:4615450734b534",
@@ -373,154 +637,286 @@
       "person": "margaret-w-wong-2010",
       "place": "place:cleveland-state-university",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that mention Cleveland State University.",
-          "sourceUrls": []
+          "id": "edge:474404f04e9865:src0",
+          "title": "Seeded from biographies that mention Cleveland State University.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:b0fc4cae1fe69e",
       "person": "jose-c-feliciano-2012",
       "place": "place:cleveland-state-university",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "studied",
       "evidence": [
         {
-          "text": "Seeded from biographies that mention Cleveland State University.",
-          "sourceUrls": []
+          "id": "edge:b0fc4cae1fe69e:src0",
+          "title": "Seeded from biographies that mention Cleveland State University.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:c00d7f8f97e256",
       "person": "monte-ahuja-2014",
       "place": "place:cleveland-state-university",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Seeded from biographies that mention Cleveland State University.",
-          "sourceUrls": []
+          "id": "edge:c00d7f8f97e256:src0",
+          "title": "Seeded from biographies that mention Cleveland State University.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:686ae95a6cf1da",
       "person": "mayor-frank-jackson-2025",
       "place": "place:max-s-hayes-high-school",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "studied",
       "evidence": [
         {
-          "text": "Starter school entry based on Mayor Frank Jackson's biography.",
-          "sourceUrls": []
+          "id": "edge:686ae95a6cf1da:src0",
+          "title": "Starter school entry based on Mayor Frank Jackson's biography.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:c93cc9b8d3ef5d",
       "person": "fr-jim-o-donnell-2012",
       "place": "place:st-colman-church",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "served",
       "evidence": [
         {
-          "text": "Starter church entry based on Fr. Jim O'Donnell's biography.",
-          "sourceUrls": []
+          "id": "edge:c93cc9b8d3ef5d:src0",
+          "title": "Starter church entry based on Fr. Jim O'Donnell's biography.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:abef149e74357f",
       "person": "donna-hom-2014",
       "place": "place:asiatown",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
-          "sourceUrls": []
+          "id": "edge:abef149e74357f:src0",
+          "title": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:39806b323238d5",
       "person": "johnny-k-wu-2024",
       "place": "place:asiatown",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
-          "sourceUrls": []
+          "id": "edge:39806b323238d5:src0",
+          "title": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:dc06f3bd03e52d",
       "person": "margaret-w-wong-2010",
       "place": "place:asiatown",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
-          "sourceUrls": []
+          "id": "edge:dc06f3bd03e52d:src0",
+          "title": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:69ac8a777f8ec0",
       "person": "giahoa-ryan-2011",
       "place": "place:asiatown",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
-          "sourceUrls": []
+          "id": "edge:69ac8a777f8ec0:src0",
+          "title": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:45d1ec0986d506",
       "person": "donna-hom-2014",
       "place": "place:asia-plaza",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "founded",
       "evidence": [
         {
-          "text": "Starter business entry based on biographies mentioning Asia Plaza.",
-          "sourceUrls": []
+          "id": "edge:45d1ec0986d506:src0",
+          "title": "Starter business entry based on biographies mentioning Asia Plaza.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:648389d5c63151",
       "person": "johnny-k-wu-2024",
       "place": "place:asia-plaza",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "organized",
       "evidence": [
         {
-          "text": "Starter business entry based on biographies mentioning Asia Plaza.",
-          "sourceUrls": []
+          "id": "edge:648389d5c63151:src0",
+          "title": "Starter business entry based on biographies mentioning Asia Plaza.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:ec8cfbfb460562",
@@ -541,70 +937,130 @@
       "person": "giahoa-ryan-2011",
       "place": "place:sai-gon-plaza",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "founded",
       "evidence": [
         {
-          "text": "Starter business entry based on biographies mentioning Sai Gon Plaza.",
-          "sourceUrls": []
+          "id": "edge:77172babfe4d5c:src0",
+          "title": "Starter business entry based on biographies mentioning Sai Gon Plaza.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:a88c7942245fbc",
       "person": "carl-robson-2022",
       "place": "place:st-clair-superior",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "worked",
       "evidence": [
         {
-          "text": "Starter neighborhood entry based on biographies mentioning St. Clair-Superior.",
-          "sourceUrls": []
+          "id": "edge:a88c7942245fbc:src0",
+          "title": "Starter neighborhood entry based on biographies mentioning St. Clair-Superior.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:76bcccd67b9684",
       "person": "paul-sciria-2010",
       "place": "place:central-kinsman",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "lived",
       "evidence": [
         {
-          "text": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
-          "sourceUrls": []
+          "id": "edge:76bcccd67b9684:src0",
+          "title": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:0406573cb7186d",
       "person": "mayor-frank-jackson-2025",
       "place": "place:central-kinsman",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "lived",
       "evidence": [
         {
-          "text": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
-          "sourceUrls": []
+          "id": "edge:0406573cb7186d:src0",
+          "title": "Starter neighborhood entry based on biographies mentioning Central or Kinsman.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:cb684acf4c5c46",
       "person": "august-pust-2010",
       "place": "place:greater-cleveland-ethnographic-museum",
       "kind": "associated_with_place",
-      "role": null,
+      "role": "founded",
       "evidence": [
         {
-          "text": "Starter community-organization entry based on August Pust's biography.",
-          "sourceUrls": []
+          "id": "edge:cb684acf4c5c46:src0",
+          "title": "Starter community-organization entry based on August Pust's biography.",
+          "kind": "secondary-source"
         }
       ],
-      "verificationLayer": "curated"
+      "verificationLayer": "curated",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:a8ea64ca5a8f6b",
@@ -634,9 +1090,20 @@
       "person": "alex-machaskee-2010",
       "place": "place:beachwood-ohio",
       "kind": "lived_in",
-      "role": null,
+      "role": "lived",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:d6b5217c5efaff",
@@ -652,27 +1119,60 @@
       "person": "dr-dieu-thuc-do-2010",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "founded",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:1a8c622ad57081",
       "person": "helen-karpinski-1899-2002-2010",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:87da81ca5f438b",
       "person": "lonnie-mccauley-2010",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "worked",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:1ac9d42585ec6d",
@@ -751,45 +1251,100 @@
       "person": "bishop-a-edward-pevec-2013",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "served",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:93ef34c7ca570c",
       "person": "jack-coyne-2013",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:5981d1c1ce63dd",
       "person": "jack-coyne-2013",
       "place": "place:shaker-heights",
       "kind": "lived_in",
-      "role": null,
+      "role": "lived",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:52bcec08870f5b",
       "person": "jack-coyne-2013",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:ed049cc9f9ef70",
       "person": "josef-holzer-2013",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:866a77d587fc81",
@@ -823,9 +1378,20 @@
       "person": "richard-a-ganim-2015",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "founded",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:b540daff5008ef",
@@ -877,27 +1443,60 @@
       "person": "anda-cook-2022",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.137Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:5fafe83fc066fb",
       "person": "taras-szmagala-2022",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "served",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:ebee92209bf84c",
       "person": "taras-szmagala-2022",
       "place": "place:bentleyville-oh",
       "kind": "lived_in",
-      "role": null,
+      "role": "lived",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:0fc478f4a8bb4b",
@@ -913,18 +1512,40 @@
       "person": "victor-ruiz-2022",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "served",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:ce17894ed38c12",
       "person": "pierre-bejjani-2023",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "founded",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:660ab95e52798c",
@@ -958,36 +1579,80 @@
       "person": "veronica-dahlberg-2024",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "lived",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:de22be6bccc90e",
       "person": "veronica-dahlberg-2024",
       "place": "place:ashtabula",
       "kind": "moved_to",
-      "role": null,
+      "role": "lived",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:07de271f77ad82",
       "person": "beverly-kerecman-2025",
       "place": "place:cleveland-ohio",
       "kind": "born_in",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:42a1790c7d098b",
       "person": "catherine-jorgensen-mccutcheon-2026",
       "place": "place:cleveland-ohio",
       "kind": "moved_to",
-      "role": null,
+      "role": "organized",
       "evidence": [],
-      "verificationLayer": "documented-in-profile"
+      "verificationLayer": "documented-in-profile",
+      "review": {
+        "status": "approved",
+        "decisionReference": "place-roles-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:39.138Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "edge:5e0d130b95ce93",

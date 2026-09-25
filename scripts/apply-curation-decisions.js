@@ -1,6 +1,7 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { curatedMetadataPath, loadCuratedMetadata, loadInductees, parseCsv, validateCuratedMetadata } from './data-utils.js';
+import { refreshGenerated } from './refresh-generated.js';
 import { changesWhatVisitorsSee, printVisibleChanges, visibleChanges, writeRecordedDifferences } from './parity-utils.js';
 
 const args = parseArgs(process.argv.slice(2));
@@ -114,6 +115,8 @@ if (dryRun) {
   }
   writeFileSync(outputPath, `${JSON.stringify(metadata, null, 2)}\n`);
   console.log(`Wrote ${outputPath}`);
+  // A name or biography change reaches the contribution worksheet too.
+  if (writesCanonical) refreshGenerated(resolve(import.meta.dirname, '..'));
   if (visible && changesWhatVisitorsSee(visible)) {
     writeRecordedDifferences(visible);
     console.log(`Recorded what visitors see differently under ${reference} in data/cihof_reviewed_differences.json`);

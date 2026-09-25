@@ -41,7 +41,8 @@ const steps = [
   },
   {
     task: 'bios', title: 'Biographies', script: 'bios:apply', csv: biosCsv,
-    refresh: [], checks: ['parity:report'],
+    // bios:apply refreshes the contribution worksheet itself; this proves it.
+    refresh: [], checks: ['parity:report', 'crosswalk:check'],
     keys: (draft) => Object.keys(draft.bios ?? {}),
   },
 ];

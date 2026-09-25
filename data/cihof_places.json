@@ -67,7 +67,18 @@
         "sourceField": "bioText",
         "note": "Seeded from biographies that reference Cleveland Cultural Gardens activity or specific national gardens."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.754Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:one-world-day-rockefeller-park",
@@ -105,7 +116,18 @@
         "sourceField": "bioText",
         "note": "Initial festival-location connection; event details should be reviewed by curators."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:cleveland-city-hall",
@@ -145,7 +167,18 @@
         "sourceField": "bioText",
         "note": "Seeded from biographies mentioning Cleveland City Hall or the City Hall Rotunda."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:cleveland-public-library",
@@ -183,7 +216,18 @@
         "sourceField": "bioText",
         "note": "Starter cultural-center entry based on biographies that reference the Cleveland Public Library."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:cleveland-state-university",
@@ -223,7 +267,18 @@
         "sourceField": "bioText",
         "note": "Seeded from biographies that mention Cleveland State University."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:max-s-hayes-high-school",
@@ -257,7 +312,18 @@
         "sourceField": "bioText",
         "note": "Starter school entry based on Mayor Frank Jackson's biography."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:st-colman-church",
@@ -328,7 +394,18 @@
         "sourceField": "bioText",
         "note": "Neighborhood-level grouping seeded from Asia Plaza, Sai Gon Plaza, and related community references."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:asia-plaza",
@@ -361,7 +438,18 @@
         "sourceField": "bioText",
         "note": "Starter business entry based on biographies mentioning Asia Plaza."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:sai-gon-plaza",
@@ -393,7 +481,18 @@
         "sourceField": "bioText",
         "note": "Starter business entry based on biographies mentioning Sai Gon Plaza."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:st-clair-superior",
@@ -462,7 +561,18 @@
         "sourceField": "bioText",
         "note": "Starter neighborhood entry based on biographies mentioning Central or Kinsman."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:greater-cleveland-ethnographic-museum",
@@ -493,7 +603,18 @@
         "sourceField": "bioText",
         "note": "Starter community-organization entry based on August Pust's biography."
       },
-      "researched": true
+      "researched": true,
+      "review": {
+        "status": "approved",
+        "decisionReference": "places-review-2026-09-24",
+        "contentVersion": "places-v1",
+        "reviewedAt": "2026-09-24T23:37:36.755Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "publicWeb": false,
+        "kiosk": true
+      }
     },
     {
       "id": "place:east-technical-high-school",
