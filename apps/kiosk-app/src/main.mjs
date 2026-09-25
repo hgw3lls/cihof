@@ -6,7 +6,7 @@ import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch } from './watch.mjs';
-import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings } from './settings.mjs';
+import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings, themeGround } from './settings.mjs';
 
 /**
  * The installed exhibit as an application of its own.
@@ -92,7 +92,7 @@ function createExhibitWindow() {
     fullscreen: !windowed,
     frame: windowed,
     autoHideMenuBar: !windowed,
-    backgroundColor: '#121211',
+    backgroundColor: themeGround[attractSettings(settings).theme],
     title: 'CIHOF Exhibit',
     webPreferences: {
       preload: join(here, 'preload.cjs'),
@@ -289,13 +289,14 @@ function registerAdminHandlers() {
     } else if (name === 'startAtLogin') {
       settings = { ...settings, startAtLogin: Boolean(value) };
       applyStartAtLogin();
-    } else if (['attractMode', 'attractRotate', 'spotlightSeconds', 'motion'].includes(name)) {
-      // The exhibit reads these as it loads, so it is reopened on its attract
+    } else if (['attractMode', 'attractRotate', 'spotlightSeconds', 'motion', 'theme'].includes(name)) {
+      // The exhibit reads these (and its theme) as it loads, so it is reopened on its attract
       // screen straight away. Staff have the admin panel open, so nobody is
       // in the middle of a visit.
       const problem = attractProblem(name, value);
       if (problem) throw new Error(problem);
       settings = { ...settings, [name]: value };
+      exhibit?.setBackgroundColor(themeGround[attractSettings(settings).theme]);
       exhibit?.loadURL(exhibitAddress(origin, settings));
     } else {
       throw new Error(`Unknown setting: ${name}`);
@@ -308,7 +309,7 @@ function registerAdminHandlers() {
   // the exhibit back as it was saved and brings the panel back.
   handle('admin:preview-attract', (candidate = {}) => {
     const trial = { ...settings };
-    for (const name of ['attractMode', 'attractRotate', 'spotlightSeconds', 'motion']) {
+    for (const name of ['attractMode', 'attractRotate', 'spotlightSeconds', 'motion', 'theme']) {
       if (name in candidate && !attractProblem(name, candidate[name])) trial[name] = candidate[name];
     }
     if (previewTimer) clearTimeout(previewTimer);

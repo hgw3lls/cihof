@@ -233,6 +233,14 @@ export type PlaceReviewRow = {
     readonly role: string | null;
   }[];
   readonly reviewed: boolean;
+  /** What an approval of these exact words records: a fingerprint of name, neighbourhood and history. */
+  readonly contentVersion: string;
+  /**
+   * For a reviewed place, whether its approval covers the words it has now:
+   * `current` it does, `legacy` it predates recording the words, `changed` the
+   * words changed after approval and the place is held back.
+   */
+  readonly words: 'current' | 'legacy' | 'changed' | null;
 };
 
 export type PlaceReviewSheet = {

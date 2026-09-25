@@ -57,6 +57,7 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
   const unreviewed = shown.filter(({ place }) => place.unreviewed).length;
   const current = shown.find(({ place }) => place.id === chosenId) ?? shown[0]!;
   const { place, present } = current;
+  const chosen = present.find((person) => person.id === selectedId) ?? null;
 
   return (
     <div className="places">
@@ -74,11 +75,12 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
                 aria-current={entry.place.id === place.id ? 'true' : undefined}
                 onClick={() => setChosenId(entry.place.id)}
               >
-                {entry.place.neighborhood && <span className="places__hood">{entry.place.neighborhood}</span>}
                 <span className="places__name">
                   {entry.place.name}
                   {entry.place.unreviewed && <em className="unreviewed">Unreviewed</em>}
                 </span>
+                {/* The neighbourhood repeats the name for a place that is one, such as AsiaTown. */}
+                {entry.place.neighborhood && entry.place.neighborhood !== entry.place.name && <span className="places__hood">{entry.place.neighborhood}</span>}
               </button>
             </li>
           ))}
@@ -121,6 +123,14 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
                 : 'Nobody is shown here yet. The place has been reviewed; the people connected to it have not.'}
             </p>
           )}
+
+        {/* A touch chooses a portrait; opening it is a second, visible step, as in People. */}
+        {chosen && (
+          <div className="chosen chosen--bar" aria-label="Selected person" role="group">
+            <p className="chosen__name">{chosen.name}</p>
+            <button type="button" className="block block--lens" onClick={() => onOpen(chosen.id)}>Read the record</button>
+          </div>
+        )}
       </section>
     </div>
   );

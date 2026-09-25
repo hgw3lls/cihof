@@ -107,6 +107,14 @@ try {
   assert.equal(JSON.parse(readFileSync(join(userData, 'settings.json'), 'utf8')).attractMode, 'names');
   step('choosing an attract screen in admin saves it and shows it on the display');
 
+  await admin.getByRole('radio', { name: 'Light', exact: true }).click();
+  await admin.getByRole('button', { name: 'Save' }).click();
+  await admin.getByText('Saved.').waitFor();
+  await exhibit.waitForFunction(() => document.documentElement.dataset.theme === 'light', null, { timeout: 10_000 });
+  assert.equal(new URL(exhibit.url()).searchParams.get('theme'), 'light');
+  assert.equal(JSON.parse(readFileSync(join(userData, 'settings.json'), 'utf8')).theme, 'light');
+  step('choosing light colours in admin saves them and shows them on the display');
+
   const debugSwitch = (label) => admin.locator('.toggle', { hasText: label }).getByRole('button');
   await debugSwitch('Mouse pointer').click();
   await wait(1500);
@@ -128,8 +136,9 @@ await electronApp.close().catch(() => {});
 electronApp = await launch();
 try {
   const exhibit = await electronApp.firstWindow();
-  // The attract screen chosen before the restart is still the one shown.
+  // The attract screen and colours chosen before the restart are still the ones shown.
   await exhibit.locator('.attract--names').waitFor({ timeout: 20_000 });
+  assert.equal(await exhibit.evaluate(() => document.documentElement.dataset.theme), 'light');
   const devTools = await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.isDevToolsOpened());
   assert.equal(devTools, false);
   step('after a restart the debug switches are off again');

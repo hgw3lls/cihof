@@ -17,6 +17,7 @@ import { readContributionWorksheet } from '../sources/worksheet.ts';
 import { readPlaceAssociations, readPlaceSeeds, readRelationships } from '../sources/places.ts';
 import { readVideoHoldings } from '../sources/media.ts';
 import { readCorpusConnections, type CorpusConnection } from '../sources/corpus.ts';
+import { placeWordsState } from './place-text.ts';
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
@@ -203,7 +204,10 @@ export function buildRuntimeBundle(
     peopleByPlace.set(association.place, list);
   }
   const placeSeeds = sources.places ?? readPlaceSeeds();
+  // An approval covers the words it saw. A place whose words changed since is
+  // held back until someone approves the new ones (see place-text.ts).
   const reviewedPlaces = publishedPlaces(placeSeeds, target)
+    .filter((place) => placeWordsState(place) !== 'changed')
     .map((place) => ({ ...place, personIds: peopleByPlace.get(place.id) ?? place.personIds ?? [] }));
   const places: RuntimePlace[] = preview
     ? previewPlaces(placeSeeds, associationSource, reviewedPlaces, publishedIds)

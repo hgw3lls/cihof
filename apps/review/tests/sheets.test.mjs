@@ -10,7 +10,7 @@ const draft = {
     't2': { decision: 'context', label: 'Both at the 2017 ceremony', kind: 'mentored' },
     't3': { decision: 'reject', label: 'left over', note: 'Different person' },
   },
-  places: { 'place:a': { approve: true }, 'place:b': { approve: false } },
+  places: { 'place:a': { approve: true, seenVersion: 'place-aaaaaaaaaaaa' }, 'place:b': { approve: false }, 'place:c': { approve: true, seenVersion: 'place-cccccccccccc', history: ' Their own words. ' } },
   placeTies: { 'place:a|person-2020': { role: 'worked' } },
   bios: { 'p-2010': { correctedText: 'Line one,\nline two.' }, 'q-2011': { useSourceText: true } },
   profiles: { 'p-2010': { decision: 'approve', seenVersion: 'profile-abc' }, 'q-2011': { decision: 'changes', seenVersion: 'profile-def', note: 'Wrong year' } },
@@ -46,7 +46,18 @@ test('the ties sheet carries only what each decision needs', () => {
 });
 
 test('only approvals reach the places sheet; "not yet" stays a draft', () => {
-  assert.deepEqual(rows(placesCsv(draft, '2026-10-01')).map((row) => row.placeId), ['place:a']);
+  assert.deepEqual(rows(placesCsv(draft, '2026-10-01')).map((row) => row.placeId), ['place:a', 'place:c']);
+});
+
+test('a place approval names the words it saw, and carries the reviewer\'s own words when they wrote some', () => {
+  const [kept, reworded] = rows(placesCsv(draft, '2026-10-01'));
+  assert.equal(kept.contentVersion, 'place-aaaaaaaaaaaa');
+  assert.equal(kept.newHistory, '');
+  assert.equal(reworded.contentVersion, 'place-cccccccccccc');
+  assert.equal(reworded.newHistory, 'Their own words.');
+});
+
+test('what people did at places goes to its own sheet', () => {
   assert.deepEqual(rows(placeTiesCsv(draft, '2026-10-01'))[0], {
     placeId: 'place:a', person: 'person-2020', role: 'worked',
     decisionReference: 'place-roles-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.',
@@ -72,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 1, placeTies: 1, bios: 2, profiles: 2, attract: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {

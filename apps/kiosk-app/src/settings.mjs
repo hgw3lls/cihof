@@ -29,14 +29,20 @@ export const defaults = Object.freeze({
   spotlightSeconds: 6,
   /** Off stops the drifting rows; the spotlight still moves, without animating. */
   motion: true,
+  /** Dark, as designed, or light for a bright room. */
+  theme: 'dark',
 });
+
+export const themes = Object.freeze(['dark', 'light']);
+/** The window's colour before the exhibit paints, so a reload never flashes the other one. */
+export const themeGround = Object.freeze({ dark: '#121211', light: '#f4f2ec' });
 
 export const attractModes = Object.freeze(['mosaic', 'names', 'stacked']);
 /** Settings may only lengthen timings, so nothing faster than every four seconds. */
 export const spotlightChoices = Object.freeze([4, 6, 10]);
 
 /**
- * The attract settings as they may be stored, each checked against a fixed
+ * The attract and appearance settings as they may be stored, each checked against a fixed
  * list. Anything else falls back to its default, so a damaged file can never
  * leave the wall blank.
  */
@@ -46,6 +52,7 @@ export function attractSettings(settings) {
     attractRotate: typeof settings?.attractRotate === 'boolean' ? settings.attractRotate : defaults.attractRotate,
     spotlightSeconds: spotlightChoices.includes(settings?.spotlightSeconds) ? settings.spotlightSeconds : defaults.spotlightSeconds,
     motion: typeof settings?.motion === 'boolean' ? settings.motion : defaults.motion,
+    theme: themes.includes(settings?.theme) ? settings.theme : defaults.theme,
   };
 }
 
@@ -54,6 +61,7 @@ export function attractProblem(name, value) {
   if (name === 'attractMode') return attractModes.includes(value) ? null : `Choose one of: ${attractModes.join(', ')}.`;
   if (name === 'spotlightSeconds') return spotlightChoices.includes(value) ? null : `Choose ${spotlightChoices.join(', ')} seconds.`;
   if (name === 'attractRotate' || name === 'motion') return typeof value === 'boolean' ? null : 'On or off.';
+  if (name === 'theme') return themes.includes(value) ? null : `Choose ${themes.join(' or ')}.`;
   return `Unknown setting: ${name}`;
 }
 
@@ -65,6 +73,7 @@ export function exhibitAddress(origin, settings, extra = {}) {
     attractRotate: attract.attractRotate ? '1' : '0',
     spotlight: String(attract.spotlightSeconds),
     motion: attract.motion ? '1' : '0',
+    theme: attract.theme,
     ...extra,
   });
   return `${origin}/?${params}`;
