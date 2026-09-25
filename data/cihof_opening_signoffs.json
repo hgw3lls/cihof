@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "note": "What people must sign off before the exhibit opens, outside the staff review app, and whether they have. An entry counts as signed only with who signed it, the date, and a reference to the signed record (a scan or sheet in data/curation-decisions/, or the decision's own reference). Only the person signing, or someone recording their signature, fills an entry in; npm run readiness only reads this file.",
+  "items": [
+    { "id": "logo", "title": "The Hall of Fame approves the changed logo", "who": "Cleveland International Hall of Fame", "where": "docs/brand/skyline-guidelines.md", "signed": null },
+    { "id": "film-captions", "title": "The choices about caption and transcript noise are made", "who": "Curator", "where": "docs/film-transcript-check.md", "signed": null },
+    { "id": "windows-checklist", "title": "The Windows checklist is done on the display PC and the office PC", "who": "Developer and administrator", "where": "docs/windows-checklist.md", "signed": null },
+    { "id": "signoff-installation", "title": "Sign-off 1: the installation", "who": "Installation team", "where": "docs/sign-off.md", "signed": null },
+    { "id": "signoff-touch", "title": "Sign-off 2: touch and reading in the gallery", "who": "Installation team", "where": "docs/sign-off.md", "signed": null },
+    { "id": "signoff-accessibility", "title": "Sign-off 3: accessibility", "who": "Accessibility reviewer", "where": "docs/sign-off.md", "signed": null },
+    { "id": "signoff-endurance", "title": "Sign-off 4: endurance", "who": "Administrator", "where": "docs/sign-off.md", "signed": null },
+    { "id": "signoff-content", "title": "Sign-off 5: content", "who": "Curator", "where": "docs/sign-off.md", "signed": null },
+    { "id": "signoff-rights", "title": "Sign-off 6: rights", "who": "Rights and reproductions", "where": "docs/sign-off.md", "signed": null },
+    { "id": "approval-to-open", "title": "Approval to open", "who": "The person who approves the opening", "where": "docs/sign-off.md", "signed": null }
+  ]
+}

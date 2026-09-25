@@ -148,6 +148,8 @@ function Home({ review, draft, waiting, counts, onOpen }: {
 
   return (
     <main className="page">
+      <Readiness lines={review.readiness} />
+
       <h1>What would you like to review?</h1>
       <p className="lead">Pick one. You can stop at any point; your choices are kept on this computer.</p>
 
@@ -256,4 +258,34 @@ export function placeAnswered(place: Review['places'][number], draft: Draft): bo
   if (!value) return false;
   if (!value.approve) return true;
   return value.seenVersion === place.contentVersion;
+}
+
+/**
+ * What still stands between the exhibit and opening day, read from the
+ * records. Nothing here is ticked by hand: it changes when the work is saved,
+ * or when a sign-off is recorded.
+ */
+function Readiness({ lines }: { lines: Review['readiness'] }) {
+  const open = lines.filter((line) => line.open > 0);
+  return (
+    <section className="panel readiness" aria-labelledby="readinessTitle">
+      <h2 id="readinessTitle">Ready for opening?</h2>
+      <p className="quiet">
+        {open.length === 0
+          ? 'Everything the records track is done.'
+          : `${lines.length - open.length} of ${lines.length} done. Still open:`}
+      </p>
+      {open.length > 0 && (
+        <ul className="readiness__list">
+          {open.map((line) => (
+            <li key={line.title}>
+              {line.title}
+              {line.total > 1 && <span className="quiet"> · {line.done} of {line.total}</span>}
+              <span className="quiet small"> · {line.where}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 }
