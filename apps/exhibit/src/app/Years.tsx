@@ -34,6 +34,8 @@ export function Years({ people, discovery, selectedId, onSelect, onOpen }: Props
   const shown = classes.find((entry) => entry.year === year) ?? classes[0] ?? null;
   useEffect(() => { if (selectedYear !== null) setYear(selectedYear); }, [selectedYear]);
 
+  const chosen = shown?.people.find((person) => person.id === selectedId) ?? null;
+
   if (!shown) {
     return <p className="empty">No induction class matches those choices.</p>;
   }
@@ -41,9 +43,17 @@ export function Years({ people, discovery, selectedId, onSelect, onOpen }: Props
   return (
     <div className="years">
       <section className="years__class" aria-labelledby={`class-${shown.year}`}>
-        <div className="years__poster" aria-hidden="true">
-          <p>Class of</p>
-          <p className="years__numeral">{shown.year}</p>
+        <div className="years__poster">
+          {/* A touch chooses a portrait; opening it is a second, visible step,
+              as in People. Nothing asks a visitor to guess at a double tap. */}
+          {chosen && (
+            <div className="chosen" aria-label="Selected person" role="group">
+              <p className="chosen__name">{chosen.name}</p>
+              <button type="button" className="block block--lens" onClick={() => onOpen(chosen.id)}>Read the record</button>
+            </div>
+          )}
+          <p className="years__label" aria-hidden="true">Class of</p>
+          <p className="years__numeral" aria-hidden="true">{shown.year}</p>
         </div>
 
         <div className="years__people">
