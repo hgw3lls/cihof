@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishFilms, publishPortraits, publishedAttractText, placeWordsState } from '@cihof/pipeline';
+import { publishedPlaces } from '@cihof/content';
 import { readPlaceSeeds } from '@cihof/pipeline/src/sources/places.ts';
 import { resolvePreview, resolveTarget } from './target.mjs';
 
@@ -35,17 +36,17 @@ if (attract.problem) {
   console.log(`${shown}: ${attract.problem}${attract.contentVersion ? ` (approving these words records contentVersion ${attract.contentVersion})` : ''}.`);
 }
 
-// A place approval covers its words. Name any held back because the words
-// changed after approval, and any still resting on an approval from before
-// approvals recorded the words.
-const approvedPlaces = readPlaceSeeds().filter((place) => place?.review?.status === 'approved');
+// A place approval covers its words. Of the places approved for this target,
+// name any held back because the words changed after approval, and any still
+// resting on an approval from before approvals recorded the words.
+const approvedPlaces = publishedPlaces(readPlaceSeeds(), target);
 const changed = approvedPlaces.filter((place) => placeWordsState(place) === 'changed');
 const legacy = approvedPlaces.filter((place) => placeWordsState(place) === 'legacy');
 if (changed.length > 0) {
-  console.log(`${changed.length} approved place(s) held back: their words changed after approval (${changed.map((place) => place.name).join(', ')}).`);
+  console.log(`${changed.length} place(s) approved for ${target} held back: their words changed after approval (${changed.map((place) => place.name).join(', ')}).`);
 }
 if (legacy.length > 0) {
-  console.log(`${legacy.length} place(s) shown on an approval that predates recording the words; the staff review app offers them again.`);
+  console.log(`${legacy.length} place(s) shown for ${target} on an approval that predates recording the words; the staff review app offers them again.`);
 }
 
 if (target === 'kiosk') {
