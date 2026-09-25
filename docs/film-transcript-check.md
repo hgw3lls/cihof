@@ -9,8 +9,10 @@ from those captions. All 93 are recorded as approved (21 September).
 Every transcript file opens with a note from the tool that made it: *"Draft
 transcript generated from … Generated: … Review required before kiosk
 approval."* The display was showing those lines to visitors above every
-transcript. The display build now leaves them out. The files themselves, and
-every word of the transcripts, are unchanged.
+transcript. The note has been removed from all 93 files, and nothing else in
+them changed; the decision is recorded in
+`data/curation-decisions/transcripts-staff-note-2026-09-25.md`. The display
+build now refuses any transcript that still opens with it.
 
 Everything below changes approved words, so it is for you to decide.
 
