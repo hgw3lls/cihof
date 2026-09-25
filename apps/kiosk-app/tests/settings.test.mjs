@@ -68,14 +68,14 @@ test('the lock grows with repeated guessing', () => {
   assert.equal(result.lockedForMs, 120_000);
 });
 
-test('the attract settings default to Mosaic, not rotating, every six seconds, with motion', () => {
-  assert.deepEqual(attractSettings({}), { attractMode: 'mosaic', attractRotate: false, spotlightSeconds: 6, motion: true });
+test('the attract settings default to Mosaic, not rotating, every six seconds, with motion, in dark colours', () => {
+  assert.deepEqual(attractSettings({}), { attractMode: 'mosaic', attractRotate: false, spotlightSeconds: 6, motion: true, theme: 'dark' });
 });
 
 test('a damaged attract setting falls back to its default rather than failing', () => {
   const folder = mkdtempSync(join(tmpdir(), 'cihof-settings-'));
   const path = join(folder, 'settings.json');
-  writeFileSync(path, JSON.stringify({ attractMode: 'carousel', attractRotate: 'yes', spotlightSeconds: 1, motion: null }));
+  writeFileSync(path, JSON.stringify({ attractMode: 'carousel', attractRotate: 'yes', spotlightSeconds: 1, motion: null, theme: 'sepia' }));
   const loaded = loadSettings(path);
   assert.deepEqual(attractSettings(loaded), attractSettings({}));
   assert.equal(loaded.attractMode, 'mosaic');
@@ -89,12 +89,14 @@ test('only the listed values can be saved, and the spotlight never moves faster 
   assert.ok(attractProblem('spotlightSeconds', '6'), 'a number, not text that looks like one');
   assert.equal(attractProblem('motion', false), null);
   assert.ok(attractProblem('motion', 'off'));
+  assert.equal(attractProblem('theme', 'light'), null);
+  assert.match(attractProblem('theme', 'auto'), /dark or light/, 'a display follows no device setting: staff choose');
   assert.match(attractProblem('restartAt', '04:00'), /Unknown/);
 });
 
 test('the exhibit is opened with the saved attract settings on its address', () => {
-  const address = new URL(exhibitAddress('http://127.0.0.1:8080', { attractMode: 'names', attractRotate: true, spotlightSeconds: 10, motion: false }));
+  const address = new URL(exhibitAddress('http://127.0.0.1:8080', { attractMode: 'names', attractRotate: true, spotlightSeconds: 10, motion: false, theme: 'light' }));
   assert.equal(address.origin, 'http://127.0.0.1:8080');
-  assert.deepEqual(Object.fromEntries(address.searchParams), { attract: 'names', attractRotate: '1', spotlight: '10', motion: '0' });
+  assert.deepEqual(Object.fromEntries(address.searchParams), { attract: 'names', attractRotate: '1', spotlight: '10', motion: '0', theme: 'light' });
   assert.equal(new URL(exhibitAddress('http://127.0.0.1:8080', {}, { recovery: '1' })).searchParams.get('recovery'), '1');
 });

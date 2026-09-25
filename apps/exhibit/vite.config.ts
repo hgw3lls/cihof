@@ -17,6 +17,8 @@ export default defineConfig({
       ? [{ find: /^.*\/Recovery\.tsx$/, replacement: resolve('src/app/Recovery.public-stub.tsx') }]
       : [],
   },
+  // The page chooses its default theme by audience before the bundle loads.
+  define: { 'import.meta.env.VITE_CIHOF_TARGET': JSON.stringify(target) },
   build: { outDir: 'dist', emptyOutDir: true },
   plugins: [react()],
 });

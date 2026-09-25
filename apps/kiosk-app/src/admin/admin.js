@@ -160,6 +160,7 @@
       attractRotate: state.settings.attractRotate,
       spotlightSeconds: state.settings.spotlightSeconds,
       motion: state.settings.motion,
+      theme: state.settings.theme,
     };
     const draft = { ...saved };
     const section = el('section', { class: 'attract', 'aria-labelledby': 'attractTitle' });
@@ -176,7 +177,7 @@
         el('button', { type: 'button', 'aria-pressed': String(draft[key]), onclick: () => { draft[key] = !draft[key]; draw(); } }, draft[key] ? 'On' : 'Off'),
       );
       section.replaceChildren(
-        el('h2', { id: 'attractTitle' }, 'Attract screen'),
+        el('h2', { id: 'attractTitle' }, 'Attract screen and colours'),
         el('p', { class: 'muted' }, `What the display shows while nobody is using it. Now showing: ${modes.find(([id]) => id === saved.attractMode)?.[1] ?? saved.attractMode}.`),
         el('div', { class: 'cards', role: 'radiogroup', 'aria-label': 'Attract screen' },
           ...modes.map(([id, name, help]) => el('button', {
@@ -195,7 +196,16 @@
           ),
         ),
         switchRow('motion', 'Motion', 'Off stops the drifting rows; the spotlight still moves, without animating'),
-        el('p', { class: 'muted' }, 'Saved on this display only. The display shows its attract screen as soon as you save.'),
+        el('div', { class: 'toggle' },
+          el('div', {}, el('strong', {}, 'Colours'), el('p', { class: 'muted' }, 'Dark as designed, or light for a bright room. The whole exhibit; films always play on black.')),
+          el('div', { class: 'segments', role: 'radiogroup', 'aria-label': 'Colours' },
+            ...[['dark', 'Dark'], ['light', 'Light']].map(([theme, label]) => el('button', {
+              type: 'button', role: 'radio', 'aria-checked': String(draft.theme === theme),
+              onclick: () => { draft.theme = theme; draw(); },
+            }, label)),
+          ),
+        ),
+        el('p', { class: 'muted' }, 'Saved on this display only. The display shows its attract screen, in these colours, as soon as you save.'),
         el('div', { class: 'row' },
           el('button', { type: 'button', onclick: () => api.previewAttract({ ...draft }) }, 'Preview for 30 s'),
           el('button', {
