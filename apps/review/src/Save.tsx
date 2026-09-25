@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
+import { wordingProblem } from './AttractWords.tsx';
 
 type Props = {
   review: Review;
@@ -35,6 +36,7 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     // be saved together: save the correction first, then approve.
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
+    ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
   ];
   const shown = Object.values(draft.ties).some((value) => value.decision !== 'reject');
   const lines = summary(review, draft, tieName);
@@ -177,6 +179,11 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     const place = review.places.find((item) => item.placeId === key.slice(0, at));
     const person = place?.ties.find((tie) => tie.person.id === key.slice(at + 1))?.person.name ?? key.slice(at + 1);
     lines.push(`Places: ${person} ${value.role} at ${place?.name ?? key.slice(0, at)}`);
+  }
+  for (const value of Object.values(draft.attract ?? {})) {
+    lines.push(value.decision === 'approve'
+      ? `Attract screen: approve “${review.attract.headline}”`
+      : `Attract screen: new words, “${value.headline}”`);
   }
   for (const [id, value] of Object.entries(draft.bios)) {
     const name = review.bios.find((bio) => bio.id === id)?.name ?? id;

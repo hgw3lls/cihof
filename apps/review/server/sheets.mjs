@@ -20,7 +20,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -91,6 +91,24 @@ export function profilesCsv(draft, day) {
   return csv(['id', 'contentVersion', 'decision', 'decisionReference', 'note'], rows);
 }
 
+/**
+ * The attract screen's words: approved as the reviewer saw them (the version
+ * they saw, which text:apply checks), or rewritten and approved as written.
+ */
+export function attractCsv(draft, day) {
+  const reference = decisionReference('attract', day);
+  const rows = Object.entries(draft.attract ?? {}).map(([block, value]) => [
+    block,
+    value.decision,
+    value.decision === 'approve' ? value.seenVersion ?? '' : '',
+    value.decision === 'reword' ? value.headline ?? '' : '',
+    value.decision === 'reword' ? value.tagline ?? '' : '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['block', 'decision', 'contentVersion', 'headline', 'tagline', 'decisionReference', 'note'], rows);
+}
+
 export function splitTieKey(key) {
   const at = key.lastIndexOf('|');
   return [key.slice(0, at), key.slice(at + 1)];
@@ -104,6 +122,7 @@ export function draftCounts(draft) {
     placeTies: Object.keys(draft.placeTies ?? {}).length,
     bios: Object.keys(draft.bios ?? {}).length,
     profiles: Object.keys(draft.profiles ?? {}).length,
+    attract: Object.keys(draft.attract ?? {}).length,
   };
 }
 
