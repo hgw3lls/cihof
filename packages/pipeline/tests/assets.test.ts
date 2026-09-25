@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { displayablePortrait } from '@cihof/content';
 import { buildPeople } from '../src/build/people.ts';
-import { publishFilms, publishPortraits } from '../src/build/assets.ts';
+import { opensWithStaffNote, publishFilms, publishPortraits } from '../src/build/assets.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 
 test('publishing portraits does not delete anything else in the target', () => {
@@ -53,4 +53,23 @@ test('a kiosk build stages every published film, with its words, beside the port
   assert.equal(staged.length + result.videosMissing, films.length);
   assert.equal(existsSync(join(target, 'media', 'images', 'alex-machaskee-2010', 'primary.png')), true,
     'staging films leaves the portraits in place');
+});
+
+test('every transcript reaches a visitor exactly as approved, and none carries the note to staff', () => {
+  const target = mkdtempSync(join(tmpdir(), 'cihof-films-'));
+  const bundle = buildRuntimeBundle(buildPeople(), 'kiosk', { filmDelivery: 'local-file' });
+  publishFilms(bundle, target);
+  for (const film of bundle.people.flatMap((person) => person.films)) {
+    const source = readFileSync(join(import.meta.dirname, '../../..', film.transcript.replace(/^\//, 'public/')), 'utf8');
+    assert.equal(opensWithStaffNote(source), false, `${film.transcript} opens with the note to staff`);
+    assert.equal(readFileSync(join(target, film.transcript), 'utf8'), source, 'staged unchanged');
+  }
+});
+
+test('the note to staff is recognised only where the generator put it', () => {
+  const note = 'Draft transcript generated from x.vtt.\nGenerated: 2026-09-14T00:00:00Z.\nReview required before kiosk approval.\n\nWhat was said.\n';
+  assert.equal(opensWithStaffNote(note), true);
+  assert.equal(opensWithStaffNote('What was said.\n'), false);
+  // The same words later in a transcript are somebody's.
+  assert.equal(opensWithStaffNote('She said: Review required before kiosk approval.\n'), false);
 });
