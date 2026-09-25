@@ -71,6 +71,9 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.goto(base);
   await page.getByLabel('Who is reviewing today?').fill('Playwright Reviewer');
   await page.getByRole('button', { name: 'Start' }).click();
+  // What stands between the exhibit and opening day, from the records.
+  await expect(page.getByRole('heading', { name: 'Ready for opening?' })).toBeVisible();
+  await expect(page.getByText('Approval to open')).toBeVisible();
 
   // Connections: a relationship, a reversed directional one, a rejection.
   await page.getByRole('button', { name: /^Connections/ }).click();

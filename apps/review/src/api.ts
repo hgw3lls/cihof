@@ -101,6 +101,8 @@ export type FilmStartDecision =
   | { decision: 'start'; seconds: number; note?: string }
   | { decision: 'beginning'; note?: string };
 
+export type ReadinessLine = { group: string; title: string; done: number; total: number; open: number; where: string };
+
 export type PlaceDecision =
   | { approve: true; seenVersion: string; history?: string; note?: string }
   | { approve: false; note?: string };
@@ -143,6 +145,8 @@ export type Review = {
   kinds: Kind[];
   attract: AttractWords;
   filmStarts: FilmStart[];
+  /** What still stands between the exhibit and opening day, from the records. */
+  readiness: ReadinessLine[];
   limits: { label: number; headline: number; tagline: number; placeHistory: number };
   roles: Role[];
   draft: Draft;

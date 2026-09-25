@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview } from './data.mjs';
+import { readiness, readSignoffs } from './readiness.mjs';
 import { audiences, check, gitStatus, save } from './save.mjs';
 import { draftCounts } from './sheets.mjs';
 
@@ -68,7 +69,8 @@ export function createReviewServer({ root, dist, port }) {
   async function api(request, response, path) {
     if (request.method === 'GET' && path === '/api/review') {
       const draft = readDraft();
-      return json(response, 200, { ...loadReview(), draft, counts: draftCounts(draft), git: gitStatus(root) });
+      const review = loadReview();
+      return json(response, 200, { ...review, readiness: readiness(review, readSignoffs(root)), draft, counts: draftCounts(draft), git: gitStatus(root) });
     }
     if (request.method === 'PUT' && path === '/api/draft') {
       const draft = normaliseDraft(await body(request));
