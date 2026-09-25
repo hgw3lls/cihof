@@ -79,8 +79,12 @@ Two inductees the research linked, with the record it came from. Decide
 
 ### Places and Biographies
 
-**Places**: whether to show each place, and what each person did there
-(lived, worked, studied, taught, organized, served, founded).
+**Places**: first the words visitors read about the place. Approve them
+as they are, use the plainer wording the app suggests, or write your own;
+an approval covers exactly those words. Places already on the display that
+were approved before approvals recorded the words come back once, to be
+checked. Then say what each person did there (lived, worked, studied,
+taught, organized, served, founded).
 **Biographies**: search for a person, correct the text, and check the
 highlighted changes before keeping them.
 

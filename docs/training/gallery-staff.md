@@ -38,6 +38,8 @@ reach of someone standing or seated:
 
 Touching a portrait chooses that person: it turns from grey to colour, and
 their name appears on the left. **Read the record** opens their full story.
+**Years** and **Places** work the same way: touch a portrait, then **Read
+the record**.
 
 ![A person's record: the portrait on the left, name, facts and biography on the right, actions along the bottom](images/display-record.jpg)
 
@@ -101,7 +103,7 @@ What you will use most:
 | **Back to the start** | The display is stuck somewhere odd. |
 | **Reload** | Something looks wrong; this is the first thing to try. |
 | **Restart app** | Reload did not help. |
-| **Attract screen** | To choose Mosaic, Name wall or Stacked. **Preview for 30 s** shows your choice without keeping it; **Save** keeps it and shows it straight away. |
+| **Attract screen and colours** | To choose Mosaic, Name wall or Stacked, and **Dark** or **Light** colours (light suits a bright room). **Preview for 30 s** shows your choice without keeping it; **Save** keeps it and shows it straight away. |
 | **This display** | The **Release** and **Content** numbers. Write them down when you report a problem. |
 
 **Close** (top right) returns to the exhibit. The rest of the panel, and the
