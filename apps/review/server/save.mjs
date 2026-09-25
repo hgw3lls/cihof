@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { projectStatus } from '../../../scripts/working-tree.js';
 import { biosCsv, decisionReference, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
@@ -184,8 +185,9 @@ function runTool(root, script, args) {
   return { ok: result.status === 0, output: `${result.stdout ?? ''}${result.stderr ?? ''}`.trim() };
 }
 
+/** Changes that are not this app's; old leftovers git never tracked do not count. */
 export function workingTreeChanges(root) {
-  return git(root, ['status', '--porcelain']).split('\n').filter((line) => line.trim().length > 0);
+  return projectStatus(root).split('\n').filter((line) => line.trim().length > 0);
 }
 
 /**
