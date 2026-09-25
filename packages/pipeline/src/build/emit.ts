@@ -20,6 +20,7 @@ import { readCorpusConnections, type CorpusConnection } from '../sources/corpus.
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
+import { publishedAttractText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -65,6 +66,12 @@ export type RuntimeBundle = {
    * time so an unusable destination never reaches a wall.
    */
   readonly continuationBase: string | null;
+  /**
+   * The attract screen's headline and tagline, or null until a curator has
+   * approved the exact words for this target. The display then shows the
+   * hall's name alone.
+   */
+  readonly attract: AttractText | null;
   /**
    * What is holding the withheld film holdings back, counted by prerequisite.
    * A release should be able to say why a wall is silent.
@@ -152,6 +159,8 @@ export type BundleSources = {
   readonly tieDecisions?: readonly TieDecision[];
   /** The corpus's proposed ties, injectable for tests. */
   readonly corpusConnections?: readonly CorpusConnection[];
+  /** The exhibit's own words, injectable for tests. */
+  readonly exhibitText?: StoredExhibitText;
 };
 
 export function buildRuntimeBundle(
@@ -263,6 +272,7 @@ export function buildRuntimeBundle(
     lenses: availableLenses(counts),
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
+    attract: publishedAttractText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
     filmReport: { held, blockedBy, delivery },
     contributionReport: {
       published: contributions.length,

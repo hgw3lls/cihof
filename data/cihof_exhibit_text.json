@@ -1,0 +1,10 @@
+{
+  "_about": "Words the exhibit shows that belong to no one person: the attract screen's headline and tagline. Each block reaches visitors only once a curator approves it for a target, with a decisionReference and the contentVersion the pipeline reports for exactly these words (npm run build:kiosk prints it). Change a word and the approval no longer matches, so the block is held back until it is approved again. Until then the attract screen shows the hall's name alone.",
+  "attract": {
+    "headline": "The world, at home in Cleveland.",
+    "tagline": "Meet the people who made it so, recognised by their communities, for their communities.",
+    "source": "Design handoff 'Wall & Poster', September 2026; default wording, awaiting editorial sign-off.",
+    "review": { "status": "needs-review" },
+    "publication": { "kiosk": true, "publicWeb": false }
+  }
+}

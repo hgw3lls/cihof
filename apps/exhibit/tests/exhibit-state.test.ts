@@ -106,3 +106,37 @@ test('reset returns every visitor-owned field to its start', () => {
   );
   assert.deepEqual(exhibitReducer(busy, { type: 'reset' }), initialState());
 });
+
+test('an installed display starts on its attract screen and every reset returns there', () => {
+  const idle = initialState('attract');
+  assert.equal(idle.mode, 'attract');
+
+  const visiting = run(idle,
+    { type: 'begin' },
+    { type: 'lens', lens: 'years' },
+    { type: 'select', personId: 'alex' },
+    { type: 'query', query: 'weld' },
+  );
+  assert.equal(visiting.mode, 'explore');
+  assert.deepEqual(exhibitReducer(visiting, { type: 'reset' }), idle);
+});
+
+test('touching a face on the attract screen starts on People with that person chosen', () => {
+  const state = run(initialState('attract'), { type: 'begin-with', personId: 'alex' });
+  assert.equal(state.mode, 'explore');
+  assert.equal(state.lens, 'people');
+  assert.equal(state.selectedId, 'alex');
+  assert.equal(state.history.length, 0, 'a new visit carries nothing from the last');
+});
+
+test('going back never returns a visitor to the attract screen', () => {
+  const state = run(initialState('attract'), { type: 'begin' }, { type: 'select', personId: 'alex' }, { type: 'back' });
+  assert.equal(state.mode, 'explore');
+  assert.equal(state.selectedId, null);
+});
+
+test('a website has no attract screen', () => {
+  const state = initialState();
+  assert.equal(state.mode, 'explore');
+  assert.equal(exhibitReducer(run(state, { type: 'select', personId: 'alex' }), { type: 'reset' }).mode, 'explore');
+});

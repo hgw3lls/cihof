@@ -19,6 +19,13 @@
 
 export type Lens = 'people' | 'places' | 'links' | 'years';
 
+/**
+ * An installed display waits on its attract screen and returns there at every
+ * reset; nothing a visitor chose survives the trip. A website has no attract
+ * screen: somebody who opened it is already exploring.
+ */
+export type Mode = 'attract' | 'explore';
+
 /** A panel always knows whose panel it is. */
 export type Detail =
   | { readonly kind: 'none' }
@@ -38,6 +45,9 @@ export type Discovery = {
 };
 
 export type ExhibitState = {
+  /** Where a reset lands, fixed for the life of the page. */
+  readonly home: Mode;
+  readonly mode: Mode;
   readonly lens: Lens;
   readonly selectedId: string | null;
   readonly discovery: Discovery;
@@ -46,9 +56,11 @@ export type ExhibitState = {
   readonly history: readonly Restorable[];
 };
 
-type Restorable = Omit<ExhibitState, 'history'>;
+type Restorable = Omit<ExhibitState, 'history' | 'home' | 'mode'>;
 
 export type ExhibitAction =
+  | { type: 'begin' }
+  | { type: 'begin-with'; personId: string }
   | { type: 'lens'; lens: Lens }
   | { type: 'select'; personId: string }
   | { type: 'clear-selection' }
@@ -69,8 +81,8 @@ export const maxQueryLength = 160;
 
 export const emptyDiscovery: Discovery = { query: '', communities: [], contributions: [], years: [] };
 
-export function initialState(): ExhibitState {
-  return { lens: 'people', selectedId: null, discovery: emptyDiscovery, detail: { kind: 'none' }, media: { kind: 'none' }, history: [] };
+export function initialState(home: Mode = 'explore'): ExhibitState {
+  return { home, mode: home, lens: 'people', selectedId: null, discovery: emptyDiscovery, detail: { kind: 'none' }, media: { kind: 'none' }, history: [] };
 }
 
 export function hasDiscovery(discovery: Discovery): boolean {
@@ -82,6 +94,14 @@ export function hasDiscovery(discovery: Discovery): boolean {
 
 export function exhibitReducer(state: ExhibitState, action: ExhibitAction): ExhibitState {
   switch (action.type) {
+    // Leaving the attract screen starts a fresh visit on People. Touching a
+    // face there chooses that person; touching anything else chooses nobody.
+    case 'begin':
+      return { ...initialState(state.home), mode: 'explore' };
+
+    case 'begin-with':
+      return { ...initialState(state.home), mode: 'explore', selectedId: action.personId };
+
     case 'lens':
       if (state.lens === action.lens) return state;
       // Leaving a lens ends anything playing in it.
@@ -140,15 +160,15 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'back': {
       const previous = state.history.at(-1);
       if (!previous) return state;
-      return { ...previous, history: state.history.slice(0, -1) };
+      return { ...state, ...previous, history: state.history.slice(0, -1) };
     }
 
     case 'reset':
-      return initialState();
+      return initialState(state.home);
   }
 }
 
 function remember(state: ExhibitState, patch: Partial<Restorable>): ExhibitState {
-  const { history, ...restorable } = state;
+  const { history, home: _home, mode: _mode, ...restorable } = state;
   return { ...state, ...patch, history: [...history, restorable].slice(-historyLimit) };
 }

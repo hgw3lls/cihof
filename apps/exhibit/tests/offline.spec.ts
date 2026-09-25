@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * Offline behaviour for a provisioned display.
@@ -10,8 +11,7 @@ import { expect, test } from '@playwright/test';
  * fetched.
  */
 async function provision(page: import('@playwright/test').Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
 
   await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
@@ -36,6 +36,7 @@ test('a provisioned display opens with no network at all', async ({ page, contex
 
   await context.setOffline(true);
   await page.reload();
+  await page.locator('[data-begin]').click();
 
   await expect(page.locator('.tile')).toHaveCount(111);
   await expect(page.locator('.count')).toHaveText('111 of 111 shown');
