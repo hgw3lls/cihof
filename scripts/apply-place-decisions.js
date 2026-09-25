@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
 import { parseCsv } from './data-utils.js';
 
@@ -243,7 +243,7 @@ function readRows(text) {
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch { return; }
   const dirty = status.split('\n').filter((line) => line.trim().length > 0);
   if (dirty.length === 0) return;

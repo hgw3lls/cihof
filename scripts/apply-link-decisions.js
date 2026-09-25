@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
 import { parseCsv } from './data-utils.js';
 import { buildPeople } from '../packages/pipeline/src/build/people.ts';
@@ -265,7 +265,7 @@ function withDecision(source, decision) {
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch {
     // Not a git repository, or git unavailable. The gate exists to keep the
     // diff readable; where there is no diff to read, it has nothing to protect.

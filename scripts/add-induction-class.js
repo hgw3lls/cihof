@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
-import { execFileSync, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
 import { imageFacts } from '../packages/pipeline/src/build/images.ts';
@@ -172,7 +173,7 @@ console.log('    Films and more photos go through the media sheet as for everyon
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch {
     return;
   }
