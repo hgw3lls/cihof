@@ -48,6 +48,12 @@ export type PublishedFilm = {
   readonly captions: string;
   readonly transcript: string;
   readonly durationSeconds: number | null;
+  /**
+   * Where playback opens, in seconds, when the film is a ceremony standing
+   * for several people and a curator approved this person's part of it.
+   * Absent: from the beginning.
+   */
+  readonly startSeconds?: number;
 };
 
 export type FilmPrerequisite =

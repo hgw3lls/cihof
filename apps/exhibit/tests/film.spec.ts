@@ -1,5 +1,6 @@
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Route } from '@playwright/test';
 import { begin } from './visit.ts';
 
 /**
@@ -22,21 +23,42 @@ const fixtureFilm = {
   durationSeconds: 4,
 };
 
-async function withFixtureFilm(page: Page, failures: { video?: boolean; transcript?: boolean } = {}) {
+/**
+ * Serves a file the way the display's own server does (apps/exhibit/kiosk/
+ * server.mjs), answering byte ranges. Without them a browser cannot seek in
+ * the film, which is what a start time and "Back 10 s" both do.
+ */
+async function fulfillWithRanges(route: Route, path: string, contentType: string) {
+  const body = readFileSync(path);
+  const range = /^bytes=(\d*)-(\d*)$/.exec(route.request().headers()['range'] ?? '');
+  if (!range) {
+    return route.fulfill({ status: 200, contentType, body, headers: { 'Accept-Ranges': 'bytes' } });
+  }
+  const start = range[1] ? Number(range[1]) : Math.max(0, body.length - Number(range[2]));
+  const end = range[1] && range[2] ? Math.min(Number(range[2]), body.length - 1) : body.length - 1;
+  return route.fulfill({
+    status: 206,
+    contentType,
+    body: body.subarray(start, end + 1),
+    headers: { 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${start}-${end}/${body.length}` },
+  });
+}
+
+async function withFixtureFilm(page: Page, failures: { video?: boolean; transcript?: boolean } = {}, film: object = fixtureFilm) {
   await page.route('**/data/exhibit.json', async (route) => {
     const bundle = await (await route.fetch()).json();
     await route.fulfill({
       json: {
         ...bundle,
         people: bundle.people.map((entry: { id: string }) =>
-          entry.id === person ? { ...entry, films: [fixtureFilm] } : entry),
+          entry.id === person ? { ...entry, films: [film] } : entry),
       },
     });
   });
 
   await page.route('**/__fixture__/chronology-test.mp4', (route) => failures.video
     ? route.fulfill({ status: 500, contentType: 'text/plain', body: 'unavailable' })
-    : route.fulfill({ path: `${fixtureRoot}/chronology-test.mp4`, contentType: 'video/mp4' }));
+    : fulfillWithRanges(route, `${fixtureRoot}/chronology-test.mp4`, 'video/mp4'));
   await page.route('**/__fixture__/chronology-test.png', (route) =>
     route.fulfill({ path: `${fixtureRoot}/chronology-test.png`, contentType: 'image/png' }));
   await page.route('**/__fixture__/chronology-test.en.vtt', (route) =>
@@ -197,4 +219,21 @@ test('a film with no usable source falls through to the words', async ({ page })
   await openFilm(page);
   await expect(page.locator('.film__problem')).toBeVisible();
   await expect(page.locator('.film__transcript')).toContainText('chronology');
+});
+
+test('a ceremony film opens at the chosen person\'s part, and can go back to the beginning', async ({ page }) => {
+  await withFixtureFilm(page, {}, { ...fixtureFilm, startSeconds: 2 });
+  await openFilm(page);
+  await expect(page.locator('.film__header span')).toHaveText('Film · from their part of the ceremony');
+  const video = page.locator('.film video');
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime)).toBeGreaterThanOrEqual(2);
+  await page.getByRole('button', { name: 'From the beginning' }).click();
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime)).toBeLessThan(1);
+});
+
+test('a film with no start opens at the beginning and offers no "from the beginning"', async ({ page }) => {
+  await withFixtureFilm(page);
+  await openFilm(page);
+  await expect(page.locator('.film__header span')).toHaveText('Film');
+  await expect(page.getByRole('button', { name: 'From the beginning' })).toHaveCount(0);
 });

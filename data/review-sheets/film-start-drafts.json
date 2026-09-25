@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "note": "Suggested start times for people whose film is a shared ceremony, drafted from the approved captions by npm run review:film-starts. A suggestion is shown to a reviewer and reaches the display only once approved. Nothing reads this file into the exhibit.",
+  "drafts": {
+    "ambassador-edward-f-crawford-2024|P34omi5XUiY": {
+      "suggestedSeconds": 2998,
+      "reason": "The captions say \"you our next inductee into the Cleveland\" at 50:00, and name them 14 times in the minutes that follow.",
+      "context": [
+        {
+          "t": 2997,
+          "words": "councilwoman once again congratulations"
+        },
+        {
+          "t": 2998,
+          "words": "to"
+        },
+        {
+          "t": 3000,
+          "words": "you our next inductee into the Cleveland"
+        },
+        {
+          "t": 3003,
+          "words": "International Hall of Fame is Ambassador"
+        },
+        {
+          "t": 3006,
+          "words": "Ed"
+        },
+        {
+          "t": 3013,
+          "words": "Crawford he will be introduced by"
+        },
+        {
+          "t": 3015,
+          "words": "Ireland's ambassador to the United"
+        },
+        {
+          "t": 3017,
+          "words": "States Geraldine burn"
+        },
+        {
+          "t": 3020,
+          "words": "n before the Ambassador came to"
+        },
+        {
+          "t": 3022,
+          "words": "Washington she spent 5 years as"
+        },
+        {
+          "t": 3024,
+          "words": "Ireland's ambassador to the UN most"
+        },
+        {
+          "t": 3026,
+          "words": "recently during Ireland's term serving"
+        },
+        {
+          "t": 3028,
+          "words": "on the security Council as an elected"
+        },
+        {
+          "t": 3030,
+          "words": "member please welcome to the podium"
+        }
+      ]
+    },
+    "dona-brady-2024|P34omi5XUiY": {
+      "suggestedSeconds": 2404,
+      "reason": "The captions say \"first inductee tonight is councilwoman\" at 40:06, and name them 7 times in the minutes that follow.",
+      "context": [
+        {
+          "t": 2399,
+          "words": "International Hall of"
+        },
+        {
+          "t": 2401,
+          "words": "Fame all right our first inductee"
+        },
+        {
+          "t": 2404,
+          "words": "tonight important stuff here folks our"
+        },
+        {
+          "t": 2406,
+          "words": "first inductee tonight is councilwoman"
+        },
+        {
+          "t": 2409,
+          "words": "donor"
+        },
+        {
+          "t": 2413,
+          "words": "Brady she will be"
+        },
+        {
+          "t": 2417,
+          "words": "introduced by councilman Mike penc let"
+        },
+        {
+          "t": 2419,
+          "words": "me tell you something about councilman"
+        },
+        {
+          "t": 2421,
+          "words": "fenic I'm sure you know Ward a"
+        },
+        {
+          "t": 2423,
+          "words": "councilman the dean of the city council"
+        },
+        {
+          "t": 2426,
+          "words": "who served the neighborhood of Northeast"
+        },
+        {
+          "t": 2428,
+          "words": "Ohio since"
+        },
+        {
+          "t": 2429,
+          "words": "1978 making him the longest serving"
+        },
+        {
+          "t": 2431,
+          "words": "council member in the city's history he"
+        }
+      ]
+    },
+    "dr-eugene-jordan-2024|P34omi5XUiY": {
+      "suggestedSeconds": 4211,
+      "reason": "The captions say \"you our next inductee will go in\" at 1:10:13, and name them 8 times in the minutes that follow.",
+      "context": [
+        {
+          "t": 4209,
+          "words": "M Dober congratulations to"
+        },
+        {
+          "t": 4213,
+          "words": "you our next inductee will go in"
+        },
+        {
+          "t": 4217,
+          "words": "pous the late dror Eugene Jordan"
+        },
+        {
+          "t": 4228,
+          "words": "to say some words about Dr Jordan will"
+        },
+        {
+          "t": 4232,
+          "words": "be the Reverend Dr Otis Moss Jr what can"
+        },
+        {
+          "t": 4236,
+          "words": "be said about Dr Otis Moss Jr I'm going"
+        },
+        {
+          "t": 4239,
+          "words": "to try to say a few things here we only"
+        },
+        {
+          "t": 4241,
+          "words": "have a few minutes I could spend all"
+        },
+        {
+          "t": 4243,
+          "words": "night talking about his"
+        },
+        {
+          "t": 4245,
+          "words": "accomplishments of course he was friends"
+        },
+        {
+          "t": 4249,
+          "words": "with both Dr Martin Luther King Jr and"
+        },
+        {
+          "t": 4251,
+          "words": "Dr Martin Luther King Senor Regional"
+        },
+        {
+          "t": 4253,
+          "words": "director Martin Luther King Jr's"
+        },
+        {
+          "t": 4256,
+          "words": "Southern Christian leadership conference"
+        }
+      ]
+    },
+    "erika-puussaar-2024|P34omi5XUiY": {
+      "suggestedSeconds": 4662,
+      "reason": "The captions never say this name clearly (they may have misheard it). \"family our next inductee is someone who\" at 1:17:44 is the one introduction not matched to anyone else. Check by watching.",
+      "context": [
+        {
+          "t": 4660,
+          "words": "you with much respect and again"
+        },
+        {
+          "t": 4662,
+          "words": "congratulations to the"
+        },
+        {
+          "t": 4664,
+          "words": "family our next inductee is someone who"
+        },
+        {
+          "t": 4667,
+          "words": "is well known inside and outside of this"
+        },
+        {
+          "t": 4670,
+          "words": "room another great Community leader"
+        },
+        {
+          "t": 4673,
+          "words": "Erica pisar"
+        },
+        {
+          "t": 4681,
+          "words": "to introduce Miss pisar as estonia's"
+        },
+        {
+          "t": 4685,
+          "words": "ambassador to the United States Mr"
+        },
+        {
+          "t": 4687,
+          "words": "chrisan"
+        },
+        {
+          "t": 4688,
+          "words": "PRI Ambassador PRI performed his"
+        },
+        {
+          "t": 4691,
+          "words": "required military service in the"
+        },
+        {
+          "t": 4692,
+          "words": "Estonian Defense Forces where he remains"
+        },
+        {
+          "t": 4695,
+          "words": "a Reserve officer he's been decorated"
+        },
+        {
+          "t": 4698,
+          "words": "with the order of the White Star by the"
+        }
+      ]
+    },
+    "johnny-k-wu-2024|P34omi5XUiY": {
+      "suggestedSeconds": 5830,
+      "reason": "The captions say \"thanks our final inductee tonight is a\" at 1:37:12, and name them 5 times in the minutes that follow.",
+      "context": [
+        {
+          "t": 5827,
+          "words": "Miss whar congratulations to you and I"
+        },
+        {
+          "t": 5830,
+          "words": "could have used that whistle earlier"
+        },
+        {
+          "t": 5832,
+          "words": "thanks our final inductee tonight is a"
+        },
+        {
+          "t": 5835,
+          "words": "true Renaissance Man Mr Johnny Woo"
+        },
+        {
+          "t": 5846,
+          "words": "Johnny will be inducted by Margaret"
+        },
+        {
+          "t": 5849,
+          "words": "wall more than 50 years ago"
+        },
+        {
+          "t": 5851,
+          "words": "award-winning practicing immigration"
+        },
+        {
+          "t": 5853,
+          "words": "lawyer Margaret Wong began her firm"
+        },
+        {
+          "t": 5856,
+          "words": "after years of adversity she was born in"
+        },
+        {
+          "t": 5858,
+          "words": "Hong Kong and founded Margaret W Wong"
+        },
+        {
+          "t": 5861,
+          "words": "and Associates LLC which began with a"
+        },
+        {
+          "t": 5864,
+          "words": "single desk rented for $25 and is now"
+        },
+        {
+          "t": 5869,
+          "words": "one of the nation's Premier immigration"
+        },
+        {
+          "t": 5871,
+          "words": "law firms with offices in nine cities"
+        }
+      ]
+    },
+    "veronica-dahlberg-2024|P34omi5XUiY": {
+      "suggestedSeconds": 3756,
+      "reason": "The captions say \"congratulations our next honor tonight\" at 1:02:38, and name them 8 times in the minutes that follow.",
+      "context": [
+        {
+          "t": 3758,
+          "words": "congratulations our next honor tonight"
+        },
+        {
+          "t": 3761,
+          "words": "another amazing Community leader"
+        },
+        {
+          "t": 3763,
+          "words": "Veronica"
+        },
+        {
+          "t": 3768,
+          "words": "dolberg she will be introduced by"
+        },
+        {
+          "t": 3772,
+          "words": "Cleveland councilwoman Jasmine"
+        },
+        {
+          "t": 3774,
+          "words": "Santana councilwoman Santana was the"
+        },
+        {
+          "t": 3777,
+          "words": "first Latina council member in the"
+        },
+        {
+          "t": 3780,
+          "words": "city's history she is the first Latina"
+        },
+        {
+          "t": 3783,
+          "words": "council member in the city's history"
+        },
+        {
+          "t": 3784,
+          "words": "councilwoman Santana represents Clark"
+        },
+        {
+          "t": 3786,
+          "words": "Fulton stockyards in portions of"
+        },
+        {
+          "t": 3789,
+          "words": "Brooklyn Center and Tremont"
+        },
+        {
+          "t": 3791,
+          "words": "neighborhoods she's also the council's"
+        },
+        {
+          "t": 3794,
+          "words": "representative to the City's community"
+        }
+      ]
+    }
+  }
+}

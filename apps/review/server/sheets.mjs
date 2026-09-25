@@ -15,12 +15,14 @@
  *     placeTies: { ["placeId|personId"]: { role, note } },
  *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
+ *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
+ *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
  *   }
  */
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', filmStarts: 'film-starts' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -111,6 +113,26 @@ export function attractCsv(draft, day) {
   return csv(['block', 'decision', 'contentVersion', 'headline', 'tagline', 'decisionReference', 'note'], rows);
 }
 
+/**
+ * Where ceremony films open: a second in the film, or from the beginning.
+ * films:starts:apply checks each second falls inside the film.
+ */
+export function filmStartsCsv(draft, day) {
+  const reference = decisionReference('filmStarts', day);
+  const rows = Object.entries(draft.filmStarts ?? {}).map(([key, value]) => {
+    const [personId, filmId] = splitTieKey(key);
+    return [
+      personId,
+      filmId,
+      value.decision,
+      value.decision === 'start' ? String(value.seconds ?? '') : '',
+      reference,
+      signedNote(value.note, draft.reviewer),
+    ];
+  });
+  return csv(['personId', 'filmId', 'decision', 'startSeconds', 'decisionReference', 'note'], rows);
+}
+
 export function splitTieKey(key) {
   const at = key.lastIndexOf('|');
   return [key.slice(0, at), key.slice(at + 1)];
@@ -125,6 +147,7 @@ export function draftCounts(draft) {
     bios: Object.keys(draft.bios ?? {}).length,
     profiles: Object.keys(draft.profiles ?? {}).length,
     attract: Object.keys(draft.attract ?? {}).length,
+    filmStarts: Object.keys(draft.filmStarts ?? {}).length,
   };
 }
 

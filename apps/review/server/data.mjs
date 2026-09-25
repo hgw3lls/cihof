@@ -9,6 +9,8 @@ import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
+import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
+import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 
 /**
  * Everything the review screens show, read fresh from `data/` each time, so a
@@ -179,6 +181,7 @@ export function loadReview() {
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
+    filmStarts: filmStarts(byId),
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
@@ -196,4 +199,32 @@ function attractWords() {
     problem: status.problem,
     reviewedAt: stored.review?.reviewedAt ?? null,
   };
+}
+
+/**
+ * Everybody whose film is a ceremony shared with others: where it opens now,
+ * and where the captions suggest their part begins.
+ */
+function filmStarts(byId) {
+  const draftsPath = dataFile('review-sheets/film-start-drafts.json');
+  const drafts = existsSync(draftsPath) ? JSON.parse(readFileSync(draftsPath, 'utf8')).drafts ?? {} : {};
+  const stored = readFilmStarts();
+  return sharedFilms(readVideoHoldings()).flatMap((film) => film.people.map((personId) => {
+    const key = `${personId}|${film.filmId}`;
+    const draft = drafts[key];
+    const person = byId.get(personId);
+    return {
+      key,
+      personId,
+      name: person?.name ?? personId,
+      portrait: person?.portrait?.src ?? null,
+      filmId: film.filmId,
+      durationSeconds: film.durationSeconds,
+      sharedWith: film.people.length,
+      approvedSeconds: approvedFilmStart(stored, personId, film.filmId, film.durationSeconds),
+      suggestion: draft && typeof draft.suggestedSeconds === 'number'
+        ? { seconds: draft.suggestedSeconds, reason: draft.reason ?? '', context: draft.context ?? [] }
+        : null,
+    };
+  }));
 }

@@ -53,9 +53,9 @@ These six 2024 inductees each have the same film: the whole 2024 ceremony,
 A visitor who opens Dona Brady's film gets the ceremony from its beginning,
 wherever her own part falls in it. **Choices:**
 - keep it as it is;
-- start each person's film at their own part (someone would need to note the
-  times, and the display would need a small change to start a film part way
-  in);
+- start each person's film at their own part: the staff review app now
+  suggests where each part begins and records the chosen time (*Where
+  ceremony films start*);
 - leave the ceremony off these six until each person's part is cut.
 
 ## 3. Transcriber tags

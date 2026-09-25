@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview } from './data.mjs';
+import { readiness, readSignoffs } from './readiness.mjs';
 import { audiences, check, gitStatus, save } from './save.mjs';
 import { draftCounts } from './sheets.mjs';
 
@@ -68,7 +69,8 @@ export function createReviewServer({ root, dist, port }) {
   async function api(request, response, path) {
     if (request.method === 'GET' && path === '/api/review') {
       const draft = readDraft();
-      return json(response, 200, { ...loadReview(), draft, counts: draftCounts(draft), git: gitStatus(root) });
+      const review = loadReview();
+      return json(response, 200, { ...review, readiness: readiness(review, readSignoffs(root)), draft, counts: draftCounts(draft), git: gitStatus(root) });
     }
     if (request.method === 'PUT' && path === '/api/draft') {
       const draft = normaliseDraft(await body(request));
@@ -90,7 +92,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {} };
 }
 
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
@@ -106,6 +108,7 @@ function normaliseDraft(value) {
     profiles: object(draft.profiles),
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
+    filmStarts: object(draft.filmStarts),
   };
 }
 

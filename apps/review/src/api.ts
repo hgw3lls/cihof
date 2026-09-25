@@ -82,6 +82,27 @@ export type AttractDecision =
   | { decision: 'approve'; seenVersion: string; note?: string }
   | { decision: 'reword'; headline: string; tagline: string; note?: string };
 
+/** Someone whose film is a ceremony shared with others, and where it opens. */
+export type FilmStart = {
+  key: string;
+  personId: string;
+  name: string;
+  portrait: string | null;
+  filmId: string;
+  durationSeconds: number | null;
+  sharedWith: number;
+  /** The approved second it opens at now, or null for the beginning. */
+  approvedSeconds: number | null;
+  /** Where the captions suggest their part begins, with what is said there. */
+  suggestion: { seconds: number; reason: string; context: { t: number; words: string }[] } | null;
+};
+
+export type FilmStartDecision =
+  | { decision: 'start'; seconds: number; note?: string }
+  | { decision: 'beginning'; note?: string };
+
+export type ReadinessLine = { group: string; title: string; done: number; total: number; open: number; where: string };
+
 export type PlaceDecision =
   | { approve: true; seenVersion: string; history?: string; note?: string }
   | { approve: false; note?: string };
@@ -110,9 +131,10 @@ export type Draft = {
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
   profiles: Record<string, ProfileDecision>;
   attract: Record<string, AttractDecision>;
+  filmStarts: Record<string, FilmStartDecision>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; filmStarts: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -122,6 +144,9 @@ export type Review = {
   profiles: Profile[];
   kinds: Kind[];
   attract: AttractWords;
+  filmStarts: FilmStart[];
+  /** What still stands between the exhibit and opening day, from the records. */
+  readiness: ReadinessLine[];
   limits: { label: number; headline: number; tagline: number; placeHistory: number };
   roles: Role[];
   draft: Draft;
