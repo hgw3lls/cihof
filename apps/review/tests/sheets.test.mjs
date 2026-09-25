@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, biosCsv, decisionReference, draftCounts, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, biosCsv, decisionReference, draftCounts, filmStartsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, filmStarts: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
@@ -96,4 +96,18 @@ test('an attract-words decision carries the version seen, or the new words, neve
   assert.equal(reword.contentVersion, '');
   assert.equal(reword.headline, 'Home, "here"');
   assert.equal(reword.tagline, 'A line.');
+});
+
+test('a ceremony film start names the person, the film and the second, or the beginning', () => {
+  const starts = { reviewer: 'Jane Smith', filmStarts: {
+    'dona-brady-2024|P34omi5XUiY': { decision: 'start', seconds: 2404 },
+    'johnny-k-wu-2024|P34omi5XUiY': { decision: 'beginning' },
+  } };
+  const [start, beginning] = rows(filmStartsCsv(starts, '2026-10-01'));
+  assert.deepEqual(start, {
+    personId: 'dona-brady-2024', filmId: 'P34omi5XUiY', decision: 'start', startSeconds: '2404',
+    decisionReference: 'film-starts-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.',
+  });
+  assert.equal(beginning.decision, 'beginning');
+  assert.equal(beginning.startSeconds, '');
 });

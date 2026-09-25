@@ -106,6 +106,11 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('group').first().getByRole('button', { name: 'worked' }).click();
   await page.getByRole('button', { name: 'Stop for now' }).click();
 
+  // Where a ceremony film starts: the suggestion for the first person.
+  await page.getByRole('button', { name: /^Where ceremony films start/ }).click();
+  await page.getByRole('button', { name: /^Open at \d/ }).first().click();
+  await page.getByRole('button', { name: 'Back to the start' }).click();
+
   // A biography.
   await page.getByRole('button', { name: /^Biographies/ }).click();
   await page.getByLabel(/Search/).fill('Grasselli');
@@ -178,6 +183,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
+  expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('Reviewed-by: Playwright Reviewer');
   expect(git('status', '--porcelain').trim()).toBe('');
 
@@ -200,6 +206,12 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
     .filter((place: { shortHistory?: string }) => place.shortHistory?.endsWith('(test)'));
   expect(reworded).toHaveLength(1);
   expect(reworded[0].review).toMatchObject({ status: 'approved', contentVersion: expect.stringMatching(/^place-[0-9a-f]{12}$/) });
+
+  // The first person's ceremony film opens at the suggested second, approved for exactly that second.
+  const starts = Object.entries(JSON.parse(readFileSync(join(worktree, 'data/cihof_film_starts.json'), 'utf8')).starts);
+  expect(starts).toHaveLength(1);
+  const [key, start] = starts[0] as [string, { startSeconds: number; review: { contentVersion: string } }];
+  expect(start.review.contentVersion).toBe(`start-${key.split('|')[1]}-${start.startSeconds}`);
 
   const words = JSON.parse(readFileSync(join(worktree, 'data/cihof_exhibit_text.json'), 'utf8')).attract;
   expect(words).toMatchObject({

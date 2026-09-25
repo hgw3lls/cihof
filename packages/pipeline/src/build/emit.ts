@@ -18,6 +18,7 @@ import { readPlaceAssociations, readPlaceSeeds, readRelationships } from '../sou
 import { readVideoHoldings } from '../sources/media.ts';
 import { readCorpusConnections, type CorpusConnection } from '../sources/corpus.ts';
 import { placeWordsState } from './place-text.ts';
+import { approvedFilmStart, readFilmStarts, type StoredFilmStarts } from './film-starts.ts';
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
@@ -162,6 +163,8 @@ export type BundleSources = {
   readonly corpusConnections?: readonly CorpusConnection[];
   /** The exhibit's own words, injectable for tests. */
   readonly exhibitText?: StoredExhibitText;
+  /** Approved film start times, injectable for tests. */
+  readonly filmStarts?: StoredFilmStarts;
 };
 
 export function buildRuntimeBundle(
@@ -176,8 +179,19 @@ export function buildRuntimeBundle(
   const holdings = readVideoHoldings();
   const delivery = sources.filmDelivery ?? filmDeliveryFor(target);
   const publishedIds = new Set<string>(people.map((person) => person.id as string));
+  // A film that is a whole ceremony opens at this person's part of it, once a
+  // curator has approved where that is (film-starts.ts).
+  const filmStarts = sources.filmStarts ?? readFilmStarts();
+  const startingAtTheirPart = (personId: string, films: readonly PublishedFilm[]): PublishedFilm[] => films.map((film) => {
+    const startSeconds = approvedFilmStart(filmStarts, personId, film.id, film.durationSeconds);
+    if (startSeconds === null) return film;
+    const source = film.source.kind === 'youtube'
+      ? { ...film.source, embedUrl: `${film.source.embedUrl}?start=${startSeconds}` }
+      : film.source;
+    return { ...film, source, startSeconds };
+  });
   const runtimePeople = people.map((person) =>
-    toRuntimePerson(person, publishableFilms(holdings.get(person.id) ?? [], target, delivery), publishedIds));
+    toRuntimePerson(person, startingAtTheirPart(person.id, publishableFilms(holdings.get(person.id) ?? [], target, delivery)), publishedIds));
 
   // Count what the withheld holdings are waiting on, so a silent wall is
   // explainable rather than mysterious.
