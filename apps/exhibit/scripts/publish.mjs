@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishFilms, publishPortraits } from '@cihof/pipeline';
+import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishFilms, publishPortraits, publishedAttractText } from '@cihof/pipeline';
 import { resolvePreview, resolveTarget } from './target.mjs';
 
 /**
@@ -25,6 +25,14 @@ if (preview) {
   console.log(`Preview: ${places} unreviewed places and ${bundle.candidates.length} proposed ties, each marked.`);
 }
 console.log(`Published ${assets.copied} portraits; ${assets.skipped} people have none cleared for this target.`);
+
+// The attract screen's words wait for approval like any visitor text. Say why
+// they are held back, and the version an approval of these exact words names.
+const attract = publishedAttractText(target, { preview });
+if (attract.problem) {
+  const shown = attract.text ? 'Preview shows the attract words, marked unreviewed' : "Attract screen shows the hall's name alone";
+  console.log(`${shown}: ${attract.problem}${attract.contentVersion ? ` (approving these words records contentVersion ${attract.contentVersion})` : ''}.`);
+}
 
 if (target === 'kiosk') {
   const films = publishFilms(bundle, resolve('public'));

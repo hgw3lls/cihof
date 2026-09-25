@@ -27,9 +27,17 @@ for a visitor to leave it. Everything it shows (profiles, portraits, films,
 the timeline, the map and Connections) lives on the PC. It needs no internet
 connection.
 
-The first screen is a single call to action. When a visitor stops touching
-the screen, the exhibit shows a warning after about 90 seconds and returns to
-the first screen 30 seconds later. The next visitor always starts fresh.
+While nobody is using it, the exhibit shows its **attract screen**: portraits
+or names of the inductees, with one lit up at a time, and a call to action.
+Touching a face or a name opens that person; touching the call to action
+opens the whole collection. There are three attract screens to choose from in
+the admin panel (below). When a visitor stops touching the screen, the exhibit
+shows a warning after about 90 seconds and returns to the attract screen 30
+seconds later. The next visitor always starts fresh.
+
+The attract screen's headline and tagline are visitor text like any other.
+Until a curator approves the exact words (7.3), it shows the hall's name
+alone.
 
 The application looks after itself:
 
@@ -118,7 +126,7 @@ nothing while it runs), but a normal shutdown is kinder to the PC.
 
 Nothing is required. Worth a glance when opening:
 
-- the screen is on and showing the first screen;
+- the screen is on and showing the attract screen;
 - the touchscreen responds where you touch it;
 - the screen is clean.
 
@@ -140,6 +148,7 @@ wrong tries.
 | **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
 | **Daily restart** | The time of the nightly restart, or Off. 04:00 unless changed. |
 | **Start at sign-in** | Whether the exhibit opens when Windows signs in. Leave it On. |
+| **Attract screen** | What the display shows while nobody is using it: **Mosaic** (every portrait in greyscale, one in colour), **Name wall** (every name in slow rows, no photographs) or **Stacked** (names above a strip of portraits). **Rotate through all three** shows a different one each time the display goes idle. **Spotlight moves every** 4, 6 or 10 seconds. **Motion** Off stops the drifting rows. **Preview for 30 s** shows your choice without saving it; **Save** keeps it and shows it straight away. |
 | **Change passcode** | Choose a new passcode. |
 
 Close the panel with **Close** at the top right.
@@ -375,6 +384,17 @@ still fails the tests, which is how a broken build is caught.
 `media:apply` checks that every film approved for the kiosk has its video
 file, so it must run on the machine that holds the videos
 (`public/media/videos/`, section 8).
+
+**The attract screen's words** live in `data/cihof_exhibit_text.json`. They
+are shown only once a curator approves the exact words for a target. There
+is no sheet for two lines of text: `npm run build:kiosk` prints the
+`contentVersion` an approval of the current words must name, and a developer
+records the curator's decision in the file's `review` block (`status:
+approved`, the `decisionReference` and that `contentVersion`) and in the
+`publication` block (`kiosk`, `publicWeb`). Changing a word afterwards holds
+the words back until they are approved again. `npm run build:preview` shows
+unapproved words on the attract screen, marked, so they can be judged in
+place.
 
 Then run the checks, review the diff and commit:
 

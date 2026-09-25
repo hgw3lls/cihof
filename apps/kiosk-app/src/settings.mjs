@@ -21,12 +21,59 @@ export const defaults = Object.freeze({
   passcode: null,
   /** Failed attempts and when the keypad unlocks again, to stop guessing. */
   lockout: { failures: 0, until: 0 },
+  /** What the display shows while nobody is using it. */
+  attractMode: 'mosaic',
+  /** A different attract screen each time the display goes idle. */
+  attractRotate: false,
+  /** How often the spotlight moves, in seconds. Mosaic and Stacked only. */
+  spotlightSeconds: 6,
+  /** Off stops the drifting rows; the spotlight still moves, without animating. */
+  motion: true,
 });
+
+export const attractModes = Object.freeze(['mosaic', 'names', 'stacked']);
+/** Settings may only lengthen timings, so nothing faster than every four seconds. */
+export const spotlightChoices = Object.freeze([4, 6, 10]);
+
+/**
+ * The attract settings as they may be stored, each checked against a fixed
+ * list. Anything else falls back to its default, so a damaged file can never
+ * leave the wall blank.
+ */
+export function attractSettings(settings) {
+  return {
+    attractMode: attractModes.includes(settings?.attractMode) ? settings.attractMode : defaults.attractMode,
+    attractRotate: typeof settings?.attractRotate === 'boolean' ? settings.attractRotate : defaults.attractRotate,
+    spotlightSeconds: spotlightChoices.includes(settings?.spotlightSeconds) ? settings.spotlightSeconds : defaults.spotlightSeconds,
+    motion: typeof settings?.motion === 'boolean' ? settings.motion : defaults.motion,
+  };
+}
+
+/** Why a value cannot be saved, or null. The admin panel shows the reason. */
+export function attractProblem(name, value) {
+  if (name === 'attractMode') return attractModes.includes(value) ? null : `Choose one of: ${attractModes.join(', ')}.`;
+  if (name === 'spotlightSeconds') return spotlightChoices.includes(value) ? null : `Choose ${spotlightChoices.join(', ')} seconds.`;
+  if (name === 'attractRotate' || name === 'motion') return typeof value === 'boolean' ? null : 'On or off.';
+  return `Unknown setting: ${name}`;
+}
+
+/** The exhibit's address with the attract settings on it, which the page reads. */
+export function exhibitAddress(origin, settings, extra = {}) {
+  const attract = attractSettings(settings);
+  const params = new URLSearchParams({
+    attract: attract.attractMode,
+    attractRotate: attract.attractRotate ? '1' : '0',
+    spotlight: String(attract.spotlightSeconds),
+    motion: attract.motion ? '1' : '0',
+    ...extra,
+  });
+  return `${origin}/?${params}`;
+}
 
 export function loadSettings(path) {
   try {
     const stored = JSON.parse(readFileSync(path, 'utf8'));
-    return { ...defaults, ...stored, lockout: { ...defaults.lockout, ...(stored.lockout ?? {}) } };
+    return { ...defaults, ...stored, lockout: { ...defaults.lockout, ...(stored.lockout ?? {}) }, ...attractSettings(stored) };
   } catch {
     return { ...defaults, lockout: { ...defaults.lockout } };
   }

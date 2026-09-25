@@ -1,6 +1,7 @@
 import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
 import { expect, test } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * T18: the code a visitor scans must resolve to that same person's public
@@ -14,8 +15,7 @@ const person = { id: 'alex-machaskee-2010', name: 'Alex Machaskee' };
 const expectedUrl = `https://clevelandinternationalhalloffame.com/cihof/people/${person.id}/`;
 
 async function openShare(page: import('@playwright/test').Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
 
   await page.evaluate((name) => {
     const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes(name));
@@ -71,8 +71,7 @@ test('a release with no reachable destination offers no code at all', async ({ p
     await route.fulfill({ json: { ...bundle, continuationBase: null } });
   });
 
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.evaluate(() => {
     const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes('Alex Machaskee'));
     (tile as HTMLButtonElement).click();
@@ -90,8 +89,7 @@ test('a destination that only resolves on this machine is refused', async ({ pag
     await route.fulfill({ json: { ...bundle, continuationBase: 'https://localhost:4330/cihof/' } });
   });
 
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.evaluate(() => {
     const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes('Alex Machaskee'));
     (tile as HTMLButtonElement).click();

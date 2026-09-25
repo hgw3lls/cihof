@@ -104,6 +104,8 @@
     if (!times.includes(state.settings.restartAt)) times.push(state.settings.restartAt);
 
     view.replaceChildren(
+      attractSection(state),
+
       el('h2', {}, 'This display'),
       el('dl', {},
         el('dt', {}, 'Release'), el('dd', {}, state.app.release),
@@ -148,6 +150,74 @@
       ),
       el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => changePasscode(state) }, 'Change passcode')),
     );
+  }
+
+  // What the display shows while nobody is using it. Choices are held here
+  // until Save; Preview shows them for thirty seconds without saving.
+  function attractSection(state) {
+    const saved = {
+      attractMode: state.settings.attractMode,
+      attractRotate: state.settings.attractRotate,
+      spotlightSeconds: state.settings.spotlightSeconds,
+      motion: state.settings.motion,
+    };
+    const draft = { ...saved };
+    const section = el('section', { class: 'attract', 'aria-labelledby': 'attractTitle' });
+    const modes = [
+      ['mosaic', 'Mosaic', 'The whole hall in greyscale, one portrait in colour at a time.'],
+      ['names', 'Name wall', 'Every name, in slow rows. No photographs, so photo quality never shows.'],
+      ['stacked', 'Stacked', 'Names above a strip of portraits; the spotlight moves along the strip.'],
+    ];
+
+    const draw = (message = '') => {
+      const changed = Object.keys(saved).some((key) => draft[key] !== saved[key]);
+      const switchRow = (key, label, help) => el('div', { class: 'toggle' },
+        el('div', {}, el('strong', {}, label), el('p', { class: 'muted' }, help)),
+        el('button', { type: 'button', 'aria-pressed': String(draft[key]), onclick: () => { draft[key] = !draft[key]; draw(); } }, draft[key] ? 'On' : 'Off'),
+      );
+      section.replaceChildren(
+        el('h2', { id: 'attractTitle' }, 'Attract screen'),
+        el('p', { class: 'muted' }, `What the display shows while nobody is using it. Now showing: ${modes.find(([id]) => id === saved.attractMode)?.[1] ?? saved.attractMode}.`),
+        el('div', { class: 'cards', role: 'radiogroup', 'aria-label': 'Attract screen' },
+          ...modes.map(([id, name, help]) => el('button', {
+            type: 'button', role: 'radio', class: `card card--${id}`, 'aria-checked': String(draft.attractMode === id),
+            onclick: () => { draft.attractMode = id; draw(); },
+          }, el('span', { class: 'card__preview', 'aria-hidden': 'true' }), el('strong', {}, name), el('span', { class: 'muted' }, help))),
+        ),
+        switchRow('attractRotate', 'Rotate through all three', 'A different screen each time the display returns to idle'),
+        el('div', { class: 'toggle' },
+          el('div', {}, el('strong', {}, 'Spotlight moves every'), el('p', { class: 'muted' }, 'Mosaic and Stacked only')),
+          el('div', { class: 'segments', role: 'radiogroup', 'aria-label': 'Spotlight moves every' },
+            ...[4, 6, 10].map((seconds) => el('button', {
+              type: 'button', role: 'radio', 'aria-checked': String(draft.spotlightSeconds === seconds),
+              onclick: () => { draft.spotlightSeconds = seconds; draw(); },
+            }, `${seconds} s`)),
+          ),
+        ),
+        switchRow('motion', 'Motion', 'Off stops the drifting rows; the spotlight still moves, without animating'),
+        el('p', { class: 'muted' }, 'Saved on this display only. The display shows its attract screen as soon as you save.'),
+        el('div', { class: 'row' },
+          el('button', { type: 'button', onclick: () => api.previewAttract({ ...draft }) }, 'Preview for 30 s'),
+          el('button', {
+            type: 'button', class: 'primary', ...(changed ? {} : { disabled: '' }),
+            onclick: async () => {
+              try {
+                for (const key of Object.keys(draft)) {
+                  if (draft[key] !== saved[key]) await api.setSetting(key, draft[key]);
+                }
+                Object.assign(saved, draft);
+                draw('Saved.');
+              } catch (error) {
+                draw(error.message);
+              }
+            },
+          }, 'Save'),
+        ),
+        el('p', { class: 'prompt', role: 'status' }, message),
+      );
+    };
+    draw();
+    return section;
   }
 
   function changePasscode(state) {

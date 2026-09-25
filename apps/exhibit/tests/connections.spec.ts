@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * The Connections map, in a browser.
@@ -10,8 +11,7 @@ import { expect, test, type Page } from '@playwright/test';
  */
 
 async function openMap(page: Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.getByRole('button', { name: 'Connections' }).click();
   await expect(page.locator('.map__field')).toBeVisible();
   // The settle animation finishes before anything is measured.
@@ -19,7 +19,7 @@ async function openMap(page: Page) {
 }
 
 test('the lens is offered, because the relationships behind it were approved', async ({ page }) => {
-  await page.goto('.');
+  await begin(page);
   await expect(page.getByRole('button', { name: 'Connections' })).toBeVisible();
 });
 

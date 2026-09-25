@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * A03: focus behaves predictably around modal layers.
@@ -9,8 +10,7 @@ import { expect, test, type Page } from '@playwright/test';
  * top layer, and the visitor is put back where they were.
  */
 async function openRecord(page: Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.evaluate(() => {
     const tile = [...document.querySelectorAll('.tile')].find((b) => b.textContent?.includes('Alex Machaskee'));
     (tile as HTMLButtonElement).click();
