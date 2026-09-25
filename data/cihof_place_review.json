@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T02:46:02.171Z",
+  "generatedAt": "2026-09-24T23:37:40.232Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
     {
@@ -14,91 +14,91 @@
           "person": "anda-cook-2022",
           "displayName": "Anda Cook",
           "kind": "moved_to",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "beverly-kerecman-2025",
           "displayName": "Beverly Kerecman",
           "kind": "born_in",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "bishop-a-edward-pevec-2013",
           "displayName": "Bishop A. Edward Pevec",
           "kind": "born_in",
-          "role": null
+          "role": "served"
         },
         {
           "person": "catherine-jorgensen-mccutcheon-2026",
           "displayName": "Catherine Jorgensen McCutcheon",
           "kind": "moved_to",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "dr-dieu-thuc-do-2010",
           "displayName": "Dr. Dieu Thuc Do",
           "kind": "moved_to",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "helen-karpinski-1899-2002-2010",
           "displayName": "Helen Karpinski (1899 – 2002)",
           "kind": "born_in",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "jack-coyne-2013",
           "displayName": "Jack Coyne",
           "kind": "born_in",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "jack-coyne-2013",
           "displayName": "Jack Coyne",
           "kind": "moved_to",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "josef-holzer-2013",
           "displayName": "Josef Holzer",
           "kind": "moved_to",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "lonnie-mccauley-2010",
           "displayName": "Lonnie McCauley",
           "kind": "born_in",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "pierre-bejjani-2023",
           "displayName": "Pierre Bejjani",
           "kind": "moved_to",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "richard-a-ganim-2015",
           "displayName": "Richard A. Ganim",
           "kind": "born_in",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "taras-szmagala-2022",
           "displayName": "Taras Szmagala",
           "kind": "born_in",
-          "role": null
+          "role": "served"
         },
         {
           "person": "veronica-dahlberg-2024",
           "displayName": "Veronica Dahlberg",
           "kind": "moved_to",
-          "role": null
+          "role": "lived"
         },
         {
           "person": "victor-ruiz-2022",
           "displayName": "Victor Ruiz",
           "kind": "moved_to",
-          "role": null
+          "role": "served"
         }
       ],
       "reviewed": false
@@ -114,58 +114,58 @@
           "person": "anda-cook-2022",
           "displayName": "Anda Cook",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         },
         {
           "person": "berj-shakarian-2020",
           "displayName": "Berj Shakarian",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "branka-malinar-2025",
           "displayName": "Branka Malinar",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "johnny-k-wu-2024",
           "displayName": "Johnny K. Wu",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "joyce-mariani-2023",
           "displayName": "Joyce Mariani",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         },
         {
           "person": "leo-weidenthal-2010",
           "displayName": "Leo Weidenthal",
           "kind": "associated_with_place",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "paul-burik-2019",
           "displayName": "Paul Burik",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         },
         {
           "person": "svetlana-stolyarova-2025",
           "displayName": "Svetlana Stolyarova",
           "kind": "associated_with_place",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "wael-khoury-2017",
           "displayName": "Wael Khoury",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:cleveland-state-university",
@@ -178,7 +178,7 @@
           "person": "alex-machaskee-2010",
           "displayName": "Alex Machaskee",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         },
         {
           "person": "jeanette-grasselli-brown-2010",
@@ -190,28 +190,28 @@
           "person": "jose-c-feliciano-2012",
           "displayName": "José C. Feliciano",
           "kind": "associated_with_place",
-          "role": null
+          "role": "studied"
         },
         {
           "person": "margaret-w-wong-2010",
           "displayName": "Margaret W. Wong",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         },
         {
           "person": "mayor-frank-jackson-2025",
           "displayName": "Mayor Frank Jackson",
           "kind": "associated_with_place",
-          "role": null
+          "role": "studied"
         },
         {
           "person": "monte-ahuja-2014",
           "displayName": "Monte Ahuja",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:cleveland-city-hall",
@@ -224,13 +224,13 @@
           "person": "dr-eugene-jordan-2024",
           "displayName": "Dr. Eugene Jordan",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "joe-valencic-2020",
           "displayName": "Joe Valencic",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "joyce-mariani-2023",
@@ -242,16 +242,16 @@
           "person": "mayor-frank-jackson-2025",
           "displayName": "Mayor Frank Jackson",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "tony-petkovsek-2011",
           "displayName": "Tony Petkovsek",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:one-world-day-rockefeller-park",
@@ -264,34 +264,34 @@
           "person": "anda-cook-2022",
           "displayName": "Anda Cook",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "dona-brady-2024",
           "displayName": "Dona Brady",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "georgine-welo-2023",
           "displayName": "Georgine Welo",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "johnny-k-wu-2024",
           "displayName": "Johnny K. Wu",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "sheila-murphy-crawford-2018",
           "displayName": "Sheila Murphy Crawford",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:asiatown",
@@ -304,28 +304,28 @@
           "person": "donna-hom-2014",
           "displayName": "Donna Hom",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         },
         {
           "person": "giahoa-ryan-2011",
           "displayName": "Giahoa Ryan",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "johnny-k-wu-2024",
           "displayName": "Johnny K. Wu",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "margaret-w-wong-2010",
           "displayName": "Margaret W. Wong",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:cleveland-public-library",
@@ -350,16 +350,16 @@
           "person": "joe-valencic-2020",
           "displayName": "Joe Valencic",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         },
         {
           "person": "leo-weidenthal-2010",
           "displayName": "Leo Weidenthal",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:asia-plaza",
@@ -372,16 +372,16 @@
           "person": "donna-hom-2014",
           "displayName": "Donna Hom",
           "kind": "associated_with_place",
-          "role": null
+          "role": "founded"
         },
         {
           "person": "johnny-k-wu-2024",
           "displayName": "Johnny K. Wu",
           "kind": "associated_with_place",
-          "role": null
+          "role": "organized"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:central-kinsman",
@@ -394,16 +394,16 @@
           "person": "mayor-frank-jackson-2025",
           "displayName": "Mayor Frank Jackson",
           "kind": "associated_with_place",
-          "role": null
+          "role": "lived"
         },
         {
           "person": "paul-sciria-2010",
           "displayName": "Paul Sciria",
           "kind": "associated_with_place",
-          "role": null
+          "role": "lived"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:sai-gon-plaza",
@@ -422,10 +422,10 @@
           "person": "giahoa-ryan-2011",
           "displayName": "Giahoa Ryan",
           "kind": "associated_with_place",
-          "role": null
+          "role": "founded"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:united-states",
@@ -460,7 +460,7 @@
           "person": "veronica-dahlberg-2024",
           "displayName": "Veronica Dahlberg",
           "kind": "moved_to",
-          "role": null
+          "role": "lived"
         }
       ],
       "reviewed": false
@@ -476,7 +476,7 @@
           "person": "alex-machaskee-2010",
           "displayName": "Alex Machaskee",
           "kind": "lived_in",
-          "role": null
+          "role": "lived"
         }
       ],
       "reviewed": false
@@ -492,7 +492,7 @@
           "person": "taras-szmagala-2022",
           "displayName": "Taras Szmagala",
           "kind": "lived_in",
-          "role": null
+          "role": "lived"
         }
       ],
       "reviewed": false
@@ -620,10 +620,10 @@
           "person": "august-pust-2010",
           "displayName": "August Pust",
           "kind": "associated_with_place",
-          "role": null
+          "role": "founded"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:guangdong-province-in-southern-china",
@@ -716,10 +716,10 @@
           "person": "mayor-frank-jackson-2025",
           "displayName": "Mayor Frank Jackson",
           "kind": "associated_with_place",
-          "role": null
+          "role": "studied"
         }
       ],
-      "reviewed": false
+      "reviewed": true
     },
     {
       "placeId": "place:poland",
@@ -796,7 +796,7 @@
           "person": "jack-coyne-2013",
           "displayName": "Jack Coyne",
           "kind": "lived_in",
-          "role": null
+          "role": "lived"
         }
       ],
       "reviewed": false
@@ -812,7 +812,7 @@
           "person": "carl-robson-2022",
           "displayName": "Carl Robson",
           "kind": "associated_with_place",
-          "role": null
+          "role": "worked"
         }
       ],
       "reviewed": false
@@ -828,7 +828,7 @@
           "person": "fr-jim-o-donnell-2012",
           "displayName": "Fr. Jim O’Donnell",
           "kind": "associated_with_place",
-          "role": null
+          "role": "served"
         }
       ],
       "reviewed": false

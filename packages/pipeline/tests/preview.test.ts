@@ -67,14 +67,15 @@ test('proposed ties are marked, deduplicated and kept to people this release sho
 
 test('proposed ties never count toward the Connections threshold', () => {
   const many = Array.from({ length: 20 }, (_, index) => proposed({ id: `person-rel:${index}`, to: people[index + 2]!.id }));
-  const bundle = buildRuntimeBundle(people, 'kiosk', { preview: true, crosswalk: null, corpusConnections: many });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { preview: true, crosswalk: null, corpusConnections: many, tieDecisions: [] });
   assert.equal(bundle.candidates.length, 20);
   assert.equal(bundle.relationships.length, 0);
   assert.equal(bundle.lenses.includes('links'), false);
 });
 
 test('the corpus rows the preview reads are the non-induction ones', () => {
-  const bundle = buildRuntimeBundle(people, 'kiosk', { preview: true });
+  // With no tie decided, so every corpus row is still a proposal.
+  const bundle = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [] });
   assert.ok(bundle.candidates.length > 0);
   assert.equal(bundle.candidates.some((tie) => tie.sourceType.startsWith('inducted_by')), false,
     'induction rows reach the map through the reviewed crosswalk, not as proposals');

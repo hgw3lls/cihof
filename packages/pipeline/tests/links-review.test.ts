@@ -178,7 +178,7 @@ test('confirming the unambiguous candidates alone would clear the threshold', ()
 
 test('confirming them without a publication decision still publishes nothing', () => {
   const accepted = acceptSingleCandidates(withoutDecision(crosswalk), {});
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: accepted });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [], crosswalk: accepted });
   assert.equal(bundle.relationships.length, 0, 'resolving a name is not permission to show it');
   assert.equal(bundle.lenses.includes('links'), false);
   assert.equal(bundle.relationshipReport.crosswalkApproved, false);
@@ -186,7 +186,7 @@ test('confirming them without a publication decision still publishes nothing', (
 
 test('Connections opens once both the confirmations and a decision exist', () => {
   const accepted = acceptSingleCandidates(crosswalk, { publicationDecision: fixtureDecision });
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: accepted });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [], crosswalk: accepted });
 
   assert.equal(bundle.lenses.includes('links'), true, 'the lens appears without a code change');
   assert.ok(bundle.relationships.length >= 15, `${bundle.relationships.length} relationships should reach the threshold`);
@@ -199,7 +199,7 @@ test('Connections opens once both the confirmations and a decision exist', () =>
 
 test('every relationship the lens would show carries evidence and both labels', () => {
   const accepted = acceptSingleCandidates(crosswalk, { publicationDecision: fixtureDecision });
-  const bundle = buildRuntimeBundle(people, 'kiosk', { crosswalk: accepted });
+  const bundle = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [], crosswalk: accepted });
   for (const relationship of bundle.relationships) {
     assert.equal(relationship.claim, 'documented');
     assert.ok(relationship.label.trim().length > 0, `${relationship.id} has no label`);
@@ -215,9 +215,9 @@ test('a kiosk decision leaves Connections closed on the public target', () => {
   // The relationships name living people and rest on sources reviewed for a
   // room, not for the open web. The two targets are decided separately.
   const accepted = acceptSingleCandidates(crosswalk, { publicationDecision: fixtureDecision });
-  assert.equal(buildRuntimeBundle(people, 'kiosk', { crosswalk: accepted }).lenses.includes('links'), true);
+  assert.equal(buildRuntimeBundle(people, 'kiosk', { tieDecisions: [], crosswalk: accepted }).lenses.includes('links'), true);
 
-  const publicBundle = buildRuntimeBundle(people, 'public', { crosswalk: accepted });
+  const publicBundle = buildRuntimeBundle(people, 'public', { tieDecisions: [], crosswalk: accepted });
   assert.equal(publicBundle.lenses.includes('links'), false);
   assert.equal(publicBundle.relationships.length, 0);
 });

@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { applyBiographyDecisions, biographyDecisions } from '../packages/pipeline/src/build/biographies.ts';
 import { csvCell, parseRows } from '../packages/pipeline/src/build/review.ts';
 import { buildPeople } from '../packages/pipeline/src/build/people.ts';
+import { refreshGenerated } from './refresh-generated.js';
 import { changesWhatVisitorsSee, printVisibleChanges, visibleChangesByReference, writeRecordedDifferences } from './parity-utils.js';
 
 /**
@@ -95,6 +96,7 @@ const archived = resolve(archiveDir, `biography-decisions-${appliedAt.replace(/[
 writeFileSync(archived, keepRows(csv, decided));
 
 console.log(`\n  Written to data/cihof_curated_metadata.json`);
+refreshGenerated(root);
 console.log(`  Recorded what visitors see differently in data/cihof_reviewed_differences.json`);
 console.log(`  Decided rows archived to ${archived.replace(`${root}/`, '')}`);
 console.log('  Next: npm test, review the diff, commit.\n');

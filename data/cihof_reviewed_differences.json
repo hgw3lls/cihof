@@ -3,9 +3,24 @@
   "note": "Differences from the frozen published record that a decision made. Written by the apply tools and npm run parity:record; read by packages/pipeline/tests/parity.test.ts.",
   "differences": [
     {
+      "difference": "albert-b-ratner-2011.bioText: published \"Albert B. Ratner is co-chairman of the board of Forest City Enterpris -> rebuilt \"Albert B. Ratner was a Cleveland business leader, real estate develop #2cb9fba8b0",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "alex-machaskee-2010.bioText: published \"Alex Machaskee is the retired Publisher, President and Chief Executiv -> rebuilt \"Alex Machaskee is the retired Publisher, President, and Chief Executi #54c0728521",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
       "difference": "anthony-yen-yan-yuan-tai-2012.sortName: published \"Tai), Anthony Yen (Yan Yuan\" -> rebuilt \"Yen, Anthony\"",
       "decisionReference": "sort-names-2026-09-24",
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    },
+    {
+      "difference": "august-pust-2010.bioText: published \"August B. Pust, during his more than thirty-year career in U.S. publi -> rebuilt \"August B. Pust was born in Ljubljana, Slovenia, in 1938 and came to t #6979db00a7",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
       "difference": "bill-miller-2017.countryTags: published [Slovenian] -> rebuilt [Polish, German]",
@@ -18,6 +33,26 @@
       "note": "Pogue was inducted on a community basis and the record said no nationality tag was assigned. That decision was revisited, not overlooked: see the same signed sheet."
     },
     {
+      "difference": "dr-dieu-thuc-do-2010.bioText: published \"Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of  -> rebuilt \"Dr. Dieu Thuc Do was born in Rach Gia, Vietnam, the oldest of five ch #379d54092a",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "gerald-m-quinn-2011.bioText: published \"Gerald M. Quinn, an award winning broadcaster and community leader bo -> rebuilt \"Gerald M. “Gerry” Quinn was an award-winning broadcaster and communit #d1afebcc5b",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "giahoa-ryan-2011.bioText: published \"Luong Thi Gia Hoa Ryan was born in Viet Nam, the oldest of twelve chi -> rebuilt \"Luong Thi Gia Hoa Ryan was born in Vietnam, the oldest of twelve chil #5cc92b8897",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "helen-karpinski-1899-2002-2010.bioText: published \"(1899 – 2002) Born in Cleveland in 1899, Helen Karpinski was raised i -> rebuilt \"Helen Karpinski (1899–2002) was born in Cleveland and raised in Reyno #22966b6910",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
       "difference": "helen-karpinski-1899-2002-2010.sortName: published \"2002), Helen Karpinski (1899 –\" -> rebuilt \"Karpinski, Helen\"",
       "decisionReference": "sort-names-2026-09-24",
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
@@ -28,14 +63,89 @@
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
     },
     {
+      "difference": "irene-morrow-2010.bioText: published \"Irene Morrow is married to Edward and has six children (Jeffrey, Patr -> rebuilt \"Irene Morrow built a distinguished career in public service while bec #7e67724b2a",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "jeanette-grasselli-brown-2010.bioText: published \"Jeanette Grasselli Brown spent 38 years in industrial research, retir -> rebuilt \"Jeanette Grasselli Brown spent 38 years in industrial research, retir #c71c708d42",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "leo-weidenthal-2010.bioText: published \"Leo Weidenthal (1878-1967) was editor of the Jewish Independent and f -> rebuilt \"Leo Weidenthal (1878–1967) was a Cleveland journalist, civic leader,  #e9a4659491",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "lonnie-mccauley-2010.bioText: published \"Lonnie Davis McCauley was born in Cleveland on September 19th, 1947.  -> rebuilt \"Lonnie Davis McCauley was born in Cleveland on September 19, 1947. Sh #d8c38c5579",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "lucretia-stoica-2011.bioText: published \"Lucretia Stoica was born in Youngstown, Ohio. As a young child she tr -> rebuilt \"Lucretia Stoica was a longtime Cleveland civic leader, immigrant advo #ab88ed98ed",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "luis-martinez-2011.bioText: published \"Luis Martinez was born in Bayamon, Puerto Rico and moved with his fam -> rebuilt \"Luis Martinez was born in Bayamón, Puerto Rico, and moved with his fa #97da3c9175",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "margaret-w-wong-2010.bioText: published \"In more than 30 years of practice, Margaret Wong built Margaret W. Wo -> rebuilt \"Margaret W. Wong built Margaret W. Wong & Associates into one of the  #068a851a89",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "paramjit-singh-2010.bioText: published \"Paramjit Singh has been a Community Leader of the Asian Indian Commun -> rebuilt \"Paramjit Singh became a prominent leader in Cleveland’s Asian Indian  #9aa9e54b00",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "paul-sciria-2010.bioText: published \"Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3 -> rebuilt \"Paul Angelo Sciria was born on November 3, 1928, to Sicilian immigran #55ef839990",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "ralph-j-perk-2011.bioText: published \"The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for -> rebuilt \"Ralph J. Perk (1914–1999) was a Cleveland political and civic leader  #daf0ba51e0",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
       "difference": "ralph-j-perk-2011.countryTags: published [Czech] -> rebuilt [Czech, Slovak]",
       "decisionReference": "heritage-corrections-2026-09-22",
       "note": "Heritage corrections supplied by the project owner, 2026-09-22. Signed sheet: data/curation-decisions/heritage-corrections-2026-09-22.csv."
     },
     {
+      "difference": "reverend-dr-otis-moss-jr-2011.bioText: published \"Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr.  -> rebuilt \"The Reverend Dr. Otis Moss, Jr. is a theologian, pastor, civil rights #e4ea329a17",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
       "difference": "reverend-dr-otis-moss-jr-2011.sortName: published \"Moss,, Dr. Otis\" -> rebuilt \"Moss, Otis, Jr.\"",
       "decisionReference": "sort-names-2026-09-24",
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
+    },
+    {
+      "difference": "robert-j-haas-2010.bioText: published \"Robert (Bob) Haas was born and raised on Cleveland’s west side. Marri -> rebuilt \"Robert “Bob” Haas was born and raised on Cleveland’s West Side. He gr #51d7c8b8de",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "senator-george-voinovich-2010.bioText: published \"From his time as member of the Ohio House of Representatives, Cuyahog -> rebuilt \"George V. Voinovich built a public-service career spanning more than  #1262d9c5b7",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "tony-petkovsek-2011.bioText: published \"Tony Petkovsek has been on daily polka radio since 1961, an unprecede -> rebuilt \"Tony Petkovsek became one of Cleveland’s best-known ambassadors of Sl #b375b3991e",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "vijaya-l-emani-2011.bioText: published \"“You can have Excellence, You can have Excuses, but you cannot have b -> rebuilt \"Vijaya Lakshmi Emani was born in Kurnool, India, to Indurani and G. V #9d480e9a5d",
+      "decisionReference": "biographies-review-2026-09-24",
+      "recordedAt": "2026-09-24T23:37:43.463Z"
     }
   ]
 }
