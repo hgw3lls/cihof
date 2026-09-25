@@ -2,7 +2,7 @@
 
 The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model, and a guided staff review app for the decisions behind it.
 
-Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy. The first run on the real Windows machines follows [`docs/windows-checklist.md`](docs/windows-checklist.md).
+Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy. The first run on the real Windows machines follows [`docs/windows-checklist.md`](docs/windows-checklist.md). The checks only people can make (reach, accessibility, endurance, content and rights) are recorded on [`docs/sign-off.md`](docs/sign-off.md).
 
 Staff reviewing content: `npm run review` opens the staff review app (`apps/review`) on this computer. It takes a reviewer through profile approvals, proposed connections, places and biography corrections one at a time, then applies their decisions with the same tools as the sheets below and commits each kind of review with their name. It answers only this computer and never pushes. See section 7.1 of the staff guide.
 

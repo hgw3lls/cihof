@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
 import { connectionLabelProblem, connectionProblems, sharedContextProblems } from '@cihof/content';
 import { parseCsv } from './data-utils.js';
@@ -276,7 +276,7 @@ function readDecisionRows(text) {
 function requireCleanTree() {
   let status;
   try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' });
+    status = projectStatus(root);
   } catch {
     return;
   }

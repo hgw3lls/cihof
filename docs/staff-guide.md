@@ -469,4 +469,6 @@ the installation. These stay with the people responsible for them:
 - curatorial review of the content shown;
 - rights for every portrait and film.
 
-Record who checked each one and when.
+Record who checked each one and when on the printed
+[sign-off sheet](sign-off.md), before the exhibit opens and again after any
+move of the display.
