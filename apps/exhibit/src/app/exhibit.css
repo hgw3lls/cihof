@@ -19,6 +19,9 @@
 @font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/instrument-sans-ext-600.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/instrument-sans-ext-700.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
+/* Only the "of" in the Hall of Fame's name is set in the serif, as the brand guide asks. */
+@font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; font-display: swap; src: url('/fonts/instrument-serif-italic.woff2') format('woff2'); }
+
 :root {
   --ground: #121211;
   --ground-film: #000;
@@ -99,6 +102,33 @@ button:active { filter: brightness(0.92); }
 .play { width: 0; height: 0; border-style: solid; border-width: calc(14 * var(--px)) 0 calc(14 * var(--px)) calc(24 * var(--px)); border-color: transparent transparent transparent currentColor; }
 .pause { width: calc(22 * var(--px)); height: calc(26 * var(--px)); border-left: calc(8 * var(--px)) solid currentColor; border-right: calc(8 * var(--px)) solid currentColor; }
 
+/* The name with its skyline (docs/brand/skyline-guidelines.md). The skyline is
+   a mask, so it takes the four lens bands, in their fixed order and at their
+   fixed stops, or one colour. The bands are never recoloured one at a time. */
+.skyline {
+  display: inline-block; flex: none;
+  aspect-ratio: 724 / 469;
+  -webkit-mask: url('/brand/skyline-mask.png') center / contain no-repeat;
+          mask: url('/brand/skyline-mask.png') center / contain no-repeat;
+  background: linear-gradient(90deg, var(--lens-links) 0 41%, var(--lens-years) 41% 58%, var(--lens-places) 58% 71%, var(--lens-people) 71% 100%);
+}
+.lockup { display: inline-flex; align-items: flex-end; gap: calc(14 * var(--px)); color: var(--ink); text-transform: none; }
+.lockup__of { font-family: 'Instrument Serif', 'Instrument Sans', serif; font-style: italic; font-weight: 400; letter-spacing: 0; }
+.lockup--header .skyline { width: max(48px, calc(62 * var(--px))); }
+.lockup--header .lockup__name { font-size: max(16px, calc(21 * var(--px))); font-weight: 600; letter-spacing: -0.025em; line-height: 1; white-space: nowrap; }
+/* Two lines beside the skyline, standing on its baseline, with "Hall of Fame"
+   about 3.3 times the first line. The guide sets the words overlapping the
+   skyline's lower right by about 27% of its width; with the supplied outline
+   that runs them into the towers on the right, so they sit just beside it
+   until the designer supplies the intended composition. */
+.lockup--display { display: flex; align-items: flex-end; gap: 0; }
+.lockup--display .skyline { width: var(--skyline, calc(360 * var(--px))); }
+.lockup--display .lockup__name { display: flex; flex-direction: column; margin-left: calc(var(--skyline, calc(360 * var(--px))) * 0.05); font-weight: 600; }
+/* Line boxes cut to the capitals, so "Hall of Fame" stands on the skyline's
+   baseline and the first line sits just above it, below the towers. */
+.lockup__line1 { color: var(--lens-people); font-size: calc(var(--hall, calc(104 * var(--px))) / 3.3); letter-spacing: -0.025em; line-height: 0.8; white-space: nowrap; }
+.lockup__line2 { margin-top: calc(var(--hall, calc(104 * var(--px))) * 0.06); font-size: var(--hall, calc(104 * var(--px))); letter-spacing: -0.05em; line-height: 0.74; white-space: nowrap; }
+
 /* ------------------------------------------------------------------ shell */
 
 .shell { display: grid; grid-template-rows: calc(72 * var(--px)) minmax(0, 1fr) calc(120 * var(--px)); height: 100%; }
@@ -108,6 +138,7 @@ button:active { filter: brightness(0.92); }
 
 .masthead { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 calc(40 * var(--px)); border-bottom: 2px solid var(--ink); }
 .masthead h1, .masthead p { margin: 0; font: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.masthead h1 { display: flex; align-self: stretch; align-items: center; letter-spacing: normal; }
 
 .body { min-height: 0; min-width: 0; }
 
@@ -343,6 +374,9 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .attract__cta { --lens: var(--lens-people); width: 100%; }
 .attract__headline { margin: 0; font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; text-wrap: balance; }
 .attract__label { margin: 0 0 calc(24 * var(--px)); }
+.attract__headline--name { --skyline: calc(360 * var(--px)); --hall: calc(104 * var(--px)); }
+.attract__bar .attract__headline--name { --skyline: calc(200 * var(--px)); --hall: calc(58 * var(--px)); }
+.attract__masthead .lockup { vertical-align: middle; }
 .attract__tagline { margin: calc(24 * var(--px)) 0 0; color: var(--ink-soft); text-wrap: pretty; }
 
 /* Mosaic: the whole hall edge to edge, one portrait in colour at a time. */
