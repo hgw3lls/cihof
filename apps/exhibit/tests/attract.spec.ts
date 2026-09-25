@@ -97,3 +97,35 @@ test('the spotlight moves on its own, and the lit face and the lit name are the 
   const next = await lit.getAttribute('aria-label');
   await expect(page.locator('.attract__name[aria-current="true"]').first()).toHaveText(next ?? '');
 });
+
+test('no face hidden under the mosaic panel can be reached by keyboard or screen reader', async ({ page }) => {
+  await page.goto('./?attract=mosaic');
+  await expect(page.locator('.attract__panel')).toBeVisible();
+  const reachableUnderPanel = await page.evaluate(() => {
+    const panel = document.querySelector('.attract__panel')!.getBoundingClientRect();
+    return [...document.querySelectorAll<HTMLButtonElement>('.attract__face')]
+      .filter((face) => face.tabIndex >= 0 && face.getAttribute('aria-hidden') !== 'true')
+      .filter((face) => {
+        const box = face.getBoundingClientRect();
+        const x = box.left + box.width / 2;
+        const y = box.top + box.height / 2;
+        return x > panel.left && x < panel.right && y > panel.top && y < panel.bottom;
+      }).length;
+  });
+  expect(reachableUnderPanel).toBe(0);
+});
+
+test('with motion off every name still has its turn: the lit name is on screen and the rows change', async ({ page }) => {
+  await page.goto('./?attract=names&motion=0&spotlight=4');
+  const lit = page.locator('.attract__name[aria-current="true"]');
+  const inView = async () => lit.evaluate((el) => {
+    const box = el.getBoundingClientRect();
+    return box.left >= 0 && box.right <= window.innerWidth;
+  });
+  expect(await inView(), 'the lit name is where it can be seen').toBe(true);
+
+  const firstNames = () => page.locator('.attract__row').evaluateAll((rows) => rows.map((row) => row.querySelector('.attract__name')?.textContent));
+  const before = await firstNames();
+  await expect.poll(firstNames, { timeout: 8_000 }).not.toEqual(before);
+  expect(await inView()).toBe(true);
+});
