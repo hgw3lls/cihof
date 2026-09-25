@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * Film playback, exercised with a synthetic fixture.
@@ -46,8 +47,7 @@ async function withFixtureFilm(page: Page, failures: { video?: boolean; transcri
 }
 
 async function openFilm(page: Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.evaluate(() => {
     const tile = [...document.querySelectorAll('.tile')].find((b) => b.textContent?.includes('Alex Machaskee'));
     (tile as HTMLButtonElement).click();

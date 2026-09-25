@@ -50,10 +50,11 @@ console.log('Kiosk app');
 let electronApp = await launch();
 try {
   const exhibit = await electronApp.firstWindow();
-  await exhibit.getByRole('button', { name: 'People' }).waitFor({ timeout: 20_000 });
+  await exhibit.locator('.attract--mosaic').waitFor({ timeout: 20_000 });
   const url = new URL(exhibit.url());
   assert.equal(url.hostname, '127.0.0.1');
-  step(`the exhibit opens from its own server (${url.origin})`);
+  assert.equal(url.searchParams.get('attract'), 'mosaic');
+  step(`the exhibit opens from its own server (${url.origin}), on its attract screen`);
 
   const shape = await electronApp.evaluate(({ BrowserWindow, Menu }) => {
     const win = BrowserWindow.getAllWindows()[0];
@@ -92,17 +93,26 @@ try {
   await tap(admin, '2468');
   await admin.getByText('same passcode again').waitFor();
   await tap(admin, '2468');
-  await admin.getByText('This display').waitFor();
+  await admin.getByRole('heading', { name: 'This display' }).waitFor();
   const stored = JSON.parse(readFileSync(join(userData, 'settings.json'), 'utf8'));
   assert.match(stored.passcode, /^scrypt:/);
   assert.ok(!JSON.stringify(stored).includes('2468'));
   step('Ctrl+Shift+A sets the first passcode, stored hashed');
 
-  await admin.getByRole('button', { name: 'Off' }).nth(2).click(); // Mouse pointer
+  await admin.getByRole('radio', { name: /Name wall/ }).click();
+  await admin.getByRole('button', { name: 'Save' }).click();
+  await admin.getByText('Saved.').waitFor();
+  await exhibit.locator('.attract--names').waitFor({ timeout: 10_000 });
+  assert.equal(new URL(exhibit.url()).searchParams.get('attract'), 'names');
+  assert.equal(JSON.parse(readFileSync(join(userData, 'settings.json'), 'utf8')).attractMode, 'names');
+  step('choosing an attract screen in admin saves it and shows it on the display');
+
+  const debugSwitch = (label) => admin.locator('.toggle', { hasText: label }).getByRole('button');
+  await debugSwitch('Mouse pointer').click();
   await wait(1500);
   let debug = await admin.evaluate(() => window.cihofAdmin.state().then((s) => s.debug));
   assert.equal(debug.cursor, true);
-  await admin.getByRole('button', { name: 'Off' }).first().click(); // Developer tools
+  await debugSwitch('Developer tools').click();
   await wait(2000);
   const devToolsOpen = await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().some((w) => w.webContents.getURL().startsWith('http') && w.webContents.isDevToolsOpened()));
   assert.equal(devToolsOpen, true);
@@ -118,7 +128,8 @@ await electronApp.close().catch(() => {});
 electronApp = await launch();
 try {
   const exhibit = await electronApp.firstWindow();
-  await exhibit.getByRole('button', { name: 'People' }).waitFor({ timeout: 20_000 });
+  // The attract screen chosen before the restart is still the one shown.
+  await exhibit.locator('.attract--names').waitFor({ timeout: 20_000 });
   const devTools = await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.isDevToolsOpened());
   assert.equal(devTools, false);
   step('after a restart the debug switches are off again');
@@ -129,7 +140,7 @@ try {
   await tap(admin, '1111');
   await admin.getByText('not right').waitFor();
   await tap(admin, '2468');
-  await admin.getByText('This display').waitFor();
+  await admin.getByRole('heading', { name: 'This display' }).waitFor();
   step('the passcode survives the restart; a wrong one is refused');
 
   const closed = new Promise((done) => electronApp.process().once('exit', done));

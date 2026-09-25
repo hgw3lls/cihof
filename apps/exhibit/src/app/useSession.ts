@@ -9,8 +9,11 @@ const activityEvents = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as cons
  * Everything it registers it removes, and every timer it sets it clears. A
  * display runs for weeks; a listener or timer left behind is a leak that only
  * shows up as a slow degradation nobody can reproduce.
+ *
+ * Off while the attract screen shows: there is no visit to end, and a warning
+ * asking an empty room whether it is still there is noise.
  */
-export function useSession(timing: SessionTiming, allowShortTimings: boolean, onExpire: () => void) {
+export function useSession(timing: SessionTiming, allowShortTimings: boolean, onExpire: () => void, enabled = true) {
   const effective = normaliseTiming(timing, allowShortTimings);
   const [phase, setPhase] = useState<SessionPhase>('active');
   const [secondsRemaining, setSecondsRemaining] = useState(Math.ceil(effective.idleMs / 1000));
@@ -41,6 +44,12 @@ export function useSession(timing: SessionTiming, allowShortTimings: boolean, on
   }, [evaluate]);
 
   useEffect(() => {
+    if (!enabled) {
+      setPhase('active');
+      return undefined;
+    }
+    // A visit starts now, however long the attract screen was up.
+    lastActivity.current = Date.now();
     const onActivity = (event: Event) => {
       // Acting inside the warning is handled by its own controls, so that the
       // dialog cannot be dismissed by a stray touch on the way past.
@@ -57,7 +66,7 @@ export function useSession(timing: SessionTiming, allowShortTimings: boolean, on
       for (const name of activityEvents) window.removeEventListener(name, onActivity);
       document.removeEventListener('scroll', onActivity, true);
     };
-  }, [evaluate, noteActivity]);
+  }, [evaluate, noteActivity, enabled]);
 
   return { phase, secondsRemaining, noteActivity, effective };
 }

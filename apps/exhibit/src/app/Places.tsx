@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { RuntimePerson, RuntimePlace } from '../data/runtime.ts';
+import { Portrait } from './Portrait.tsx';
 
 type Props = {
   places: readonly RuntimePlace[];
@@ -10,12 +11,13 @@ type Props = {
 };
 
 /**
- * The collection as the places its people worked in.
+ * The collection as the places its people worked in: an index of places on
+ * the left, the chosen place on the right.
  *
  * Only reviewed places reach this component. `publishedPlaces` filters the
  * seeds by the same publication rules as everything else, and the lens is
- * absent below its threshold — so an unreviewed lead, of which this collection
- * currently holds sixty-eight, cannot appear here by any route.
+ * absent below its threshold — so an unreviewed lead cannot appear here by any
+ * route outside an editor's preview, where it is marked.
  *
  * The people under a place are the ties a curator gave a role to. A tie with no
  * role is refused upstream, including the catch-all `associated`, on the
@@ -43,72 +45,83 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
     .sort((a, b) => b.present.length - a.present.length || a.place.name.localeCompare(b.place.name)),
   [places, byId]);
 
+  // Opening Places with somebody chosen opens on a place tied to them.
+  const [chosenId, setChosenId] = useState<string | null>(
+    () => shown.find(({ present }) => present.some((person) => person.id === selectedId))?.place.id ?? null,
+  );
+
   if (shown.length === 0) {
     return <p className="empty">No reviewed place is published in this release.</p>;
   }
 
   const unreviewed = shown.filter(({ place }) => place.unreviewed).length;
+  const current = shown.find(({ place }) => place.id === chosenId) ?? shown[0]!;
+  const { place, present } = current;
 
   return (
     <div className="places">
-      <p className="places__note">
-        {unreviewed === 0
-          ? `${shown.length} ${shown.length === 1 ? 'place' : 'places'} in Greater Cleveland, each one reviewed.`
-          : `${shown.length} ${shown.length === 1 ? 'place' : 'places'}, ${unreviewed} of them not yet reviewed.`}
-      </p>
+      <nav className="places__index" aria-label="Places">
+        <p className="places__note">
+          {unreviewed === 0
+            ? `${shown.length} ${shown.length === 1 ? 'place' : 'places'} in Greater Cleveland, each one reviewed.`
+            : `${shown.length} ${shown.length === 1 ? 'place' : 'places'}, ${unreviewed} of them not yet reviewed.`}
+        </p>
+        <ul>
+          {shown.map((entry) => (
+            <li key={entry.place.id}>
+              <button
+                type="button"
+                aria-current={entry.place.id === place.id ? 'true' : undefined}
+                onClick={() => setChosenId(entry.place.id)}
+              >
+                {entry.place.neighborhood && <span className="places__hood">{entry.place.neighborhood}</span>}
+                <span className="places__name">
+                  {entry.place.name}
+                  {entry.place.unreviewed && <em className="unreviewed">Unreviewed</em>}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-      {shown.map(({ place, present }) => (
-        <section key={place.id} className="places__place" aria-labelledby={`place-${place.id}`}>
-          <h2 id={`place-${place.id}`}>
-            {place.name}
-            {place.neighborhood && <span>{place.neighborhood}</span>}
-            {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
-          </h2>
+      <section className="places__place" aria-labelledby={`place-${place.id}`}>
+        {place.neighborhood && <p className="places__kicker">{place.neighborhood}</p>}
+        <h2 id={`place-${place.id}`}>
+          {place.name}
+          {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
+        </h2>
 
-          {place.shortHistory && <p className="places__history">{place.shortHistory}</p>}
+        {place.shortHistory && <p className="places__history">{place.shortHistory}</p>}
 
-          {present.length > 0
-            ? (
-              <ul className="grid">
-                {present.map((person) => (
-                  <li key={person.id}>
-                    <button
-                      type="button"
-                      className="tile"
-                      aria-pressed={selectedId === person.id}
-                      onClick={() => onSelect(person.id)}
-                      onDoubleClick={() => onOpen(person.id)}
-                    >
-                      {person.portrait
-                        ? (
-                          <img
-                            src={asset(person.portrait.src)}
-                            alt={person.portrait.alt}
-                            loading="lazy"
-                            decoding="async"
-                            {...(person.portrait.focalPoint ? { style: { objectPosition: person.portrait.focalPoint } } : {})}
-                          />
-                        )
-                        : <img src={asset('media/placeholder.svg')} alt="" aria-hidden="true" />}
-                      <span className="caption">{person.name}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )
-            : (
-              <p className="places__pending">
-                {place.unreviewed
-                  ? 'Nobody is tied to this place in the sources yet.'
-                  : 'Nobody is shown here yet. The place has been reviewed; the people connected to it have not.'}
-              </p>
-            )}
-        </section>
-      ))}
+        <h3 className="places__tied">People tied here</h3>
+        {present.length > 0
+          ? (
+            <ul className="places__people">
+              {present.map((person) => (
+                <li key={person.id}>
+                  <button
+                    type="button"
+                    className="tile"
+                    aria-pressed={selectedId === person.id}
+                    onClick={() => onSelect(person.id)}
+                    onDoubleClick={() => onOpen(person.id)}
+                  >
+                    <Portrait person={person} lazy />
+                    <span className="caption">{person.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )
+          : (
+            <p className="places__pending">
+              {place.unreviewed
+                ? 'Nobody is tied to this place in the sources yet.'
+                : 'Nobody is shown here yet. The place has been reviewed; the people connected to it have not.'}
+            </p>
+          )}
+      </section>
     </div>
   );
-}
-
-function asset(path: string): string {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 }

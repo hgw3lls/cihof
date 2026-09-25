@@ -50,13 +50,18 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
     return () => { cancelled = true; };
   }, [film.transcript]);
 
+  const [playingNow, setPlayingNow] = useState(false);
+  const [captionsOn, setCaptionsOn] = useState(true);
+  const [time, setTime] = useState({ current: 0, duration: film.durationSeconds ?? 0 });
+
   const reportProgress = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
     const progressing = video.currentTime > lastTime.current;
     lastTime.current = video.currentTime;
+    setTime({ current: video.currentTime, duration: Number.isFinite(video.duration) ? video.duration : film.durationSeconds ?? 0 });
     if (mediaCountsAsActivity({ paused: video.paused, ended: video.ended, progressing })) onProgress();
-  }, [onProgress]);
+  }, [onProgress, film.durationSeconds]);
 
   // A bundle that names no playable source is a build fault, not a visitor's
   // problem. Fall through to the words rather than taking the modal down.
@@ -64,12 +69,30 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
   const playable = source?.kind === 'youtube'
     ? Boolean(source.embedUrl)
     : Boolean(source?.kind === 'local-file' && source.src);
+  const ownControls = playable && !problem && source?.kind === 'local-file';
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) void video.play().catch(() => undefined); else video.pause();
+  };
+  const back = () => {
+    const video = videoRef.current;
+    if (video) video.currentTime = Math.max(0, video.currentTime - 10);
+  };
+  const toggleCaptions = () => {
+    const track = videoRef.current?.textTracks[0];
+    const next = !captionsOn;
+    if (track) track.mode = next ? 'showing' : 'hidden';
+    setCaptionsOn(next);
+  };
+  const share = time.duration > 0 ? Math.min(time.current / time.duration, 1) : 0;
 
   return (
     <Modal className="film" labelledBy="filmTitle" onClose={onClose}>
-      <header>
+      <header className="film__header">
         <h2 id="filmTitle" data-autofocus tabIndex={-1}>{personName}</h2>
-        <button type="button" onClick={onClose}>Close film</button>
+        <span>Film</span>
       </header>
 
       <div className="film__body">
@@ -78,14 +101,14 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
             ? (
               <div className="film__problem" role="alert">
                 <p>{problem}</p>
-                <p>The transcript below carries the whole of what was said.</p>
+                <p>The transcript beside it carries the whole of what was said.</p>
               </div>
             )
             : source.kind === 'youtube'
               ? (
                 // The embedded player carries YouTube's own captions, not the
                 // reviewed ones: an iframe cannot be given a track element.
-                // The reviewed transcript below is what this release stands
+                // The reviewed transcript beside it is what this release stands
                 // behind, so it is announced rather than left to be noticed.
                 <div className="film__embed">
                   <iframe
@@ -96,23 +119,32 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
                   />
                   <p className="film__note">
                     This film plays from the hall&rsquo;s channel and uses that player&rsquo;s own captions.
-                    The reviewed transcript is below.
+                    The reviewed transcript is beside it.
                   </p>
                 </div>
               )
               : (
-                <video
-                  ref={videoRef}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  poster={asset(film.poster)}
-                  onTimeUpdate={reportProgress}
-                  onError={() => setProblem('This film could not be played on this display.')}
-                >
-                  <source src={asset(source.src)} type="video/mp4" />
-                  <track kind="captions" src={asset(film.captions)} srcLang="en" label="English captions" default />
-                </video>
+                <>
+                  <video
+                    ref={videoRef}
+                    playsInline
+                    preload="metadata"
+                    poster={asset(film.poster)}
+                    onTimeUpdate={reportProgress}
+                    onLoadedMetadata={reportProgress}
+                    onPlay={() => setPlayingNow(true)}
+                    onPause={() => setPlayingNow(false)}
+                    onEnded={() => setPlayingNow(false)}
+                    onError={() => setProblem('This film could not be played on this display.')}
+                  >
+                    <source src={asset(source.src)} type="video/mp4" />
+                    <track kind="captions" src={asset(film.captions)} srcLang="en" label="English captions" default />
+                  </video>
+                  <div className="film__progress" aria-hidden="true">
+                    <span className="film__track"><span style={{ width: `${share * 100}%` }} /></span>
+                    <span className="film__times">{clock(time.current)} / {clock(time.duration)}</span>
+                  </div>
+                </>
               )}
         </div>
 
@@ -125,8 +157,33 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
               : <p className="film__problem">The transcript could not be loaded.</p>}
         </section>
       </div>
+
+      <div className="film__controls">
+        <button type="button" className="film__close" onClick={onClose}>Close film</button>
+        {ownControls && (
+          <>
+            <button type="button" className="block block--people" onClick={togglePlay}>
+              <span className={playingNow ? 'pause' : 'play'} aria-hidden="true" />
+              {playingNow ? 'Pause' : 'Play'}
+            </button>
+            <button type="button" onClick={back}>Back 10 s</button>
+          </>
+        )}
+        <span className="film__who">{personName}</span>
+        {ownControls && (
+          <button type="button" aria-pressed={captionsOn} onClick={toggleCaptions}>
+            Captions {captionsOn ? 'on' : 'off'}
+          </button>
+        )}
+      </div>
     </Modal>
   );
+}
+
+/** m:ss, for the times under the film. */
+function clock(seconds: number): string {
+  const whole = Math.max(0, Math.floor(seconds));
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
 }
 
 function asset(path: string): string {

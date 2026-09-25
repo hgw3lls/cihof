@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { begin } from './visit.ts';
 
 /**
  * O04 and O11: a release that works survives, and staff can recover.
@@ -9,8 +10,7 @@ import { expect, test, type Page } from '@playwright/test';
  * last known good one, and record the outcome.
  */
 async function provisioned(page: Page) {
-  await page.goto('.');
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page);
   await page.evaluate(async () => {
     const manifest = await (await fetch('release.json')).json();
     for (let attempt = 0; attempt < 120; attempt += 1) {
@@ -65,8 +65,7 @@ test('an install that cannot verify its assets never activates', async ({ browse
   }));
 
   const page = await context.newPage();
-  await page.goto(baseURL!);
-  await expect(page.locator('.tile').first()).toBeVisible();
+  await begin(page, baseURL!);
 
   const outcome = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.register('sw.js', { scope: './' });
@@ -132,6 +131,7 @@ test('rollback is a stored decision, not a reinstall', async ({ page }) => {
 
   // The display still works, served from the restored release.
   await page.reload();
+  await page.locator('[data-begin]').click();
   await expect(page.locator('.tile')).toHaveCount(111);
 });
 
