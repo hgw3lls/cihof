@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { tieKey, type Draft, type Place, type Review } from './api.ts';
+import { tieKey, type Draft, type Place, type PlaceDecision, type Review } from './api.ts';
 import { placeNeedsWork } from './App.tsx';
 import { Choice } from './Connections.tsx';
 import { Portrait } from './Portrait.tsx';
@@ -12,9 +12,11 @@ type Props = {
 };
 
 /**
- * The places, one at a time: first whether to show the place, then what each
- * person did there. A place with nobody's history written for it cannot be
- * shown, and says so rather than offering a choice that would be refused.
+ * The places, one at a time: first the words visitors read about the place,
+ * then what each person did there. Approving a place covers exactly the words
+ * shown; a reviewer may write their own instead, which are approved as
+ * written. A place nobody has written a history for can be shown once someone
+ * writes one.
  */
 export function Places({ review, draft, update, onDone }: Props) {
   const [showAll, setShowAll] = useState(false);
@@ -38,9 +40,9 @@ export function Places({ review, draft, update, onDone }: Props) {
     );
   }
 
-  const approve = (value: boolean | undefined) => update((current) => {
+  const decide = (value: PlaceDecision | undefined) => update((current) => {
     const places = { ...current.places };
-    if (value === undefined) delete places[place.placeId]; else places[place.placeId] = { approve: value };
+    if (value === undefined) delete places[place.placeId]; else places[place.placeId] = value;
     return { ...current, places };
   });
   const setRole = (personId: string, role: string | undefined) => update((current) => {
@@ -49,8 +51,6 @@ export function Places({ review, draft, update, onDone }: Props) {
     if (role) placeTies[key] = { role }; else delete placeTies[key];
     return { ...current, placeTies };
   });
-
-  const approval = draft.places[place.placeId]?.approve;
 
   return (
     <main className="page">
@@ -71,29 +71,7 @@ export function Places({ review, draft, update, onDone }: Props) {
           <p className="quiet">{[place.neighborhood, place.address, place.dates].filter(Boolean).join(' · ')}</p>
         </header>
 
-        <section>
-          <h2 className="question">1. Show this place in the exhibit?</h2>
-          {place.reviewed
-            ? <p className="done">✓ Already approved. Nothing to do here.</p>
-            : !place.canApprove
-              ? (
-                <p className="notice">
-                  Nobody has written a history for this place yet, so there is nothing to show about it.
-                  It can be approved once a short history is written. You can still say what people did here below.
-                </p>
-              )
-              : (
-                <>
-                  <p className="history">{place.shortHistory}</p>
-                  <p className="quiet">Is this accurate, and should visitors see it?</p>
-                  <div className="choices choices--small">
-                    <Choice selected={approval === true} onClick={() => approve(true)} title="Yes, show it" body="" />
-                    <Choice selected={approval === false} onClick={() => approve(false)} title="Not yet" body="It stays hidden; you can come back to it." />
-                  </div>
-                  {approval !== undefined && <button type="button" className="link" onClick={() => approve(undefined)}>Clear my answer</button>}
-                </>
-              )}
-        </section>
+        <PlaceWords place={place} value={draft.places[place.placeId]} limit={review.limits.placeHistory} set={decide} />
 
         <section>
           <h2 className="question">2. What did each person do here?</h2>
@@ -143,4 +121,85 @@ export function Places({ review, draft, update, onDone }: Props) {
 function isTouched(place: Place, draft: Draft): boolean {
   return draft.places[place.placeId] !== undefined
     || place.ties.some((tie) => draft.placeTies[tieKey(place.placeId, tie.person.id)]);
+}
+
+/**
+ * The first question: the words about the place, and whether to show them.
+ *
+ * What it asks depends on where the place stands. A place already approved in
+ * these words needs nothing, though its words can still be changed. One
+ * approved before approvals covered the words (or whose words changed since)
+ * asks again, because nobody has approved what visitors read. A place with no
+ * history can be given one.
+ */
+function PlaceWords({ place, value, limit, set }: {
+  place: Place;
+  value: PlaceDecision | undefined;
+  limit: number;
+  set: (value: PlaceDecision | undefined) => void;
+}) {
+  const current = value && (!value.approve || value.seenVersion === place.contentVersion) ? value : undefined;
+  const writing = current?.approve === true && typeof current.history === 'string';
+  const approve = () => set({ approve: true, seenVersion: place.contentVersion });
+  const write = (history: string) => set({ approve: true, seenVersion: place.contentVersion, history, ...(current?.note ? { note: current.note } : {}) });
+  const problem = writing ? historyProblem(current.history ?? '', limit) : null;
+  const hasHistory = place.shortHistory.trim().length > 0;
+
+  const status = place.words === 'current'
+    ? <p className="done">✓ Approved in these words, and shown to visitors.</p>
+    : place.words === 'legacy'
+      ? <p className="notice">Visitors see this place now, but it was approved before an approval recorded the words. Please check the words below.</p>
+      : place.words === 'changed'
+        ? <p className="notice">These words changed after the place was approved, so it is hidden until someone approves them.</p>
+        : !hasHistory
+          ? <p className="notice">Nobody has written a history for this place yet, so there is nothing to show about it. You can write one; it is approved as you write it.</p>
+          : null;
+
+  return (
+    <section>
+      <h2 className="question">1. {hasHistory ? 'Are these the right words to show visitors?' : 'Write a history for this place?'}</h2>
+      {status}
+      {hasHistory && <p className="history">{place.shortHistory}</p>}
+      {place.suggestion && (
+        <div className="suggestion">
+          <p className="quiet small">A plainer wording, drafted from the words above without adding anything. Use it only if it is right.</p>
+          <p className="history">{place.suggestion}</p>
+        </div>
+      )}
+
+      <div className="choices choices--small">
+        {hasHistory && place.words !== 'current' && (
+          <Choice selected={current?.approve === true && !writing} onClick={approve} title="Yes, show it in these words" body="Exactly as shown above." />
+        )}
+        {place.suggestion && (
+          <Choice selected={writing && current?.history === place.suggestion} onClick={() => write(place.suggestion ?? '')}
+            title="Use the suggested wording" body="You can still change it below." />
+        )}
+        <Choice selected={writing && current?.history !== place.suggestion} onClick={() => write(writing ? current?.history ?? '' : place.shortHistory)}
+          title={hasHistory ? 'Use different words' : 'Write a history'} body="Your words are approved as you write them." />
+        {!place.reviewed && hasHistory && (
+          <Choice selected={current?.approve === false} onClick={() => set({ approve: false })} title="Not yet" body="It stays hidden; you can come back to it." />
+        )}
+      </div>
+
+      {writing && (
+        <label className="field">
+          <span>The words visitors read <span className="quiet small">({(current.history ?? '').trim().length} of {limit} characters)</span></span>
+          <textarea rows={4} value={current.history ?? ''} maxLength={limit * 2} onChange={(event) => write(event.target.value)} />
+        </label>
+      )}
+      {problem && <p className="notice" role="alert">{problem}</p>}
+      {writing && <p className="quiet small">Say only what the records say. One paragraph, written for a visitor standing at the display.</p>}
+      {value && <button type="button" className="link" onClick={() => set(undefined)}>Clear my answer</button>}
+    </section>
+  );
+}
+
+/** The same limits the apply tool enforces, said before the reviewer saves. */
+export function historyProblem(history: string, limit: number): string | null {
+  const words = history.trim();
+  if (!words) return 'Write the words visitors will read, or choose another answer.';
+  if (words.length > limit) return `That is ${words.length} characters; the screen has room for ${limit}.`;
+  if (/[\r\n]/.test(words)) return 'Keep it to one paragraph: take out the line breaks.';
+  return null;
 }

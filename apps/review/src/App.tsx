@@ -140,7 +140,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   const tiesOpen = review.ties.filter((tie) => (tie.status === 'unreviewed' || tie.wordingProblem) && !draft.ties[tie.tieId]).length;
   // Only places with something to decide count: a place with no history and
   // nobody tied to it has nothing to review yet.
-  const reviewable = review.places.filter((place) => (place.canApprove && !place.reviewed) || place.ties.length > 0);
+  const reviewable = review.places.filter((place) => (place.canApprove && !place.reviewed) || place.words === 'legacy' || place.words === 'changed' || place.ties.length > 0);
   const placesOpen = reviewable.filter((place) => placeNeedsWork(place, draft)).length;
 
   return (
@@ -228,7 +228,20 @@ function Card({ title, body, progress, pending, onOpen }: {
 
 /** A place still has something to decide: an approval it could have, or a person with no role. */
 export function placeNeedsWork(place: Review['places'][number], draft: Draft): boolean {
-  const approvalOpen = place.canApprove && !place.reviewed && draft.places[place.placeId] === undefined;
+  // An approval that does not cover the words visitors read needs a look, as
+  // does a place nobody has approved. A choice made about other words (the
+  // place changed since) does not count as an answer.
+  const wanted = (place.canApprove && !place.reviewed) || place.words === 'legacy' || place.words === 'changed';
+  const answered = placeAnswered(place, draft);
+  const approvalOpen = wanted && !answered;
   const tiesOpen = place.ties.some((tie) => !tie.role && !draft.placeTies[`${place.placeId}|${tie.person.id}`]);
   return approvalOpen || tiesOpen;
+}
+
+/** Whether the reviewer's choice about this place still applies to its words. */
+export function placeAnswered(place: Review['places'][number], draft: Draft): boolean {
+  const value = draft.places[place.placeId];
+  if (!value) return false;
+  if (!value.approve) return true;
+  return value.seenVersion === place.contentVersion;
 }

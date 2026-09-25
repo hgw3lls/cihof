@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T23:37:40.232Z",
+  "generatedAt": "2026-09-25T05:34:15.430Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
     {
@@ -101,7 +101,9 @@
           "role": "served"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-30d02b405c3c",
+      "words": null
     },
     {
       "placeId": "place:cleveland-cultural-gardens",
@@ -165,7 +167,9 @@
           "role": "served"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-02977c697d9a",
+      "words": "legacy"
     },
     {
       "placeId": "place:cleveland-state-university",
@@ -211,7 +215,9 @@
           "role": "served"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-df8c517c78a6",
+      "words": "legacy"
     },
     {
       "placeId": "place:cleveland-city-hall",
@@ -251,7 +257,9 @@
           "role": "served"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-74ac737ecc97",
+      "words": "legacy"
     },
     {
       "placeId": "place:one-world-day-rockefeller-park",
@@ -291,7 +299,9 @@
           "role": "organized"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-3306236d7431",
+      "words": "legacy"
     },
     {
       "placeId": "place:asiatown",
@@ -325,7 +335,9 @@
           "role": "organized"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-58b8c418a2f3",
+      "words": "legacy"
     },
     {
       "placeId": "place:cleveland-public-library",
@@ -359,7 +371,9 @@
           "role": "organized"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-962a2b91892f",
+      "words": "legacy"
     },
     {
       "placeId": "place:asia-plaza",
@@ -381,7 +395,9 @@
           "role": "organized"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-c42b75089bd2",
+      "words": "legacy"
     },
     {
       "placeId": "place:central-kinsman",
@@ -403,7 +419,9 @@
           "role": "lived"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-a2d94f231313",
+      "words": "legacy"
     },
     {
       "placeId": "place:sai-gon-plaza",
@@ -425,7 +443,9 @@
           "role": "founded"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-a0a07d1a0963",
+      "words": "legacy"
     },
     {
       "placeId": "place:united-states",
@@ -447,7 +467,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-f897ac33e430",
+      "words": null
     },
     {
       "placeId": "place:ashtabula",
@@ -463,7 +485,9 @@
           "role": "lived"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-e0cb426e18f0",
+      "words": null
     },
     {
       "placeId": "place:beachwood-ohio",
@@ -479,7 +503,9 @@
           "role": "lived"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-67f331df70e0",
+      "words": null
     },
     {
       "placeId": "place:bentleyville-oh",
@@ -495,7 +521,9 @@
           "role": "lived"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-878de2aa79fd",
+      "words": null
     },
     {
       "placeId": "place:cairo-egypt",
@@ -511,7 +539,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-738462620387",
+      "words": null
     },
     {
       "placeId": "place:can-tho-vietnam",
@@ -527,7 +557,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-6017b974ebbf",
+      "words": null
     },
     {
       "placeId": "place:canton-ohio",
@@ -543,7 +575,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-8c6a602d57d1",
+      "words": null
     },
     {
       "placeId": "place:cleveland",
@@ -559,7 +593,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-f5a40333b568",
+      "words": null
     },
     {
       "placeId": "place:detroit-michigan",
@@ -575,7 +611,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-5b1372ab082c",
+      "words": null
     },
     {
       "placeId": "place:east-technical-high-school",
@@ -591,7 +629,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c5d5cc2756f7",
+      "words": null
     },
     {
       "placeId": "place:garracloon-county-mayo",
@@ -607,7 +647,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-24e9620024c6",
+      "words": null
     },
     {
       "placeId": "place:greater-cleveland-ethnographic-museum",
@@ -623,7 +665,9 @@
           "role": "founded"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-04fad1aa93b1",
+      "words": "legacy"
     },
     {
       "placeId": "place:guangdong-province-in-southern-china",
@@ -639,7 +683,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-41d06786bb82",
+      "words": null
     },
     {
       "placeId": "place:hong-kong",
@@ -655,7 +701,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-92f9fc99b398",
+      "words": null
     },
     {
       "placeId": "place:india",
@@ -671,7 +719,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-3ffd0fc7d0e8",
+      "words": null
     },
     {
       "placeId": "place:kurnool",
@@ -687,7 +737,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-0795496f3c1b",
+      "words": null
     },
     {
       "placeId": "place:la-grange-ga",
@@ -703,7 +755,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-4370956a938c",
+      "words": null
     },
     {
       "placeId": "place:max-s-hayes-high-school",
@@ -719,7 +773,9 @@
           "role": "studied"
         }
       ],
-      "reviewed": true
+      "reviewed": true,
+      "contentVersion": "place-c356e828650a",
+      "words": "legacy"
     },
     {
       "placeId": "place:poland",
@@ -735,7 +791,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-e2e6ed9e71e8",
+      "words": null
     },
     {
       "placeId": "place:puerto-rico",
@@ -751,7 +809,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-7a950b19d07a",
+      "words": null
     },
     {
       "placeId": "place:rach-gia-viet-nam",
@@ -767,7 +827,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-9b9dad94331c",
+      "words": null
     },
     {
       "placeId": "place:rijeka-flume-croatia",
@@ -783,7 +845,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-619b1d4be258",
+      "words": null
     },
     {
       "placeId": "place:shaker-heights",
@@ -799,7 +863,9 @@
           "role": "lived"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-37f20e93949e",
+      "words": null
     },
     {
       "placeId": "place:st-clair-superior",
@@ -815,7 +881,9 @@
           "role": "worked"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-99926f5d3cca",
+      "words": null
     },
     {
       "placeId": "place:st-colman-church",
@@ -831,7 +899,9 @@
           "role": "served"
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c3836df8c947",
+      "words": null
     },
     {
       "placeId": "place:utuado-puerto-rico",
@@ -847,7 +917,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-bde7bd674a25",
+      "words": null
     },
     {
       "placeId": "place:vietnam",
@@ -863,7 +935,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-68524bdc7f56",
+      "words": null
     },
     {
       "placeId": "place:villalba-puerto-rico",
@@ -879,7 +953,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-41f878f6fefc",
+      "words": null
     },
     {
       "placeId": "place:warren-ohio-mr",
@@ -895,7 +971,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-8db0189d7384",
+      "words": null
     },
     {
       "placeId": "place:yauco-puerto-rico",
@@ -911,7 +989,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-83ab0703a1e4",
+      "words": null
     },
     {
       "placeId": "place:youngstown-ohio",
@@ -927,7 +1007,9 @@
           "role": null
         }
       ],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-a600ac92d019",
+      "words": null
     },
     {
       "placeId": "place:albania",
@@ -936,7 +1018,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-1dd48115e90a",
+      "words": null
     },
     {
       "placeId": "place:beachwood",
@@ -945,7 +1029,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-6b50049fc9b1",
+      "words": null
     },
     {
       "placeId": "place:buckeye",
@@ -954,7 +1040,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c3d6c4bfb381",
+      "words": null
     },
     {
       "placeId": "place:china",
@@ -963,7 +1051,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-d484ebe1379c",
+      "words": null
     },
     {
       "placeId": "place:cleveland-clinic",
@@ -972,7 +1062,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-5b844920f3ef",
+      "words": null
     },
     {
       "placeId": "place:cleveland-heights",
@@ -981,7 +1073,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c778bedc301f",
+      "words": null
     },
     {
       "placeId": "place:collinwood",
@@ -990,7 +1084,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-d62cbd55d1c9",
+      "words": null
     },
     {
       "placeId": "place:county-cork",
@@ -999,7 +1095,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-301013da3323",
+      "words": null
     },
     {
       "placeId": "place:county-mayo",
@@ -1008,7 +1106,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-f271803f8bc3",
+      "words": null
     },
     {
       "placeId": "place:cultrual-garden",
@@ -1017,7 +1117,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-5cd599a5de3b",
+      "words": null
     },
     {
       "placeId": "place:detroit-shoreway",
@@ -1026,7 +1128,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-37aa42a9ba0a",
+      "words": null
     },
     {
       "placeId": "place:downtown",
@@ -1035,7 +1139,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-6fc28380b3e9",
+      "words": null
     },
     {
       "placeId": "place:egypt",
@@ -1044,7 +1150,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-3cdd847ea830",
+      "words": null
     },
     {
       "placeId": "place:estonia",
@@ -1053,7 +1161,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-2f4779faca8c",
+      "words": null
     },
     {
       "placeId": "place:ethiopia",
@@ -1062,7 +1172,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-24cdd44932d5",
+      "words": null
     },
     {
       "placeId": "place:germany",
@@ -1071,7 +1183,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-ee113bf3b802",
+      "words": null
     },
     {
       "placeId": "place:glenville",
@@ -1080,7 +1194,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-1e4099869fa2",
+      "words": null
     },
     {
       "placeId": "place:greater-cleveland",
@@ -1089,7 +1205,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-91a29b4c9eff",
+      "words": null
     },
     {
       "placeId": "place:greece",
@@ -1098,7 +1216,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-e0ead2c62976",
+      "words": null
     },
     {
       "placeId": "place:hungary",
@@ -1107,7 +1227,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-53450508341a",
+      "words": null
     },
     {
       "placeId": "place:italian-garden",
@@ -1116,7 +1238,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-f6a69eccf296",
+      "words": null
     },
     {
       "placeId": "place:italy",
@@ -1125,7 +1249,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-af8bb252f743",
+      "words": null
     },
     {
       "placeId": "place:japan",
@@ -1134,7 +1260,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-3f8689b6d720",
+      "words": null
     },
     {
       "placeId": "place:kinsman",
@@ -1143,7 +1271,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-02f88f7926a9",
+      "words": null
     },
     {
       "placeId": "place:lakewood",
@@ -1152,7 +1282,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-578af95e290e",
+      "words": null
     },
     {
       "placeId": "place:latvia",
@@ -1161,7 +1293,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c206a14733d1",
+      "words": null
     },
     {
       "placeId": "place:lebanon",
@@ -1170,7 +1304,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-6d9dd6ae6817",
+      "words": null
     },
     {
       "placeId": "place:lithuania",
@@ -1179,7 +1315,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-663919af514f",
+      "words": null
     },
     {
       "placeId": "place:little-italy",
@@ -1188,7 +1326,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-d0faeefc9b8c",
+      "words": null
     },
     {
       "placeId": "place:near-west-side",
@@ -1197,7 +1337,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-dbc3935f2a51",
+      "words": null
     },
     {
       "placeId": "place:norway",
@@ -1206,7 +1348,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-7774912167e5",
+      "words": null
     },
     {
       "placeId": "place:rockefeller-park",
@@ -1215,7 +1359,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-c7daab37ef9b",
+      "words": null
     },
     {
       "placeId": "place:russia",
@@ -1224,7 +1370,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-92c8e3a799b1",
+      "words": null
     },
     {
       "placeId": "place:slavic-village",
@@ -1233,7 +1381,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-2142c0644bb8",
+      "words": null
     },
     {
       "placeId": "place:st-clair",
@@ -1242,7 +1392,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-bdb49bc57599",
+      "words": null
     },
     {
       "placeId": "place:tremont",
@@ -1251,7 +1403,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-0acd4d257321",
+      "words": null
     },
     {
       "placeId": "place:ukraine",
@@ -1260,7 +1414,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-78e6b87b6741",
+      "words": null
     },
     {
       "placeId": "place:university-circle",
@@ -1269,7 +1425,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-945868f07e9a",
+      "words": null
     },
     {
       "placeId": "place:usa",
@@ -1278,7 +1436,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-7fd2e30b1653",
+      "words": null
     },
     {
       "placeId": "place:ward-5",
@@ -1287,7 +1447,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-8e2751f252d2",
+      "words": null
     },
     {
       "placeId": "place:west-park",
@@ -1296,7 +1458,9 @@
       "neighborhood": "",
       "shortHistory": "",
       "ties": [],
-      "reviewed": false
+      "reviewed": false,
+      "contentVersion": "place-908ed9d39d46",
+      "words": null
     }
   ]
 }

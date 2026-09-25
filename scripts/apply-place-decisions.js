@@ -3,6 +3,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from
 import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
 import { parseCsv } from './data-utils.js';
+import { placeHistoryProblem, placeTextVersion } from '../packages/pipeline/src/build/place-text.ts';
 
 /**
  * Writes place review decisions into the canonical data.
@@ -12,7 +13,7 @@ import { parseCsv } from './data-utils.js';
  * recognised by its header rather than by a flag, so a curator cannot apply one
  * as though it were the other.
  *
- *   data/review-sheets/places-review-sheet.csv   approve, decisionReference  -> data/cihof_places.json
+ *   data/review-sheets/places-review-sheet.csv   approve, contentVersion, newHistory, decisionReference  -> data/cihof_places.json
  *   data/review-sheets/place-ties-sheet.csv      role, decisionReference     -> data/cihof_place_associations.json
  *
  * It refuses to invent what makes an approval an approval. A row that approves
@@ -20,6 +21,14 @@ import { parseCsv } from './data-utils.js';
  * and a role outside the vocabulary is rejected rather than coerced —
  * `associated` included, which is refused downstream anyway because it does not
  * say what the person did there.
+ *
+ * A place approval covers the words a visitor reads about the place: its
+ * name, neighbourhood and history. The row names the version of the words the
+ * reviewer saw (`contentVersion`, generated into the sheet), and a row whose
+ * version no longer matches the words is refused, so an approval never lands
+ * on words nobody read. `newHistory` replaces the history with the reviewer's
+ * own words, approved as written. The approval records the version of what is
+ * shown after the change (see packages/pipeline/src/build/place-text.ts).
  *
  * Same three gates as the other decision tools: dry run by default,
  * --expect-hash on apply so nothing lands unpreviewed, and a clean tree so the
@@ -96,24 +105,45 @@ function applyPlaces() {
       errors.push(`line ${line} (${place.name}): "${decision}" is not an approval — use yes, or leave blank to skip`);
       return;
     }
-    // A place with no history publishes a name and an empty paragraph. The
-    // sheet bands these as leads; approving one anyway is refused here too,
-    // because the sheet is editable and the band is a column.
-    if (!String(place.shortHistory ?? '').trim()) {
-      errors.push(`line ${line} (${place.name}): has no short history, so approving it would publish a blank`);
+    // The version the reviewer saw. A sheet from before approvals covered the
+    // words has no such column: regenerate it rather than guess.
+    if (!('contentVersion' in row)) {
+      errors.push(`line ${line} (${place.name}): this sheet has no contentVersion column; regenerate it with npm run review:places`);
       return;
     }
-    changes.push({ place, reference, note: (row.note ?? '').trim() });
+    const seen = (row.contentVersion ?? '').trim();
+    if (seen !== placeTextVersion(place)) {
+      errors.push(`line ${line} (${place.name}): the words changed since this sheet was made (it names ${seen || 'no version'}, the words are now ${placeTextVersion(place)}); regenerate the sheet and look again`);
+      return;
+    }
+    const newHistory = (row.newHistory ?? '').trim();
+    // A place with no history publishes a name and an empty paragraph. The
+    // sheet bands these as leads; approving one anyway is refused here too,
+    // because the sheet is editable and the band is a column. Writing one in
+    // newHistory is how a lead becomes something to show.
+    const problem = placeHistoryProblem(newHistory || String(place.shortHistory ?? ''));
+    if (problem) {
+      errors.push(`line ${line} (${place.name}): ${problem}`);
+      return;
+    }
+    changes.push({ place, reference, newHistory, note: (row.note ?? '').trim() });
   });
 
-  report('places', changes.length, `${changes.length} place(s) would be approved`);
+  const reworded = changes.filter((change) => change.newHistory).length;
+  report('places', changes.length, `${changes.length} place(s) would be approved${reworded ? `, ${reworded} of them in new words` : ''}`);
+  for (const change of changes.filter((entry) => entry.newHistory)) {
+    console.log(`\n  ${change.place.name}`);
+    console.log(`    was: ${String(change.place.shortHistory ?? '').trim() || '(no history)'}`);
+    console.log(`    now: ${change.newHistory}`);
+  }
   if (!finish()) return;
 
   for (const change of changes) {
+    if (change.newHistory) change.place.shortHistory = change.newHistory;
     change.place.review = {
       status: 'approved',
       decisionReference: change.reference,
-      contentVersion: args.contentVersion ? String(args.contentVersion) : 'places-v1',
+      contentVersion: placeTextVersion(change.place),
       reviewedAt: new Date().toISOString(),
       ...(change.note ? { note: change.note } : {}),
     };

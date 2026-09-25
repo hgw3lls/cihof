@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "note": "Suggested rewordings of place histories, drafted for the staff review app from the words each place already has, adding no facts. A suggestion is shown only while the place still has the words it was drafted from (from), and is approved only if a reviewer chooses it. Nothing reads this file into the exhibit.",
+  "drafts": {
+    "place:cleveland-cultural-gardens": {
+      "from": "place-02977c697d9a",
+      "text": "The Cultural Gardens are one of Cleveland’s clearest expressions of immigrant memory, cultural pride and civic welcome. Several inductees are connected to the gardens, to their federation, or to one of the national gardens."
+    },
+    "place:cleveland-state-university": {
+      "from": "place-df8c517c78a6",
+      "text": "Cleveland State University brings together education, civic leadership, law, business and public service. Several inductees are linked to it through study, leadership or service."
+    },
+    "place:cleveland-city-hall": {
+      "from": "place-74ac737ecc97",
+      "text": "City Hall is a civic setting where Cleveland has recognized its international communities, including the gatherings in the City Hall Rotunda described in Mayor Frank Jackson’s biography."
+    },
+    "place:one-world-day-rockefeller-park": {
+      "from": "place-3306236d7431",
+      "text": "One World Day brings Cleveland’s communities together along the Cultural Gardens. The inductees here are those whose biographies mention One World Day or the major public cultural programs connected with the gardens."
+    },
+    "place:asiatown": {
+      "from": "place-58b8c418a2f3",
+      "text": "AsiaTown is a Cleveland neighborhood of Asian cultural life, business, organizing and public festivals. The inductees here are connected to its businesses and community life."
+    },
+    "place:cleveland-public-library": {
+      "from": "place-962a2b91892f",
+      "text": "Cleveland Public Library is a downtown cultural anchor and a keeper of public memory. Several inductees’ records mention it as part of Cleveland’s civic and cultural life."
+    },
+    "place:asia-plaza": {
+      "from": "place-c42b75089bd2",
+      "text": "Asia Plaza is a business and gathering place in Cleveland’s Asian community life."
+    },
+    "place:central-kinsman": {
+      "from": "place-a2d94f231313",
+      "text": "Mayor Frank Jackson’s biography names Central and Kinsman as the Cleveland neighborhoods that formed him."
+    },
+    "place:sai-gon-plaza": {
+      "from": "place-a0a07d1a0963",
+      "text": "Sai Gon Plaza is a business and community gathering place tied to Vietnamese American leadership."
+    },
+    "place:east-technical-high-school": {
+      "from": "place-c5d5cc2756f7",
+      "text": "East Technical High School is where Frank Jackson was sworn in as mayor of Cleveland on January 2, 2006."
+    },
+    "place:greater-cleveland-ethnographic-museum": {
+      "from": "place-04fad1aa93b1",
+      "text": "The Greater Cleveland Ethnographic Museum, an initiative in August Pust’s biography, is about preserving Cleveland’s ethnic and cultural histories."
+    },
+    "place:max-s-hayes-high-school": {
+      "from": "place-c356e828650a",
+      "text": "Mayor Frank Jackson went to school at Max S. Hayes High School, before military service, college, law and public office."
+    },
+    "place:st-clair-superior": {
+      "from": "place-99926f5d3cca",
+      "text": "St. Clair-Superior is an east side neighborhood shaped by cultural, business and community organizations."
+    },
+    "place:st-colman-church": {
+      "from": "place-c3836df8c947",
+      "text": "St. Colman Church appears in Fr. Jim O’Donnell’s record. Like many churches in Cleveland, it is a neighborhood anchor in immigrant and civic life."
+    }
+  }
+}

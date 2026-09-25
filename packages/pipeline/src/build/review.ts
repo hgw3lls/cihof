@@ -2,6 +2,7 @@ import type {
   InductionCrosswalk, InducteeId, PlaceReviewRow, PlaceReviewSheet, PublishedPerson,
   RelationshipReviewSheet, ReviewRow,
 } from '@cihof/content';
+import { placeTextVersion, placeWordsState } from './place-text.ts';
 import { bandOf, proposedRelationships } from '@cihof/content';
 
 /**
@@ -236,6 +237,8 @@ export function buildPlaceReviewSheet(
       // A review record is the thing that publishes a place. Its presence is
       // read, never written here.
       reviewed: Boolean(place['review']),
+      contentVersion: placeTextVersion(place),
+      words: place['review'] ? placeWordsState(place as Parameters<typeof placeWordsState>[0]) : null,
     }];
   });
 
@@ -261,8 +264,12 @@ export function placeReviewSheetCsv(sheet: PlaceReviewSheet): string {
   const header = [
     'placeId', 'name', 'band', 'neighborhood', 'tieCount', 'people', 'shortHistory',
     'currentlyReviewed',
-    // The reviewer's. Generated empty, every time.
-    'approve', 'decisionReference', 'note',
+    // What an approval of the words as they stand records. The apply tool
+    // refuses a row whose version no longer matches the words.
+    'contentVersion',
+    // The reviewer's. Generated empty, every time. `newHistory` replaces the
+    // history with the reviewer's own words, approved as written.
+    'approve', 'newHistory', 'decisionReference', 'note',
   ];
   const lines = [header.join(',')];
   for (const row of sheet.rows) {
@@ -272,7 +279,8 @@ export function placeReviewSheetCsv(sheet: PlaceReviewSheet): string {
       row.ties.map((tie) => tie.displayName).join(' | '),
       row.shortHistory.slice(0, 180),
       String(row.reviewed),
-      '', '', '',
+      row.contentVersion,
+      '', '', '', '',
     ].map(csvCell).join(','));
   }
   return `${lines.join('\n')}\n`;
