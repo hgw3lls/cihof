@@ -3,6 +3,7 @@ import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, 
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
 import { historyProblem } from './Places.tsx';
+import { clock, startProblem } from './FilmStarts.tsx';
 
 type Props = {
   review: Review;
@@ -38,6 +39,12 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    // A start past the end of its film cannot be saved.
+    ...Object.entries(draft.filmStarts ?? {}).flatMap(([key, value]) => {
+      const entry = review.filmStarts.find((item) => item.key === key);
+      if (!entry) return [`a ceremony film start that is no longer offered (${key})`];
+      return value.decision === 'start' && startProblem(String(value.seconds), entry.durationSeconds) ? [`where ${entry.name}'s film starts`] : [];
+    }),
     // A place's approval names the words it covers: new words must be
     // showable, and a choice made before the words changed is no answer.
     ...Object.entries(draft.places).flatMap(([id, value]) => {
@@ -194,6 +201,10 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.decision === 'approve'
       ? `Attract screen: approve “${review.attract.headline}”`
       : `Attract screen: new words, “${value.headline}”`);
+  }
+  for (const [key, value] of Object.entries(draft.filmStarts ?? {})) {
+    const name = review.filmStarts.find((entry) => entry.key === key)?.name ?? key;
+    lines.push(`Ceremony films: ${name}: ${value.decision === 'start' ? `opens at ${clock(value.seconds)}` : 'from the beginning'}`);
   }
   for (const [id, value] of Object.entries(draft.bios)) {
     const name = review.bios.find((bio) => bio.id === id)?.name ?? id;

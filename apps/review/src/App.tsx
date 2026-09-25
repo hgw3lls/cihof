@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { loadReview, putDraft, type Draft, type Review } from './api.ts';
 import { AttractWords } from './AttractWords.tsx';
+import { FilmStarts } from './FilmStarts.tsx';
 import { Biographies } from './Biographies.tsx';
 import { Connections } from './Connections.tsx';
 import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'filmStarts' | 'save';
 
 /**
  * The staff review app.
@@ -64,8 +65,9 @@ export function App() {
     places: Object.values(draft.places).filter((value) => value.approve).length + Object.keys(draft.placeTies).length,
     bios: Object.keys(draft.bios).length,
     attract: Object.keys(draft.attract ?? {}).length,
+    filmStarts: Object.keys(draft.filmStarts ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.filmStarts;
   const back = () => setScreen('home');
 
   return (
@@ -98,6 +100,7 @@ export function App() {
         <Biographies review={review} draft={draft} update={update} onDone={() => { setBiographyFor(null); back(); }} startWith={biographyFor} />
       )}
       {screen === 'attract' && <AttractWords review={review} draft={draft} update={update} onDone={back} />}
+      {screen === 'filmStarts' && <FilmStarts review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
         <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }} />
       )}
@@ -132,7 +135,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number; attract: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; filmStarts: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -183,6 +186,15 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           pending={counts.attract}
           onOpen={() => onOpen('attract')}
         />
+        {review.filmStarts.length > 0 && (
+          <Card
+            title="Where ceremony films start"
+            body="Some inductees' film is a whole ceremony shared with others. Choose where it opens for each of them."
+            progress={{ done: review.filmStarts.filter((entry) => entry.approvedSeconds !== null).length, total: review.filmStarts.length }}
+            pending={counts.filmStarts}
+            onOpen={() => onOpen('filmStarts')}
+          />
+        )}
       </div>
 
       <section className="save-call">
