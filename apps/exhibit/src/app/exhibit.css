@@ -78,7 +78,7 @@ button:active { filter: brightness(0.92); }
 
 /* Label style: metadata, small headings, the quiet half of any pair. */
 .masthead, .attract__masthead, .attract__label, .attract__or, .tile .year, .focus__year, .facts dt, .credit,
-.record__header, .record__close, .lensbar__restart, .links__kicker, .years__poster p:first-child, .years__count,
+.record__header, .record__close, .lensbar__restart, .links__kicker, .years__label, .years__count,
 .places__hood, .places__kicker, .places__tied, .film__header span, .film__times, .field__value, .count,
 .map__note, .film__transcript h3 {
   font-size: calc(19 * var(--px));
@@ -321,12 +321,20 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .places__index { display: flex; flex-direction: column; min-height: 0; border-right: 2px solid var(--ink); }
 .places__note { margin: 0; padding: calc(16 * var(--px)) calc(40 * var(--px)); border-bottom: 2px solid var(--ink); color: var(--muted); font-size: calc(19 * var(--px)); }
 .places__index ul { display: flex; flex: 1; flex-direction: column; min-height: 0; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
-.places__index li { flex: 1 0 auto; border-bottom: 2px solid var(--ink); }
-.places__index button { display: flex; flex-direction: column; justify-content: center; gap: calc(6 * var(--px)); width: 100%; height: 100%; min-height: max(var(--tap), calc(96 * var(--px))); padding: calc(14 * var(--px)) calc(40 * var(--px)); border: 0; background: transparent; text-align: left; }
+/* Every place in reach at once: the rows share the column's height, the name on
+   the left and its neighbourhood on the right, down to the tap floor. Only a
+   list longer than the column scrolls. */
+.places__index li { display: flex; flex: 1 1 0; min-height: max(var(--tap), calc(64 * var(--px))); border-bottom: 2px solid var(--ink); }
+.places__index button { display: flex; align-items: baseline; justify-content: space-between; gap: calc(20 * var(--px)); width: 100%; padding: calc(10 * var(--px)) calc(40 * var(--px)); border: 0; background: transparent; text-align: left; }
+.places__index button > * { align-self: center; }
+.places__hood { flex: none; }
 .places__index button[aria-current='true'] { background: var(--lens-places); color: var(--on-lens); }
 .places__index button[aria-current='true'] .places__hood { color: var(--on-lens); }
-.places__name { font-size: calc(40 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
-.places__place { display: flex; flex-direction: column; gap: calc(20 * var(--px)); min-height: 0; overflow-y: auto; padding: calc(40 * var(--px)) calc(48 * var(--px)); }
+.places__name { font-size: calc(36 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+/* The words and the people scroll; the chosen person's bar stays in reach at the foot. */
+.places__place { display: flex; flex-direction: column; gap: calc(20 * var(--px)); min-height: 0; padding: calc(40 * var(--px)) calc(48 * var(--px)); }
+.places__place > * { flex: none; }
+.places__place > .places__people { flex: 0 1 auto; min-height: 0; overflow-y: auto; }
 .places__kicker { margin: 0; color: var(--lens-places) !important; }
 .places__place h2 { margin: 0; font-size: calc(69 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
 .places__history { max-width: calc(960 * var(--px)); margin: 0; color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
@@ -334,6 +342,12 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .places__people { display: grid; grid-template-columns: repeat(auto-fill, calc(150 * var(--px))); gap: calc(20 * var(--px)); margin: 0; padding: 0; list-style: none; }
 .places__people .caption { white-space: normal; font-size: calc(20 * var(--px)); }
 .places__pending { margin: 0; color: var(--muted); font-size: calc(24 * var(--px)); }
+
+/* The person chosen in Places or Years, and the way into their record. */
+.chosen { display: flex; flex-direction: column; gap: calc(16 * var(--px)); margin-bottom: auto; }
+.chosen__name { margin: 0; color: var(--ink); text-transform: none; letter-spacing: -0.04em; font-size: calc(48 * var(--px)); font-weight: 600; line-height: 1; overflow-wrap: anywhere; }
+.chosen--bar { flex-direction: row; align-items: center; justify-content: space-between; margin: auto 0 0; padding-top: calc(20 * var(--px)); border-top: 2px solid var(--ink); }
+.chosen--bar .block { flex: none; min-width: calc(420 * var(--px)); }
 
 /* ------------------------------------------------------------------ Film
 
@@ -516,6 +530,10 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
   .years__strip button { font-size: 1.1rem; }
   .places__index { border-right: 0; border-bottom: 2px solid var(--ink); }
   .places__index ul { max-height: 40vh; }
+  .places__index li { flex: none; }
+  .chosen__name { font-size: 1.5rem; }
+  .chosen--bar { flex-wrap: wrap; }
+  .chosen--bar .block { min-width: 0; }
   .places__name { font-size: 1.25rem; }
   .places__place { overflow: visible; }
   .places__place h2 { font-size: 2rem; }
