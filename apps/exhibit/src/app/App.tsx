@@ -13,6 +13,7 @@ import { SessionWarning } from './SessionWarning.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
 import { Attract } from './Attract.tsx';
+import { Lockup } from './Lockup.tsx';
 import { useRelease } from './useRelease.ts';
 import { useSession } from './useSession.ts';
 import './exhibit.css';
@@ -124,7 +125,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
         : (
           <div className={bundle.preview ? 'shell shell--preview' : 'shell'} data-lens={state.lens}>
             <header className="masthead">
-              <h1>Cleveland International Hall of Fame</h1>
+              <h1><Lockup /></h1>
               <p>{contextLabel(state.lens, bundle)}</p>
             </header>
 

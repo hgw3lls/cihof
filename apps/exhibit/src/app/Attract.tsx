@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import type { AttractText, RuntimePerson } from '../data/runtime.ts';
 import type { AttractMode } from './attract-settings.ts';
 import { Portrait } from './Portrait.tsx';
+import { Lockup } from './Lockup.tsx';
 
 type Props = {
   people: readonly RuntimePerson[];
@@ -48,18 +49,20 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
   const spot = useSpotlight(candidates, spotlightMs, mode === 'stacked');
   const spotPerson = spot === null ? null : cells[spot] ?? null;
 
-  const headline = text?.headline ?? hallName;
-  const tagline = text?.tagline ?? '';
-  const words = (
-    <>
-      {text && <p className="attract__label">{hallName}</p>}
-      <h2 className="attract__headline">
-        {headline}
-        {text?.unreviewed && <em className="unreviewed">Unreviewed</em>}
-      </h2>
-      {tagline && <p className="attract__tagline">{tagline}</p>}
-    </>
-  );
+  // With approved words, the name sits small above the headline. Without
+  // them, the name with its skyline is the headline.
+  const words = text
+    ? (
+      <>
+        <p className="attract__label"><Lockup /></p>
+        <h2 className="attract__headline">
+          {text.headline}
+          {text.unreviewed && <em className="unreviewed">Unreviewed</em>}
+        </h2>
+        {text.tagline && <p className="attract__tagline">{text.tagline}</p>}
+      </>
+    )
+    : <h2 className="attract__headline attract__headline--name"><Lockup variant="display" /></h2>;
 
   return (
     <div className={`attract attract--${mode}`} data-motion={motion ? 'on' : 'off'} style={{ '--spotlight-ms': `${spotlightMs}ms` } as CSSProperties}>
@@ -101,7 +104,7 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
       {mode !== 'mosaic' && (
         <>
           <header className="attract__masthead">
-            <p>{hallName}</p>
+            <p>{text ? <Lockup /> : null}</p>
             <p>{people.length} {people.length === 1 ? 'name' : 'names'}</p>
           </header>
 
