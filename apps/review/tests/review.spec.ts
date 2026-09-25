@@ -94,12 +94,15 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('button', { name: /This is wrong/ }).click();
   await page.getByRole('button', { name: 'Stop for now' }).click();
 
-  // Places: approve the first place that can be, and give somebody a role.
+  // Places: approve the first place offered in new words, starting from the
+  // suggested wording, and give somebody a role.
   await page.getByRole('button', { name: /^Places/ }).click();
-  for (let step = 0; step < 60 && !(await page.getByRole('button', { name: 'Yes, show it' }).isVisible()); step += 1) {
+  for (let step = 0; step < 60 && !(await page.getByRole('button', { name: /Use the suggested wording/ }).isVisible()); step += 1) {
     await page.getByRole('button', { name: /Next place/ }).click();
   }
-  await page.getByRole('button', { name: 'Yes, show it' }).click();
+  await page.getByRole('button', { name: /Use the suggested wording/ }).click();
+  const placeWords = page.getByLabel(/The words visitors read/);
+  await placeWords.fill(`${await placeWords.inputValue()} (test)`);
   await page.getByRole('group').first().getByRole('button', { name: 'worked' }).click();
   await page.getByRole('button', { name: 'Stop for now' }).click();
 
@@ -191,6 +194,12 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(byName(approvedName).profileReview).toMatchObject({ status: 'approved', decisionReference: expect.stringMatching(/^profiles-review-/) });
   expect(byName(approvedName).approvalStatus).toBe('approved');
   expect(byName(queriedName).profileReview).toMatchObject({ status: 'changes-requested' });
+
+  // The place shows the reviewer's words, and its approval names them.
+  const reworded = JSON.parse(readFileSync(join(worktree, 'data/cihof_places.json'), 'utf8')).places
+    .filter((place: { shortHistory?: string }) => place.shortHistory?.endsWith('(test)'));
+  expect(reworded).toHaveLength(1);
+  expect(reworded[0].review).toMatchObject({ status: 'approved', contentVersion: expect.stringMatching(/^place-[0-9a-f]{12}$/) });
 
   const words = JSON.parse(readFileSync(join(worktree, 'data/cihof_exhibit_text.json'), 'utf8')).attract;
   expect(words).toMatchObject({

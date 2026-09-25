@@ -30,6 +30,12 @@ export type Place = {
   shortHistory: string;
   canApprove: boolean;
   reviewed: boolean;
+  /** What approving the words shown records. */
+  contentVersion: string;
+  /** For a reviewed place: whether its approval covers these words. */
+  words: 'current' | 'legacy' | 'changed' | null;
+  /** A plainer wording drafted from these words, adding nothing, or null. */
+  suggestion: string | null;
   ties: { person: Person; harvested: string; role: string | null }[];
 };
 
@@ -76,6 +82,10 @@ export type AttractDecision =
   | { decision: 'approve'; seenVersion: string; note?: string }
   | { decision: 'reword'; headline: string; tagline: string; note?: string };
 
+export type PlaceDecision =
+  | { approve: true; seenVersion: string; history?: string; note?: string }
+  | { approve: false; note?: string };
+
 export type Kind = { kind: string; label: string; directional: boolean; example: string; inverse?: string; sentence?: string };
 export type Role = { role: string; label: string };
 
@@ -91,7 +101,11 @@ export type TieDecision = {
 export type Draft = {
   reviewer: string;
   ties: Record<string, TieDecision>;
-  places: Record<string, { approve: boolean; note?: string }>;
+  /**
+   * `approve: true` with the version of the words seen, and `history` when the
+   * reviewer wrote their own; `approve: false` is "not yet".
+   */
+  places: Record<string, PlaceDecision>;
   placeTies: Record<string, { role: string; note?: string }>;
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
   profiles: Record<string, ProfileDecision>;
@@ -108,7 +122,7 @@ export type Review = {
   profiles: Profile[];
   kinds: Kind[];
   attract: AttractWords;
-  limits: { label: number; headline: number; tagline: number };
+  limits: { label: number; headline: number; tagline: number; placeHistory: number };
   roles: Role[];
   draft: Draft;
   counts: Counts;

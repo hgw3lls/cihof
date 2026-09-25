@@ -5,3 +5,4 @@ export type { PreviewTie, RuntimePlace } from './build/preview.ts';
 export { inducteeId, slugify } from './identity.ts';
 export { repoRoot, dataFile, publicFile } from './paths.ts';
 export { attractTextVersion, publishedAttractText, type AttractText } from './build/exhibit-text.ts';
+export { placeHistoryLimit, placeHistoryProblem, placeTextVersion, placeWordsState } from './build/place-text.ts';

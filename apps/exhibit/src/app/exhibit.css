@@ -8,7 +8,13 @@
    site) gets the same content stacked, at the end of this file.
 
    One family, Instrument Sans, self-hosted because the display is offline.
-   Dark only. Radius 0, no shadows, 2px rules. */
+   Radius 0, no shadows, 2px rules.
+
+   Dark by default, as designed; a light theme for a bright room or a visitor's
+   phone (theme.ts chooses). The lens colours fill blocks in both themes, with
+   the dark ground as their text. Where a lens colour is itself the text or the
+   line, it uses its --lens-*-ink twin, which in the light theme is darkened to
+   read on paper. A film always plays on black. */
 
 @font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/instrument-sans-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Instrument Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/instrument-sans-500.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -38,9 +44,21 @@
   --lens-links: oklch(0.8 0.14 220);
   --lens-places: oklch(0.8 0.14 150);
   --on-lens: #121211;
+  /* A lens colour used as text or as a line, rather than as a block. */
+  --lens-people-ink: var(--lens-people);
+  --lens-years-ink: var(--lens-years);
+  --lens-links-ink: var(--lens-links);
+  --lens-places-ink: var(--lens-places);
+  --lens-ink: var(--lens-people-ink);
+  --faces-dim: 0.55;
+  /* The brand guide's lockup: the four bands on dark ground; on light paper,
+     one colour in the ink (docs/brand/skyline-guidelines.md, 2C). */
+  --skyline-fill: linear-gradient(90deg, var(--lens-links) 0 41%, var(--lens-years) 41% 58%, var(--lens-places) 58% 71%, var(--lens-people) 71% 100%);
+  --lockup-line1: var(--lens-people);
   --focus: #7fb0ff;
   /* Unreviewed content, shown only in an editor's preview. Amber, never a lens colour. */
   --unreviewed: #f0b429;
+  --unreviewed-ink: var(--unreviewed);
   /* The floor for anything a finger has to hit. The layout itself uses 64px and up. */
   --tap: 48px;
   --px: clamp(0.5px, min(calc(100vw / 1920), calc(100vh / 1080)), 2px);
@@ -48,10 +66,70 @@
   color-scheme: dark;
 }
 
-[data-lens='people'] { --lens: var(--lens-people); }
-[data-lens='years'] { --lens: var(--lens-years); }
-[data-lens='links'] { --lens: var(--lens-links); }
-[data-lens='places'] { --lens: var(--lens-places); }
+/* The light theme: warm paper, the same ink as the dark theme's ground. */
+:root[data-theme='light'] {
+  --ground: #f4f2ec;
+  --ink: #121211;
+  --ink-soft: #3a3936;
+  --muted: #5f5d57;
+  --muted-2: #8a8880;
+  --rule-soft: #e2dfd6;
+  --rule-dim: #cdc9be;
+  --lens-people-ink: oklch(0.52 0.15 35);
+  --lens-years-ink: oklch(0.52 0.11 85);
+  --lens-links-ink: oklch(0.5 0.11 220);
+  --lens-places-ink: oklch(0.5 0.12 150);
+  --faces-dim: 0.8;
+  --skyline-fill: var(--ink);
+  --lockup-line1: var(--ink);
+  --unreviewed-ink: #8a5a00;
+  --focus: #1f5fd6;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root[data-theme='auto'] {
+    --ground: #f4f2ec;
+    --ink: #121211;
+    --ink-soft: #3a3936;
+    --muted: #5f5d57;
+    --muted-2: #8a8880;
+    --rule-soft: #e2dfd6;
+    --rule-dim: #cdc9be;
+    --lens-people-ink: oklch(0.52 0.15 35);
+    --lens-years-ink: oklch(0.52 0.11 85);
+    --lens-links-ink: oklch(0.5 0.11 220);
+    --lens-places-ink: oklch(0.5 0.12 150);
+    --faces-dim: 0.8;
+    --skyline-fill: var(--ink);
+    --lockup-line1: var(--ink);
+    --unreviewed-ink: #8a5a00;
+    --focus: #1f5fd6;
+    color-scheme: light;
+  }
+}
+/* A film plays on black whatever the room: the dark theme's values, again. */
+.film {
+  --ground: #121211;
+  --ink: #f2f1ec;
+  --ink-soft: #c9c7bf;
+  --muted: #a19f97;
+  --muted-2: #6f6e68;
+  --rule-soft: #2a2a28;
+  --rule-dim: #3a3936;
+  --lens-people-ink: var(--lens-people);
+  --lens-years-ink: var(--lens-years);
+  --lens-links-ink: var(--lens-links);
+  --lens-places-ink: var(--lens-places);
+  --focus: #7fb0ff;
+  color-scheme: dark;
+  /* A dialog inherits its text colour; the film's is its own ink, not the room's. */
+  color: var(--ink);
+}
+
+[data-lens='people'] { --lens: var(--lens-people); --lens-ink: var(--lens-people-ink); }
+[data-lens='years'] { --lens: var(--lens-years); --lens-ink: var(--lens-years-ink); }
+[data-lens='links'] { --lens: var(--lens-links); --lens-ink: var(--lens-links-ink); }
+[data-lens='places'] { --lens: var(--lens-places); --lens-ink: var(--lens-places-ink); }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #exhibit { height: 100%; margin: 0; }
@@ -78,7 +156,7 @@ button:active { filter: brightness(0.92); }
 
 /* Label style: metadata, small headings, the quiet half of any pair. */
 .masthead, .attract__masthead, .attract__label, .attract__or, .tile .year, .focus__year, .facts dt, .credit,
-.record__header, .record__close, .lensbar__restart, .links__kicker, .years__poster p:first-child, .years__count,
+.record__header, .record__close, .lensbar__restart, .links__kicker, .years__label, .years__count,
 .places__hood, .places__kicker, .places__tied, .film__header span, .film__times, .field__value, .count,
 .map__note, .film__transcript h3 {
   font-size: calc(19 * var(--px));
@@ -110,7 +188,7 @@ button:active { filter: brightness(0.92); }
   aspect-ratio: 724 / 469;
   -webkit-mask: url('/brand/skyline-mask.png') center / contain no-repeat;
           mask: url('/brand/skyline-mask.png') center / contain no-repeat;
-  background: linear-gradient(90deg, var(--lens-links) 0 41%, var(--lens-years) 41% 58%, var(--lens-places) 58% 71%, var(--lens-people) 71% 100%);
+  background: var(--skyline-fill);
 }
 .lockup { display: inline-flex; align-items: flex-end; gap: calc(14 * var(--px)); color: var(--ink); text-transform: none; }
 .lockup__of { font-family: 'Instrument Serif', 'Instrument Sans', serif; font-style: italic; font-weight: 400; letter-spacing: 0; }
@@ -126,7 +204,7 @@ button:active { filter: brightness(0.92); }
 .lockup--display .lockup__name { display: flex; flex-direction: column; margin-left: calc(var(--skyline, calc(360 * var(--px))) * 0.05); font-weight: 600; }
 /* Line boxes cut to the capitals, so "Hall of Fame" stands on the skyline's
    baseline and the first line sits just above it, below the towers. */
-.lockup__line1 { color: var(--lens-people); font-size: calc(var(--hall, calc(104 * var(--px))) / 3.3); letter-spacing: -0.025em; line-height: 0.8; white-space: nowrap; }
+.lockup__line1 { color: var(--lockup-line1); font-size: calc(var(--hall, calc(104 * var(--px))) / 3.3); letter-spacing: -0.025em; line-height: 0.8; white-space: nowrap; }
 .lockup__line2 { margin-top: calc(var(--hall, calc(104 * var(--px))) * 0.06); font-size: var(--hall, calc(104 * var(--px))); letter-spacing: -0.05em; line-height: 0.74; white-space: nowrap; }
 
 /* ------------------------------------------------------------------ shell */
@@ -157,7 +235,7 @@ button:active { filter: brightness(0.92); }
 .tile { display: block; width: 100%; padding: 0; border: 0; background: transparent; text-align: left; }
 .tile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--rule-soft); filter: grayscale(1) contrast(1.05); transition: filter 400ms ease-out; }
 .tile--tall img { aspect-ratio: 3 / 4; }
-.tile[aria-pressed='true'] img { filter: none; outline: 4px solid var(--lens); outline-offset: -4px; }
+.tile[aria-pressed='true'] img { filter: none; outline: 4px solid var(--lens-ink); outline-offset: -4px; }
 .tile .caption { display: block; margin-top: calc(12 * var(--px)); overflow: hidden; font-size: calc(22 * var(--px)); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; }
 .tile .year { display: block; margin-top: calc(4 * var(--px)); font-size: calc(18 * var(--px)); }
 
@@ -166,8 +244,8 @@ button:active { filter: brightness(0.92); }
 .people { display: grid; grid-template-columns: calc(600 * var(--px)) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) calc(112 * var(--px)); height: 100%; }
 
 .focus { grid-row: 1 / 3; display: flex; flex-direction: column; min-height: 0; padding: calc(40 * var(--px)); border-right: 2px solid var(--ink); }
-.focus__portrait { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; outline: 4px solid var(--lens); outline-offset: -4px; background: var(--rule-soft); }
-.focus__year { margin: calc(36 * var(--px)) 0 calc(8 * var(--px)); color: var(--lens) !important; }
+.focus__portrait { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; outline: 4px solid var(--lens-ink); outline-offset: -4px; background: var(--rule-soft); }
+.focus__year { margin: calc(36 * var(--px)) 0 calc(8 * var(--px)); color: var(--lens-ink) !important; }
 .focus__name { margin: 0; font-size: calc(66 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; overflow-wrap: anywhere; }
 .focus__open { margin-top: auto; }
 .focus .prompt { margin: 0; color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
@@ -237,7 +315,7 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .map__ties { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .map__rim { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 10; opacity: 0.14; vector-effect: non-scaling-stroke; }
 .map__tie { stroke: var(--ink); stroke-width: 1; opacity: 0.18; vector-effect: non-scaling-stroke; }
-.map__tie--focus { stroke: var(--lens-links); stroke-width: 4; opacity: 1; }
+.map__tie--focus { stroke: var(--lens-links-ink); stroke-width: 4; opacity: 1; }
 /* Proposed ties are dashed and never take a lens colour, so an editor cannot
    mistake one for a reviewed claim at a glance. */
 .map__tie--unreviewed { stroke: var(--unreviewed); stroke-dasharray: 3 3; opacity: 0.55; }
@@ -259,19 +337,19 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
    label share one block, so however either wraps they stack, never overlap. */
 .map__caption { position: absolute; top: calc(100% + calc(8 * var(--px))); left: 50%; translate: -50% 0; display: flex; flex-direction: column; gap: calc(4 * var(--px)); width: max-content; max-width: calc(260 * var(--px)); pointer-events: none; line-height: 1.15; text-align: center; text-wrap: balance; }
 .map__name { font-size: calc(24 * var(--px)); font-weight: 700; letter-spacing: -0.02em; }
-.map__label { color: var(--lens-links); font-size: calc(17 * var(--px)); }
+.map__label { color: var(--lens-links-ink); font-size: calc(17 * var(--px)); }
 /* Above the centre line the caption goes above the portrait, so it never falls
    across whoever is at the middle. */
 .map__person--nameup .map__caption { top: auto; bottom: calc(100% + calc(8 * var(--px))); }
 
 /* Size carries the ring, so the arrangement reads at a glance without relying on colour. */
-.map__person--focus .map__portrait { width: calc(220 * var(--px)); aspect-ratio: 1; border: 5px solid var(--lens-links); }
+.map__person--focus .map__portrait { width: calc(220 * var(--px)); aspect-ratio: 1; border: 5px solid var(--lens-links-ink); }
 .map__person--focus .map__portrait img { filter: none; }
 .map__person--focus .map__name { font-size: calc(27 * var(--px)); font-weight: 600; }
 .map__person--focus .map__caption { top: calc(100% + calc(10 * var(--px))); bottom: auto; }
 .map__person--tie .map__portrait { width: calc(130 * var(--px)); aspect-ratio: 1; }
 .map__person--cluster .map__portrait { width: calc(64 * var(--px)); aspect-ratio: 1; opacity: 0.7; border-width: 2px; }
-.map__person--elsewhere .map__portrait { width: calc(56 * var(--px)); aspect-ratio: 1; opacity: 0.45; border: 2px solid #5a5954; }
+.map__person--elsewhere .map__portrait { width: calc(56 * var(--px)); aspect-ratio: 1; opacity: 0.45; border: 2px solid var(--muted-2); }
 /* The centre and the people it touches sit above the crowd, and their words stay legible over it. */
 .map__person--focus, .map__person--tie { z-index: 1; }
 .map__person--focus { z-index: 2; }
@@ -283,7 +361,7 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .map__person::after { content: ''; position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: max(100%, var(--tap)); height: max(100%, var(--tap)); }
 
 .links__panel { display: flex; flex-direction: column; min-height: 0; padding: calc(48 * var(--px)) calc(40 * var(--px)) calc(40 * var(--px)); overflow-y: auto; border-left: 2px solid var(--ink); }
-.links__kicker { margin: 0 0 calc(12 * var(--px)); color: var(--lens-links) !important; }
+.links__kicker { margin: 0 0 calc(12 * var(--px)); color: var(--lens-links-ink) !important; }
 .links__name { margin: 0; font-size: calc(57 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
 .map__reading { margin: calc(20 * var(--px)) 0 calc(28 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
 .links__ties { margin: 0 0 calc(28 * var(--px)); padding: 0; list-style: none; border-top: 2px solid var(--ink); }
@@ -305,7 +383,7 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .years__class { display: grid; grid-template-columns: calc(720 * var(--px)) minmax(0, 1fr); min-height: 0; }
 .years__poster { display: flex; flex-direction: column; justify-content: flex-end; padding: calc(40 * var(--px)); border-right: 2px solid var(--ink); }
 .years__poster p { margin: 0; }
-.years__numeral { color: var(--lens-years); font-size: calc(220 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.85; }
+.years__numeral { color: var(--lens-years-ink); font-size: calc(220 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.85; }
 .years__people { min-height: 0; overflow-y: auto; padding: calc(40 * var(--px)); }
 .years__people h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0 0 calc(32 * var(--px)); padding-bottom: calc(14 * var(--px)); border-bottom: 2px solid var(--ink); font-size: calc(48 * var(--px)); font-weight: 600; letter-spacing: -0.04em; }
 .years__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(28 * var(--px)) calc(24 * var(--px)); margin: 0; padding: 0; list-style: none; }
@@ -321,19 +399,33 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .places__index { display: flex; flex-direction: column; min-height: 0; border-right: 2px solid var(--ink); }
 .places__note { margin: 0; padding: calc(16 * var(--px)) calc(40 * var(--px)); border-bottom: 2px solid var(--ink); color: var(--muted); font-size: calc(19 * var(--px)); }
 .places__index ul { display: flex; flex: 1; flex-direction: column; min-height: 0; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
-.places__index li { flex: 1 0 auto; border-bottom: 2px solid var(--ink); }
-.places__index button { display: flex; flex-direction: column; justify-content: center; gap: calc(6 * var(--px)); width: 100%; height: 100%; min-height: max(var(--tap), calc(96 * var(--px))); padding: calc(14 * var(--px)) calc(40 * var(--px)); border: 0; background: transparent; text-align: left; }
+/* Every place in reach at once: the rows share the column's height, the name on
+   the left and its neighbourhood on the right, down to the tap floor. Only a
+   list longer than the column scrolls. */
+.places__index li { display: flex; flex: 1 1 0; min-height: max(var(--tap), calc(64 * var(--px))); border-bottom: 2px solid var(--ink); }
+.places__index button { display: flex; align-items: baseline; justify-content: space-between; gap: calc(20 * var(--px)); width: 100%; padding: calc(10 * var(--px)) calc(40 * var(--px)); border: 0; background: transparent; text-align: left; }
+.places__index button > * { align-self: center; }
+.places__hood { flex: none; }
 .places__index button[aria-current='true'] { background: var(--lens-places); color: var(--on-lens); }
 .places__index button[aria-current='true'] .places__hood { color: var(--on-lens); }
-.places__name { font-size: calc(40 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
-.places__place { display: flex; flex-direction: column; gap: calc(20 * var(--px)); min-height: 0; overflow-y: auto; padding: calc(40 * var(--px)) calc(48 * var(--px)); }
-.places__kicker { margin: 0; color: var(--lens-places) !important; }
+.places__name { font-size: calc(36 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+/* The words and the people scroll; the chosen person's bar stays in reach at the foot. */
+.places__place { display: flex; flex-direction: column; gap: calc(20 * var(--px)); min-height: 0; padding: calc(40 * var(--px)) calc(48 * var(--px)); }
+.places__place > * { flex: none; }
+.places__place > .places__people { flex: 0 1 auto; min-height: 0; overflow-y: auto; }
+.places__kicker { margin: 0; color: var(--lens-places-ink) !important; }
 .places__place h2 { margin: 0; font-size: calc(69 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
 .places__history { max-width: calc(960 * var(--px)); margin: 0; color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
 .places__tied { margin: calc(12 * var(--px)) 0 0; padding-top: calc(16 * var(--px)); border-top: 2px solid var(--ink); }
 .places__people { display: grid; grid-template-columns: repeat(auto-fill, calc(150 * var(--px))); gap: calc(20 * var(--px)); margin: 0; padding: 0; list-style: none; }
 .places__people .caption { white-space: normal; font-size: calc(20 * var(--px)); }
 .places__pending { margin: 0; color: var(--muted); font-size: calc(24 * var(--px)); }
+
+/* The person chosen in Places or Years, and the way into their record. */
+.chosen { display: flex; flex-direction: column; gap: calc(16 * var(--px)); margin-bottom: auto; }
+.chosen__name { margin: 0; color: var(--ink); text-transform: none; letter-spacing: -0.04em; font-size: calc(48 * var(--px)); font-weight: 600; line-height: 1; overflow-wrap: anywhere; }
+.chosen--bar { flex-direction: row; align-items: center; justify-content: space-between; margin: auto 0 0; padding-top: calc(20 * var(--px)); border-top: 2px solid var(--ink); }
+.chosen--bar .block { flex: none; min-width: calc(420 * var(--px)); }
 
 /* ------------------------------------------------------------------ Film
 
@@ -368,9 +460,9 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 
 .attract { position: relative; height: 100%; overflow: hidden; background: var(--ground); }
 .attract .attract__face { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; background: var(--rule-soft); }
-.attract__face img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: 0.55; transition: filter 400ms ease-out, opacity 400ms ease-out; }
+.attract__face img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); opacity: var(--faces-dim); transition: filter 400ms ease-out, opacity 400ms ease-out; }
 .attract__face[aria-current='true'] img { filter: none; opacity: 1; }
-.attract__face[aria-current='true'] { outline: 4px solid var(--lens-people); outline-offset: -4px; z-index: 1; }
+.attract__face[aria-current='true'] { outline: 4px solid var(--lens-people-ink); outline-offset: -4px; z-index: 1; }
 .attract__cta { --lens: var(--lens-people); width: 100%; }
 .attract__headline { margin: 0; font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; text-wrap: balance; }
 .attract__label { margin: 0 0 calc(24 * var(--px)); }
@@ -401,7 +493,7 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; background: va
 .attract__track li::after { content: '·'; padding: 0 calc(20 * var(--px)); font-size: calc(104 * var(--px)); font-weight: 600; }
 .attract__name { min-height: calc(64 * var(--px)); padding: 0; border: 0; background: transparent; color: var(--ink); font-size: calc(104 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 1.05; white-space: nowrap; transition: color 400ms ease-out; }
 .attract__row--dim .attract__name, .attract__row--dim li::after { color: var(--muted-2); }
-.attract__name[aria-current='true'] { color: var(--lens-people); }
+.attract__name[aria-current='true'] { color: var(--lens-people-ink); }
 .attract--stacked .attract__names { border-bottom: 2px solid var(--ink); }
 @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .attract[data-motion='off'] .attract__track { animation: none; }
@@ -438,7 +530,7 @@ dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: 
 .share__panel p { margin: 0 0 calc(24 * var(--px)); color: var(--ink-soft); font-size: calc(24 * var(--px)); }
 .share__panel canvas { display: block; width: min(calc(400 * var(--px)), 100%); height: auto; margin: 0 auto calc(24 * var(--px)); background: #fff; }
 .share__url { font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; color: var(--ink) !important; }
-.share__problem { color: var(--lens-people) !important; }
+.share__problem { color: var(--lens-people-ink) !important; }
 .share__panel button { min-height: max(var(--tap), calc(80 * var(--px))); margin-top: calc(8 * var(--px)); padding: 0 calc(48 * var(--px)); border: 0; background: var(--lens-people); color: var(--on-lens); font-size: calc(30 * var(--px)); font-weight: 600; }
 
 /* Operator recovery. Plain, dense and readable over someone's shoulder. */
@@ -450,7 +542,7 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .recovery__facts dt { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .recovery__facts dd { margin: 0; overflow-wrap: anywhere; }
 .recovery code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
-.recovery__outcome { margin: 1rem 0 0; padding: 0.75rem; border: 2px solid var(--lens-people); color: var(--lens-people); }
+.recovery__outcome { margin: 1rem 0 0; padding: 0.75rem; border: 2px solid var(--lens-people-ink); color: var(--lens-people-ink); }
 .recovery__missing ul { margin: 0; padding-left: 1.25rem; font-size: 0.875rem; }
 .recovery__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 .recovery__actions button { min-height: var(--tap); padding: 0 1.25rem; border: 2px solid var(--ink); background: transparent; font-weight: 700; }
@@ -459,7 +551,7 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 /* A build with test timings says so, so it cannot be mistaken for production. */
 .testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; margin: 0; padding: 0.25rem 0.6rem; background: var(--lens-people); color: var(--on-lens); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }
 .previewbuild { position: fixed; z-index: 50; left: 0; right: 0; top: 0; margin: 0; padding: 0.3rem 0.75rem; background: var(--unreviewed); color: #141414; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
-.unreviewed { margin-left: 0.75rem; padding: 0.1rem 0.45rem; border: 1px solid var(--unreviewed); color: var(--unreviewed); font-size: 0.6875rem; font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle; }
+.unreviewed { margin-left: 0.75rem; padding: 0.1rem 0.45rem; border: 1px solid var(--unreviewed); color: var(--unreviewed-ink); font-size: 0.6875rem; font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
@@ -516,6 +608,10 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
   .years__strip button { font-size: 1.1rem; }
   .places__index { border-right: 0; border-bottom: 2px solid var(--ink); }
   .places__index ul { max-height: 40vh; }
+  .places__index li { flex: none; }
+  .chosen__name { font-size: 1.5rem; }
+  .chosen--bar { flex-wrap: wrap; }
+  .chosen--bar .block { min-width: 0; }
   .places__name { font-size: 1.25rem; }
   .places__place { overflow: visible; }
   .places__place h2 { font-size: 2rem; }

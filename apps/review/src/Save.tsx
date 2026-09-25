@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
+import { historyProblem } from './Places.tsx';
 
 type Props = {
   review: Review;
@@ -37,6 +38,15 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    // A place's approval names the words it covers: new words must be
+    // showable, and a choice made before the words changed is no answer.
+    ...Object.entries(draft.places).flatMap(([id, value]) => {
+      if (!value.approve) return [];
+      const place = review.places.find((item) => item.placeId === id);
+      const name = place?.name ?? id;
+      if (!place || value.seenVersion !== place.contentVersion) return [`${name} (its words changed since you chose; look again)`];
+      return typeof value.history === 'string' && historyProblem(value.history, review.limits.placeHistory) ? [`the words for ${name}`] : [];
+    }),
   ];
   const shown = Object.values(draft.ties).some((value) => value.decision !== 'reject');
   const lines = summary(review, draft, tieName);
@@ -172,7 +182,7 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   }
   const placeName = (id: string) => review.places.find((place) => place.placeId === id)?.name ?? id;
   for (const [id, value] of Object.entries(draft.places)) {
-    if (value.approve) lines.push(`Places: show ${placeName(id)}`);
+    if (value.approve) lines.push(`Places: show ${placeName(id)}${value.history ? `, in new words: “${value.history.trim()}”` : ''}`);
   }
   for (const [key, value] of Object.entries(draft.placeTies)) {
     const at = key.lastIndexOf('|');
