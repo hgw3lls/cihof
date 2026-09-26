@@ -87,6 +87,9 @@ jobs:
       - name: Companion site, in a browser
         run: npm run test:web
 
+      - name: Staff review app, unit tests
+        run: npm test --workspace @cihof/review
+
       # Saves by committing, so the spec works on a throwaway git worktree.
       - name: Staff review app, in a browser
         run: npm run test:review
