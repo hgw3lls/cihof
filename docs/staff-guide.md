@@ -645,6 +645,9 @@ move of the display.
 
 ## Ready for opening
 
+The [opening plan](opening-plan.md) puts what is left in order: who does
+what, and what each step waits on.
+
 ```sh
 npm run readiness              # what is still open
 npm run readiness -- --strict  # and fail if anything is
