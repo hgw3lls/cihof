@@ -119,9 +119,13 @@ async function connect(timeoutMs) {
  * not survive the page it is attached to being crashed or frozen under it.
  * Null when there is no answer within a moment: a frozen page, or none yet.
  */
+/** What askPage last saw, to say why a page did not come back. */
+let lastSeen = 'nothing yet';
+
 async function askPage() {
   try {
     const targets = await (await fetch(`http://127.0.0.1:${debugPort}/json`)).json();
+    lastSeen = `pages: ${targets.map((entry) => `${entry.type} ${entry.url.slice(0, 60)}`).join(', ') || 'none'}`;
     const target = targets.find((entry) => entry.type === 'page' && entry.url.startsWith(origin));
     if (!target) return null;
     const socket = new WebSocket(target.webSocketDebuggerUrl);
@@ -132,18 +136,20 @@ async function askPage() {
           socket.onmessage = (message) => {
             const reply = JSON.parse(String(message.data));
             if (reply.id !== 1) return;
+            lastSeen += `; it answered ${JSON.stringify(reply.error ?? reply.result?.exceptionDetails?.text ?? reply.result?.result?.value ?? null)}`;
             // A crashed page answers with an error, not with a mark: that is no answer yet.
             const value = reply.error || reply.result?.exceptionDetails ? undefined : reply.result?.result?.value;
             done(typeof value === 'string' ? { mark: value } : null);
           };
           socket.onopen = () => socket.send(JSON.stringify({ id: 1, method: 'Runtime.evaluate', params: { expression: 'window.__endurance ?? "none"', returnByValue: true } }));
         }),
-        wait(2_000).then(() => null),
+        wait(2_000).then(() => { lastSeen += '; it did not answer'; return null; }),
       ]);
     } finally {
       socket.close();
     }
-  } catch {
+  } catch (error) {
+    lastSeen = `could not ask: ${error instanceof Error ? error.message : String(error)}`;
     return null;
   }
 }
@@ -162,11 +168,14 @@ async function comesBack(mark, timeoutMs) {
         // long wait on it would miss the new one arriving.
         await connect(Math.min(15_000, Math.max(5_000, timeoutMs - (Date.now() - since))));
         return Math.round((Date.now() - since) / 1000);
-      } catch { /* not settled yet */ }
+      } catch (error) {
+        // Not settled yet.
+        lastSeen += `; connecting: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`;
+      }
     }
     await wait(1_000);
   }
-  throw new Error(`not back on the attract screen within ${Math.round(timeoutMs / 1000)} s`);
+  throw new Error(`not back on the attract screen within ${Math.round(timeoutMs / 1000)} s (last seen: ${lastSeen})`);
 }
 
 /** Sends one command straight to the exhibit page, outside Playwright (see askPage). */
