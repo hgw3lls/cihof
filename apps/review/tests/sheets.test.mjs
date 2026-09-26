@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, biosCsv, decisionReference, draftCounts, filmStartsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, filmStarts: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
@@ -110,4 +110,28 @@ test('a ceremony film start names the person, the film and the second, or the be
   });
   assert.equal(beginning.decision, 'beginning');
   assert.equal(beginning.startSeconds, '');
+});
+
+test('a recorded sign-off names who signed, and says who recorded it', () => {
+  const recorded = { reviewer: 'Jane Smith', signoffs: {
+    logo: { action: 'sign', by: 'Board chair', date: '2026-09-20', reference: 'Board minutes, item 4', scan: '.review/uploads/abc.pdf' },
+    'approval-to-open': { action: 'clear', note: 'recorded by mistake' },
+  } };
+  const [signed, cleared] = rows(signoffsCsv(recorded, '2026-10-01'));
+  assert.deepEqual(signed, {
+    id: 'logo', action: 'sign', by: 'Board chair', date: '2026-09-20', reference: 'Board minutes, item 4', scan: '.review/uploads/abc.pdf',
+    note: 'Recorded by Jane Smith in the staff review app (sign-offs-review-2026-10-01).',
+  });
+  assert.equal(cleared.action, 'clear');
+  assert.match(cleared.note, /^recorded by mistake\. Recorded by Jane Smith/);
+});
+
+test('a caption fix names the film, the kind and the words, exactly as typed', () => {
+  const fixes = { reviewer: 'Jane Smith', filmFixes: {
+    'DoZUzteeFMU|music|': { filmId: 'DoZUzteeFMU', fix: 'music', replaceWith: '[music]' },
+    'qzHokEDkXQc|phrase|Carolyn Varo': { filmId: 'qzHokEDkXQc', fix: 'phrase', find: 'Carolyn Varo', replaceWith: 'Carolyn Balogh, "the chef"' },
+  } };
+  const [music, phrase] = rows(filmFixesCsv(fixes, '2026-10-01'));
+  assert.deepEqual([music.filmId, music.fix, music.find, music.replaceWith, music.decisionReference], ['DoZUzteeFMU', 'music', '', '[music]', 'film-captions-review-2026-10-01']);
+  assert.equal(phrase.replaceWith, 'Carolyn Balogh, "the chef"', 'commas and quotes survive');
 });

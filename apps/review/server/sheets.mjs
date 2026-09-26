@@ -22,7 +22,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', filmStarts: 'film-starts' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -133,6 +133,37 @@ export function filmStartsCsv(draft, day) {
   return csv(['personId', 'filmId', 'decision', 'startSeconds', 'decisionReference', 'note'], rows);
 }
 
+/**
+ * Signatures given outside the app, as the reviewer records them. The note
+ * says who recorded it, which is not always who signed.
+ */
+export function signoffsCsv(draft, day) {
+  const reference = decisionReference('signoffs', day);
+  const recorded = `Recorded by ${String(draft.reviewer ?? '').trim()} in the staff review app (${reference}).`;
+  const rows = Object.entries(draft.signoffs ?? {}).map(([id, value]) => {
+    const note = String(value.note ?? '').trim();
+    const signedNote = note ? `${/[.!?)"'”’]$/.test(note) ? note : `${note}.`} ${recorded}` : recorded;
+    return value.action === 'clear'
+      ? [id, 'clear', '', '', '', '', signedNote]
+      : [id, 'sign', value.by ?? '', value.date ?? '', value.reference ?? '', value.scan ?? '', signedNote];
+  });
+  return csv(['id', 'action', 'by', 'date', 'reference', 'scan', 'note'], rows);
+}
+
+/** Corrections to a film's captions and transcript. */
+export function filmFixesCsv(draft, day) {
+  const reference = decisionReference('filmFixes', day);
+  const rows = Object.values(draft.filmFixes ?? {}).map((value) => [
+    value.filmId,
+    value.fix,
+    value.fix === 'phrase' ? value.find ?? '' : '',
+    value.fix === 'blank' ? '' : value.replaceWith ?? '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['filmId', 'fix', 'find', 'replaceWith', 'decisionReference', 'note'], rows);
+}
+
 export function splitTieKey(key) {
   const at = key.lastIndexOf('|');
   return [key.slice(0, at), key.slice(at + 1)];
@@ -148,6 +179,8 @@ export function draftCounts(draft) {
     profiles: Object.keys(draft.profiles ?? {}).length,
     attract: Object.keys(draft.attract ?? {}).length,
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
+    signoffs: Object.keys(draft.signoffs ?? {}).length,
+    filmFixes: Object.keys(draft.filmFixes ?? {}).length,
   };
 }
 

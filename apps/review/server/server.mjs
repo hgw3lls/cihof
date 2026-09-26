@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview } from './data.mjs';
 import { readiness, readSignoffs } from './readiness.mjs';
+import { history, sheetRows } from './history.mjs';
+import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/caption-fixes.ts';
+import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 import { audiences, check, gitStatus, save } from './save.mjs';
 import { draftCounts } from './sheets.mjs';
 
@@ -70,12 +74,41 @@ export function createReviewServer({ root, dist, port }) {
     if (request.method === 'GET' && path === '/api/review') {
       const draft = readDraft();
       const review = loadReview();
-      return json(response, 200, { ...review, readiness: readiness(review, readSignoffs(root)), draft, counts: draftCounts(draft), git: gitStatus(root) });
+      const signoffs = readSignoffs(root);
+      return json(response, 200, { ...review, signoffs, readiness: readiness(review, signoffs), draft, counts: draftCounts(draft), git: gitStatus(root) });
+    }
+    if (request.method === 'GET' && path === '/api/history') {
+      return json(response, 200, { entries: history(root) });
+    }
+    if (request.method === 'GET' && path === '/api/history/sheet') {
+      const rows = sheetRows(root, new URL(request.url ?? '', 'http://x').searchParams.get('path'));
+      return rows ? json(response, 200, rows) : json(response, 404, { error: 'No such sheet.' });
+    }
+    // What a caption fix would change, before the reviewer chooses it.
+    if (request.method === 'POST' && path === '/api/films/preview') {
+      const { filmId, fix, find, replaceWith } = await body(request);
+      const film = filmFiles(readVideoHoldings()).get(String(filmId ?? ''));
+      if (!film || !['music', 'blank', 'phrase'].includes(fix)) return json(response, 400, { error: 'No such film or fix.' });
+      return json(response, 200, previewFix(film, { filmId: film.filmId, fix, find: String(find ?? ''), replaceWith: String(replaceWith ?? '') }));
     }
     if (request.method === 'PUT' && path === '/api/draft') {
       const draft = normaliseDraft(await body(request));
       writeDraft(draft);
       return json(response, 200, { counts: draftCounts(draft) });
+    }
+    // A scan of a signed sheet, kept on this computer until the sign-off is
+    // saved, when signoffs:apply files it with the other signed decisions.
+    if (request.method === 'POST' && path === '/api/upload') {
+      const { name, data } = await body(request, 20 * 1024 * 1024);
+      const extension = String(extname(String(name ?? ''))).toLowerCase();
+      if (!['.pdf', '.jpg', '.jpeg', '.png'].includes(extension)) return json(response, 400, { error: 'A scan is a PDF, JPEG or PNG.' });
+      const bytes = Buffer.from(String(data ?? ''), 'base64');
+      if (bytes.length === 0) return json(response, 400, { error: 'The file is empty.' });
+      const digest = createHash('sha256').update(bytes).digest('hex').slice(0, 16);
+      mkdirSync(join(root, '.review', 'uploads'), { recursive: true });
+      const file = `.review/uploads/${digest}${extension}`;
+      writeFileSync(join(root, file), bytes);
+      return json(response, 200, { file, name: String(name).slice(0, 200), size: bytes.length });
     }
     if (request.method === 'POST' && path === '/api/check') {
       const { audience } = await body(request);
@@ -92,7 +125,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
 }
 
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
@@ -109,6 +142,8 @@ function normaliseDraft(value) {
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
     filmStarts: object(draft.filmStarts),
+    signoffs: object(draft.signoffs),
+    filmFixes: object(draft.filmFixes),
   };
 }
 
@@ -116,13 +151,13 @@ function audienceOf(value) {
   return Object.hasOwn(audiences, value) ? value : 'kiosk';
 }
 
-function body(request) {
+function body(request, limit = 5 * 1024 * 1024) {
   return new Promise((done, fail) => {
     let size = 0;
     const chunks = [];
     request.on('data', (chunk) => {
       size += chunk.length;
-      if (size > 5 * 1024 * 1024) { fail(new Error('Too large.')); request.destroy(); return; }
+      if (size > limit) { fail(new Error('Too large.')); request.destroy(); return; }
       chunks.push(chunk);
     });
     request.on('end', () => {
