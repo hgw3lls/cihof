@@ -261,11 +261,12 @@ async function main() {
   }, 1000);
 }
 
-// Node names this module by its real path, so compare against the real path of
-// what was run: on macOS the temporary folder is a link (/var is /private/var),
-// and an install reached through any link would otherwise never start.
+// Compare the real paths of what was run and of this module: on macOS the
+// temporary folder is a link (/var is /private/var), an install may be reached
+// through a link, and Node may name this module by either path
+// (--preserve-symlinks-main keeps the link). Otherwise it would never start.
 const invokedDirectly = process.argv[1] && existsSync(process.argv[1])
-  && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+  && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
   main().catch((error) => {
     console.error(error.message);
