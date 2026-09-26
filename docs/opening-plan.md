@@ -48,7 +48,7 @@ where the paper is kept.
 
 | What | Who | Where | Done by |
 | --- | --- | --- | --- |
-| Build the installer. Check its summary: **93 of 93 films** have their video, and note "profiles approved". Run both endurance runs; hand over their reports. | Developer | Windows checklist A (about an hour, plus the runs) | |
+| Build the installer. Check its summary: **93 of 93 films** have their video, and note "profiles approved". Play every film (`npm run films:check`) and run both endurance runs; hand over their reports. | Developer | Windows checklist A (about an hour, plus the runs) | |
 | Install and check the display PC | Administrator | Windows checklist B (about two hours) | |
 | Set up the office PC for the review app | Developer, then a member of staff | Windows checklist C (about 30 minutes) | |
 

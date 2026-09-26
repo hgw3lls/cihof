@@ -32,7 +32,8 @@ Date: ____________  Tested by: ______________________
 - [ ] Its summary line "profiles approved: __ of 111" (write it down).
 - [ ] `release/app/` holds `CIHOF-Exhibit-Setup-<version>.exe`, `STAFF-GUIDE.md`, `sign-off.md` and `opening-plan.md`.
       Copy all four to a USB drive. **Not** to a shared or online folder: it carries kiosk-only films.
-- [ ] `npm run endurance:app -- --minutes=60` (on the app the step above staged) ends with **Every check passed**. Report: `reports/endurance/app-<date>/endurance-app.md`, handed over with the installer.
+- [ ] `npm run films:check` (on the app `package:kiosk-app` staged) ends with **All 93 films play**. Report: `reports/films/<date>/films-check.md`, handed over with the installer.
+- [ ] `npm run endurance:app -- --minutes=60` (on the same app) ends with **Every check passed**. Report: `reports/endurance/app-<date>/endurance-app.md`, handed over with the installer.
 
 ## B. Display PC (Administrator), about two hours
 

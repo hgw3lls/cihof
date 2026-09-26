@@ -1,9 +1,7 @@
-import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
-import { chromium } from '@playwright/test';
 import { measure, startMeasuring, summarise, summaryLines, visit } from '../../exhibit/tests/endurance/visit.ts';
+import { appDir, connectExhibit, kill, launchApp, parseArgs, resolveApp, root, temporarySettings, wait } from './driver.mjs';
 
 /**
  * An endurance run of the kiosk app itself: the Electron app the display
@@ -39,12 +37,7 @@ import { measure, startMeasuring, summarise, summaryLines, visit } from '../../e
  * still five days on the display (docs/sign-off.md, section 4).
  */
 
-const root = resolve(import.meta.dirname, '../../..');
-const appDir = resolve(import.meta.dirname, '..');
-const args = Object.fromEntries(process.argv.slice(2).map((argument) => {
-  const [key, ...rest] = argument.replace(/^--/, '').split('=');
-  return [key, rest.length ? rest.join('=') : 'true'];
-}));
+const args = parseArgs(process.argv.slice(2));
 const number = (key, fallback, { zero = false } = {}) => {
   const value = args[key] === undefined ? fallback : Number(args[key]);
   if (!Number.isFinite(value) || value < 0 || (!zero && value === 0)) { console.error(`--${key} must be a positive number.`); process.exit(2); }
@@ -57,35 +50,21 @@ const debugPort = number('debug-port', 19333);
 const filmMs = number('film-seconds', 20) * 1000;
 const idleWaitMs = number('idle-wait-seconds', 240) * 1000;
 
-const packaged = args.executable ? resolve(args.executable) : null;
-const executable = packaged ?? join(appDir, 'node_modules', 'electron', 'dist', process.platform === 'win32' ? 'electron.exe' : 'electron');
-if (!existsSync(executable)) {
-  console.error(packaged
-    ? `No app at ${packaged}.`
-    : 'Electron is not installed here. Run npm install in apps/kiosk-app, or pass --executable=<the installed app>.');
-  process.exit(2);
-}
-if (!packaged && !existsSync(join(appDir, 'stage', 'site', 'index.html'))) {
-  console.error('No app staged. Run: npm run package:kiosk, then in apps/kiosk-app: npm run stage -- --site=../../release/cihof-kiosk-<release>/site');
-  process.exit(2);
-}
+const { packaged, executable } = resolveApp(args);
 
 const origin = `http://127.0.0.1:${port}`;
-const wait = (ms) => new Promise((done) => setTimeout(done, ms));
 const began = Date.now();
 const clock = () => new Date(Date.now() - began).toISOString().slice(11, 19);
 const say = (line) => console.log(`${clock()}  ${line}`);
 
 // Settings of the run's own, so the display's are never touched.
-const userData = mkdtempSync(join(tmpdir(), 'cihof-endurance-'));
-const settingsPath = join(userData, 'settings.json');
 const restartAt = (() => {
   if (restartIn === 0) return 'off';
   // The minute after restartIn minutes from now, so it is never less than that away.
   const at = new Date(Date.now() + (restartIn + 1) * 60_000);
   return `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')}`;
 })();
-writeFileSync(settingsPath, `${JSON.stringify({ port, restartAt, startAtLogin: false }, null, 2)}\n`);
+const { userData, settingsPath } = temporarySettings('cihof-endurance-', { port, restartAt });
 
 const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const out = resolve(args.out ?? join(root, 'reports', 'endurance', `app-${stamp}`));
@@ -94,15 +73,7 @@ mkdirSync(out, { recursive: true });
 // ------------------------------------------------------------ the app
 
 let child = null;
-function launch() {
-  child = spawn(executable, [
-    // Running as root (a container) needs this; a display PC never runs as root.
-    ...(process.getuid?.() === 0 ? ['--no-sandbox'] : []),
-    `--remote-debugging-port=${debugPort}`,
-    ...(packaged ? [] : [join(appDir, 'stage')]),
-  ], { env: { ...process.env, CIHOF_USER_DATA: userData }, stdio: 'ignore' });
-  child.exited = new Promise((done) => child.once('exit', done));
-}
+const launch = () => { child = launchApp({ executable, packaged, debugPort, userData }); };
 
 const errors = [];
 const external = new Set();
@@ -118,41 +89,24 @@ async function connect(timeoutMs) {
   await browser?.close().catch(() => undefined);
   browser = null;
   page = null;
-  const deadline = Date.now() + timeoutMs;
-  while (Date.now() < deadline && !page) {
-    try {
-      browser ??= await chromium.connectOverCDP(`http://127.0.0.1:${debugPort}`, { timeout: 5_000 });
-      page = browser.contexts().flatMap((context) => context.pages()).find((candidate) => candidate.url().startsWith(origin)) ?? null;
-    } catch {
-      browser = null;
-    }
-    if (!page) await wait(1_000);
-  }
-  if (!page) throw new Error(`no exhibit page at ${origin} within ${Math.round(timeoutMs / 1000)} s`);
-  page.on('pageerror', (error) => note('page error', error.message));
-  // A file the page could not load is named by its response, below, not by the console's anonymous line.
-  page.on('console', (message) => {
-    if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) note('console error', message.text());
-  });
-  page.on('response', (response) => {
-    if (response.status() >= 400) note('missing file', `${response.status()} ${new URL(response.url()).pathname}`);
-  });
-  page.on('request', (request) => {
-    const url = new URL(request.url());
-    if (!['http:', 'https:', 'ws:', 'wss:'].includes(url.protocol)) return;
-    if (!['127.0.0.1', 'localhost'].includes(url.hostname)) external.add(`${url.origin}${url.pathname}`);
-  });
-  await page.locator('.attract').waitFor({ state: 'visible', timeout: Math.max(5_000, deadline - Date.now()) });
-  // A display window is the whole screen. One run without a window manager
-  // (xvfb) is smaller, and the exhibit would lay itself out for a phone.
-  const size = await page.evaluate(() => [window.innerWidth, window.innerHeight]);
-  if (size[0] < 1280) {
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    viewportNote = `The app's window was ${size[0]} × ${size[1]} (no window manager), so the exhibit was laid out at 1920 × 1080.`;
-  }
-  const session = await browser.newBrowserCDPSession();
-  const { processInfo } = await session.send('SystemInfo.getProcessInfo');
-  appPid = processInfo.find((process) => process.type === 'browser')?.id ?? null;
+  const connected = await connectExhibit({ debugPort, origin, timeoutMs, watch: (exhibit) => {
+    exhibit.on('pageerror', (error) => note('page error', error.message));
+    // A file the page could not load is named by its response, below, not by the console's anonymous line.
+    exhibit.on('console', (message) => {
+      if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) note('console error', message.text());
+    });
+    exhibit.on('response', (response) => {
+      if (response.status() >= 400) note('missing file', `${response.status()} ${new URL(response.url()).pathname}`);
+    });
+    exhibit.on('request', (request) => {
+      const url = new URL(request.url());
+      if (!['http:', 'https:', 'ws:', 'wss:'].includes(url.protocol)) return;
+      if (!['127.0.0.1', 'localhost'].includes(url.hostname)) external.add(`${url.origin}${url.pathname}`);
+    });
+  } });
+  ({ browser, page } = connected);
+  appPid = connected.pid;
+  viewportNote ||= connected.viewportNote;
   return page;
 }
 
@@ -218,10 +172,6 @@ async function sendToPage(method, params = {}) {
   socket.send(JSON.stringify({ id: 1, method, params }));
   await wait(500);
   socket.close();
-}
-
-function kill(pid) {
-  try { process.kill(pid, 'SIGKILL'); } catch { /* already gone */ }
 }
 
 // ------------------------------------------------------------ the checks
