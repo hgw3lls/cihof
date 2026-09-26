@@ -1,5 +1,7 @@
-// Runs beside the exhibit page, in its own isolated world. Its only job is the
-// hidden staff gesture: hold the top-left corner for five seconds.
+// Runs beside the exhibit page, in its own isolated world. It does two things:
+// the hidden staff gesture (hold the top-left corner for five seconds), and a
+// check-in every few seconds. It shares the page's thread, so a frozen page
+// stops checking in, and the app restarts it (watch.mjs).
 const { ipcRenderer } = require('electron');
 
 const corner = 80; // CSS pixels from the top-left
@@ -24,3 +26,6 @@ window.addEventListener('pointermove', (event) => {
 for (const type of ['pointerup', 'pointercancel', 'blur']) {
   window.addEventListener(type, cancel, { capture: true, passive: true });
 }
+
+ipcRenderer.send('exhibit:alive');
+setInterval(() => ipcRenderer.send('exhibit:alive'), 5000);

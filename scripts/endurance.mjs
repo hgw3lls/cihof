@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'nod
 import { join, relative, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 import { createKioskServer } from '../apps/exhibit/kiosk/server.mjs';
-import { measure, startMeasuring, summarise, visit } from '../apps/exhibit/tests/endurance/visit.ts';
+import { measure, startMeasuring, summarise, summaryLines, visit } from '../apps/exhibit/tests/endurance/visit.ts';
 
 /**
  * An endurance run: the display build, left running for hours, with simulated
@@ -149,17 +149,7 @@ function report(summary, concerns) {
     concerns.length === 0 ? '**Nothing to look at.**' : '**To look at:**',
     ...concerns.map((concern) => `- ${concern}`),
     '',
-    '| | At the start | At the end | Highest |',
-    '| --- | ---: | ---: | ---: |',
-    `| Memory the page keeps (MB) | ${summary.heap.startMB} | ${summary.heap.endMB} | ${summary.heap.peakMB} |`,
-    `| Elements | ${summary.nodes.start} | ${summary.nodes.end} | ${summary.nodes.peak} |`,
-    `| Event listeners | ${summary.listeners.start} | ${summary.listeners.end} | ${summary.listeners.peak} |`,
-    '',
-    `Memory trend: ${summary.heap.mbPerHour} MB an hour. Measured after each visit, back on the attract screen, after a garbage collection; the start is after the first few visits have warmed the page up.`,
-    '',
-    `- Visits that did not end on the attract screen: ${summary.notReturned}`,
-    `- Visits that could not do something a visitor would: ${summary.visitProblems}`,
-    `- Errors the page reported: ${summary.pageErrors}`,
+    ...summaryLines(summary),
     '',
     'Every visit, with its measurements, is in `endurance.json` beside this report.',
     '',
