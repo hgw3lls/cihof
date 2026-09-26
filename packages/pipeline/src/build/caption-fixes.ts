@@ -195,3 +195,50 @@ export function captionFixDecisions(csvText: string, films: ReadonlyMap<string, 
   });
   return { decisions, errors };
 }
+
+export type AppliedFix = {
+  readonly decision: CaptionFixDecision;
+  readonly film: FilmFiles;
+  readonly transcriptCount: number;
+  readonly captionCount: number;
+};
+
+/**
+ * Applies a sheet's fixes in order, to files already read (`read` returns a
+ * file's original text). Each fix was previewed against the original words,
+ * so a fix that would also act on words an earlier fix in the same sheet
+ * wrote ("Alice" → "Bob", then "Bob" → "Carol") is refused: it would change
+ * more than the reviewer saw. Save such fixes one after the other instead.
+ */
+export function applyFixes(decisions: readonly CaptionFixDecision[], films: ReadonlyMap<string, FilmFiles>, read: (path: string) => string) {
+  const contents = new Map<string, string>();
+  const current = (path: string) => contents.get(path) ?? read(path);
+  const applied: AppliedFix[] = [];
+  const errors: string[] = [];
+  for (const decision of decisions) {
+    const film = films.get(decision.filmId)!;
+    let transcriptCount = 0;
+    let captionCount = 0;
+    let overlaps = false;
+    for (const path of film.transcripts) {
+      const onOriginal = fixText(read(path), decision).count;
+      const result = fixText(current(path), decision);
+      if (result.count !== onOriginal) overlaps = true;
+      contents.set(path, result.text);
+      transcriptCount = Math.max(transcriptCount, result.count);
+    }
+    for (const path of film.captions) {
+      const onOriginal = fixCaptions(read(path), decision).count;
+      const result = fixCaptions(current(path), decision);
+      if (result.count !== onOriginal) overlaps = true;
+      contents.set(path, result.text);
+      captionCount = Math.max(captionCount, result.count);
+    }
+    if (overlaps) {
+      const what = decision.fix === 'phrase' ? `"${decision.find}" → "${decision.replaceWith}"` : `the ${decision.fix} fix`;
+      errors.push(`${decision.filmId}: ${what} would also change words an earlier fix in this sheet wrote, which nobody previewed. Save the earlier fix first, then this one.`);
+    }
+    applied.push({ decision, film, transcriptCount, captionCount });
+  }
+  return { contents, applied, errors };
+}

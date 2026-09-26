@@ -89,7 +89,10 @@ readRows(csv).forEach((row, index) => {
   const reference = (row.reference ?? '').trim();
   const scan = (row.scan ?? '').trim();
   if (!by) { errors.push(`line ${line} (${item.title}): who signed?`); return; }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date))) { errors.push(`line ${line} (${item.title}): "${date}" is not a date (YYYY-MM-DD)`); return; }
+  // A date that exists: 2026-02-31 parses, as 3 March, so it must read back the same.
+  const real = /^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(Date.parse(`${date}T00:00:00Z`))
+    && new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) === date;
+  if (!real) { errors.push(`line ${line} (${item.title}): "${date}" is not a date (YYYY-MM-DD)`); return; }
   if (date > today) { errors.push(`line ${line} (${item.title}): ${date} is in the future`); return; }
   if (!reference && !scan) { errors.push(`line ${line} (${item.title}): say where the signed record is kept, or attach a scan of it`); return; }
   let scanFrom = null;
