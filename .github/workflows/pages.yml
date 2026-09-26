@@ -150,6 +150,13 @@ jobs:
       - name: Let the app keep its sandbox
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
+      # The runner hands every crashed process to a crash reporter, which
+      # keeps it half-alive while its dump is written, so the app cannot
+      # replace a crashed page until the dump is done (minutes, here). A
+      # display writes no dumps; neither does this job.
+      - name: Crashed processes end at once, as on a display
+        run: sudo sysctl -w kernel.core_pattern=core
+
       - name: Unit tests
         run: node --test apps/kiosk-app/tests/*.test.mjs
 
@@ -166,12 +173,16 @@ jobs:
         working-directory: apps/kiosk-app
 
       - name: The app, end to end
-        run: xvfb-run -a -s "-screen 0 1920x1080x24" npm run test:app
+        run: |
+          ulimit -c 0
+          xvfb-run -a -s "-screen 0 1920x1080x24" npm run test:app
         working-directory: apps/kiosk-app
 
       # Films are checked on the build machine, which has them (npm run films:check).
       - name: The app, under a short endurance run
-        run: xvfb-run -a -s "-screen 0 1920x1080x24" npm run endurance:app -- --minutes=2 --restart-in=1 --no-films --out=reports/endurance/ci
+        run: |
+          ulimit -c 0
+          xvfb-run -a -s "-screen 0 1920x1080x24" npm run endurance:app -- --minutes=2 --restart-in=1 --no-films --out=reports/endurance/ci
 
       - name: Upload the endurance report
         if: failure()
