@@ -37,7 +37,8 @@ export function Record({ person, onClose, onShare, onPlay, onConnections }: {
           <span>People</span>
         </header>
 
-        <div className="reading">
+        {/* The words scroll, so a keyboard can reach them to scroll them. */}
+        <div className="reading" tabIndex={0} role="region" aria-labelledby="recordTitle">
           <h2 id="recordTitle" data-autofocus tabIndex={-1}>{person.name}</h2>
           {/* The roster's own record of who presented them. Text, not a link
               into the graph: 63 of the 111 were presented by somebody who is
