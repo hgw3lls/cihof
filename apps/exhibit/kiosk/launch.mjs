@@ -24,7 +24,7 @@
  */
 
 import { spawn } from 'node:child_process';
-import { existsSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { delimiter, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createKioskServer } from './server.mjs';
@@ -261,7 +261,11 @@ async function main() {
   }, 1000);
 }
 
-const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+// Node names this module by its real path, so compare against the real path of
+// what was run: on macOS the temporary folder is a link (/var is /private/var),
+// and an install reached through any link would otherwise never start.
+const invokedDirectly = process.argv[1] && existsSync(process.argv[1])
+  && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invokedDirectly) {
   main().catch((error) => {
     console.error(error.message);
