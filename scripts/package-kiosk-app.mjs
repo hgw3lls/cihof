@@ -68,6 +68,7 @@ run('npx', ['electron-builder', ...builderArgs], { cwd: app });
 // Beside the installer, so whoever installs it has the guide for that release.
 copyFileSync(join(root, 'docs', 'staff-guide.md'), join(releases, 'app', 'STAFF-GUIDE.md'));
 copyFileSync(join(root, 'docs', 'sign-off.md'), join(releases, 'app', 'sign-off.md'));
+copyFileSync(join(root, 'docs', 'opening-plan.md'), join(releases, 'app', 'opening-plan.md'));
 cpSync(join(root, 'docs', 'training'), join(releases, 'app', 'training'), { recursive: true });
 
 console.log(`\nKiosk app for ${target} written to ${join(releases, 'app')}`);
