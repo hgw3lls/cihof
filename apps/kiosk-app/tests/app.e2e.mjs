@@ -33,7 +33,8 @@ const sendKey = (electronApp, keyCode, modifiers = []) => electronApp.evaluate((
 }, { keyCode, modifiers });
 
 const adminWindow = async (electronApp) => {
-  for (let i = 0; i < 50; i += 1) {
+  // A slow machine (CI) can take a few seconds to open the panel.
+  for (let i = 0; i < 100; i += 1) {
     const found = electronApp.windows().find((page) => page.url().startsWith('file:'));
     if (found) { await found.waitForLoadState(); return found; }
     await wait(100);
@@ -76,15 +77,39 @@ try {
   step('developer-tools shortcuts do nothing');
 
   // First time: the corner gesture refuses to set up a passcode.
-  await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseDown', x: 10, y: 10, button: 'left', clickCount: 1 }));
+  // What the page receives during the hold is kept, to say why if it fails.
+  await exhibit.evaluate(() => {
+    window.__pointers = [];
+    for (const type of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'blur']) {
+      window.addEventListener(type, (event) => window.__pointers.push(`${type}${'clientX' in event ? ` ${event.clientX},${event.clientY}` : ''}`), { capture: true });
+    }
+  });
+  // A finger on the corner, as staff hold it on the display. Touch, not the
+  // mouse: a display has no mouse, and a virtual display's mouse state can
+  // interrupt a simulated press (it did on CI).
+  const touch = await exhibit.context().newCDPSession(exhibit);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 10, y: 10 }] });
   await wait(5500);
-  await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseUp', x: 10, y: 10, button: 'left', clickCount: 1 }));
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await touch.detach();
   let admin = await adminWindow(electronApp);
+  if (!admin) {
+    const pointers = await exhibit.evaluate(() => window.__pointers.slice(0, 20)).catch((error) => [String(error)]);
+    const windows = await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().map((w) => `${w.webContents.getURL()} ${JSON.stringify(w.getBounds())} focused=${w.isFocused()}`));
+    console.log(`  page received: ${pointers.join('; ') || 'nothing'}\n  windows: ${windows.join(' | ')}`);
+  }
   assert.ok(admin, 'holding the corner opens the admin panel');
   await admin.getByText('have not been set up').waitFor();
   step('holding the corner for 5 seconds opens admin, but will not set a first passcode');
-  await admin.getByRole('button', { name: 'Close' }).click();
-  await wait(500);
+  // Close shuts the window under the click, so wait for the window to go
+  // rather than for the click to finish, and never find the closing one again.
+  await Promise.all([
+    admin.waitForEvent('close'),
+    admin.getByRole('button', { name: 'Close' }).click({ noWaitAfter: true }).catch(() => undefined),
+  ]);
+  // The app opens a new panel only once it has let go of the old one; until
+  // then the shortcut brings the closing one forward.
+  for (let i = 0; i < 50 && await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length) > 1; i += 1) await wait(100);
 
   // The keyboard shortcut may set it up.
   await sendKey(electronApp, 'A', ['control', 'shift']);
