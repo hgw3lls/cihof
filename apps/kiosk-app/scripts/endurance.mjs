@@ -131,7 +131,10 @@ async function askPage() {
           socket.onerror = () => fail(new Error('unreachable'));
           socket.onmessage = (message) => {
             const reply = JSON.parse(String(message.data));
-            if (reply.id === 1) done({ mark: reply.result?.result?.value ?? 'none' });
+            if (reply.id !== 1) return;
+            // A crashed page answers with an error, not with a mark: that is no answer yet.
+            const value = reply.error || reply.result?.exceptionDetails ? undefined : reply.result?.result?.value;
+            done(typeof value === 'string' ? { mark: value } : null);
           };
           socket.onopen = () => socket.send(JSON.stringify({ id: 1, method: 'Runtime.evaluate', params: { expression: 'window.__endurance ?? "none"', returnByValue: true } }));
         }),
@@ -155,7 +158,9 @@ async function comesBack(mark, timeoutMs) {
     // Any fresh answer will do after a restart; after a crash or freeze, not the marked page's.
     if (answer && (mark === undefined || answer.mark !== mark)) {
       try {
-        await connect(Math.max(5_000, timeoutMs - (Date.now() - since)));
+        // Briefly: a page that answered may still be the old one going, and a
+        // long wait on it would miss the new one arriving.
+        await connect(Math.min(15_000, Math.max(5_000, timeoutMs - (Date.now() - since))));
         return Math.round((Date.now() - since) / 1000);
       } catch { /* not settled yet */ }
     }
@@ -267,6 +272,8 @@ if (started && !stopping) {
 
 if (started && !stopping) {
   await check('A crashed exhibit page comes back by itself', async () => {
+    // From a live page, whatever the check before left behind.
+    if (!page || page.isClosed()) await comesBack(undefined, 60_000);
     await page.evaluate(() => { window.__endurance = 'crash'; });
     await sendToPage('Page.crash');
     const seconds = await comesBack('crash', 60_000);
@@ -276,6 +283,8 @@ if (started && !stopping) {
 
 if (started && !stopping) {
   await check('A frozen exhibit page comes back by itself, with nobody touching it', async () => {
+    // From a live page, whatever the check before left behind.
+    if (!page || page.isClosed()) await comesBack(undefined, 60_000);
     await page.evaluate(() => { window.__endurance = 'freeze'; });
     // A page stuck in a loop. It stops checking in with the app, which
     // restarts it after 30 seconds of silence.
