@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview } from './data.mjs';
 import { readiness, readSignoffs } from './readiness.mjs';
@@ -197,7 +197,12 @@ function openBrowser(url) {
   spawn(command, args, { stdio: 'ignore', detached: true }).on('error', () => {}).unref();
 }
 
-const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+// Compare the real paths of what was run and of this module: on macOS the
+// temporary folder is a link (/var is /private/var), an install may be reached
+// through a link, and Node may name this module by either path
+// (--preserve-symlinks-main keeps the link). Otherwise it would never start.
+const invokedDirectly = process.argv[1] && existsSync(process.argv[1])
+  && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
   const args = Object.fromEntries(process.argv.slice(2).filter((a) => a.startsWith('--')).map((a) => {
     const [key, ...rest] = a.slice(2).split('=');

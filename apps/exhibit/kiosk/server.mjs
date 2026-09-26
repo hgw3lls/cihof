@@ -21,7 +21,7 @@
  * private network during installation.
  */
 
-import { createReadStream, statSync } from 'node:fs';
+import { createReadStream, existsSync, realpathSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { pipeline } from 'node:stream';
 import { extname, join, normalize, resolve, sep } from 'node:path';
@@ -176,7 +176,12 @@ function parseArgs(argv) {
   return parsed;
 }
 
-const invokedDirectly = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+// Compare the real paths of what was run and of this module: on macOS the
+// temporary folder is a link (/var is /private/var), an install may be reached
+// through a link, and Node may name this module by either path
+// (--preserve-symlinks-main keeps the link). Otherwise it would never start.
+const invokedDirectly = process.argv[1] && existsSync(process.argv[1])
+  && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
   const args = parseArgs(process.argv.slice(2));
   const here = fileURLToPath(new URL('.', import.meta.url));
