@@ -30,8 +30,8 @@ Date: ____________  Tested by: ______________________
 - [ ] Its summary says **93 of 93 films** have their video file.
       If not, which are missing (MANIFEST.json): ______________________
 - [ ] Its summary line "profiles approved: __ of 111" (write it down).
-- [ ] `release/app/` holds `CIHOF-Exhibit-Setup-<version>.exe`, `STAFF-GUIDE.md` and `sign-off.md`.
-      Copy all three to a USB drive. **Not** to a shared or online folder: it carries kiosk-only films.
+- [ ] `release/app/` holds `CIHOF-Exhibit-Setup-<version>.exe`, `STAFF-GUIDE.md`, `sign-off.md` and `opening-plan.md`.
+      Copy all four to a USB drive. **Not** to a shared or online folder: it carries kiosk-only films.
 - [ ] `npm run endurance:app -- --minutes=60` (on the app the step above staged) ends with **Every check passed**. Report: `reports/endurance/app-<date>/endurance-app.md`, handed over with the installer.
 
 ## B. Display PC (Administrator), about two hours
