@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn, type ChildProcess } from 'node:child_process';
 import { EventEmitter } from 'node:events';
-import { chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { chmodSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -120,7 +120,9 @@ test('the launcher serves the exhibit, holds a browser on it, and stop-kiosk end
   const exited = new Promise<number | null>((resolve) => launcher.on('exit', resolve));
   try {
     for (let i = 0; i < 50 && !existsSync(log); i += 1) await wait(100);
-    assert.match(readFileSync(log, 'utf8'), new RegExp(`--kiosk http://localhost:${port}/ .*--user-data-dir=${folder}/browser-profile`));
+    // The launcher is run through the folder as named, which on macOS is a link
+    // (/var is /private/var), and keeps its profile beside its real self.
+    assert.match(readFileSync(log, 'utf8'), new RegExp(`--kiosk http://localhost:${port}/ .*--user-data-dir=${realpathSync(folder)}/browser-profile`));
     assert.equal((await fetch(`http://localhost:${port}/`)).status, 200);
 
     spawn(process.execPath, [join(folder, 'launch.mjs'), '--stop']);
