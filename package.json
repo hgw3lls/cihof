@@ -32,6 +32,7 @@
     "readiness": "node --experimental-strip-types scripts/readiness.mjs",
     "endurance": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/endurance.mjs",
     "endurance:app": "node --experimental-strip-types --no-warnings=ExperimentalWarning apps/kiosk-app/scripts/endurance.mjs",
+    "films:check": "node apps/kiosk-app/scripts/films.mjs",
     "review:film-starts": "node --experimental-strip-types packages/pipeline/scripts/film-start-drafts.mjs",
     "films:starts:apply": "node --experimental-strip-types scripts/apply-film-starts.js",
     "ties:apply": "node --experimental-strip-types scripts/apply-tie-decisions.js",

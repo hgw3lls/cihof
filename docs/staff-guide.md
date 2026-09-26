@@ -513,6 +513,20 @@ over:
 - read the summary it prints: people, relationships, and how many films have
   their video file. **All of them should.** `MANIFEST.json` in
   `release/cihof-kiosk-<release>/` lists any that do not;
+- play every film in the app the step above staged:
+
+  ```sh
+  npm run films:check
+  ```
+
+  It opens each person's record and film as a visitor would, in the kiosk
+  app (which plays MP4 as the display will), and checks that the video plays
+  with a picture and sound, is as long as the exhibit expects, opens at the
+  person's part if it is a ceremony film, and has its captions shown and a
+  transcript. It ends with **All 93 films play**, or names each film with a
+  problem and what it is. The report is in `reports/films/<date>/`; hand it
+  over with the installer. `--only=<person or film id>` checks one again.
+  Whether the captions say what is said is still for people;
 - note the release and content numbers for the handover.
 
 There is also a browser-based package (`npm run package:kiosk`) that runs
