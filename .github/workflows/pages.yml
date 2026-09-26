@@ -129,9 +129,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Not a workspace: Electron is downloaded only where the app is run or packaged.
+      # Not a workspace: Electron is downloaded only where the app is run or
+      # packaged. npm ci does not always fetch Electron's own binary, so it is
+      # fetched explicitly, as npm run package:kiosk-app does.
       - name: Install the app's own dependencies
-        run: npm ci
+        run: |
+          npm ci
+          test -e node_modules/electron/dist || node node_modules/electron/install.js
+          test -e node_modules/electron/dist/electron
         working-directory: apps/kiosk-app
 
       - name: Libraries Electron needs, and a virtual display
