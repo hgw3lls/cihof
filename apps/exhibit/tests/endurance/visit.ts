@@ -17,6 +17,8 @@ import type { CDPSession, Page } from '@playwright/test';
 export type VisitOptions = {
   /** How long a visitor watches a film for. */
   readonly filmMs: number;
+  /** False where there are no video files to watch (CI); visits then never open a film. */
+  readonly films?: boolean;
   /** How long to wait for a visit left alone to end by itself. */
   readonly idleWaitMs: number;
   /** How long a single touch may take to show its result. */
@@ -117,7 +119,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     opened = (await page.locator('#recordTitle').textContent())?.trim() ?? null;
 
     const watch = page.getByRole('button', { name: /^Watch (the film|film 1)/ });
-    if (index % 2 === 0 && await watch.count() > 0) {
+    if (options.films !== false && index % 2 === 0 && await watch.count() > 0) {
       await watch.first().click({ timeout: step });
       await page.locator('dialog.film').waitFor({ state: 'visible', timeout: step });
       await page.waitForTimeout(options.filmMs);

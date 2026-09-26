@@ -105,6 +105,94 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
+  # The kiosk app the display runs, started for real: its own end-to-end test,
+  # then a short endurance run (visits, the daily restart, a crash, a freeze,
+  # being killed). Beside the tests, not before the deploy: nothing here is
+  # published, and the kiosk build it stages never leaves the runner.
+  kiosk-app:
+    name: Kiosk app
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/kiosk-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Not a workspace: Electron is downloaded only where the app is run or
+      # packaged. npm ci does not always fetch Electron's own binary, so it is
+      # fetched explicitly, as npm run package:kiosk-app does.
+      - name: Install the app's own dependencies
+        run: |
+          npm ci
+          test -e node_modules/electron/dist || node node_modules/electron/install.js
+          test -e node_modules/electron/dist/electron
+        working-directory: apps/kiosk-app
+
+      - name: Libraries Electron needs, and a virtual display
+        run: |
+          npx playwright install-deps chromium
+          sudo apt-get install -y xvfb
+
+      # Ubuntu restricts the user namespaces Chromium's sandbox is built on.
+      # Lifting that keeps the app's sandbox on, as it is on a display, rather
+      # than turning the sandbox off for the test.
+      - name: Let the app keep its sandbox
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      # The runner hands every crashed process to a crash reporter, which
+      # keeps it half-alive while its dump is written, so the app cannot
+      # replace a crashed page until the dump is done (minutes, here). A
+      # display writes no dumps; neither does this job.
+      - name: Crashed processes end at once, as on a display
+        run: sudo sysctl -w kernel.core_pattern=core
+
+      - name: Unit tests
+        run: node --test apps/kiosk-app/tests/*.test.mjs
+
+      # The kiosk build, served at "/" as a display serves it. There are no
+      # video files here, so its films show their words instead.
+      - name: Build the exhibit for the kiosk
+        run: npm run build --workspace @cihof/exhibit
+        env:
+          CIHOF_TARGET: kiosk
+          CIHOF_BASE_PATH: /
+
+      - name: Stage the app
+        run: npm run stage -- --site=../exhibit/dist
+        working-directory: apps/kiosk-app
+
+      - name: The app, end to end
+        run: |
+          ulimit -c 0
+          xvfb-run -a -s "-screen 0 1920x1080x24" npm run test:app
+        working-directory: apps/kiosk-app
+
+      # Films are checked on the build machine, which has them (npm run films:check).
+      - name: The app, under a short endurance run
+        run: |
+          ulimit -c 0
+          xvfb-run -a -s "-screen 0 1920x1080x24" npm run endurance:app -- --minutes=2 --restart-in=1 --no-films --out=reports/endurance/ci
+
+      - name: Upload the endurance report
+        if: failure()
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: kiosk-app-endurance
+          path: reports/endurance/ci/
+          retention-days: 7
+          if-no-files-found: ignore
+
   build:
     name: Build exhibit preview
     needs: test
