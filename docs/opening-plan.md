@@ -6,7 +6,7 @@ waits on. It follows `npm run readiness`, which shows where each item stands
 people responsible to fill in; the only fixed length is the five days of
 endurance on the display.
 
-Opening day: __________  Approved by: ______________________
+Opening day: Saturday 31 October 2026 (provisional)  Approved by: ______________________
 
 ## The order, and why
 
@@ -76,8 +76,26 @@ All six sections signed, every exception listed with who accepted it
 
 | Step | At the latest | Date |
 | --- | --- | --- |
-| Approval to open | Before opening | |
-| Endurance begins | Five days (with a weekend) before approval | |
-| Release installed on the display PC | Before endurance begins | |
-| Release built | Before it is installed | |
-| Every decision in 1 made | Before the release is built | |
+| Approval to open | Before opening | Thursday 29 October |
+| Endurance begins | Five days (with a weekend) before approval | Tuesday 20 October |
+| Release installed on the display PC | Before endurance begins | Monday 19 October |
+| Release built | Before it is installed | Friday 16 October |
+| Every decision in 1 made | Before the release is built | Thursday 15 October |
+
+These dates work back from a provisional opening on Saturday 31 October,
+with a little room at each step:
+
+- **Friday 30 October** is left free, for anything the approval turns up.
+- **Endurance** runs from Tuesday 20 to Tuesday 27 October: more than the
+  five days, through the weekend of 24 and 25 October. Wednesday 28 is for
+  the endurance sign-off and gathering the sheet. Sign-offs 1, 2, 3, 5 and 6
+  are done on the display during the same days.
+- **The release** is built on the Friday and installed on the Monday, so
+  there is a weekend to hand it over, and a day in hand if the build needs
+  doing again.
+- **Every decision** is made the day before the build. From late September
+  that leaves under three weeks for the curator, including all 111 profiles,
+  so the profiles need to start straight away.
+
+If the opening day moves, move every date by the same number of days, and
+keep a weekend inside the endurance days.
