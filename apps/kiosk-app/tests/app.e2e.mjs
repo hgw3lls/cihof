@@ -84,9 +84,14 @@ try {
       window.addEventListener(type, (event) => window.__pointers.push(`${type}${'clientX' in event ? ` ${event.clientX},${event.clientY}` : ''}`), { capture: true });
     }
   });
-  await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseDown', x: 10, y: 10, button: 'left', clickCount: 1 }));
+  // A finger on the corner, as staff hold it on the display. Touch, not the
+  // mouse: a display has no mouse, and a virtual display's mouse state can
+  // interrupt a simulated press (it did on CI).
+  const touch = await exhibit.context().newCDPSession(exhibit);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 10, y: 10 }] });
   await wait(5500);
-  await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseUp', x: 10, y: 10, button: 'left', clickCount: 1 }));
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await touch.detach();
   let admin = await adminWindow(electronApp);
   if (!admin) {
     const pointers = await exhibit.evaluate(() => window.__pointers.slice(0, 20)).catch((error) => [String(error)]);
@@ -102,6 +107,9 @@ try {
     admin.waitForEvent('close'),
     admin.getByRole('button', { name: 'Close' }).click({ noWaitAfter: true }).catch(() => undefined),
   ]);
+  // The app opens a new panel only once it has let go of the old one; until
+  // then the shortcut brings the closing one forward.
+  for (let i = 0; i < 50 && await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length) > 1; i += 1) await wait(100);
 
   // The keyboard shortcut may set it up.
   await sendKey(electronApp, 'A', ['control', 'shift']);
