@@ -76,7 +76,22 @@ as well: it tests each step below on the real machine and records what to correc
    opening hours, so an update never restarts the PC in front of visitors.
 5. **Notifications**: turn them off for the exhibit account (Settings,
    System, Notifications).
-6. **Optional, strictest lockdown**: Windows 11 Pro/Enterprise can run one
+6. **Crash reporting off**: when a program crashes, Windows may hold on to
+   it while it writes a report, and may show a "has stopped working" box.
+   Either could keep the exhibit from reloading its page, or leave the box
+   on the wall. On a test machine a crash reporter did hold the page; on
+   Windows this has not been seen yet, so this is a precaution. Open
+   **Command Prompt** as an administrator and run these two lines, then
+   restart the PC:
+
+   ```
+   reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
+   reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v DontShowUI /t REG_DWORD /d 1 /f
+   ```
+
+   This affects every program on the PC, which is right for a PC that runs
+   only the exhibit. To undo it, run the same lines with `/d 0`.
+7. **Optional, strictest lockdown**: Windows 11 Pro/Enterprise can run one
    app alone on an account ("Assigned Access": Settings, Accounts, Other
    users, Set up a kiosk). The exhibit does not require it.
 
@@ -233,6 +248,7 @@ Before calling for help, open the admin panel and note **Release**,
 | Some content is missing after an update | Recovery panel: is **Provisioning** complete? | Reinstall the release. |
 | The keypad says *Too many tries* | Wait the time it shows. | Forgotten passcode (section 3). |
 | A Windows update prompt is on screen | Let it finish, outside opening hours. | Set active hours (2.1). |
+| A "has stopped working" box is on screen | Close the box; the exhibit reloads its page. If it does not, admin panel: **Restart app**. | Turn crash reporting off (2.1) and report what the box said. |
 
 ---
 
