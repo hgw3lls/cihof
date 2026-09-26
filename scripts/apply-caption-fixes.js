@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { projectStatus } from './working-tree.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
-import { captionFixDecisions, filmFiles, fixCaptions, fixText } from '../packages/pipeline/src/build/caption-fixes.ts';
+import { applyFixes, captionFixDecisions, filmFiles } from '../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../packages/pipeline/src/sources/media.ts';
 
 /**
@@ -59,26 +59,14 @@ if (args.apply) {
 const films = filmFiles(readVideoHoldings());
 const { decisions, errors } = captionFixDecisions(csv, films);
 
-// Applied in order, in memory, so a later fix sees an earlier one's result.
-const contents = new Map();
-const read = (path) => contents.get(path) ?? readFileSync(resolve(root, path), 'utf8');
-const applied = [];
-for (const decision of decisions) {
-  const film = films.get(decision.filmId);
-  let transcriptCount = 0;
-  let captionCount = 0;
-  for (const path of film.transcripts) {
-    const result = fixText(read(path), decision);
-    contents.set(path, result.text);
-    transcriptCount = Math.max(transcriptCount, result.count);
-  }
-  for (const path of film.captions) {
-    const result = fixCaptions(read(path), decision);
-    contents.set(path, result.text);
-    captionCount = Math.max(captionCount, result.count);
-  }
-  applied.push({ decision, film, transcriptCount, captionCount });
-}
+// Applied in order, in memory; a fix that would act on an earlier fix's words is refused.
+const originals = new Map();
+const read = (path) => {
+  if (!originals.has(path)) originals.set(path, readFileSync(resolve(root, path), 'utf8'));
+  return originals.get(path);
+};
+const { contents, applied, errors: overlaps } = applyFixes(decisions, films, read);
+errors.push(...overlaps);
 
 console.log(`\nFilm caption and transcript fixes — ${relative(root, inputPath)}`);
 for (const { decision, film, transcriptCount, captionCount } of applied) {

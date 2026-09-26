@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { captionFixDecisions, filmFiles, fixCaptions, fixText } from '../src/build/caption-fixes.ts';
+import { applyFixes, captionFixDecisions, filmFiles, fixCaptions, fixText } from '../src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../src/sources/media.ts';
 
 /**
@@ -59,4 +59,17 @@ test('a fix sheet refuses what would change nothing, or is not a fix', () => {
   const { decisions, errors } = captionFixDecisions(sheet, films);
   assert.deepEqual(decisions.map((decision) => [decision.filmId, decision.fix]), [['DoZUzteeFMU', 'music'], ['qzHokEDkXQc', 'phrase']]);
   assert.equal(errors.length, 5);
+});
+
+test('a fix that would act on words an earlier fix in the same sheet wrote is refused', () => {
+  const films = new Map([['F', { filmId: 'F', people: ['p'], captions: [], transcripts: ['t.txt'] }]]);
+  const read = () => 'Please welcome Alice.';
+  const fix = (find: string, replaceWith: string) => ({ filmId: 'F', fix: 'phrase' as const, find, replaceWith, decisionReference: 'ref', note: '' });
+
+  const chained = applyFixes([fix('Alice', 'Bob'), fix('Bob', 'Carol')], films, read);
+  assert.equal(chained.errors.length, 1, '"Bob" → "Carol" would rewrite the Bob the first fix wrote');
+
+  const separate = applyFixes([fix('Please', 'Now please'), fix('Alice', 'Alice Smith')], films, read);
+  assert.deepEqual(separate.errors, []);
+  assert.equal(separate.contents.get('t.txt'), 'Now please welcome Alice Smith.');
 });
