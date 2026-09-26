@@ -67,8 +67,9 @@ Checked by: ______________________  Date: __________  Signature: ______________
 
 ## 3. Accessibility (accessibility reviewer, with disabled visitors where possible)
 
-The browser tests check contrast, focus and labels. They are no substitute for
-people using the exhibit the way they actually would.
+The browser tests scan every screen, in both themes, for contrast, focus,
+names and labels (WCAG 2.1 AA). They are no substitute for people using the
+exhibit the way they actually would.
 
 - [ ] Tested by at least one person who uses a wheelchair: they reached and used
       everything in section 1.
@@ -90,6 +91,14 @@ Checked by: ______________________  Date: __________  Signature: ______________
 
 Leave the display running as it will in the gallery, for at least **five
 days**, including a weekend and at least one nightly restart.
+
+The developer's endurance run (`npm run endurance`, staff guide) is done
+before this, on the same release, and its report comes with it. It shows the
+software holds up under hours of simulated visits; it does not replace these
+days on the display.
+
+- [ ] The endurance report for this release says *Nothing to look at*, or
+      what it lists has been explained: ______________________________
 
 | Day | Date | Showing correctly in the morning? | Anything wrong |
 | --- | --- | --- | --- |
