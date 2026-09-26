@@ -305,6 +305,32 @@ of the project, and it takes you through each review one item at a time:
   that names them, and the announcement just before it) with what is said
   there and a link to watch from that second. The captions mishear names, so
   watch before choosing. The display adds a **From the beginning** button.
+- **Film captions and transcripts**: the captions are YouTube's automatic
+  captions and the transcripts were drawn from them, so both carry the same
+  mistakes. The app finds music heard as the word *heat* and the
+  transcriber's `[BLANK_AUDIO]` mark in each film, shows where, and offers a
+  fix (mark it *[music]*, or remove it). Anything else, such as a misheard
+  name, is corrected by choosing the film and typing the words as they are
+  and as they should be; the app shows where they are found before you add
+  the correction. Every fix changes the captions and the transcript
+  together, in every copy of the film.
+- **Sign-offs**: record a signature someone gave outside the app (the logo,
+  the Windows checklist, each section of the sign-off sheet, the approval to
+  open): who signed, when, and where the signed record is kept, with a scan
+  of the signed sheet if you have one. Recording is not signing: the app
+  notes who recorded it. A signature recorded by mistake, or one that no
+  longer holds (the display moved), can be cleared, with the reason.
+- **History** (a link at the foot of the home page): every decision saved in
+  the app or applied by the developer, newest first, with who made it and
+  the sheet it rests on. Filter by person or by kind. Nothing there can be
+  changed.
+
+On **Profiles**, the induction classes run along the top, each with how many
+are approved: choose one to work through that class alone, and **Next
+undecided** skips what you have already decided. **As on the display** shows
+the profile laid out as the display's record shows it, in its dark or light
+colours. With no field selected, **A** approves and the arrow keys move
+between profiles.
 
 The home page opens with **Ready for opening?**: everything that still
 stands between the exhibit and opening day, read from the records (see
@@ -425,6 +451,19 @@ carries each place's `contentVersion`, `places:apply` refuses a row whose
 words have changed since the sheet was made, and a `newHistory` column
 replaces the history with the reviewer's words, approved as written.
 `npm run build:kiosk` names any place held back because its words changed.
+
+**Film caption and transcript fixes** are applied by
+`npm run films:captions:apply` from a sheet
+`filmId,fix,find,replaceWith,decisionReference,note`, with `fix` one of
+`music` (`replaceWith` `[music]`, or empty to remove), `blank` or `phrase`
+(`find` and `replaceWith` exactly as written). Each is applied to the
+captions and transcript of every copy of the film, recorded in
+`data/cihof_caption_fixes.json`, and refused if it would change nothing. In
+the captions only the lines a fix touches change.
+
+**Sign-offs** are recorded by `npm run signoffs:apply` from a sheet
+`id,action,by,date,reference,scan,note` (`sign` or `clear`). A scan is filed
+in `data/curation-decisions/signoffs/`.
 
 **Ceremony film starts** live in `data/cihof_film_starts.json`. The staff
 review app does this (7.1). By hand, `npm run films:starts:apply` takes a
@@ -555,7 +594,7 @@ sections of the sign-off sheet and the approval to open. The same list heads the
 
 It only reads the records. A sign-off counts once its entry names who signed
 (`by`), when (`date`) and what it rests on (`reference`: the scanned sheet,
-kept in `data/curation-decisions/`, or the decision's own reference). Fill an
-entry in only from a real signature; the check will show it done straight
-away. It cannot see anything the records do not hold, such as a connection
+kept in `data/curation-decisions/signoffs/`, or where the signed paper is
+kept). Record one in the review app's **Sign-offs**, and only from a real
+signature; the check shows it done straight away. It cannot see anything the records do not hold, such as a connection
 someone thinks deserves a second look: raise those in the review app.

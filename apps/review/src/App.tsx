@@ -2,13 +2,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { loadReview, putDraft, type Draft, type Review } from './api.ts';
 import { AttractWords } from './AttractWords.tsx';
 import { FilmStarts } from './FilmStarts.tsx';
+import { Signoffs } from './Signoffs.tsx';
+import { History } from './History.tsx';
+import { FilmCaptions } from './FilmCaptions.tsx';
 import { Biographies } from './Biographies.tsx';
 import { Connections } from './Connections.tsx';
 import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'filmStarts' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save';
 
 /**
  * The staff review app.
@@ -66,8 +69,10 @@ export function App() {
     bios: Object.keys(draft.bios).length,
     attract: Object.keys(draft.attract ?? {}).length,
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
+    signoffs: Object.keys(draft.signoffs ?? {}).length,
+    filmFixes: Object.keys(draft.filmFixes ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.filmStarts;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.filmStarts + counts.signoffs + counts.filmFixes;
   const back = () => setScreen('home');
 
   return (
@@ -101,6 +106,9 @@ export function App() {
       )}
       {screen === 'attract' && <AttractWords review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'filmStarts' && <FilmStarts review={review} draft={draft} update={update} onDone={back} />}
+      {screen === 'signoffs' && <Signoffs review={review} draft={draft} update={update} onDone={back} />}
+      {screen === 'history' && <History onDone={back} />}
+      {screen === 'filmFixes' && <FilmCaptions review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
         <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }} />
       )}
@@ -135,7 +143,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; filmStarts: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; filmStarts: number; signoffs: number; filmFixes: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -197,6 +205,21 @@ function Home({ review, draft, waiting, counts, onOpen }: {
             onOpen={() => onOpen('filmStarts')}
           />
         )}
+        <Card
+          title="Film captions and transcripts"
+          body={`Fix what the automatic captions got wrong: music heard as words, blank-audio marks, misheard names. Noise found in ${
+            review.films.filter((film) => film.music.transcriptCount + film.music.captionCount + film.blank.transcriptCount + film.blank.captionCount > 0).length
+          } of ${review.films.length} films.`}
+          pending={counts.filmFixes}
+          onOpen={() => onOpen('filmFixes')}
+        />
+        <Card
+          title="Sign-offs"
+          body="Record a signature given outside the app: the logo, the installation checks, the approval to open."
+          progress={{ done: review.signoffs.filter((item) => item.signed).length, total: review.signoffs.length }}
+          pending={counts.signoffs}
+          onOpen={() => onOpen('signoffs')}
+        />
       </div>
 
       <section className="save-call">
@@ -213,6 +236,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
             {review.git.unpushed} saved review{review.git.unpushed === 1 ? ' is' : 's are'} waiting for the developer to publish.
           </p>
         ) : null}
+        <p><button type="button" className="link" onClick={() => onOpen('history')}>History: who decided what, and when</button></p>
       </section>
     </main>
   );

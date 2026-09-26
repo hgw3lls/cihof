@@ -103,6 +103,26 @@ export type FilmStartDecision =
 
 export type ReadinessLine = { group: string; title: string; done: number; total: number; open: number; where: string };
 
+/** A sign-off given outside the app, and whether it is recorded. */
+export type Signoff = {
+  id: string;
+  title: string;
+  who: string;
+  where: string;
+  signed: { by: string; date: string; reference: string; scan?: string; note?: string } | null;
+};
+
+export type SignoffDecision =
+  | { action: 'sign'; by: string; date: string; reference: string; scan?: string; scanName?: string; note?: string }
+  | { action: 'clear'; note: string };
+
+export type FixPreview = { transcriptCount: number; captionCount: number; examples: { before: string; after: string }[] };
+
+/** A film, whose it is, and the noise found in its words. */
+export type Film = { filmId: string; people: string[]; copies: number; music: FixPreview; blank: FixPreview };
+
+export type FilmFix = { filmId: string; fix: 'music' | 'blank' | 'phrase'; find?: string; replaceWith: string; note?: string };
+
 export type PlaceDecision =
   | { approve: true; seenVersion: string; history?: string; note?: string }
   | { approve: false; note?: string };
@@ -132,9 +152,11 @@ export type Draft = {
   profiles: Record<string, ProfileDecision>;
   attract: Record<string, AttractDecision>;
   filmStarts: Record<string, FilmStartDecision>;
+  signoffs: Record<string, SignoffDecision>;
+  filmFixes: Record<string, FilmFix>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; filmStarts: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; filmStarts: number; signoffs: number; filmFixes: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -147,6 +169,8 @@ export type Review = {
   filmStarts: FilmStart[];
   /** What still stands between the exhibit and opening day, from the records. */
   readiness: ReadinessLine[];
+  signoffs: Signoff[];
+  films: Film[];
   limits: { label: number; headline: number; tagline: number; placeHistory: number };
   roles: Role[];
   draft: Draft;
@@ -183,3 +207,25 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 export function tieKey(placeId: string, personId: string): string {
   return `${placeId}|${personId}`;
 }
+
+/** Sends a scan of a signed sheet; it stays on this computer until the sign-off is saved. */
+export async function uploadScan(file: File): Promise<{ file: string; name: string }> {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  let binary = '';
+  for (let index = 0; index < bytes.length; index += 0x8000) binary += String.fromCharCode(...bytes.subarray(index, index + 0x8000));
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ name: file.name, data: btoa(binary) }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error ?? 'The scan could not be kept.');
+  return result;
+}
+
+/** What a caption fix would change, read from the film's files. */
+export async function previewFilmFix(fix: FilmFix): Promise<FixPreview> {
+  return request('/api/films/preview', { method: 'POST', body: JSON.stringify(fix) });
+}
+
+export const filmFixKey = (fix: Pick<FilmFix, 'filmId' | 'fix' | 'find'>) => `${fix.filmId}|${fix.fix}|${fix.find ?? ''}`;

@@ -3,7 +3,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
-import { attractCsv, biosCsv, decisionReference, filmStartsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { attractCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -49,6 +49,16 @@ const steps = [
     task: 'filmStarts', title: 'Where ceremony films start', script: 'films:starts:apply', csv: filmStartsCsv,
     refresh: [], checks: [],
     keys: (draft) => Object.keys(draft.filmStarts ?? {}),
+  },
+  {
+    task: 'filmFixes', title: 'Film captions and transcripts', script: 'films:captions:apply', csv: filmFixesCsv,
+    refresh: [], checks: ['media:assert'],
+    keys: (draft) => Object.keys(draft.filmFixes ?? {}),
+  },
+  {
+    task: 'signoffs', title: 'Sign-offs', script: 'signoffs:apply', csv: signoffsCsv,
+    refresh: [], checks: [],
+    keys: (draft) => Object.keys(draft.signoffs ?? {}),
   },
   {
     task: 'bios', title: 'Biographies', script: 'bios:apply', csv: biosCsv,
@@ -123,6 +133,9 @@ export function save({ root, draft, audience = 'kiosk', day = today() }) {
       `Reviewed-by: ${draft.reviewer.trim()}`,
     ].join('\n');
     git(root, ['add', '-A', '--', 'data']);
+    // Captions and transcripts are tracked inside the ignored media folder:
+    // only changes to files already tracked there are staged.
+    git(root, ['add', '-u', '--', 'public/media/videos']);
     if (workingTreeChanges(root).length === 0) {
       // Every decision matched what was already recorded.
       results.push({ task: step.task, title: step.title, ok: true, commit: null, count, output: log.join('\n') });
