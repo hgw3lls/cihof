@@ -56,7 +56,10 @@ test('watching films leaves nothing of them behind', async ({ page }) => {
     await expect(page.locator('.attract')).toBeVisible();
     counts.push((await measure(session)).nodes);
   }
-  expect(counts.at(-1)!, `elements held after each visit: ${counts.join(', ')}`).toBeLessThanOrEqual(counts[0]! + 100);
+  // The first reading can land before the page settles into what it holds
+  // between visits; from the second on, a leak climbs with every film (it
+  // was 300 elements a film) and a sound page stays level.
+  expect(counts.at(-1)!, `elements held after each visit: ${counts.join(', ')}`).toBeLessThanOrEqual(counts[1]! + 100);
 });
 
 test('a run that leaks, or fails to return, says so', () => {
