@@ -4,6 +4,7 @@ import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
+import { signoffProblem } from './Signoffs.tsx';
 
 type Props = {
   review: Review;
@@ -39,6 +40,12 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    // A signature needs who, when and where the record is; a clearing needs a reason.
+    ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
+      const title = review.signoffs.find((item) => item.id === id)?.title ?? id;
+      if (value.action === 'clear') return value.note.trim() ? [] : [`why the signature for "${title}" is cleared`];
+      return signoffProblem(value) ? [`the sign-off "${title}"`] : [];
+    }),
     // A start past the end of its film cannot be saved.
     ...Object.entries(draft.filmStarts ?? {}).flatMap(([key, value]) => {
       const entry = review.filmStarts.find((item) => item.key === key);
@@ -205,6 +212,18 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   for (const [key, value] of Object.entries(draft.filmStarts ?? {})) {
     const name = review.filmStarts.find((entry) => entry.key === key)?.name ?? key;
     lines.push(`Ceremony films: ${name}: ${value.decision === 'start' ? `opens at ${clock(value.seconds)}` : 'from the beginning'}`);
+  }
+  for (const value of Object.values(draft.filmFixes ?? {})) {
+    const people = review.films.find((film) => film.filmId === value.filmId)?.people.join(', ') ?? value.filmId;
+    lines.push(`Film captions: ${people}: ${value.fix === 'music'
+      ? (value.replaceWith ? 'music heard as "heat" marked [music]' : 'music heard as "heat" removed')
+      : value.fix === 'blank' ? '[BLANK_AUDIO] removed' : `"${value.find}" → "${value.replaceWith}"`}`);
+  }
+  for (const [id, value] of Object.entries(draft.signoffs ?? {})) {
+    const title = review.signoffs.find((item) => item.id === id)?.title ?? id;
+    lines.push(value.action === 'sign'
+      ? `Sign-offs: ${title}: signed by ${value.by} on ${value.date}${value.scanName ? ', with a scan' : ''}`
+      : `Sign-offs: ${title}: signature cleared (${value.note})`);
   }
   for (const [id, value] of Object.entries(draft.bios)) {
     const name = review.bios.find((bio) => bio.id === id)?.name ?? id;

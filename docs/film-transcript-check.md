@@ -14,7 +14,10 @@ them changed; the decision is recorded in
 `data/curation-decisions/transcripts-staff-note-2026-09-25.md`. The display
 build now refuses any transcript that still opens with it.
 
-Everything below changes approved words, so it is for you to decide.
+Everything below changes approved words, so it is for you to decide. The
+staff review app's **Film captions and transcripts** screen makes these
+fixes: it finds the music and blank-audio noise itself, and takes a typed
+correction for a misheard name.
 
 ## 1. Background music heard as "Heat"
 

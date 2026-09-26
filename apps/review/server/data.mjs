@@ -10,6 +10,7 @@ import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
+import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 
 /**
@@ -182,6 +183,7 @@ export function loadReview() {
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
     filmStarts: filmStarts(byId),
+    films: filmsForCaptions(byId),
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
@@ -227,4 +229,21 @@ function filmStarts(byId) {
         : null,
     };
   }));
+}
+
+/**
+ * Every film, with whose it is and the noise found in its transcript and
+ * captions: music heard as "heat", and the transcriber's blank-audio mark.
+ */
+function filmsForCaptions(byId) {
+  return [...filmFiles(readVideoHoldings()).values()].map((film) => {
+    const noise = findNoise(film);
+    return {
+      filmId: film.filmId,
+      people: film.people.map((id) => byId.get(id)?.name ?? id),
+      copies: film.transcripts.length,
+      music: noise.music,
+      blank: noise.blank,
+    };
+  }).sort((a, b) => a.people[0].localeCompare(b.people[0]));
 }
