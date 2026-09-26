@@ -33,7 +33,8 @@ const sendKey = (electronApp, keyCode, modifiers = []) => electronApp.evaluate((
 }, { keyCode, modifiers });
 
 const adminWindow = async (electronApp) => {
-  for (let i = 0; i < 50; i += 1) {
+  // A slow machine (CI) can take a few seconds to open the panel.
+  for (let i = 0; i < 100; i += 1) {
     const found = electronApp.windows().find((page) => page.url().startsWith('file:'));
     if (found) { await found.waitForLoadState(); return found; }
     await wait(100);
@@ -76,10 +77,22 @@ try {
   step('developer-tools shortcuts do nothing');
 
   // First time: the corner gesture refuses to set up a passcode.
+  // What the page receives during the hold is kept, to say why if it fails.
+  await exhibit.evaluate(() => {
+    window.__pointers = [];
+    for (const type of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'blur']) {
+      window.addEventListener(type, (event) => window.__pointers.push(`${type}${'clientX' in event ? ` ${event.clientX},${event.clientY}` : ''}`), { capture: true });
+    }
+  });
   await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseDown', x: 10, y: 10, button: 'left', clickCount: 1 }));
   await wait(5500);
   await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.sendInputEvent({ type: 'mouseUp', x: 10, y: 10, button: 'left', clickCount: 1 }));
   let admin = await adminWindow(electronApp);
+  if (!admin) {
+    const pointers = await exhibit.evaluate(() => window.__pointers.slice(0, 20)).catch((error) => [String(error)]);
+    const windows = await electronApp.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().map((w) => `${w.webContents.getURL()} ${JSON.stringify(w.getBounds())} focused=${w.isFocused()}`));
+    console.log(`  page received: ${pointers.join('; ') || 'nothing'}\n  windows: ${windows.join(' | ')}`);
+  }
   assert.ok(admin, 'holding the corner opens the admin panel');
   await admin.getByText('have not been set up').waitFor();
   step('holding the corner for 5 seconds opens admin, but will not set a first passcode');
