@@ -92,13 +92,15 @@ Checked by: ______________________  Date: __________  Signature: ______________
 Leave the display running as it will in the gallery, for at least **five
 days**, including a weekend and at least one nightly restart.
 
-The developer's endurance run (`npm run endurance`, staff guide) is done
-before this, on the same release, and its report comes with it. It shows the
-software holds up under hours of simulated visits; it does not replace these
-days on the display.
+The developer's endurance runs (`npm run endurance` and `npm run
+endurance:app`, staff guide) are done before this, on the same release, and
+their reports come with it. They show the software holds up under hours of
+simulated visits, a daily restart, a crash, a freeze and being killed; they
+do not replace these days on the display.
 
-- [ ] The endurance report for this release says *Nothing to look at*, or
-      what it lists has been explained: ______________________________
+- [ ] The endurance reports for this release say *Nothing to look at* and
+      *Every check passed*, or what they list has been explained:
+      ______________________________________________________________
 
 | Day | Date | Showing correctly in the morning? | Anything wrong |
 | --- | --- | --- | --- |

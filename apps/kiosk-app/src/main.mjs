@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
-import { freezeWatch } from './watch.mjs';
+import { freezeWatch, heartbeatWatch } from './watch.mjs';
 import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings, themeGround } from './settings.mjs';
 
 /**
@@ -45,6 +45,8 @@ let quitting = false;
 let origin = '';
 let restartTimer = null;
 let previewTimer = null;
+/** The check-in watch of each exhibit window's page, by its web contents. */
+const heartbeats = new Map();
 
 async function start() {
   session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
@@ -74,6 +76,7 @@ async function start() {
   applyMenu();
   scheduleRestart();
 
+  ipcMain.on('exhibit:alive', (event) => heartbeats.get(event.sender.id)?.beat());
   ipcMain.on('exhibit:admin-gesture', (event) => {
     if (exhibit && event.sender === exhibit.webContents) openAdmin({ setupAllowed: false });
   });
@@ -102,6 +105,9 @@ function createExhibitWindow() {
       devTools: debug.devtools,
       spellcheck: false,
       navigateOnDragDrop: false,
+      // The display is always on show: its timers, and its check-ins, run at
+      // full speed even with the admin panel over it.
+      backgroundThrottling: false,
     },
   });
   exhibit = win;
@@ -135,12 +141,26 @@ function createExhibitWindow() {
     if (!debug.cursor) contents.insertCSS('*, *::before, *::after { cursor: none !important; }');
   });
 
-  // A crashed or frozen page comes back rather than leaving a blank wall.
-  contents.on('render-process-gone', () => setTimeout(() => !win.isDestroyed() && contents.reload(), 1000));
-  const frozen = freezeWatch({ onFrozen: () => !win.isDestroyed() && contents.forcefullyCrashRenderer() });
+  // A crashed or frozen page comes back rather than leaving a blank wall. A
+  // frozen one is noticed when it stops checking in, or when it cannot answer
+  // a touch.
+  const restartPage = () => !win.isDestroyed() && contents.forcefullyCrashRenderer();
+  const silent = heartbeatWatch({ onSilent: restartPage });
+  const contentsId = contents.id;
+  heartbeats.set(contentsId, silent);
+  contents.on('did-start-loading', silent.pause);
+  contents.on('render-process-gone', () => {
+    silent.pause();
+    setTimeout(() => !win.isDestroyed() && contents.reload(), 1000);
+  });
+  const frozen = freezeWatch({ onFrozen: restartPage });
   win.on('unresponsive', frozen.unresponsive);
   win.on('responsive', frozen.responsive);
-  win.on('closed', frozen.dispose);
+  win.on('closed', () => {
+    frozen.dispose();
+    silent.dispose();
+    heartbeats.delete(contentsId);
+  });
 
   // Alt+F4 and the like: the exhibit window only closes when the app is quitting.
   win.on('close', (event) => { if (!quitting && win === exhibit) event.preventDefault(); });

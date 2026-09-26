@@ -254,3 +254,20 @@ export function summarise(samples: readonly Sample[], pageErrors: number): Summa
   }
   return { ...summary, concerns };
 }
+
+/** The measurements part of a report, in Markdown, the same for every kind of run. */
+export function summaryLines(summary: Summary): string[] {
+  return [
+    '| | At the start | At the end | Highest |',
+    '| --- | ---: | ---: | ---: |',
+    `| Memory the page keeps (MB) | ${summary.heap.startMB} | ${summary.heap.endMB} | ${summary.heap.peakMB} |`,
+    `| Elements | ${summary.nodes.start} | ${summary.nodes.end} | ${summary.nodes.peak} |`,
+    `| Event listeners | ${summary.listeners.start} | ${summary.listeners.end} | ${summary.listeners.peak} |`,
+    '',
+    `Memory trend: ${summary.heap.mbPerHour} MB an hour. Measured after each visit, back on the attract screen, after a garbage collection; the start is after the first few visits have warmed the page up.`,
+    '',
+    `- Visits that did not end on the attract screen: ${summary.notReturned}`,
+    `- Visits that could not do something a visitor would: ${summary.visitProblems}`,
+    `- Errors the page reported: ${summary.pageErrors}`,
+  ];
+}

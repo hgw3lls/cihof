@@ -592,9 +592,40 @@ anything. Ctrl+C stops early and still writes the report. The first run of
 it found every closed film kept in memory for as long as the page ran; that
 is fixed, and a browser test now guards it.
 
-Neither replaces the checks below. Give the endurance report to the
-administrator with the release; it is evidence for section 4 of the sign-off
-sheet, which is still five days on the display itself.
+The display runs the kiosk app, not a browser, so the app has an endurance
+run of its own. It starts the app with settings of its own (its own port, a
+temporary folder), so the display's settings and passcode are never touched,
+and checks in order that the app:
+
+1. starts on its attract screen, served from this computer;
+2. comes back by itself after its daily restart (set a couple of minutes
+   ahead for the run);
+3. holds up under simulated visits, measured as above;
+4. comes back by itself when the exhibit page crashes;
+5. comes back by itself when the exhibit page freezes, with nobody touching it;
+6. starts again as it was after being killed outright, as a power cut would;
+7. never asked for anything beyond this computer, which is what unplugging
+   the network must not change.
+
+```sh
+npm run endurance:app -- --minutes=480       # on the app staged in apps/kiosk-app/stage
+npm run endurance:app -- --executable="C:\Program Files\CIHOF Exhibit\CIHOF Exhibit.exe"
+```
+
+On the display PC, close the exhibit app first: two cannot run at once. It
+writes `endurance-app.md` and `endurance-app.json` to
+`reports/endurance/app-<date>/`, and exits with 1 if a check failed. Its
+first run found that a frozen page was only restarted once someone touched
+it, so a wall that froze overnight stayed frozen until the morning's first
+visitor. The app now also restarts a page that stops checking in for 30
+seconds.
+
+Killing the app is not switching the PC off. Whether Windows starts the app
+again after a real power cut is still checked on the display.
+
+Neither replaces the checks below. Give the endurance reports to the
+administrator with the release; they are evidence for section 4 of the
+sign-off sheet, which is still five days on the display itself.
 
 ## Checks that people must do
 
