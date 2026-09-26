@@ -634,6 +634,10 @@ it, so a wall that froze overnight stayed frozen until the morning's first
 visitor. The app now also restarts a page that stops checking in for 30
 seconds.
 
+CI runs the app too, on every change: its end-to-end test, then a short
+endurance run without films (CI has no video files; `npm run films:check`
+covers them on the build machine).
+
 Killing the app is not switching the PC off. Whether Windows starts the app
 again after a real power cut is still checked on the display.
 

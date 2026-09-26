@@ -83,8 +83,12 @@ try {
   assert.ok(admin, 'holding the corner opens the admin panel');
   await admin.getByText('have not been set up').waitFor();
   step('holding the corner for 5 seconds opens admin, but will not set a first passcode');
-  await admin.getByRole('button', { name: 'Close' }).click();
-  await wait(500);
+  // Close shuts the window under the click, so wait for the window to go
+  // rather than for the click to finish, and never find the closing one again.
+  await Promise.all([
+    admin.waitForEvent('close'),
+    admin.getByRole('button', { name: 'Close' }).click({ noWaitAfter: true }).catch(() => undefined),
+  ]);
 
   // The keyboard shortcut may set it up.
   await sendKey(electronApp, 'A', ['control', 'shift']);
