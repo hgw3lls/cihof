@@ -142,7 +142,7 @@ jobs:
       - name: Libraries Electron needs, and a virtual display
         run: |
           npx playwright install-deps chromium
-          sudo apt-get install -y xvfb
+          sudo apt-get install -y xvfb xdotool
 
       # Ubuntu restricts the user namespaces Chromium's sandbox is built on.
       # Lifting that keeps the app's sandbox on, as it is on a display, rather
@@ -165,13 +165,18 @@ jobs:
         run: npm run stage -- --site=../exhibit/dist
         working-directory: apps/kiosk-app
 
+      # The virtual display's own pointer rests at the centre of the screen,
+      # which is inside the app's window, and its movements reach the page as
+      # a visitor's would; the tests hold the corner and touch the screen
+      # themselves. xdotool puts the pointer in the screen's corner, outside
+      # the window, first.
       - name: The app, end to end
-        run: xvfb-run -a -s "-screen 0 1920x1080x24" npm run test:app
+        run: xvfb-run -a -s "-screen 0 1920x1080x24" sh -c 'xdotool mousemove 0 0 && npm run test:app'
         working-directory: apps/kiosk-app
 
       # Films are checked on the build machine, which has them (npm run films:check).
       - name: The app, under a short endurance run
-        run: xvfb-run -a -s "-screen 0 1920x1080x24" npm run endurance:app -- --minutes=2 --restart-in=1 --no-films --out=reports/endurance/ci
+        run: xvfb-run -a -s "-screen 0 1920x1080x24" sh -c 'xdotool mousemove 0 0 && npm run endurance:app -- --minutes=2 --restart-in=1 --no-films --out=reports/endurance/ci'
 
       - name: Upload the endurance report
         if: failure()
