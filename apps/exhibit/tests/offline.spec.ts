@@ -81,6 +81,13 @@ test('a waiting release does not take over a session by itself', async ({ page }
 
   const state = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
+    // The worker claims the page as it activates, a moment after it is ready.
+    if (!navigator.serviceWorker.controller) {
+      await Promise.race([
+        new Promise((resolve) => navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true })),
+        new Promise((resolve) => setTimeout(resolve, 5_000)),
+      ]);
+    }
     return { hasWaiting: Boolean(registration.waiting), controlled: Boolean(navigator.serviceWorker.controller) };
   });
 
