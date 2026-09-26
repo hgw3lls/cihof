@@ -34,6 +34,9 @@ Date: ____________  Tested by: ______________________
       Copy all four to a USB drive. **Not** to a shared or online folder: it carries kiosk-only films.
 - [ ] `npm run films:check` (on the app `package:kiosk-app` staged) ends with **All 93 films play**. Report: `reports/films/<date>/films-check.md`, handed over with the installer.
 - [ ] `npm run endurance:app -- --minutes=60` (on the same app) ends with **Every check passed**. Report: `reports/endurance/app-<date>/endurance-app.md`, handed over with the installer.
+- [ ] That run crashes the exhibit page on purpose, with Windows' crash reporting as it came.
+      A "has stopped working" box appeared: yes / no. The check "A crashed exhibit page comes back by itself" passed: yes / no.
+      If a box appeared or the check failed, turn crash reporting off on this machine (staff guide 2.1, item 6), run it again and write down what changed: ______________
 
 ## B. Display PC (Administrator), about two hours
 
@@ -42,6 +45,7 @@ Setting up (staff guide section 2):
 - [ ] A local Windows account for the exhibit, signing in automatically.
 - [ ] BIOS/UEFI set to power on when power returns. Setting's name: ____________
 - [ ] Windows Update active hours set outside opening hours; notifications off.
+- [ ] Crash reporting off (staff guide 2.1, item 6), and the PC restarted. Both `reg add` lines said "The operation completed successfully": yes / no.
 - [ ] Installer run from the USB drive. Windows asked for an administrator
       password: yes / no. "Windows protected your PC" appeared: yes / no.
 - [ ] The exhibit opened full screen on its own after installing.
@@ -72,6 +76,11 @@ Running:
 - [ ] Open a profile, the timeline, search, Connections. All respond to touch without delay.
 - [ ] Play three different films: each plays with sound and captions.
 - [ ] Unplug the network cable / turn Wi-Fi off. Everything above still works.
+- [ ] End the exhibit page as a crash would. With a keyboard, open Task Manager (Ctrl+Shift+Esc), go to **Details**,
+      right-click a column heading, **Select columns**, tick **Command line**. Of the *CIHOF Exhibit.exe* lines, end the one
+      whose command line includes `--type=renderer` (if there are two, close the admin panel first). The exhibit comes back
+      by itself within a few seconds, with no "has stopped working" box: yes / no. Seconds taken: ________
+      (Ending it this way does not call on crash reporting; the build machine's run above is the real crash.)
 - [ ] Restart Windows from the Start menu: it signs in and opens the exhibit with nobody touching it. Time from power button to exhibit: ________
 - [ ] **Pull the power** (at the wall) while it is running, wait ten seconds, restore it: it comes back into the exhibit by itself.
 - [ ] Touches land where the finger is, in all four corners and the centre.
