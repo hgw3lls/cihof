@@ -27,6 +27,8 @@
     "review:ties:check": "node --experimental-strip-types packages/pipeline/scripts/ties-sheet.mjs --check",
     "links:apply": "node --experimental-strip-types scripts/apply-link-decisions.js",
     "places:apply": "node --experimental-strip-types scripts/apply-place-decisions.js",
+    "films:captions:apply": "node --experimental-strip-types scripts/apply-caption-fixes.js",
+    "signoffs:apply": "node --experimental-strip-types scripts/apply-signoffs.js",
     "readiness": "node --experimental-strip-types scripts/readiness.mjs",
     "review:film-starts": "node --experimental-strip-types packages/pipeline/scripts/film-start-drafts.mjs",
     "films:starts:apply": "node --experimental-strip-types scripts/apply-film-starts.js",

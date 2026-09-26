@@ -34,7 +34,7 @@ clear who decided what.
 
 ## 3. Choose a review
 
-![The home page with five cards: Profiles, Connections, Places, Biographies and Attract screen words](images/review-home.jpg)
+![The home page with the review cards: Profiles, Connections, Places, Biographies, Attract screen words and more](images/review-home.jpg)
 
 Each card shows how much is done. Work on one at a time, and stop whenever
 you like: every choice is kept on this computer as you make it, even if you
@@ -61,7 +61,11 @@ If the biography itself is wrong, use **correct it now**. Save the
 correction before you approve the profile, so the approval covers the
 corrected words; the app will remind you.
 
-*A good pace is one induction class per sitting.*
+*A good pace is one induction class per sitting.* The classes run along the
+top of the screen, each with how many are approved: choose one to work
+through it alone. **Next undecided** skips what you have decided, and **As
+on the display** shows the profile the way visitors will see it. With no box
+selected, **A** approves and the arrow keys move on and back.
 
 ### Connections
 
@@ -107,6 +111,31 @@ begins, shows what the captions say there, and links to the film from that
 second. **Watch before choosing**: the captions mishear names (Erika
 Puussaar's comes out as *"Erica pisar"*). Then choose **Open at…**, type **a
 different time**, or keep **From the beginning**.
+
+### Film captions and transcripts
+
+The films' captions were made automatically, and the transcripts from the
+captions. The app finds two kinds of mistake by itself: music written as the
+word *heat*, and *[BLANK_AUDIO]*. For each film it shows where they are and
+how the words would read after the fix. **Mark it [music]** or **Remove
+it**. Check the examples first: *heat* is sometimes a real word.
+
+For a misheard name, choose the film, type the words as they are (*Carolyn
+Varo*) and as they should be (*Carolyn Balogh*). The app tells you where it
+found them before you **Add this correction**. Every fix changes the
+captions and the transcript together.
+
+### Sign-offs
+
+When someone signs something outside the app (the logo, a section of the
+sign-off sheet, the approval to open), record it here: who signed, the date,
+and where the signed paper is kept, with a scan if you have one. You are
+recording their signature, not signing: the app notes that you recorded it.
+
+### History
+
+The link at the foot of the home page lists every decision so far: what, who
+and when, with the sheet each one rests on. Nothing there can be changed.
 
 ### Ready for opening?
 
