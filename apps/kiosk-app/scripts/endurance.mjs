@@ -28,6 +28,8 @@ import { appDir, connectExhibit, kill, launchApp, parseArgs, resolveApp, root, t
  *
  * Options: --restart-in=2 (minutes; 0 skips the restart check), --port=18080
  * (the exhibit's), --debug-port=19333 (to reach the app), --film-seconds=20,
+ * --no-films (visits never open a film: for a machine without the videos,
+ * such as CI; npm run films:check covers the films on the build machine),
  * --idle-wait-seconds=240, --out=<folder>. On Linux it needs a display
  * (xvfb-run -a).
  *
@@ -48,6 +50,8 @@ const restartIn = number('restart-in', 2, { zero: true });
 const port = number('port', 18080);
 const debugPort = number('debug-port', 19333);
 const filmMs = number('film-seconds', 20) * 1000;
+// A machine without the video files (CI) says so, rather than reporting every film as missing.
+const films = args['no-films'] !== 'true';
 const idleWaitMs = number('idle-wait-seconds', 240) * 1000;
 
 const { packaged, executable } = resolveApp(args);
@@ -211,7 +215,7 @@ process.on('SIGINT', () => {
 
 const samples = [];
 const save = (extra = {}) => writeFileSync(join(out, 'endurance-app.json'), `${JSON.stringify({
-  app: packaged ?? 'staged (apps/kiosk-app/stage)', release: releaseInfo(), minutes, restartAt, port, filmMs, idleWaitMs,
+  app: packaged ?? 'staged (apps/kiosk-app/stage)', release: releaseInfo(), minutes, restartAt, port, films, filmMs, idleWaitMs,
   startedAt: new Date(began).toISOString(), checks, samples, errors, external: [...external], ...extra,
 }, null, 2)}\n`);
 
@@ -244,11 +248,11 @@ if (started && restartIn > 0 && !stopping) {
 }
 
 if (started && !stopping) {
-  await check(`It holds up under ${minutes} minute(s) of simulated visits`, async () => {
+  await check(`It holds up under ${minutes} minute(s) of simulated visits${films ? '' : ', without films'}`, async () => {
     const session = await startMeasuring(page);
     const deadline = Date.now() + minutes * 60_000;
     for (let index = 0; Date.now() < deadline && !stopping; index += 1) {
-      const result = await visit(page, index, { filmMs, idleWaitMs });
+      const result = await visit(page, index, { filmMs, idleWaitMs, films });
       const sample = { ...result, ...(await measure(session)), atMs: Date.now() - began };
       samples.push(sample);
       save();
