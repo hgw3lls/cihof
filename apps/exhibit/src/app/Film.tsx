@@ -39,10 +39,28 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
   const [transcript, setTranscript] = useState<string | null>(null);
 
   useEffect(() => {
-    // Stop the film before the element goes, so audio cannot outlive the panel.
-    // Focus, Escape and inertness belong to the Modal.
+    // Stop the film before the element goes, so audio cannot outlive the panel,
+    // and let go of its captions and its source. Chromium keeps a caption
+    // track that still has cues registered with the page after the panel has
+    // gone, and through it the video and every caption: one more of each for
+    // every film watched, on a display that runs for weeks. `npm run
+    // endurance` found it. Focus, Escape and inertness belong to the Modal.
     const video = videoRef.current;
-    return () => { video?.pause(); };
+    return () => {
+      if (!video) return;
+      video.pause();
+      // Still on the page means this was not the panel closing (development
+      // mode runs every effect twice), and the film must keep its captions.
+      if (video.isConnected) return;
+      for (const element of video.querySelectorAll('track')) {
+        const track = element.track;
+        for (const cue of [...(track.cues ?? [])]) track.removeCue(cue);
+        track.mode = 'disabled';
+      }
+      for (const child of video.querySelectorAll('track, source')) child.remove();
+      video.removeAttribute('src');
+      video.load();
+    };
   }, []);
 
   useEffect(() => {

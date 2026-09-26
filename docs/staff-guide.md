@@ -562,6 +562,40 @@ works in the repository:
    wrongly when the person was added is corrected in `displayName`
    (`curate:apply`), not by changing the id.
 
+## What the machines check: accessibility and endurance (Developer)
+
+`npm run test:browser` includes an accessibility scan of every screen a
+visitor reaches (the three attract screens, People, Years, Connections,
+Places, a record, a film, *Take it with you* and the warning before a visit
+ends), in the dark theme and the light one, against WCAG 2.1 A and AA. It
+fails on any violation, so CI stops a release that brings one in.
+
+An endurance run leaves a display build running for hours with simulated
+visitors: starting from the call to action, a face or a name, looking
+through a lens or two, opening a record, watching part of a film or taking
+the record away, then touching *Start over* or walking off and letting the
+display end the visit. After each visit it measures what the page holds.
+
+```sh
+npm run package:kiosk                        # the display build, in release/
+npm run endurance -- --minutes=480           # a working day, on that build
+npm run endurance -- --channel=msedge        # in Edge, as on a display (Windows)
+npm run endurance -- --url=http://localhost:8080/   # a display already running
+```
+
+It prints each visit as it goes and writes `endurance.md` and
+`endurance.json` to `reports/endurance/<date>/` (ignored by git). The report
+lists anything to look at: a visit that did not return to the attract
+screen, something a visitor could not do, an error, or memory, elements or
+listeners that climb rather than level off. It exits with 1 if there is
+anything. Ctrl+C stops early and still writes the report. The first run of
+it found every closed film kept in memory for as long as the page ran; that
+is fixed, and a browser test now guards it.
+
+Neither replaces the checks below. Give the endurance report to the
+administrator with the release; it is evidence for section 4 of the sign-off
+sheet, which is still five days on the display itself.
+
 ## Checks that people must do
 
 The automated tests check the software in a browser. They do not certify
