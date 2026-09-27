@@ -31,13 +31,13 @@ records who set them and when.
 
 ## Work
 
-Take the CE stage prompts as the design source for each surface — they are good
+Take the CE stage briefs as the design source for each surface — they are good
 descriptions of the destination and this plan does not rewrite them:
 
-- Places → `cihof-city-experience/prompts/CE-05_cleveland-places.md`
-- Stories and evidence → `CE-04_contribution-stories-and-evidence.md`
-- Comparison → `CE-06_connections-and-comparison.md`
-- Historical activity → `CE-07_historical-activity.md`
+- Places → [`CE-05_cleveland-places.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/prompts/CE-05_cleveland-places.md)
+- Stories and evidence → [`CE-04_contribution-stories-and-evidence.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/prompts/CE-04_contribution-stories-and-evidence.md)
+- Comparison → [`CE-06_connections-and-comparison.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/prompts/CE-06_connections-and-comparison.md)
+- Historical activity → [`CE-07_historical-activity.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/prompts/CE-07_historical-activity.md)
 
 Apply this plan's constraints on top: D08 layering, the CE-02 rule that
 discovery narrows an index and not a relationship graph, decision E03 gating,

@@ -52,10 +52,10 @@ reporting nothing while collecting zero tests.
 
 These hold up and are cited, not duplicated:
 
-- `cihof-city-experience/DATA_CONTRACTS.md` — the typed content contracts. CE-01 implemented them and the implementation verifies.
-- `cihof-city-experience/ACCEPTANCE_TESTS.md` — the T/P/A/O matrix, including the source-audit addendum.
-- `cihof-city-experience/EDITORIAL_HANDOFF.md` — the editorial interface.
-- `cihof-city-experience/AGENTS_ADDENDUM.md` — the execution rules. They are good rules and this plan does not relax them.
+- [`city-experience/DATA_CONTRACTS.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/DATA_CONTRACTS.md) — the typed content contracts. CE-01 implemented them and the implementation verifies.
+- [`city-experience/ACCEPTANCE_TESTS.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/ACCEPTANCE_TESTS.md) — the T/P/A/O matrix, including the source-audit addendum.
+- [`city-experience/EDITORIAL_HANDOFF.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/EDITORIAL_HANDOFF.md) — the editorial interface.
+- The city-experience execution rules. They are good rules and this plan does not relax them.
 - The MG tracker and its open sign-off items. Nothing here closes them.
 
 ## What this plan does not do
