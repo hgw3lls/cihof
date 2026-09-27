@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { RuntimePerson } from '../data/runtime.ts';
-import type { Discovery } from '../state/exhibit.ts';
-import { inductionClasses, matching, undatedCount } from '../state/selectors.ts';
+import { inductionClasses, undatedCount } from '../state/selectors.ts';
 import { Portrait } from './Portrait.tsx';
 
 type Props = {
   people: readonly RuntimePerson[];
-  discovery: Discovery;
   selectedId: string | null;
   onSelect: (personId: string) => void;
   onOpen: (personId: string) => void;
@@ -19,14 +17,12 @@ type Props = {
  * along the bottom within reach. A strip cell exists only for a year that has
  * a class, so there is no empty year to land on.
  *
- * Discovery narrows which people appear, exactly as it does in People — it is
- * the same question asked of the same collection. A class that loses everyone
- * to a filter disappears from the strip rather than showing an empty year.
+ * Every class, always. The search and filters belong to People and narrow only
+ * its grid; a visitor who chose somebody there arrives here on their class.
  */
-export function Years({ people, discovery, selectedId, onSelect, onOpen }: Props) {
-  const matches = useMemo(() => matching(people, discovery), [people, discovery]);
-  const classes = useMemo(() => inductionClasses(matches), [matches]);
-  const undated = useMemo(() => undatedCount(matches), [matches]);
+export function Years({ people, selectedId, onSelect, onOpen }: Props) {
+  const classes = useMemo(() => inductionClasses(people), [people]);
+  const undated = useMemo(() => undatedCount(people), [people]);
   const selectedYear = people.find((person) => person.id === selectedId)?.classYear ?? null;
   const [year, setYear] = useState<number | null>(selectedYear);
 
@@ -37,7 +33,7 @@ export function Years({ people, discovery, selectedId, onSelect, onOpen }: Props
   const chosen = shown?.people.find((person) => person.id === selectedId) ?? null;
 
   if (!shown) {
-    return <p className="empty">No induction class matches those choices.</p>;
+    return <p className="empty">No induction classes yet.</p>;
   }
 
   return (
