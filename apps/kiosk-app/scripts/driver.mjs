@@ -4,6 +4,9 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 
+// Where Electron's own binary is, under node_modules/electron/dist, on each system.
+const electronBinary = { win32: 'electron.exe', darwin: 'Electron.app/Contents/MacOS/Electron' }[process.platform] ?? 'electron';
+
 /**
  * Starting the kiosk app and reaching its exhibit page, for the scripts that
  * check the app as the display runs it (endurance.mjs, films.mjs).
@@ -29,7 +32,7 @@ export function parseArgs(argv) {
 /** The app to run: the installed one (--executable) or the one staged here. Exits with a reason if there is none. */
 export function resolveApp(args) {
   const packaged = args.executable ? resolve(args.executable) : null;
-  const executable = packaged ?? join(appDir, 'node_modules', 'electron', 'dist', process.platform === 'win32' ? 'electron.exe' : 'electron');
+  const executable = packaged ?? join(appDir, 'node_modules', 'electron', 'dist', electronBinary);
   if (!existsSync(executable)) {
     console.error(packaged
       ? `No app at ${packaged}.`
