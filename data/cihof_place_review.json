@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T20:28:24.362Z",
+  "generatedAt": "2026-09-27T20:53:30.373Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
     {
@@ -737,17 +737,6 @@
       "words": null
     },
     {
-      "placeId": "place:cultrual-garden",
-      "name": "Cultrual Garden",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-5cd599a5de3b",
-      "words": null
-    },
-    {
       "placeId": "place:detroit-shoreway",
       "name": "Detroit Shoreway",
       "band": "lead",
@@ -789,17 +778,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-91a29b4c9eff",
-      "words": null
-    },
-    {
-      "placeId": "place:italian-garden",
-      "name": "Italian Garden",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-f6a69eccf296",
       "words": null
     },
     {

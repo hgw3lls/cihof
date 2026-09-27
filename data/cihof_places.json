@@ -15,7 +15,8 @@
     "business",
     "festival_location",
     "community_organization",
-    "historic_address"
+    "historic_address",
+    "institution"
   ],
   "places": [
     {
@@ -904,31 +905,7 @@
     {
       "id": "place:cleveland-clinic",
       "name": "Cleveland Clinic",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:cultrual-garden",
-      "name": "Cultrual Garden",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:italian-garden",
-      "name": "Italian Garden",
-      "type": "country_or_region",
+      "type": "institution",
       "shortHistory": "",
       "neighborhood": "",
       "provenance": {

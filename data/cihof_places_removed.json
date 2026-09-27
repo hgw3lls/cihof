@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "note": "Places removed from the exhibit, and why. Only places in Cleveland and Northeast Ohio are kept; none of these was approved, and none of their ties to people was. scripts/ingest-hofworld.js skips every id here, so an import cannot bring one back.",
+  "note": "Places removed from the exhibit, and why. Only places in Cleveland and Northeast Ohio are kept, and a place another one already covers is folded into it. None of these was approved, and none of their ties to people was. scripts/ingest-hofworld.js skips every id here, so an import cannot bring one back.",
   "removed": [
     {
       "id": "place:hungary",
@@ -369,6 +369,24 @@
         "le-nguyen-2026"
       ],
       "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:cultrual-garden",
+      "name": "Cultrual Garden",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "A misspelled, empty duplicate of the Cleveland Cultural Gardens (place:cleveland-cultural-gardens), which is approved.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:italian-garden",
+      "name": "Italian Garden",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Part of the Cleveland Cultural Gardens (place:cleveland-cultural-gardens), which is approved and covers every national garden.",
       "decisionReference": "places-scope-2026-09-27",
       "decidedBy": "Tony Yanick"
     }
