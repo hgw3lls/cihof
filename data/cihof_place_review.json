@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-25T05:34:15.430Z",
+  "generatedAt": "2026-09-27T18:18:18.649Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
     {
@@ -110,7 +110,7 @@
       "name": "Cleveland Cultural Gardens",
       "band": "researched",
       "neighborhood": "Rockefeller Park",
-      "shortHistory": "The gardens are one of Cleveland's clearest physical expressions of immigrant memory, cultural pride, and civic welcome. Multiple inductee biographies connect community leaders to the gardens, their federation, and individual national gardens.",
+      "shortHistory": "The Cleveland Cultural Gardens are a living expression of the city’s immigrant history, cultural pride, and tradition of welcoming new communities. Several Hall of Fame inductees are connected to the Gardens—through the Cultural Gardens Federation, individual national gardens, or the civic and cultural organizations that helped shape this unique Cleveland landmark.",
       "ties": [
         {
           "person": "anda-cook-2022",
@@ -168,15 +168,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-02977c697d9a",
-      "words": "legacy"
+      "contentVersion": "place-07f4721bd777",
+      "words": "current"
     },
     {
       "placeId": "place:cleveland-state-university",
       "name": "Cleveland State University",
       "band": "researched",
       "neighborhood": "Campus District",
-      "shortHistory": "Cleveland State University connects education, civic leadership, law, business, and public service across the CIHOF collection. Several inductees are linked to CSU through study, leadership, or institutional service.",
+      "shortHistory": "Cleveland State University connects several Hall of Fame inductees across generations. Some studied at CSU, while others served the university through teaching, leadership, or civic partnerships. Together, their connections show how the university has linked higher education with Cleveland’s public, professional, and civic life.",
       "ties": [
         {
           "person": "alex-machaskee-2010",
@@ -216,15 +216,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-df8c517c78a6",
-      "words": "legacy"
+      "contentVersion": "place-9f6046ed339d",
+      "words": "current"
     },
     {
       "placeId": "place:cleveland-city-hall",
       "name": "Cleveland City Hall",
       "band": "researched",
       "neighborhood": "Downtown",
-      "shortHistory": "City Hall appears in CIHOF records as a civic setting for international community recognition, including the City Hall Rotunda gatherings described in Mayor Frank Jackson's biography.",
+      "shortHistory": "Cleveland City Hall is part of the city’s larger story of immigration, community, and civic belonging. Its public spaces have brought together residents from across Cleveland’s many cultural communities, making City Hall not only a center of government, but also a place where the city has recognized and celebrated the people who helped shape it.",
       "ties": [
         {
           "person": "dr-eugene-jordan-2024",
@@ -258,15 +258,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-74ac737ecc97",
-      "words": "legacy"
+      "contentVersion": "place-90c0dd299d75",
+      "words": "current"
     },
     {
       "placeId": "place:one-world-day-rockefeller-park",
       "name": "One World Day at Rockefeller Park",
       "band": "researched",
       "neighborhood": "Rockefeller Park",
-      "shortHistory": "One World Day brings Cleveland communities together in the Cultural Gardens corridor. The starter record groups inductees whose biographies mention One World Day or major public cultural programming connected to the gardens.",
+      "shortHistory": "One World Day turns Cleveland’s cultural diversity into a shared civic tradition. By bringing communities together in the Cultural Gardens, it strengthens cross-cultural ties, gives immigrant and heritage groups a visible place in public life, and reinforces a sense of belonging to Cleveland’s larger civic story.",
       "ties": [
         {
           "person": "anda-cook-2022",
@@ -300,15 +300,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-3306236d7431",
-      "words": "legacy"
+      "contentVersion": "place-d35a111a13a4",
+      "words": "current"
     },
     {
       "placeId": "place:asiatown",
       "name": "AsiaTown",
       "band": "researched",
       "neighborhood": "AsiaTown",
-      "shortHistory": "AsiaTown is a Cleveland neighborhood context for Asian cultural life, business, organizing, and public festivals. The starter record groups nearby business and community references from the collection.",
+      "shortHistory": "AsiaTown is one of the places where Cleveland’s global character is lived every day. Its restaurants, markets, businesses, festivals, and community organizations have created jobs, welcomed new arrivals, and drawn visitors from across the region—making Asian American culture an active and visible part of Cleveland’s identity.",
       "ties": [
         {
           "person": "donna-hom-2014",
@@ -336,15 +336,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-58b8c418a2f3",
-      "words": "legacy"
+      "contentVersion": "place-781d3ef2f85c",
+      "words": "current"
     },
     {
       "placeId": "place:cleveland-public-library",
       "name": "Cleveland Public Library",
       "band": "researched",
       "neighborhood": "Downtown",
-      "shortHistory": "The library is a downtown cultural anchor and public memory institution. It appears in several inductee records as part of Cleveland's civic and cultural infrastructure.",
+      "shortHistory": "Cleveland Public Library is both a downtown landmark and a keeper of the city’s shared memory. Through its collections, exhibitions, public programs, and civic role, the Library has preserved Cleveland’s stories while making knowledge and culture accessible across generations. Several inductees are connected to this broader public mission.",
       "ties": [
         {
           "person": "andy-chakalis-2026",
@@ -372,15 +372,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-962a2b91892f",
-      "words": "legacy"
+      "contentVersion": "place-5112b6538478",
+      "words": "current"
     },
     {
       "placeId": "place:asia-plaza",
       "name": "Asia Plaza",
       "band": "researched",
       "neighborhood": "AsiaTown",
-      "shortHistory": "Asia Plaza is represented here as a business and gathering place connected to Cleveland Asian community life in the inductee records.",
+      "shortHistory": "Asia Plaza is both a commercial hub and a gathering place for Cleveland’s Asian communities. Its shops, restaurants, services, and shared spaces support immigrant-owned businesses while giving families and community groups a place to meet, celebrate, and maintain cultural ties—strengthening AsiaTown’s role in the wider life of Cleveland.",
       "ties": [
         {
           "person": "donna-hom-2014",
@@ -396,15 +396,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-c42b75089bd2",
-      "words": "legacy"
+      "contentVersion": "place-225d07a59555",
+      "words": "current"
     },
     {
       "placeId": "place:central-kinsman",
       "name": "Central and Kinsman",
       "band": "researched",
       "neighborhood": "Central and Kinsman",
-      "shortHistory": "Mayor Frank Jackson's biography names Central and Kinsman as formative Cleveland neighborhoods. The place record creates a bridge from personal story to neighborhood history.",
+      "shortHistory": "Central and Kinsman are part of Cleveland’s neighborhood story—places where everyday life, local institutions, and community ties have shaped generations of residents. Their influence reaches beyond their boundaries, showing how Cleveland’s civic identity is often formed first at the neighborhood level.",
       "ties": [
         {
           "person": "mayor-frank-jackson-2025",
@@ -420,15 +420,15 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-a2d94f231313",
-      "words": "legacy"
+      "contentVersion": "place-f7780ccb0c21",
+      "words": "current"
     },
     {
       "placeId": "place:sai-gon-plaza",
       "name": "Sai Gon Plaza",
       "band": "researched",
       "neighborhood": "AsiaTown",
-      "shortHistory": "Sai Gon Plaza is included as a business and community gathering place tied to Vietnamese American leadership in the collection.",
+      "shortHistory": "Sai Gon Plaza is a center of Vietnamese American business and community life in Cleveland. Its shops, services, and gathering spaces support local entrepreneurs, strengthen cultural ties, and connect Vietnamese American community life to the wider city.",
       "ties": [
         {
           "person": "dr-dieu-thuc-do-2010",
@@ -444,8 +444,8 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-a0a07d1a0963",
-      "words": "legacy"
+      "contentVersion": "place-27f9e93678f6",
+      "words": "current"
     },
     {
       "placeId": "place:united-states",
@@ -656,7 +656,7 @@
       "name": "Greater Cleveland Ethnographic Museum",
       "band": "researched",
       "neighborhood": "Greater Cleveland",
-      "shortHistory": "The museum initiative appears in August Pust's biography and points to the preservation of Cleveland's ethnic and cultural histories.",
+      "shortHistory": "The Greater Cleveland Ethnographic Museum was created to preserve and share the histories of Cleveland’s many ethnic communities. Its collections documented how immigrant traditions and community life shaped the city.",
       "ties": [
         {
           "person": "august-pust-2010",
@@ -666,8 +666,8 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-04fad1aa93b1",
-      "words": "legacy"
+      "contentVersion": "place-9732a3d5beee",
+      "words": "current"
     },
     {
       "placeId": "place:guangdong-province-in-southern-china",
@@ -764,7 +764,7 @@
       "name": "Max S. Hayes High School",
       "band": "researched",
       "neighborhood": "West Side",
-      "shortHistory": "Mayor Frank Jackson's biography identifies Max S. Hayes High School as part of his Cleveland education story before military service, college, law, and public office.",
+      "shortHistory": "Max S. Hayes High School has long prepared Cleveland students for technical careers and further education. Its place in the city’s story shows how a neighborhood public school can become a starting point for paths into military service, higher education, law, and city government.",
       "ties": [
         {
           "person": "mayor-frank-jackson-2025",
@@ -774,8 +774,8 @@
         }
       ],
       "reviewed": true,
-      "contentVersion": "place-c356e828650a",
-      "words": "legacy"
+      "contentVersion": "place-dd210a1600cc",
+      "words": "current"
     },
     {
       "placeId": "place:poland",
@@ -872,7 +872,7 @@
       "name": "St. Clair-Superior",
       "band": "researched",
       "neighborhood": "St. Clair-Superior",
-      "shortHistory": "St. Clair-Superior is included as an east side neighborhood shaped by cultural, business, and community organizations. This starter record keeps the place available for deeper neighborhood curation.",
+      "shortHistory": "Along St. Clair Avenue and the streets around it, immigrant businesses, neighborhood organizations, health services, and cultural institutions have built a distinctive east side community. St. Clair-Superior’s restaurants, storefronts, and gathering places connect everyday neighborhood life to Cleveland’s wider cultural and civic story.",
       "ties": [
         {
           "person": "carl-robson-2022",
@@ -881,16 +881,16 @@
           "role": "worked"
         }
       ],
-      "reviewed": false,
-      "contentVersion": "place-99926f5d3cca",
-      "words": null
+      "reviewed": true,
+      "contentVersion": "place-8f633ecdb041",
+      "words": "current"
     },
     {
       "placeId": "place:st-colman-church",
       "name": "St. Colman Church",
       "band": "researched",
       "neighborhood": "Near West Side",
-      "shortHistory": "St. Colman appears in Fr. Jim O'Donnell's CIHOF record and represents the role of churches as neighborhood anchors in Cleveland's immigrant and civic life.",
+      "shortHistory": "Founded for Cleveland’s growing Irish immigrant community, St. Colman later became a wider neighborhood resource through meals, literacy programs, emergency assistance, housing support, and refugee services. Its history shows how a parish can change with its neighborhood while remaining a center of support and belonging.",
       "ties": [
         {
           "person": "fr-jim-o-donnell-2012",
@@ -899,9 +899,9 @@
           "role": "served"
         }
       ],
-      "reviewed": false,
-      "contentVersion": "place-c3836df8c947",
-      "words": null
+      "reviewed": true,
+      "contentVersion": "place-765239bbd4d6",
+      "words": "current"
     },
     {
       "placeId": "place:utuado-puerto-rico",

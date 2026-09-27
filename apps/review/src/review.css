@@ -176,6 +176,8 @@ ins { background: var(--ins); color: var(--done); padding: 0 2px; }
 .readiness h2 { margin-top: 0; }
 .readiness__list { margin: 0.25rem 0 0; padding-left: 1.2rem; }
 .readiness__list li { padding: 0.15rem 0; }
+.confirms ul { margin: 0.25rem 0 1rem; padding-left: 1.25rem; max-width: 70ch; }
+.confirms li { padding: 0.15rem 0; }
 .row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.5rem 0; }
 .form { margin-top: 0.5rem; }
 .filters { align-items: flex-end; }

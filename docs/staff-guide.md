@@ -44,7 +44,8 @@ alone.
 
 The exhibit is dark as designed; the admin panel can switch it to light
 colours for a bright room (below). Films always play on black. The public
-website follows the visitor's phone or computer.
+website starts in light colours, with a **Dark** / **Light** button beside
+*Start over*; it remembers a visitor's choice on their own phone or computer.
 
 The application looks after itself:
 
@@ -330,12 +331,16 @@ of the project, and it takes you through each review one item at a time:
   and as they should be; the app shows where they are found before you add
   the correction. Every fix changes the captions and the transcript
   together, in every copy of the film.
-- **Sign-offs**: record a signature someone gave outside the app (the logo,
-  the Windows checklist, each section of the sign-off sheet, the approval to
-  open): who signed, when, and where the signed record is kept, with a scan
-  of the signed sheet if you have one. Recording is not signing: the app
-  notes who recorded it. A signature recorded by mistake, or one that no
-  longer holds (the display moved), can be cleared, with the reason.
+- **Sign-offs**: the logo, the Windows checklist, each section of the
+  sign-off sheet and the approval to open, each accepted by the person
+  responsible. The app shows what a section of the sheet confirms; **Accept
+  as** signs it with the name entered at the start and today's date, with an
+  optional note (the website and audio-description decisions ask what was
+  decided). Accept only what is yours to sign: someone else signs by entering
+  their own name (*Not you?* at the top). The approval to open is offered
+  only once sections 1 to 6 are signed. A sign-off accepted by mistake, or
+  one that no longer holds (the display moved), can be cleared, with the
+  reason.
 - **History** (a link at the foot of the home page): every decision saved in
   the app or applied by the developer, newest first, with who made it and
   the sheet it rests on. Filter by person or by kind. Nothing there can be
@@ -478,8 +483,11 @@ captions and transcript of every copy of the film, recorded in
 the captions only the lines a fix touches change.
 
 **Sign-offs** are recorded by `npm run signoffs:apply` from a sheet
-`id,action,by,date,reference,scan,note` (`sign` or `clear`). A scan is filed
-in `data/curation-decisions/signoffs/`.
+`id,action,by,date,reference,scan,note` (`sign` or `clear`); the review app
+writes one when someone accepts. A sign-off that `asks` a question needs the
+answer in `note`, and the approval to open needs sections 1 to 6 signed
+first. A signature given on paper can still be recorded this way, with a
+scan filed in `data/curation-decisions/signoffs/`.
 
 **Ceremony film starts** live in `data/cihof_film_starts.json`. The staff
 review app does this (7.1). By hand, `npm run films:starts:apply` takes a
@@ -673,9 +681,9 @@ the installation. These stay with the people responsible for them:
 - curatorial review of the content shown;
 - rights for every portrait and film.
 
-Record who checked each one and when on the printed
-[sign-off sheet](sign-off.md), before the exhibit opens and again after any
-move of the display.
+The [sign-off sheet](sign-off.md) lists what each of them checks. The person
+responsible accepts their section in the review app's **Sign-offs**, before
+the exhibit opens and again after any move of the display.
 
 ## Ready for opening
 
@@ -695,8 +703,9 @@ codes), audio description for the films, the Windows checklist, the six
 sections of the sign-off sheet and the approval to open. The same list heads the review app's home page.
 
 It only reads the records. A sign-off counts once its entry names who signed
-(`by`), when (`date`) and what it rests on (`reference`: the scanned sheet,
-kept in `data/curation-decisions/signoffs/`, or where the signed paper is
-kept). Record one in the review app's **Sign-offs**, and only from a real
-signature; the check shows it done straight away. It cannot see anything the records do not hold, such as a connection
+(`by`), when (`date`) and what it rests on (`reference`: the review app's
+decision reference, or a signed record kept in
+`data/curation-decisions/signoffs/`). The person responsible accepts it in
+the review app's **Sign-offs**, under their own name; the check shows it
+done once it is saved. It cannot see anything the records do not hold, such as a connection
 someone thinks deserves a second look: raise those in the review app.

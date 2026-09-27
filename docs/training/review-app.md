@@ -127,10 +127,15 @@ captions and the transcript together.
 
 ### Sign-offs
 
-When someone signs something outside the app (the logo, a section of the
-sign-off sheet, the approval to open), record it here: who signed, the date,
-and where the signed paper is kept, with a scan if you have one. You are
-recording their signature, not signing: the app notes that you recorded it.
+Each sign-off (the logo, a section of the sign-off sheet, the approval to
+open) is accepted here by the person responsible. Read what it confirms,
+then **Accept as** your name: the app signs it with your name and today's
+date. Add a note where it helps (measurements, an exception and who accepted
+it); the two decisions about the website and audio description ask what was
+decided. Accept only what is yours to sign, and never for someone else: if
+it is theirs, they enter their own name (*Not you?* at the top) and accept
+it. The approval to open appears once sections 1 to 6 are signed. **Clear** undoes a sign-off
+accepted by mistake, or one that no longer holds, with the reason.
 
 ### History
 

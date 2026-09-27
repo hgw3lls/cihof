@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "note": "Corrections to film captions and transcripts, each with the decision that made it. Written only by npm run films:captions:apply.",
+  "fixes": [
+    {
+      "filmId": "2KBxzdgiqJM",
+      "people": [
+        "berj-shakarian-2020"
+      ],
+      "fix": "blank",
+      "replaceWith": "",
+      "places": {
+        "transcript": 1,
+        "captions": 1
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "4jjbyRcwk3Y",
+      "people": [
+        "beverly-kerecman-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 2,
+        "captions": 4
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "BKuCcyGsdek",
+      "people": [
+        "branka-malinar-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 19,
+        "captions": 55
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "qzHokEDkXQc",
+      "people": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "fix": "blank",
+      "replaceWith": "",
+      "places": {
+        "transcript": 1,
+        "captions": 1
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "XeheG0iGICs",
+      "people": [
+        "david-gilbert-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 1,
+        "captions": 1
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "khFzLbaSw0o",
+      "people": [
+        "joyce-mariani-2023"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 1,
+        "captions": 3
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "diVkkJkn0sY",
+      "people": [
+        "mayor-frank-jackson-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 3,
+        "captions": 7
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "DoZUzteeFMU",
+      "people": [
+        "raj-aggarwal-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 3,
+        "captions": 7
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    {
+      "filmId": "ZT80-BrCIyk",
+      "people": [
+        "svetlana-stolyarova-2025"
+      ],
+      "fix": "music",
+      "replaceWith": "",
+      "places": {
+        "transcript": 5,
+        "captions": 8
+      },
+      "decisionReference": "film-captions-review-2026-09-27",
+      "reviewedAt": "2026-09-27T18:18:22.334Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    }
+  ]
+}

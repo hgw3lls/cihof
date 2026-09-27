@@ -134,18 +134,19 @@ export function filmStartsCsv(draft, day) {
 }
 
 /**
- * Signatures given outside the app, as the reviewer records them. The note
- * says who recorded it, which is not always who signed.
+ * Sign-offs accepted in the app. Each is signed by the person who pressed
+ * Accept, under their own name, on the day they did; the reference is the
+ * app's own decision reference. A clearing says who cleared it.
  */
 export function signoffsCsv(draft, day) {
   const reference = decisionReference('signoffs', day);
-  const recorded = `Recorded by ${String(draft.reviewer ?? '').trim()} in the staff review app (${reference}).`;
-  const rows = Object.entries(draft.signoffs ?? {}).map(([id, value]) => {
+  const rows = Object.entries(draft.signoffs ?? {}).filter(([, value]) => ['accept', 'clear'].includes(value?.action)).map(([id, value]) => {
     const note = String(value.note ?? '').trim();
-    const signedNote = note ? `${/[.!?)"'”’]$/.test(note) ? note : `${note}.`} ${recorded}` : recorded;
-    return value.action === 'clear'
-      ? [id, 'clear', '', '', '', '', signedNote]
-      : [id, 'sign', value.by ?? '', value.date ?? '', value.reference ?? '', value.scan ?? '', signedNote];
+    if (value.action === 'clear') {
+      const cleared = `Cleared by ${String(draft.reviewer ?? '').trim()} in the staff review app (${reference}).`;
+      return [id, 'clear', '', '', '', '', `${/[.!?)"'”’]$/.test(note) ? note : `${note}.`} ${cleared}`];
+    }
+    return [id, 'sign', value.by ?? '', value.date ?? '', `Accepted in the staff review app (${reference})`, '', note];
   });
   return csv(['id', 'action', 'by', 'date', 'reference', 'scan', 'note'], rows);
 }

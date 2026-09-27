@@ -156,7 +156,7 @@ button:active { filter: brightness(0.92); }
 
 /* Label style: metadata, small headings, the quiet half of any pair. */
 .masthead, .attract__masthead, .attract__label, .attract__or, .tile .year, .focus__year, .facts dt, .credit,
-.record__header, .record__close, .lensbar__restart, .links__kicker, .years__label, .years__count,
+.record__header, .record__close, .lensbar__restart, .lensbar__theme, .links__kicker, .years__label, .years__count,
 .places__hood, .places__kicker, .places__tied, .film__header span, .film__times, .field__value, .count,
 .map__note, .film__transcript h3 {
   font-size: calc(19 * var(--px));
@@ -226,6 +226,8 @@ button:active { filter: brightness(0.92); }
 .lensbar__lens { flex: 1; font-size: calc(39 * var(--px)); font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; }
 .lensbar__lens[aria-current='page'] { background: var(--lens); color: var(--on-lens); }
 .lensbar__lens[aria-current='page'] .swatch { display: none; }
+.lensbar__theme { flex: 0 0 calc(180 * var(--px)); justify-content: center; margin-left: auto; font-size: calc(22 * var(--px)) !important; color: var(--ink) !important; }
+.lensbar__theme + .lensbar__restart { margin-left: 0; }
 .lensbar__restart { flex: 0 0 calc(300 * var(--px)); justify-content: center; margin-left: auto; font-size: calc(22 * var(--px)) !important; color: var(--ink) !important; }
 
 .empty, .notice { padding: calc(40 * var(--px)); color: var(--muted); font-size: calc(26 * var(--px)); }
@@ -236,7 +238,8 @@ button:active { filter: brightness(0.92); }
 .tile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--rule-soft); filter: grayscale(1) contrast(1.05); transition: filter 400ms ease-out; }
 .tile--tall img { aspect-ratio: 3 / 4; }
 .tile[aria-pressed='true'] img { filter: none; outline: 4px solid var(--lens-ink); outline-offset: -4px; }
-.tile .caption { display: block; margin-top: calc(12 * var(--px)); overflow: hidden; font-size: calc(22 * var(--px)); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; }
+/* A name wraps to a second line rather than being cut; two lines are kept for every name so the rows stay even. */
+.tile .caption { display: -webkit-box; min-height: 2.4em; margin-top: calc(12 * var(--px)); overflow: hidden; font-size: calc(22 * var(--px)); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 .tile .year { display: block; margin-top: calc(4 * var(--px)); font-size: calc(18 * var(--px)); }
 
 /* ------------------------------------------------------------------ People */
@@ -570,6 +573,7 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
   .lensbar button:nth-child(odd) { border-left: 0; }
   .lensbar__lens { border-top: 2px solid var(--ink) !important; }
   .lensbar__restart { flex-basis: 100%; border-left: 0 !important; border-top: 2px solid var(--ink) !important; font-size: 0.9rem !important; }
+  .lensbar__theme { flex: 1 1 40%; min-height: 3.25rem !important; border-left: 2px solid var(--ink) !important; border-top: 2px solid var(--ink) !important; font-size: 0.9rem !important; }
 
   .people, .links, .years__class, .places, .record[open], .film[open] { display: flex; flex-direction: column; overflow-y: auto; }
   :is(.people, .links, .years__class, .places, .record[open], .film[open], .record__side, .film__body) > * { flex: none; }

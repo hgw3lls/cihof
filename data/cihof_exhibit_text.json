@@ -4,7 +4,16 @@
     "headline": "The world, at home in Cleveland.",
     "tagline": "Meet the people who made it so, recognised by their communities, for their communities.",
     "source": "Design handoff 'Wall & Poster', September 2026; default wording, awaiting editorial sign-off.",
-    "review": { "status": "needs-review" },
-    "publication": { "kiosk": true, "publicWeb": false }
+    "review": {
+      "status": "approved",
+      "decisionReference": "attract-words-review-2026-09-27",
+      "contentVersion": "text-dacb108ff85c",
+      "reviewedAt": "2026-09-27T18:18:20.144Z",
+      "note": "Reviewed by Tony Yanick in the staff review app."
+    },
+    "publication": {
+      "kiosk": true,
+      "publicWeb": false
+    }
   }
 }

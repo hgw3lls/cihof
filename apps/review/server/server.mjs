@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
-import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview } from './data.mjs';
 import { readiness, readSignoffs } from './readiness.mjs';
+import { signoffChecklists } from './checklist.mjs';
 import { history, sheetRows } from './history.mjs';
 import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -34,9 +34,7 @@ const mime = {
 
 export function createReviewServer({ root, dist, port }) {
   const draftPath = join(root, '.review', 'draft.json');
-  const readDraft = () => {
-    try { return JSON.parse(readFileSync(draftPath, 'utf8')); } catch { return emptyDraft(); }
-  };
+  const readDraft = () => readDraftFile(draftPath);
   const writeDraft = (draft) => {
     mkdirSync(join(root, '.review'), { recursive: true });
     writeFileSync(draftPath, `${JSON.stringify(draft, null, 2)}\n`);
@@ -74,7 +72,8 @@ export function createReviewServer({ root, dist, port }) {
     if (request.method === 'GET' && path === '/api/review') {
       const draft = readDraft();
       const review = loadReview();
-      const signoffs = readSignoffs(root);
+      const checklists = signoffChecklists(root);
+      const signoffs = readSignoffs(root).map((item) => ({ ...item, confirms: checklists[item.section] ?? [] }));
       return json(response, 200, { ...review, signoffs, readiness: readiness(review, signoffs), draft, counts: draftCounts(draft), git: gitStatus(root) });
     }
     if (request.method === 'GET' && path === '/api/history') {
@@ -96,20 +95,6 @@ export function createReviewServer({ root, dist, port }) {
       writeDraft(draft);
       return json(response, 200, { counts: draftCounts(draft) });
     }
-    // A scan of a signed sheet, kept on this computer until the sign-off is
-    // saved, when signoffs:apply files it with the other signed decisions.
-    if (request.method === 'POST' && path === '/api/upload') {
-      const { name, data } = await body(request, 20 * 1024 * 1024);
-      const extension = String(extname(String(name ?? ''))).toLowerCase();
-      if (!['.pdf', '.jpg', '.jpeg', '.png'].includes(extension)) return json(response, 400, { error: 'A scan is a PDF, JPEG or PNG.' });
-      const bytes = Buffer.from(String(data ?? ''), 'base64');
-      if (bytes.length === 0) return json(response, 400, { error: 'The file is empty.' });
-      const digest = createHash('sha256').update(bytes).digest('hex').slice(0, 16);
-      mkdirSync(join(root, '.review', 'uploads'), { recursive: true });
-      const file = `.review/uploads/${digest}${extension}`;
-      writeFileSync(join(root, file), bytes);
-      return json(response, 200, { file, name: String(name).slice(0, 200), size: bytes.length });
-    }
     if (request.method === 'POST' && path === '/api/check') {
       const { audience } = await body(request);
       return json(response, 200, { results: check({ root, draft: readDraft(), audience: audienceOf(audience) }) });
@@ -128,6 +113,14 @@ export function emptyDraft() {
   return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
 }
 
+/**
+ * The reviewer's unsaved decisions, in the shape this version expects. A draft
+ * kept by an older version lacks the reviews added since.
+ */
+export function readDraftFile(path) {
+  try { return normaliseDraft(JSON.parse(readFileSync(path, 'utf8'))); } catch { return emptyDraft(); }
+}
+
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
 function normaliseDraft(value) {
   const object = (candidate) => (candidate && typeof candidate === 'object' && !Array.isArray(candidate) ? candidate : {});
@@ -142,7 +135,9 @@ function normaliseDraft(value) {
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
     filmStarts: object(draft.filmStarts),
-    signoffs: object(draft.signoffs),
+    // Only what this app can decide: an acceptance, or a clearing. A signature
+    // recorded the old way, for someone else, is not made into an acceptance.
+    signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
   };
 }
