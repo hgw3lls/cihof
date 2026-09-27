@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "note": "Places removed from the exhibit, and why. Only places in Cleveland and Northeast Ohio are kept, and a place another one already covers is folded into it. None of these was approved, and none of their ties to people was. scripts/ingest-hofworld.js skips every id here, so an import cannot bring one back.",
+  "note": "Places removed from the exhibit, and why. Only places within metro Cleveland are kept: its neighbourhoods and nearby communities, and its institutions. Cleveland itself is not a place, since every inductee is of the Cleveland International Hall of Fame. A place another one covers is folded into it. None of these places was approved. Ties that had been approved are kept here, with their role and decision, so the decision is not lost. scripts/ingest-hofworld.js skips every id here, so an import cannot bring one back.",
   "removed": [
     {
       "id": "place:hungary",
@@ -387,6 +387,204 @@
       "type": "country_or_region",
       "ties": [],
       "reason": "Part of the Cleveland Cultural Gardens (place:cleveland-cultural-gardens), which is approved and covers every national garden.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:beachwood",
+      "name": "Beachwood",
+      "type": "neighborhood",
+      "ties": [],
+      "reason": "An empty duplicate of Beachwood (place:beachwood-ohio), which keeps its tie.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:greater-cleveland",
+      "name": "Greater Cleveland",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Cleveland itself: every inductee is of the Cleveland International Hall of Fame, so the region is not a place on the map.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:cleveland",
+      "name": "Cleveland",
+      "type": "country_or_region",
+      "ties": [
+        "rev-mikhail-mikhail-2016"
+      ],
+      "reason": "Cleveland itself: every inductee is of the Cleveland International Hall of Fame, so the city is not a place on the map.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:warren-ohio-mr",
+      "name": "Warren, Ohio, Mr",
+      "type": "city_or_locality",
+      "ties": [
+        "alex-machaskee-2010"
+      ],
+      "reason": "A city outside metro Cleveland.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:cleveland-ohio",
+      "name": "Cleveland, Ohio",
+      "type": "city_or_locality",
+      "ties": [
+        "dr-dieu-thuc-do-2010",
+        "helen-karpinski-1899-2002-2010",
+        "lonnie-mccauley-2010",
+        "bishop-a-edward-pevec-2013",
+        "jack-coyne-2013",
+        "jack-coyne-2013",
+        "josef-holzer-2013",
+        "richard-a-ganim-2015",
+        "anda-cook-2022",
+        "taras-szmagala-2022",
+        "victor-ruiz-2022",
+        "pierre-bejjani-2023",
+        "veronica-dahlberg-2024",
+        "beverly-kerecman-2025",
+        "catherine-jorgensen-mccutcheon-2026"
+      ],
+      "approvedTies": [
+        {
+          "id": "edge:5264d913b61707",
+          "person": "dr-dieu-thuc-do-2010",
+          "role": "founded",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:1a8c622ad57081",
+          "person": "helen-karpinski-1899-2002-2010",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:87da81ca5f438b",
+          "person": "lonnie-mccauley-2010",
+          "role": "worked",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:c9dc56b32f7a26",
+          "person": "bishop-a-edward-pevec-2013",
+          "role": "served",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:93ef34c7ca570c",
+          "person": "jack-coyne-2013",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:52bcec08870f5b",
+          "person": "jack-coyne-2013",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:ed049cc9f9ef70",
+          "person": "josef-holzer-2013",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:119d89b5897966",
+          "person": "richard-a-ganim-2015",
+          "role": "founded",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:bd33adcf1b293f",
+          "person": "anda-cook-2022",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:5fafe83fc066fb",
+          "person": "taras-szmagala-2022",
+          "role": "served",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:5c327d61826d11",
+          "person": "victor-ruiz-2022",
+          "role": "served",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:ce17894ed38c12",
+          "person": "pierre-bejjani-2023",
+          "role": "founded",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:359bdef28ef9f2",
+          "person": "veronica-dahlberg-2024",
+          "role": "lived",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:07de271f77ad82",
+          "person": "beverly-kerecman-2025",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        },
+        {
+          "id": "edge:42a1790c7d098b",
+          "person": "catherine-jorgensen-mccutcheon-2026",
+          "role": "organized",
+          "decisionReference": "place-roles-review-2026-09-24"
+        }
+      ],
+      "reason": "Cleveland itself: every inductee is of the Cleveland International Hall of Fame, so the city is not a place on the map.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:youngstown-ohio",
+      "name": "Youngstown, Ohio",
+      "type": "city_or_locality",
+      "ties": [
+        "lucretia-stoica-2011"
+      ],
+      "reason": "A city outside metro Cleveland.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:canton-ohio",
+      "name": "Canton, Ohio",
+      "type": "city_or_locality",
+      "ties": [
+        "veronica-dahlberg-2024"
+      ],
+      "reason": "A city outside metro Cleveland.",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:ashtabula",
+      "name": "Ashtabula",
+      "type": "place",
+      "ties": [
+        "veronica-dahlberg-2024"
+      ],
+      "approvedTies": [
+        {
+          "id": "edge:de22be6bccc90e",
+          "person": "veronica-dahlberg-2024",
+          "role": "lived",
+          "decisionReference": "place-roles-review-2026-09-24"
+        }
+      ],
+      "reason": "A city outside metro Cleveland.",
       "decisionReference": "places-scope-2026-09-27",
       "decidedBy": "Tony Yanick"
     }

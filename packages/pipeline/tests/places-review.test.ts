@@ -12,10 +12,11 @@ import { placeTextVersion } from '../src/build/place-text.ts';
  * Places, against the collection as it actually stands.
  *
  * Eighty-two places and eighty-six ties arrived from the HOF_WORLD v3 archive,
- * unreviewed. The thirty-seven outside Cleveland and Northeast Ohio, and their
- * nineteen ties, were removed on 27 September 2026, and two empty garden leads
- * folded into the Cleveland Cultural Gardens, leaving forty-three places and
- * sixty-seven ties. Reviewers have approved some since, and will approve more. The
+ * unreviewed. On 27 September 2026 the exhibit kept only places within metro
+ * Cleveland, not Cleveland itself (every inductee is of the Cleveland Hall of
+ * Fame), and folded duplicates into the places they repeat: forty-seven places
+ * and thirty-nine ties went (data/cihof_places_removed.json), leaving
+ * thirty-five places and forty-seven ties. Reviewers have approved some since, and will approve more. The
  * point of these is that volume does not substitute for review, so the
  * threshold tests start from the sheet with every review cleared.
  */
@@ -35,8 +36,8 @@ const approvedPlace = <T extends { name: string; neighborhood?: string; shortHis
   ({ ...place, review: { ...approved, contentVersion: placeTextVersion(place) }, publication: everywhere });
 
 test('the ingest landed, and only reviewed places and roled ties are publishable', () => {
-  assert.equal(seeds.length, 43);
-  assert.equal(ties.length, 67);
+  assert.equal(seeds.length, 35);
+  assert.equal(ties.length, 47);
   const reviewedWithHistory = (seeds as Array<Record<string, unknown>>)
     .filter((seed) => seed['review'] && String(seed['shortHistory'] ?? '').trim().length > 0).map((seed) => seed['id']);
   for (const place of publishedPlaces(seeds, 'kiosk')) {
@@ -49,7 +50,7 @@ test('the ingest landed, and only reviewed places and roled ties are publishable
 
 test('a place removed from the exhibit, and its ties, stay removed', () => {
   const removed = JSON.parse(readFileSync(new URL('../../../data/cihof_places_removed.json', import.meta.url), 'utf8')).removed as Array<{ id: string }>;
-  assert.equal(removed.length, 39);
+  assert.equal(removed.length, 47);
   const held = new Set((seeds as Array<{ id: string }>).map((seed) => seed.id));
   for (const { id } of removed) {
     assert.ok(!held.has(id), `${id} was removed`);
@@ -58,16 +59,16 @@ test('a place removed from the exhibit, and its ties, stay removed', () => {
 });
 
 test('a lead is separated from a place somebody wrote a history for', () => {
-  // Twenty-nine of the forty-three are names a harvester found. Mixing them into
-  // the review queue would put twenty-nine blank rows in front of a reviewer.
+  // Twenty-one of the thirty-five are names a harvester found. Mixing them into
+  // the review queue would put twenty-one blank rows in front of a reviewer.
   const progress = placeReviewProgress(sheet);
-  assert.equal(progress.places, 43);
+  assert.equal(progress.places, 35);
   assert.equal(progress.researched, 14);
-  assert.equal(progress.leads, 29);
+  assert.equal(progress.leads, 21);
 });
 
 test('a reviewed lead still does not count towards the lens', () => {
-  // The trap: forty-three places and a threshold of eight invites approving
+  // The trap: thirty-five places and a threshold of eight invites approving
   // whatever is nearest. A place with no history publishes a name and a blank
   // paragraph, so approval alone is not enough.
   const withLeadsApproved = {
@@ -75,7 +76,7 @@ test('a reviewed lead still does not count towards the lens', () => {
     rows: unreviewed.rows.map((row) => (row.band === 'lead' ? { ...row, reviewed: true } : row)),
   };
   const progress = placeReviewProgress(withLeadsApproved);
-  assert.equal(progress.reviewed, 29);
+  assert.equal(progress.reviewed, 21);
   assert.equal(progress.publishable, 0, 'a history is required, not just a signature');
   assert.equal(progress.placesWouldOpen, false);
 });
@@ -108,7 +109,7 @@ test('the places sheet asks one question per place, and answers none of them', (
   // Roles live on the ties sheet. A roles column here would be a list a
   // curator has to keep in the same order as a list they cannot see.
   assert.ok(!columns.includes('roles'), 'roles are not a place-level decision');
-  assert.equal(rows.length, 43, 'one row per place');
+  assert.equal(rows.length, 35, 'one row per place');
 
   const approve = columns.indexOf('approve');
   const reference = columns.indexOf('decisionReference');
@@ -123,7 +124,7 @@ test('the ties sheet asks one question per tie, and answers none of them', () =>
   const csv = placeTiesSheetCsv(sheet);
   const [header = '', ...rows] = csv.trim().split('\n');
   const columns = header.split(',');
-  assert.equal(rows.length, 67, 'one row per tie');
+  assert.equal(rows.length, 47, 'one row per tie');
 
   // The harvested verb is shown as a prompt and kept out of the answer: being
   // born somewhere is not the claim that you lived there.

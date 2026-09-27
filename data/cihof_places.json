@@ -723,18 +723,6 @@
       "researched": false
     },
     {
-      "id": "place:beachwood",
-      "name": "Beachwood",
-      "type": "neighborhood",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-text-lead"
-      },
-      "researched": false
-    },
-    {
       "id": "place:near-west-side",
       "name": "Near West Side",
       "type": "neighborhood",
@@ -915,69 +903,9 @@
       "researched": false
     },
     {
-      "id": "place:greater-cleveland",
-      "name": "Greater Cleveland",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:cleveland",
-      "name": "Cleveland",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:warren-ohio-mr",
-      "name": "Warren, Ohio, Mr",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
       "id": "place:beachwood-ohio",
-      "name": "Beachwood, Ohio",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:cleveland-ohio",
-      "name": "Cleveland, Ohio",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:youngstown-ohio",
-      "name": "Youngstown, Ohio",
-      "type": "city_or_locality",
+      "name": "Beachwood",
+      "type": "neighborhood",
       "shortHistory": "",
       "neighborhood": "",
       "provenance": {
@@ -988,32 +916,8 @@
     },
     {
       "id": "place:bentleyville-oh",
-      "name": "Bentleyville, OH",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:canton-ohio",
-      "name": "Canton, Ohio",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:ashtabula",
-      "name": "Ashtabula",
-      "type": "place",
+      "name": "Bentleyville",
+      "type": "neighborhood",
       "shortHistory": "",
       "neighborhood": "",
       "provenance": {
