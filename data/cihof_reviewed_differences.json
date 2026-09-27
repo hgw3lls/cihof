@@ -3,14 +3,54 @@
   "note": "Differences from the frozen published record that a decision made. Written by the apply tools and npm run parity:record; read by packages/pipeline/tests/parity.test.ts.",
   "differences": [
     {
+      "difference": "abby-mina-2018.bioText: published \"Abdullah (Abby) Mina Abdullah (Abby) Mina Mr. Abdullah Mina is of gre -> rebuilt \"Abdullah “Abby” Mina spent decades making Cleveland easier to navigat #9b4db98a39",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "aklilu-demessie-2026.bioText: published \"Aklilu Demessie came from Ethiopia to Ohio through an American Field  -> rebuilt \"Aklilu Demessie has spent more than five decades turning opportunitie #888f7f7320",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "akram-boutros-2019.bioText: published \"Akram Boutros, MD, FACHE Akram Boutros Akram Boutros, MD, FACHE In hi -> rebuilt \"Dr. Akram Boutros led The MetroHealth System from 2013 to 2022 throug #03a1229292",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "albert-b-ratner-2011.bioText: published \"Albert B. Ratner is co-chairman of the board of Forest City Enterpris -> rebuilt \"Albert B. Ratner was a Cleveland business leader, real estate develop #2cb9fba8b0",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
-      "difference": "alex-machaskee-2010.bioText: published \"Alex Machaskee is the retired Publisher, President and Chief Executiv -> rebuilt \"Alex Machaskee is the retired Publisher, President, and Chief Executi #54c0728521",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "alex-machaskee-2010.bioText: published \"Alex Machaskee is the retired Publisher, President and Chief Executiv -> rebuilt \"Alex Machaskee spent more than four decades at *The Plain Dealer* whi #b5d50859cf",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ambassador-edward-f-crawford-2024.bioText: published \"Ambassador Edward F. Crawford built major Cleveland-based businesses  -> rebuilt \"Ambassador Edward F. Crawford built companies from Cleveland that eve #75cf3c09c5",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "anda-cook-2022.bioText: published \"Anda Cook was born in Riga, capitol of Latvia, but when she was 9 yea -> rebuilt \"Anda Cook has shaped Cleveland through fair housing, neighborhood adv #d3dd82469a",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "andy-chakalis-2026.bioText: published \"A native Clevelander, Andrew Chakalis attended Brush High School and  -> rebuilt \"Andrew Chakalis built a career linking art, education, cultural prese #299205c0b7",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "andy-fedynsky-2026.bioText: published \"Andy Fedynsky was born in 1947 in Innsbruck, Austria to Ukrainian ref -> rebuilt \"Andy Fedynsky has spent decades making Ukrainian history visible in C #337f764fe6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "anthony-yen-yan-yuan-tai-2012.bioText: published \"Anthony Yen (Yan Yuan Tai) is an internationally recognized expert in -> rebuilt \"Anthony Yen built a career connecting Cleveland businesses and instit #1b21e22ed4",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "anthony-yen-yan-yuan-tai-2012.sortName: published \"Tai), Anthony Yen (Yan Yuan\" -> rebuilt \"Yen, Anthony\"",
@@ -18,9 +58,39 @@
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
     },
     {
-      "difference": "august-pust-2010.bioText: published \"August B. Pust, during his more than thirty-year career in U.S. publi -> rebuilt \"August B. Pust was born in Ljubljana, Slovenia, in 1938 and came to t #6979db00a7",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "arnie-de-la-porte-2016-2016.bioText: published \"Arnie de la Porte Charles A. Andre de la Porte, or Arnie de la Porte  -> rebuilt \"Arnie de la Porte helped build the international-business network tha #e969ccf540",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "atul-mehta-2018.bioText: published \"Dr. Atul C. Mehta, M.D. Dr. Atul C. Mehta, M.D Dr. Atul C. Mehta is a -> rebuilt \"Dr. Atul C. Mehta has spent decades helping build Cleveland Clinic in #15f97ac693",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "august-pust-2010.bioText: published \"August B. Pust, during his more than thirty-year career in U.S. publi -> rebuilt \"August B. Pust spent more than three decades building connections amo #e736324402",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "basil-russo-2017.bioText: published \"Basil Russo Basil M. Russo is the National President of the Order Ita -> rebuilt \"Basil M. Russo has spent decades building institutions that connect C #6c8842d1f5",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "berj-shakarian-2020.bioText: published \"Berj A. Shakarian, Architect Berj A. Shakarian, Architect As a young  -> rebuilt \"Berj A. Shakarian spent more than five decades shaping Cleveland thro #a46d400eef",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "beverly-kerecman-2025.bioText: published \"Beverly Haru Hashiguchi was born in Cleveland, Ohio and graduated fro -> rebuilt \"Beverly Haru Hashiguchi has spent decades preserving Japanese America #c6605f9896",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "bill-miller-2017.bioText: published \"William (Bill) Miller Bill Miller Bill Miller You would be hard-press -> rebuilt \"William F. “Bill” Miller spent four decades showing Clevelanders just #0d30dbef45",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "bill-miller-2017.countryTags: published [Slovenian] -> rebuilt [Polish, German]",
@@ -28,14 +98,114 @@
       "note": "Heritage corrections supplied by the project owner, 2026-09-22. Signed sheet: data/curation-decisions/heritage-corrections-2026-09-22.csv."
     },
     {
+      "difference": "bishop-a-edward-pevec-2013.bioText: published \"The Most Reverend (Anthony) Edward Pevec was born in Cleveland, OH on -> rebuilt \"The Most Reverend Anthony Edward Pevec devoted more than five decades #ad5e91c3bc",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "bishop-anthony-pilla-2015.bioText: published \"Anthony Michael Pilla, the son of Italian immigrants, was born in Cle -> rebuilt \"Anthony M. Pilla rose from Cleveland’s immigrant Catholic community t #b065e1d464",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "branka-malinar-2025.bioText: published \"Branka Malinar was born in Popovec, Croatia, in 1941 and came to Clev -> rebuilt \"Branka M. Malinar has spent her life making memory tangible. In North #2ee8769706",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "carl-robson-2022.bioText: published \"Carl Robson, M.D. Carl Robson Carl Robson was raised in Hinsdale, Ill -> rebuilt \"Dr. Carl Robson spent nearly 50 years caring for families in Clevelan #f63bd5c352",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "carolyn-balogh-2016-2016.bioText: published \"Carolyn Balogh was born and raised in Cleveland, Ohio. She earned her -> rebuilt \"Carolyn Balogh has spent decades connecting business, philanthropy, e #4042796a20",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "catherine-jorgensen-mccutcheon-2026.bioText: published \"Norwegians generally are not eager to seek a spotlight for themselves -> rebuilt \"Catherine Jorgensen McCutcheon has spent decades connecting Cleveland #ae81f3a697",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "david-gilbert-2025.bioText: published \"David Gilbert serves as president and CEO of Greater Cleveland Sports -> rebuilt \"David Gilbert has helped make Cleveland a destination for major sport #7b089a1f5e",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dick-pogue-2015.bioText: published \"Richard W. (“Dick”) Pogue is Senior Advisor (i.e., full-time independ -> rebuilt \"Richard W. “Dick” Pogue has spent decades strengthening many of the i #b72bc47635",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "dick-pogue-2015.countryTags: published [] -> rebuilt [Scotch-Irish]",
       "decisionReference": "heritage-corrections-2026-09-22",
       "note": "Pogue was inducted on a community basis and the record said no nationality tag was assigned. That decision was revisited, not overlooked: see the same signed sheet."
     },
     {
-      "difference": "dr-dieu-thuc-do-2010.bioText: published \"Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of  -> rebuilt \"Dr. Dieu Thuc Do was born in Rach Gia, Vietnam, the oldest of five ch #379d54092a",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "dick-russ-2015.bioText: published \"Dick Russ has been serving the people of Northeast Ohio for some 40 y -> rebuilt \"Dick Russ spent more than four decades telling Northeast Ohio’s stori #8dbfcf0099",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dona-brady-2024.bioText: published \"Dona Brady was born and raised in Cleveland, Ohio and is of Albanian  -> rebuilt \"Dona Brady has spent decades connecting Cleveland’s Albanian American #367c50715f",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "donna-hom-2014.bioText: published \"Donna was born in Guangdong province in southern China. She married h -> rebuilt \"Donna Hom helped build the commercial heart of Cleveland’s modern Asi #bbe3bc3220",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dr-dieu-thuc-do-2010.bioText: published \"Dr. Dieu Thuc Do was born in Rach Gia, Viet Nam. He is the oldest of  -> rebuilt \"Dr. Dieu Thuc Do helped build some of the civic, religious, and cultu #208a34983b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dr-eugene-jordan-2024.bioText: published \"Dr. Eugene Jordan was many things in his life which ended, sadly, in  -> rebuilt \"Dr. Eugene Jordan spent his life combining professional service with  #fd7482c065",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dr-jaya-shah-2012.bioText: published \"Dr. Shah, a Pediatrician practicing for more than 30 years, retired f -> rebuilt \"Dr. Shah’s greatest impact in Greater Cleveland has been her ability  #df6a135ec5",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "dr-maria-pujana-2013.bioText: published \"Dr. Maria Pujana, a physician, a clinical neurologist and neurophysio -> rebuilt \"Dr. Maria Pujana has built a Cleveland career spanning medicine, publ #62684c40ff",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "erika-puussaar-2024.bioText: published \"Erika Kikut Puussaar was born in a small village named Vandra in cent -> rebuilt \"Erika Kikut Puussaar has spent more than five decades preserving Esto #1431a5d4f6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ernie-mihaly-2014.bioText: published \"Ernest Mihaly was born in 1920 on East 122nd Street in the Buckeye Ro -> rebuilt \"Ernest Mihaly’s life traces nearly a century of Hungarian American hi #3a4170a94d",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "eugene-bak-2014.bioText: published \"Gene Bak was born in Poland. In February 1940 the Soviets deported hi -> rebuilt \"Gene Bak transformed a childhood of war, deportation, and displacemen #fa04364e06",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "eugenia-stolarczyk-2016-2016.bioText: published \"Eugenia Stolarczyk Since her arrival in Cleveland, Eugenia Stolarczyk -> rebuilt \"Eugenia Stolarczyk became one of the enduring voices of Polish Clevel #7b18898a28",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "fr-jim-o-donnell-2012.bioText: published \"Fr. Jim O'Donnell was ordained a priest in 1956 in the Diocese of Cle -> rebuilt \"Fr. Jim O’Donnell spent nearly half a century making Cleveland’s Cent #1d4aebb470",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "georgine-welo-2023.bioText: published \"Georgine Welo grew up in a Serbian Orthodox home and began serving th -> rebuilt \"Georgine Welo has spent much of her life keeping institutions alive—f #abc199982a",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "gerald-m-quinn-2011.bioText: published \"Gerald M. Quinn, an award winning broadcaster and community leader bo -> rebuilt \"Gerald M. “Gerry” Quinn was an award-winning broadcaster and communit #d1afebcc5b",
@@ -48,9 +218,9 @@
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
-      "difference": "helen-karpinski-1899-2002-2010.bioText: published \"(1899 – 2002) Born in Cleveland in 1899, Helen Karpinski was raised i -> rebuilt \"Helen Karpinski (1899–2002) was born in Cleveland and raised in Reyno #22966b6910",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "helen-karpinski-1899-2002-2010.bioText: published \"(1899 – 2002) Born in Cleveland in 1899, Helen Karpinski was raised i -> rebuilt \"Helen Karpinski spent more than half a century opening doors for wome #7ef54ed40d",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "helen-karpinski-1899-2002-2010.sortName: published \"2002), Helen Karpinski (1899 –\" -> rebuilt \"Karpinski, Helen\"",
@@ -58,19 +228,94 @@
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
     },
     {
+      "difference": "hon-mary-rose-oakar-2012.bioText: published \"Hon. Mary Rose Oakar, received her B.A. at Ursuline College, M.A. at  -> rebuilt \"Mary Rose Oakar built a public-service career that stretched from Cle #9e6f69c0f4",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "honorable-jose-a-villanueva-2015.bioText: published \"Judge Villanueva was born in Utuado, Puerto Rico. Judge José A.Villan -> rebuilt \"Judge José A. Villanueva helped change who was represented within Cle #42a97e9e84",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "honorable-jose-a-villanueva-2015.sortName: published \"Villanueva, Honorable José A.\" -> rebuilt \"Villanueva, José A.\"",
       "decisionReference": "sort-names-2026-09-24",
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
     },
     {
-      "difference": "irene-morrow-2010.bioText: published \"Irene Morrow is married to Edward and has six children (Jeffrey, Patr -> rebuilt \"Irene Morrow built a distinguished career in public service while bec #7e67724b2a",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "ingrida-bublys-2019.bioText: published \"Ingrida Bublys, President of IB International Inc., shares 30 years i -> rebuilt \"Ingrida Bublys has spent decades building practical connections betwe #ba512809d2",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
-      "difference": "jeanette-grasselli-brown-2010.bioText: published \"Jeanette Grasselli Brown spent 38 years in industrial research, retir -> rebuilt \"Jeanette Grasselli Brown spent 38 years in industrial research, retir #c71c708d42",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "irene-morrow-2010.bioText: published \"Irene Morrow is married to Edward and has six children (Jeffrey, Patr -> rebuilt \"Irene Morrow built a Cleveland career that joined public administrati #b175d409ad",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "jack-coyne-2013.bioText: published \"John (“Jack”) P. Coyne was born in Cleveland, Ohio. John is a graduat -> rebuilt \"John “Jack” P. Coyne built long careers in law, business, and civic l #67bb0f1c8b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "jack-kahl-2016.bioText: published \"Jack Kahl has been recognized globally for his innovative approach to -> rebuilt \"Jack Kahl built one of Northeast Ohio’s best-known entrepreneurial su #5e48a7f0c6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "jeanette-grasselli-brown-2010.bioText: published \"Jeanette Grasselli Brown spent 38 years in industrial research, retir -> rebuilt \"Jeanette Grasselli Brown spent her career moving between the laborato #d3950aaa44",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "jim-craciun-2017.bioText: published \"Jim Craciun James M. (“Jim”) Craciun was born on August 31, 1951, and -> rebuilt \"Jim Craciun has spent decades connecting Cleveland’s Romanian America #def542c127",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "jim-foster-2014.bioText: published \"James H. Foster joined The City Club of Cleveland in 1993, as Managin -> rebuilt \"James H. Foster spent two decades transforming the reach of the City  #73d215897f",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "joe-valencic-2020.bioText: published \"Joe Valencic Joseph Valencic is a dynamic and creative presence withi -> rebuilt \"Joe Valencic has spent decades making Cleveland’s Slovenian heritage  #2f274012f0",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "johnny-k-wu-2024.bioText: published \"A native Clevelander raised in Central America, Johnny K. Wu is an aw -> rebuilt \"Johnny K. Wu has spent more than 25 years using film, festivals, medi #8e3a43172e",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "josef-holzer-2013.bioText: published \"Josef Holzer was born in Apatin, Batschka, in the former Yugoslavia,  -> rebuilt \"Josef Holzer helped turn Cleveland’s Donauschwaben community from a n #8f5ca996d6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "joseph-p-meissner-2014.bioText: published \"Joseph P. Meissner built a public life across military service, law,  -> rebuilt \"Joseph P. Meissner spent decades using law as a practical tool for pe #5847b96e6e",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "joyce-mariani-2023.bioText: published \"Joyce Mariani has a deep love for the culture of Italy handed down fr -> rebuilt \"Joyce Mariani has spent decades turning Italian heritage into public  #bc490c2999",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ken-kovach-2012.bioText: published \"Ken Kovach has built upon his advanced studies in sociology to develo -> rebuilt \"Ken Kovach built a decades-long career in organizational development, #6c74b4b458",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "khalid-samad-2016-2016.bioText: published \"El Hajj Amir Khalid A. Samad Khalid Samad El Hajj Amir Khalid A. Sama -> rebuilt \"El Hajj Amir Khalid A. Samad has spent decades developing Cleveland-b #30d5968382",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "le-nguyen-2026.bioText: published \"For decades, when Cleveland’s Asian communities needed help navigatin -> rebuilt \"For more than four decades, Le Nguyen helped Asian residents navigate #a99a4324e9",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "leo-weidenthal-2010.bioText: published \"Leo Weidenthal (1878-1967) was editor of the Jewish Independent and f -> rebuilt \"Leo Weidenthal (1878–1967) was a Cleveland journalist, civic leader,  #e9a4659491",
@@ -78,9 +323,9 @@
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
-      "difference": "lonnie-mccauley-2010.bioText: published \"Lonnie Davis McCauley was born in Cleveland on September 19th, 1947.  -> rebuilt \"Lonnie Davis McCauley was born in Cleveland on September 19, 1947. Sh #d8c38c5579",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "lonnie-mccauley-2010.bioText: published \"Lonnie Davis McCauley was born in Cleveland on September 19th, 1947.  -> rebuilt \"Lonnie Davis McCauley devoted her life to making Cleveland’s Irish Am #89f2ec2b91",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "lucretia-stoica-2011.bioText: published \"Lucretia Stoica was born in Youngstown, Ohio. As a young child she tr -> rebuilt \"Lucretia Stoica was a longtime Cleveland civic leader, immigrant advo #ab88ed98ed",
@@ -88,9 +333,24 @@
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
+      "difference": "lucy-torres-2026.bioText: published \"Lucy Torres is a Puerto Rican community leader whose life has been de -> rebuilt \"Lucy Torres has spent decades strengthening Cleveland’s Puerto Rican  #e29543c26c",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "luis-martinez-2011.bioText: published \"Luis Martinez was born in Bayamon, Puerto Rico and moved with his fam -> rebuilt \"Luis Martinez was born in Bayamón, Puerto Rico, and moved with his fa #97da3c9175",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "margaret-callander-2014.bioText: published \"Margaret was born on July 28, 1932 in Cleveland to Scottish Emigrant  -> rebuilt \"Margaret spent more than half a century making Scottish dance and cul #bcc08d355f",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "margaret-lynch-2020.bioText: published \"Margaret Lynch has served as Executive Director of the Irish American -> rebuilt \"Margaret Lynch has spent decades turning Cleveland’s Irish American a #1e5c2507a2",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "margaret-w-wong-2010.bioText: published \"In more than 30 years of practice, Margaret Wong built Margaret W. Wo -> rebuilt \"Margaret W. Wong built Margaret W. Wong & Associates into one of the  #068a851a89",
@@ -98,14 +358,79 @@
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
+      "difference": "marilyn-madigan-2019.bioText: published \"Marilyn Madigan is the daughter of the late Jack and Catherine Finn M -> rebuilt \"Marilyn Madigan has spent a lifetime serving Cleveland through health #1db2615fb7",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "may-chen-2020.bioText: published \"May J. Chen May Chen May J. Chen, is co-founder and executive directo -> rebuilt \"May J. Chen has spent decades building the social-service infrastruct #f7be326ac8",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "mayor-frank-jackson-2025.bioText: published \"Mayor Frank G. Jackson Honorable Frank G. Jackson served as the 56th  -> rebuilt \"Frank G. Jackson’s public career was rooted in the Cleveland neighbor #95d688271c",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "michael-d-polensek-2023.bioText: published \"Michael D. Polensek, the “Dean” of City Council, and Councilman repre -> rebuilt \"Michael D. Polensek has represented Cleveland’s northeast-side neighb #26ca6c8333",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "milton-maltz-2012.bioText: published \"Milton Maltz founded Malrite Communications Group, Inc. in 1956 and s -> rebuilt \"Milton Maltz built a national career in broadcasting, philanthropy, a #df203ce3fb",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "mohan-bafna-2016.bioText: published \"Opinion from Suresh Bafna My father, Dr. Mohan Bafna, comes from a ve -> rebuilt \"Dr. Mohan Bafna built a Cleveland life around medicine, institution-b #baa9e9040b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "mona-alag-2017.bioText: published \"Mona Alag arrived in Cleveland from India in 1970 and became a commit -> rebuilt \"Mona Alag has spent decades building the informal support systems tha #3016eb5a85",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "monte-ahuja-2014.bioText: published \"Monte Ahuja came to the U.S. in 1969 as a student at Ohio State Unive -> rebuilt \"Monte Ahuja’s Cleveland story began as a student and grew into decade #763f92ffa6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "nacy-panzica-2013.bioText: published \"Nacy Panzica spent more than 60 years in the construction industry an -> rebuilt \"Nacy Panzica spent more than six decades building in Greater Clevelan #adfaacb3da",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "paramjit-singh-2010.bioText: published \"Paramjit Singh has been a Community Leader of the Asian Indian Commun -> rebuilt \"Paramjit Singh became a prominent leader in Cleveland’s Asian Indian  #9aa9e54b00",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
-      "difference": "paul-sciria-2010.bioText: published \"Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3 -> rebuilt \"Paul Angelo Sciria was born on November 3, 1928, to Sicilian immigran #55ef839990",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "pat-dowd-2023.bioText: published \"Pat Dowd is the daughter of the late Tom and Millie Dowd and the olde -> rebuilt \"Pat Dowd has spent decades keeping Irish culture active in Cleveland  #ecf8d5b7f6",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "paul-burik-2019.bioText: published \"Paul Burik was born in the city of Budvar – yes, the namesake of Budw -> rebuilt \"Paul Burik has spent decades shaping both Cleveland’s built environme #49196a2555",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "paul-sciria-2010.bioText: published \"Born to Sicilian immigrants, Angelo and Felicia Sciria, on November 3 -> rebuilt \"Paul Angelo Sciria spent decades making sure Cleveland’s Italian Amer #efbb34ff29",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "pierre-bejjani-2023.bioText: published \"Pierre Bejjani is the Managing Director and Executive Editor of Profi -> rebuilt \"Pierre Bejjani has spent decades building platforms for Cleveland’s L #0a911b0506",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "raj-aggarwal-2025.bioText: published \"Raj Aggarwal, PhD, CFA Raj Aggarwal, PhD, CFA is a distinguished acad -> rebuilt \"Raj Aggarwal has spent decades connecting Cleveland’s universities, b #eb809a5118",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "ralph-j-perk-2011.bioText: published \"The City of Cleveland’s 52nd mayor, Ralph J. Perk, was well known for -> rebuilt \"Ralph J. Perk (1914–1999) was a Cleveland political and civic leader  #daf0ba51e0",
@@ -118,6 +443,31 @@
       "note": "Heritage corrections supplied by the project owner, 2026-09-22. Signed sheet: data/curation-decisions/heritage-corrections-2026-09-22.csv."
     },
     {
+      "difference": "ralph-perk-jr-2018.bioText: published \"Ralph J. Perk, Jr. Ralph J. Perk, Jr. Ralph Perk, Jr was born during  -> rebuilt \"Ralph J. “Rocky” Perk Jr. spent decades moving through many of Clevel #52e7188e9b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ramesh-shah-2020.bioText: published \"Ramesh Shah’s humanitarian work in health and education illustrates w -> rebuilt \"Ramesh Shah has spent decades connecting Cleveland’s physicians, educ #806de3085b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ratanjit-s-sondhe-2013.bioText: published \"Ratanjit S. Sondhe emigrated from India in 1968 with two Masters’ deg -> rebuilt \"Ratanjit S. Sondhe built his Cleveland legacy through entrepreneurshi #b8305b0873",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "ray-pianka-2018.bioText: published \"Judge Ray Pianka devoted his life to Cleveland neighborhoods, public  -> rebuilt \"Judge Raymond L. “Ray” Pianka spent nearly his entire life in Clevela #86833d86ba",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "rev-mikhail-mikhail-2016.bioText: published \"The Very Rev. Fr. Mikhail Edward Mikhail, D. Min. was born in Cairo,  -> rebuilt \"The Very Rev. Fr. Mikhail Edward Mikhail helped establish the institu #c32c269cf5",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "reverend-dr-otis-moss-jr-2011.bioText: published \"Theologian, pastor and civic leader, the Reverend Dr. Otis Moss, Jr.  -> rebuilt \"The Reverend Dr. Otis Moss, Jr. is a theologian, pastor, civil rights #e4ea329a17",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
@@ -128,9 +478,29 @@
       "note": "Sort-name repair requested by the project owner, 2026-09-24. The old generator took the last word as the surname, so life dates and alternate names in parentheses became surnames, a suffix left a doubled comma, and one honorific was kept."
     },
     {
-      "difference": "robert-j-haas-2010.bioText: published \"Robert (Bob) Haas was born and raised on Cleveland’s west side. Marri -> rebuilt \"Robert “Bob” Haas was born and raised on Cleveland’s West Side. He gr #51d7c8b8de",
-      "decisionReference": "biographies-review-2026-09-24",
-      "recordedAt": "2026-09-24T23:37:43.463Z"
+      "difference": "richard-a-ganim-2015.bioText: published \"Richard A. Ganim was born in Cleveland, Ohio in 1926, the second youn -> rebuilt \"Richard A. Ganim helped build the civic, religious, and political ins #98c52a65e8",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "richard-fleischman-2019.bioText: published \"Richard Fleischman Born in Cleveland in 1928, Richard Fleischman was  -> rebuilt \"Richard J. Fleischman helped define modern architecture in Cleveland  #c9df279df2",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "robert-j-haas-2010.bioText: published \"Robert (Bob) Haas was born and raised on Cleveland’s west side. Marri -> rebuilt \"Robert “Bob” Haas has spent decades creating ways for people in Great #b1127e5d09",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "sam-kim-2017.bioText: published \"Sam Kim Seung K Kim was born October 30, 1947 in Kimhea, South Korea. -> rebuilt \"Seung “Sam” Kim built his Northeast Ohio life through repeated acts o #769aecc501",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "samuel-h-miller-2013.bioText: published \"Samuel H. Miller is co-chairman emeritus of Forest City Enterprises,  -> rebuilt \"John “Jack” P. Coyne built a distinguished Cleveland career in law, b #c2e17f10a0",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     },
     {
       "difference": "senator-george-voinovich-2010.bioText: published \"From his time as member of the Ohio House of Representatives, Cuyahog -> rebuilt \"George V. Voinovich built a public-service career spanning more than  #1262d9c5b7",
@@ -138,14 +508,84 @@
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
+      "difference": "sheila-murphy-crawford-2018.bioText: published \"Sheila Murphy Crawford Sheila Murphy was born to Ollie and Betty Murp -> rebuilt \"Sheila Murphy Crawford has spent much of her life making Irish cultur #8db3ce3f3b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "shiv-k-aggarwal-2015.bioText: published \"Shiv Aggarwal was born in India, received degrees of B.A (Hons) from  -> rebuilt \"Shiv K. Aggarwal spent roughly six decades in Cleveland creating prac #c72e6322a9",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "sister-alicia-alvarado-2018.bioText: published \"Sister Alicia Alvarado, OP Sister Alicia Alvarado, OP Sister Alicia A -> rebuilt \"Sister Alicia Alvarado spent her life helping Cleveland’s Latino fami #9081720284",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "sree-sreenath-2019.bioText: published \"Sree N. Sreenath, Ph.D., MNO Sree N. Sreenath, Ph.D., MNO Sree N. Sre -> rebuilt \"Sree N. Sreenath has spent decades using Cleveland as a base for work #985dc3ed6d",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "steve-mulloy-2015.bioText: published \"When Stephen L. Mulloy arrived in Cleveland in May 1954 to start a ne -> rebuilt \"Stephen “Steve” Mulloy spent his life returning the welcome Cleveland #babbcde95b",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "sudarshan-sathe-2023.bioText: published \"Sudarshan (su- dar- shun) Sathe (Saa-the) earned a bachelor’s degree  -> rebuilt \"Sudarshan Sathe has built a Cleveland-area career connecting industri #2b0f194387",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "svetlana-stolyarova-2025.bioText: published \"Svetlana Stolyarova, born in the USSR in 1962, is a visionary leader  -> rebuilt \"Svetlana Stolyarova has made Russian and Eastern European culture mor #71391324bf",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "taras-szmagala-2022.bioText: published \"Midge and Taras Szmagala Taras Gregory Szmagala, Sr. was born in Clev -> rebuilt \"Taras “Tary” Szmagala spent his life connecting Cleveland’s Ukrainian #9c3efd089f",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "thomas-j-scanlon-2014.bioText: published \"Thomas J. Scanlon received a Bachelor of Arts, Business Administratio -> rebuilt \"Thomas J. Scanlon has spent more than six decades using legal experti #f4dec4b0b9",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "tony-petkovsek-2011.bioText: published \"Tony Petkovsek has been on daily polka radio since 1961, an unprecede -> rebuilt \"Tony Petkovsek became one of Cleveland’s best-known ambassadors of Sl #b375b3991e",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
     },
     {
+      "difference": "valarie-mccall-2020.bioText: published \"Valarie J. McCall built a Cleveland public-service career across soci -> rebuilt \"Valarie J. McCall built a Cleveland public-service career connecting  #22d5ec3171",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "veronica-dahlberg-2024.bioText: published \"Veronica Isabel Dahlberg was born in Canton, Ohio. She is the daughte -> rebuilt \"Veronica Isabel Dahlberg has spent more than two decades building ins #3eb0ae07bc",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "victor-ruiz-2022.bioText: published \"Victor A. Ruiz Victor A. Ruiz Victor A. Ruiz was born in Puerto Rico  -> rebuilt \"Victor A. Ruiz has spent more than two decades changing educational o #228f35985f",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
       "difference": "vijaya-l-emani-2011.bioText: published \"“You can have Excellence, You can have Excuses, but you cannot have b -> rebuilt \"Vijaya Lakshmi Emani was born in Kurnool, India, to Indurani and G. V #9d480e9a5d",
       "decisionReference": "biographies-review-2026-09-24",
       "recordedAt": "2026-09-24T23:37:43.463Z"
+    },
+    {
+      "difference": "vladimir-rus-2012.bioText: published \"Vladimir Rus was born in Rijeka (Flume), Croatia in 1925. He has live -> rebuilt \"Vladimir Rus was born in Rijeka, Croatia, in 1925 and later settled i #c030d8980c",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
+    },
+    {
+      "difference": "wael-khoury-2017.bioText: published \"Wael Khoury,M.D. Wael Khoury,M.D. Wael Khoury,M.D. Wael Khoury,M.D.,  -> rebuilt \"Dr. Wael Khoury built a Cleveland career that moved between cardiolog #73f142c9a2",
+      "decisionReference": "biographies-review-2026-09-27",
+      "recordedAt": "2026-09-27T21:42:17.174Z"
     }
   ]
 }
