@@ -44,7 +44,7 @@
   "inductees": {
     "alex-machaskee-2010": {
       "id": "alex-machaskee-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Alex Machaskee",
       "sortName": "Machaskee, Alex",
@@ -126,11 +126,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-bfec2b9a4046",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "august-pust-2010": {
       "id": "august-pust-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "August Pust",
       "sortName": "Pust, August",
@@ -216,11 +223,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-789facb1fd8d",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dr-dieu-thuc-do-2010": {
       "id": "dr-dieu-thuc-do-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Dr. Dieu Thuc Do",
       "sortName": "Do, Dieu Thuc",
@@ -305,11 +319,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d89b9c964484",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "helen-karpinski-1899-2002-2010": {
       "id": "helen-karpinski-1899-2002-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Helen Karpinski (1899 – 2002)",
       "sortName": "Karpinski, Helen",
@@ -391,11 +412,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-5dea3a606a97",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "irene-morrow-2010": {
       "id": "irene-morrow-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Irene Morrow",
       "sortName": "Morrow, Irene",
@@ -472,11 +500,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-ef2211178d65",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jeanette-grasselli-brown-2010": {
       "id": "jeanette-grasselli-brown-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Jeanette Grasselli Brown",
       "sortName": "Brown, Jeanette Grasselli",
@@ -558,11 +593,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-f89c3e7e5f99",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "leo-weidenthal-2010": {
       "id": "leo-weidenthal-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Leo Weidenthal",
       "sortName": "Weidenthal, Leo",
@@ -637,11 +679,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-8b2d587e3199",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "lonnie-mccauley-2010": {
       "id": "lonnie-mccauley-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Lonnie McCauley",
       "sortName": "McCauley, Lonnie",
@@ -718,11 +767,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-84056c0ef195",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "margaret-w-wong-2010": {
       "id": "margaret-w-wong-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Margaret W. Wong",
       "sortName": "Wong, Margaret W.",
@@ -807,11 +863,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-74fad0b43cd9",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "paramjit-singh-2010": {
       "id": "paramjit-singh-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Paramjit Singh",
       "sortName": "Singh, Paramjit",
@@ -896,11 +959,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-60e034cb2b33",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "paul-sciria-2010": {
       "id": "paul-sciria-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Paul Sciria",
       "sortName": "Sciria, Paul",
@@ -982,11 +1052,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-fb0dddcc78f5",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "robert-j-haas-2010": {
       "id": "robert-j-haas-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Robert J. Haas",
       "sortName": "Haas, Robert J.",
@@ -1071,11 +1148,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d140d1ded2f4",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "senator-george-voinovich-2010": {
       "id": "senator-george-voinovich-2010",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Senator George Voinovich",
       "sortName": "Voinovich, George",
@@ -1157,11 +1241,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-45551cf2f4e0",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "albert-b-ratner-2011": {
       "id": "albert-b-ratner-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Albert B. Ratner",
       "sortName": "Ratner, Albert B.",
@@ -1238,11 +1329,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d9650169f700",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "gerald-m-quinn-2011": {
       "id": "gerald-m-quinn-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Gerald M. Quinn",
       "sortName": "Quinn, Gerald M.",
@@ -1314,11 +1412,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-270969658c67",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "giahoa-ryan-2011": {
       "id": "giahoa-ryan-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Giahoa Ryan",
       "sortName": "Ryan, Giahoa",
@@ -1400,11 +1505,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-604bbf25b135",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "lucretia-stoica-2011": {
       "id": "lucretia-stoica-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Lucretia Stoica",
       "sortName": "Stoica, Lucretia",
@@ -1487,11 +1599,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-3a153d2dd371",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "luis-martinez-2011": {
       "id": "luis-martinez-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Luis Martinez",
       "sortName": "Martinez, Luis",
@@ -1569,11 +1688,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-5a318de53734",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ralph-j-perk-2011": {
       "id": "ralph-j-perk-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Ralph J. Perk",
       "sortName": "Perk, Ralph J.",
@@ -1656,11 +1782,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-c4ab76be096c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "reverend-dr-otis-moss-jr-2011": {
       "id": "reverend-dr-otis-moss-jr-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Reverend Dr. Otis Moss, Jr.",
       "sortName": "Moss, Otis, Jr.",
@@ -1744,11 +1877,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-c8d99b2bf666",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "tony-petkovsek-2011": {
       "id": "tony-petkovsek-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Tony Petkovsek",
       "sortName": "Petkovsek, Tony",
@@ -1830,11 +1970,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-8d7768338de2",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "vijaya-l-emani-2011": {
       "id": "vijaya-l-emani-2011",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Vijaya L. Emani",
       "sortName": "Emani, Vijaya L.",
@@ -1913,11 +2060,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-24T23:37:43.084Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-8288e3b4844c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "anthony-yen-yan-yuan-tai-2012": {
       "id": "anthony-yen-yan-yuan-tai-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Anthony Yen (Yan Yuan Tai)",
       "sortName": "Yen, Anthony",
@@ -2001,11 +2155,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-bf3ff2519d51",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dr-jaya-shah-2012": {
       "id": "dr-jaya-shah-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Dr. Jaya Shah",
       "sortName": "Shah, Jaya",
@@ -2079,11 +2240,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-170c2cf5c900",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "fr-jim-o-donnell-2012": {
       "id": "fr-jim-o-donnell-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Fr. Jim O’Donnell",
       "sortName": "O’Donnell, Jim",
@@ -2154,11 +2322,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-df7f7bad4ae8",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "hon-mary-rose-oakar-2012": {
       "id": "hon-mary-rose-oakar-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Hon. Mary Rose Oakar",
       "sortName": "Oakar, Mary Rose",
@@ -2243,11 +2418,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-7b76c23ba2c9",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jose-c-feliciano-2012": {
       "id": "jose-c-feliciano-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "José C. Feliciano",
       "sortName": "Feliciano, José C.",
@@ -2324,11 +2506,18 @@
       "documentedContextLine": "Class of 2012 honoree connected to Puerto Rican. Inducted by Alex Machaskee.",
       "honoredForSummary": "Contributions to law and justice, civic leadership, and business and entrepreneurship within Puerto Rican heritage communities and to Greater Cleveland's multicultural civic life.",
       "lifeWorkSummary": "José C. Feliciano was born in Yauco, Puerto Rico and was reared on the near west side of Cleveland. He has been a Partner in the Litigation Group in the Cleveland office of the national law firm of Baker & Hostetler LLP since 1987. Prior thereto, he made history by serving as the first Hispanic public official in the history of the City of Cleveland by serving as the city’s chief prosecuting attorney. The culmination of his public career was Mr. Feliciano’s selection as a White House Fellow by President Ronald Reagan in 1984. Earlier in his career, he was a Cuyahoga County Public Defender and was an attorney for the Legal Aid Society.",
-      "bioTextOverride": "Jose C. Feliciano was born in Yauco, Puerto Rico, and was raised on Cleveland's near west side. He built a distinguished legal and civic career in Cleveland, including partnership in the litigation group at Baker & Hostetler LLP and earlier service as the city's chief prosecuting attorney. In that role, he became the first Hispanic public official in the history of the City of Cleveland. His public career also included work as a Cuyahoga County Public Defender, attorney for the Legal Aid Society, adjunct professor at John Carroll University, and White House Fellow under President Ronald Reagan. Feliciano has been a leader in Hispanic civic life through the Hispanic Roundtable, the Hispanic Leadership Development Program, the Hispanic Community Forum, and the Ohio Hispanic Bar Association. His broader board service connected law, education, economic inclusion, immigration, public television, health care, and community development across Northeast Ohio. His profile also notes extensive bar leadership and recognition from civic, legal, and Hispanic organizations throughout the region."
+      "bioTextOverride": "Jose C. Feliciano was born in Yauco, Puerto Rico, and was raised on Cleveland's near west side. He built a distinguished legal and civic career in Cleveland, including partnership in the litigation group at Baker & Hostetler LLP and earlier service as the city's chief prosecuting attorney. In that role, he became the first Hispanic public official in the history of the City of Cleveland. His public career also included work as a Cuyahoga County Public Defender, attorney for the Legal Aid Society, adjunct professor at John Carroll University, and White House Fellow under President Ronald Reagan. Feliciano has been a leader in Hispanic civic life through the Hispanic Roundtable, the Hispanic Leadership Development Program, the Hispanic Community Forum, and the Ohio Hispanic Bar Association. His broader board service connected law, education, economic inclusion, immigration, public television, health care, and community development across Northeast Ohio. His profile also notes extensive bar leadership and recognition from civic, legal, and Hispanic organizations throughout the region.",
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-eee7f5447d04",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
     },
     "ken-kovach-2012": {
       "id": "ken-kovach-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Ken Kovach",
       "sortName": "Kovach, Ken",
@@ -2414,11 +2603,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-7114c86c4845",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "milton-maltz-2012": {
       "id": "milton-maltz-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Milton Maltz",
       "sortName": "Maltz, Milton",
@@ -2502,11 +2698,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-0ae5118ea414",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "vladimir-rus-2012": {
       "id": "vladimir-rus-2012",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Vladimir Rus",
       "sortName": "Rus, Vladimir",
@@ -2591,11 +2794,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-8d4a119f26eb",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "bishop-a-edward-pevec-2013": {
       "id": "bishop-a-edward-pevec-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Bishop A. Edward Pevec",
       "sortName": "Pevec, A. Edward",
@@ -2669,11 +2879,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d3f7894e93d6",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dr-maria-pujana-2013": {
       "id": "dr-maria-pujana-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Dr. Maria Pujana",
       "sortName": "Pujana, Maria",
@@ -2758,11 +2975,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-1b04f3bf52b4",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jack-coyne-2013": {
       "id": "jack-coyne-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Jack Coyne",
       "sortName": "Coyne, Jack",
@@ -2842,11 +3066,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-049f2c3d8677",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "josef-holzer-2013": {
       "id": "josef-holzer-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Josef Holzer",
       "sortName": "Holzer, Josef",
@@ -2922,11 +3153,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-627e8596ac4c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "nacy-panzica-2013": {
       "id": "nacy-panzica-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Nacy Panzica",
       "sortName": "Panzica, Nacy",
@@ -2997,11 +3235,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-6d05e244c91c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ratanjit-s-sondhe-2013": {
       "id": "ratanjit-s-sondhe-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Ratanjit S. Sondhe",
       "sortName": "Sondhe, Ratanjit S.",
@@ -3086,11 +3331,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-4d45ab26ffcb",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "samuel-h-miller-2013": {
       "id": "samuel-h-miller-2013",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Samuel H. Miller",
       "sortName": "Miller, Samuel H.",
@@ -3167,11 +3419,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a0b6c38ed1bb",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "donna-hom-2014": {
       "id": "donna-hom-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Donna Hom",
       "sortName": "Hom, Donna",
@@ -3243,11 +3502,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a03319bd26af",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ernie-mihaly-2014": {
       "id": "ernie-mihaly-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Ernie Mihaly",
       "sortName": "Mihaly, Ernie",
@@ -3323,11 +3589,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-6836380e0feb",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "eugene-bak-2014": {
       "id": "eugene-bak-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Eugene Bak",
       "sortName": "Bak, Eugene",
@@ -3412,11 +3685,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-32d8a3e3c632",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jim-foster-2014": {
       "id": "jim-foster-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Jim Foster",
       "sortName": "Foster, Jim",
@@ -3494,11 +3774,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-dbf4a8153c88",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "joseph-p-meissner-2014": {
       "id": "joseph-p-meissner-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Joseph P Meissner",
       "sortName": "Meissner, Joseph P",
@@ -3587,11 +3874,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-ba89bfb42250",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "margaret-callander-2014": {
       "id": "margaret-callander-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Margaret Callander",
       "sortName": "Callander, Margaret",
@@ -3667,11 +3961,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-63c0c2fa239a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "monte-ahuja-2014": {
       "id": "monte-ahuja-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Monte Ahuja",
       "sortName": "Ahuja, Monte",
@@ -3746,11 +4047,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-83e4efc072a9",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "thomas-j-scanlon-2014": {
       "id": "thomas-j-scanlon-2014",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Thomas J. Scanlon",
       "sortName": "Scanlon, Thomas J.",
@@ -3832,11 +4140,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-91b9ce073c3e",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "bishop-anthony-pilla-2015": {
       "id": "bishop-anthony-pilla-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Bishop Anthony Pilla",
       "sortName": "Pilla, Anthony",
@@ -3924,11 +4239,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d04c052da272",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dick-pogue-2015": {
       "id": "dick-pogue-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Dick Pogue",
       "sortName": "Pogue, Dick",
@@ -4019,11 +4341,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d962dee3368b",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dick-russ-2015": {
       "id": "dick-russ-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Dick Russ",
       "sortName": "Russ, Dick",
@@ -4115,11 +4444,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-4145a4617a51",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "honorable-jose-a-villanueva-2015": {
       "id": "honorable-jose-a-villanueva-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Honorable José A. Villanueva",
       "sortName": "Villanueva, José A.",
@@ -4209,11 +4545,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a58613731b1d",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "richard-a-ganim-2015": {
       "id": "richard-a-ganim-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Richard A. Ganim",
       "sortName": "Ganim, Richard A.",
@@ -4300,11 +4643,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a2aa80d13287",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "shiv-k-aggarwal-2015": {
       "id": "shiv-k-aggarwal-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Shiv K. Aggarwal",
       "sortName": "Aggarwal, Shiv K.",
@@ -4394,11 +4744,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-0433946fe2d5",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "steve-mulloy-2015": {
       "id": "steve-mulloy-2015",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Steve Mulloy",
       "sortName": "Mulloy, Steve",
@@ -4488,11 +4845,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-b33bc2cc090b",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "arnie-de-la-porte-2016-2016": {
       "id": "arnie-de-la-porte-2016-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Arnie de la Porte",
       "sortName": "de la Porte, Arnie",
@@ -4579,11 +4943,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-0dfe3fef312a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "carolyn-balogh-2016-2016": {
       "id": "carolyn-balogh-2016-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Carolyn Balogh",
       "sortName": "Balogh, Carolyn",
@@ -4674,11 +5045,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-4a4b17ca1c95",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "eugenia-stolarczyk-2016-2016": {
       "id": "eugenia-stolarczyk-2016-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Eugenia Stolarczyk",
       "sortName": "Stolarczyk, Eugenia",
@@ -4775,11 +5153,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e4cc470bed5a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jack-kahl-2016": {
       "id": "jack-kahl-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Jack Kahl",
       "sortName": "Kahl, Jack",
@@ -4874,11 +5259,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-db9243952b3a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "khalid-samad-2016-2016": {
       "id": "khalid-samad-2016-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Khalid Samad",
       "sortName": "Samad, Khalid",
@@ -4973,11 +5365,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-f85dad99e155",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "mohan-bafna-2016": {
       "id": "mohan-bafna-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Mohan Bafna",
       "sortName": "Bafna, Mohan",
@@ -5064,11 +5463,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-dcfb0bd9aaa5",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "rev-mikhail-mikhail-2016": {
       "id": "rev-mikhail-mikhail-2016",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "medium",
       "displayName": "Rev. Mikhail Mikhail",
       "sortName": "Mikhail, Mikhail",
@@ -5153,11 +5559,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-1b23ea31bb57",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "basil-russo-2017": {
       "id": "basil-russo-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Basil Russo",
       "sortName": "Russo, Basil",
@@ -5247,11 +5660,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d59e39abec00",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "bill-miller-2017": {
       "id": "bill-miller-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Bill Miller",
       "sortName": "Miller, Bill",
@@ -5342,11 +5762,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-520f36b3b5f1",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "jim-craciun-2017": {
       "id": "jim-craciun-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Jim Craciun",
       "sortName": "Craciun, Jim",
@@ -5430,11 +5857,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-fdafcf4ecb6a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "mona-alag-2017": {
       "id": "mona-alag-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Mona Alag",
       "sortName": "Alag, Mona",
@@ -5519,11 +5953,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-3fbb3c6e40bf",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "sam-kim-2017": {
       "id": "sam-kim-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Sam Kim",
       "sortName": "Kim, Sam",
@@ -5603,11 +6044,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-369daa99d4bb",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "wael-khoury-2017": {
       "id": "wael-khoury-2017",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Wael Khoury",
       "sortName": "Khoury, Wael",
@@ -5695,11 +6143,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-c501e78bc709",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "abby-mina-2018": {
       "id": "abby-mina-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Abby Mina",
       "sortName": "Mina, Abby",
@@ -5793,11 +6248,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-2cbdcf029900",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "atul-mehta-2018": {
       "id": "atul-mehta-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Atul Mehta",
       "sortName": "Mehta, Atul",
@@ -5887,11 +6349,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-6fe2acfb1012",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ralph-perk-jr-2018": {
       "id": "ralph-perk-jr-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Ralph Perk Jr.",
       "sortName": "Perk, Ralph",
@@ -5985,11 +6454,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-ea1a8710168a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ray-pianka-2018": {
       "id": "ray-pianka-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Ray Pianka",
       "sortName": "Pianka, Ray",
@@ -6079,11 +6555,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e7a65c8c79ec",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "sheila-murphy-crawford-2018": {
       "id": "sheila-murphy-crawford-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Sheila Murphy Crawford",
       "sortName": "Crawford, Sheila Murphy",
@@ -6176,11 +6659,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-c7bae9c1a857",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "sister-alicia-alvarado-2018": {
       "id": "sister-alicia-alvarado-2018",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Sister Alicia Alvarado",
       "sortName": "Alvarado, Alicia",
@@ -6270,11 +6760,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e31536bface1",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "akram-boutros-2019": {
       "id": "akram-boutros-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Akram Boutros",
       "sortName": "Boutros, Akram",
@@ -6365,11 +6862,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-f7c9ede21535",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ingrida-bublys-2019": {
       "id": "ingrida-bublys-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Ingrida Bublys",
       "sortName": "Bublys, Ingrida",
@@ -6455,11 +6959,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e298d39aed28",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "marilyn-madigan-2019": {
       "id": "marilyn-madigan-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Marilyn Madigan",
       "sortName": "Madigan, Marilyn",
@@ -6549,11 +7060,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-8a3e0aa91e2f",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "paul-burik-2019": {
       "id": "paul-burik-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Paul Burik",
       "sortName": "Burik, Paul",
@@ -6637,11 +7155,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-3c1983b57426",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "richard-fleischman-2019": {
       "id": "richard-fleischman-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Richard Fleischman",
       "sortName": "Fleischman, Richard",
@@ -6720,11 +7245,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-328da774a7f8",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "sree-sreenath-2019": {
       "id": "sree-sreenath-2019",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Sree Sreenath",
       "sortName": "Sreenath, Sree",
@@ -6813,11 +7345,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-2cc3f462b13c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "berj-shakarian-2020": {
       "id": "berj-shakarian-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Berj Shakarian",
       "sortName": "Shakarian, Berj",
@@ -6903,11 +7442,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-d131e682a547",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "joe-valencic-2020": {
       "id": "joe-valencic-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Joe Valencic",
       "sortName": "Valencic, Joe",
@@ -6994,11 +7540,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-30fe73a036cf",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "margaret-lynch-2020": {
       "id": "margaret-lynch-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Margaret Lynch",
       "sortName": "Lynch, Margaret",
@@ -7084,11 +7637,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-3764f565a262",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "may-chen-2020": {
       "id": "may-chen-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "May Chen",
       "sortName": "Chen, May",
@@ -7172,11 +7732,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-534f8d93cb45",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ramesh-shah-2020": {
       "id": "ramesh-shah-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Ramesh Shah",
       "sortName": "Shah, Ramesh",
@@ -7268,11 +7835,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-dc4d6c9ea43e",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "valarie-mccall-2020": {
       "id": "valarie-mccall-2020",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Valarie McCall",
       "sortName": "McCall, Valarie",
@@ -7361,11 +7935,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-9c3ed3d04a45",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "anda-cook-2022": {
       "id": "anda-cook-2022",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Anda Cook",
       "sortName": "Cook, Anda",
@@ -7455,11 +8036,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e28d47178734",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "carl-robson-2022": {
       "id": "carl-robson-2022",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Carl Robson",
       "sortName": "Robson, Carl",
@@ -7547,11 +8135,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-f835c1de805f",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "taras-szmagala-2022": {
       "id": "taras-szmagala-2022",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Taras Szmagala",
       "sortName": "Szmagala, Taras",
@@ -7635,11 +8230,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-947a31fd4546",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "victor-ruiz-2022": {
       "id": "victor-ruiz-2022",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Victor Ruiz",
       "sortName": "Ruiz, Victor",
@@ -7717,11 +8319,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-b910e8975a53",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "georgine-welo-2023": {
       "id": "georgine-welo-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Georgine Welo",
       "sortName": "Welo, Georgine",
@@ -7811,11 +8420,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-5d28f9ed082e",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "joyce-mariani-2023": {
       "id": "joyce-mariani-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Joyce Mariani",
       "sortName": "Mariani, Joyce",
@@ -7898,11 +8514,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-0221c31948f7",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "michael-d-polensek-2023": {
       "id": "michael-d-polensek-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Michael D. Polensek",
       "sortName": "Polensek, Michael D.",
@@ -7991,11 +8614,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a97a40de221f",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "pat-dowd-2023": {
       "id": "pat-dowd-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "standard",
       "displayName": "Pat Dowd",
       "sortName": "Dowd, Pat",
@@ -8072,11 +8702,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e3567e5a690d",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "pierre-bejjani-2023": {
       "id": "pierre-bejjani-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Pierre Bejjani",
       "sortName": "Bejjani, Pierre",
@@ -8166,11 +8803,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-ade052a8b60a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "sudarshan-sathe-2023": {
       "id": "sudarshan-sathe-2023",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Sudarshan Sathe",
       "sortName": "Sathe, Sudarshan",
@@ -8257,11 +8901,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-94428943bb7d",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "ambassador-edward-f-crawford-2024": {
       "id": "ambassador-edward-f-crawford-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Ambassador Edward F. Crawford",
       "sortName": "Crawford, Edward F.",
@@ -8353,11 +9004,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-336a4e640bbf",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dona-brady-2024": {
       "id": "dona-brady-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Dona Brady",
       "sortName": "Brady, Dona",
@@ -8447,11 +9105,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-ccaf3779099a",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "dr-eugene-jordan-2024": {
       "id": "dr-eugene-jordan-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Dr. Eugene Jordan",
       "sortName": "Jordan, Eugene",
@@ -8534,11 +9199,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-b60403ae02e0",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "erika-puussaar-2024": {
       "id": "erika-puussaar-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Erika Puussaar",
       "sortName": "Puussaar, Erika",
@@ -8627,11 +9299,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-bcb40bc187e7",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "johnny-k-wu-2024": {
       "id": "johnny-k-wu-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Johnny K. Wu",
       "sortName": "Wu, Johnny K.",
@@ -8721,11 +9400,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-182f4201a7be",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "veronica-dahlberg-2024": {
       "id": "veronica-dahlberg-2024",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Veronica Dahlberg",
       "sortName": "Dahlberg, Veronica",
@@ -8815,11 +9501,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-b6285a62cf59",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "beverly-kerecman-2025": {
       "id": "beverly-kerecman-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Beverly Kerecman",
       "sortName": "Kerecman, Beverly",
@@ -8905,11 +9598,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-9d9807983f5d",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "branka-malinar-2025": {
       "id": "branka-malinar-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Branka Malinar",
       "sortName": "Malinar, Branka",
@@ -8999,11 +9699,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-afff1f714706",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "david-gilbert-2025": {
       "id": "david-gilbert-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "David Gilbert",
       "sortName": "Gilbert, David",
@@ -9089,11 +9796,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-041f06c162e4",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "mayor-frank-jackson-2025": {
       "id": "mayor-frank-jackson-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Mayor Frank Jackson",
       "sortName": "Jackson, Frank",
@@ -9181,11 +9895,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-3cf8db8c9b8c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "raj-aggarwal-2025": {
       "id": "raj-aggarwal-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Raj Aggarwal",
       "sortName": "Aggarwal, Raj",
@@ -9273,11 +9994,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-0cb5e1233ccd",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "svetlana-stolyarova-2025": {
       "id": "svetlana-stolyarova-2025",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Svetlana Stolyarova",
       "sortName": "Stolyarova, Svetlana",
@@ -9368,11 +10096,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-a4469108ba0e",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "aklilu-demessie-2026": {
       "id": "aklilu-demessie-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Aklilu Demessie",
       "sortName": "Demessie, Aklilu",
@@ -9461,11 +10196,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-e040bca0c517",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "andy-chakalis-2026": {
       "id": "andy-chakalis-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Andy Chakalis",
       "sortName": "Chakalis, Andy",
@@ -9551,11 +10293,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-545f831acefe",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "andy-fedynsky-2026": {
       "id": "andy-fedynsky-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Andy Fedynsky",
       "sortName": "Fedynsky, Andy",
@@ -9645,11 +10394,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-bba1437958ed",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "catherine-jorgensen-mccutcheon-2026": {
       "id": "catherine-jorgensen-mccutcheon-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Catherine Jorgensen McCutcheon",
       "sortName": "McCutcheon, Catherine Jorgensen",
@@ -9734,11 +10490,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-df2c8ede3974",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "le-nguyen-2026": {
       "id": "le-nguyen-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Le Nguyen",
       "sortName": "Nguyen, Le",
@@ -9823,11 +10586,18 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-2cea7ed92ff4",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     },
     "lucy-torres-2026": {
       "id": "lucy-torres-2026",
-      "approvalStatus": "draft",
+      "approvalStatus": "approved",
       "reviewPriority": "high",
       "displayName": "Lucy Torres",
       "sortName": "Torres, Lucy",
@@ -9917,6 +10687,13 @@
         "action": "correct",
         "note": "Reviewed by Tony Yanick in the staff review app.",
         "appliedAt": "2026-09-27T21:42:17.031Z"
+      },
+      "profileReview": {
+        "status": "approved",
+        "decisionReference": "profiles-review-2026-09-27",
+        "contentVersion": "profile-7640cafb095c",
+        "reviewedAt": "2026-09-27T21:51:31.896Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
       }
     }
   }
