@@ -110,7 +110,10 @@ if (refused.length > 0) {
 const placesPath = resolve(root, 'data/cihof_places.json');
 const placesDoc = JSON.parse(readFileSync(placesPath, 'utf8'));
 const held = new Map((placesDoc.places ?? []).map((place) => [place.id, place]));
-const incoming = readPlaces(archive);
+// Places a curator removed stay removed: the archive still has them.
+const removedPath = resolve(root, 'data/cihof_places_removed.json');
+const removed = new Set(existsSync(removedPath) ? JSON.parse(readFileSync(removedPath, 'utf8')).removed.map((entry) => entry.id) : []);
+const incoming = readPlaces(archive).filter((place) => !removed.has(place.id));
 const newPlaces = incoming.filter((place) => !held.has(place.id));
 const researched = incoming.filter((place) => place.researched).length;
 
@@ -119,11 +122,14 @@ console.log(`  in the archive            ${incoming.length}`);
 console.log(`    with a short history    ${researched}`);
 console.log(`    leads, no history yet   ${incoming.length - researched}`);
 console.log(`  already held here         ${incoming.length - newPlaces.length}`);
+if (removed.size > 0) console.log(`  removed by a curator, skipped ${removed.size} (data/cihof_places_removed.json)`);
 console.log(`  would add as seeds        ${newPlaces.length}`);
 console.log(`  none carries a review, so none becomes publishable by being added.`);
 
 const associationsPath = resolve(root, 'data/cihof_place_associations.json');
-const { associations, unresolved } = readPlaceAssociations(archive, ids);
+const read = readPlaceAssociations(archive, ids);
+const associations = read.associations.filter((tie) => !removed.has(tie.place));
+const { unresolved } = read;
 const toResearched = associations.filter((tie) => incoming.find((p) => p.id === tie.place)?.researched).length;
 const byKind = {};
 for (const tie of associations) byKind[tie.kind] = (byKind[tie.kind] ?? 0) + 1;
