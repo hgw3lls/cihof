@@ -12,6 +12,9 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { _electron as electron } from '@playwright/test';
 
+// Where Electron's own binary is, under node_modules/electron/dist, on each system.
+const electronBinary = { win32: 'electron.exe', darwin: 'Electron.app/Contents/MacOS/Electron' }[process.platform] ?? 'electron';
+
 const app = resolve(import.meta.dirname, '..');
 const userData = mkdtempSync(join(tmpdir(), 'cihof-app-'));
 const wait = (ms) => new Promise((done) => setTimeout(done, ms));
@@ -20,7 +23,7 @@ const step = (name) => console.log(`  ✓ ${name}`);
 // CIHOF_APP_EXECUTABLE runs the same checks against a packaged app instead.
 const packaged = process.env.CIHOF_APP_EXECUTABLE;
 const launch = () => electron.launch({
-  executablePath: packaged ?? join(app, 'node_modules', 'electron', 'dist', process.platform === 'win32' ? 'electron.exe' : 'electron'),
+  executablePath: packaged ?? join(app, 'node_modules', 'electron', 'dist', electronBinary),
   args: [...(process.getuid?.() === 0 ? ['--no-sandbox'] : []), ...(packaged ? [] : [join(app, 'stage')])],
   env: { ...process.env, CIHOF_USER_DATA: userData },
 });
