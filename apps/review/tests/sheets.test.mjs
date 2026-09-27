@@ -124,6 +124,8 @@ test('an accepted sign-off is signed by whoever accepted it, with the app\'s ref
     reference: 'Accepted in the staff review app (sign-offs-review-2026-10-01)', scan: '', note: 'Live at cihof.org',
   });
   assert.equal(logo.note, '');
+  assert.equal(rows(signoffsCsv({ reviewer: 'Jane Smith', signoffs: { logo: { action: 'sign', by: 'Board chair', date: '2026-09-20' } } }, '2026-10-01')).length, 0,
+    'only an acceptance or a clearing is written');
   assert.equal(cleared.action, 'clear');
   assert.equal(cleared.note, 'accepted by mistake. Cleared by Jane Smith in the staff review app (sign-offs-review-2026-10-01).');
 });

@@ -140,7 +140,7 @@ export function filmStartsCsv(draft, day) {
  */
 export function signoffsCsv(draft, day) {
   const reference = decisionReference('signoffs', day);
-  const rows = Object.entries(draft.signoffs ?? {}).map(([id, value]) => {
+  const rows = Object.entries(draft.signoffs ?? {}).filter(([, value]) => ['accept', 'clear'].includes(value?.action)).map(([id, value]) => {
     const note = String(value.note ?? '').trim();
     if (value.action === 'clear') {
       const cleared = `Cleared by ${String(draft.reviewer ?? '').trim()} in the staff review app (${reference}).`;
