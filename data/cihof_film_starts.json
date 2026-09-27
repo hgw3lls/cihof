@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "note": "Where a person's film opens when the film stands for several people. Written only by npm run films:starts:apply.",
+  "starts": {
+    "ambassador-edward-f-crawford-2024|P34omi5XUiY": {
+      "startSeconds": 2998,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-2998",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    },
+    "dona-brady-2024|P34omi5XUiY": {
+      "startSeconds": 2404,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-2404",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    },
+    "dr-eugene-jordan-2024|P34omi5XUiY": {
+      "startSeconds": 4211,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-4211",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    },
+    "erika-puussaar-2024|P34omi5XUiY": {
+      "startSeconds": 4662,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-4662",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    },
+    "johnny-k-wu-2024|P34omi5XUiY": {
+      "startSeconds": 5830,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-5830",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    },
+    "veronica-dahlberg-2024|P34omi5XUiY": {
+      "startSeconds": 3756,
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-starts-review-2026-09-27",
+        "contentVersion": "start-P34omi5XUiY-3756",
+        "reviewedAt": "2026-09-27T18:18:21.059Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      }
+    }
+  }
+}
