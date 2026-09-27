@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { projectStatus } from './working-tree.js';
 import { resolve } from 'node:path';
-import { planMerge, readIdIndex, readPlaceAssociations, readPlaces } from '../packages/pipeline/src/sources/hofworld.ts';
+import { mergePlaceAssociations, planMerge, readIdIndex, readPlaceAssociations, readPlaces } from '../packages/pipeline/src/sources/hofworld.ts';
 
 /**
  * Merges curated fields from an unpacked HOF_WORLD v3 archive.
@@ -130,6 +130,13 @@ const associationsPath = resolve(root, 'data/cihof_place_associations.json');
 const read = readPlaceAssociations(archive, ids);
 const associations = read.associations.filter((tie) => !removed.has(tie.place));
 const { unresolved } = read;
+// Ties already held keep their role, review and evidence; only new ids are added.
+const associationsDoc = existsSync(associationsPath)
+  ? JSON.parse(readFileSync(associationsPath, 'utf8'))
+  : { schemaVersion: 1, source: 'HOF_WORLD v3 edges/edges.json', note: 'Unreviewed. Every tie needs a PlaceRole and a review before it can be shown.', associations: [] };
+const merged = mergePlaceAssociations(associationsDoc.associations ?? [], associations);
+const newTies = merged.added;
+const heldReviewed = (associationsDoc.associations ?? []).filter((tie) => tie.review?.status === 'approved').length;
 const toResearched = associations.filter((tie) => incoming.find((p) => p.id === tie.place)?.researched).length;
 const byKind = {};
 for (const tie of associations) byKind[tie.kind] = (byKind[tie.kind] ?? 0) + 1;
@@ -139,10 +146,12 @@ console.log(`  in the archive            ${associations.length}`);
 for (const [kind, count] of Object.entries(byKind)) console.log(`    ${kind.padEnd(22)}${count}`);
 console.log(`  pointing at a researched place ${toResearched}`);
 if (unresolved.length > 0) console.log(`  naming an unmapped person ${unresolved.length}: ${unresolved.slice(0, 3).join(', ')}`);
-console.log(`  every one arrives with no role. A role is what says the person did`);
+console.log(`  already held here         ${merged.held} (${heldReviewed} approved), kept as they are`);
+console.log(`  would add, unreviewed     ${newTies.length}`);
+console.log(`  every new one arrives with no role. A role is what says the person did`);
 console.log(`  something there, and it is a curator's word, not a harvester's verb.`);
 
-if (taken.length === 0 && newPlaces.length === 0 && associations.length === 0) {
+if (taken.length === 0 && newPlaces.length === 0 && newTies.length === 0) {
   console.log('\n  Nothing to take.');
   if (!apply) console.log();
   process.exit(0);
@@ -150,7 +159,8 @@ if (taken.length === 0 && newPlaces.length === 0 && associations.length === 0) {
 
 if (!apply) {
   console.log(`\n  Dry run — nothing written. --apply would take ${taken.length} curated field(s),`);
-  console.log(`  add ${newPlaces.length} place seed(s) and write ${associations.length} unreviewed place tie(s).`);
+  console.log(`  add ${newPlaces.length} place seed(s) and add ${newTies.length} unreviewed place tie(s),`);
+  console.log(`  keeping the ${merged.held} tie(s) already held.`);
   console.log();
   process.exit(0);
 }
@@ -169,14 +179,14 @@ if (newPlaces.length > 0) {
   console.log(`\n  Added ${newPlaces.length} place seed(s) to ${placesPath.replace(`${root}/`, '')}`);
 }
 
-writeFileSync(associationsPath, `${JSON.stringify({
-  schemaVersion: 1,
-  source: 'HOF_WORLD v3 edges/edges.json',
-  generatedAt: new Date().toISOString(),
-  note: 'Unreviewed. Every tie needs a PlaceRole and a review before it can be shown.',
-  associations,
-}, null, 2)}\n`);
-console.log(`  Wrote ${associations.length} unreviewed tie(s) to ${associationsPath.replace(`${root}/`, '')}`);
+if (newTies.length > 0) {
+  writeFileSync(associationsPath, `${JSON.stringify({
+    ...associationsDoc,
+    generatedAt: new Date().toISOString(),
+    associations: merged.associations,
+  }, null, 2)}\n`);
+  console.log(`  Added ${newTies.length} unreviewed tie(s) to ${associationsPath.replace(`${root}/`, '')}, kept ${merged.held}`);
+}
 
 
 if (taken.length > 0) {

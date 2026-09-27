@@ -1,110 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T20:28:24.362Z",
+  "generatedAt": "2026-09-27T20:59:42.068Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
-    {
-      "placeId": "place:cleveland-ohio",
-      "name": "Cleveland, Ohio",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "anda-cook-2022",
-          "displayName": "Anda Cook",
-          "kind": "moved_to",
-          "role": "organized"
-        },
-        {
-          "person": "beverly-kerecman-2025",
-          "displayName": "Beverly Kerecman",
-          "kind": "born_in",
-          "role": "organized"
-        },
-        {
-          "person": "bishop-a-edward-pevec-2013",
-          "displayName": "Bishop A. Edward Pevec",
-          "kind": "born_in",
-          "role": "served"
-        },
-        {
-          "person": "catherine-jorgensen-mccutcheon-2026",
-          "displayName": "Catherine Jorgensen McCutcheon",
-          "kind": "moved_to",
-          "role": "organized"
-        },
-        {
-          "person": "dr-dieu-thuc-do-2010",
-          "displayName": "Dr. Dieu Thuc Do",
-          "kind": "moved_to",
-          "role": "founded"
-        },
-        {
-          "person": "helen-karpinski-1899-2002-2010",
-          "displayName": "Helen Karpinski (1899 – 2002)",
-          "kind": "born_in",
-          "role": "organized"
-        },
-        {
-          "person": "jack-coyne-2013",
-          "displayName": "Jack Coyne",
-          "kind": "born_in",
-          "role": "organized"
-        },
-        {
-          "person": "jack-coyne-2013",
-          "displayName": "Jack Coyne",
-          "kind": "moved_to",
-          "role": "organized"
-        },
-        {
-          "person": "josef-holzer-2013",
-          "displayName": "Josef Holzer",
-          "kind": "moved_to",
-          "role": "organized"
-        },
-        {
-          "person": "lonnie-mccauley-2010",
-          "displayName": "Lonnie McCauley",
-          "kind": "born_in",
-          "role": "worked"
-        },
-        {
-          "person": "pierre-bejjani-2023",
-          "displayName": "Pierre Bejjani",
-          "kind": "moved_to",
-          "role": "founded"
-        },
-        {
-          "person": "richard-a-ganim-2015",
-          "displayName": "Richard A. Ganim",
-          "kind": "born_in",
-          "role": "founded"
-        },
-        {
-          "person": "taras-szmagala-2022",
-          "displayName": "Taras Szmagala",
-          "kind": "born_in",
-          "role": "served"
-        },
-        {
-          "person": "veronica-dahlberg-2024",
-          "displayName": "Veronica Dahlberg",
-          "kind": "moved_to",
-          "role": "lived"
-        },
-        {
-          "person": "victor-ruiz-2022",
-          "displayName": "Victor Ruiz",
-          "kind": "moved_to",
-          "role": "served"
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-30d02b405c3c",
-      "words": null
-    },
     {
       "placeId": "place:cleveland-cultural-gardens",
       "name": "Cleveland Cultural Gardens",
@@ -448,26 +346,8 @@
       "words": "current"
     },
     {
-      "placeId": "place:ashtabula",
-      "name": "Ashtabula",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "veronica-dahlberg-2024",
-          "displayName": "Veronica Dahlberg",
-          "kind": "moved_to",
-          "role": "lived"
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-e0cb426e18f0",
-      "words": null
-    },
-    {
       "placeId": "place:beachwood-ohio",
-      "name": "Beachwood, Ohio",
+      "name": "Beachwood",
       "band": "lead",
       "neighborhood": "",
       "shortHistory": "",
@@ -480,12 +360,12 @@
         }
       ],
       "reviewed": false,
-      "contentVersion": "place-67f331df70e0",
+      "contentVersion": "place-6b50049fc9b1",
       "words": null
     },
     {
       "placeId": "place:bentleyville-oh",
-      "name": "Bentleyville, OH",
+      "name": "Bentleyville",
       "band": "lead",
       "neighborhood": "",
       "shortHistory": "",
@@ -498,43 +378,7 @@
         }
       ],
       "reviewed": false,
-      "contentVersion": "place-878de2aa79fd",
-      "words": null
-    },
-    {
-      "placeId": "place:canton-ohio",
-      "name": "Canton, Ohio",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "veronica-dahlberg-2024",
-          "displayName": "Veronica Dahlberg",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-8c6a602d57d1",
-      "words": null
-    },
-    {
-      "placeId": "place:cleveland",
-      "name": "Cleveland",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "rev-mikhail-mikhail-2016",
-          "displayName": "Rev. Mikhail Mikhail",
-          "kind": "moved_to",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-f5a40333b568",
+      "contentVersion": "place-4520d04cd133",
       "words": null
     },
     {
@@ -646,53 +490,6 @@
       "words": "current"
     },
     {
-      "placeId": "place:warren-ohio-mr",
-      "name": "Warren, Ohio, Mr",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "alex-machaskee-2010",
-          "displayName": "Alex Machaskee",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-8db0189d7384",
-      "words": null
-    },
-    {
-      "placeId": "place:youngstown-ohio",
-      "name": "Youngstown, Ohio",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "lucretia-stoica-2011",
-          "displayName": "Lucretia Stoica",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-a600ac92d019",
-      "words": null
-    },
-    {
-      "placeId": "place:beachwood",
-      "name": "Beachwood",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-6b50049fc9b1",
-      "words": null
-    },
-    {
       "placeId": "place:buckeye",
       "name": "Buckeye",
       "band": "lead",
@@ -737,17 +534,6 @@
       "words": null
     },
     {
-      "placeId": "place:cultrual-garden",
-      "name": "Cultrual Garden",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-5cd599a5de3b",
-      "words": null
-    },
-    {
       "placeId": "place:detroit-shoreway",
       "name": "Detroit Shoreway",
       "band": "lead",
@@ -778,28 +564,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-1e4099869fa2",
-      "words": null
-    },
-    {
-      "placeId": "place:greater-cleveland",
-      "name": "Greater Cleveland",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-91a29b4c9eff",
-      "words": null
-    },
-    {
-      "placeId": "place:italian-garden",
-      "name": "Italian Garden",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-f6a69eccf296",
       "words": null
     },
     {

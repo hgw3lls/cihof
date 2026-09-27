@@ -284,3 +284,28 @@ export function readPlaceAssociations(archiveRoot: string, ids: HofWorldIds): {
 function text(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
+
+/**
+ * Folds the archive's person-to-place ties into the ones this repository holds.
+ *
+ * A held tie may carry a curator's role, a review and evidence rewritten since
+ * the snapshot, and the archive knows none of that: every tie it supplies
+ * arrives with no role and no review. Writing the archive's list over the
+ * repository's would erase approved decisions without a word. So, as with
+ * curated fields, the repository wins: a tie whose id is already held is kept
+ * exactly as it is, and only ties with an id not held are added, after the
+ * held ones. Nothing held is dropped, including ties the archive no longer has.
+ */
+export function mergePlaceAssociations<Held extends { readonly id: string }>(
+  held: readonly Held[],
+  incoming: readonly PlaceAssociationSeed[],
+): { readonly associations: readonly (Held | PlaceAssociationSeed)[]; readonly held: number; readonly added: readonly PlaceAssociationSeed[] } {
+  const heldIds = new Set(held.map((tie) => tie.id));
+  const added: PlaceAssociationSeed[] = [];
+  for (const tie of incoming) {
+    if (heldIds.has(tie.id)) continue;
+    heldIds.add(tie.id);
+    added.push(tie);
+  }
+  return { associations: [...held, ...added], held: held.length, added };
+}
