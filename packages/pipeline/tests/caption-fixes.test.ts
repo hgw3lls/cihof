@@ -45,19 +45,24 @@ test('a shared ceremony film is corrected in every copy', () => {
 });
 
 test('a fix sheet refuses what would change nothing, or is not a fix', () => {
-  const films = filmFiles(readVideoHoldings());
+  // Films of its own, so the real films' review cannot change what is found.
+  const films = new Map([
+    ['M', { filmId: 'M', people: ['m'], captions: [], transcripts: ['m.txt'] }],
+    ['P', { filmId: 'P', people: ['p'], captions: [], transcripts: ['p.txt'] }],
+  ]);
+  const read = (path: string) => ({ 'm.txt': 'Thank you. Heat. Heat.', 'p.txt': 'Please welcome Carolyn Varo.' })[path] ?? null;
   const sheet = [
     'filmId,fix,find,replaceWith,decisionReference,note',
-    'DoZUzteeFMU,music,,[music],film-captions-review-2026-10-01,',
-    'qzHokEDkXQc,phrase,Carolyn Varo,Carolyn Balogh,film-captions-review-2026-10-01,',
-    'DoZUzteeFMU,phrase,zebra crossing,x,ref,',
-    'DoZUzteeFMU,music,,[noise],ref,',
-    'DoZUzteeFMU,subtitles,,,ref,',
+    'M,music,,[music],film-captions-review-2026-10-01,',
+    'P,phrase,Carolyn Varo,Carolyn Balogh,film-captions-review-2026-10-01,',
+    'M,phrase,zebra crossing,x,ref,',
+    'M,music,,[noise],ref,',
+    'M,subtitles,,,ref,',
     'nope,blank,,,ref,',
-    'qzHokEDkXQc,blank,,,,',
+    'P,blank,,,,',
   ].join('\n');
-  const { decisions, errors } = captionFixDecisions(sheet, films);
-  assert.deepEqual(decisions.map((decision) => [decision.filmId, decision.fix]), [['DoZUzteeFMU', 'music'], ['qzHokEDkXQc', 'phrase']]);
+  const { decisions, errors } = captionFixDecisions(sheet, films, read);
+  assert.deepEqual(decisions.map((decision) => [decision.filmId, decision.fix]), [['M', 'music'], ['P', 'phrase']]);
   assert.equal(errors.length, 5);
 });
 

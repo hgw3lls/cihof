@@ -111,10 +111,14 @@ function readPublic(path: string): string | null {
   return existsSync(full) ? readFileSync(full, 'utf8') : null;
 }
 
-/** What a fix would change in one film, read from its first copy (every copy is the same). */
-export function previewFix(film: FilmFiles, fix: CaptionFix): FixPreview {
-  const transcript = film.transcripts[0] ? readPublic(film.transcripts[0]) ?? '' : '';
-  const captions = film.captions[0] ? readPublic(film.captions[0]) ?? '' : '';
+/**
+ * What a fix would change in one film, read from its first copy (every copy
+ * is the same). `read` returns a file's text, or null; the films' own files by
+ * default.
+ */
+export function previewFix(film: FilmFiles, fix: CaptionFix, read: (path: string) => string | null = readPublic): FixPreview {
+  const transcript = film.transcripts[0] ? read(film.transcripts[0]) ?? '' : '';
+  const captions = film.captions[0] ? read(film.captions[0]) ?? '' : '';
   const examples: { before: string; after: string }[] = [];
   const flat = transcript.replace(/\s+/g, ' ');
   if (fix.fix !== 'phrase' || fix.find) {
@@ -150,7 +154,7 @@ export type CaptionFixDecision = CaptionFix & { readonly decisionReference: stri
  * decisionReference, note. A fix that would change nothing is refused: it is
  * a decision about words that are not there.
  */
-export function captionFixDecisions(csvText: string, films: ReadonlyMap<string, FilmFiles>) {
+export function captionFixDecisions(csvText: string, films: ReadonlyMap<string, FilmFiles>, read: (path: string) => string | null = readPublic) {
   const parsed = parseRows(csvText.replace(/^﻿/, ''));
   const header = (parsed[0] ?? []).map((cell) => cell.trim());
   const required = ['filmId', 'fix', 'find', 'replaceWith', 'decisionReference', 'note'];
@@ -186,7 +190,7 @@ export function captionFixDecisions(csvText: string, films: ReadonlyMap<string, 
       filmId, fix, replaceWith: fix === 'blank' ? '' : replaceWith, ...(fix === 'phrase' ? { find } : {}),
       decisionReference: reference, note: cell(cells, 'note').trim(),
     };
-    const preview = previewFix(film, decision);
+    const preview = previewFix(film, decision, read);
     if (preview.transcriptCount + preview.captionCount === 0) {
       errors.push(`line ${line}: ${fix === 'phrase' ? `"${find}" is not` : 'nothing to fix is'} in ${filmId}'s captions or transcript`);
       return;
