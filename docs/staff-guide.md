@@ -44,7 +44,8 @@ alone.
 
 The exhibit is dark as designed; the admin panel can switch it to light
 colours for a bright room (below). Films always play on black. The public
-website follows the visitor's phone or computer.
+website starts in light colours, with a **Dark** / **Light** button beside
+*Start over*; it remembers a visitor's choice on their own phone or computer.
 
 The application looks after itself:
 
