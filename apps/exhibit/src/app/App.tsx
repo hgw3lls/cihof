@@ -10,6 +10,7 @@ import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
+import { ThemeSwitch } from './ThemeSwitch.tsx';
 import { configuredTiming, isTestBuild } from './config.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
 import { Attract } from './Attract.tsx';
@@ -192,6 +193,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   {lensLabels[lens] ?? lens}
                 </button>
               ))}
+              {bundle.target === 'public' && <ThemeSwitch />}
               <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
             </nav>
           </div>
