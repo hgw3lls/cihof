@@ -56,10 +56,35 @@ test('watching films leaves nothing of them behind', async ({ page }) => {
     await expect(page.locator('.attract')).toBeVisible();
     counts.push((await measure(session)).nodes);
   }
-  // The first reading can land before the page settles into what it holds
-  // between visits; from the second on, a leak climbs with every film (it
-  // was 300 elements a film) and a sound page stays level.
-  expect(counts.at(-1)!, `elements held after each visit: ${counts.join(', ')}`).toBeLessThanOrEqual(counts[1]! + 100);
+  expect(keepsClimbing(counts), `elements held after each visit: ${counts.join(', ')}`).toBe(false);
+});
+
+/**
+ * Whether the counts climb over the visits, as a leak does (it was 300
+ * elements a film). A sound page may step up once, when it settles into what
+ * it holds between visits (on CI: 310, then 1487 and level from then on), and
+ * that step can come at any visit. So the one largest rise is set aside, and
+ * what the counts gained besides it must stay within 100 elements, however
+ * small the gain at each visit.
+ */
+function keepsClimbing(counts: readonly number[]): boolean {
+  const rises = counts.slice(1).map((count, index) => count - counts[index]!);
+  const settling = Math.max(0, ...rises);
+  return counts.at(-1)! - counts[0]! - settling > 100;
+}
+
+test('the film check tells a leak from a page settling once', () => {
+  expect(keepsClimbing([310, 310, 310, 310, 310])).toBe(false);
+  expect(keepsClimbing([310, 1487, 1487, 1487, 1487])).toBe(false);
+  expect(keepsClimbing([310, 310, 1487, 1487, 1487])).toBe(false);
+  expect(keepsClimbing([310, 310, 310, 310, 1487])).toBe(false);
+  expect(keepsClimbing([310, 610, 910, 1210, 1510])).toBe(true);
+  expect(keepsClimbing([310, 1487, 1787, 2087, 2387])).toBe(true);
+  // A small leak, below 100 elements a film, still adds up.
+  expect(keepsClimbing([310, 1567, 1647, 1727, 1807])).toBe(true);
+  expect(keepsClimbing([310, 390, 470, 550, 630])).toBe(true);
+  // Swinging back and forth is not climbing.
+  expect(keepsClimbing([310, 1487, 310, 1487, 1487])).toBe(false);
 });
 
 test('a run that leaks, or fails to return, says so', () => {
