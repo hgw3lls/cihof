@@ -7,7 +7,7 @@ nvm use          # or: nvm install, the first time
 ```
 
 That installs an official prebuilt Node from nodejs.org, checksum-verified, and
-is what `cihof-city-experience/ACCEPTANCE_TESTS.md` means by `nvm use` at the
+is what [`city-experience/ACCEPTANCE_TESTS.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/ACCEPTANCE_TESTS.md) means by `nvm use` at the
 top of the command baseline.
 
 ## Do not use Homebrew's node@22 for this

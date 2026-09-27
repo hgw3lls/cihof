@@ -4,8 +4,8 @@
 **Subject:** `sota` at `d97afd32b967a5b6e62ad6075b133979e8468b0a` plus the uncommitted CE-00/CE-01/CE-02 tree
 **Artifact examined:** `dist/` from `CIHOF_BUILD_TARGET=public`, runtime schema 2, content revision `b81f2175…fa4fd8`
 
-Supersedes `cihof-city-experience/CIHOF_Source_Audit.md`, which covered only the
-code half of this and is retained there for continuity.
+Supersedes [`city-experience/CIHOF_Source_Audit.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/CIHOF_Source_Audit.md), which covered only the
+code half of this and is kept in git history for continuity.
 
 Every number below was measured, not estimated. Severity is stated for an
 unattended, public-facing terminal and a live public website; it is not a claim
