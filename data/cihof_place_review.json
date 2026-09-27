@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T18:18:18.649Z",
+  "generatedAt": "2026-09-27T20:28:24.362Z",
   "source": "data/cihof_places.json + data/cihof_place_associations.json",
   "rows": [
     {
@@ -448,30 +448,6 @@
       "words": "current"
     },
     {
-      "placeId": "place:united-states",
-      "name": "United States",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "giahoa-ryan-2011",
-          "displayName": "Giahoa Ryan",
-          "kind": "moved_to",
-          "role": null
-        },
-        {
-          "person": "shiv-k-aggarwal-2015",
-          "displayName": "Shiv K. Aggarwal",
-          "kind": "moved_to",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-f897ac33e430",
-      "words": null
-    },
-    {
       "placeId": "place:ashtabula",
       "name": "Ashtabula",
       "band": "lead",
@@ -526,42 +502,6 @@
       "words": null
     },
     {
-      "placeId": "place:cairo-egypt",
-      "name": "Cairo, Egypt",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "rev-mikhail-mikhail-2016",
-          "displayName": "Rev. Mikhail Mikhail",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-738462620387",
-      "words": null
-    },
-    {
-      "placeId": "place:can-tho-vietnam",
-      "name": "Can Tho, Vietnam",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "le-nguyen-2026",
-          "displayName": "Le Nguyen",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-6017b974ebbf",
-      "words": null
-    },
-    {
       "placeId": "place:canton-ohio",
       "name": "Canton, Ohio",
       "band": "lead",
@@ -598,24 +538,6 @@
       "words": null
     },
     {
-      "placeId": "place:detroit-michigan",
-      "name": "Detroit, Michigan",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "erika-puussaar-2024",
-          "displayName": "Erika Puussaar",
-          "kind": "moved_to",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-5b1372ab082c",
-      "words": null
-    },
-    {
       "placeId": "place:east-technical-high-school",
       "name": "East Technical High School",
       "band": "researched",
@@ -631,24 +553,6 @@
       ],
       "reviewed": false,
       "contentVersion": "place-c5d5cc2756f7",
-      "words": null
-    },
-    {
-      "placeId": "place:garracloon-county-mayo",
-      "name": "Garracloon, County Mayo",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "gerald-m-quinn-2011",
-          "displayName": "Gerald M. Quinn",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-24e9620024c6",
       "words": null
     },
     {
@@ -670,96 +574,6 @@
       "words": "current"
     },
     {
-      "placeId": "place:guangdong-province-in-southern-china",
-      "name": "Guangdong province in southern China",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "donna-hom-2014",
-          "displayName": "Donna Hom",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-41d06786bb82",
-      "words": null
-    },
-    {
-      "placeId": "place:hong-kong",
-      "name": "Hong Kong",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "johnny-k-wu-2024",
-          "displayName": "Johnny K. Wu",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-92f9fc99b398",
-      "words": null
-    },
-    {
-      "placeId": "place:india",
-      "name": "India",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "shiv-k-aggarwal-2015",
-          "displayName": "Shiv K. Aggarwal",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-3ffd0fc7d0e8",
-      "words": null
-    },
-    {
-      "placeId": "place:kurnool",
-      "name": "Kurnool",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "vijaya-l-emani-2011",
-          "displayName": "Vijaya L. Emani",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-0795496f3c1b",
-      "words": null
-    },
-    {
-      "placeId": "place:la-grange-ga",
-      "name": "La Grange, GA",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "reverend-dr-otis-moss-jr-2011",
-          "displayName": "Reverend Dr. Otis Moss, Jr.",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-4370956a938c",
-      "words": null
-    },
-    {
       "placeId": "place:max-s-hayes-high-school",
       "name": "Max S. Hayes High School",
       "band": "researched",
@@ -776,78 +590,6 @@
       "reviewed": true,
       "contentVersion": "place-dd210a1600cc",
       "words": "current"
-    },
-    {
-      "placeId": "place:poland",
-      "name": "Poland",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "eugene-bak-2014",
-          "displayName": "Eugene Bak",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-e2e6ed9e71e8",
-      "words": null
-    },
-    {
-      "placeId": "place:puerto-rico",
-      "name": "Puerto Rico",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "victor-ruiz-2022",
-          "displayName": "Victor Ruiz",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-7a950b19d07a",
-      "words": null
-    },
-    {
-      "placeId": "place:rach-gia-viet-nam",
-      "name": "Rach Gia, Viet Nam",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "dr-dieu-thuc-do-2010",
-          "displayName": "Dr. Dieu Thuc Do",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-9b9dad94331c",
-      "words": null
-    },
-    {
-      "placeId": "place:rijeka-flume-croatia",
-      "name": "Rijeka (Flume), Croatia",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "vladimir-rus-2012",
-          "displayName": "Vladimir Rus",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-619b1d4be258",
-      "words": null
     },
     {
       "placeId": "place:shaker-heights",
@@ -904,60 +646,6 @@
       "words": "current"
     },
     {
-      "placeId": "place:utuado-puerto-rico",
-      "name": "Utuado, Puerto Rico",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "honorable-jose-a-villanueva-2015",
-          "displayName": "Honorable José A. Villanueva",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-bde7bd674a25",
-      "words": null
-    },
-    {
-      "placeId": "place:vietnam",
-      "name": "Vietnam",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "giahoa-ryan-2011",
-          "displayName": "Giahoa Ryan",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-68524bdc7f56",
-      "words": null
-    },
-    {
-      "placeId": "place:villalba-puerto-rico",
-      "name": "Villalba, Puerto Rico",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "sister-alicia-alvarado-2018",
-          "displayName": "Sister Alicia Alvarado",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-41f878f6fefc",
-      "words": null
-    },
-    {
       "placeId": "place:warren-ohio-mr",
       "name": "Warren, Ohio, Mr",
       "band": "lead",
@@ -976,24 +664,6 @@
       "words": null
     },
     {
-      "placeId": "place:yauco-puerto-rico",
-      "name": "Yauco, Puerto Rico",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [
-        {
-          "person": "jose-c-feliciano-2012",
-          "displayName": "José C. Feliciano",
-          "kind": "born_in",
-          "role": null
-        }
-      ],
-      "reviewed": false,
-      "contentVersion": "place-83ab0703a1e4",
-      "words": null
-    },
-    {
       "placeId": "place:youngstown-ohio",
       "name": "Youngstown, Ohio",
       "band": "lead",
@@ -1009,17 +679,6 @@
       ],
       "reviewed": false,
       "contentVersion": "place-a600ac92d019",
-      "words": null
-    },
-    {
-      "placeId": "place:albania",
-      "name": "Albania",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-1dd48115e90a",
       "words": null
     },
     {
@@ -1042,17 +701,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-c3d6c4bfb381",
-      "words": null
-    },
-    {
-      "placeId": "place:china",
-      "name": "China",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-d484ebe1379c",
       "words": null
     },
     {
@@ -1089,28 +737,6 @@
       "words": null
     },
     {
-      "placeId": "place:county-cork",
-      "name": "County Cork",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-301013da3323",
-      "words": null
-    },
-    {
-      "placeId": "place:county-mayo",
-      "name": "County Mayo",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-f271803f8bc3",
-      "words": null
-    },
-    {
       "placeId": "place:cultrual-garden",
       "name": "Cultrual Garden",
       "band": "lead",
@@ -1144,50 +770,6 @@
       "words": null
     },
     {
-      "placeId": "place:egypt",
-      "name": "Egypt",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-3cdd847ea830",
-      "words": null
-    },
-    {
-      "placeId": "place:estonia",
-      "name": "Estonia",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-2f4779faca8c",
-      "words": null
-    },
-    {
-      "placeId": "place:ethiopia",
-      "name": "Ethiopia",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-24cdd44932d5",
-      "words": null
-    },
-    {
-      "placeId": "place:germany",
-      "name": "Germany",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-ee113bf3b802",
-      "words": null
-    },
-    {
       "placeId": "place:glenville",
       "name": "Glenville",
       "band": "lead",
@@ -1210,28 +792,6 @@
       "words": null
     },
     {
-      "placeId": "place:greece",
-      "name": "Greece",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-e0ead2c62976",
-      "words": null
-    },
-    {
-      "placeId": "place:hungary",
-      "name": "Hungary",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-53450508341a",
-      "words": null
-    },
-    {
       "placeId": "place:italian-garden",
       "name": "Italian Garden",
       "band": "lead",
@@ -1240,28 +800,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-f6a69eccf296",
-      "words": null
-    },
-    {
-      "placeId": "place:italy",
-      "name": "Italy",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-af8bb252f743",
-      "words": null
-    },
-    {
-      "placeId": "place:japan",
-      "name": "Japan",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-3f8689b6d720",
       "words": null
     },
     {
@@ -1287,39 +825,6 @@
       "words": null
     },
     {
-      "placeId": "place:latvia",
-      "name": "Latvia",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-c206a14733d1",
-      "words": null
-    },
-    {
-      "placeId": "place:lebanon",
-      "name": "Lebanon",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-6d9dd6ae6817",
-      "words": null
-    },
-    {
-      "placeId": "place:lithuania",
-      "name": "Lithuania",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-663919af514f",
-      "words": null
-    },
-    {
       "placeId": "place:little-italy",
       "name": "Little Italy",
       "band": "lead",
@@ -1342,17 +847,6 @@
       "words": null
     },
     {
-      "placeId": "place:norway",
-      "name": "Norway",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-7774912167e5",
-      "words": null
-    },
-    {
       "placeId": "place:rockefeller-park",
       "name": "Rockefeller Park",
       "band": "lead",
@@ -1361,17 +855,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-c7daab37ef9b",
-      "words": null
-    },
-    {
-      "placeId": "place:russia",
-      "name": "Russia",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-92c8e3a799b1",
       "words": null
     },
     {
@@ -1408,17 +891,6 @@
       "words": null
     },
     {
-      "placeId": "place:ukraine",
-      "name": "Ukraine",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-78e6b87b6741",
-      "words": null
-    },
-    {
       "placeId": "place:university-circle",
       "name": "University Circle",
       "band": "lead",
@@ -1427,17 +899,6 @@
       "ties": [],
       "reviewed": false,
       "contentVersion": "place-945868f07e9a",
-      "words": null
-    },
-    {
-      "placeId": "place:usa",
-      "name": "USA",
-      "band": "lead",
-      "neighborhood": "",
-      "shortHistory": "",
-      "ties": [],
-      "reviewed": false,
-      "contentVersion": "place-7fd2e30b1653",
       "words": null
     },
     {

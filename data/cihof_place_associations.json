@@ -1106,15 +1106,6 @@
       }
     },
     {
-      "id": "edge:d6b5217c5efaff",
-      "person": "dr-dieu-thuc-do-2010",
-      "place": "place:rach-gia-viet-nam",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
       "id": "edge:5264d913b61707",
       "person": "dr-dieu-thuc-do-2010",
       "place": "place:cleveland-ohio",
@@ -1175,72 +1166,9 @@
       }
     },
     {
-      "id": "edge:1ac9d42585ec6d",
-      "person": "gerald-m-quinn-2011",
-      "place": "place:garracloon-county-mayo",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:c5751a8f74d9b8",
-      "person": "giahoa-ryan-2011",
-      "place": "place:vietnam",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:1e7e0e8c341e34",
-      "person": "giahoa-ryan-2011",
-      "place": "place:united-states",
-      "kind": "moved_to",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
       "id": "edge:903c99bc90c42e",
       "person": "lucretia-stoica-2011",
       "place": "place:youngstown-ohio",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:42733d61fb8a49",
-      "person": "reverend-dr-otis-moss-jr-2011",
-      "place": "place:la-grange-ga",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:363850d4776f7f",
-      "person": "vijaya-l-emani-2011",
-      "place": "place:kurnool",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:6e7bf9b92946a1",
-      "person": "jose-c-feliciano-2012",
-      "place": "place:yauco-puerto-rico",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:d17b440b6e3cc5",
-      "person": "vladimir-rus-2012",
-      "place": "place:rijeka-flume-croatia",
       "kind": "born_in",
       "role": null,
       "evidence": [],
@@ -1347,33 +1275,6 @@
       }
     },
     {
-      "id": "edge:866a77d587fc81",
-      "person": "donna-hom-2014",
-      "place": "place:guangdong-province-in-southern-china",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:21275ebf2c0c78",
-      "person": "eugene-bak-2014",
-      "place": "place:poland",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:93bb98d6c6c92e",
-      "person": "honorable-jose-a-villanueva-2015",
-      "place": "place:utuado-puerto-rico",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
       "id": "edge:119d89b5897966",
       "person": "richard-a-ganim-2015",
       "place": "place:cleveland-ohio",
@@ -1394,46 +1295,10 @@
       }
     },
     {
-      "id": "edge:b540daff5008ef",
-      "person": "shiv-k-aggarwal-2015",
-      "place": "place:india",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:12b447e838f8d8",
-      "person": "shiv-k-aggarwal-2015",
-      "place": "place:united-states",
-      "kind": "moved_to",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:fffc8576565a50",
-      "person": "rev-mikhail-mikhail-2016",
-      "place": "place:cairo-egypt",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
       "id": "edge:cf6b0d490c43af",
       "person": "rev-mikhail-mikhail-2016",
       "place": "place:cleveland",
       "kind": "moved_to",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:a81e0d5fdc5847",
-      "person": "sister-alicia-alvarado-2018",
-      "place": "place:villalba-puerto-rico",
-      "kind": "born_in",
       "role": null,
       "evidence": [],
       "verificationLayer": "documented-in-profile"
@@ -1499,15 +1364,6 @@
       }
     },
     {
-      "id": "edge:0fc478f4a8bb4b",
-      "person": "victor-ruiz-2022",
-      "place": "place:puerto-rico",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
       "id": "edge:5c327d61826d11",
       "person": "victor-ruiz-2022",
       "place": "place:cleveland-ohio",
@@ -1546,24 +1402,6 @@
         "publicWeb": false,
         "kiosk": true
       }
-    },
-    {
-      "id": "edge:660ab95e52798c",
-      "person": "erika-puussaar-2024",
-      "place": "place:detroit-michigan",
-      "kind": "moved_to",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
-    },
-    {
-      "id": "edge:3d449a81a12398",
-      "person": "johnny-k-wu-2024",
-      "place": "place:hong-kong",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
     },
     {
       "id": "edge:2828bb37b1e33e",
@@ -1653,15 +1491,6 @@
         "publicWeb": false,
         "kiosk": true
       }
-    },
-    {
-      "id": "edge:5e0d130b95ce93",
-      "person": "le-nguyen-2026",
-      "place": "place:can-tho-vietnam",
-      "kind": "born_in",
-      "role": null,
-      "evidence": [],
-      "verificationLayer": "documented-in-profile"
     }
   ]
 }

@@ -902,68 +902,8 @@
       "researched": false
     },
     {
-      "id": "place:hungary",
-      "name": "Hungary",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:india",
-      "name": "India",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:egypt",
-      "name": "Egypt",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
       "id": "place:cleveland-clinic",
       "name": "Cleveland Clinic",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:puerto-rico",
-      "name": "Puerto Rico",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:lithuania",
-      "name": "Lithuania",
       "type": "country_or_region",
       "shortHistory": "",
       "neighborhood": "",
@@ -986,164 +926,8 @@
       "researched": false
     },
     {
-      "id": "place:china",
-      "name": "China",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:latvia",
-      "name": "Latvia",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:ethiopia",
-      "name": "Ethiopia",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:ukraine",
-      "name": "Ukraine",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
       "id": "place:italian-garden",
       "name": "Italian Garden",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:italy",
-      "name": "Italy",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:albania",
-      "name": "Albania",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:estonia",
-      "name": "Estonia",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:japan",
-      "name": "Japan",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:russia",
-      "name": "Russia",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:norway",
-      "name": "Norway",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:vietnam",
-      "name": "Vietnam",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:germany",
-      "name": "Germany",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:usa",
-      "name": "USA",
       "type": "country_or_region",
       "shortHistory": "",
       "neighborhood": "",
@@ -1178,54 +962,6 @@
       "researched": false
     },
     {
-      "id": "place:county-cork",
-      "name": "County Cork",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:county-mayo",
-      "name": "County Mayo",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:lebanon",
-      "name": "Lebanon",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:greece",
-      "name": "Greece",
-      "type": "country_or_region",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "review-candidate"
-      },
-      "researched": false
-    },
-    {
       "id": "place:warren-ohio-mr",
       "name": "Warren, Ohio, Mr",
       "type": "city_or_locality",
@@ -1250,44 +986,8 @@
       "researched": false
     },
     {
-      "id": "place:rach-gia-viet-nam",
-      "name": "Rach Gia, Viet Nam",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
       "id": "place:cleveland-ohio",
       "name": "Cleveland, Ohio",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:garracloon-county-mayo",
-      "name": "Garracloon, County Mayo",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:united-states",
-      "name": "United States",
       "type": "city_or_locality",
       "shortHistory": "",
       "neighborhood": "",
@@ -1310,140 +1010,8 @@
       "researched": false
     },
     {
-      "id": "place:la-grange-ga",
-      "name": "La Grange, GA",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:kurnool",
-      "name": "Kurnool",
-      "type": "place",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:yauco-puerto-rico",
-      "name": "Yauco, Puerto Rico",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:rijeka-flume-croatia",
-      "name": "Rijeka (Flume), Croatia",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:guangdong-province-in-southern-china",
-      "name": "Guangdong province in southern China",
-      "type": "place",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:poland",
-      "name": "Poland",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:utuado-puerto-rico",
-      "name": "Utuado, Puerto Rico",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:cairo-egypt",
-      "name": "Cairo, Egypt",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:villalba-puerto-rico",
-      "name": "Villalba, Puerto Rico",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
       "id": "place:bentleyville-oh",
       "name": "Bentleyville, OH",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:detroit-michigan",
-      "name": "Detroit, Michigan",
-      "type": "city_or_locality",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:hong-kong",
-      "name": "Hong Kong",
       "type": "city_or_locality",
       "shortHistory": "",
       "neighborhood": "",
@@ -1469,18 +1037,6 @@
       "id": "place:ashtabula",
       "name": "Ashtabula",
       "type": "place",
-      "shortHistory": "",
-      "neighborhood": "",
-      "provenance": {
-        "source": "HOF_WORLD v3 core/places.json",
-        "authorityStatus": "documented-in-profile"
-      },
-      "researched": false
-    },
-    {
-      "id": "place:can-tho-vietnam",
-      "name": "Can Tho, Vietnam",
-      "type": "city_or_locality",
       "shortHistory": "",
       "neighborhood": "",
       "provenance": {

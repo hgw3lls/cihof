@@ -30,7 +30,7 @@ to decide.
 | What | Who | Where | Done by |
 | --- | --- | --- | --- |
 | **Profiles**: approve each person's profile, words and portrait, as visitors will see it. 111 people; the longest job, so start it first. | Curator | Review app, *Profiles* (class by class) | |
-| **Places**: approve the words for the 11 places on the display; decide the 3 researched places still open; say what the remaining people did at their places (56 of 85 done). | Curator | Review app, *Places* | |
+| **Places**: decide the last researched place (East Technical High School); say what the remaining people did at their places (56 of 66 done). Only places in Cleveland and Northeast Ohio are kept; the rest were removed on 27 September. | Curator | Review app, *Places* | |
 | **Attract screen words** | Curator | Review app, *Attract screen words* | |
 | **Where ceremony films start** for the 6 people who share the 2024 ceremony film | Curator | Review app, *Where ceremony films start* | |
 | **Caption and transcript noise**: what to do with music heard as "heat", the blank-audio marks, misheard names | Curator | Review app, *Film captions and transcripts*; `docs/film-transcript-check.md` | |

@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "note": "Places removed from the exhibit, and why. Only places in Cleveland and Northeast Ohio are kept; none of these was approved, and none of their ties to people was. scripts/ingest-hofworld.js skips every id here, so an import cannot bring one back.",
+  "removed": [
+    {
+      "id": "place:hungary",
+      "name": "Hungary",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:india",
+      "name": "India",
+      "type": "country_or_region",
+      "ties": [
+        "shiv-k-aggarwal-2015"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:egypt",
+      "name": "Egypt",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:puerto-rico",
+      "name": "Puerto Rico",
+      "type": "country_or_region",
+      "ties": [
+        "victor-ruiz-2022"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:lithuania",
+      "name": "Lithuania",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:china",
+      "name": "China",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:latvia",
+      "name": "Latvia",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:ethiopia",
+      "name": "Ethiopia",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:ukraine",
+      "name": "Ukraine",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:italy",
+      "name": "Italy",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:albania",
+      "name": "Albania",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:estonia",
+      "name": "Estonia",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:japan",
+      "name": "Japan",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:russia",
+      "name": "Russia",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:norway",
+      "name": "Norway",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:vietnam",
+      "name": "Vietnam",
+      "type": "country_or_region",
+      "ties": [
+        "giahoa-ryan-2011"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:germany",
+      "name": "Germany",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:usa",
+      "name": "USA",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:county-cork",
+      "name": "County Cork",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:county-mayo",
+      "name": "County Mayo",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:lebanon",
+      "name": "Lebanon",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:greece",
+      "name": "Greece",
+      "type": "country_or_region",
+      "ties": [],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:rach-gia-viet-nam",
+      "name": "Rach Gia, Viet Nam",
+      "type": "city_or_locality",
+      "ties": [
+        "dr-dieu-thuc-do-2010"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:garracloon-county-mayo",
+      "name": "Garracloon, County Mayo",
+      "type": "city_or_locality",
+      "ties": [
+        "gerald-m-quinn-2011"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:united-states",
+      "name": "United States",
+      "type": "city_or_locality",
+      "ties": [
+        "giahoa-ryan-2011",
+        "shiv-k-aggarwal-2015"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:la-grange-ga",
+      "name": "La Grange, GA",
+      "type": "city_or_locality",
+      "ties": [
+        "reverend-dr-otis-moss-jr-2011"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:kurnool",
+      "name": "Kurnool",
+      "type": "place",
+      "ties": [
+        "vijaya-l-emani-2011"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:yauco-puerto-rico",
+      "name": "Yauco, Puerto Rico",
+      "type": "city_or_locality",
+      "ties": [
+        "jose-c-feliciano-2012"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:rijeka-flume-croatia",
+      "name": "Rijeka (Flume), Croatia",
+      "type": "city_or_locality",
+      "ties": [
+        "vladimir-rus-2012"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:guangdong-province-in-southern-china",
+      "name": "Guangdong province in southern China",
+      "type": "place",
+      "ties": [
+        "donna-hom-2014"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:poland",
+      "name": "Poland",
+      "type": "city_or_locality",
+      "ties": [
+        "eugene-bak-2014"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:utuado-puerto-rico",
+      "name": "Utuado, Puerto Rico",
+      "type": "city_or_locality",
+      "ties": [
+        "honorable-jose-a-villanueva-2015"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:cairo-egypt",
+      "name": "Cairo, Egypt",
+      "type": "city_or_locality",
+      "ties": [
+        "rev-mikhail-mikhail-2016"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:villalba-puerto-rico",
+      "name": "Villalba, Puerto Rico",
+      "type": "city_or_locality",
+      "ties": [
+        "sister-alicia-alvarado-2018"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:detroit-michigan",
+      "name": "Detroit, Michigan",
+      "type": "city_or_locality",
+      "ties": [
+        "erika-puussaar-2024"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:hong-kong",
+      "name": "Hong Kong",
+      "type": "city_or_locality",
+      "ties": [
+        "johnny-k-wu-2024"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    },
+    {
+      "id": "place:can-tho-vietnam",
+      "name": "Can Tho, Vietnam",
+      "type": "city_or_locality",
+      "ties": [
+        "le-nguyen-2026"
+      ],
+      "reason": "Outside Cleveland and Northeast Ohio",
+      "decisionReference": "places-scope-2026-09-27",
+      "decidedBy": "Tony Yanick"
+    }
+  ]
+}
