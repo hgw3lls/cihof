@@ -27,8 +27,8 @@ test.beforeAll(async () => {
   cpSync(join(repo, 'apps/review/dist'), join(worktree, 'apps/review/dist'), { recursive: true });
 
   // Start from reviews nobody has done, whatever the real collection's review
-  // has reached: the copy's connections, ceremony film starts and sign-offs
-  // are cleared, its caption fixes forgotten and fresh noise planted in two
+  // has reached: the copy's connections, profile approvals, ceremony film
+  // starts and sign-offs are cleared, its caption fixes forgotten and fresh noise planted in two
   // films for the app to find, and all of that committed, so the copy is clean.
   const reset = (file: string, change: (document: any) => any) => {
     const path = join(worktree, file);
@@ -38,6 +38,11 @@ test.beforeAll(async () => {
   execFileSync(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning',
     join(worktree, 'packages/pipeline/scripts/ties-sheet.mjs'), '--force'], { cwd: worktree, stdio: 'ignore' });
   reset('data/cihof_film_starts.json', (document) => ({ ...document, starts: {} }));
+  reset('data/cihof_curated_metadata.json', (document) => ({
+    ...document,
+    inductees: Object.fromEntries(Object.entries(document.inductees).map(([id, { profileReview, ...record }]: [string, any]) =>
+      [id, profileReview ? { ...record, approvalStatus: 'draft' } : record])),
+  }));
   reset('data/cihof_opening_signoffs.json', (document) => ({
     ...document, items: document.items.map(({ cleared, ...item }: { cleared?: unknown }) => ({ ...item, signed: null })),
   }));
