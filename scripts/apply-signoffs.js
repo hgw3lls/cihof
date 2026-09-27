@@ -5,14 +5,17 @@ import { extname, relative, resolve, sep } from 'node:path';
 import { parseCsv } from './data-utils.js';
 
 /**
- * Records a sign-off someone gave outside the staff review app: who signed,
- * on what date, and what the signature rests on.
+ * Records sign-offs: who signed, on what date, and what the signature rests
+ * on. The staff review app writes this sheet when someone accepts a sign-off
+ * there; a developer can also record a signature given on paper.
  *
  *   id,action,by,date,reference,scan,note
  *
  *   sign   records the signature. `by` and `date` (YYYY-MM-DD, not in the
  *          future) are required, with a `reference` (where the signed record
- *          is kept) or a `scan` of it, or both.
+ *          is kept) or a `scan` of it, or both. A sign-off that `asks` a
+ *          question needs its answer in `note`; one that `requires` others
+ *          needs them signed first, or in the same sheet.
  *   clear  removes a signature recorded by mistake, or one that no longer
  *          holds (the display moved, and the sheet must be signed again).
  *
@@ -95,6 +98,7 @@ readRows(csv).forEach((row, index) => {
   if (!real) { errors.push(`line ${line} (${item.title}): "${date}" is not a date (YYYY-MM-DD)`); return; }
   if (date > today) { errors.push(`line ${line} (${item.title}): ${date} is in the future`); return; }
   if (!reference && !scan) { errors.push(`line ${line} (${item.title}): say where the signed record is kept, or attach a scan of it`); return; }
+  if (item.asks && !note) { errors.push(`line ${line} (${item.title}): ${item.asks} Say so in the note`); return; }
   let scanFrom = null;
   if (scan) {
     scanFrom = resolve(root, scan);
@@ -105,6 +109,16 @@ readRows(csv).forEach((row, index) => {
   }
   changes.push({ item, action, by, date, reference, scanFrom, note });
 });
+
+// Checked once every row is read, so a sheet may sign what it requires too.
+const signing = new Set(changes.filter((change) => change.action === 'sign').map((change) => change.item.id));
+const clearing = new Set(changes.filter((change) => change.action === 'clear').map((change) => change.item.id));
+for (const change of changes.filter((entry) => entry.action === 'sign')) {
+  const missing = (change.item.requires ?? []).filter((id) => clearing.has(id) || !(signing.has(id) || byId.get(id)?.signed));
+  if (missing.length > 0) {
+    errors.push(`${change.item.title}: needs ${missing.map((id) => byId.get(id)?.title ?? id).join(', ')} signed first`);
+  }
+}
 
 console.log(`\nSign-offs — ${relative(root, inputPath)}`);
 for (const change of changes) {

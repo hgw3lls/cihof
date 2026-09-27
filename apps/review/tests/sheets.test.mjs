@@ -112,18 +112,20 @@ test('a ceremony film start names the person, the film and the second, or the be
   assert.equal(beginning.startSeconds, '');
 });
 
-test('a recorded sign-off names who signed, and says who recorded it', () => {
-  const recorded = { reviewer: 'Jane Smith', signoffs: {
-    logo: { action: 'sign', by: 'Board chair', date: '2026-09-20', reference: 'Board minutes, item 4', scan: '.review/uploads/abc.pdf' },
-    'approval-to-open': { action: 'clear', note: 'recorded by mistake' },
+test('an accepted sign-off is signed by whoever accepted it, with the app\'s reference', () => {
+  const accepted = { reviewer: 'Jane Smith', signoffs: {
+    'public-website': { action: 'accept', by: 'Jane Smith', date: '2026-09-30', note: 'Live at cihof.org' },
+    logo: { action: 'accept', by: 'Jane Smith', date: '2026-09-30' },
+    'approval-to-open': { action: 'clear', note: 'accepted by mistake' },
   } };
-  const [signed, cleared] = rows(signoffsCsv(recorded, '2026-10-01'));
-  assert.deepEqual(signed, {
-    id: 'logo', action: 'sign', by: 'Board chair', date: '2026-09-20', reference: 'Board minutes, item 4', scan: '.review/uploads/abc.pdf',
-    note: 'Recorded by Jane Smith in the staff review app (sign-offs-review-2026-10-01).',
+  const [website, logo, cleared] = rows(signoffsCsv(accepted, '2026-10-01'));
+  assert.deepEqual(website, {
+    id: 'public-website', action: 'sign', by: 'Jane Smith', date: '2026-09-30',
+    reference: 'Accepted in the staff review app (sign-offs-review-2026-10-01)', scan: '', note: 'Live at cihof.org',
   });
+  assert.equal(logo.note, '');
   assert.equal(cleared.action, 'clear');
-  assert.match(cleared.note, /^recorded by mistake\. Recorded by Jane Smith/);
+  assert.equal(cleared.note, 'accepted by mistake. Cleared by Jane Smith in the staff review app (sign-offs-review-2026-10-01).');
 });
 
 test('a caption fix names the film, the kind and the words, exactly as typed', () => {

@@ -126,14 +126,18 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(page.getByText(/“Carolyn Varo” → “Carolyn Balogh”/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
-  // A sign-off given on paper, with a scan of the signed sheet.
+  // A sign-off accepted under the reviewer's own name. A section of the sheet
+  // shows what it confirms, and the approval to open waits for the six.
   await page.getByRole('button', { name: /^Sign-offs/ }).click();
+  const installation = page.locator('article', { hasText: 'Sign-off 1: the installation' });
+  await expect(installation.getByText('Every control a visitor needs can be reached by a standing adult.')).toBeVisible();
+  const approval = page.locator('article', { hasText: 'Approval to open' });
+  await expect(approval.getByRole('button', { name: /^Accept as/ })).toHaveCount(0);
+  await expect(approval.getByText(/Can be accepted once these are signed/)).toBeVisible();
   const logo = page.locator('article', { hasText: 'The Hall of Fame approves the changed logo' });
-  await logo.getByRole('button', { name: 'Record a signature' }).click();
-  await logo.getByLabel('Signed by').fill('Test Chair');
-  await logo.getByLabel(/Where the signed record is kept/).fill('Test board minutes, item 4');
-  await logo.getByLabel(/A scan of the signed sheet/).setInputFiles({ name: 'signed.png', mimeType: 'image/png', buffer: Buffer.from('89504e470d0a1a0a', 'hex') });
-  await expect(logo.getByText('Scan attached: signed.png')).toBeVisible();
+  await logo.getByRole('button', { name: 'Accept as Playwright Reviewer' }).click();
+  await logo.getByLabel(/^Note/).fill('Test: the board agreed');
+  await expect(logo.getByText(/Accepted by Playwright Reviewer on/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
   // A biography.
@@ -211,7 +215,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   const signoffEntry = page.locator('.history__entry', { hasText: 'Sign-offs' }).first();
   await expect(signoffEntry).toContainText('Playwright Reviewer');
   await signoffEntry.getByRole('button', { name: /Show what was decided/ }).click();
-  await expect(signoffEntry.locator('table')).toContainText('Test Chair');
+  await expect(signoffEntry.locator('table')).toContainText('Test: the board agreed');
 
   const log = git('log', '--format=%s%n%b', `${before}..HEAD`);
   expect(log).toContain('review: connections, 3 decisions');
@@ -264,11 +268,13 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   const captionFixes = JSON.parse(readFileSync(join(worktree, 'data/cihof_caption_fixes.json'), 'utf8')).fixes;
   expect(captionFixes.map((fix: { fix: string }) => fix.fix).sort()).toEqual(['music', 'phrase']);
 
-  // The signature is recorded with its scan filed beside the other signed decisions.
+  // The sign-off is signed by whoever accepted it, with the app's reference.
   const logoSignoff = JSON.parse(readFileSync(join(worktree, 'data/cihof_opening_signoffs.json'), 'utf8')).items
     .find((item: { id: string }) => item.id === 'logo');
-  expect(logoSignoff.signed).toMatchObject({ by: 'Test Chair', reference: 'Test board minutes, item 4', scan: expect.stringMatching(/^data\/curation-decisions\/signoffs\/logo-\d{4}-\d{2}-\d{2}\.png$/) });
-  expect(existsSync(join(worktree, logoSignoff.signed.scan))).toBe(true);
+  expect(logoSignoff.signed).toMatchObject({
+    by: 'Playwright Reviewer', reference: expect.stringMatching(/^Accepted in the staff review app \(sign-offs-review-\d{4}-\d{2}-\d{2}\)$/),
+    note: 'Test: the board agreed',
+  });
 
   const words = JSON.parse(readFileSync(join(worktree, 'data/cihof_exhibit_text.json'), 'utf8')).attract;
   expect(words).toMatchObject({
