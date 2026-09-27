@@ -31,10 +31,10 @@ records who set them and when.
 
 ## Work
 
-Take the CE stage prompts as the design source for each surface — they are good
+Take the CE stage briefs as the design source for each surface — they are good
 descriptions of the destination and this plan does not rewrite them:
 
-- Places → `cihof-city-experience/prompts/CE-05_cleveland-places.md`
+- Places → `CE-05_cleveland-places.md`
 - Stories and evidence → `CE-04_contribution-stories-and-evidence.md`
 - Comparison → `CE-06_connections-and-comparison.md`
 - Historical activity → `CE-07_historical-activity.md`
