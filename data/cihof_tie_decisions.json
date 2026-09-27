@@ -361,7 +361,7 @@
       "sourceType": "collaborator",
       "decision": "relationship",
       "kind": "collaborated-with",
-      "label": "worked together to promote Juneteenth",
+      "label": "Longtime collaborators in Cleveland’s Black civic life.",
       "evidence": [
         "Dr. Eugene Jordan on the steps of City Hall When very few people outside of Texas and Oklahoma had ever heard of Juneteenth, Dr. Jordan (along with Khalid Samad, Carl Ewing and a few others) told the story and pushed for its celebration."
       ],
@@ -369,14 +369,14 @@
         "https://clevelandinternationalhalloffame.com/inductees/dr-eugene-jordan/"
       ],
       "verificationLayer": "documented-in-profile",
-      "decisionReference": "connections-wording-2026-09-25",
-      "contentVersion": "tie-6adc12ddbb9f",
-      "reviewedAt": "2026-09-25T00:18:03.708Z",
+      "decisionReference": "connections-review-2026-09-27",
+      "contentVersion": "tie-40f0e2a71551",
+      "reviewedAt": "2026-09-27T18:18:16.045Z",
       "publication": {
         "publicWeb": true,
         "kiosk": true
       },
-      "note": "longtime collaborator / fellow activist / community ally. Reviewed by Tony Yanick in the staff review app. Wording shortened to fit the map by the developer's AI assistant from the reviewer's own wording, at the request of Tony Yanick, 2026-09-25."
+      "note": "Reviewed by Tony Yanick in the staff review app."
     },
     {
       "tieId": "preview:person-rel:9461272745110b",
