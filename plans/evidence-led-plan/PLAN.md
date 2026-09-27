@@ -99,7 +99,7 @@ Two additions this plan does make:
 - `DATA_CONTRACTS.md` — the typed contracts. Implemented and verified.
 - `ACCEPTANCE_TESTS.md` and its source-audit addendum — the T/P/A/O matrix.
 - `EDITORIAL_HANDOFF.md` — the editorial interface.
-- `AGENTS_ADDENDUM.md` — the execution rules, unrelaxed.
+- The city-experience execution rules, unrelaxed.
 - CE-01's implementation, which this plan builds on rather than revisits.
 
 ## 7. What would falsify this plan

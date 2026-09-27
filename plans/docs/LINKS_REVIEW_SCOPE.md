@@ -197,13 +197,8 @@ valuable one. It proposes a resolution for 93 of the 95 crosswalk names: 33
 `resolved-inductee`, 60 `resolved-non-inductee`. All 93 match repo rows on
 `recordedName`, which is the crosswalk's merge key, so ingest is a clean join.
 
-Every entry is stamped:
-
-```json
-"reviewedBy": "Claude (automated, curator sign-off pending)"
-```
-
-Take that at face value. These are **candidates**, not resolutions. The crosswalk
+Every entry is stamped `reviewedBy` as an automated review, with curator
+sign-off pending. Take that at face value. These are **candidates**, not resolutions. The crosswalk
 type already models exactly this distinction — `CrosswalkCandidate` carries a
 `basis` and a `verificationLayer` precisely so "nobody mistakes a normalised string
 comparison for a finding". These land as candidates with
@@ -629,8 +624,8 @@ reviews, 14 triage judgements.
 No transform reduces either number, because the fields they produce —
 `decisionReference`, `contentVersion`, `publication` — exist specifically to record
 that a person decided. Adopting the archive's 93 machine proposals unreviewed would
-reproduce exactly the `reviewedBy: "Claude (automated, curator sign-off pending)"`
-stamp the archive itself honestly carries. That is the design working, not an
+reproduce exactly the automated, sign-off-pending `reviewedBy` stamp the archive
+itself honestly carries. That is the design working, not an
 obstacle to route around.
 
 The honest summary, in order of how much it matters:

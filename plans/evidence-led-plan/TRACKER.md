@@ -36,15 +36,15 @@ then they are queue sizes measured from the published record.
 
 ## Relationship to the other plans
 
-**MG** (`cihof-museum-upgrade/`): MG-00–04 Complete, MG-05/06 Ready for review,
+**MG** ([`museum-upgrade/`](https://github.com/hgw3lls/cihof/tree/918732f/plans/museum-upgrade)): MG-00–04 Complete, MG-05/06 Ready for review,
 MG-07/08 Not started. Nothing here closes an MG sign-off. The open items —
 external QR reflow, physical reach, assistive technology, pinned Node 22,
 curatorial review, pending media — carry into EV-09.
 
-**CE** (`cihof-city-experience/`): CE-00 and CE-01 are Complete and this plan
+**CE** ([`city-experience/`](https://github.com/hgw3lls/cihof/tree/918732f/plans/city-experience)): CE-00 and CE-01 are Complete and this plan
 builds on them rather than revisiting them. CE-02 is in progress in the working
 tree, with its three known defects fixed and verified. CE-03 through CE-11
-remain valid as *destinations*; EV-08 cites their prompts as the design source
+remain valid as *destinations*; EV-08 cites their stage briefs as the design source
 for each surface. Their **order** is superseded by decision E03. CE-12, added
 during the source audit, is folded into EV-02.
 
