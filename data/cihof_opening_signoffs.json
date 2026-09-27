@@ -27,7 +27,13 @@
       "who": "Cleveland International Hall of Fame",
       "where": "plans/docs/CLEAN_APP_PLAN.md §5.1",
       "asks": "What was decided: does the website go live, and at what address?",
-      "signed": null
+      "signed": {
+        "by": "Tony Yanick",
+        "date": "2026-09-27",
+        "reference": "Accepted in the staff review app (sign-offs-review-2026-09-27)",
+        "note": "yes it goes live.",
+        "recordedAt": "2026-09-27T18:36:49.636Z"
+      }
     },
     {
       "id": "audio-description",
