@@ -103,17 +103,24 @@ export type FilmStartDecision =
 
 export type ReadinessLine = { group: string; title: string; done: number; total: number; open: number; where: string };
 
-/** A sign-off given outside the app, and whether it is recorded. */
+/** A sign-off, what accepting it confirms, and whether it is signed. */
 export type Signoff = {
   id: string;
   title: string;
   who: string;
   where: string;
+  /** The lines of docs/sign-off.md the person confirms, if it is a section of it. */
+  confirms: string[];
+  /** A question the acceptance must answer in its note. */
+  asks?: string;
+  /** Sign-offs that must be signed before this one. */
+  requires?: string[];
   signed: { by: string; date: string; reference: string; scan?: string; note?: string } | null;
 };
 
+/** Accepted by `by`, the reviewer's own name, on `date`, the day they pressed Accept. */
 export type SignoffDecision =
-  | { action: 'sign'; by: string; date: string; reference: string; scan?: string; scanName?: string; note?: string }
+  | { action: 'accept'; by: string; date: string; note?: string }
   | { action: 'clear'; note: string };
 
 export type FixPreview = { transcriptCount: number; captionCount: number; examples: { before: string; after: string }[] };
@@ -206,21 +213,6 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 
 export function tieKey(placeId: string, personId: string): string {
   return `${placeId}|${personId}`;
-}
-
-/** Sends a scan of a signed sheet; it stays on this computer until the sign-off is saved. */
-export async function uploadScan(file: File): Promise<{ file: string; name: string }> {
-  const bytes = new Uint8Array(await file.arrayBuffer());
-  let binary = '';
-  for (let index = 0; index < bytes.length; index += 0x8000) binary += String.fromCharCode(...bytes.subarray(index, index + 0x8000));
-  const response = await fetch('/api/upload', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ name: file.name, data: btoa(binary) }),
-  });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error ?? 'The scan could not be kept.');
-  return result;
 }
 
 /** What a caption fix would change, read from the film's files. */

@@ -41,8 +41,8 @@ to decide.
 The connections are all decided (29 of 29).
 
 A decision is recorded in the review app when it is made, with who made it.
-A signature given on paper is recorded under *Sign-offs*, with a scan or
-where the paper is kept.
+A sign-off is accepted in the review app, under *Sign-offs*, by the person
+responsible, under their own name.
 
 ## 2. The release (after every decision in 1)
 
@@ -69,8 +69,10 @@ running as it will be in the gallery while they do.
 ## 4. Approval to open
 
 All six sections signed, every exception listed with who accepted it
-(`docs/sign-off.md`, *Approval to open*). Record it in the review app's
-*Sign-offs*. Then `npm run readiness -- --strict` passes.
+(`docs/sign-off.md`, *Approval to open*). The person who approves the
+opening accepts it in the review app's *Sign-offs*; the app offers it only
+once sections 1 to 6 are accepted. Then `npm run readiness -- --strict`
+passes.
 
 ## Working back from opening day
 

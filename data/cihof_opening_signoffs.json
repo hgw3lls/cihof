@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "note": "What people must sign off before the exhibit opens, outside the staff review app, and whether they have. An entry counts as signed only with who signed it, the date, and a reference to the signed record (a scan or sheet in data/curation-decisions/, or the decision's own reference). Only the person signing, or someone recording their signature, fills an entry in; npm run readiness only reads this file.",
+  "note": "What people must sign off before the exhibit opens, and whether they have. Each is accepted in the staff review app by the person responsible, under their own name; an entry counts as signed only with who accepted it, the date, and a reference to the decision (the review app's own reference, or a signed record in data/curation-decisions/). `section` names the part of docs/sign-off.md the person confirms; `asks` is a question the acceptance must answer; `requires` lists sign-offs that must be signed first. npm run readiness only reads this file.",
   "items": [
     { "id": "logo", "title": "The Hall of Fame approves the changed logo", "who": "Cleveland International Hall of Fame", "where": "docs/brand/skyline-guidelines.md", "signed": null },
     { "id": "film-captions", "title": "The choices about caption and transcript noise are made", "who": "Curator", "where": "docs/film-transcript-check.md", "signed": null },
-    { "id": "public-website", "title": "Decide whether the public website goes live, and at what lasting address (the display shows no take-home codes until it does)", "who": "Cleveland International Hall of Fame", "where": "plans/docs/CLEAN_APP_PLAN.md §5.1", "signed": null },
-    { "id": "audio-description", "title": "Decide on audio description for the 93 films (all are marked review-needed)", "who": "Accessibility reviewer and curator", "where": "data/media_manifest.json (audioDescriptionStatus)", "signed": null },
+    { "id": "public-website", "title": "Decide whether the public website goes live, and at what lasting address (the display shows no take-home codes until it does)", "who": "Cleveland International Hall of Fame", "where": "plans/docs/CLEAN_APP_PLAN.md §5.1", "asks": "What was decided: does the website go live, and at what address?", "signed": null },
+    { "id": "audio-description", "title": "Decide on audio description for the 93 films (all are marked review-needed)", "who": "Accessibility reviewer and curator", "where": "data/media_manifest.json (audioDescriptionStatus)", "asks": "What was decided about audio description?", "signed": null },
     { "id": "windows-checklist", "title": "The Windows checklist is done on the display PC and the office PC", "who": "Developer and administrator", "where": "docs/windows-checklist.md", "signed": null },
-    { "id": "signoff-installation", "title": "Sign-off 1: the installation", "who": "Installation team", "where": "docs/sign-off.md", "signed": null },
-    { "id": "signoff-touch", "title": "Sign-off 2: touch and reading in the gallery", "who": "Installation team", "where": "docs/sign-off.md", "signed": null },
-    { "id": "signoff-accessibility", "title": "Sign-off 3: accessibility", "who": "Accessibility reviewer", "where": "docs/sign-off.md", "signed": null },
-    { "id": "signoff-endurance", "title": "Sign-off 4: endurance", "who": "Administrator", "where": "docs/sign-off.md", "signed": null },
-    { "id": "signoff-content", "title": "Sign-off 5: content", "who": "Curator", "where": "docs/sign-off.md", "signed": null },
-    { "id": "signoff-rights", "title": "Sign-off 6: rights", "who": "Rights and reproductions", "where": "docs/sign-off.md", "signed": null },
-    { "id": "approval-to-open", "title": "Approval to open", "who": "The person who approves the opening", "where": "docs/sign-off.md", "signed": null }
+    { "id": "signoff-installation", "title": "Sign-off 1: the installation", "who": "Installation team", "where": "docs/sign-off.md", "section": "1", "signed": null },
+    { "id": "signoff-touch", "title": "Sign-off 2: touch and reading in the gallery", "who": "Installation team", "where": "docs/sign-off.md", "section": "2", "signed": null },
+    { "id": "signoff-accessibility", "title": "Sign-off 3: accessibility", "who": "Accessibility reviewer", "where": "docs/sign-off.md", "section": "3", "signed": null },
+    { "id": "signoff-endurance", "title": "Sign-off 4: endurance", "who": "Administrator", "where": "docs/sign-off.md", "section": "4", "signed": null },
+    { "id": "signoff-content", "title": "Sign-off 5: content", "who": "Curator", "where": "docs/sign-off.md", "section": "5", "signed": null },
+    { "id": "signoff-rights", "title": "Sign-off 6: rights", "who": "Rights and reproductions", "where": "docs/sign-off.md", "section": "6", "signed": null },
+    { "id": "approval-to-open", "title": "Approval to open", "who": "The person who approves the opening", "where": "docs/sign-off.md", "section": "approval", "requires": ["signoff-installation", "signoff-touch", "signoff-accessibility", "signoff-endurance", "signoff-content", "signoff-rights"], "signed": null }
   ]
 }

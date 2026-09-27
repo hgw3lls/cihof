@@ -40,11 +40,12 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
-    // A signature needs who, when and where the record is; a clearing needs a reason.
+    // An acceptance needs a name, and an answer where the sign-off asks a question; a clearing needs a reason.
     ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
-      const title = review.signoffs.find((item) => item.id === id)?.title ?? id;
-      if (value.action === 'clear') return value.note.trim() ? [] : [`why the signature for "${title}" is cleared`];
-      return signoffProblem(value) ? [`the sign-off "${title}"`] : [];
+      const item = review.signoffs.find((entry) => entry.id === id);
+      const title = item?.title ?? id;
+      if (value.action === 'clear') return value.note.trim() ? [] : [`why the sign-off "${title}" is cleared`];
+      return signoffProblem(value, item) ? [`the sign-off "${title}"`] : [];
     }),
     // A start past the end of its film cannot be saved.
     ...Object.entries(draft.filmStarts ?? {}).flatMap(([key, value]) => {
@@ -221,9 +222,9 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   }
   for (const [id, value] of Object.entries(draft.signoffs ?? {})) {
     const title = review.signoffs.find((item) => item.id === id)?.title ?? id;
-    lines.push(value.action === 'sign'
-      ? `Sign-offs: ${title}: signed by ${value.by} on ${value.date}${value.scanName ? ', with a scan' : ''}`
-      : `Sign-offs: ${title}: signature cleared (${value.note})`);
+    lines.push(value.action === 'accept'
+      ? `Sign-offs: ${title}: accepted by ${value.by} on ${value.date}${value.note?.trim() ? ` (${value.note.trim()})` : ''}`
+      : `Sign-offs: ${title}: cleared (${value.note})`);
   }
   for (const [id, value] of Object.entries(draft.bios)) {
     const name = review.bios.find((bio) => bio.id === id)?.name ?? id;
