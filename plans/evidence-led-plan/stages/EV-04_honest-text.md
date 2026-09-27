@@ -36,7 +36,7 @@ source.
 - `scripts/data-utils.js`, `scripts/prepare-data.js` — where these fields are generated
 - `src/features/archive-exhibit/interpretiveModel.ts` — `publishedContribution`, `sourceBiographyText`
 - `src/features/archive-exhibit/ArchiveExhibit.tsx` — the record and focus panel
-- `cihof-city-experience/DATA_CONTRACTS.md` — if a provenance field is added
+- [`city-experience/DATA_CONTRACTS.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/DATA_CONTRACTS.md) — if a provenance field is added
 
 ## Work
 
