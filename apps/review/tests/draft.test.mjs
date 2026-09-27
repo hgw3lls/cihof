@@ -14,6 +14,16 @@ test('a draft kept before later reviews existed opens with those reviews empty',
   assert.deepEqual(readDraftFile(path), { ...emptyDraft(), reviewer: 'Jane Smith', ties: { t1: tie } });
 });
 
+test('a signature recorded the old way is dropped, not turned into an acceptance', () => {
+  const path = join(folder, 'recorded.json');
+  const accepted = { action: 'accept', by: 'Jane Smith', date: '2026-09-27' };
+  writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', signoffs: {
+    logo: { action: 'sign', by: 'Board chair', date: '2026-09-20', reference: 'Board minutes' },
+    'signoff-touch': accepted,
+  } }));
+  assert.deepEqual(readDraftFile(path).signoffs, { 'signoff-touch': accepted });
+});
+
 test('a missing or unreadable draft opens empty', () => {
   const path = join(folder, 'broken.json');
   writeFileSync(path, '{ not json');

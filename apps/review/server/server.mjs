@@ -135,7 +135,9 @@ function normaliseDraft(value) {
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
     filmStarts: object(draft.filmStarts),
-    signoffs: object(draft.signoffs),
+    // Only what this app can decide: an acceptance, or a clearing. A signature
+    // recorded the old way, for someone else, is not made into an acceptance.
+    signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
   };
 }
