@@ -236,7 +236,8 @@ button:active { filter: brightness(0.92); }
 .tile img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--rule-soft); filter: grayscale(1) contrast(1.05); transition: filter 400ms ease-out; }
 .tile--tall img { aspect-ratio: 3 / 4; }
 .tile[aria-pressed='true'] img { filter: none; outline: 4px solid var(--lens-ink); outline-offset: -4px; }
-.tile .caption { display: block; margin-top: calc(12 * var(--px)); overflow: hidden; font-size: calc(22 * var(--px)); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; white-space: nowrap; text-overflow: ellipsis; }
+/* A name wraps to a second line rather than being cut; two lines are kept for every name so the rows stay even. */
+.tile .caption { display: -webkit-box; min-height: 2.4em; margin-top: calc(12 * var(--px)); overflow: hidden; font-size: calc(22 * var(--px)); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 .tile .year { display: block; margin-top: calc(4 * var(--px)); font-size: calc(18 * var(--px)); }
 
 /* ------------------------------------------------------------------ People */
