@@ -13,7 +13,7 @@ Cheap, and every later stage cites it.
 
 ## Already done
 
-[`city-experience/BASELINE_CURRENT.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/BASELINE_CURRENT.md) and [`completions/CE-00.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/completions/CE-00.md) were
+[`city-experience/BASELINE_CURRENT.md`](https://github.com/hgw3lls/cihof/blob/b5794fb/plans/city-experience/BASELINE_CURRENT.md) and [`completions/CE-00.md`](https://github.com/hgw3lls/cihof/blob/b5794fb/plans/city-experience/completions/CE-00.md) were
 refreshed on 2026-09-21 against the current tree and are accurate. This stage
 adopts them by reference rather than repeating the measurement. What it adds is
 this plan's own boundary statement.
