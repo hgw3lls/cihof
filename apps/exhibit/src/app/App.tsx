@@ -232,7 +232,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
         <SessionWarning
           secondsRemaining={session.secondsRemaining}
           onContinue={session.noteActivity}
-          onReset={restart}
+          onReset={session.startOver}
         />
       )}
 

@@ -26,10 +26,19 @@ export function useSession(timing: SessionTiming, allowShortTimings: boolean, on
     if (timer.current !== null) { window.clearTimeout(timer.current); timer.current = null; }
 
     const reading = readSession(effective, lastActivity.current, Date.now());
+    if (reading.phase === 'expired') {
+      expire.current();
+      // Starting over ends the visit. On the kiosk it goes to the attract
+      // screen and this hook turns off; the public site starts over on the
+      // people, where nothing is timed again until someone touches it.
+      lastActivity.current = Date.now();
+      setPhase('active');
+      setSecondsRemaining(Math.ceil(effective.idleMs / 1000));
+      return;
+    }
     setPhase(reading.phase);
     setSecondsRemaining(reading.secondsRemaining);
 
-    if (reading.phase === 'expired') { expire.current(); return; }
     // Re-check at the next phase change, and once a second while warning so the
     // countdown a visitor is reading stays true.
     const delay = reading.phase === 'warning'
@@ -68,5 +77,11 @@ export function useSession(timing: SessionTiming, allowShortTimings: boolean, on
     };
   }, [evaluate, noteActivity, enabled]);
 
-  return { phase, secondsRemaining, noteActivity, effective };
+  /** Ends the visit now, as running out of time would. */
+  const startOver = useCallback(() => {
+    lastActivity.current = 0;
+    evaluate();
+  }, [evaluate]);
+
+  return { phase, secondsRemaining, noteActivity, startOver, effective };
 }
