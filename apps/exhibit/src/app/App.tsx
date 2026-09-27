@@ -157,7 +157,6 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                 ? (
                   <Years
                     people={people}
-                    discovery={state.discovery}
                     selectedId={state.selectedId}
                     onSelect={select}
                     onOpen={open}
