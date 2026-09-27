@@ -34,9 +34,7 @@ const mime = {
 
 export function createReviewServer({ root, dist, port }) {
   const draftPath = join(root, '.review', 'draft.json');
-  const readDraft = () => {
-    try { return JSON.parse(readFileSync(draftPath, 'utf8')); } catch { return emptyDraft(); }
-  };
+  const readDraft = () => readDraftFile(draftPath);
   const writeDraft = (draft) => {
     mkdirSync(join(root, '.review'), { recursive: true });
     writeFileSync(draftPath, `${JSON.stringify(draft, null, 2)}\n`);
@@ -126,6 +124,14 @@ export function createReviewServer({ root, dist, port }) {
 
 export function emptyDraft() {
   return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
+}
+
+/**
+ * The reviewer's unsaved decisions, in the shape this version expects. A draft
+ * kept by an older version lacks the reviews added since.
+ */
+export function readDraftFile(path) {
+  try { return normaliseDraft(JSON.parse(readFileSync(path, 'utf8'))); } catch { return emptyDraft(); }
 }
 
 /** Keeps only the draft's own shape, so nothing else can be smuggled into a sheet. */
