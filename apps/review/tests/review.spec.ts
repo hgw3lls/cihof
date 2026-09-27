@@ -26,17 +26,27 @@ test.beforeAll(async () => {
   symlinkSync(join(repo, 'node_modules'), join(worktree, 'node_modules'), 'junction');
   cpSync(join(repo, 'apps/review/dist'), join(worktree, 'apps/review/dist'), { recursive: true });
 
-  // Start from connections nobody has decided, whatever the real collection's
-  // review has reached: the copy's tie decisions are cleared, its sheet
-  // regenerated, and that committed, so the copy is clean.
-  const decisionsPath = join(worktree, 'data/cihof_tie_decisions.json');
-  if (existsSync(decisionsPath)) {
-    const document = JSON.parse(readFileSync(decisionsPath, 'utf8'));
-    writeFileSync(decisionsPath, `${JSON.stringify({ ...document, decisions: [] }, null, 2)}\n`);
-    execFileSync(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning',
-      join(worktree, 'packages/pipeline/scripts/ties-sheet.mjs'), '--force'], { cwd: worktree, stdio: 'ignore' });
-    git('-c', 'user.name=Test', '-c', 'user.email=test@cihof.invalid', 'commit', '-q', '-am', 'test: start from undecided connections');
-  }
+  // Start from reviews nobody has done, whatever the real collection's review
+  // has reached: the copy's connections, ceremony film starts and sign-offs
+  // are cleared, its caption fixes forgotten and fresh noise planted in two
+  // films for the app to find, and all of that committed, so the copy is clean.
+  const reset = (file: string, change: (document: any) => any) => {
+    const path = join(worktree, file);
+    writeFileSync(path, `${JSON.stringify(change(JSON.parse(readFileSync(path, 'utf8'))), null, 2)}\n`);
+  };
+  reset('data/cihof_tie_decisions.json', (document) => ({ ...document, decisions: [] }));
+  execFileSync(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning',
+    join(worktree, 'packages/pipeline/scripts/ties-sheet.mjs'), '--force'], { cwd: worktree, stdio: 'ignore' });
+  reset('data/cihof_film_starts.json', (document) => ({ ...document, starts: {} }));
+  reset('data/cihof_opening_signoffs.json', (document) => ({
+    ...document, items: document.items.map(({ cleared, ...item }: { cleared?: unknown }) => ({ ...item, signed: null })),
+  }));
+  reset('data/cihof_caption_fixes.json', (document) => ({ ...document, fixes: [] }));
+  plant('raj-aggarwal-2025', 'DoZUzteeFMU', 'Heat. Heat.');
+  plant('carolyn-balogh-2016-2016', 'qzHokEDkXQc', 'Carolyn Vero');
+  git('add', '-A', '--', 'data');
+  git('add', '-u', '--', 'public/media/videos');
+  git('-c', 'user.name=Test', '-c', 'user.email=test@cihof.invalid', 'commit', '-q', '-m', 'test: start from reviews nobody has done');
 
   server = spawn(process.execPath, [
     '--experimental-strip-types', '--no-warnings=ExperimentalWarning',
@@ -119,11 +129,11 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.locator('article', { hasText: 'Raj Aggarwal' }).getByRole('button', { name: /Mark it \[music\]/ }).click();
   const filmChoice = page.getByRole('combobox', { name: /^Film/ });
   await filmChoice.selectOption({ label: await filmChoice.locator('option', { hasText: 'qzHokEDkXQc' }).innerText() });
-  await page.getByLabel('The words as they are now').fill('Carolyn Varo');
+  await page.getByLabel('The words as they are now').fill('Carolyn Vero');
   await page.getByLabel('As they should be').fill('Carolyn Balogh');
   await expect(page.getByText(/Found in 1 place in the transcript/)).toBeVisible();
   await page.getByRole('button', { name: 'Add this correction' }).click();
-  await expect(page.getByText(/“Carolyn Varo” → “Carolyn Balogh”/)).toBeVisible();
+  await expect(page.getByText(/“Carolyn Vero” → “Carolyn Balogh”/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
   // A sign-off accepted under the reviewer's own name. A section of the sheet
@@ -264,7 +274,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(filmFile('raj-aggarwal-2025', '.transcript.txt')).not.toMatch(/Heat\. Heat\./);
   expect(filmFile('raj-aggarwal-2025', '.transcript.txt')).toContain('[music]');
   expect(filmFile('raj-aggarwal-2025', '.en.vtt')).toContain('[music]');
-  expect(filmFile('carolyn-balogh-2016-2016', 'qzHokEDkXQc.transcript.txt')).toContain('Carolyn Balogh');
+  expect(filmFile('carolyn-balogh-2016-2016', 'qzHokEDkXQc.transcript.txt')).not.toContain('Carolyn Vero');
   const captionFixes = JSON.parse(readFileSync(join(worktree, 'data/cihof_caption_fixes.json'), 'utf8')).fixes;
   expect(captionFixes.map((fix: { fix: string }) => fix.fix).sort()).toEqual(['music', 'phrase']);
 
@@ -290,6 +300,16 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(page.getByText(/When you have made some decisions/)).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+/** Adds a line to the end of a film's transcript and captions, in the copy. */
+function plant(person: string, filmId: string, words: string) {
+  const folder = join(worktree, 'public/media/videos', person);
+  const file = (suffix: string) => join(folder, readdirSync(folder).find((name) => name.endsWith(`${filmId}${suffix}`))!);
+  const transcript = file('.transcript.txt');
+  writeFileSync(transcript, `${readFileSync(transcript, 'utf8').trimEnd()}\n${words}\n`);
+  const captions = file('.en.vtt');
+  writeFileSync(captions, `${readFileSync(captions, 'utf8').trimEnd()}\n\n23:59:58.000 --> 23:59:59.000\n${words}\n`);
+}
 
 async function names(page: import('@playwright/test').Page): Promise<[string, string]> {
   const strong = page.locator('.pair .person strong');
