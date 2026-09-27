@@ -3,7 +3,7 @@
 ## Inherited
 
 The T / P / A / O matrix in
-[`city-experience/ACCEPTANCE_TESTS.md`](https://github.com/hgw3lls/cihof/blob/918732f/plans/city-experience/ACCEPTANCE_TESTS.md)
+[`city-experience/ACCEPTANCE_TESTS.md`](https://github.com/hgw3lls/cihof/blob/b5794fb/plans/city-experience/ACCEPTANCE_TESTS.md)
 applies in full, including its source-audit addendum (P10–P13, O12–O14, T19).
 It is not restated here. Where a stage below names a case ID, that is the case.
 
