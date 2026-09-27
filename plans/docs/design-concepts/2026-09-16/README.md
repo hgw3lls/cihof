@@ -2,7 +2,7 @@
 
 These are exploratory image mockups for the Cleveland International Hall of Fame visitor app and staff portal. Each image places the visitor screen on the left and the staff screen on the right. They explore how the same archive could have a distinct composition for browsing people, reading a profile, following years, and understanding links.
 
-The images were made with the built-in image generation tool. Faces, some names, relationships, counts, and small UI copy are generated placeholders. They are not verified archive data or proposed final content. Production design should use actual media and copy from the repo.
+The images are illustrative. Faces, some names, relationships, counts, and small UI copy are placeholders. They are not verified archive data or proposed final content. Production design should use actual media and copy from the repo.
 
 | Concept | Main composition | Staff translation | Useful part to carry forward |
 | --- | --- | --- | --- |
@@ -11,9 +11,9 @@ The images were made with the built-in image generation tool. Faces, some names,
 | [03 Chronology](03-chronology.webp) | Year ruler and aligned class portraits | Year list and class record editor | Time is visible as an actual structure |
 | [04 Connection Score](04-connection-score.webp) | Portraits and labeled relationship bands on one grid | Link queue, paired subjects, evidence, decision | Links become readable claims with supporting evidence |
 
-## Prompt set
+## Brief
 
-All four prompts requested straight-on, flat, high-fidelity UI diptychs showing both visitor and staff views. They used the real app's People / Links / Years exploration model and the portal's queue, selected record, evidence, and decision workflow. Each asked for clear typography, strong portrait content, stable navigation, deliberate alignment, and no gradients, shadows, glass, rounded cards, or decorative visual noise.
+All four concepts asked for straight-on, flat, high-fidelity UI diptychs showing both visitor and staff views. They used the real app's People / Links / Years exploration model and the portal's queue, selected record, evidence, and decision workflow. Each asked for clear typography, strong portrait content, stable navigation, deliberate alignment, and no gradients, shadows, glass, rounded cards, or decorative visual noise.
 
 - **Index:** rigorous editorial alphabet and portrait matrix; white, black, acid yellow, vermilion; compact serif captions; numbered review queue.
 - **Stage:** one monumental selected portrait and name; cobalt, coral, off-white, black; bottom navigation and a single story action; focused staff task.

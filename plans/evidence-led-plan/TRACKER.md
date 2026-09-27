@@ -44,7 +44,7 @@ curatorial review, pending media — carry into EV-09.
 **CE** (`cihof-city-experience/`): CE-00 and CE-01 are Complete and this plan
 builds on them rather than revisiting them. CE-02 is in progress in the working
 tree, with its three known defects fixed and verified. CE-03 through CE-11
-remain valid as *destinations*; EV-08 cites their prompts as the design source
+remain valid as *destinations*; EV-08 cites their stage briefs as the design source
 for each surface. Their **order** is superseded by decision E03. CE-12, added
 during the source audit, is folded into EV-02.
 
