@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
-import { People } from './People.tsx';
+import { connectionNodes, inductionClasses } from '../state/selectors.ts';
+import { field, peopleLayout, railLetters, type Arrangement } from '../state/wall.ts';
+import { Stage } from './Stage.tsx';
+import { Wall } from './Wall.tsx';
+import { PairSheet, PersonSheet } from './Sheet.tsx';
 import { Years } from './Years.tsx';
 import { Links } from './Links.tsx';
 import { Places } from './Places.tsx';
@@ -11,6 +15,7 @@ import { Recovery } from './Recovery.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
 import { ThemeSwitch } from './ThemeSwitch.tsx';
+import { applyTheme, readTheme, rememberTheme, type Theme } from './theme.ts';
 import { configuredTiming, isTestBuild } from './config.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
 import { Attract } from './Attract.tsx';
@@ -20,9 +25,9 @@ import { useSession } from './useSession.ts';
 import './exhibit.css';
 
 /**
- * Labels only. Which lenses exist is decided by the published bundle, so a
- * lens the content cannot support never reaches the navigation and the app has
- * no threshold of its own to disagree about.
+ * Which lenses exist is decided by the published bundle, so a lens the content
+ * cannot support never reaches the navigation and the app has no threshold of
+ * its own to disagree about. These are its words.
  */
 const lensLabels: Record<string, string> = {
   people: 'People',
@@ -30,6 +35,12 @@ const lensLabels: Record<string, string> = {
   links: 'Connections',
   places: 'Places',
 };
+
+const arrangements: readonly (readonly [Arrangement, string])[] = [
+  ['name', 'A to Z'],
+  ['community', 'By community'],
+  ['contribution', 'By contribution'],
+];
 
 export function App() {
   const [bundle, setBundle] = useState<RuntimeBundle | null>(null);
@@ -69,12 +80,21 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [state, dispatch] = useReducer(exhibitReducer, bundle.target === 'kiosk' ? 'attract' : 'explore', initialState);
   const attractSettings = useMemo(() => readAttractSettings(window.location.search), []);
   const [attractMode, setAttractMode] = useState(attractSettings.mode);
+  const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme ?? 'dark') as Theme);
 
   const people = bundle.people;
   const relationships = bundle.relationships;
+  const contexts = bundle.contexts ?? [];
   const places = bundle.places;
   const offered = bundle.lenses.length > 0 ? bundle.lenses : ['people'];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
+  const classes = useMemo(() => inductionClasses(people), [people]);
+  const letters = useMemo(() => railLetters(people), [people]);
+  const tieCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const node of connectionNodes(people, relationships, [], contexts)) counts.set(node.person.id, node.ties.length);
+    return counts;
+  }, [people, relationships, contexts]);
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
   const sharePerson = state.detail.kind === 'share' ? byId.get(state.detail.personId) ?? null : null;
@@ -98,105 +118,191 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     dispatch({ type: 'reset' });
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
+    // On the display a visitor's colours last for their visit; the next visitor
+    // meets the colours the admin chose.
+    if (bundle.target === 'kiosk') {
+      const chosen = readTheme(window.location.search, bundle.target);
+      applyTheme(chosen);
+      setTheme(chosen);
+    }
     // A reset is the agreed handover point: nobody is mid-sentence, so a waiting
     // release can take over without interrupting a visitor.
     release.activateWaitingRelease();
     window.requestAnimationFrame(() => document.querySelector<HTMLElement>('[data-begin], #restart')?.focus());
-  }, [release, attractSettings.rotate]);
+  }, [release, attractSettings.rotate, bundle.target]);
 
   const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore');
 
   const select = (personId: string) => dispatch({ type: 'select', personId });
   const open = (personId: string) => dispatch({ type: 'open-record', personId });
+  const toConnections = offered.includes('links')
+    ? () => dispatch({ type: 'lens', lens: 'links' })
+    : undefined;
+
+  // The wall and the sheet belong to People for now; the other lenses keep
+  // their own panels until they move onto the wall too.
+  const onWall = state.lens === 'people';
+  const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
+  const pair = state.pair ? state.pair.map((id) => byId.get(id)).filter((person) => person !== undefined) : [];
+  const sheetOpen = onWall && (selected !== null || pair.length === 2);
+  const width = sheetOpen ? field.widthWithSheet : field.width;
+  const layout = useMemo(
+    () => peopleLayout(people, state.arrangement, width, state.letter),
+    [people, state.arrangement, width, state.letter],
+  );
+  const heading = onWall ? layout : lensHeading(state.lens, bundle, classes.length);
+
+  const keys = offered.map((lens) => ({
+    lens,
+    label: lensLabels[lens] ?? lens,
+    sub: lens === 'people' ? `${people.length} faces, all at once`
+      : lens === 'years' ? `${classes.length} ${classes.length === 1 ? 'class' : 'classes'}`
+      : lens === 'links' ? `follow a thread · ${places.length} places as a layer`
+      : `${places.length} ${places.length === 1 ? 'place' : 'places'}`,
+  }));
 
   return (
     <>
-      {state.mode === 'attract'
-        ? (
-          <Attract
-            people={people}
-            mode={attractMode}
-            spotlightMs={attractSettings.spotlightMs}
-            motion={attractSettings.motion}
-            text={bundle.attract ?? null}
-            onBegin={() => dispatch({ type: 'begin' })}
-            onBeginWith={(personId) => dispatch({ type: 'begin-with', personId })}
-          />
-        )
-        : (
-          <div className={bundle.preview ? 'shell shell--preview' : 'shell'} data-lens={state.lens}>
-            <header className="masthead">
-              <h1><Lockup /></h1>
-              <p>{contextLabel(state.lens, bundle)}</p>
-            </header>
+      <Stage>
+        {state.mode === 'attract'
+          ? (
+            <Attract
+              people={people}
+              mode={attractMode}
+              spotlightMs={attractSettings.spotlightMs}
+              motion={attractSettings.motion}
+              text={bundle.attract ?? null}
+              onBegin={() => dispatch({ type: 'begin' })}
+              onBeginWith={(personId) => dispatch({ type: 'begin-with', personId })}
+            />
+          )
+          : (
+            <div className="shell" data-lens={state.lens}>
+              <header className="masthead">
+                <Lockup />
+                <h1>{heading.title}</h1>
+                <p>{heading.subtitle}</p>
+              </header>
 
-            <main className="body">
-              {state.lens === 'places'
-                ? (
-                  <Places
-                    places={places}
-                    people={people}
-                    selectedId={state.selectedId}
-                    onSelect={select}
-                    onOpen={open}
-                  />
-                )
-                : state.lens === 'links'
-                ? (
-                  <Links
-                    people={people}
-                    relationships={relationships}
-                    contexts={bundle.contexts ?? []}
-                    candidates={bundle.candidates ?? []}
-                    selectedId={state.selectedId}
-                    onSelect={select}
-                    onOpen={open}
-                  />
-                )
-                : state.lens === 'years'
-                ? (
-                  <Years
-                    people={people}
-                    selectedId={state.selectedId}
-                    onSelect={select}
-                    onOpen={open}
-                  />
-                )
-                : (
-                  <People
-                    people={people}
-                    discovery={state.discovery}
-                    selectedId={state.selectedId}
-                    onQuery={(query) => dispatch({ type: 'query', query })}
-                    onFacet={(dimension, value) => dispatch({ type: 'facet', dimension, value })}
-                    onYear={(year) => dispatch({ type: 'year', year })}
-                    onClear={() => dispatch({ type: 'clear-discovery' })}
-                    onSelect={select}
-                    onOpen={open}
-                  />
-                )}
-            </main>
+              <main>
+                {onWall
+                  ? (
+                    <Wall
+                      people={people}
+                      layout={layout}
+                      width={width}
+                      selectedId={state.selectedId}
+                      pair={state.pair}
+                      letters={letters}
+                      letter={state.letter}
+                      viewKey={state.lens}
+                      onSelect={select}
+                      onClear={() => dispatch({ type: 'clear-selection' })}
+                      onPair={(personIds) => dispatch({ type: 'pair', personIds })}
+                      onOpen={open}
+                      onLetter={(letter) => dispatch({ type: 'letter', letter })}
+                    />
+                  )
+                  : (
+                    <div className="field field--panel">
+                      {state.lens === 'places'
+                        ? <Places places={places} people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />
+                        : state.lens === 'links'
+                        ? (
+                          <Links
+                            people={people}
+                            relationships={relationships}
+                            contexts={contexts}
+                            candidates={bundle.candidates ?? []}
+                            selectedId={state.selectedId}
+                            onSelect={select}
+                            onOpen={open}
+                          />
+                        )
+                        : <Years people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />}
+                    </div>
+                  )}
+              </main>
 
-            {/* Every control a visitor needs sits along the bottom, within reach. */}
-            <nav className="lensbar" aria-label="Ways to explore">
-              {offered.length > 1 && offered.map((lens) => (
-                <button
-                  key={lens}
-                  type="button"
-                  className="lensbar__lens"
-                  data-lens={lens}
-                  aria-current={state.lens === lens ? 'page' : undefined}
-                  onClick={() => dispatch({ type: 'lens', lens: lens as Lens })}
-                >
-                  <span className="swatch" aria-hidden="true" />
-                  {lensLabels[lens] ?? lens}
-                </button>
-              ))}
-              {bundle.target === 'public' && <ThemeSwitch />}
-              <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
-            </nav>
-          </div>
-        )}
+              {onWall && (
+                <div className="chips" style={{ width }}>
+                  {arrangements.map(([arrangement, label]) => (
+                    <button
+                      key={arrangement}
+                      type="button"
+                      className="chip"
+                      aria-pressed={state.arrangement === arrangement}
+                      onClick={() => dispatch({ type: 'arrange', arrangement })}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                  <p className="chips__note">
+                    {state.arrangement === 'name'
+                      ? 'Hold a face to peek · pull one down to open · pinch to zoom · two fingers on two faces to compare'
+                      : 'Pull a face down to open it · pinch to zoom'}
+                  </p>
+                </div>
+              )}
+
+              <aside className="sheet" data-open={sheetOpen ? 'true' : undefined} aria-label={sheetOpen ? 'Chosen' : undefined} aria-hidden={!sheetOpen}>
+                {sheetOpen && pair.length === 2
+                  ? (
+                    <PairSheet
+                      a={pair[0]!}
+                      b={pair[1]!}
+                      relationships={relationships}
+                      contexts={contexts}
+                      onOpen={open}
+                      onClose={() => dispatch({ type: 'clear-selection' })}
+                    />
+                  )
+                  : sheetOpen && selected
+                  ? (
+                    <PersonSheet
+                      person={selected}
+                      ties={tieCounts.get(selected.id) ?? 0}
+                      onClose={() => dispatch({ type: 'clear-selection' })}
+                      onStory={() => open(selected.id)}
+                      onFilm={() => {
+                        const first = selected.films[0];
+                        if (first) dispatch({ type: 'play-film', personId: selected.id, filmId: first.id });
+                      }}
+                      {...(toConnections ? { onConnections: toConnections } : {})}
+                    />
+                  )
+                  : null}
+              </aside>
+
+              {/* Every control a visitor needs sits along the bottom, within reach. */}
+              <nav className="lensbar" aria-label="Ways to explore">
+                {keys.length > 1 && keys.map((key) => (
+                  <button
+                    key={key.lens}
+                    type="button"
+                    className="lensbar__lens"
+                    data-lens={key.lens}
+                    aria-current={state.lens === key.lens ? 'page' : undefined}
+                    onClick={() => dispatch({ type: 'lens', lens: key.lens as Lens })}
+                  >
+                    <span className="lensbar__label">{key.label}</span>
+                    <span className="lensbar__sub">{key.sub}</span>
+                  </button>
+                ))}
+                <ThemeSwitch
+                  theme={theme}
+                  onChoose={(next) => {
+                    applyTheme(next);
+                    // A visitor's own device keeps their choice; the display does not.
+                    if (bundle.target === 'public') rememberTheme(next);
+                    setTheme(next);
+                  }}
+                />
+                <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
+              </nav>
+            </div>
+          )}
+      </Stage>
 
       {recordPerson && (
         <Record
@@ -206,8 +312,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
             ? { onShare: () => dispatch({ type: 'open-share', personId: recordPerson.id }) }
             : {})}
           onPlay={(filmId) => dispatch({ type: 'play-film', personId: recordPerson.id, filmId })}
-          {...(offered.includes('links')
-            ? { onConnections: () => { dispatch({ type: 'close-detail' }); dispatch({ type: 'lens', lens: 'links' }); } }
+          {...(toConnections
+            ? { onConnections: () => { dispatch({ type: 'close-detail' }); toConnections(); } }
             : {})}
         />
       )}
@@ -256,13 +362,9 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   );
 }
 
-/** What the header says about the lens in view, from the published counts. */
-function contextLabel(lens: string, bundle: RuntimeBundle): string {
-  if (lens === 'years') {
-    const classes = new Set(bundle.people.flatMap((person) => (person.classYear === null ? [] : [person.classYear]))).size;
-    return `Years · ${classes} ${classes === 1 ? 'class' : 'classes'}`;
-  }
-  if (lens === 'links') return 'Connections · documented relationships';
-  if (lens === 'places') return `Places · ${bundle.places.length} ${bundle.places.length === 1 ? 'place' : 'places'}`;
-  return `People · ${bundle.people.length} ${bundle.people.length === 1 ? 'inductee' : 'inductees'}`;
+/** The header for a lens not yet on the wall, from the published counts. */
+function lensHeading(lens: string, bundle: RuntimeBundle, classes: number): { title: string; subtitle: string } {
+  if (lens === 'years') return { title: 'Years', subtitle: `${classes} ${classes === 1 ? 'class' : 'classes'} · touch a year below` };
+  if (lens === 'links') return { title: 'Connections', subtitle: 'touch anyone to bring them to the centre' };
+  return { title: 'Places', subtitle: `${bundle.places.length} ${bundle.places.length === 1 ? 'place' : 'places'} in Greater Cleveland` };
 }

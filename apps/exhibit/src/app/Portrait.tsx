@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { RuntimePerson } from '../data/runtime.ts';
 
 /**
@@ -6,17 +7,18 @@ import type { RuntimePerson } from '../data/runtime.ts';
  * The focal point keeps a face in frame however the picture is cropped; a
  * portrait without one is held a little above centre, where faces usually are.
  */
-export function Portrait({ person, className, lazy = false, decorative = false }: {
+export function Portrait({ person, className, lazy = false, decorative = false, style }: {
   person: RuntimePerson;
   className?: string;
   lazy?: boolean;
+  style?: CSSProperties;
   /** When the name is already beside it, the picture adds nothing to read out. */
   decorative?: boolean;
 }) {
   if (!person.portrait) {
     return <img className={className} src={asset('media/placeholder.svg')} alt="" aria-hidden="true" />;
   }
-  const focal = person.portrait.focalPoint && person.portrait.focalPoint !== 'center' ? person.portrait.focalPoint : '50% 18%';
+  const focal = focalPoint(person);
   return (
     <img
       className={className}
@@ -25,9 +27,20 @@ export function Portrait({ person, className, lazy = false, decorative = false }
       {...(decorative ? { 'aria-hidden': true } : {})}
       {...(lazy ? { loading: 'lazy' as const } : {})}
       decoding="async"
-      style={{ objectPosition: focal }}
+      style={{ ...style, objectPosition: focal }}
     />
   );
+}
+
+/** Where a face sits in its portrait; without a recorded point, a little above centre. */
+export function focalPoint(person: RuntimePerson): string {
+  const point = person.portrait?.focalPoint;
+  return point && point !== 'center' ? point : '50% 18%';
+}
+
+/** A portrait as a CSS background, for a square that is decoration beside a name. */
+export function portraitUrl(person: RuntimePerson): string {
+  return `url("${asset(person.portrait?.src ?? 'media/placeholder.svg')}")`;
 }
 
 export function asset(path: string): string {

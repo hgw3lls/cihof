@@ -39,7 +39,7 @@ test('a provisioned display opens with no network at all', async ({ page, contex
   await page.locator('[data-begin]').click();
 
   await expect(page.locator('.tile')).toHaveCount(111);
-  await expect(page.locator('.count')).toHaveText('111 of 111 shown');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Everyone, A to Z');
 });
 
 test('offline, a portrait nobody has looked at still resolves', async ({ page, context }) => {

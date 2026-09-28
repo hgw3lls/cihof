@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { expect, test, type Page, type Route } from '@playwright/test';
-import { begin } from './visit.ts';
+import { begin, openStory } from './visit.ts';
 
 /**
  * Film playback, exercised with a synthetic fixture.
@@ -70,12 +70,8 @@ async function withFixtureFilm(page: Page, failures: { video?: boolean; transcri
 
 async function openFilm(page: Page) {
   await begin(page);
-  await page.evaluate(() => {
-    const tile = [...document.querySelectorAll('.tile')].find((b) => b.textContent?.includes('Alex Machaskee'));
-    (tile as HTMLButtonElement).click();
-  });
-  await page.getByRole('button', { name: 'Read the record' }).click();
-  await page.getByRole('button', { name: 'Watch the film' }).click();
+  await openStory(page, 'Alex Machaskee');
+  await page.locator('dialog.record').getByRole('button', { name: 'Watch the film' }).click();
   await expect(page.locator('.film')).toBeVisible();
 }
 

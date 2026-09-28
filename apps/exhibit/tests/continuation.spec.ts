@@ -1,7 +1,7 @@
 import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
 import { expect, test } from '@playwright/test';
-import { begin } from './visit.ts';
+import { begin, openStory } from './visit.ts';
 
 /**
  * T18: the code a visitor scans must resolve to that same person's public
@@ -17,12 +17,7 @@ const expectedUrl = `https://clevelandinternationalhalloffame.com/cihof/people/$
 async function openShare(page: import('@playwright/test').Page) {
   await begin(page);
 
-  await page.evaluate((name) => {
-    const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes(name));
-    (tile as HTMLButtonElement).click();
-  }, person.name);
-
-  await page.getByRole('button', { name: 'Read the record' }).click();
+  await openStory(page, person.name);
   await page.getByRole('button', { name: 'Take it with you' }).click();
   await expect(page.locator('.share canvas')).toBeVisible();
 }
@@ -57,7 +52,7 @@ test('the code never points anywhere a visitor cannot reach', async ({ page }) =
 
 test('closing the code returns to the record it came from', async ({ page }) => {
   await openShare(page);
-  await page.getByRole('button', { name: 'Close' }).first().click();
+  await page.locator('dialog.share').getByRole('button', { name: 'Close' }).click();
   await expect(page.locator('.share')).toHaveCount(0);
   await expect(page.locator('.record h2')).toHaveText(person.name);
 });
@@ -72,11 +67,7 @@ test('a release with no reachable destination offers no code at all', async ({ p
   });
 
   await begin(page);
-  await page.evaluate(() => {
-    const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes('Alex Machaskee'));
-    (tile as HTMLButtonElement).click();
-  });
-  await page.getByRole('button', { name: 'Read the record' }).click();
+  await openStory(page, 'Alex Machaskee');
 
   await expect(page.locator('.record')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Take it with you' })).toHaveCount(0);
@@ -90,11 +81,7 @@ test('a destination that only resolves on this machine is refused', async ({ pag
   });
 
   await begin(page);
-  await page.evaluate(() => {
-    const tile = [...document.querySelectorAll('.tile')].find((button) => button.textContent?.includes('Alex Machaskee'));
-    (tile as HTMLButtonElement).click();
-  });
-  await page.getByRole('button', { name: 'Read the record' }).click();
+  await openStory(page, 'Alex Machaskee');
   await page.getByRole('button', { name: 'Take it with you' }).click();
 
   // The panel opens and explains itself rather than drawing a code to nowhere.

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { measure, startMeasuring, summarise, visit, type Sample } from './endurance/visit.ts';
+import { chooseSomeoneWithFilm } from './visit.ts';
 
 /**
  * The visits `npm run endurance` repeats for hours, run a few times here so
@@ -40,18 +41,11 @@ test('watching films leaves nothing of them behind', async ({ page }) => {
   const counts: number[] = [];
   for (let index = 0; index < 5; index += 1) {
     await page.locator('[data-begin]').first().click();
-    const tiles = page.locator('.tile');
-    for (let person = 0; person < 30; person += 1) {
-      await tiles.nth(person).click();
-      await page.getByRole('button', { name: 'Read the record' }).click();
-      if (await page.getByRole('button', { name: /Watch the film/ }).isVisible()) break;
-      await page.keyboard.press('Escape');
-    }
-    await page.getByRole('button', { name: /Watch the film/ }).click();
+    await chooseSomeoneWithFilm(page);
+    await page.locator('.sheet__film').click();
     await expect(page.locator('dialog.film')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('dialog.film')).toHaveCount(0);
-    await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Start over' }).click();
     await expect(page.locator('.attract')).toBeVisible();
     counts.push((await measure(session)).nodes);

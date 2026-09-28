@@ -92,7 +92,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
   const lenses = ['People'];
   const wanted = [lensOrder[index % lensOrder.length]!, ...(index % 2 === 0 ? [lensOrder[(index + 1) % lensOrder.length]!] : [])];
   for (const lens of wanted) {
-    const button = page.getByRole('button', { name: lens, exact: true });
+    const button = page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: new RegExp(`^${lens}`) });
     if (await button.count() === 0) continue;
     if (await attempt(`open ${lens}`, async () => {
       await button.click({ timeout: step });
@@ -106,19 +106,24 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
   let film = false;
   let share = false;
   await attempt('open a record', async () => {
-    let tiles = page.locator('.tile:visible');
+    // A face already chosen would be unchosen by a second touch.
+    let tiles = page.locator('.tile:visible:not([aria-pressed="true"])');
     if (await tiles.count() === 0) {
-      await page.getByRole('button', { name: 'People', exact: true }).click({ timeout: step });
-      tiles = page.locator('.tile:visible');
+      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^People/ }).click({ timeout: step });
+      tiles = page.locator('.tile:visible:not([aria-pressed="true"])');
     }
+    // A chosen face is drawn larger, over its neighbours; a visitor closes it
+    // before reaching for somebody it covers.
+    const close = page.locator('.sheet__close');
+    if (await close.isVisible()) await close.click({ timeout: step });
     const count = await tiles.count();
     if (count === 0) throw new Error('no portraits to touch');
     await tiles.nth((index * 7) % count).click({ timeout: step });
-    await page.getByRole('button', { name: 'Read the record' }).click({ timeout: step });
+    await page.getByRole('button', { name: /^Read (the record|their story)/ }).click({ timeout: step });
     await page.locator('#recordTitle').waitFor({ state: 'visible', timeout: step });
     opened = (await page.locator('#recordTitle').textContent())?.trim() ?? null;
 
-    const watch = page.getByRole('button', { name: /^Watch (the film|film 1)/ });
+    const watch = page.locator('dialog.record').getByRole('button', { name: /^Watch (the film|film 1)/ });
     if (options.films !== false && index % 2 === 0 && await watch.count() > 0) {
       await watch.first().click({ timeout: step });
       await page.locator('dialog.film').waitFor({ state: 'visible', timeout: step });
@@ -127,7 +132,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
       await page.locator('dialog.film').waitFor({ state: 'detached', timeout: step });
       film = true;
     }
-    const take = page.getByRole('button', { name: 'Take it with you' });
+    const take = page.locator('dialog.record').getByRole('button', { name: 'Take it with you' });
     if (index % 4 === 1 && await take.count() > 0) {
       await take.click({ timeout: step });
       await page.locator('.share').waitFor({ state: 'visible', timeout: step });

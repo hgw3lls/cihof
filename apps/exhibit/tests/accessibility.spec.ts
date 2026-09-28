@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { begin } from './visit.ts';
+import { begin, choose, chooseSomeoneWithFilm } from './visit.ts';
 
 /**
  * An automated accessibility scan of every screen a visitor reaches, in the
@@ -24,14 +24,8 @@ async function scan(page: Page, within?: string) {
 }
 
 async function openRecordWithFilm(page: Page) {
-  const tiles = page.locator('.tile');
-  for (let index = 0; index < 30; index += 1) {
-    await tiles.nth(index).click();
-    await page.getByRole('button', { name: 'Read the record' }).click();
-    if (await page.getByRole('button', { name: /Watch the film/ }).isVisible()) return;
-    await page.keyboard.press('Escape');
-  }
-  throw new Error('no record with a film among the first 30 people');
+  await chooseSomeoneWithFilm(page);
+  await page.getByRole('button', { name: 'Read their story' }).click();
 }
 
 for (const theme of ['dark', 'light'] as const) {
@@ -58,7 +52,7 @@ for (const theme of ['dark', 'light'] as const) {
     for (const lens of ['Years', 'Connections', 'Places']) {
       test(lens, async ({ page }) => {
         await begin(page, `./?theme=${theme}`);
-        await page.getByRole('button', { name: lens, exact: true }).click();
+        await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: new RegExp(`^${lens}`) }).click();
         await expect(page.locator('[aria-current="page"], [aria-pressed="true"]').first()).toBeVisible();
         if (lens === 'Connections') await expect(page.locator('.map__person--focus')).toBeVisible();
         if (lens === 'Places') await expect(page.locator('.places__place h2')).toBeVisible();
@@ -70,15 +64,15 @@ for (const theme of ['dark', 'light'] as const) {
       await begin(page, `./?theme=${theme}`);
       await openRecordWithFilm(page);
       expect(await scan(page)).toEqual([]);
-      await page.getByRole('button', { name: /Watch the film/ }).click();
+      await page.locator('dialog.record').getByRole('button', { name: /Watch the film/ }).click();
       await expect(page.locator('dialog.film')).toBeVisible();
       expect(await scan(page, 'dialog.film')).toEqual([]);
     });
 
     test('taking a record away', async ({ page }) => {
       await begin(page, `./?theme=${theme}`);
-      await page.locator('.tile').first().click();
-      await page.getByRole('button', { name: 'Read the record' }).click();
+      await choose(page, 'Alex Machaskee');
+      await page.getByRole('button', { name: 'Read their story' }).click();
       await page.getByRole('button', { name: 'Take it with you' }).click();
       await expect(page.locator('.share canvas')).toBeVisible();
       expect(await scan(page)).toEqual([]);

@@ -31,9 +31,9 @@ test('the call to action is the first thing a keyboard reaches', async ({ page }
 test('touching the call to action starts on People with nobody chosen', async ({ page }) => {
   await page.goto('.');
   await page.locator('[data-begin]').click();
-  await expect(page.locator('.lensbar__lens[aria-current="page"]')).toHaveText('People');
+  await expect(page.locator('.lensbar__lens[aria-current="page"] .lensbar__label')).toHaveText('People');
   await expect(page.locator('.tile[aria-pressed="true"]')).toHaveCount(0);
-  await expect(page.locator('.focus .prompt')).toBeVisible();
+  await expect(page.locator('.sheet[data-open]')).toHaveCount(0);
 });
 
 test('touching a face starts on People with that person chosen', async ({ page }) => {
@@ -41,7 +41,7 @@ test('touching a face starts on People with that person chosen', async ({ page }
   const face = page.locator('.attract__face').nth(3);
   const name = await face.getAttribute('aria-label');
   await face.click();
-  await expect(page.locator('.focus__name')).toHaveText(name ?? '');
+  await expect(page.locator('.sheet__name')).toHaveText(name ?? '');
   await expect(page.locator('.tile[aria-pressed="true"]')).toHaveCount(1);
 });
 
@@ -50,7 +50,7 @@ test('touching a name on the name wall starts with that person chosen', async ({
   const name = page.locator('.attract__row').first().locator('.attract__name').first();
   const text = (await name.textContent())?.trim() ?? '';
   await name.click();
-  await expect(page.locator('.focus__name')).toHaveText(text);
+  await expect(page.locator('.sheet__name')).toHaveText(text);
 });
 
 test('Start over returns to the attract screen, with nothing of the visit kept', async ({ page }) => {

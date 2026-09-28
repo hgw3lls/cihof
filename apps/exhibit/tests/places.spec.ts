@@ -12,7 +12,7 @@ import { begin } from './visit.ts';
 
 async function openPlaces(page: Page) {
   await begin(page);
-  await page.getByRole('button', { name: 'Places', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Places/ }).click();
   await expect(page.locator('.places__place h2')).toBeVisible();
 }
 
@@ -58,7 +58,7 @@ test('a person chosen in Places can be opened with one more touch', async ({ pag
 
 test('a person chosen in Years can be opened with one more touch', async ({ page }) => {
   await begin(page);
-  await page.getByRole('button', { name: 'Years', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Years/ }).click();
   const tile = page.locator('.years__grid .tile').first();
   const name = (await tile.locator('.caption').textContent())?.trim() ?? '';
   await tile.click();
@@ -74,8 +74,8 @@ test('opening Places with somebody chosen opens on a place tied to them', async 
   const tile = page.locator('.places__people .tile').first();
   const name = (await tile.locator('.caption').textContent())?.trim() ?? '';
   await tile.click();
-  await page.getByRole('button', { name: 'People', exact: true }).click();
-  await page.getByRole('button', { name: 'Places', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^People/ }).click();
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Places/ }).click();
   await expect(page.locator('.places__people .tile[aria-pressed="true"] .caption')).toHaveText(name);
   await expect(page.locator('.chosen__name')).toHaveText(name);
 });

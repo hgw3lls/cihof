@@ -1,45 +1,6 @@
 import { labelFrom, type PublishedRelationship, type SharedContext } from '@cihof/content';
 import type { PreviewTie } from '@cihof/pipeline';
 import type { RuntimePerson } from '../data/runtime.ts';
-import type { Discovery } from './exhibit.ts';
-
-/**
- * Discovery narrows lists. It is applied where a visitor is choosing between
- * people, and nowhere else — a search term must never reach a relationship
- * graph, where filtering the collection empties the very connections the search
- * was meant to help navigate.
- */
-export function matching(people: readonly RuntimePerson[], discovery: Discovery): RuntimePerson[] {
-  const query = fold(discovery.query);
-  return people.filter((person) => {
-    if (query && !fold(searchText(person)).includes(query)) return false;
-    if (discovery.communities.length > 0 && !discovery.communities.some((value) => person.communities.includes(value))) return false;
-    if (discovery.contributions.length > 0 && !discovery.contributions.some((value) => person.contributions.includes(value))) return false;
-    if (discovery.years.length > 0 && !discovery.years.includes(person.classYear ?? -1)) return false;
-    return true;
-  });
-}
-
-/** Facet options come from what the collection actually offers, in order. */
-export function optionsFor(people: readonly RuntimePerson[], dimension: 'communities' | 'contributions'): string[] {
-  return [...new Set(people.flatMap((person) => person[dimension]))].sort((a, b) => a.localeCompare(b));
-}
-
-export function yearsIn(people: readonly RuntimePerson[]): number[] {
-  return [...new Set(people.map((person) => person.classYear).filter((year): year is number => year !== null))]
-    .sort((a, b) => b - a);
-}
-
-function searchText(person: RuntimePerson): string {
-  // Only tags a reviewer stands behind are searchable; the bundle contains no
-  // others, so this cannot accidentally match an inferred label.
-  return [person.name, person.sortName, person.classYear, ...person.contributions, ...person.communities, ...person.countries]
-    .filter(Boolean).join(' ');
-}
-
-function fold(value: string): string {
-  return value.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').trim();
-}
 
 export type InductionClass = {
   readonly year: number;
@@ -69,6 +30,52 @@ export function inductionClasses(people: readonly RuntimePerson[]): InductionCla
 /** How many people the chronology cannot place, stated rather than hidden. */
 export function undatedCount(people: readonly RuntimePerson[]): number {
   return people.filter((person) => person.classYear === null).length;
+}
+
+export type Group = {
+  readonly label: string;
+  readonly people: readonly RuntimePerson[];
+};
+
+/**
+ * The collection grouped by a tag a person can hold several of, largest group
+ * first. A person stands once, under their first tag: the wall has one face per
+ * person, and a face in two places would read as two people.
+ */
+export function groupsBy(people: readonly RuntimePerson[], dimension: 'communities' | 'contributions'): Group[] {
+  const groups = new Map<string, RuntimePerson[]>();
+  for (const person of people) {
+    const key = person[dimension][0] ?? 'Not recorded';
+    const bucket = groups.get(key);
+    if (bucket) bucket.push(person); else groups.set(key, [person]);
+  }
+  return [...groups.entries()]
+    .map(([label, members]) => ({ label, people: members.slice().sort((a, b) => a.sortName.localeCompare(b.sortName)) }))
+    .sort((a, b) => b.people.length - a.people.length || a.label.localeCompare(b.label));
+}
+
+/** A biography's paragraphs, as the exhibit splits them. */
+export function paragraphs(text: string): string[] {
+  return text.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+}
+
+/**
+ * The opening of a biography, for the person sheet: the first paragraph, or
+ * its first sentences when that runs long. Cut at a sentence where one ends
+ * reasonably late, so the teaser never stops mid-thought if it can help it.
+ */
+export function teaser(biography: string): string {
+  const first = paragraphs(biography)[0] ?? '';
+  if (first.length <= 260) return first;
+  const cut = first.slice(0, 260);
+  const end = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
+  return end > 120 ? cut.slice(0, end + 1) : `${cut.trim()}…`;
+}
+
+/** "Class of 2010 · Serbian, Slovenian", the line above a person's name. */
+export function kicker(person: RuntimePerson): string {
+  const year = person.classYear ? `Class of ${person.classYear}` : 'Year not recorded';
+  return person.communities.length > 0 ? `${year} · ${person.communities.join(', ')}` : year;
 }
 
 export type Tie = {
