@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { normaliseTiming, readSession, type SessionPhase, type SessionTiming } from '../state/session.ts';
 
-const activityEvents = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as const;
+// `input` too: text typed with a phone's or a tablet's own keyboard does not
+// always arrive as key presses.
+const activityEvents = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'input'] as const;
 
 /**
  * Ends an unattended session and warns first.

@@ -9,6 +9,8 @@ type Props = {
   onClose: () => void;
   /** Called while playback is genuinely progressing, to hold the session open. */
   onProgress: () => void;
+  /** Where to open, when a search found words said part way through. */
+  startAt?: number;
 };
 
 /**
@@ -23,12 +25,13 @@ type Props = {
  * A film paused, ended or stalled on a broken network is not somebody standing
  * there, and must not hold the display open all evening.
  */
-export function Film({ film, personName, onClose, onProgress }: Props) {
+export function Film({ film, personName, onClose, onProgress, startAt }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   // A ceremony film opens at this person's part of it, when a curator has
   // approved where that is. Seeking there is not a visitor watching, so it
   // does not count as progress.
-  const start = film.startSeconds ?? 0;
+  // A searched-for moment opens a couple of seconds early, so the words are heard whole.
+  const start = startAt !== undefined ? Math.max(0, startAt - 2) : film.startSeconds ?? 0;
   const lastTime = useRef(start);
   const seeked = useRef(false);
   const [problem, setProblem] = useState('');
@@ -127,7 +130,7 @@ export function Film({ film, personName, onClose, onProgress }: Props) {
     <Modal className="film" labelledBy="filmTitle" onClose={onClose}>
       <header className="film__header">
         <h2 id="filmTitle" data-autofocus tabIndex={-1}>{personName}</h2>
-        <span>{start > 0 ? 'Film · from their part of the ceremony' : 'Film'}</span>
+        <span>{startAt !== undefined ? 'Film · from the words you searched for' : start > 0 ? 'Film · from their part of the ceremony' : 'Film'}</span>
       </header>
 
       <div className="film__body">

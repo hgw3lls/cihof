@@ -6,6 +6,9 @@ import { field, peopleLayout, railLetters, type Arrangement } from '../state/wal
 import { Stage } from './Stage.tsx';
 import { Wall } from './Wall.tsx';
 import { PairSheet, PersonSheet } from './Sheet.tsx';
+import { Search } from './Search.tsx';
+import { useFilmWords } from './useFilmWords.ts';
+import { buildIndex, search } from '../state/search.ts';
 import { Years } from './Years.tsx';
 import { Links } from './Links.tsx';
 import { Places } from './Places.tsx';
@@ -81,6 +84,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const attractSettings = useMemo(() => readAttractSettings(window.location.search), []);
   const [attractMode, setAttractMode] = useState(attractSettings.mode);
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme ?? 'dark') as Theme);
+  // A place a search found, for Places to open on.
+  const [placeFocus, setPlaceFocus] = useState<string | null>(null);
 
   const people = bundle.people;
   const relationships = bundle.relationships;
@@ -116,6 +121,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
+    setPlaceFocus(null);
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
     // On the display a visitor's colours last for their visit; the next visitor
@@ -133,6 +139,35 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
   const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore');
 
+  // Search. The films' words are read the first time it opens.
+  const [searched, setSearched] = useState(false);
+  useEffect(() => { if (state.search.open) setSearched(true); }, [state.search.open]);
+  const filmWords = useFilmWords(people, searched);
+  const index = useMemo(
+    () => buildIndex({ people, places, relationships, contexts, films: filmWords.films }),
+    [people, places, relationships, contexts, filmWords.films],
+  );
+  const results = useMemo(() => search(index, state.search.query), [index, state.search.query]);
+  const suggestions = useMemo(() => {
+    // Starting points from the collection itself: its largest community and
+    // contribution, its newest class, and its best-connected place.
+    const largest = (dimension: 'communities' | 'contributions') => {
+      const counts = new Map<string, number>();
+      for (const person of people) for (const value of person[dimension]) counts.set(value, (counts.get(value) ?? 0) + 1);
+      return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
+    };
+    const place = places.slice().sort((a, b) => (b.personIds?.length ?? 0) - (a.personIds?.length ?? 0))[0]?.name;
+    return [largest('communities'), largest('contributions'), classes[0] ? String(classes[0].year) : undefined, place]
+      .filter((value): value is string => Boolean(value));
+  }, [people, places, classes]);
+  const closeSearch = () => {
+    const query = state.search.query.trim();
+    dispatch({
+      type: 'close-search',
+      spotlight: query && results.people.length > 0 ? { label: `“${query}”`, personIds: results.people.map((hit) => hit.person.id) } : null,
+    });
+  };
+
   const select = (personId: string) => dispatch({ type: 'select', personId });
   const open = (personId: string) => dispatch({ type: 'open-record', personId });
   const toConnections = offered.includes('links')
@@ -142,15 +177,26 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   // The wall and the sheet belong to People for now; the other lenses keep
   // their own panels until they move onto the wall too.
   const onWall = state.lens === 'people';
+  const searching = onWall && state.search.open;
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
   const pair = state.pair ? state.pair.map((id) => byId.get(id)).filter((person) => person !== undefined) : [];
-  const sheetOpen = onWall && (selected !== null || pair.length === 2);
-  const width = sheetOpen ? field.widthWithSheet : field.width;
+  const sheetOpen = onWall && !searching && (selected !== null || pair.length === 2);
+  const width = searching ? field.widthWithSearch : sheetOpen ? field.widthWithSheet : field.width;
+  // Faces lit on the wall: the people a search is finding as it is typed, or
+  // those it found once it is closed.
+  const lit = useMemo(() => {
+    if (searching) return state.search.query.trim() ? new Set(results.people.map((hit) => hit.person.id)) : null;
+    return state.spotlight ? new Set(state.spotlight.personIds) : null;
+  }, [searching, state.search.query, results, state.spotlight]);
   const layout = useMemo(
-    () => peopleLayout(people, state.arrangement, width, state.letter),
-    [people, state.arrangement, width, state.letter],
+    () => peopleLayout(people, state.arrangement, width, state.letter, lit, !searching),
+    [people, state.arrangement, width, state.letter, lit, searching],
   );
-  const heading = onWall ? layout : lensHeading(state.lens, bundle, classes.length);
+  const heading = searching
+    ? { title: 'Search', subtitle: 'names, stories, places, and what is said in the films' }
+    : onWall && state.spotlight
+      ? { title: layout.title, subtitle: `${state.spotlight.personIds.length} of ${people.length} lit for ${state.spotlight.label}` }
+      : onWall ? layout : lensHeading(state.lens, bundle, classes.length);
 
   const keys = offered.map((lens) => ({
     lens,
@@ -206,7 +252,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   : (
                     <div className="field field--panel">
                       {state.lens === 'places'
-                        ? <Places places={places} people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />
+                        ? <Places key={placeFocus ?? ''} places={places} people={people} selectedId={state.selectedId} placeId={placeFocus} onSelect={select} onOpen={open} />
                         : state.lens === 'links'
                         ? (
                           <Links
@@ -226,6 +272,12 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
               {onWall && (
                 <div className="chips" style={{ width }}>
+                  {state.spotlight && !searching && (
+                    <button type="button" className="chip chip--lit" onClick={() => dispatch({ type: 'clear-spotlight' })} aria-label={`Clear ${state.spotlight.label}`}>
+                      {state.spotlight.label} · {state.spotlight.personIds.length}
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  )}
                   {arrangements.map(([arrangement, label]) => (
                     <button
                       key={arrangement}
@@ -244,6 +296,33 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   </p>
                 </div>
               )}
+
+              <aside className="sheet sheet--search" data-open={searching ? 'true' : undefined} aria-hidden={!searching}>
+                {searching && (
+                  <Search
+                    query={state.search.query}
+                    results={results}
+                    gatheringFilms={filmWords.gathering}
+                    suggestions={suggestions}
+                    onQuery={(query) => dispatch({ type: 'search-query', query })}
+                    onPerson={(personId) => {
+                      // The others it found stay lit behind the person chosen.
+                      closeSearch();
+                      select(personId);
+                    }}
+                    onGroup={(hit) => dispatch({
+                      type: 'close-search',
+                      spotlight: { label: hit.label, personIds: hit.people.map((person) => person.id) },
+                    })}
+                    onPlace={(place) => {
+                      setPlaceFocus(place.id);
+                      dispatch({ type: 'lens', lens: 'places' });
+                    }}
+                    onFilm={(hit) => dispatch({ type: 'play-film', personId: hit.person.id, filmId: hit.filmId, at: hit.at })}
+                    onClose={closeSearch}
+                  />
+                )}
+              </aside>
 
               <aside className="sheet" data-open={sheetOpen ? 'true' : undefined} aria-label={sheetOpen ? 'Chosen' : undefined} aria-hidden={!sheetOpen}>
                 {sheetOpen && pair.length === 2
@@ -289,6 +368,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                     <span className="lensbar__sub">{key.sub}</span>
                   </button>
                 ))}
+                <button
+                  type="button"
+                  className="lensbar__search"
+                  aria-pressed={searching}
+                  onClick={() => (searching ? closeSearch() : dispatch({ type: 'open-search' }))}
+                >
+                  <span className="lensbar__label">Search</span>
+                  <span className="lensbar__sub">names, stories, places{bundle.target === 'kiosk' ? ', films' : ''}</span>
+                </button>
                 <ThemeSwitch
                   theme={theme}
                   onChoose={(next) => {
@@ -322,6 +410,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
         <Film
           film={playingFilm}
           personName={playing.name}
+          {...(media.kind === 'film' && media.at !== undefined ? { startAt: media.at } : {})}
           onClose={() => dispatch({ type: 'stop-film' })}
           onProgress={session.noteActivity}
         />

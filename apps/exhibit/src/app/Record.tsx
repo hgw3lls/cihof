@@ -1,6 +1,7 @@
 import type { RuntimePerson } from '../data/runtime.ts';
 import { Modal } from './Modal.tsx';
 import { Portrait } from './Portrait.tsx';
+import { Rich } from './Rich.tsx';
 
 /**
  * The full record, layered over whatever is on the stage.
@@ -60,7 +61,7 @@ export function Record({ person, onClose, onShare, onPlay, onConnections }: {
           )}
 
           <div className="bio">
-            {paragraphs.map((part, index) => <p key={index}>{part}</p>)}
+            {paragraphs.map((part, index) => <p key={index}><Rich text={part} /></p>)}
           </div>
 
           <p className="credit">

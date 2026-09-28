@@ -11,7 +11,7 @@ import type { RuntimePerson } from '../data/runtime.ts';
 import { groupsBy, type Group } from './selectors.ts';
 
 /** The field the wall is drawn in: below the header, above the chips and the bar. */
-export const field = { left: 48, top: 96, height: 784, width: 1824, widthWithSheet: 1224 } as const;
+export const field = { left: 48, top: 96, height: 784, width: 1824, widthWithSheet: 1224, widthWithSearch: 1064 } as const;
 /** The letter rail's width, with the gap left beside it. */
 const railSpace = 84;
 
@@ -25,6 +25,8 @@ export type Slot = {
   /** 0 in full, 0.25–0.5 quieter, 1 set back, 2 off the field. */
   readonly dim: number;
   readonly ring?: 'focus' | 'tie';
+  /** Found by a search, and shown in colour. */
+  readonly lit?: boolean;
 };
 
 export type WallLabel = {
@@ -52,8 +54,19 @@ export function peopleLayout(
   arrangement: Arrangement,
   width: number,
   letter: string | null,
+  /** People a search found: in colour, and everyone else stepped back. */
+  lit: ReadonlySet<string> | null = null,
+  /** False while the search panel stands where the rail would. */
+  rail = true,
 ): WallLayout {
-  if (arrangement === 'name') return byName(people, width, letter);
+  const layout = arrangement === 'name' ? byName(people, width, letter, rail) : grouped(people, arrangement, width);
+  if (!lit) return layout;
+  const slots = new Map<string, Slot>();
+  for (const [id, slot] of layout.slots) slots.set(id, lit.has(id) ? { ...slot, lit: true } : { ...slot, dim: Math.max(slot.dim, 1) });
+  return { ...layout, slots };
+}
+
+function grouped(people: readonly RuntimePerson[], arrangement: 'community' | 'contribution', width: number): WallLayout {
   const groups = groupsBy(people, arrangement === 'community' ? 'communities' : 'contributions');
   const slots = new Map<string, Slot>();
   const labels: WallLabel[] = [];
@@ -69,9 +82,9 @@ export function peopleLayout(
 }
 
 /** Everyone in one block, A to Z, as large as the field allows. */
-function byName(people: readonly RuntimePerson[], width: number, letter: string | null): WallLayout {
+function byName(people: readonly RuntimePerson[], width: number, letter: string | null, rail: boolean): WallLayout {
   const sorted = alphabetical(people);
-  const W = width - railSpace;
+  const W = width - (rail ? railSpace : 0);
   const H = field.height;
   let best = { cols: 10, rows: 1, cell: 0 };
   for (let cols = 10; cols <= 22; cols += 1) {
@@ -102,7 +115,7 @@ function byName(people: readonly RuntimePerson[], width: number, letter: string 
     order: sorted.map((person) => person.id),
     title: 'Everyone, A to Z',
     subtitle: `${people.length} inductees · touch a face, or hold one`,
-    rail: true,
+    rail,
   };
 }
 
@@ -275,7 +288,7 @@ export function tileFrame(input: {
   const plateWidth = Math.max(260, (plate.length * 13 * 0.56 + 16) * scale * view.zoom);
   return {
     x, y, scale, z,
-    colour: raised || Boolean(pull) || Boolean(slot.ring),
+    colour: raised || Boolean(pull) || Boolean(slot.ring) || Boolean(slot.lit),
     opacity,
     plate,
     plateUp: screenBottom > field.height - 120,

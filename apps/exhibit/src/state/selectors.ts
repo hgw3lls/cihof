@@ -54,6 +54,39 @@ export function groupsBy(people: readonly RuntimePerson[], dimension: 'communiti
     .sort((a, b) => b.people.length - a.people.length || a.label.localeCompare(b.label));
 }
 
+/** A run of text, and whether the writer set it in italics. */
+export type Span = { readonly text: string; readonly em: boolean };
+
+/**
+ * Text with the writer's emphasis. Biographies mark titles and stressed words
+ * with asterisks (*The Plain Dealer*, **with**), which a visitor should see as
+ * italics, never as asterisks. Only a pair on one line counts; a lone asterisk
+ * is left as it is.
+ */
+export function emphasised(text: string): Span[] {
+  const spans: Span[] = [];
+  let at = 0;
+  for (const match of text.matchAll(/\*\*([^*\n]+)\*\*|\*([^*\n]+)\*/g)) {
+    if (match.index > at) spans.push({ text: text.slice(at, match.index), em: false });
+    spans.push({ text: match[1] ?? match[2] ?? '', em: true });
+    at = match.index + match[0].length;
+  }
+  if (at < text.length) spans.push({ text: text.slice(at), em: false });
+  return spans;
+}
+
+/** The first `length` characters of some spans, emphasis kept. */
+function cutSpans(spans: readonly Span[], length: number): Span[] {
+  const out: Span[] = [];
+  let left = length;
+  for (const span of spans) {
+    if (left <= 0) break;
+    out.push(span.text.length <= left ? span : { ...span, text: span.text.slice(0, left) });
+    left -= span.text.length;
+  }
+  return out;
+}
+
 /** A biography's paragraphs, as the exhibit splits them. */
 export function paragraphs(text: string): string[] {
   return text.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
@@ -64,12 +97,14 @@ export function paragraphs(text: string): string[] {
  * its first sentences when that runs long. Cut at a sentence where one ends
  * reasonably late, so the teaser never stops mid-thought if it can help it.
  */
-export function teaser(biography: string): string {
-  const first = paragraphs(biography)[0] ?? '';
-  if (first.length <= 260) return first;
+export function teaser(biography: string): Span[] {
+  const spans = emphasised(paragraphs(biography)[0] ?? '');
+  const first = spans.map((span) => span.text).join('');
+  if (first.length <= 260) return spans;
   const cut = first.slice(0, 260);
   const end = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
-  return end > 120 ? cut.slice(0, end + 1) : `${cut.trim()}…`;
+  if (end > 120) return cutSpans(spans, end + 1);
+  return [...cutSpans(spans, cut.trimEnd().length), { text: '…', em: false }];
 }
 
 /** "Class of 2010 · Serbian, Slovenian", the line above a person's name. */

@@ -35,7 +35,13 @@ export type Detail =
 /** Playing media outlives the panel above it. */
 export type Media =
   | { readonly kind: 'none' }
-  | { readonly kind: 'film'; readonly personId: string; readonly filmId: string };
+  /** `at` is where to start, when a search found words said part way through. */
+  | { readonly kind: 'film'; readonly personId: string; readonly filmId: string; readonly at?: number };
+
+/** People lit on the wall, and what lit them: a search, or a grouping it found. */
+export type Spotlight = { readonly label: string; readonly personIds: readonly string[] };
+
+export type Search = { readonly open: boolean; readonly query: string };
 
 export type ExhibitState = {
   /** Where a reset lands, fixed for the life of the page. */
@@ -48,6 +54,8 @@ export type ExhibitState = {
   readonly arrangement: Arrangement;
   /** The letter picked on the A to Z rail; the others step back. */
   readonly letter: string | null;
+  readonly search: Search;
+  readonly spotlight: Spotlight | null;
   readonly detail: Detail;
   readonly media: Media;
   readonly history: readonly Restorable[];
@@ -64,20 +72,27 @@ export type ExhibitAction =
   | { type: 'pair'; personIds: readonly [string, string] }
   | { type: 'arrange'; arrangement: Arrangement }
   | { type: 'letter'; letter: string | null }
+  | { type: 'open-search' }
+  | { type: 'search-query'; query: string }
+  /** Closing keeps the people it found lit on the wall, when there are any. */
+  | { type: 'close-search'; spotlight: Spotlight | null }
+  | { type: 'clear-spotlight' }
   | { type: 'open-record'; personId: string }
   | { type: 'open-share'; personId: string }
   | { type: 'close-detail' }
-  | { type: 'play-film'; personId: string; filmId: string }
+  | { type: 'play-film'; personId: string; filmId: string; at?: number }
   | { type: 'stop-film' }
   | { type: 'back' }
   | { type: 'reset' };
 
 export const historyLimit = 24;
+export const maxQueryLength = 80;
+const closedSearch: Search = { open: false, query: '' };
 
 export function initialState(home: Mode = 'explore'): ExhibitState {
   return {
     home, mode: home, lens: 'people', selectedId: null, pair: null, arrangement: 'name', letter: null,
-    detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
+    search: closedSearch, spotlight: null, detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
   };
 }
 
@@ -94,11 +109,18 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'lens':
       if (state.lens === action.lens) return state;
       // Leaving a lens ends anything playing in it, and a pair belongs to the wall it was made on.
-      return remember(state, { lens: action.lens, pair: null, letter: null, detail: { kind: 'none' }, media: { kind: 'none' } });
+      return remember(state, {
+        lens: action.lens, pair: null, letter: null, search: closedSearch, spotlight: null,
+        detail: { kind: 'none' }, media: { kind: 'none' },
+      });
 
     case 'select':
       if (state.selectedId === action.personId && state.pair === null) return state;
-      return remember(state, { selectedId: action.personId, pair: null, detail: { kind: 'none' }, media: { kind: 'none' } });
+      // Choosing somebody from the search closes it; the people it lit stay lit.
+      return remember(state, {
+        selectedId: action.personId, pair: null, search: { ...state.search, open: false },
+        detail: { kind: 'none' }, media: { kind: 'none' },
+      });
 
     case 'clear-selection':
       if (state.selectedId === null && state.pair === null) return state;
@@ -116,9 +138,32 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'letter':
       return state.letter === action.letter ? state : { ...state, letter: action.letter };
 
+    // Search belongs to the wall: it opens on People, in place of the sheet.
+    case 'open-search':
+      if (state.search.open) return state;
+      return remember(state, {
+        lens: 'people', selectedId: null, pair: null, letter: null,
+        search: { open: true, query: state.search.query }, detail: { kind: 'none' }, media: { kind: 'none' },
+      });
+
+    case 'search-query': {
+      const query = action.query.slice(0, maxQueryLength);
+      return query === state.search.query ? state : { ...state, search: { ...state.search, query } };
+    }
+
+    case 'close-search':
+      if (!state.search.open) return state;
+      return { ...state, search: { ...state.search, open: false }, spotlight: action.spotlight };
+
+    case 'clear-spotlight':
+      return { ...state, search: closedSearch, spotlight: null };
+
     // A panel opens over whatever is playing and leaves it alone.
     case 'open-record':
-      return remember(state, { selectedId: action.personId, pair: null, detail: { kind: 'record', personId: action.personId } });
+      return remember(state, {
+        selectedId: action.personId, pair: null, search: { ...state.search, open: false },
+        detail: { kind: 'record', personId: action.personId },
+      });
 
     case 'open-share':
       return remember(state, { detail: { kind: 'share', personId: action.personId } });
@@ -130,7 +175,10 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
       return remember(state, {
         selectedId: action.personId,
         pair: null,
-        media: { kind: 'film', personId: action.personId, filmId: action.filmId },
+        search: { ...state.search, open: false },
+        media: action.at === undefined
+          ? { kind: 'film', personId: action.personId, filmId: action.filmId }
+          : { kind: 'film', personId: action.personId, filmId: action.filmId, at: action.at },
       });
 
     case 'stop-film':

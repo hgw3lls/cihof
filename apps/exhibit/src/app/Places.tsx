@@ -6,6 +6,8 @@ type Props = {
   places: readonly RuntimePlace[];
   people: readonly RuntimePerson[];
   selectedId: string | null;
+  /** A place to open on, when a search found it. */
+  placeId?: string | null;
   onSelect: (personId: string) => void;
   onOpen: (personId: string) => void;
 };
@@ -29,7 +31,7 @@ type Props = {
  * about the collection rather than a row in a list a visitor is filtering, and
  * narrowing it removes the people they came here to find.
  */
-export function Places({ places, people, selectedId, onSelect, onOpen }: Props) {
+export function Places({ places, people, selectedId, placeId = null, onSelect, onOpen }: Props) {
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
 
   const shown = useMemo(() => places
@@ -47,7 +49,7 @@ export function Places({ places, people, selectedId, onSelect, onOpen }: Props) 
 
   // Opening Places with somebody chosen opens on a place tied to them.
   const [chosenId, setChosenId] = useState<string | null>(
-    () => shown.find(({ present }) => present.some((person) => person.id === selectedId))?.place.id ?? null,
+    () => placeId ?? shown.find(({ present }) => present.some((person) => person.id === selectedId))?.place.id ?? null,
   );
 
   if (shown.length === 0) {

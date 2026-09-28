@@ -2,6 +2,7 @@ import type { PublishedRelationship, SharedContext } from '@cihof/content';
 import type { RuntimePerson } from '../data/runtime.ts';
 import { kicker, teaser } from '../state/selectors.ts';
 import { portraitUrl, focalPoint } from './Portrait.tsx';
+import { Rich } from './Rich.tsx';
 
 /**
  * The panel that slides in from the right when somebody is chosen on the wall:
@@ -38,7 +39,7 @@ export function PersonSheet({ person, ties, onClose, onStory, onFilm, onConnecti
         <p className="sheet__kicker">{kicker(person)}</p>
         <h2 className="sheet__name">{person.name}</h2>
         {person.contributions.length > 0 && <p className="sheet__honored">Honored for {person.contributions.join(' · ')}</p>}
-        <p className="sheet__teaser">{teaser(person.biography)}</p>
+        <p className="sheet__teaser"><Rich spans={teaser(person.biography)} /></p>
         <div className="sheet__actions">
           <button type="button" className="sheet__story" onClick={onStory}>
             Read their story<span aria-hidden="true">→</span>

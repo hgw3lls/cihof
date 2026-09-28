@@ -60,6 +60,14 @@ for (const theme of ['dark', 'light'] as const) {
       });
     }
 
+    test('search, with results', async ({ page }) => {
+      await begin(page, `./?theme=${theme}`);
+      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Search/ }).click();
+      await page.getByRole('searchbox').fill('cultural gardens');
+      await expect(page.locator('.search__row').first()).toBeVisible();
+      expect(await scan(page)).toEqual([]);
+    });
+
     test('a record, and its film', async ({ page }) => {
       await begin(page, `./?theme=${theme}`);
       await openRecordWithFilm(page);
