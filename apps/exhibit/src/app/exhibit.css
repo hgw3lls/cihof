@@ -386,7 +386,7 @@ button:active { filter: brightness(0.92); }
 dialog { max-width: none; max-height: none; width: auto; height: auto; padding: 0; border: 0; color: inherit; background: transparent; }
 dialog::backdrop { background: color-mix(in srgb, #000 70%, transparent); }
 dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; overflow: clip; background: var(--ground); }
-.film__controls .block { background: var(--lens); color: var(--on-lens); }
+dialog.film { background: #000; }
 
 /* A dialog is drawn in the browser's top layer, outside the stage, so it
    carries its own 1920 × 1080 copy at the same scale. */
@@ -577,32 +577,79 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; overflow: clip
 
 /* ------------------------------------------------------------------ Film
 
-   The transcript sits beside the film, always visible: it is the only way in
-   for a visitor who cannot hear it. */
+   Full screen, on black whatever the room. The transcript is one touch away
+   in a drawer over the right of the screen; a person's other films are
+   listed beside it. The bar along the bottom adds up to the full 1920. */
 
-.film[open] { display: grid; grid-template-rows: calc(72 * var(--px)) minmax(0, 1fr) calc(136 * var(--px)); background: var(--ground-film); }
-.film__header { display: flex; align-items: center; justify-content: space-between; padding: 0 calc(40 * var(--px)); border-bottom: 2px solid var(--ink); }
-.film__header h2 { margin: 0; font-size: calc(19 * var(--px)); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.film__body { display: grid; grid-template-columns: minmax(0, 1fr) calc(620 * var(--px)); min-height: 0; }
-.film__screen { display: flex; flex-direction: column; justify-content: center; gap: calc(20 * var(--px)); min-height: 0; padding: calc(40 * var(--px)); }
-.film__screen video, .film__embed iframe { display: block; width: 100%; max-height: 100%; aspect-ratio: 16 / 9; border: 2px solid var(--ink); background: #000; }
-.film__embed { display: grid; gap: calc(12 * var(--px)); }
-.film__progress { display: flex; align-items: center; gap: calc(24 * var(--px)); }
-.film__track { flex: 1; height: calc(8 * var(--px)); background: var(--rule-soft); }
-.film__track span { display: block; height: 100%; background: var(--lens-people); }
-.film__note { margin: 0; color: var(--ink-soft); font-size: calc(20 * var(--px)); line-height: 1.35; }
-.film__problem { color: var(--lens-people); font-size: calc(26 * var(--px)); }
-.film__transcript { min-height: 0; overflow-y: auto; padding: calc(40 * var(--px)); border-left: 2px solid var(--ink); }
-.film__transcript h3 { margin: 0 0 calc(20 * var(--px)); }
-.film__transcript p { margin: 0 0 calc(18 * var(--px)); color: var(--ink-soft); font-size: calc(26 * var(--px)); line-height: 1.45; }
-.film__loading { color: var(--muted) !important; }
-.film__controls { display: flex; border-top: 2px solid var(--ink); }
-.film__controls > * { display: flex; align-items: center; gap: calc(20 * var(--px)); min-height: var(--tap); padding: 0 calc(36 * var(--px)); border: 0; border-left: 2px solid var(--ink); background: transparent; font-size: calc(30 * var(--px)); font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; }
+.film__frame { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 136px; background: #000; color: #f2f1ec; animation: rise 400ms var(--ease) both; }
+.film__main { display: flex; min-height: 0; }
+.film__screen { position: relative; flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
+.film__video, .film__embed { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000; object-fit: contain; transition: translate 500ms var(--ease); }
+/* The picture stops above a band of black that holds the progress, so the
+   captions at the foot of the picture never sit on the bar. */
+.film__video { height: calc(100% - 80px); }
+/* A fade behind the name, so it reads over a bright picture. */
+.film__screen::before { content: ''; position: absolute; left: 0; right: 0; top: 0; z-index: 1; height: 200px; background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent); pointer-events: none; }
+.film__video[data-shifted], .film__embed[data-shifted] { translate: -320px 0; }
+.film__embed iframe { display: block; width: 100%; height: 100%; border: 0; }
+.film__big { position: absolute; left: 50%; top: calc(50% - 40px); translate: -50% -50%; display: grid; place-items: center; width: 168px; height: 168px; padding: 0; border: 0; background: var(--people); color: #121211; transition: opacity 300ms, translate 500ms var(--ease); }
+.film__big span { width: 0; height: 0; margin-left: 10px; border-style: solid; border-width: 30px 0 30px 52px; border-color: transparent transparent transparent currentColor; }
+.film__big[data-hidden] { opacity: 0; pointer-events: none; }
+.film__big[data-shifted] { translate: calc(-50% - 320px) -50%; }
+.film__header { position: absolute; left: 48px; top: 40px; z-index: 2; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.film__header span { color: #a19f97; font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.film__header h2 { margin: 0; font-size: 48px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+.film__header h2:focus-visible { outline: 0; }
+.film__progress { position: absolute; left: 48px; right: 48px; bottom: 32px; display: flex; align-items: center; gap: 24px; }
+.film__track { flex: 1; height: 6px; background: #2a2a28; }
+.film__track span { display: block; height: 100%; background: var(--people); transition: width 1000ms linear; }
+.film__times { color: #a19f97; font-size: 18px; font-variant-numeric: tabular-nums; }
+.film__problem { color: var(--people); font-size: 26px; }
+.film__screen > .film__problem { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 900px; text-align: center; }
+.film__screen > .film__problem p + p { color: #c9c7bf; font-size: 22px; }
+
+.film__transcript { position: absolute; top: 0; right: 0; bottom: 0; z-index: 3; width: 640px; padding: 40px 48px; overflow-y: auto; overscroll-behavior: contain; border-left: 1px solid #2a2a28; background: rgba(18, 18, 17, 0.92); transform: translateX(100%); transition: transform 500ms var(--ease); }
+.film__transcript[data-open] { transform: none; }
+.film__transcript h3 { margin: 0 0 20px; color: #a19f97; font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.film__transcript p { margin: 0 0 18px; color: #c9c7bf; font-size: 23px; line-height: 1.45; }
+.film__loading { color: #a19f97 !important; }
+
+/* A person's films: the rail opens and closes by its width, and what is in it
+   stays 400 wide and is clipped, so nothing reflows as it moves. */
+.film__list { flex: none; display: flex; flex-direction: column; width: 0; min-width: 0; min-height: 0; padding-top: 40px; overflow: hidden; white-space: nowrap; border-left: 1px solid #2a2a28; background: #121211; transition: width 450ms var(--ease); }
+.film__list[data-open] { width: 400px; }
+.film__list-title { width: 400px; margin: 0 0 20px; padding: 0 32px; color: #a19f97; font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.film__list ol { width: 400px; min-height: 0; margin: 0; padding: 0; overflow-y: auto; border-top: 1px solid #2a2a28; list-style: none; white-space: normal; }
+.film__list li { border-bottom: 1px solid #2a2a28; }
+.film__list li button { position: relative; display: flex; align-items: center; gap: 18px; width: 100%; min-height: 128px; padding: 20px 32px; border: 0; background: transparent; color: #f2f1ec; text-align: left; }
+.film__list li button:active { background: #2a2a28; filter: none; }
+.film__list li button[aria-current] { background: #1f1f1d; }
+.film__list li button[aria-current]::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--people); }
+.film__thumb { position: relative; flex: none; width: 144px; height: 81px; background: #2a2a28 center / cover no-repeat; }
+.film__thumb span { position: absolute; right: 6px; bottom: 6px; padding: 2px 6px; background: rgba(0, 0, 0, 0.8); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.film__item { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.film__state { color: #a19f97; font-size: 15px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.film__list li button[aria-current] .film__state { color: var(--people); }
+.film__item-title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+
+.film__controls { display: flex; border-top: 1px solid #2a2a28; }
+.film__controls > * { display: flex; align-items: center; justify-content: center; padding: 0 32px; border: 0; border-left: 1px solid #2a2a28; background: transparent; color: #f2f1ec; font-size: 22px; font-weight: 600; white-space: nowrap; }
 .film__controls > :first-child { border-left: 0; }
-.film__close { flex: 0 0 calc(300 * var(--px)); justify-content: center; }
-.film__controls .block { flex: 0 0 calc(220 * var(--px)); justify-content: center; min-height: 0; font-size: calc(30 * var(--px)); }
-.film__who { flex: 1; min-width: 0; overflow: hidden; font-size: calc(33 * var(--px)) !important; text-overflow: ellipsis; }
-.film__controls button[aria-pressed] { flex: 0 0 calc(300 * var(--px)); justify-content: center; }
+.film__controls > button:disabled { color: #6f6e68; }
+.film__close { flex: 0 0 240px; gap: 10px; }
+.film__play { flex: 0 0 200px; background: var(--people) !important; color: #121211 !important; font-size: 30px !important; }
+.film__play:disabled { opacity: 0.4; }
+.film__back { flex: 0 0 180px; }
+.film__note { flex: 1; min-width: 0; justify-content: flex-start !important; overflow: hidden; color: #a19f97 !important; font-size: 20px !important; font-weight: 400 !important; text-overflow: ellipsis; }
+.film__beginning { min-height: 64px; padding: 0 22px; border: 1px solid #3a3936; background: transparent; color: #f2f1ec; font-size: 20px; font-weight: 600; }
+.film__captions { flex: 0 0 200px; }
+.film__drawer { flex: 0 0 220px; }
+.film__drawer[aria-pressed='true'], .film__list-toggle[aria-pressed='true'] { background: #f2f1ec !important; color: #121211 !important; }
+.film__list-toggle { flex: 0 0 136px; padding: 0 !important; }
+.film__list-toggle > span { display: flex; flex-direction: column; gap: 7px; }
+.film__list-toggle > span > span { display: flex; align-items: center; gap: 8px; }
+.film__list-toggle > span > span > span:first-child { width: 7px; height: 7px; background: currentColor; }
+.film__list-toggle > span > span > span:last-child { width: 34px; height: 3px; background: currentColor; }
 
 /* ------------------------------------------------------------------ Attract */
 

@@ -230,6 +230,50 @@ test('a ceremony film opens at the chosen person\'s part, and can go back to the
 test('a film with no start opens at the beginning and offers no "from the beginning"', async ({ page }) => {
   await withFixtureFilm(page);
   await openFilm(page);
-  await expect(page.locator('.film__header span')).toHaveText('Film');
+  await expect(page.locator('.film__header span')).toHaveText('Film · 0:04');
   await expect(page.getByRole('button', { name: 'From the beginning' })).toHaveCount(0);
+  // One film: nothing to choose between.
+  await expect(page.getByRole('button', { name: /films$/ })).toHaveCount(0);
+});
+
+test('a person with several films has them listed beside the screen, and the list stays as it was left', async ({ page }) => {
+  const second = { ...fixtureFilm, id: 'fixture-film-2', durationSeconds: 130 };
+  await withFixtureFilm(page, {}, fixtureFilm);
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({
+      json: { ...bundle, people: bundle.people.map((entry: { id: string }) => (entry.id === person ? { ...entry, films: [fixtureFilm, second] } : entry)) },
+    });
+  });
+  await begin(page);
+  await openStory(page, 'Alex Machaskee');
+  await page.locator('dialog.record').getByRole('button', { name: 'Watch 2 films' }).click();
+
+  const list = page.getByRole('complementary', { name: 'Films' });
+  await expect(list.locator('.film__list-title')).toHaveText('2 films · 1 of 2');
+  await expect(list.locator('[aria-current] .film__state')).toHaveText('Selected');
+  await expect(list.locator('.film__item-title')).toHaveText(['A 1-minute film', 'A 2-minute film']);
+
+  await list.locator('li').nth(1).getByRole('button').click();
+  await expect(list.locator('.film__list-title')).toHaveText('2 films · 2 of 2');
+  await expect(page.locator('.film__header span')).toHaveText('Film · 2:10');
+
+  await page.getByRole('button', { name: 'Hide films' }).click();
+  await expect(page.getByRole('button', { name: 'Show 2 films' })).toHaveAttribute('aria-pressed', 'false');
+  await expect(list).toHaveCount(0);
+
+  // Closed, it stays closed the next time a film is opened in this visit.
+  await page.getByRole('button', { name: 'Close film' }).click();
+  await page.locator('dialog.record').getByRole('button', { name: 'Watch 2 films' }).click();
+  await expect(page.getByRole('button', { name: 'Show 2 films' })).toBeVisible();
+});
+
+test('the transcript opens in a drawer over the screen', async ({ page }) => {
+  await withFixtureFilm(page);
+  await openFilm(page);
+  const drawer = page.locator('.film__transcript');
+  await expect(drawer).not.toHaveAttribute('data-open', 'true');
+  await page.getByRole('button', { name: 'Transcript', exact: true }).click();
+  await expect(drawer).toHaveAttribute('data-open', 'true');
+  await expect(page.getByRole('button', { name: 'Hide transcript' })).toHaveAttribute('aria-pressed', 'true');
 });

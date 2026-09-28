@@ -86,6 +86,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme ?? 'dark') as Theme);
   // A place a search found, for Places to open on.
   const [placeFocus, setPlaceFocus] = useState<string | null>(null);
+  // The list of a person's films starts open; closed, it stays closed for the visit.
+  const [filmListOpen, setFilmListOpen] = useState(true);
 
   const people = bundle.people;
   const relationships = bundle.relationships;
@@ -122,6 +124,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
     setPlaceFocus(null);
+    setFilmListOpen(true);
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
     // On the display a visitor's colours last for their visit; the next visitor
@@ -418,9 +421,12 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
       {playingFilm && playing && (
         <Film
+          person={playing}
           film={playingFilm}
-          personName={playing.name}
           {...(media.kind === 'film' && media.at !== undefined ? { startAt: media.at } : {})}
+          onChoose={(filmId) => dispatch({ type: 'play-film', personId: playing.id, filmId })}
+          listOpen={filmListOpen}
+          onList={setFilmListOpen}
           onClose={() => dispatch({ type: 'stop-film' })}
           onProgress={session.noteActivity}
         />
