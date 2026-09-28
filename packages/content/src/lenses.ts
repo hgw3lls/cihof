@@ -72,6 +72,8 @@ export type PublishedPlace = Reviewed & {
   readonly shortHistory: string;
   readonly neighborhood: string;
   readonly personIds: readonly string[];
+  /** Where the place sits on the city map, as percentages across and down. */
+  readonly marker?: { readonly x: number; readonly y: number };
 };
 
 /**

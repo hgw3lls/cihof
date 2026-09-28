@@ -27,6 +27,8 @@ export type Slot = {
   readonly ring?: 'focus' | 'tie';
   /** Found by a search, and shown in colour. */
   readonly lit?: boolean;
+  /** How this face is tied to the one at the centre, read out with its name. */
+  readonly note?: string;
 };
 
 export type WallLabel = {
@@ -37,6 +39,14 @@ export type WallLabel = {
   readonly text: string;
   /** A CSS colour, usually a token. */
   readonly color: string;
+  readonly align?: 'left' | 'center';
+  /** Wraps onto more lines, rather than being cut short. */
+  readonly wrap?: boolean;
+  readonly lineHeight?: number;
+  readonly z?: number;
+  /** Set on a patch of the ground, so it reads over lines and faces. */
+  readonly chip?: boolean;
+  readonly opacity?: number;
 };
 
 export type WallLayout = {
@@ -190,9 +200,21 @@ export function placeBlocks(packed: Packed, H: number, slots: Map<string, Slot>,
 export type View = { readonly zoom: number; readonly pan: { readonly x: number; readonly y: number } };
 export const homeView: View = { zoom: 1, pan: { x: 0, y: 0 } };
 
-/** Pan kept so the wall never leaves a gap at its edge. */
-export function clampPan(pan: { x: number; y: number }, zoom: number, width: number): { x: number; y: number } {
+/**
+ * Pan kept so the wall never leaves a gap at its edge. A map (`loose`) may be
+ * pushed a good way past its edges and zoomed out to half, since what is
+ * worth reaching can sit on its rim.
+ */
+export function clampPan(pan: { x: number; y: number }, zoom: number, width: number, loose = false): { x: number; y: number } {
   const H = field.height;
+  if (loose) {
+    const mx = width * 0.6;
+    const my = H * 0.6;
+    return {
+      x: Math.min(mx, Math.max(width - width * zoom - mx, pan.x)),
+      y: Math.min(my, Math.max(H - H * zoom - my, pan.y)),
+    };
+  }
   return {
     x: Math.min(0, Math.max(width - width * zoom, pan.x)),
     y: Math.min(0, Math.max(H - H * zoom, pan.y)),
@@ -202,11 +224,11 @@ export function clampPan(pan: { x: number; y: number }, zoom: number, width: num
 export const maxZoom = 3;
 
 /** Zoom by a factor about a point on the field, as a pinch or the wheel does. */
-export function zoomAbout(view: View, factor: number, at: { x: number; y: number }, width: number): View {
-  const zoom = Math.min(maxZoom, Math.max(1, view.zoom * factor));
+export function zoomAbout(view: View, factor: number, at: { x: number; y: number }, width: number, loose = false): View {
+  const zoom = Math.min(maxZoom, Math.max(loose ? 0.5 : 1, view.zoom * factor));
   const k = zoom / view.zoom;
   const pan = { x: at.x - (at.x - view.pan.x) * k, y: at.y - (at.y - view.pan.y) * k };
-  return { zoom, pan: clampPan(pan, zoom, width) };
+  return { zoom, pan: clampPan(pan, zoom, width, loose) };
 }
 
 export type Pull = { readonly dx: number; readonly dy: number; readonly ready: boolean };

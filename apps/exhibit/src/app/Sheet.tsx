@@ -1,5 +1,5 @@
 import type { PublishedRelationship, SharedContext } from '@cihof/content';
-import type { RuntimePerson } from '../data/runtime.ts';
+import type { RuntimePerson, RuntimePlace } from '../data/runtime.ts';
 import { kicker, teaser } from '../state/selectors.ts';
 import { portraitUrl, focalPoint } from './Portrait.tsx';
 import { Rich } from './Rich.tsx';
@@ -10,10 +10,26 @@ import { Rich } from './Rich.tsx';
  * people chosen at once it sets them side by side, and says what the records
  * say they share.
  */
-export function PersonSheet({ person, ties, onClose, onStory, onFilm, onConnections }: {
+/** One line of a person's ties in Connections: somebody, a place, or who presented them. */
+export type TieLine = {
+  readonly key: string;
+  readonly name: string;
+  /** The reviewed wording, or what the line is. */
+  readonly label: string;
+  /** A CSS colour: the layer's. */
+  readonly color: string;
+  readonly person?: RuntimePerson;
+  readonly place?: boolean;
+  /** Absent when there is nowhere to go: a presenter who is not in the hall. */
+  readonly onClick?: () => void;
+};
+
+export function PersonSheet({ person, ties, tieLines, onClose, onStory, onFilm, onConnections }: {
   person: RuntimePerson;
   /** How many documented ties they have, for the way into Connections. */
   ties: number;
+  /** In Connections: their ties listed, each a step on to somebody else. */
+  tieLines?: readonly TieLine[];
   onClose: () => void;
   onStory: () => void;
   onFilm: () => void;
@@ -39,12 +55,34 @@ export function PersonSheet({ person, ties, onClose, onStory, onFilm, onConnecti
         <p className="sheet__kicker">{kicker(person)}</p>
         <h2 className="sheet__name">{person.name}</h2>
         {person.contributions.length > 0 && <p className="sheet__honored">Honored for {person.contributions.join(' · ')}</p>}
-        <p className="sheet__teaser"><Rich spans={teaser(person.biography)} /></p>
+        <p className="sheet__teaser" data-short={tieLines ? 'true' : undefined}><Rich spans={teaser(person.biography)} /></p>
+        {tieLines && tieLines.length > 0 && (
+          <ul className="sheet__ties-list" aria-label="Ties">
+            {tieLines.map((line) => {
+              const body = (
+                <>
+                  {line.person
+                    ? <span className="sheet__tie-face" aria-hidden="true" style={{ backgroundImage: portraitUrl(line.person), backgroundPosition: focalPoint(line.person) }} />
+                    : <span className="sheet__tie-face" data-kind={line.place ? 'place' : 'other'} aria-hidden="true" />}
+                  <span className="sheet__tie-text">
+                    <span style={{ color: line.color }}>{line.label}</span>
+                    <strong>{line.name}</strong>
+                  </span>
+                </>
+              );
+              return (
+                <li key={line.key}>
+                  {line.onClick ? <button type="button" onClick={line.onClick}>{body}</button> : <div>{body}</div>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
         <div className="sheet__actions">
           <button type="button" className="sheet__story" onClick={onStory}>
             Read their story<span aria-hidden="true">→</span>
           </button>
-          {onConnections && ties > 0 && (
+          {onConnections && ties > 0 && !tieLines && (
             <button type="button" className="sheet__ties" onClick={onConnections}>
               {ties} {ties === 1 ? 'connection' : 'connections'}
             </button>
@@ -113,4 +151,42 @@ export function shared(
   if (community) return `Both come from Cleveland's ${community} community${alsoHonored}.`;
   if (contribution) return `Both are honored for ${contribution.toLowerCase()}.`;
   return 'Nothing in the records links them yet — which is its own kind of story.';
+}
+
+/** A place brought to the centre of Connections: what it is, and the people a curator tied to it. */
+export function PlaceSheet({ place, people, onPerson, onClose }: {
+  place: RuntimePlace;
+  people: readonly RuntimePerson[];
+  onPerson: (personId: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      <div className="sheet__top">
+        <span />
+        <button type="button" className="sheet__close" aria-label="Close" onClick={onClose}>×</button>
+      </div>
+      <div className="sheet__body">
+        <p className="sheet__kicker sheet__kicker--place">Place{place.neighborhood && place.neighborhood !== place.name ? ` · ${place.neighborhood}` : ''}</p>
+        <h2 className="sheet__name">
+          {place.name}
+          {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
+        </h2>
+        {place.shortHistory && <p className="sheet__teaser" data-short="true">{place.shortHistory}</p>}
+        <ul className="sheet__ties-list" aria-label="People tied to this place">
+          {people.map((person) => (
+            <li key={person.id}>
+              <button type="button" onClick={() => onPerson(person.id)}>
+                <span className="sheet__tie-face" aria-hidden="true" style={{ backgroundImage: portraitUrl(person), backgroundPosition: focalPoint(person) }} />
+                <span className="sheet__tie-text">
+                  <span style={{ color: 'var(--places-ink)' }}>{person.classYear ? `Class of ${person.classYear}` : 'Year not recorded'}</span>
+                  <strong>{person.name}</strong>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 }

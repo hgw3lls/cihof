@@ -16,6 +16,7 @@
  *   around the wall and never chooses or unchooses anybody.
  */
 import type { Arrangement } from './wall.ts';
+import { defaultLayers, type LayerId } from './connections.ts';
 
 export type Lens = 'people' | 'places' | 'links' | 'years';
 
@@ -56,6 +57,13 @@ export type ExhibitState = {
   readonly letter: string | null;
   readonly search: Search;
   readonly spotlight: Spotlight | null;
+  /** Connections: the diagram, or the city by place. */
+  readonly linkView: 'diagram' | 'places';
+  readonly linkLayers: readonly LayerId[];
+  /** A place at the centre of the diagram, instead of a person. */
+  readonly placeId: string | null;
+  /** The people walked through in Connections, most recent last. */
+  readonly trail: readonly string[];
   readonly detail: Detail;
   readonly media: Media;
   readonly history: readonly Restorable[];
@@ -77,6 +85,9 @@ export type ExhibitAction =
   /** Closing keeps the people it found lit on the wall, when there are any. */
   | { type: 'close-search'; spotlight: Spotlight | null }
   | { type: 'clear-spotlight' }
+  | { type: 'link-view'; view: 'diagram' | 'places' }
+  | { type: 'link-layer'; layer: LayerId }
+  | { type: 'place'; placeId: string }
   | { type: 'open-record'; personId: string }
   | { type: 'open-share'; personId: string }
   | { type: 'close-detail' }
@@ -87,12 +98,14 @@ export type ExhibitAction =
 
 export const historyLimit = 24;
 export const maxQueryLength = 80;
+/** How many people a trail keeps; the earliest drop off. */
+export const trailLimit = 12;
 const closedSearch: Search = { open: false, query: '' };
 
 export function initialState(home: Mode = 'explore'): ExhibitState {
   return {
     home, mode: home, lens: 'people', selectedId: null, pair: null, arrangement: 'name', letter: null,
-    search: closedSearch, spotlight: null, detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
+    search: closedSearch, spotlight: null, linkView: 'diagram', linkLayers: defaultLayers, placeId: null, trail: [], detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
   };
 }
 
@@ -109,22 +122,27 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'lens':
       if (state.lens === action.lens) return state;
       // Leaving a lens ends anything playing in it, and a pair belongs to the wall it was made on.
+      // Connections opens on whoever was chosen, and their walk starts there.
       return remember(state, {
         lens: action.lens, pair: null, letter: null, search: closedSearch, spotlight: null,
+        linkView: 'diagram', placeId: null, trail: action.lens === 'links' && state.selectedId ? [state.selectedId] : [],
         detail: { kind: 'none' }, media: { kind: 'none' },
       });
 
     case 'select':
       if (state.selectedId === action.personId && state.pair === null) return state;
       // Choosing somebody from the search closes it; the people it lit stay lit.
+      // In Connections each person chosen is a step on the visitor's walk;
+      // going back to one already on it goes back along it.
       return remember(state, {
-        selectedId: action.personId, pair: null, search: { ...state.search, open: false },
+        selectedId: action.personId, pair: null, placeId: null, search: { ...state.search, open: false },
+        trail: state.lens === 'links' ? walk(state.trail, action.personId) : state.trail,
         detail: { kind: 'none' }, media: { kind: 'none' },
       });
 
     case 'clear-selection':
-      if (state.selectedId === null && state.pair === null) return state;
-      return remember(state, { selectedId: null, pair: null, detail: { kind: 'none' }, media: { kind: 'none' } });
+      if (state.selectedId === null && state.pair === null && state.placeId === null) return state;
+      return remember(state, { selectedId: null, pair: null, placeId: null, trail: [], detail: { kind: 'none' }, media: { kind: 'none' } });
 
     case 'pair': {
       const [a, b] = action.personIds;
@@ -157,6 +175,29 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
 
     case 'clear-spotlight':
       return { ...state, search: closedSearch, spotlight: null };
+
+    // By place always shows the places, so turning it on turns their layer on.
+    case 'link-view':
+      if (state.linkView === action.view) return state;
+      return remember(state, {
+        linkView: action.view, selectedId: null, placeId: null, trail: [],
+        linkLayers: action.view === 'places' && !state.linkLayers.includes('places') ? [...state.linkLayers, 'places'] : state.linkLayers,
+      });
+
+    case 'link-layer':
+      return {
+        ...state,
+        linkLayers: state.linkLayers.includes(action.layer)
+          ? state.linkLayers.filter((each) => each !== action.layer)
+          : [...state.linkLayers, action.layer],
+      };
+
+    case 'place':
+      return remember(state, {
+        lens: 'links', linkView: 'diagram', placeId: action.placeId, selectedId: null, pair: null,
+        linkLayers: state.linkLayers.includes('places') ? state.linkLayers : [...state.linkLayers, 'places'],
+        search: { ...state.search, open: false },
+      });
 
     // A panel opens over whatever is playing and leaves it alone.
     case 'open-record':
@@ -193,6 +234,11 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'reset':
       return initialState(state.home);
   }
+}
+
+function walk(trail: readonly string[], personId: string): string[] {
+  const at = trail.indexOf(personId);
+  return at >= 0 ? trail.slice(0, at + 1) : [...trail, personId].slice(-trailLimit);
 }
 
 function remember(state: ExhibitState, patch: Partial<Restorable>): ExhibitState {

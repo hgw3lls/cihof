@@ -91,7 +91,8 @@ test('a place found opens on that place', async ({ page }) => {
   const place = panel(page).getByRole('region', { name: 'Places' }).locator('.search__row').first();
   const name = (await place.locator('.search__title').textContent())?.trim() ?? '';
   await place.click();
-  await expect(page.locator('.places__place h2')).toHaveText(name);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
+  await expect(page.locator('.wall__place[data-focus]')).toBeVisible();
 });
 
 test('words said in a film are found, and the film opens where they are said', async ({ page }) => {

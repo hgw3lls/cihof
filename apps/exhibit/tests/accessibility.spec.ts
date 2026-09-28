@@ -49,16 +49,24 @@ for (const theme of ['dark', 'light'] as const) {
       expect(await scan(page)).toEqual([]);
     });
 
-    for (const lens of ['Years', 'Connections', 'Places']) {
+    for (const lens of ['Years', 'Connections']) {
       test(lens, async ({ page }) => {
         await begin(page, `./?theme=${theme}`);
         await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: new RegExp(`^${lens}`) }).click();
         await expect(page.locator('[aria-current="page"], [aria-pressed="true"]').first()).toBeVisible();
-        if (lens === 'Connections') await expect(page.locator('.map__person--focus')).toBeVisible();
-        if (lens === 'Places') await expect(page.locator('.places__place h2')).toBeVisible();
+        if (lens === 'Connections') await expect(page.locator('.tile[data-ring="focus"]')).toBeVisible();
         expect(await scan(page)).toEqual([]);
       });
     }
+
+    test('Connections by place, with somebody chosen', async ({ page }) => {
+      await begin(page, `./?theme=${theme}`);
+      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Connections/ }).click();
+      await page.getByRole('button', { name: /^Same place/ }).click();
+      await page.locator('.tile[aria-label="Wael Khoury"]').click();
+      await expect(page.locator('.sheet__ties-list')).toBeVisible();
+      expect(await scan(page)).toEqual([]);
+    });
 
     test('search, with results', async ({ page }) => {
       await begin(page, `./?theme=${theme}`);

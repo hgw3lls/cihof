@@ -46,7 +46,7 @@ export type Measure = {
   readonly documents: number;
 };
 
-const lensOrder = ['Years', 'Places', 'Connections'];
+const lensOrder = ['Years', 'Connections'];
 
 export async function visit(page: Page, index: number, options: VisitOptions): Promise<VisitResult> {
   const began = Date.now();
@@ -106,11 +106,16 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
   let film = false;
   let share = false;
   await attempt('open a record', async () => {
-    // A face already chosen would be unchosen by a second touch.
-    let tiles = page.locator('.tile:visible:not([aria-pressed="true"])');
+    // A face already chosen would be unchosen by a second touch. On the
+    // Connections diagram the faces out on the rim overlap one another, so a
+    // visitor reaches for the ones round the centre.
+    const ringed = page.locator('.tile[data-ring="tie"]:not([aria-pressed="true"])');
+    let tiles = await ringed.count() > 0
+      ? ringed
+      : page.locator('.tile:visible:not([aria-pressed="true"]):not([aria-hidden="true"])');
     if (await tiles.count() === 0) {
       await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^People/ }).click({ timeout: step });
-      tiles = page.locator('.tile:visible:not([aria-pressed="true"])');
+      tiles = page.locator('.tile:visible:not([aria-pressed="true"]):not([aria-hidden="true"])');
     }
     // A chosen face is drawn larger, over its neighbours; a visitor closes it
     // before reaching for somebody it covers.

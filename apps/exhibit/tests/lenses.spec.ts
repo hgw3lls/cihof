@@ -52,3 +52,14 @@ test('two faces chosen together are set side by side', async ({ page }) => {
   await page.locator('.pair__close').click();
   await expect(page.locator('.sheet[data-open]')).toHaveCount(0);
 });
+
+test('a person chosen in Years can be opened with one more touch', async ({ page }) => {
+  await begin(page);
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Years/ }).click();
+  const tile = page.locator('.years__grid .tile').first();
+  const name = (await tile.locator('.caption').textContent())?.trim() ?? '';
+  await tile.click();
+  await expect(page.locator('.chosen__name')).toHaveText(name);
+  await page.getByRole('button', { name: 'Read the record' }).click();
+  await expect(page.locator('#recordTitle')).toHaveText(name);
+});

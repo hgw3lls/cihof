@@ -174,9 +174,7 @@ button:active { filter: brightness(0.92); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* Label style: metadata, small headings, the quiet half of any pair. */
-.links__kicker, .years__label, .years__count,
-.places__hood, .places__kicker, .places__tied, .film__header span, .film__times,
-.map__note, .film__transcript h3 {
+.years__label, .years__count {
   font-size: calc(19 * var(--px));
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -322,6 +320,56 @@ button:active { filter: brightness(0.92); }
 .lensbar__theme[data-next='dark'] .lensbar__swatch { background: #121211; }
 .lensbar__restart { display: flex; flex: 0 0 200px; align-items: center; justify-content: center; padding: 0 24px; color: var(--muted); font-size: 20px; font-weight: 600; }
 
+/* ------------------------------------------------------------------ connections */
+
+/* The lines between faces, under them, drawn on the same zoom and pan. */
+.wall__arcs { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.wall__arcs path { fill: none; stroke-linecap: round; transition: opacity 500ms; }
+.wall__label[data-wrap] { white-space: normal; text-wrap: balance; }
+.wall__chip { padding: 0 6px; background: color-mix(in srgb, var(--ground) 86%, transparent); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.tile[data-ring='focus'] img { outline: 3px solid var(--lens); outline-offset: -3px; }
+
+/* A place: a green square with how many people are tied to it. */
+.wall__place { position: absolute; left: 0; top: 0; z-index: 7; display: grid; place-items: center; padding: 0; border: 0; background: var(--places); transition: transform 900ms var(--ease), width 400ms, height 400ms; }
+.wall__place span { display: grid; place-items: center; background: #121211; color: var(--places); font-weight: 700; pointer-events: none; }
+.wall__place[data-focus] { outline: 4px solid var(--ink); outline-offset: 3px; }
+
+/* Zoom, and back to the centre, for a map. */
+.field__zoom { position: absolute; right: 0; bottom: 0; z-index: 12; display: flex; flex-direction: column; align-items: stretch; border: 1px solid var(--rule-dim); background: var(--ground); }
+.field__zoom button { width: 72px; height: 64px; border: 0; background: transparent; color: var(--ink); font-size: 34px; line-height: 1; }
+.field__zoom > span { padding: 4px 0; border-top: 1px solid var(--rule-dim); border-bottom: 1px solid var(--rule-dim); color: var(--muted); font-size: 15px; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
+.field__centre { display: grid; place-items: center; border-top: 1px solid var(--rule-dim) !important; color: var(--muted) !important; }
+.field__centre span { width: 22px; height: 22px; border: 3px solid currentColor; border-radius: 50%; box-shadow: inset 0 0 0 4px var(--ground), inset 0 0 0 10px currentColor; }
+.field__centre[data-away] { background: var(--ink) !important; color: var(--ground) !important; }
+.field__centre[data-away] span { box-shadow: inset 0 0 0 4px var(--ink), inset 0 0 0 10px currentColor; }
+
+/* The walk so far, along the top. */
+.trail { position: absolute; left: 0; top: 0; z-index: 12; display: flex; align-items: center; }
+.trail__label { margin-right: 14px; color: var(--muted); font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.trail__step { display: flex; align-items: center; }
+.trail__join { width: 18px; height: 2px; background: var(--ink-soft); }
+.trail button { width: 52px; height: 52px; padding: 0; border: 0; background: var(--rule) center / cover no-repeat; }
+.trail button[aria-current] { outline: 3px solid var(--lens); outline-offset: -3px; }
+.trail__note { position: absolute; right: 0; top: 0; z-index: 12; max-width: 360px; margin: 0; padding: 10px 14px; border: 1px solid var(--rule-dim); background: var(--ground); color: var(--ink-soft); font-size: 19px; line-height: 1.35; pointer-events: none; }
+
+/* A layer: its line as a swatch, and how many there are. */
+.chip--layer { color: var(--muted); }
+.chip--layer[aria-pressed='true'] { border-color: var(--layer); background: var(--ground); color: var(--ink); }
+.chip__swatch { width: 28px; height: 0; border-top: 3px solid var(--layer); }
+.chip__swatch[data-dash] { border-top-style: dotted; }
+.chip__count { color: var(--muted); font-weight: 500; }
+
+/* A person's ties, and a place's people, in the sheet. */
+.sheet__teaser[data-short] { flex: none; -webkit-line-clamp: 3; line-clamp: 3; }
+.sheet__kicker--place { color: var(--places-ink); }
+.sheet__ties-list { min-height: 0; margin: 20px 0 0; padding: 0; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--rule-dim); list-style: none; }
+.sheet__ties-list li { border-bottom: 1px solid var(--rule-dim); }
+.sheet__ties-list li > * { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 76px; padding: 8px 0; border: 0; background: transparent; color: var(--ink); text-align: left; }
+.sheet__tie-face { flex: none; width: 56px; height: 56px; background: var(--rule) center / cover no-repeat; }
+.sheet__tie-face[data-kind='place'] { background: var(--places); }
+.sheet__tie-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; font-size: 17px; }
+.sheet__tie-text strong { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+
 /* ------------------------------------------------------------------ search */
 
 .lensbar__search { position: relative; display: flex; flex: 0 0 280px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; min-width: 0; padding: 0 36px; color: var(--ink); text-align: left; transition: background 300ms, color 300ms; }
@@ -377,8 +425,6 @@ button:active { filter: brightness(0.92); }
 .field--panel .tile img { width: 100%; height: auto; aspect-ratio: 1; }
 .field--panel .tile--tall img { aspect-ratio: 3 / 4; }
 .field--panel .tile[aria-pressed='true'] img { outline: 4px solid var(--lens-ink); outline-offset: -4px; }
-/* Places lists every place at once; in this frame each row is a little shorter. */
-.field--panel .places__index li { min-height: 56px; }
 .field--panel .tile .caption { display: -webkit-box; min-height: 2.4em; margin-top: 12px; overflow: hidden; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 
 /* ------------------------------------------------------------------ dialogs */
@@ -448,83 +494,6 @@ dialog.film { background: #000; }
 .story__next-name { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
 .story__arrow { flex: none; font-size: 30px; }
 
-/* --------------------------------------------------------------- Connections
-
-   Ties are SVG beneath; people are real buttons above it, so a touch target
-   stays a touch target and the tab order is the document's. Positions come
-   from `connectionMap` as percentages, and one animation loop moves the lines
-   and the portraits together. Nothing moves once it has arrived. */
-
-.links { display: grid; grid-template-columns: minmax(0, 1fr) calc(600 * var(--px)); height: 100%; }
-
-.map { position: relative; min-height: 0; padding: calc(24 * var(--px)); }
-.map__note { position: absolute; top: calc(24 * var(--px)); left: calc(40 * var(--px)); margin: 0; }
-.map__field { position: relative; height: 100%; min-height: calc(600 * var(--px)); }
-.map__ties { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.map__rim { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 10; opacity: 0.14; vector-effect: non-scaling-stroke; }
-.map__tie { stroke: var(--ink); stroke-width: 1; opacity: 0.18; vector-effect: non-scaling-stroke; }
-.map__tie--focus { stroke: var(--lens-links-ink); stroke-width: 4; opacity: 1; }
-/* Proposed ties are dashed and never take a lens colour, so an editor cannot
-   mistake one for a reviewed claim at a glance. */
-.map__tie--unreviewed { stroke: var(--unreviewed); stroke-dasharray: 3 3; opacity: 0.55; }
-.map__tie--unreviewed.map__tie--focus { stroke: var(--unreviewed); stroke-width: 2; opacity: 0.95; }
-.map__label--unreviewed { color: var(--unreviewed) !important; font-style: italic; }
-/* Context is the quietest line on the map: fine dots in the muted ink. It says
-   two people appear together in a record, and nothing about what passed
-   between them. */
-.map__tie--context { stroke: var(--muted); stroke-dasharray: 1 3; stroke-linecap: round; opacity: 0.5; }
-.map__tie--context.map__tie--focus { stroke: var(--muted); stroke-width: 2; opacity: 0.9; }
-.map__label--context { color: var(--muted) !important; font-style: italic; }
-
-.map__person { position: absolute; translate: -50% -50%; display: block; padding: 0; border: 0; background: transparent; line-height: 0; }
-.map__person:focus-visible { outline-offset: 3px; }
-.map__portrait { display: block; overflow: hidden; border: 3px solid var(--ink); background: var(--rule-soft); }
-.map__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
-
-/* Hung below the portrait, centred, and out of the node's own box. Name and
-   label share one block, so however either wraps they stack, never overlap. */
-.map__caption { position: absolute; top: calc(100% + calc(8 * var(--px))); left: 50%; translate: -50% 0; display: flex; flex-direction: column; gap: calc(4 * var(--px)); width: max-content; max-width: calc(260 * var(--px)); pointer-events: none; line-height: 1.15; text-align: center; text-wrap: balance; }
-.map__name { font-size: calc(24 * var(--px)); font-weight: 700; letter-spacing: -0.02em; }
-.map__label { color: var(--lens-links-ink); font-size: calc(17 * var(--px)); }
-/* Above the centre line the caption goes above the portrait, so it never falls
-   across whoever is at the middle. */
-.map__person--nameup .map__caption { top: auto; bottom: calc(100% + calc(8 * var(--px))); }
-
-/* Size carries the ring, so the arrangement reads at a glance without relying on colour. */
-.map__person--focus .map__portrait { width: calc(220 * var(--px)); aspect-ratio: 1; border: 5px solid var(--lens-links-ink); }
-.map__person--focus .map__portrait img { filter: none; }
-.map__person--focus .map__name { font-size: calc(27 * var(--px)); font-weight: 600; }
-.map__person--focus .map__caption { top: calc(100% + calc(10 * var(--px))); bottom: auto; }
-.map__person--tie .map__portrait { width: calc(130 * var(--px)); aspect-ratio: 1; }
-.map__person--cluster .map__portrait { width: calc(64 * var(--px)); aspect-ratio: 1; opacity: 0.7; border-width: 2px; }
-.map__person--elsewhere .map__portrait { width: calc(56 * var(--px)); aspect-ratio: 1; opacity: 0.45; border: 2px solid var(--muted-2); }
-/* The centre and the people it touches sit above the crowd, and their words stay legible over it. */
-.map__person--focus, .map__person--tie { z-index: 1; }
-.map__person--focus { z-index: 2; }
-.map__caption > span { padding: 0 calc(6 * var(--px)); background: color-mix(in srgb, var(--ground) 82%, transparent); }
-/* The outer two rings stay silent until they are reached for. */
-.map__person--cluster .map__caption, .map__person--elsewhere .map__caption { opacity: 0; transition: opacity 120ms; }
-.map__person--cluster:focus-visible .map__caption, .map__person--elsewhere:focus-visible .map__caption { opacity: 1; }
-/* However small a portrait is drawn, the thing a finger has to hit is not. */
-.map__person::after { content: ''; position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: max(100%, var(--tap)); height: max(100%, var(--tap)); }
-
-.links__panel { display: flex; flex-direction: column; min-height: 0; padding: calc(48 * var(--px)) calc(40 * var(--px)) calc(40 * var(--px)); overflow-y: auto; border-left: 2px solid var(--ink); }
-.links__kicker { margin: 0 0 calc(12 * var(--px)); color: var(--lens-links-ink) !important; }
-.links__name { margin: 0; font-size: calc(57 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
-.map__reading { margin: calc(20 * var(--px)) 0 calc(28 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
-.links__ties { margin: 0 0 calc(28 * var(--px)); padding: 0; list-style: none; border-top: 2px solid var(--ink); }
-.links__ties li { border-bottom: 2px solid var(--ink); }
-.links__ties button { display: flex; align-items: center; gap: calc(20 * var(--px)); width: 100%; min-height: calc(104 * var(--px)); padding: calc(16 * var(--px)) 0; border: 0; background: transparent; text-align: left; }
-.links__ties img { width: calc(72 * var(--px)); height: calc(72 * var(--px)); object-fit: cover; filter: grayscale(1); }
-.links__ties span { display: flex; flex-direction: column; gap: calc(4 * var(--px)); min-width: 0; }
-.links__label { color: var(--muted); font-size: calc(19 * var(--px)); }
-.links__ties strong { font-size: calc(28 * var(--px)); font-weight: 700; letter-spacing: -0.02em; }
-.map__open { --lens: var(--lens-links); margin-top: auto; }
-.map__layer { display: flex; gap: calc(14 * var(--px)); align-items: center; min-height: var(--tap); margin-bottom: calc(12 * var(--px)); color: var(--unreviewed); font-size: calc(20 * var(--px)); }
-.map__layer--context { color: var(--muted); }
-.map__layer input { width: calc(32 * var(--px)); height: calc(32 * var(--px)); accent-color: var(--unreviewed); }
-.map__layer--context input { accent-color: var(--muted); }
-
 /* ------------------------------------------------------------------ Years */
 
 .years { display: grid; grid-template-rows: minmax(0, 1fr) calc(112 * var(--px)); height: 100%; }
@@ -541,35 +510,9 @@ dialog.film { background: #000; }
 .years__strip button:first-child { border-left: 0; }
 .years__strip button[aria-current='true'] { background: var(--lens-years); color: var(--on-lens); }
 
-/* ------------------------------------------------------------------ Places */
+/* ------------------------------------------------------------------ chosen */
 
-.places { display: grid; grid-template-columns: calc(720 * var(--px)) minmax(0, 1fr); height: 100%; }
-.places__index { display: flex; flex-direction: column; min-height: 0; border-right: 2px solid var(--ink); }
-.places__note { margin: 0; padding: calc(16 * var(--px)) calc(40 * var(--px)); border-bottom: 2px solid var(--ink); color: var(--muted); font-size: calc(19 * var(--px)); }
-.places__index ul { display: flex; flex: 1; flex-direction: column; min-height: 0; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
-/* Every place in reach at once: the rows share the column's height, the name on
-   the left and its neighbourhood on the right, down to the tap floor. Only a
-   list longer than the column scrolls. */
-.places__index li { display: flex; flex: 1 1 0; min-height: max(var(--tap), calc(64 * var(--px))); border-bottom: 2px solid var(--ink); }
-.places__index button { display: flex; align-items: baseline; justify-content: space-between; gap: calc(20 * var(--px)); width: 100%; padding: calc(10 * var(--px)) calc(40 * var(--px)); border: 0; background: transparent; text-align: left; }
-.places__index button > * { align-self: center; }
-.places__hood { flex: none; }
-.places__index button[aria-current='true'] { background: var(--lens-places); color: var(--on-lens); }
-.places__index button[aria-current='true'] .places__hood { color: var(--on-lens); }
-.places__name { font-size: calc(36 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
-/* The words and the people scroll; the chosen person's bar stays in reach at the foot. */
-.places__place { display: flex; flex-direction: column; gap: calc(20 * var(--px)); min-height: 0; padding: calc(40 * var(--px)) calc(48 * var(--px)); }
-.places__place > * { flex: none; }
-.places__place > .places__people { flex: 0 1 auto; min-height: 0; overflow-y: auto; }
-.places__kicker { margin: 0; color: var(--lens-places-ink) !important; }
-.places__place h2 { margin: 0; font-size: calc(69 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
-.places__history { max-width: calc(960 * var(--px)); margin: 0; color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.42; text-wrap: pretty; }
-.places__tied { margin: calc(12 * var(--px)) 0 0; padding-top: calc(16 * var(--px)); border-top: 2px solid var(--ink); }
-.places__people { display: grid; grid-template-columns: repeat(auto-fill, calc(150 * var(--px))); gap: calc(20 * var(--px)); margin: 0; padding: 0; list-style: none; }
-.places__people .caption { white-space: normal; font-size: calc(20 * var(--px)); }
-.places__pending { margin: 0; color: var(--muted); font-size: calc(24 * var(--px)); }
-
-/* The person chosen in Places or Years, and the way into their record. */
+/* The person chosen in Years, and the way into their record. */
 .chosen { display: flex; flex-direction: column; gap: calc(16 * var(--px)); margin-bottom: auto; }
 .chosen__name { margin: 0; color: var(--ink); text-transform: none; letter-spacing: -0.04em; font-size: calc(48 * var(--px)); font-weight: 600; line-height: 1; overflow-wrap: anywhere; }
 .chosen--bar { flex-direction: row; align-items: center; justify-content: space-between; margin: auto 0 0; padding-top: calc(20 * var(--px)); border-top: 2px solid var(--ink); }

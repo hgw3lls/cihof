@@ -135,3 +135,31 @@ test('a website has no attract screen', () => {
   assert.equal(state.mode, 'explore');
   assert.equal(exhibitReducer(run(state, { type: 'select', personId: 'alex' }), { type: 'reset' }).mode, 'explore');
 });
+
+test('in Connections each person chosen is a step on a walk, and going back to one shortens it', () => {
+  let state = run(initialState(), { type: 'select', personId: 'a' }, { type: 'lens', lens: 'links' });
+  assert.deepEqual(state.trail, ['a'], 'the walk starts from whoever was chosen');
+  state = run(state, { type: 'select', personId: 'b' }, { type: 'select', personId: 'c' });
+  assert.deepEqual(state.trail, ['a', 'b', 'c']);
+  state = exhibitReducer(state, { type: 'select', personId: 'b' });
+  assert.deepEqual(state.trail, ['a', 'b']);
+  state = exhibitReducer(state, { type: 'clear-selection' });
+  assert.deepEqual(state.trail, []);
+  for (let index = 0; index < 20; index += 1) state = exhibitReducer(state, { type: 'select', personId: `p${index}` });
+  assert.equal(state.trail.length, 12, 'a walk keeps its last twelve steps');
+});
+
+test('a place at the centre, the view by place, and the layers', () => {
+  let state = run(initialState(), { type: 'link-layer', layer: 'places' });
+  assert.equal(state.linkLayers.includes('places'), false);
+  state = exhibitReducer(state, { type: 'place', placeId: 'place:x' });
+  assert.equal(state.lens, 'links');
+  assert.equal(state.placeId, 'place:x');
+  assert.equal(state.linkLayers.includes('places'), true, 'a place brings its layer back on');
+  state = exhibitReducer(state, { type: 'select', personId: 'a' });
+  assert.equal(state.placeId, null, 'a person at the centre replaces the place');
+  state = exhibitReducer(state, { type: 'link-view', view: 'places' });
+  assert.equal(state.linkView, 'places');
+  assert.equal(state.selectedId, null);
+  assert.deepEqual(exhibitReducer(state, { type: 'reset' }), initialState());
+});

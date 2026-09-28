@@ -1,17 +1,20 @@
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState, type CSSProperties } from 'react';
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
 import { connectionNodes, inductionClasses } from '../state/selectors.ts';
-import { field, peopleLayout, railLetters, type Arrangement } from '../state/wall.ts';
+import { field, homeView, peopleLayout, railLetters, type Arrangement, type View } from '../state/wall.ts';
 import { Stage } from './Stage.tsx';
 import { Wall } from './Wall.tsx';
-import { PairSheet, PersonSheet } from './Sheet.tsx';
+import { PairSheet, PersonSheet, PlaceSheet, type TieLine } from './Sheet.tsx';
+import { Trail } from './Trail.tsx';
+import {
+  diagramLayout, layer, layerCounts, layerOfTie, layers as linkLayers, nodesFor, placesLayout, tieWording,
+  type LayerId,
+} from '../state/connections.ts';
 import { Search } from './Search.tsx';
 import { useFilmWords } from './useFilmWords.ts';
 import { buildIndex, search } from '../state/search.ts';
 import { Years } from './Years.tsx';
-import { Links } from './Links.tsx';
-import { Places } from './Places.tsx';
 import { Record } from './Record.tsx';
 import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
@@ -84,8 +87,6 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const attractSettings = useMemo(() => readAttractSettings(window.location.search), []);
   const [attractMode, setAttractMode] = useState(attractSettings.mode);
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme ?? 'dark') as Theme);
-  // A place a search found, for Places to open on.
-  const [placeFocus, setPlaceFocus] = useState<string | null>(null);
   // The list of a person's films starts open; closed, it stays closed for the visit.
   const [filmListOpen, setFilmListOpen] = useState(true);
 
@@ -93,7 +94,9 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const relationships = bundle.relationships;
   const contexts = bundle.contexts ?? [];
   const places = bundle.places;
-  const offered = bundle.lenses.length > 0 ? bundle.lenses : ['people'];
+  // Places is a layer of Connections now, not a lens of its own.
+  const offered = (bundle.lenses.length > 0 ? bundle.lenses : ['people']).filter((lens) => lens !== 'places');
+  const candidates = bundle.candidates ?? [];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
   const classes = useMemo(() => inductionClasses(people), [people]);
   const letters = useMemo(() => railLetters(people), [people]);
@@ -123,7 +126,6 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
-    setPlaceFocus(null);
     setFilmListOpen(true);
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
@@ -177,13 +179,14 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     ? () => dispatch({ type: 'lens', lens: 'links' })
     : undefined;
 
-  // The wall and the sheet belong to People for now; the other lenses keep
-  // their own panels until they move onto the wall too.
-  const onWall = state.lens === 'people';
-  const searching = onWall && state.search.open;
+  // People and Connections are the wall; Years keeps its own panel until its stage.
+  const linking = state.lens === 'links';
+  const onWall = state.lens === 'people' || linking;
+  const searching = state.lens === 'people' && state.search.open;
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
+  const focusPlace = linking && state.placeId ? places.find((place) => place.id === state.placeId) ?? null : null;
   const pair = state.pair ? state.pair.map((id) => byId.get(id)).filter((person) => person !== undefined) : [];
-  const sheetOpen = onWall && !searching && (selected !== null || pair.length === 2);
+  const sheetOpen = onWall && !searching && (selected !== null || pair.length === 2 || focusPlace !== null);
   const width = searching ? field.widthWithSearch : sheetOpen ? field.widthWithSheet : field.width;
   // Faces lit on the wall: the people a search is finding as it is typed, or
   // those it found once it is closed.
@@ -191,10 +194,47 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     if (searching) return state.search.query.trim() ? new Set(results.people.map((hit) => hit.person.id)) : null;
     return state.spotlight ? new Set(state.spotlight.personIds) : null;
   }, [searching, state.search.query, results, state.spotlight]);
+  const on = useMemo(() => new Set<LayerId>(state.linkLayers), [state.linkLayers]);
+  // Connections is arranged for the zoom and pan the visitor has, so it is a
+  // function of the view the wall hands it.
+  const linksAt = useCallback((view: View) => {
+    const input = { people, relationships, contexts, candidates, places, on, width };
+    return state.linkView === 'places'
+      ? placesLayout({ ...input, selectedId: state.selectedId })
+      : diagramLayout({
+        ...input, focusId: state.selectedId, placeId: state.placeId, view,
+        keepClear: { top: state.trail.length > 1 ? 64 : 0, right: 84 },
+      });
+  }, [people, relationships, contexts, candidates, places, on, width, state.linkView, state.selectedId, state.placeId, state.trail.length]);
   const layout = useMemo(
-    () => peopleLayout(people, state.arrangement, width, state.letter, lit, !searching),
-    [people, state.arrangement, width, state.letter, lit, searching],
+    () => (linking ? linksAt(homeView) : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
+    [linking, linksAt, people, state.arrangement, width, state.letter, lit, searching],
   );
+  const counts = useMemo(() => layerCounts({ relationships, contexts, candidates, places }), [relationships, contexts, candidates, places]);
+  // A person's ties in Connections, as the sheet lists them: their places,
+  // who presented them when that was not somebody in the hall, then everybody
+  // their ties reach, those who welcomed them in first.
+  const tieLines = useMemo((): TieLine[] => {
+    if (!linking || !selected) return [];
+    const theirPlaces = places.filter((place) => (place.personIds ?? []).includes(selected.id));
+    const node = nodesFor({ people, relationships, contexts, candidates, on }).find((each) => each.person.id === selected.id);
+    return [
+      ...theirPlaces.map((place) => ({
+        key: place.id, name: place.name, place: true, color: 'var(--places-ink)',
+        label: `Tied to this place · ${Math.max(0, (place.personIds ?? []).length - 1)} others here`,
+        onClick: () => dispatch({ type: 'place', placeId: place.id }),
+      })),
+      ...(selected.presentedBy && !selected.presentedBy.inducteeId
+        ? [{ key: 'presented', name: selected.presentedBy.recordedName, label: 'Presented them to the Hall', color: 'var(--muted)' }]
+        : []),
+      ...(node?.ties ?? []).slice()
+        .sort((a, b) => (layerOfTie(a) === 'inducted' ? 0 : 1) - (layerOfTie(b) === 'inducted' ? 0 : 1))
+        .map((tie) => ({
+          key: tie.connectionId, name: tie.other.name, person: tie.other, label: tieWording(tie), color: layer(layerOfTie(tie)).stroke,
+          onClick: () => select(tie.other.id),
+        })),
+    ];
+  }, [linking, selected, places, people, relationships, contexts, candidates, on]);
   // "Next story" walks the wall in the order it is arranged in now.
   const nextAfter = (personId: string) => {
     const order = layout.order;
@@ -213,8 +253,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     label: lensLabels[lens] ?? lens,
     sub: lens === 'people' ? `${people.length} faces, all at once`
       : lens === 'years' ? `${classes.length} ${classes.length === 1 ? 'class' : 'classes'}`
-      : lens === 'links' ? `follow a thread · ${places.length} places as a layer`
-      : `${places.length} ${places.length === 1 ? 'place' : 'places'}`,
+      : `follow a thread · ${places.length} places as a layer`,
   }));
 
   return (
@@ -245,13 +284,24 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   ? (
                     <Wall
                       people={people}
-                      layout={layout}
+                      layout={linking ? linksAt : layout}
                       width={width}
+                      mode={linking ? 'map' : 'wall'}
+                      onPlace={(placeId) => dispatch({ type: 'place', placeId })}
+                      overlay={linking && state.linkView === 'diagram'
+                        ? (
+                          <Trail
+                            people={state.trail.map((id) => byId.get(id)).filter((person) => person !== undefined)}
+                            note={selected?.presentedBy && !selected.presentedBy.inducteeId ? `Presented to the Hall by ${selected.presentedBy.recordedName}.` : ''}
+                            onStep={select}
+                          />
+                        )
+                        : null}
                       selectedId={state.selectedId}
                       pair={state.pair}
                       letters={letters}
                       letter={state.letter}
-                      viewKey={state.lens}
+                      viewKey={`${state.lens}:${state.linkView}`}
                       onSelect={select}
                       onClear={() => dispatch({ type: 'clear-selection' })}
                       onPair={(personIds) => dispatch({ type: 'pair', personIds })}
@@ -261,26 +311,37 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   )
                   : (
                     <div className="field field--panel">
-                      {state.lens === 'places'
-                        ? <Places key={placeFocus ?? ''} places={places} people={people} selectedId={state.selectedId} placeId={placeFocus} onSelect={select} onOpen={open} />
-                        : state.lens === 'links'
-                        ? (
-                          <Links
-                            people={people}
-                            relationships={relationships}
-                            contexts={contexts}
-                            candidates={bundle.candidates ?? []}
-                            selectedId={state.selectedId}
-                            onSelect={select}
-                            onOpen={open}
-                          />
-                        )
-                        : <Years people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />}
+                      <Years people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />
                     </div>
                   )}
               </main>
 
-              {onWall && (
+              {linking && (
+                <div className="chips" style={{ width }}>
+                  {linkLayers.filter((each) => each.id !== 'proposed' || candidates.length > 0).map((each) => {
+                    // "Same place" is the way into the city by place, as well as a layer.
+                    const pressed = each.id === 'places' ? state.linkView === 'places' : state.linkLayers.includes(each.id);
+                    return (
+                      <button
+                        key={each.id}
+                        type="button"
+                        className="chip chip--layer"
+                        aria-pressed={pressed}
+                        style={{ '--layer': each.stroke } as CSSProperties}
+                        onClick={() => (each.id === 'places'
+                          ? dispatch({ type: 'link-view', view: state.linkView === 'places' ? 'diagram' : 'places' })
+                          : dispatch({ type: 'link-layer', layer: each.id }))}
+                      >
+                        <span className="chip__swatch" data-dash={each.dash === 'none' ? undefined : 'true'} aria-hidden="true" />
+                        {each.label}
+                        <span className="chip__count">{counts[each.id]}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {state.lens === 'people' && (
                 <div className="chips" style={{ width }}>
                   {state.spotlight && !searching && (
                     <button type="button" className="chip chip--lit" onClick={() => dispatch({ type: 'clear-spotlight' })} aria-label={`Clear ${state.spotlight.label}`}>
@@ -324,10 +385,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                       type: 'close-search',
                       spotlight: { label: hit.label, personIds: hit.people.map((person) => person.id) },
                     })}
-                    onPlace={(place) => {
-                      setPlaceFocus(place.id);
-                      dispatch({ type: 'lens', lens: 'places' });
-                    }}
+                    onPlace={(place) => dispatch({ type: 'place', placeId: place.id })}
                     onFilm={(hit) => dispatch({ type: 'play-film', personId: hit.person.id, filmId: hit.filmId, at: hit.at })}
                     onClose={closeSearch}
                   />
@@ -346,11 +404,21 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                       onClose={() => dispatch({ type: 'clear-selection' })}
                     />
                   )
+                  : sheetOpen && focusPlace
+                  ? (
+                    <PlaceSheet
+                      place={focusPlace}
+                      people={(focusPlace.personIds ?? []).map((id) => byId.get(id)).filter((person) => person !== undefined)}
+                      onPerson={select}
+                      onClose={() => dispatch({ type: 'clear-selection' })}
+                    />
+                  )
                   : sheetOpen && selected
                   ? (
                     <PersonSheet
                       person={selected}
                       ties={tieCounts.get(selected.id) ?? 0}
+                      {...(linking ? { tieLines } : {})}
                       onClose={() => dispatch({ type: 'clear-selection' })}
                       onStory={() => open(selected.id)}
                       onFilm={() => {
@@ -467,9 +535,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   );
 }
 
-/** The header for a lens not yet on the wall, from the published counts. */
-function lensHeading(lens: string, bundle: RuntimeBundle, classes: number): { title: string; subtitle: string } {
-  if (lens === 'years') return { title: 'Years', subtitle: `${classes} ${classes === 1 ? 'class' : 'classes'} · touch a year below` };
-  if (lens === 'links') return { title: 'Connections', subtitle: 'touch anyone to bring them to the centre' };
-  return { title: 'Places', subtitle: `${bundle.places.length} ${bundle.places.length === 1 ? 'place' : 'places'} in Greater Cleveland` };
+/** The header for Years, still on its own panel, from the published counts. */
+function lensHeading(_lens: string, _bundle: RuntimeBundle, classes: number): { title: string; subtitle: string } {
+  return { title: 'Years', subtitle: `${classes} ${classes === 1 ? 'class' : 'classes'} · touch a year below` };
 }

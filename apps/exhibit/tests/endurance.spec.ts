@@ -2,6 +2,11 @@ import { expect, test } from '@playwright/test';
 import { measure, startMeasuring, summarise, visit, type Sample } from './endurance/visit.ts';
 import { chooseSomeoneWithFilm } from './visit.ts';
 
+// A test build ends a visit after a couple of idle seconds, less than the
+// wall takes to settle, so these run without motion. `npm run endurance`
+// keeps the motion, with the display's real timings.
+test.beforeEach(async ({ page }) => { await page.emulateMedia({ reducedMotion: 'reduce' }); });
+
 /**
  * The visits `npm run endurance` repeats for hours, run a few times here so
  * that they keep up with the exhibit: a visit that can no longer find a
