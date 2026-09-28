@@ -123,7 +123,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     await page.locator('#recordTitle').waitFor({ state: 'visible', timeout: step });
     opened = (await page.locator('#recordTitle').textContent())?.trim() ?? null;
 
-    const watch = page.locator('dialog.record').getByRole('button', { name: /^Watch (the film|film 1)/ });
+    const watch = page.locator('dialog.record').getByRole('button', { name: /^Watch (the film|\d+ films)/ });
     if (options.films !== false && index % 2 === 0 && await watch.count() > 0) {
       await watch.first().click({ timeout: step });
       await page.locator('dialog.film').waitFor({ state: 'visible', timeout: step });

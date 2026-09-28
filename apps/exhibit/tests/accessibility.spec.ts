@@ -69,8 +69,12 @@ for (const theme of ['dark', 'light'] as const) {
     });
 
     test('a record, and its film', async ({ page }) => {
+      // Scanning a whole story takes longer than a test build's idle; the
+      // clock is held so the visit is not ended under the scan.
+      await page.clock.install();
       await begin(page, `./?theme=${theme}`);
       await openRecordWithFilm(page);
+      await page.clock.setFixedTime(await page.evaluate(() => Date.now()));
       expect(await scan(page)).toEqual([]);
       await page.locator('dialog.record').getByRole('button', { name: /Watch the film/ }).click();
       await expect(page.locator('dialog.film')).toBeVisible();

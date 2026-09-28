@@ -192,6 +192,13 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     () => peopleLayout(people, state.arrangement, width, state.letter, lit, !searching),
     [people, state.arrangement, width, state.letter, lit, searching],
   );
+  // "Next story" walks the wall in the order it is arranged in now.
+  const nextAfter = (personId: string) => {
+    const order = layout.order;
+    const at = order.indexOf(personId);
+    const id = order[(at + 1) % order.length];
+    return id && id !== personId ? byId.get(id) ?? null : null;
+  };
   const heading = searching
     ? { title: 'Search', subtitle: 'names, stories, places, and what is said in the films' }
     : onWall && state.spotlight
@@ -395,7 +402,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       {recordPerson && (
         <Record
           person={recordPerson}
+          next={nextAfter(recordPerson.id)}
+          ties={tieCounts.get(recordPerson.id) ?? 0}
           onClose={() => dispatch({ type: 'close-detail' })}
+          onNext={open}
           {...(bundle.continuationBase
             ? { onShare: () => dispatch({ type: 'open-share', personId: recordPerson.id }) }
             : {})}
