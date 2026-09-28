@@ -172,3 +172,18 @@ test('touching a year shows that class and lets go of whoever was chosen', () =>
   assert.equal(state.selectedId, null);
   assert.equal(exhibitReducer(state, { type: 'reset' }).year, null);
 });
+
+test('a tour walks People from its first person, step by step, and ends when asked or when the lens changes', () => {
+  const tour = { id: 't', label: 'A tour', prompt: 'Testing', description: '', personIds: ['a', 'b', 'c'] };
+  let state = run(initialState(), { type: 'lens', lens: 'years' }, { type: 'start-tour', tour });
+  assert.equal(state.lens, 'people');
+  assert.equal(state.selectedId, 'a');
+  state = exhibitReducer(state, { type: 'tour-step', step: 5 });
+  assert.equal(state.tourStep, 2, 'a step past the end stops at the last person');
+  assert.equal(state.selectedId, 'c');
+  state = exhibitReducer(state, { type: 'select', personId: 'b' });
+  assert.equal(state.tourStep, 1, 'touching one of its people moves the tour to them');
+  assert.equal(exhibitReducer(state, { type: 'end-tour' }).tour, null);
+  assert.equal(exhibitReducer(state, { type: 'lens', lens: 'links' }).tour, null);
+  assert.equal(exhibitReducer(initialState(), { type: 'start-tour', tour: { ...tour, personIds: [] } }).tour, null, 'an empty tour does not start');
+});

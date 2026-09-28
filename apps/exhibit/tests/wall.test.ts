@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { clampPan, field, homeView, peopleLayout, railLetters, tileFrame, yearsLayout, zoomAbout, type Slot } from '../src/state/wall.ts';
+import { clampPan, field, homeView, peopleLayout, railLetters, tileFrame, tourLayout, yearsLayout, zoomAbout, type Slot } from '../src/state/wall.ts';
 import type { RuntimePerson } from '../src/data/runtime.ts';
 
 const person = (id: string, sortName: string, classYear: number | null = 2010, communities: string[] = ['Serbian']): RuntimePerson => ({
@@ -121,4 +121,19 @@ test('Years shows one class beside its year, the chosen person’s, and the rest
   const frame = tileFrame({ slot: theirs.slots.get('a')!, person: classes[0]!, selected: true, held: false, pull: null, view: homeView, width: field.width });
   assert.equal(frame.scale * 100, theirs.slots.get('a')!.size, 'a face already named is not enlarged when chosen');
   assert.equal(frame.plate, '');
+});
+
+test('a tour sits between its frames, however narrow the field', () => {
+  const tour = everyone.slice(0, 17).map((p) => p.id);
+  for (const width of [field.width, field.widthWithSheet]) {
+    const layout = tourLayout(everyone, tour, 'Newcomer Support', width);
+    const framed = [...layout.slots.entries()].filter(([id]) => !tour.includes(id)).map(([, slot]) => slot);
+    const frameRight = Math.max(...framed.filter((slot) => slot.x < width / 2).map((slot) => slot.x + slot.size));
+    const frameLeft = Math.min(...framed.filter((slot) => slot.x > width / 2).map((slot) => slot.x));
+    for (const id of tour) {
+      const slot = layout.slots.get(id)!;
+      assert.ok(slot.x > frameRight && slot.x + slot.size < frameLeft, `${id} between the frames at ${width}`);
+    }
+    assert.ok(layout.labels[0]!.x > frameRight, 'the tour name is on the field');
+  }
 });

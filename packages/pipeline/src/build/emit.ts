@@ -23,6 +23,7 @@ import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from '
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
 import { publishedAttractText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
+import { publishedTours, type RuntimeTour, type StoredTours } from './tours.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -74,6 +75,11 @@ export type RuntimeBundle = {
    * hall's name alone.
    */
   readonly attract: AttractText | null;
+  /**
+   * Curated tours a curator has approved, with the people each visits. An
+   * editor's preview also carries the drafts, marked.
+   */
+  readonly tours: readonly RuntimeTour[];
   /**
    * What is holding the withheld film holdings back, counted by prerequisite.
    * A release should be able to say why a wall is silent.
@@ -165,6 +171,8 @@ export type BundleSources = {
   readonly exhibitText?: StoredExhibitText;
   /** Approved film start times, injectable for tests. */
   readonly filmStarts?: StoredFilmStarts;
+  /** The curated tours, injectable for tests. */
+  readonly tours?: StoredTours;
 };
 
 export function buildRuntimeBundle(
@@ -291,6 +299,7 @@ export function buildRuntimeBundle(
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
     attract: publishedAttractText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
+    tours: publishedTours(runtimePeople, { preview, ...(sources.tours ? { stored: sources.tours } : {}) }),
     filmReport: { held, blockedBy, delivery },
     contributionReport: {
       published: contributions.length,

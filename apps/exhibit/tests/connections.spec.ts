@@ -43,7 +43,8 @@ test('touching a tie walks to that person, and the walk is kept along the top', 
   const nextName = (await next.getAttribute('aria-label'))!.split(',')[0]!;
   await next.click();
   const trail = page.getByRole('navigation', { name: 'Your thread' });
-  await expect(trail.getByRole('button')).toHaveCount(2);
+  await expect(trail.locator('.trail__step button')).toHaveCount(2);
+  await expect(trail.getByRole('button', { name: 'Save this thread' })).toBeVisible();
   await expect(trail.getByRole('button', { name: nextName })).toHaveAttribute('aria-current', 'step');
 
   // Back along it.

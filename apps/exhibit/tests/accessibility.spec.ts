@@ -68,6 +68,13 @@ for (const theme of ['dark', 'light'] as const) {
       expect(await scan(page)).toEqual([]);
     });
 
+    test('the tour chooser', async ({ page }) => {
+      await begin(page, `./?theme=${theme}`);
+      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Tour/ }).click();
+      await expect(page.locator('dialog.tours')).toBeVisible();
+      expect(await scan(page)).toEqual([]);
+    });
+
     test('search, with results', async ({ page }) => {
       await begin(page, `./?theme=${theme}`);
       await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Search/ }).click();

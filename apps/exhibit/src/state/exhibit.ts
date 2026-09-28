@@ -44,6 +44,15 @@ export type Spotlight = { readonly label: string; readonly personIds: readonly s
 
 export type Search = { readonly open: boolean; readonly query: string };
 
+/** A walk through the wall one person at a time: a curated tour, or a thread a visitor saved. */
+export type Tour = {
+  readonly id: string;
+  readonly label: string;
+  readonly prompt: string;
+  readonly description: string;
+  readonly personIds: readonly string[];
+};
+
 export type ExhibitState = {
   /** Where a reset lands, fixed for the life of the page. */
   readonly home: Mode;
@@ -66,6 +75,8 @@ export type ExhibitState = {
   readonly trail: readonly string[];
   /** The induction class Years shows, when a visitor has touched one. */
   readonly year: number | null;
+  readonly tour: Tour | null;
+  readonly tourStep: number;
   readonly detail: Detail;
   readonly media: Media;
   readonly history: readonly Restorable[];
@@ -91,6 +102,9 @@ export type ExhibitAction =
   | { type: 'link-layer'; layer: LayerId }
   | { type: 'place'; placeId: string }
   | { type: 'year'; year: number }
+  | { type: 'start-tour'; tour: Tour }
+  | { type: 'tour-step'; step: number }
+  | { type: 'end-tour' }
   | { type: 'open-record'; personId: string }
   | { type: 'open-share'; personId: string }
   | { type: 'close-detail' }
@@ -108,7 +122,7 @@ const closedSearch: Search = { open: false, query: '' };
 export function initialState(home: Mode = 'explore'): ExhibitState {
   return {
     home, mode: home, lens: 'people', selectedId: null, pair: null, arrangement: 'name', letter: null,
-    search: closedSearch, spotlight: null, linkView: 'diagram', linkLayers: defaultLayers, placeId: null, trail: [], year: null, detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
+    search: closedSearch, spotlight: null, linkView: 'diagram', linkLayers: defaultLayers, placeId: null, trail: [], year: null, tour: null, tourStep: 0, detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
   };
 }
 
@@ -127,7 +141,7 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
       // Leaving a lens ends anything playing in it, and a pair belongs to the wall it was made on.
       // Connections opens on whoever was chosen, and their walk starts there.
       return remember(state, {
-        lens: action.lens, pair: null, letter: null, search: closedSearch, spotlight: null,
+        lens: action.lens, pair: null, letter: null, search: closedSearch, spotlight: null, tour: null, tourStep: 0,
         linkView: 'diagram', placeId: null, trail: action.lens === 'links' && state.selectedId ? [state.selectedId] : [],
         detail: { kind: 'none' }, media: { kind: 'none' },
       });
@@ -139,6 +153,8 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
       // going back to one already on it goes back along it.
       return remember(state, {
         selectedId: action.personId, pair: null, placeId: null, search: { ...state.search, open: false },
+        // On a tour, touching one of its people moves the tour to them.
+        ...(state.tour && state.tour.personIds.includes(action.personId) ? { tourStep: state.tour.personIds.indexOf(action.personId) } : {}),
         trail: state.lens === 'links' ? walk(state.trail, action.personId) : state.trail,
         detail: { kind: 'none' }, media: { kind: 'none' },
       });
@@ -199,6 +215,25 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
     case 'year':
       if (state.year === action.year && state.selectedId === null) return state;
       return remember(state, { year: action.year, selectedId: null, pair: null });
+
+    // A tour walks the wall, on People, starting with its first person.
+    case 'start-tour': {
+      const first = action.tour.personIds[0];
+      if (!first) return state;
+      return remember(state, {
+        lens: 'people', tour: action.tour, tourStep: 0, selectedId: first, pair: null, letter: null, placeId: null,
+        search: closedSearch, spotlight: null, detail: { kind: 'none' }, media: { kind: 'none' },
+      });
+    }
+
+    case 'tour-step': {
+      if (!state.tour) return state;
+      const step = Math.min(state.tour.personIds.length - 1, Math.max(0, action.step));
+      return remember(state, { tourStep: step, selectedId: state.tour.personIds[step] ?? null, pair: null });
+    }
+
+    case 'end-tour':
+      return state.tour ? remember(state, { tour: null, tourStep: 0, selectedId: null, pair: null }) : state;
 
     case 'place':
       return remember(state, {

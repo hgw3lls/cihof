@@ -184,6 +184,51 @@ export function yearsLayout(people: readonly RuntimePerson[], width: number, yea
   };
 }
 
+/**
+ * A tour: its people in the middle of the wall, large and in the tour's
+ * order, under its name; everybody else framed small down both sides, so the
+ * wall is still the whole hall.
+ */
+export function tourLayout(people: readonly RuntimePerson[], personIds: readonly string[], label: string, width: number): WallLayout {
+  const byId = new Map(people.map((person) => [person.id, person]));
+  const on = new Set(personIds);
+  const touring = personIds.map((id) => byId.get(id)).filter((person): person is RuntimePerson => person !== undefined);
+  const others = alphabetical(people).filter((person) => !on.has(person.id));
+  const slots = new Map<string, Slot>();
+  const H = field.height;
+
+  // The frame: four columns, two at each side, as many rows as it takes.
+  let frameW = 0;
+  if (others.length > 0) {
+    const rows = Math.ceil(others.length / 4);
+    const cell = Math.min(54, Math.floor(H / rows) - 4);
+    others.forEach((person, index) => {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      const x = col < 2 ? col * (cell + 4) : width - (2 * cell + 4) + (col - 2) * (cell + 4);
+      slots.set(person.id, { x, y: row * (cell + 4), size: cell, dim: 1 });
+    });
+    frameW = cell * 2 + 4;
+  }
+
+  const innerW = width - 2 * (frameW + 48);
+  const inner = new Map<string, Slot>();
+  const innerLabels: WallLabel[] = [];
+  const packed = pack([{ label, people: touring }], innerW, H - 40, 150);
+  placeBlocks(packed, H - 40, inner, innerLabels, 'var(--ink)');
+  const blockW = packed.blocks[0]?.w ?? innerW;
+  const ox = frameW + 48 + (innerW - blockW) / 2;
+  for (const [id, slot] of inner) slots.set(id, { ...slot, x: slot.x + ox, y: slot.y + 20 });
+  return {
+    slots,
+    labels: innerLabels.map((each) => ({ ...each, x: each.x + ox, y: each.y + 20, size: 34 })),
+    order: touring.map((person) => person.id),
+    title: label,
+    subtitle: '',
+    rail: false,
+  };
+}
+
 /** The letters the rail offers: only those somebody's name starts with. */
 export function railLetters(people: readonly RuntimePerson[]): string[] {
   return [...new Set(people.map(initial))].sort();
@@ -230,7 +275,8 @@ export function pack(groups: readonly Group[], W: number, H: number, maxCell: nu
       shelfH = Math.max(shelfH, h);
     }
     attempt = { blocks, total: y + shelfH };
-    if (attempt.total <= H) break;
+    // It fits when it is short enough and no single group is wider than the field.
+    if (attempt.total <= H && blocks.every((block) => block.w <= W)) break;
   }
   return attempt;
 }

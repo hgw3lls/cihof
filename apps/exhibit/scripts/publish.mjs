@@ -26,6 +26,8 @@ if (preview) {
   const places = bundle.places.filter((place) => place.unreviewed).length;
   console.log(`Preview: ${places} unreviewed places and ${bundle.candidates.length} proposed ties, each marked.`);
 }
+const draftTours = bundle.tours.filter((tour) => tour.unreviewed).length;
+console.log(`Published ${bundle.tours.length - draftTours} approved tours${draftTours ? ` and ${draftTours} drafts, marked, for the preview` : ''}.`);
 console.log(`Published ${assets.copied} portraits; ${assets.skipped} people have none cleared for this target.`);
 
 // The attract screen's words wait for approval like any visitor text. Say why

@@ -2,11 +2,13 @@ import { useCallback, useEffect, useMemo, useReducer, useState, type CSSProperti
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
 import { connectionNodes, inductionClasses } from '../state/selectors.ts';
-import { field, homeView, peopleLayout, railLetters, yearsLayout, type Arrangement, type View } from '../state/wall.ts';
+import { field, homeView, peopleLayout, railLetters, tourLayout, yearsLayout, type Arrangement, type View } from '../state/wall.ts';
 import { Stage } from './Stage.tsx';
 import { Wall } from './Wall.tsx';
 import { PairSheet, PersonSheet, PlaceSheet, type TieLine } from './Sheet.tsx';
 import { Trail } from './Trail.tsx';
+import { ThreadEditor, TourChooser } from './Tours.tsx';
+import { loadThreads, sameThread, saveThreads, threadLimit, threadName, type Thread } from './threads.ts';
 import {
   diagramLayout, layer, layerCounts, layerOfTie, layers as linkLayers, nodesFor, placesLayout, tieWording,
   type LayerId,
@@ -88,6 +90,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [theme, setTheme] = useState(() => (document.documentElement.dataset.theme ?? 'dark') as Theme);
   // The list of a person's films starts open; closed, it stays closed for the visit.
   const [filmListOpen, setFilmListOpen] = useState(true);
+  const [chooserOpen, setChooserOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const people = bundle.people;
   const relationships = bundle.relationships;
@@ -97,6 +101,14 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const offered = (bundle.lenses.length > 0 ? bundle.lenses : ['people']).filter((lens) => lens !== 'places');
   const candidates = bundle.candidates ?? [];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
+  // Saved threads outlive a visit: they are kept on the display for the next.
+  const [threads, setThreadsState] = useState<Thread[]>(() => loadThreads(byId));
+  const setThreads = (next: (current: Thread[]) => Thread[]) => setThreadsState((current) => {
+    const updated = next(current).slice(0, threadLimit);
+    saveThreads(updated);
+    return updated;
+  });
+  const tours = bundle.tours ?? [];
   const classes = useMemo(() => inductionClasses(people), [people]);
   const letters = useMemo(() => railLetters(people), [people]);
   const tieCounts = useMemo(() => {
@@ -126,6 +138,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const restart = useCallback(() => {
     dispatch({ type: 'reset' });
     setFilmListOpen(true);
+    setChooserOpen(false);
+    setEditingId(null);
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
     // On the display a visitor's colours last for their visit; the next visitor
@@ -206,10 +220,37 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       });
   }, [people, relationships, contexts, candidates, places, on, width, state.linkView, state.selectedId, state.placeId, state.trail.length]);
   const years = useMemo(() => yearsLayout(people, width, state.year, state.selectedId), [people, width, state.year, state.selectedId]);
+  const touring = state.lens === 'people' ? state.tour : null;
   const layout = useMemo(
-    () => (linking ? linksAt(homeView) : yearsShown ? years : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
-    [linking, linksAt, yearsShown, years, people, state.arrangement, width, state.letter, lit, searching],
+    () => (linking ? linksAt(homeView)
+      : yearsShown ? years
+      : touring ? tourLayout(people, touring.personIds, touring.label, width)
+      : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
+    [linking, linksAt, yearsShown, years, touring, people, state.arrangement, width, state.letter, lit, searching],
   );
+  // What joins two people in a thread, as the records word it.
+  const allNodes = useMemo(() => nodesFor({ people, relationships, contexts, candidates: [], on: new Set(linkLayers.map((each) => each.id)) }), [people, relationships, contexts]);
+  const link = (from: string, to: string) => {
+    const tie = allNodes.find((node) => node.person.id === from)?.ties.find((each) => each.other.id === to);
+    if (tie) return { text: tieWording(tie), color: layer(layerOfTie(tie)).stroke };
+    const place = places.find((each) => (each.personIds ?? []).includes(from) && (each.personIds ?? []).includes(to));
+    return place ? { text: `both tied to ${place.name}`, color: 'var(--places-ink)' } : { text: 'no documented tie to the one before', color: 'var(--muted)' };
+  };
+  const trailSaved = threads.some((thread) => sameThread(thread.personIds, state.trail));
+  const saveTrail = () => {
+    if (state.trail.length < 2 || trailSaved) return;
+    const walked = state.trail.map((id) => byId.get(id)).filter((person) => person !== undefined);
+    setThreads((current) => [{ id: `t${Date.now().toString(36)}`, name: threadName(walked), personIds: [...state.trail], created: new Date().toISOString() }, ...current]);
+  };
+  const editing = editingId ? threads.find((thread) => thread.id === editingId) ?? null : null;
+  const updateThread = (id: string, personIds: readonly string[]) => setThreads((current) => current.map((thread) => (thread.id === id
+    ? { ...thread, personIds, name: threadName(personIds.map((each) => byId.get(each)).filter((person) => person !== undefined)) }
+    : thread)));
+  const follow = (thread: Thread) => {
+    setChooserOpen(false);
+    setEditingId(null);
+    dispatch({ type: 'start-tour', tour: { id: `thread:${thread.id}`, label: thread.name, prompt: 'Thread', description: 'A thread followed through the Hall, one tie at a time.', personIds: thread.personIds } });
+  };
   const counts = useMemo(() => layerCounts({ relationships, contexts, candidates, places }), [relationships, contexts, candidates, places]);
   // A person's ties in Connections, as the sheet lists them: their places,
   // who presented them when that was not somebody in the hall, then everybody
@@ -244,7 +285,9 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   };
   const heading = searching
     ? { title: 'Search', subtitle: 'names, stories, places, and what is said in the films' }
-    : state.lens === 'people' && state.spotlight
+    : touring
+      ? { title: touring.label, subtitle: touring.description }
+      : state.lens === 'people' && state.spotlight
       ? { title: layout.title, subtitle: `${state.spotlight.personIds.length} of ${people.length} lit for ${state.spotlight.label}` }
       : layout;
 
@@ -298,7 +341,9 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                           <Trail
                             people={state.trail.map((id) => byId.get(id)).filter((person) => person !== undefined)}
                             note={selected?.presentedBy && !selected.presentedBy.inducteeId ? `Presented to the Hall by ${selected.presentedBy.recordedName}.` : ''}
+                            saved={trailSaved}
                             onStep={select}
+                            onSave={saveTrail}
                           />
                         )
                         : null}
@@ -357,7 +402,24 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                 </div>
               )}
 
-              {state.lens === 'people' && (
+              {touring && (
+                <div className="chips" style={{ width }}>
+                  <p className="chips__note">{touring.prompt} · {state.tourStep + 1} of {touring.personIds.length}</p>
+                  <span className="chips__tour">
+                    <button type="button" className="chip" disabled={state.tourStep === 0} onClick={() => dispatch({ type: 'tour-step', step: state.tourStep - 1 })}>Previous</button>
+                    <button
+                      type="button"
+                      className="chip chip--next"
+                      onClick={() => dispatch({ type: 'tour-step', step: state.tourStep >= touring.personIds.length - 1 ? 0 : state.tourStep + 1 })}
+                    >
+                      {state.tourStep >= touring.personIds.length - 1 ? 'Back to the start' : 'Next person →'}
+                    </button>
+                    <button type="button" className="chip chip--quiet" onClick={() => dispatch({ type: 'end-tour' })}>End tour</button>
+                  </span>
+                </div>
+              )}
+
+              {state.lens === 'people' && !touring && (
                 <div className="chips" style={{ width }}>
                   {state.spotlight && !searching && (
                     <button type="button" className="chip chip--lit" onClick={() => dispatch({ type: 'clear-spotlight' })} aria-label={`Clear ${state.spotlight.label}`}>
@@ -471,6 +533,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                   <span className="lensbar__label">Search</span>
                   <span className="lensbar__sub">names, stories, places{bundle.target === 'kiosk' ? ', films' : ''}</span>
                 </button>
+                <button
+                  type="button"
+                  className="lensbar__tour"
+                  aria-pressed={Boolean(touring)}
+                  onClick={() => setChooserOpen(true)}
+                >
+                  <span className="lensbar__label">Tour</span>
+                  <span className="lensbar__sub">{touring ? touring.label : `${tours.length} curated · ${threads.length} followed`}</span>
+                </button>
                 <ThemeSwitch
                   theme={theme}
                   onChoose={(next) => {
@@ -500,6 +571,35 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
           {...(toConnections
             ? { onConnections: () => { dispatch({ type: 'close-detail' }); toConnections(); } }
             : {})}
+        />
+      )}
+
+      {chooserOpen && !editing && (
+        <TourChooser
+          tours={tours}
+          threads={threads}
+          byId={byId}
+          onStart={(tour) => { setChooserOpen(false); dispatch({ type: 'start-tour', tour }); }}
+          onFollow={follow}
+          onEdit={(thread) => setEditingId(thread.id)}
+          onClose={() => setChooserOpen(false)}
+        />
+      )}
+
+      {editing && (
+        <ThreadEditor
+          thread={editing}
+          byId={byId}
+          link={link}
+          onMove={(index, by) => {
+            const ids = [...editing.personIds];
+            [ids[index], ids[index + by]] = [ids[index + by]!, ids[index]!];
+            updateThread(editing.id, ids);
+          }}
+          onRemove={(index) => updateThread(editing.id, editing.personIds.filter((_, at) => at !== index))}
+          onDelete={() => { setThreads((current) => current.filter((thread) => thread.id !== editing.id)); setEditingId(null); }}
+          onFollow={() => follow(editing)}
+          onClose={() => setEditingId(null)}
         />
       )}
 
