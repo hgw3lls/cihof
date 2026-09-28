@@ -163,3 +163,12 @@ test('a place at the centre, the view by place, and the layers', () => {
   assert.equal(state.selectedId, null);
   assert.deepEqual(exhibitReducer(state, { type: 'reset' }), initialState());
 });
+
+test('touching a year shows that class and lets go of whoever was chosen', () => {
+  let state = run(initialState(), { type: 'select', personId: 'a' }, { type: 'lens', lens: 'years' });
+  assert.equal(state.selectedId, 'a', 'the chosen person comes to Years, on their class');
+  state = exhibitReducer(state, { type: 'year', year: 2014 });
+  assert.equal(state.year, 2014);
+  assert.equal(state.selectedId, null);
+  assert.equal(exhibitReducer(state, { type: 'reset' }).year, null);
+});

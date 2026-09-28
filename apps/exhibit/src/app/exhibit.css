@@ -173,28 +173,8 @@ button:active { filter: brightness(0.92); }
 
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* Label style: metadata, small headings, the quiet half of any pair. */
-.years__label, .years__count {
-  font-size: calc(19 * var(--px));
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* A block: a solid rectangle of colour carrying one action, with the ground as its text. */
-.block {
-  display: flex; align-items: center; justify-content: space-between; gap: calc(24 * var(--px));
-  min-height: max(var(--tap), calc(96 * var(--px)));
-  padding: 0 calc(32 * var(--px));
-  border: 0; background: var(--lens); color: var(--on-lens);
-  font-size: calc(40 * var(--px)); font-weight: 600; letter-spacing: -0.04em; text-align: left;
-}
-.block--people { --lens: var(--lens-people); }
-.block--lens::after, .square { content: ''; flex: none; width: calc(22 * var(--px)); height: calc(22 * var(--px)); background: var(--on-lens); }
-.swatch { display: inline-block; flex: none; width: calc(18 * var(--px)); height: calc(18 * var(--px)); background: var(--lens); }
-.play { width: 0; height: 0; border-style: solid; border-width: calc(14 * var(--px)) 0 calc(14 * var(--px)) calc(24 * var(--px)); border-color: transparent transparent transparent currentColor; }
-.pause { width: calc(22 * var(--px)); height: calc(26 * var(--px)); border-left: calc(8 * var(--px)) solid currentColor; border-right: calc(8 * var(--px)) solid currentColor; }
+/* A play triangle, in the colour of the text around it. */
+.play { width: 0; height: 0; border-style: solid; border-width: 14px 0 14px 24px; border-color: transparent transparent transparent currentColor; }
 
 /* The name with its skyline (docs/brand/skyline-guidelines.md). The skyline is
    a mask, so it takes the four lens bands, in their fixed order and at their
@@ -250,7 +230,6 @@ button:active { filter: brightness(0.92); }
 .field { position: absolute; left: 48px; top: 96px; height: 784px; overflow: clip; touch-action: none; transition: width 700ms var(--ease); }
 .field__view { position: absolute; inset: 0; transform-origin: 0 0; }
 /* A lens still on its own panel takes the whole band between header and bar. */
-.field--panel { left: 0; width: 1920px; height: 848px; touch-action: auto; }
 
 /* A face. The tile is 100px, scaled to its slot; grey until it is chosen or held. */
 .tile { position: absolute; left: 0; top: 0; width: 100px; height: 100px; padding: 0; border: 0; background: transparent; transform-origin: 0 0; }
@@ -420,12 +399,6 @@ button:active { filter: brightness(0.92); }
 .search__try { padding-bottom: 8px; }
 .search__suggestions { display: flex; flex-wrap: wrap; gap: 10px; }
 
-/* A tile outside the wall: a lens still on its own panel. */
-.field--panel .tile { position: static; display: block; width: 100%; height: auto; transform: none; text-align: left; }
-.field--panel .tile img { width: 100%; height: auto; aspect-ratio: 1; }
-.field--panel .tile--tall img { aspect-ratio: 3 / 4; }
-.field--panel .tile[aria-pressed='true'] img { outline: 4px solid var(--lens-ink); outline-offset: -4px; }
-.field--panel .tile .caption { display: -webkit-box; min-height: 2.4em; margin-top: 12px; overflow: hidden; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 
 /* ------------------------------------------------------------------ dialogs */
 
@@ -496,27 +469,15 @@ dialog.film { background: #000; }
 
 /* ------------------------------------------------------------------ Years */
 
-.years { display: grid; grid-template-rows: minmax(0, 1fr) calc(112 * var(--px)); height: 100%; }
-.years__class { display: grid; grid-template-columns: calc(720 * var(--px)) minmax(0, 1fr); min-height: 0; }
-.years__poster { display: flex; flex-direction: column; justify-content: flex-end; padding: calc(40 * var(--px)); border-right: 2px solid var(--ink); }
-.years__poster p { margin: 0; }
-.years__numeral { color: var(--lens-years-ink); font-size: calc(220 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.85; }
-.years__people { min-height: 0; overflow-y: auto; padding: calc(40 * var(--px)); }
-.years__people h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0 0 calc(32 * var(--px)); padding-bottom: calc(14 * var(--px)); border-bottom: 2px solid var(--ink); font-size: calc(48 * var(--px)); font-weight: 600; letter-spacing: -0.04em; }
-.years__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(28 * var(--px)) calc(24 * var(--px)); margin: 0; padding: 0; list-style: none; }
-.years__grid .caption { font-size: calc(26 * var(--px)); font-weight: 700; white-space: normal; }
-.years__strip { display: flex; overflow-x: auto; border-top: 2px solid var(--ink); }
-.years__strip button { flex: 1 0 auto; min-width: max(var(--tap), calc(120 * var(--px))); padding: 0 calc(16 * var(--px)); border: 0; border-left: 2px solid var(--rule-dim); background: transparent; color: var(--ink-soft); font-size: calc(32 * var(--px)); font-weight: 600; letter-spacing: -0.02em; }
+/* The year, large, to the left of its class; the classes along the chip band. */
+.years__year { position: absolute; left: 0; top: 0; z-index: 2; width: 640px; height: 784px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 24px 0; border-right: 2px solid var(--ink); pointer-events: none; }
+.years__year p { margin: 0; }
+.years__year p:first-child { color: var(--muted); font-size: 19px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+.years__year p:last-child { color: var(--years-ink); font-size: 220px; font-weight: 600; letter-spacing: -0.045em; line-height: 0.85; }
+.years__strip { display: flex; flex: 1; align-self: stretch; overflow-x: auto; border-top: 2px solid var(--ink); }
+.years__strip button { flex: 1 1 0; min-width: 0; padding: 0 4px; border: 0; border-left: 2px solid var(--rule-dim); background: transparent; color: var(--ink-soft); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
 .years__strip button:first-child { border-left: 0; }
-.years__strip button[aria-current='true'] { background: var(--lens-years); color: var(--on-lens); }
-
-/* ------------------------------------------------------------------ chosen */
-
-/* The person chosen in Years, and the way into their record. */
-.chosen { display: flex; flex-direction: column; gap: calc(16 * var(--px)); margin-bottom: auto; }
-.chosen__name { margin: 0; color: var(--ink); text-transform: none; letter-spacing: -0.04em; font-size: calc(48 * var(--px)); font-weight: 600; line-height: 1; overflow-wrap: anywhere; }
-.chosen--bar { flex-direction: row; align-items: center; justify-content: space-between; margin: auto 0 0; padding-top: calc(20 * var(--px)); border-top: 2px solid var(--ink); }
-.chosen--bar .block { flex: none; min-width: calc(420 * var(--px)); }
+.years__strip button[aria-current='true'] { background: var(--years); color: var(--on-lens); }
 
 /* ------------------------------------------------------------------ Film
 

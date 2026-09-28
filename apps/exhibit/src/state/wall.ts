@@ -8,7 +8,7 @@
  * never off the field) can be tested without a browser.
  */
 import type { RuntimePerson } from '../data/runtime.ts';
-import { groupsBy, type Group } from './selectors.ts';
+import { groupsBy, inductionClasses, type Group } from './selectors.ts';
 
 /** The field the wall is drawn in: below the header, above the chips and the bar. */
 export const field = { left: 48, top: 96, height: 784, width: 1824, widthWithSheet: 1224, widthWithSearch: 1064 } as const;
@@ -29,6 +29,8 @@ export type Slot = {
   readonly lit?: boolean;
   /** How this face is tied to the one at the centre, read out with its name. */
   readonly note?: string;
+  /** Already large with its name beneath: chosen, it is framed and coloured, not enlarged. */
+  readonly named?: boolean;
 };
 
 export type WallLabel = {
@@ -47,6 +49,8 @@ export type WallLabel = {
   /** Set on a patch of the ground, so it reads over lines and faces. */
   readonly chip?: boolean;
   readonly opacity?: number;
+  /** At most this many lines, the last ending in an ellipsis. */
+  readonly lines?: number;
 };
 
 export type WallLayout = {
@@ -126,6 +130,57 @@ function byName(people: readonly RuntimePerson[], width: number, letter: string 
     title: 'Everyone, A to Z',
     subtitle: `${people.length} inductees · touch a face, or hold one`,
     rail,
+  };
+}
+
+/** Where the class's faces begin: the year stands large to their left. */
+export const yearsGutter = 680;
+
+/**
+ * Years: one induction class at a time, its faces large beside the year, and
+ * every other face gathered below the field, ready to rise when its class is
+ * touched. The class shown is the chosen person's, or the one asked for, or
+ * the newest. People with no recorded year are not placed in a guessed class;
+ * the subtitle says how many there are.
+ */
+export function yearsLayout(people: readonly RuntimePerson[], width: number, year: number | null, selectedId: string | null): WallLayout & { year: number | null } {
+  const classes = inductionClasses(people);
+  const chosen = selectedId ? people.find((person) => person.id === selectedId) : undefined;
+  const shown = classes.find((entry) => entry.year === chosen?.classYear) ?? classes.find((entry) => entry.year === year) ?? classes[0];
+  const slots = new Map<string, Slot>();
+  const labels: WallLabel[] = [];
+  const H = field.height;
+  if (shown) {
+    const top = 24;
+    const W = width - yearsGutter;
+    const n = shown.people.length;
+    let best = { cols: 2, cell: 0 };
+    for (let cols = 2; cols <= 8; cols += 1) {
+      const rows = Math.ceil(n / cols);
+      const cell = Math.min((W - (cols - 1) * 24) / cols, (H - top - (rows - 1) * 20 - rows * 44) / rows);
+      if (cell > best.cell) best = { cols, cell };
+    }
+    const cell = Math.floor(Math.min(best.cell, 280));
+    shown.people.forEach((person, index) => {
+      const x = yearsGutter + (index % best.cols) * (cell + 24);
+      const y = top + Math.floor(index / best.cols) * (cell + 64);
+      slots.set(person.id, { x, y, size: cell, dim: 0, named: true });
+      labels.push({ x, y: y + cell + 10, w: cell, size: 22, text: person.name, color: 'var(--ink)', wrap: true, lineHeight: 1.05, lines: 2 });
+    });
+  }
+  // The other classes wait below the field, each under its own year in the strip.
+  const stripW = width / Math.max(1, classes.length);
+  classes.forEach((entry, index) => {
+    if (entry === shown) return;
+    for (const person of entry.people) slots.set(person.id, { x: index * stripW + stripW / 2 - 4, y: H + 40, size: 8, dim: 2 });
+  });
+  for (const person of people) if (!slots.has(person.id)) slots.set(person.id, { x: 0, y: H + 40, size: 8, dim: 2 });
+  const undated = people.filter((person) => person.classYear === null).length;
+  return {
+    slots, labels, rail: false, year: shown?.year ?? null,
+    order: shown ? shown.people.map((person) => person.id) : [],
+    title: 'Years',
+    subtitle: `${classes.length} ${classes.length === 1 ? 'class' : 'classes'} · touch a year below${undated ? ` · ${undated} with no recorded year` : ''}`,
   };
 }
 
@@ -276,7 +331,7 @@ export function tileFrame(input: {
   let y = slot.y;
   let z = slot.ring === 'focus' ? 8 : slot.ring === 'tie' ? 7 : 1;
   if (raised) {
-    const grow = slot.ring ? 1 : slot.size >= 150 ? 1.1 : Math.max(2.1, 200 / Math.max(slot.size, 1));
+    const grow = slot.ring || slot.named ? 1 : slot.size >= 150 ? 1.1 : Math.max(2.1, 200 / Math.max(slot.size, 1));
     const big = slot.size * grow;
     x = slot.x - (big - slot.size) / 2;
     y = slot.y - (big - slot.size) / 2;
@@ -300,7 +355,7 @@ export function tileFrame(input: {
   const opacity = slot.dim >= 2 && !selected ? 0 : dimmed ? (slot.dim >= 1 ? 0.28 : 0.55) : 1;
   const plate = pull
     ? (pull.ready ? 'Release to open' : 'Pull down to open')
-    : raised && slot.ring !== 'focus'
+    : raised && slot.ring !== 'focus' && !slot.named
       ? `${person.name}${person.classYear ? ` · ${person.classYear}` : ''}`
       : '';
   const screenBottom = view.pan.y + (y + edge) * view.zoom;

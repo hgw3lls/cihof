@@ -37,8 +37,9 @@ test('the chosen person carries across to Years, on their class', async ({ page 
   await choose(page, 'Jeanette Grasselli Brown');
   const lensbar = page.getByRole('navigation', { name: 'Ways to explore' });
   await lensbar.getByRole('button', { name: /^Years/ }).click();
-  await expect(page.getByRole('group', { name: 'Selected person' })).toContainText('Jeanette Grasselli Brown');
+  await expect(page.locator('.sheet__name')).toHaveText('Jeanette Grasselli Brown');
   await expect(page.getByRole('navigation', { name: 'Induction classes' }).getByRole('button', { name: '2010' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('.years__year')).toContainText('2010');
 });
 
 test('two faces chosen together are set side by side', async ({ page }) => {
@@ -53,13 +54,28 @@ test('two faces chosen together are set side by side', async ({ page }) => {
   await expect(page.locator('.sheet[data-open]')).toHaveCount(0);
 });
 
+test('Years shows one class at a time, and a year touched brings its class', async ({ page }) => {
+  await begin(page);
+  await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Years/ }).click();
+  const years = page.getByRole('navigation', { name: 'Induction classes' });
+  const newest = years.getByRole('button').first();
+  await expect(newest).toHaveAttribute('aria-current', 'true');
+  const shown = () => page.locator('.tile:not([aria-hidden="true"])').count();
+  const before = await shown();
+  expect(before).toBeGreaterThan(0);
+  await years.getByRole('button', { name: '2010' }).click();
+  await expect(years.getByRole('button', { name: '2010' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('.years__year')).toContainText('2010');
+  await expect.poll(shown).toBe(13);
+});
+
 test('a person chosen in Years can be opened with one more touch', async ({ page }) => {
   await begin(page);
   await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^Years/ }).click();
-  const tile = page.locator('.years__grid .tile').first();
-  const name = (await tile.locator('.caption').textContent())?.trim() ?? '';
+  const tile = page.locator('.tile:not([aria-hidden="true"])').first();
+  const name = (await tile.getAttribute('aria-label')) ?? '';
   await tile.click();
-  await expect(page.locator('.chosen__name')).toHaveText(name);
-  await page.getByRole('button', { name: 'Read the record' }).click();
+  await expect(page.locator('.sheet__name')).toHaveText(name);
+  await page.getByRole('button', { name: 'Read their story' }).click();
   await expect(page.locator('#recordTitle')).toHaveText(name);
 });

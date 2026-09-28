@@ -248,7 +248,8 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
             style={{
               transform: `translate(${label.x}px, ${label.y}px)`, width: label.w, fontSize: label.size, color: label.color,
               textAlign: label.align ?? 'left', lineHeight: label.lineHeight ?? 1, zIndex: label.z ?? 'auto', opacity: label.opacity ?? 1,
-            }}
+              ...(label.lines ? { WebkitLineClamp: label.lines, display: '-webkit-box', WebkitBoxOrient: 'vertical' } : {}),
+            } as CSSProperties}
           >
             {label.chip ? <span className="wall__chip">{label.text}</span> : label.text}
           </div>

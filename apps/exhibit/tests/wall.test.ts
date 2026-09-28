@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { clampPan, field, homeView, peopleLayout, railLetters, tileFrame, zoomAbout, type Slot } from '../src/state/wall.ts';
+import { clampPan, field, homeView, peopleLayout, railLetters, tileFrame, yearsLayout, zoomAbout, type Slot } from '../src/state/wall.ts';
 import type { RuntimePerson } from '../src/data/runtime.ts';
 
 const person = (id: string, sortName: string, classYear: number | null = 2010, communities: string[] = ['Serbian']): RuntimePerson => ({
@@ -103,4 +103,22 @@ test('a long name on a raised face keeps its plate on the field', () => {
   const slot: Slot = { x: 880, y: 100, size: 80, dim: 0 };
   const frame = tileFrame({ slot, person: long, selected: true, held: false, pull: null, view: homeView, width: field.widthWithSheet });
   assert.equal(frame.plateRight, true);
+});
+
+test('Years shows one class beside its year, the chosen person’s, and the rest wait below', () => {
+  const classes = [person('a', 'Ann', 2010), person('b', 'Bea', 2010), person('c', 'Cy', 2012)];
+  const newest = yearsLayout(classes, field.width, null, null);
+  assert.equal(newest.year, 2012, 'the newest class first');
+  assert.equal(newest.slots.get('a')!.dim, 2, 'another class waits off the field');
+  const theirs = yearsLayout(classes, field.width, 2012, 'a');
+  assert.equal(theirs.year, 2010, 'somebody chosen brings their own class');
+  for (const id of ['a', 'b']) {
+    const slot = theirs.slots.get(id)!;
+    assert.ok(slot.x >= 680 && slot.x + slot.size <= field.width && slot.y + slot.size <= field.height);
+    assert.equal(slot.named, true);
+  }
+  assert.deepEqual(theirs.labels.map((label) => label.text), ['Ann', 'Bea']);
+  const frame = tileFrame({ slot: theirs.slots.get('a')!, person: classes[0]!, selected: true, held: false, pull: null, view: homeView, width: field.width });
+  assert.equal(frame.scale * 100, theirs.slots.get('a')!.size, 'a face already named is not enlarged when chosen');
+  assert.equal(frame.plate, '');
 });

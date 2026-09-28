@@ -64,6 +64,8 @@ export type ExhibitState = {
   readonly placeId: string | null;
   /** The people walked through in Connections, most recent last. */
   readonly trail: readonly string[];
+  /** The induction class Years shows, when a visitor has touched one. */
+  readonly year: number | null;
   readonly detail: Detail;
   readonly media: Media;
   readonly history: readonly Restorable[];
@@ -88,6 +90,7 @@ export type ExhibitAction =
   | { type: 'link-view'; view: 'diagram' | 'places' }
   | { type: 'link-layer'; layer: LayerId }
   | { type: 'place'; placeId: string }
+  | { type: 'year'; year: number }
   | { type: 'open-record'; personId: string }
   | { type: 'open-share'; personId: string }
   | { type: 'close-detail' }
@@ -105,7 +108,7 @@ const closedSearch: Search = { open: false, query: '' };
 export function initialState(home: Mode = 'explore'): ExhibitState {
   return {
     home, mode: home, lens: 'people', selectedId: null, pair: null, arrangement: 'name', letter: null,
-    search: closedSearch, spotlight: null, linkView: 'diagram', linkLayers: defaultLayers, placeId: null, trail: [], detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
+    search: closedSearch, spotlight: null, linkView: 'diagram', linkLayers: defaultLayers, placeId: null, trail: [], year: null, detail: { kind: 'none' }, media: { kind: 'none' }, history: [],
   };
 }
 
@@ -191,6 +194,11 @@ export function exhibitReducer(state: ExhibitState, action: ExhibitAction): Exhi
           ? state.linkLayers.filter((each) => each !== action.layer)
           : [...state.linkLayers, action.layer],
       };
+
+    // Touching a year shows that class; nobody from another stays chosen.
+    case 'year':
+      if (state.year === action.year && state.selectedId === null) return state;
+      return remember(state, { year: action.year, selectedId: null, pair: null });
 
     case 'place':
       return remember(state, {

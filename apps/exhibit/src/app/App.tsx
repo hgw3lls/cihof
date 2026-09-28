@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useReducer, useState, type CSSProperti
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
 import { connectionNodes, inductionClasses } from '../state/selectors.ts';
-import { field, homeView, peopleLayout, railLetters, type Arrangement, type View } from '../state/wall.ts';
+import { field, homeView, peopleLayout, railLetters, yearsLayout, type Arrangement, type View } from '../state/wall.ts';
 import { Stage } from './Stage.tsx';
 import { Wall } from './Wall.tsx';
 import { PairSheet, PersonSheet, PlaceSheet, type TieLine } from './Sheet.tsx';
@@ -14,7 +14,6 @@ import {
 import { Search } from './Search.tsx';
 import { useFilmWords } from './useFilmWords.ts';
 import { buildIndex, search } from '../state/search.ts';
-import { Years } from './Years.tsx';
 import { Record } from './Record.tsx';
 import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
@@ -179,14 +178,14 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     ? () => dispatch({ type: 'lens', lens: 'links' })
     : undefined;
 
-  // People and Connections are the wall; Years keeps its own panel until its stage.
+  // Every lens is the wall, arranged another way.
   const linking = state.lens === 'links';
-  const onWall = state.lens === 'people' || linking;
+  const yearsShown = state.lens === 'years';
   const searching = state.lens === 'people' && state.search.open;
   const selected = state.selectedId ? byId.get(state.selectedId) ?? null : null;
   const focusPlace = linking && state.placeId ? places.find((place) => place.id === state.placeId) ?? null : null;
   const pair = state.pair ? state.pair.map((id) => byId.get(id)).filter((person) => person !== undefined) : [];
-  const sheetOpen = onWall && !searching && (selected !== null || pair.length === 2 || focusPlace !== null);
+  const sheetOpen = !searching && (selected !== null || pair.length === 2 || focusPlace !== null);
   const width = searching ? field.widthWithSearch : sheetOpen ? field.widthWithSheet : field.width;
   // Faces lit on the wall: the people a search is finding as it is typed, or
   // those it found once it is closed.
@@ -206,9 +205,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
         keepClear: { top: state.trail.length > 1 ? 64 : 0, right: 84 },
       });
   }, [people, relationships, contexts, candidates, places, on, width, state.linkView, state.selectedId, state.placeId, state.trail.length]);
+  const years = useMemo(() => yearsLayout(people, width, state.year, state.selectedId), [people, width, state.year, state.selectedId]);
   const layout = useMemo(
-    () => (linking ? linksAt(homeView) : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
-    [linking, linksAt, people, state.arrangement, width, state.letter, lit, searching],
+    () => (linking ? linksAt(homeView) : yearsShown ? years : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
+    [linking, linksAt, yearsShown, years, people, state.arrangement, width, state.letter, lit, searching],
   );
   const counts = useMemo(() => layerCounts({ relationships, contexts, candidates, places }), [relationships, contexts, candidates, places]);
   // A person's ties in Connections, as the sheet lists them: their places,
@@ -244,9 +244,9 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   };
   const heading = searching
     ? { title: 'Search', subtitle: 'names, stories, places, and what is said in the films' }
-    : onWall && state.spotlight
+    : state.lens === 'people' && state.spotlight
       ? { title: layout.title, subtitle: `${state.spotlight.personIds.length} of ${people.length} lit for ${state.spotlight.label}` }
-      : onWall ? layout : lensHeading(state.lens, bundle, classes.length);
+      : layout;
 
   const keys = offered.map((lens) => ({
     lens,
@@ -280,15 +280,20 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
               </header>
 
               <main>
-                {onWall
-                  ? (
                     <Wall
                       people={people}
                       layout={linking ? linksAt : layout}
                       width={width}
                       mode={linking ? 'map' : 'wall'}
                       onPlace={(placeId) => dispatch({ type: 'place', placeId })}
-                      overlay={linking && state.linkView === 'diagram'
+                      overlay={yearsShown
+                        ? (
+                          <div className="years__year" aria-hidden="true">
+                            <p>Class of</p>
+                            <p>{years.year}</p>
+                          </div>
+                        )
+                        : linking && state.linkView === 'diagram'
                         ? (
                           <Trail
                             people={state.trail.map((id) => byId.get(id)).filter((person) => person !== undefined)}
@@ -308,13 +313,24 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                       onOpen={open}
                       onLetter={(letter) => dispatch({ type: 'letter', letter })}
                     />
-                  )
-                  : (
-                    <div className="field field--panel">
-                      <Years people={people} selectedId={state.selectedId} onSelect={select} onOpen={open} />
-                    </div>
-                  )}
               </main>
+
+              {yearsShown && (
+                <div className="chips" style={{ width }}>
+                  <nav className="years__strip" aria-label="Induction classes">
+                    {classes.map((entry) => (
+                      <button
+                        key={entry.year}
+                        type="button"
+                        aria-current={entry.year === years.year ? 'true' : undefined}
+                        onClick={() => dispatch({ type: 'year', year: entry.year })}
+                      >
+                        {entry.year}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              )}
 
               {linking && (
                 <div className="chips" style={{ width }}>
@@ -533,9 +549,4 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       )}
     </>
   );
-}
-
-/** The header for Years, still on its own panel, from the published counts. */
-function lensHeading(_lens: string, _bundle: RuntimeBundle, classes: number): { title: string; subtitle: string } {
-  return { title: 'Years', subtitle: `${classes} ${classes === 1 ? 'class' : 'classes'} · touch a year below` };
 }
