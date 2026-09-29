@@ -4,6 +4,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from
 import { resolve } from 'node:path';
 import { applyFilmTitleDecisions, filmTitleDecisions, filmTitleLimit, readFilmTitles } from '../packages/pipeline/src/build/film-titles.ts';
 import { readVideoHoldings } from '../packages/pipeline/src/sources/media.ts';
+import { changesWhatVisitorsSee, printVisibleChanges, visibleChanges, writeRecordedDifferences } from './parity-utils.js';
 
 /**
  * Records what a curator decided each film is called, from the staff review
@@ -14,9 +15,11 @@ import { readVideoHoldings } from '../packages/pipeline/src/sources/media.ts';
  *             data/external-research/youtube-film-titles.json) kept as it is
  *   clear     takes the film's title away; it is described by its length again
  *
- * A title is approved for the display only, where films are shown. Nothing a
- * visitor reads about a person changes, so nothing is recorded in the
- * reviewed differences.
+ * A title is approved for the display only, where films are shown. The
+ * published record had no film titles, so a title is a visible difference
+ * from it: each person whose film gains, changes or loses a title has that
+ * recorded in data/cihof_reviewed_differences.json under the sheet's
+ * decision reference, as the other apply tools do.
  *
  * The same gates as the other sheets:
  *
@@ -55,7 +58,10 @@ if (args.apply) {
   requireCleanTree();
 }
 
-const filmIds = new Set([...readVideoHoldings().values()].flat().map((video) => video?.youtubeVideoId).filter((id) => typeof id === 'string' && id));
+const holdings = readVideoHoldings();
+const filmIds = new Set([...holdings.values()].flat().map((video) => video?.youtubeVideoId).filter((id) => typeof id === 'string' && id));
+// Whose films each title is on: a ceremony film is several people's.
+const owners = (filmId) => [...holdings].filter(([, videos]) => videos.some((video) => video?.youtubeVideoId === filmId)).map(([personId]) => personId);
 const { decisions, errors, blank } = filmTitleDecisions(csv, filmIds);
 console.log('\nFilm titles');
 for (const decision of decisions) {
@@ -74,22 +80,38 @@ if (decisions.length === 0) {
   console.log('  Nothing to do.\n');
   process.exit(0);
 }
+
+// What visitors will see differently, recorded under this sheet's decision.
+const references = [...new Set(decisions.map((decision) => decision.decisionReference))];
+if (references.length > 1) {
+  console.error(`\n  The sheet names ${references.length} decision references; one sheet is one decision. Split it.`);
+  process.exit(1);
+}
+const reviewedAt = new Date().toISOString();
+const next = applyFilmTitleDecisions(readFilmTitles(), decisions, reviewedAt);
+const visible = visibleChanges({
+  filmTitles: next,
+  ids: decisions.flatMap((decision) => owners(decision.filmId)),
+  decisionReference: references[0],
+});
+printVisibleChanges(visible);
+
 if (!args.apply) {
   console.log('\n  Preview only. Nothing was written. To apply:');
   console.log(`    npm run films:titles:apply -- --input=${args.input} --apply --expect-hash=${hash}\n`);
   process.exit(0);
 }
 
-const reviewedAt = new Date().toISOString();
-const next = applyFilmTitleDecisions(readFilmTitles(), decisions, reviewedAt);
 if (!args.noBackup && existsSync(titlesPath)) copyFileSync(titlesPath, `${titlesPath}.backup-${reviewedAt.replace(/[:.]/g, '-')}`);
 writeFileSync(titlesPath, `${JSON.stringify(next, null, 2)}\n`);
+if (changesWhatVisitorsSee(visible)) writeRecordedDifferences(visible);
 
 mkdirSync(archiveDir, { recursive: true });
 const archived = resolve(archiveDir, `film-title-decisions-${reviewedAt.replace(/[:.]/g, '-')}.csv`);
 writeFileSync(archived, csv.endsWith('\n') ? csv : `${csv}\n`);
 
 console.log('\n  Written to data/cihof_film_titles.json');
+if (changesWhatVisitorsSee(visible)) console.log(`  Recorded what visitors see differently under ${references[0]} in data/cihof_reviewed_differences.json`);
 console.log(`  The signed sheet is archived as ${archived.replace(`${root}/`, '')}`);
 console.log('  Next: npm test, review the diff, commit.\n');
 

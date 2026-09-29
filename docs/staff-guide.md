@@ -541,7 +541,9 @@ second it covers. `npm run review:film-starts` redrafts the suggestions in
 exact words approved, and on the display only. The staff review app does
 this (7.1). By hand, `npm run films:titles:apply` takes a sheet
 `filmId,decision,title,decisionReference,note`, with `approve` and the title,
-or `clear`. `npm run source:film-titles` collects each film's YouTube title
+or `clear`. The published record had no film titles, so each title is
+recorded in `data/cihof_reviewed_differences.json` for everyone whose film it
+is, under the sheet's decision reference. `npm run source:film-titles` collects each film's YouTube title
 into `data/external-research/youtube-film-titles.json`, unreviewed: nothing
 reads that file into the exhibit, and the review app offers its titles only
 as suggestions.

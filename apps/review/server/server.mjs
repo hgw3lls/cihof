@@ -58,8 +58,9 @@ export function createReviewServer({ root, dist, port }) {
         return await api(request, response, url.pathname);
       }
 
-      // Portraits, read-only, from the project's own media folder.
-      if (url.pathname.startsWith('/media/images/')) {
+      // Portraits, and films' posters, read-only, from the project's own media
+      // folder. Only the posters of the films: never the films themselves.
+      if (url.pathname.startsWith('/media/images/') || (url.pathname.startsWith('/media/videos/') && url.pathname.endsWith('.webp'))) {
         return file(response, join(root, 'public'), url.pathname);
       }
       return file(response, dist, url.pathname === '/' ? '/index.html' : url.pathname, join(dist, 'index.html'));

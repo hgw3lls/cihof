@@ -231,6 +231,8 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByLabel('Find a person').fill('Anda Cook');
   const film = page.locator('article.film-title').first();
   await expect(film.locator('.suggestion')).toContainText('On YouTube');
+  // Its poster is served, not the page in its place.
+  await expect.poll(() => film.locator('img.film-title__poster').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth)).toBeGreaterThan(0);
   await film.getByRole('button', { name: /^Use the YouTube title/ }).click();
   await expect(film.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
@@ -328,6 +330,10 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(entry.title).toBe(suggested[filmId].title);
   expect(entry.review).toMatchObject({ status: 'approved', contentVersion: expect.stringMatching(/^title-[0-9a-f]{12}$/) });
   expect(entry.publication).toEqual({ kiosk: true, publicWeb: false });
+  // And the title is recorded as a visible difference, under the decision that approved it.
+  const ledger = JSON.parse(readFileSync(join(worktree, 'data/cihof_reviewed_differences.json'), 'utf8')).differences;
+  expect(ledger.filter((line: { difference: string; decisionReference: string }) => line.difference.includes('.filmTitles:')
+    && /^film-titles-review-/.test(line.decisionReference)).length).toBeGreaterThan(0);
 
   // The tour is approved for exactly the version the reviewer saw; the others are still drafts.
   const lenses = JSON.parse(readFileSync(join(worktree, 'data/cihof_story_lenses.json'), 'utf8')).lenses;

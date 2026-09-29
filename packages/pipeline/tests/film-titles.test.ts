@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
+import { collectDifferences, emptyLedger, filmTitlesByPerson, readPublishedRecord, reconcile, recordDecision } from '../src/build/parity.ts';
 import { applyFilmTitleDecisions, approvedFilmTitle, filmTitleDecisions, filmTitleLimit, filmTitleVersion, type StoredFilmTitles } from '../src/build/film-titles.ts';
 
 const films = new Set(['abc', 'def']);
@@ -56,4 +57,20 @@ test('a built bundle calls an approved film by its title, on everybody who has t
   assert.ok(titled.length > 1);
   assert.ok(titled.every((film) => film.title === 'The 2024 induction ceremony'));
   assert.ok(bundle.people.flatMap((person) => person.films).filter((film) => film.id !== 'P34omi5XUiY').every((film) => film.title === undefined));
+});
+
+test('a title is a visible difference from the published record, recorded for everybody whose film it is', () => {
+  const people = buildPeople();
+  const stored = approved('The 2024 induction ceremony', 'P34omi5XUiY');
+  const titled = collectDifferences(people, readPublishedRecord(), filmTitlesByPerson(stored))
+    .filter((difference) => difference.includes('.filmTitles:'));
+  assert.equal(titled.length, 6, 'the six people the ceremony stands for');
+  assert.ok(titled.every((difference) => difference.endsWith('-> rebuilt "The 2024 induction ceremony"')));
+  // No title approved: no difference.
+  assert.deepEqual(collectDifferences(people, readPublishedRecord(), filmTitlesByPerson({ titles: {} })).filter((difference) => difference.includes('.filmTitles:')), []);
+
+  // Recorded under the decision for those people, and nobody else's lines are excused.
+  const owners = new Set(titled.map((difference) => difference.split('.')[0]!));
+  const { ledger } = recordDecision(emptyLedger(), titled, { ids: owners, decisionReference: 'film-titles-review-2026-10-01', recordedAt: '2026-10-01T00:00:00Z' });
+  assert.deepEqual(reconcile(titled, ledger).unrecorded, []);
 });
