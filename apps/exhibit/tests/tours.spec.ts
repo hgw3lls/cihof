@@ -91,3 +91,35 @@ test('an approved tour is offered and walked', async ({ page }) => {
   await expect(page.locator('.chips__note')).toHaveText('Testing · 1 of 5');
   await expect(bar(page).getByRole('button', { name: /^Tour/ })).toHaveAttribute('aria-pressed', 'true');
 });
+
+test('staff can clear every saved thread from the recovery panel, after asking twice', async ({ page }) => {
+  await begin(page);
+  // Two threads saved by earlier visitors.
+  await page.evaluate(async () => {
+    const bundle = await (await fetch('data/exhibit.json')).json();
+    const ids = bundle.people.slice(0, 4).map((person: { id: string }) => person.id);
+    localStorage.setItem('cihof-wall-threads', JSON.stringify([
+      { id: 't1', name: '', personIds: ids.slice(0, 2), created: '' },
+      { id: 't2', name: '', personIds: ids.slice(2, 4), created: '' },
+    ]));
+  });
+  await page.goto('./?recovery=1');
+  const panel = page.locator('dialog.recovery');
+  await expect(panel).toContainText('2 threads are saved on this display');
+
+  // Asked once, then kept: nothing is lost.
+  await panel.getByRole('button', { name: 'Clear all saved threads' }).click();
+  await panel.getByRole('button', { name: 'Keep them' }).click();
+  await expect(panel).toContainText('2 threads are saved on this display');
+
+  await panel.getByRole('button', { name: 'Clear all saved threads' }).click();
+  await panel.getByRole('button', { name: 'Yes, clear all 2' }).click();
+  await expect(panel.getByRole('status')).toHaveText('Cleared 2 saved threads.');
+  await expect(panel).toContainText('No threads are saved on this display.');
+  await expect(panel.getByRole('button', { name: 'Clear all saved threads' })).toBeDisabled();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('cihof-wall-threads') ?? '[]'))).toEqual([]);
+
+  await page.goto('./');
+  await page.locator('[data-begin]').click();
+  await expect(bar(page).getByRole('button', { name: /^Tour/ })).toContainText('0 followed');
+});

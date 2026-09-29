@@ -653,8 +653,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       {recoveryOpen && (
         <Recovery
           status={release.status}
+          threads={threads.length}
           onRefresh={release.refreshStatus}
           onRestore={release.restorePrevious}
+          onClearThreads={() => setThreads(() => [])}
           onClose={() => setRecoveryOpen(false)}
         />
       )}

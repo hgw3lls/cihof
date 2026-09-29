@@ -75,7 +75,8 @@ preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
 through Connections that a visitor chose to keep. They stay on the display
 for the visitors after, named for the people they start and end with (nobody
 types a name), newest first, up to 24. Any visitor can reorder, shorten or
-delete one from *Edit* on the Tour screen.
+delete one from *Edit* on the Tour screen. Staff can clear them all at once
+from the recovery panel (section 5).
 
 The application looks after itself:
 
@@ -254,6 +255,10 @@ Buttons:
 - **Restore previous release** goes back to the previous release. When it
   finishes, the panel says *Restored to … from …*. **Write that down** and
   tell the developer.
+- **Clear all saved threads** deletes every thread visitors saved on this
+  display, after asking a second time (**Yes, clear all …**). Use it if a
+  thread should not be there, or to start the list afresh. They cannot be
+  brought back. Curated tours are not affected.
 - **Close** returns to the exhibit.
 
 A display switches to a new release only at an idle reset, never in the
