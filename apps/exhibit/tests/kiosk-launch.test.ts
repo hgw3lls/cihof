@@ -17,6 +17,21 @@ import { browserArgs, findBrowser, keepBrowserRunning, msUntil } from '../kiosk/
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/**
+ * Waits for something the launcher does, rather than for a length of time. A
+ * fixed wait is a race on a busy machine: a timer that is due runs before a
+ * process's exit is reported (setImmediate), so a short wait could end before
+ * the browser had even closed. The deadline is only there so a real failure
+ * fails rather than hangs.
+ */
+async function until(condition: () => boolean, what: string, deadlineMs = 5000) {
+  const giveUp = Date.now() + deadlineMs;
+  while (!condition()) {
+    if (Date.now() > giveUp) assert.fail(`timed out waiting until ${what}`);
+    await wait(5);
+  }
+}
+
 test('Edge is found first on Windows, then Chrome', () => {
   const env = { 'ProgramFiles(x86)': 'C:\\Program Files (x86)', ProgramFiles: 'C:\\Program Files', LOCALAPPDATA: 'C:\\Users\\kiosk\\AppData\\Local' };
   const both = findBrowser({ platform: 'win32', env, exists: () => true });
@@ -77,15 +92,14 @@ test('a browser that closes comes straight back, and a stopped one does not', as
   const browser = keepBrowserRunning({ command: 'browser', args: [], spawnBrowser, log: () => {}, quickExitMs: 0 });
   assert.equal(started.length, 1);
   started[0]!.kill();
-  await wait(30);
-  assert.equal(started.length, 2, 'relaunched after closing');
+  await until(() => started.length === 2, 'it is relaunched after closing');
   browser.restart();
-  await wait(30);
-  assert.equal(started.length, 3, 'the daily restart is a relaunch');
+  await until(() => started.length === 3, 'the daily restart relaunches it');
   browser.stop();
-  await wait(30);
+  await until(() => !browser.running, 'the stopped browser has exited');
+  // Long enough for a relaunch that should not happen to show itself.
+  await wait(50);
   assert.equal(started.length, 3, 'stopped means stopped');
-  assert.equal(browser.running, false);
 });
 
 test('a browser that keeps dying at once is relaunched with a growing pause', async () => {
@@ -95,11 +109,12 @@ test('a browser that keeps dying at once is relaunched with a growing pause', as
     command: 'browser', args: [], spawnBrowser, log: (line) => lines.push(line),
     quickExitMs: 1000, minBackoffMs: 20, maxBackoffMs: 80,
   });
-  await wait(400);
+  await until(() => lines.length >= 4, 'it has been relaunched four times');
   browser.stop();
-  // Pauses of 20, 40, 80, 80… ms: a handful of launches, not hundreds.
-  assert.ok(started.length >= 3 && started.length <= 8, `${started.length} launches`);
-  assert.ok(lines.some((line) => /closed quickly/.test(line)));
+  // The pause doubles from the least to the most, and stays there: a handful
+  // of launches a second at worst, never hundreds.
+  const pauses = lines.slice(0, 4).map((line) => line.match(/closed quickly\. Starting it again in ([\d.]+)s\./)?.[1]);
+  assert.deepEqual(pauses, ['0.02', '0.04', '0.08', '0.08']);
 });
 
 test('the launcher serves the exhibit, holds a browser on it, and stop-kiosk ends both', { skip: process.platform === 'win32' && 'uses a shell script as the stand-in browser' }, async () => {
@@ -138,8 +153,10 @@ test('a browser that cannot be started at all is retried, not left for dead', as
   let attempts = 0;
   const spawnBrowser = (() => {
     attempts += 1;
-    const failing = new EventEmitter() as unknown as ChildProcess;
     // Only an error, and no exit: what Node reports for a file it cannot run.
+    // Like any child process it can be told to stop, which does nothing for a
+    // process that never started.
+    const failing = Object.assign(new EventEmitter(), { kill: () => false }) as unknown as ChildProcess;
     setImmediate(() => failing.emit('error', new Error('spawn EACCES')));
     return failing;
   }) as unknown as typeof spawn;
@@ -148,8 +165,7 @@ test('a browser that cannot be started at all is retried, not left for dead', as
     command: 'browser', args: [], spawnBrowser, log: (line) => lines.push(line),
     quickExitMs: 1000, minBackoffMs: 10, maxBackoffMs: 40,
   });
-  await wait(200);
+  await until(() => attempts >= 3, 'it has tried three times');
   browser.stop();
-  assert.ok(attempts >= 3, `${attempts} attempts`);
   assert.ok(lines.some((line) => /could not be started \(spawn EACCES\)/.test(line)));
 });
