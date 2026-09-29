@@ -56,10 +56,14 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
   }, []);
   useLayoutEffect(measure, [measure, person.id]);
   useEffect(() => { void document.fonts?.ready.then(measure); }, [measure]);
-  // A phone turned, or a window resized, lays the columns out again.
+  // A phone turned, or a window resized, lays the columns out again. Watched on
+  // the columns themselves, so the measure is taken once the new stage is drawn.
   useEffect(() => {
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    const element = columns.current;
+    if (!element || typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(() => measure());
+    observer.observe(element);
+    return () => observer.disconnect();
   }, [measure]);
 
   const turn = (by: number) => setPage((current) => Math.min(pages - 1, Math.max(0, current + by)));

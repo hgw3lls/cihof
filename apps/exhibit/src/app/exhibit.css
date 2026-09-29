@@ -203,7 +203,8 @@ button:active { filter: brightness(0.92); }
   --px: 1px;
   /* Clipped, not merely hidden: nothing, not even focus, may scroll the stage. */
   position: fixed; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: clip;
-  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
+  /* Centred on the screen's safe area, which is the whole screen but on a notched phone (Stage.tsx). */
+  transform: translate(calc(-50% + var(--stage-dx, 0px)), calc(-50% + var(--stage-dy, 0px))) scale(var(--stage-scale, 1));
   background: var(--ground); color: var(--ink);
   -webkit-user-select: none; user-select: none;
 }
@@ -469,7 +470,7 @@ dialog.film { background: #000; }
   --px: 1px;
   position: fixed; left: 50%; top: 50%; width: var(--stage-w, 1920px); height: var(--stage-h, 1080px); overflow: clip;
   /* Separate properties, so an entrance animation's own transform adds to them. */
-  translate: -50% -50%;
+  translate: calc(-50% + var(--stage-dx, 0px)) calc(-50% + var(--stage-dy, 0px));
   scale: var(--stage-scale, 1);
   background: var(--ground); color: var(--ink); font-size: 22px;
 }

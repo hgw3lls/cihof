@@ -333,11 +333,16 @@ type Packed = { blocks: Block[]; total: number };
  */
 export function pack(groups: readonly Group[], W: number, H: number, maxCell: number, minCell = 34): Packed {
   let attempt: Packed = { blocks: [], total: 0 };
-  for (let cell = maxCell; cell >= minCell; cell -= 2) {
+  // On a phone a field shortened by a sheet or by search can be too short even
+  // at the smallest faces meant for it; there the faces go on shrinking, and
+  // the labels with them, until everybody fits, rather than being cut off.
+  const floor = narrow(W) ? 8 : minCell;
+  for (let cell = maxCell; cell >= floor; cell -= 2) {
+    const tight = cell < minCell;
     const gap = Math.max(3, Math.round(cell * 0.07));
     const blockGap = Math.round(cell * 0.6);
-    const labelH = Math.max(minCell < 34 ? 26 : 30, Math.round(cell * 0.4));
-    const fontSize = Math.max(minCell < 34 ? 15 : 17, Math.round(labelH * 0.62));
+    const labelH = tight ? 20 : Math.max(minCell < 34 ? 26 : 30, Math.round(cell * 0.4));
+    const fontSize = tight ? 13 : Math.max(minCell < 34 ? 15 : 17, Math.round(labelH * 0.62));
     let x = 0;
     let y = 0;
     let shelfH = 0;

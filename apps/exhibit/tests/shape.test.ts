@@ -81,3 +81,20 @@ test('a chosen face on a phone grows, and stays inside the shorter field', () =>
   assert.ok(frame.scale * 100 >= 140 && frame.scale * 100 <= 160);
   assert.ok(frame.y + frame.scale * 100 <= sheet.height);
 });
+
+test('on a phone, grouped arrangements of the real collection fit however short the field', async () => {
+  const { publishedBundle } = await import('./bundle.ts');
+  const people = publishedBundle().people;
+  for (const [w, h] of [[390, 844], [320, 568], [375, 667], [430, 932]] as const) {
+    const geometry = fieldGeometry(stageShape(w, h, 'fill'));
+    for (const place of [geometry.rest, geometry.sheet, geometry.search]) {
+      for (const arrangement of ['community', 'contribution'] as const) {
+        const layout = peopleLayout(people, arrangement, place.width, null, null, true, place.height);
+        for (const slot of layout.slots.values()) {
+          assert.ok(slot.x + slot.size <= place.width + 0.5 && slot.y + slot.size <= place.height + 0.5,
+            `${arrangement} at ${w}×${h}, field ${place.width}×${place.height}: a face at ${Math.round(slot.x)},${Math.round(slot.y)} size ${slot.size}`);
+        }
+      }
+    }
+  }
+});
