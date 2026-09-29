@@ -1,42 +1,71 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { stageShape, type Fit, type Shape } from './shape.ts';
 
 /**
- * The exhibit is drawn once, at 1920 × 1080, and scaled whole to the screen it
- * is on, without distortion. A screen of another shape shows the ground around
- * it. Every size in the stylesheet is a design pixel.
+ * The exhibit is drawn in design pixels and scaled whole to the screen it is
+ * on, without distortion. On the display the stage is 1920 × 1080 and a
+ * screen of another shape shows the ground around it; on the public site the
+ * stage takes the screen's own proportions (shape.ts).
  *
- * The scale is also a custom property on the root, because a dialog is drawn
- * in the browser's top layer, outside this stage, and scales its own copy.
+ * The scale and the stage's size are also custom properties on the root,
+ * because a dialog is drawn in the browser's top layer, outside this stage,
+ * and draws its own copy. The shape's kind is on the root as `data-shape`,
+ * for the same reason.
  */
-export const stageSize = { width: 1920, height: 1080 } as const;
-
-const StageScale = createContext(1);
+const StageShape = createContext<Shape>(stageShape(1920, 1080, 'fixed'));
 
 /** Screen pixels per design pixel, for turning a finger's travel into design pixels. */
 export function useStageScale(): number {
-  return useContext(StageScale);
+  return useContext(StageShape).scale;
+}
+
+export function useStageShape(): Shape {
+  return useContext(StageShape);
+}
+
+/** The shape of the screen now, measured again whenever the window changes size. */
+export function useMeasuredShape(fit: Fit): Shape {
+  const [shape, setShape] = useState(() => measure(fit));
+
+  useEffect(() => {
+    const update = () => setShape((current) => {
+      const next = measure(fit);
+      // A phone's keyboard shortens the screen while somebody types. The stage
+      // keeps its height rather than rearranging everything under their fingers.
+      const typing = document.activeElement instanceof HTMLInputElement;
+      if (typing && next.kind === 'phone' && current.kind === 'phone' && next.width === current.width) return current;
+      return same(current, next) ? current : next;
+    });
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [fit]);
+
+  useEffect(() => {
+    const root = document.documentElement.style;
+    root.setProperty('--stage-scale', String(shape.scale));
+    root.setProperty('--stage-w', `${shape.width}px`);
+    root.setProperty('--stage-h', `${shape.height}px`);
+    document.documentElement.dataset.shape = shape.kind;
+  }, [shape]);
+
+  return shape;
+}
+
+/** The shape, for the stage and for the dialogs drawn outside it. */
+export function ShapeProvider({ shape, children }: { shape: Shape; children: ReactNode }) {
+  return <StageShape.Provider value={shape}>{children}</StageShape.Provider>;
 }
 
 export function Stage({ children }: { children: ReactNode }) {
-  const [scale, setScale] = useState(measure);
-
-  useEffect(() => {
-    const update = () => setScale(measure());
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.style.setProperty('--stage-scale', String(scale));
-  }, [scale]);
-
-  return (
-    <StageScale.Provider value={scale}>
-      <div className="stage">{children}</div>
-    </StageScale.Provider>
-  );
+  const shape = useStageShape();
+  return <div className="stage" style={{ width: shape.width, height: shape.height }}>{children}</div>;
 }
 
-function measure(): number {
-  return Math.min(window.innerWidth / stageSize.width, window.innerHeight / stageSize.height);
+function measure(fit: Fit): Shape {
+  return stageShape(window.innerWidth, window.innerHeight, fit);
+}
+
+function same(a: Shape, b: Shape): boolean {
+  return a.kind === b.kind && a.width === b.width && a.height === b.height && a.scale === b.scale;
 }

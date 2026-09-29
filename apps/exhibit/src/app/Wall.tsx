@@ -13,6 +13,9 @@ type Props = {
   /** The arrangement, or a way to arrange for a given zoom and pan (a map's rim moves to the edges as it zooms). */
   layout: WallLayout | ConnectionsLayout | ((view: View) => WallLayout | ConnectionsLayout);
   width: number;
+  /** The field's height, and where its top edge is on the stage. */
+  height?: number;
+  top?: number;
   /**
    * `wall`: faces to choose, hold, pull down and pair. `map`: Connections,
    * where a drag pans, the wheel pans, zoom goes out to half, and choosing
@@ -53,7 +56,7 @@ const ease = 'cubic-bezier(0.2, 0.7, 0.2, 1)';
  * Each face is also a button, so a keyboard or a switch reaches everybody by
  * the same route: Enter chooses, as a touch does.
  */
-export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, overlay, selectedId, pair, letters, letter, viewKey, onSelect, onClear, onPair, onOpen, onLetter }: Props) {
+export function Wall({ people, layout: arrange, width, height = field.height, top = field.top, mode = 'wall', onPlace, overlay, selectedId, pair, letters, letter, viewKey, onSelect, onClear, onPair, onOpen, onLetter }: Props) {
   const map = mode === 'map';
   const scale = useStageScale();
   const fieldRef = useRef<HTMLDivElement>(null);
@@ -77,8 +80,8 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
   const setGesturing = (on: boolean) => { gesturingRef.current = on; setGesturingState(on); };
 
   useEffect(() => { setView(homeView); }, [viewKey]);
-  // A narrower field (the sheet opening) must not leave the wall panned past its edge.
-  useEffect(() => { setView((current) => ({ ...current, pan: clampPan(current.pan, current.zoom, width, map) })); }, [width, map]);
+  // A narrower or shorter field (a sheet opening) must not leave the wall panned past its edge.
+  useEffect(() => { setView((current) => ({ ...current, pan: clampPan(current.pan, current.zoom, width, map, height) })); }, [width, height, map]);
   const layout = typeof arrange === 'function' ? arrange(view) : arrange;
   const arcs: ConnectionsLayout['arcs'] = 'arcs' in layout ? (layout as ConnectionsLayout).arcs : [];
   const markers: ConnectionsLayout['markers'] = 'markers' in layout ? (layout as ConnectionsLayout).markers : [];
@@ -95,17 +98,17 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
         // On a map the wheel moves it, as a drag does.
         if (!map) return;
         event.preventDefault();
-        setView((current) => ({ ...current, pan: clampPan({ x: current.pan.x - event.deltaX / scale, y: current.pan.y - event.deltaY / scale }, current.zoom, width, true) }));
+        setView((current) => ({ ...current, pan: clampPan({ x: current.pan.x - event.deltaX / scale, y: current.pan.y - event.deltaY / scale }, current.zoom, width, true, height) }));
         return;
       }
       event.preventDefault();
       const rect = element.getBoundingClientRect();
       const at = { x: (event.clientX - rect.left) / scale, y: (event.clientY - rect.top) / scale };
-      setView((current) => zoomAbout(current, event.deltaY < 0 ? 1.08 : 0.93, at, width, map));
+      setView((current) => zoomAbout(current, event.deltaY < 0 ? 1.08 : 0.93, at, width, map, height));
     };
     element.addEventListener('wheel', onWheel, { passive: false });
     return () => element.removeEventListener('wheel', onWheel);
-  }, [scale, width, map]);
+  }, [scale, width, height, map]);
 
   function clearHold() {
     if (holdTimer.current !== null) { window.clearTimeout(holdTimer.current); holdTimer.current = null; }
@@ -170,10 +173,10 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
       const start = pinch.current;
       const rect = fieldRef.current!.getBoundingClientRect();
       const at = { x: (start.cx - rect.left) / scale, y: (start.cy - rect.top) / scale };
-      const next = zoomAbout(start.view, dist / Math.max(1, start.dist), at, width, map);
+      const next = zoomAbout(start.view, dist / Math.max(1, start.dist), at, width, map, height);
       const cx = (a.x + b.x) / 2;
       const cy = (a.y + b.y) / 2;
-      setView({ zoom: next.zoom, pan: clampPan({ x: next.pan.x + (cx - start.cx) / scale, y: next.pan.y + (cy - start.cy) / scale }, next.zoom, width, map) });
+      setView({ zoom: next.zoom, pan: clampPan({ x: next.pan.x + (cx - start.cx) / scale, y: next.pan.y + (cy - start.cy) / scale }, next.zoom, width, map, height) });
       setGesturing(true);
       setPull(null);
       return;
@@ -185,7 +188,7 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
     } else if (map || (!pointer.id && viewRef.current.zoom > 1)) {
       // A map moves under a finger from anywhere on it.
       const from = panStart.current ?? (panStart.current = { ...viewRef.current.pan });
-      setView((current) => ({ ...current, pan: clampPan({ x: from.x + dx, y: from.y + dy }, current.zoom, width, map) }));
+      setView((current) => ({ ...current, pan: clampPan({ x: from.x + dx, y: from.y + dy }, current.zoom, width, map, height) }));
       setGesturing(true);
     }
   };
@@ -220,7 +223,7 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
     <div
       ref={fieldRef}
       className="field"
-      style={{ width }}
+      style={{ width, height, top }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -269,11 +272,11 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
           </button>
         ))}
         {people.map((person, index) => {
-          const slot = layout.slots.get(person.id) ?? { x: 0, y: field.height + 40, size: 8, dim: 2 };
+          const slot = layout.slots.get(person.id) ?? { x: 0, y: height + 40, size: 8, dim: 2 };
           const selected = selectedId === person.id || Boolean(pair?.includes(person.id));
           const frame = tileFrame({
             slot, person, selected, held: held === person.id,
-            pull: pull && pull.id === person.id ? pull : null, view, width,
+            pull: pull && pull.id === person.id ? pull : null, view, width, height,
           });
           const away = slot.dim >= 2 && !selected;
           const moving = (pull && pull.id === person.id) || gesturing;
@@ -349,9 +352,9 @@ export function Wall({ people, layout: arrange, width, mode = 'wall', onPlace, o
 
       {map && (
         <div className="field__zoom" onPointerDown={(event) => event.stopPropagation()}>
-          <button type="button" aria-label="Zoom in" onClick={() => setView((current) => zoomAbout(current, 1.3, { x: width / 2, y: field.height / 2 }, width, true))}>+</button>
+          <button type="button" aria-label="Zoom in" onClick={() => setView((current) => zoomAbout(current, 1.3, { x: width / 2, y: height / 2 }, width, true, height))}>+</button>
           <span>{Math.round(view.zoom * 100)}%</span>
-          <button type="button" aria-label="Zoom out" onClick={() => setView((current) => zoomAbout(current, 1 / 1.3, { x: width / 2, y: field.height / 2 }, width, true))}>−</button>
+          <button type="button" aria-label="Zoom out" onClick={() => setView((current) => zoomAbout(current, 1 / 1.3, { x: width / 2, y: height / 2 }, width, true, height))}>−</button>
           <button
             type="button"
             className="field__centre"

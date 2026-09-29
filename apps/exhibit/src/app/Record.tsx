@@ -6,10 +6,11 @@ import { Portrait, focalPoint, portraitUrl } from './Portrait.tsx';
 import { Rich } from './Rich.tsx';
 
 /**
- * One page is two columns of 456 with a 56 gap (968); the next page begins a
- * further gap along, so pages are 1024 apart.
+ * A page is as wide as the window onto the columns: on the display two
+ * columns of 456 with a 56 gap (968), on a phone one. The next page begins a
+ * further gap along, so on the display pages are 1024 apart.
  */
-const pageStride = 1024;
+const columnGap = 56;
 const swipe = 60;
 
 /**
@@ -38,6 +39,7 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
   const columns = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState(1);
+  const [stride, setStride] = useState(1024);
   const start = useRef<number | null>(null);
 
   // Each story starts on its first page.
@@ -48,10 +50,17 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
   const measure = useCallback(() => {
     const element = columns.current;
     if (!element) return;
-    setPages(Math.max(1, Math.round((element.scrollWidth + 56) / pageStride)));
+    const across = element.clientWidth + columnGap;
+    setStride(across);
+    setPages(Math.max(1, Math.round((element.scrollWidth + columnGap) / across)));
   }, []);
   useLayoutEffect(measure, [measure, person.id]);
   useEffect(() => { void document.fonts?.ready.then(measure); }, [measure]);
+  // A phone turned, or a window resized, lays the columns out again.
+  useEffect(() => {
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [measure]);
 
   const turn = (by: number) => setPage((current) => Math.min(pages - 1, Math.max(0, current + by)));
   const onDown = (event: PointerEvent) => { start.current = event.clientX; };
@@ -106,7 +115,7 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
             </div>
           )}
           <div className="story__window">
-            <div ref={columns} className="story__columns" style={{ transform: `translateX(${-shown * pageStride}px)` }}>
+            <div ref={columns} className="story__columns" style={{ transform: `translateX(${-shown * stride}px)` }}>
               {parts.map((part, index) => <p key={index}><Rich text={part} /></p>)}
               <p className="story__credit">
                 {person.biographyCurated

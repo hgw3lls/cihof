@@ -49,6 +49,14 @@ the next visitor meets the colours the admin panel chose. The public website
 starts in light colours and remembers a visitor's choice on their own phone
 or computer.
 
+The display is always drawn at 1920 × 1080. The public website fills
+whatever screen it is opened on: a landscape screen gets the display's
+arrangement, stretched to the screen's shape, and a phone or tablet held
+upright gets a phone arrangement, with the wall above, the keys in two rows
+along the foot, a chosen person's details rising from below and search
+dropping from above. To check one arrangement on the other's build, add
+`?fit=fill` or `?fit=fixed` to the address.
+
 After a minute with nobody touching it, the display asks **"Are you still
 here?"**, and twenty seconds later it starts over. A film playing counts as
 somebody there.

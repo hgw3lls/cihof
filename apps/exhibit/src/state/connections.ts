@@ -19,7 +19,7 @@ import type { PublishedRelationship, SharedContext } from '@cihof/content';
 import type { PreviewTie } from '@cihof/pipeline';
 import type { RuntimePerson, RuntimePlace } from '../data/runtime.ts';
 import { connectionMap, connectionNodes, type ConnectionNode, type Tie } from './selectors.ts';
-import { field, type Slot, type View, type WallLabel, type WallLayout } from './wall.ts';
+import { field, narrow, type Slot, type View, type WallLabel, type WallLayout } from './wall.ts';
 
 export type LayerId = 'inducted' | 'worked' | 'personal' | 'places' | 'together' | 'proposed';
 
@@ -93,6 +93,8 @@ type Input = {
   places: readonly RuntimePlace[];
   on: ReadonlySet<LayerId>;
   width: number;
+  /** The field's height; the display's unless a phone's is given. */
+  height?: number;
 };
 
 /** The ties the layers switched on allow, gathered per person, with each tie's kind. */
@@ -111,7 +113,6 @@ export function nodesFor(input: Pick<Input, 'people' | 'relationships' | 'contex
 }
 
 const chip = true;
-const H = field.height;
 /** A tie's caption, measured roughly, so a label above a face clears it. */
 const captionHeight = (text: string, width: number, size: number) => Math.ceil((text.length * size * 0.52) / width) * Math.round(size * 1.18);
 const round = (value: number) => value.toFixed(1);
@@ -130,7 +131,7 @@ export function diagramLayout(input: Input & {
   /** Screen space the edges keep clear: the trail along the top, the zoom buttons down the right. */
   keepClear?: { top: number; right: number };
 }): ConnectionsLayout {
-  const { people, places, on, width: W, focusId, placeId, view, keepClear = { top: 0, right: 0 } } = input;
+  const { people, places, on, width: W, height: H = field.height, focusId, placeId, view, keepClear = { top: 0, right: 0 } } = input;
   const byId = new Map(people.map((person) => [person.id, person]));
   const slots = new Map<string, Slot>();
   const labels: WallLabel[] = [];
@@ -139,15 +140,17 @@ export function diagramLayout(input: Input & {
   const centre = new Map<string, { x: number; y: number; r: number }>();
   const X = (v: number) => W / 2 + (v / 2.4) * W;
   const Y = (v: number) => H / 2 + (v / 2.4) * H;
-  const size = { focus: 184, tie: 104, cluster: 54, elsewhere: 46 } as const;
+  // On a phone the faces and their captions are drawn smaller, to fit a field a third as wide.
+  const small = narrow(W);
+  const size = small ? { focus: 120, tie: 64, cluster: 34, elsewhere: 30 } : { focus: 184, tie: 104, cluster: 54, elsewhere: 46 };
+  const type = small ? { name: 17, wording: 14, w: 170, nameH: 22 } : { name: 21, wording: 16, w: 250, nameH: 28 };
 
   const caption = (person: RuntimePerson, above: boolean, cx: number, cy: number, sz: number, colour: string, wording: string) => {
-    const w = 250;
-    const nameH = 28;
-    const labH = wording ? captionHeight(wording, w, 16) : 0;
+    const { w, nameH } = type;
+    const labH = wording ? captionHeight(wording, w, type.wording) : 0;
     const top = above ? cy - sz / 2 - 8 - nameH - labH : cy + sz / 2 + 8;
-    labels.push({ x: cx - w / 2, y: top, w, size: 21, text: person.name, color: 'var(--ink)', align: 'center', lineHeight: 1.2, z: 6, chip });
-    if (wording) labels.push({ x: cx - w / 2, y: top + nameH, w, size: 16, text: wording, color: colour, align: 'center', wrap: true, lineHeight: 1.25, z: 6, chip });
+    labels.push({ x: cx - w / 2, y: top, w, size: type.name, text: person.name, color: 'var(--ink)', align: 'center', lineHeight: 1.2, z: 6, chip });
+    if (wording) labels.push({ x: cx - w / 2, y: top + nameH, w, size: type.wording, text: wording, color: colour, align: 'center', wrap: true, lineHeight: 1.25, z: 6, chip });
   };
 
   // The rim, faint, so the diagram reads as a whole.
@@ -160,13 +163,13 @@ export function diagramLayout(input: Input & {
   if (place) {
     const ids = (place.personIds ?? []).filter((id) => byId.has(id));
     const C = { x: X(0), y: Y(0) };
-    const markerSize = 184;
+    const markerSize = size.focus;
     markers.push({ id: place.id, name: place.name, x: C.x - markerSize / 2, y: C.y - markerSize / 2, size: markerSize, count: ids.length, focus: true });
     ids.forEach((id, index) => {
       const angle = -Math.PI / 2 + (index / ids.length) * Math.PI * 2;
       const ex = Math.cos(angle) * 0.62;
       const ey = Math.sin(angle) * 0.66;
-      const sz = ids.length > 8 ? 92 : 104;
+      const sz = small ? 64 : ids.length > 8 ? 92 : 104;
       const cx = X(ex);
       const cy = Y(ey);
       slots.set(id, { x: cx - sz / 2, y: cy - sz / 2, size: sz, dim: 0, ring: 'tie' });
@@ -235,7 +238,7 @@ export function diagramLayout(input: Input & {
     const vy0 = -view.pan.y / zoom + keepClear.top / zoom;
     const vw = (W - keepClear.right) / zoom;
     const vh = (H - keepClear.top) / zoom;
-    const sz = 44 / zoom;
+    const sz = (small ? 34 : 44) / zoom;
     const m = sz / 2 + 10 / zoom;
     const w = vw - 2 * m;
     const h = vh - 2 * m;
@@ -320,11 +323,11 @@ export function diagramLayout(input: Input & {
     theirs.forEach((each, index) => {
       const gap = gaps[index % gaps.length]!;
       const angle = gap.mid + (index >= gaps.length ? 0.35 : 0);
-      const markerSize = 64;
+      const markerSize = small ? 44 : 64;
       const cx = X(Math.cos(angle) * 0.37);
       const cy = Y(Math.sin(angle) * 0.4);
       markers.push({ id: each.id, name: each.name, x: cx - markerSize / 2, y: cy - markerSize / 2, size: markerSize, count: (each.personIds ?? []).length, focus: false });
-      const w = 170;
+      const w = small ? 130 : 170;
       const lh = captionHeight(each.name, w, 15);
       const below = Math.sin(angle) >= -0.2;
       labels.push({ x: cx - w / 2, y: below ? cy + markerSize / 2 + 6 : cy - markerSize / 2 - 6 - lh, w, size: 15, text: each.name, color: 'var(--places-ink)', align: 'center', wrap: true, lineHeight: 1.25, z: 6, chip });
@@ -356,7 +359,7 @@ export function diagramLayout(input: Input & {
  * the bottom. Choosing somebody draws their ties across the city.
  */
 export function placesLayout(input: Input & { selectedId: string | null }): ConnectionsLayout {
-  const { people, places, width: W, selectedId } = input;
+  const { people, places, width: W, height: H = field.height, selectedId } = input;
   const byId = new Map(people.map((person) => [person.id, person]));
   const slots = new Map<string, Slot>();
   const labels: WallLabel[] = [];
@@ -371,7 +374,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
   for (const { place, ids } of ranked) for (const id of ids) if (!home.has(id)) home.set(id, place.id);
   const loose = sorted.filter((person) => !home.has(person.id));
 
-  const small = 26;
+  const small = narrow(W) ? 20 : 26;
   const perRow = Math.floor(W / (small + 4));
   const looseTop = H - Math.ceil(loose.length / perRow) * (small + 4);
   const mapH = looseTop - 40;
@@ -398,7 +401,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
       const n = Math.max(1, members.length);
       const cols = Math.ceil(Math.sqrt(n * 1.3));
       const rows = Math.ceil(n / cols);
-      const w = Math.max(members.length ? cols * (cell + gap) - gap : 0, place.name.length * 9 + 50, members.length ? 0 : 230);
+      const w = Math.min(W - 40, Math.max(members.length ? cols * (cell + gap) - gap : 0, place.name.length * 9 + 50, members.length ? 0 : 230));
       const h = members.length ? rows * (cell + gap) - gap + head : head + 22;
       const mx = place.marker?.x ?? (X0 + X1) / 2;
       const my = place.marker?.y ?? (Y0 + Y1) / 2;
@@ -441,7 +444,9 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
   };
   let cell = 58;
   let arranged = arrange(cell);
-  for (const [smaller, tightness] of [[52, 1], [46, 1], [40, 0.8], [40, 0.6]] as const) {
+  // A phone's narrow field goes smaller still before it gives up.
+  const steps = narrow(W) ? [[52, 1], [46, 1], [40, 0.8], [34, 0.6], [28, 0.5], [24, 0.4]] as const : [[52, 1], [46, 1], [40, 0.8], [40, 0.6]] as const;
+  for (const [smaller, tightness] of steps) {
     if (arranged.fitted) break;
     cell = smaller;
     arranged = arrange(cell, tightness);
@@ -479,7 +484,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
 
   // Somebody with no reviewed place, once chosen, is lifted into a clear space above the strip.
   if (chosen && !home.has(chosen)) {
-    const fs = 110;
+    const fs = narrow(W) ? 80 : 110;
     const clear = (x: number, y: number) => boxes.every((box) => {
       const bx0 = box.cx - box.w / 2 - 22;
       const bx1 = box.cx + box.w / 2 + 22;

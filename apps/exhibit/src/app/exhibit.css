@@ -3,7 +3,10 @@
    The whole exhibit is drawn once at that size and scaled uniformly to the
    screen it is on (Stage.tsx), so every size here is a design pixel. A dialog
    sits in the browser's top layer, outside the stage, and scales its own copy
-   by the same factor.
+   by the same factor. On the public site the stage takes the screen's own
+   proportions, so the shell is laid out from the stage's edges rather than
+   at fixed positions; a screen held upright gets the phone arrangement at the
+   end of this file.
 
    Faces are the exhibit. Every lens is a way of arranging the same wall of
    portraits, and moving between lenses moves the faces.
@@ -194,7 +197,8 @@ button:active { filter: brightness(0.92); }
 
 /* ------------------------------------------------------------------ stage */
 
-/* 1920 × 1080, centred, scaled whole. The ground shows around it on a screen of another shape. */
+/* 1920 × 1080 on the display (the public site's size is set by Stage.tsx),
+   centred, scaled whole. The ground shows around it on a screen of another shape. */
 .stage {
   --px: 1px;
   /* Clipped, not merely hidden: nothing, not even focus, may scroll the stage. */
@@ -211,11 +215,11 @@ button:active { filter: brightness(0.92); }
 
 .shell { position: absolute; inset: 0; }
 
-.masthead { position: absolute; left: 0; top: 0; width: 1920px; height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 48px; }
+.masthead { position: absolute; left: 0; right: 0; top: 0; height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 48px; }
 .masthead h1 { flex: 0 1 auto; min-width: 0; max-width: 1100px; margin: 0; overflow: hidden; font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; white-space: nowrap; text-overflow: ellipsis; }
 .masthead p { flex: 0 100 auto; min-width: 0; margin: 0; overflow: hidden; color: var(--muted); font-size: 20px; white-space: nowrap; text-overflow: ellipsis; text-align: right; }
 
-/* The field: the wall, and whatever each lens draws over it. */
+/* The field: the wall, and whatever each lens draws over it. Its size and top are the shell's (wall.ts). */
 .field { position: absolute; left: 48px; top: 96px; height: 784px; overflow: clip; touch-action: none; transition: width 700ms var(--ease); }
 .field__view { position: absolute; inset: 0; transform-origin: 0 0; }
 /* A lens still on its own panel takes the whole band between header and bar. */
@@ -233,20 +237,20 @@ button:active { filter: brightness(0.92); }
 .wall__label { position: absolute; left: 0; top: 0; overflow: hidden; font-weight: 600; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; text-overflow: ellipsis; pointer-events: none; transition: transform 900ms var(--ease), opacity 500ms; }
 
 /* A to Z: a letter rail down the right, stepped back while somebody is chosen. */
-.rail { position: absolute; right: 0; top: 0; width: 64px; height: 784px; display: flex; flex-direction: column; border-left: 1px solid var(--rule); transition: opacity 300ms; }
+.rail { position: absolute; right: 0; top: 0; bottom: 0; width: 64px; display: flex; flex-direction: column; border-left: 1px solid var(--rule); transition: opacity 300ms; }
 .rail[aria-disabled='true'] { opacity: 0.25; pointer-events: none; }
 .rail button { flex: 1; min-height: 0; padding: 0; border: 0; background: transparent; color: var(--ink-soft); font-size: 20px; font-weight: 600; touch-action: manipulation; }
 .rail button[aria-pressed='true'] { background: var(--ink); color: var(--ground); }
 .field__reset { position: absolute; left: 0; bottom: 0; z-index: 12; min-height: 56px; padding: 0 24px; border: 1px solid var(--ink); background: var(--ground); color: var(--ink); font-size: 20px; font-weight: 600; }
 
 /* The chips for the lens in view, between the field and the bar. */
-.chips { position: absolute; left: 48px; top: 880px; height: 64px; display: flex; align-items: center; gap: 12px; transition: width 700ms var(--ease); }
+.chips { position: absolute; left: 48px; bottom: 136px; height: 64px; display: flex; align-items: center; gap: 12px; transition: width 700ms var(--ease); }
 .chip { display: flex; flex: none; align-items: center; gap: 10px; min-height: 52px; padding: 0 16px; border: 1px solid var(--rule-dim); background: transparent; color: var(--ink); font-size: 19px; font-weight: 600; white-space: nowrap; }
 .chip[aria-pressed='true'] { border-color: var(--ink); background: var(--ink); color: var(--ground); }
 .chips__note { min-width: 0; margin: 0; padding-left: 4px; overflow: hidden; color: var(--muted); font-size: 20px; white-space: nowrap; text-overflow: ellipsis; }
 
 /* The person sheet, in from the right. */
-.sheet { position: absolute; right: 0; top: 96px; z-index: 6; width: 600px; height: 848px; display: flex; flex-direction: column; border-left: 1px solid var(--rule); background: var(--ground); transform: translateX(100%); transition: transform 550ms var(--ease); }
+.sheet { position: absolute; right: 0; top: 96px; bottom: 136px; z-index: 6; width: 600px; display: flex; flex-direction: column; border-left: 1px solid var(--rule); background: var(--ground); transform: translateX(100%); transition: transform 550ms var(--ease); }
 .sheet[data-open] { transform: none; }
 .sheet__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 0 40px; }
 .sheet__film { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 0 20px 0 0; border: 0; background: transparent; color: var(--ink); font-size: 20px; font-weight: 600; white-space: nowrap; }
@@ -275,7 +279,7 @@ button:active { filter: brightness(0.92); }
 .pair__close { min-height: 56px; margin-top: 12px; padding: 0; border: 0; background: transparent; color: var(--muted); font-size: 20px; }
 
 /* "Ways to explore": one key per lens, then the colours and Start over. */
-.lensbar { position: absolute; left: 0; top: 944px; z-index: 7; width: 1920px; height: 136px; display: flex; border-top: 1px solid var(--rule); background: var(--ground); }
+.lensbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 7; height: 136px; display: flex; border-top: 1px solid var(--rule); background: var(--ground); }
 .lensbar > button { border: 0; border-left: 1px solid var(--rule); background: transparent; }
 .lensbar__lens { position: relative; display: flex; flex: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; min-width: 0; padding: 0 36px; color: var(--ink); text-align: left; transition: background 300ms, color 300ms; }
 .lensbar__lens::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: var(--lens); }
@@ -460,10 +464,10 @@ dialog.record, dialog.film { inset: 0; width: 100%; height: 100%; overflow: clip
 dialog.film { background: #000; }
 
 /* A dialog is drawn in the browser's top layer, outside the stage, so it
-   carries its own 1920 × 1080 copy at the same scale. */
+   carries its own copy of the stage, the same size and at the same scale. */
 .dialog-stage {
   --px: 1px;
-  position: fixed; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: clip;
+  position: fixed; left: 50%; top: 50%; width: var(--stage-w, 1920px); height: var(--stage-h, 1080px); overflow: clip;
   /* Separate properties, so an entrance animation's own transform adds to them. */
   translate: -50% -50%;
   scale: var(--stage-scale, 1);
@@ -490,8 +494,8 @@ dialog.film { background: #000; }
 .story__reading { position: relative; min-width: 0; min-height: 0; padding: 88px 96px 0; overflow: hidden; touch-action: pan-y; }
 .story__ways { position: absolute; top: 20px; right: 96px; display: flex; gap: 10px; }
 .story__ways button { min-height: 56px; padding: 0 20px; border: 1px solid var(--rule-dim); background: var(--ground); color: var(--ink); font-size: 19px; font-weight: 600; }
-.story__window { position: relative; height: 760px; overflow: hidden; }
-.story__columns { height: 760px; column-width: 456px; column-gap: 56px; column-fill: auto; transition: transform 500ms var(--ease); }
+.story__window { position: relative; height: calc(var(--stage-h, 1080px) - 320px); overflow: hidden; }
+.story__columns { height: 100%; column-width: 456px; column-gap: 56px; column-fill: auto; transition: transform 500ms var(--ease); }
 .story__columns p { margin: 0 0 22px; color: var(--ink-soft); font-size: 24px; line-height: 1.45; text-wrap: pretty; }
 .story__columns p:first-child { color: var(--ink); }
 .story__columns em { font-family: 'Instrument Serif', 'Instrument Sans', serif; font-size: 1.08em; font-style: italic; font-weight: 400; letter-spacing: 0; }
@@ -522,7 +526,7 @@ dialog.film { background: #000; }
 /* ------------------------------------------------------------------ Years */
 
 /* The year, large, to the left of its class; the classes along the chip band. */
-.years__year { position: absolute; left: 0; top: 0; z-index: 2; width: 640px; height: 784px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 24px 0; border-right: 2px solid var(--ink); pointer-events: none; }
+.years__year { position: absolute; left: 0; top: 0; bottom: 0; z-index: 2; width: 640px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 24px 0; border-right: 2px solid var(--ink); pointer-events: none; }
 .years__year p { margin: 0; }
 .years__year p:first-child { color: var(--muted); font-size: 19px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
 .years__year p:last-child { color: var(--years-ink); font-size: 220px; font-weight: 600; letter-spacing: -0.045em; line-height: 0.85; }
@@ -716,5 +720,179 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; margin: 0; padding: 0.25rem 0.6rem; background: var(--people); color: var(--on-lens); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }
 .previewbuild { position: fixed; z-index: 50; left: 0; right: 0; top: 0; margin: 0; padding: 0.3rem 0.75rem; background: var(--unreviewed); color: #141414; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
 .unreviewed { margin-left: 0.75rem; padding: 0.1rem 0.45rem; border: 1px solid var(--unreviewed); color: var(--unreviewed-ink); font-size: 0.6875rem; font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle; }
+
+/* ------------------------------------------------------------------ phone
+
+   A screen held upright, on the public site: the stage is about 560 design
+   pixels wide, near a screen pixel each, so the type is the size it was drawn
+   at. The header is shorter and the bar two rows deep. A chosen person's sheet
+   rises from below and search drops from above, each shortening the wall
+   rather than narrowing it (wall.ts, fieldGeometry). The sheet's and search's
+   heights come from the shell as --sheet-h and --search-h. */
+
+:root[data-shape='phone'] .masthead { height: 124px; display: grid; grid-template-rows: 52px 40px 22px; align-content: start; justify-content: stretch; gap: 0; padding: 0 16px; }
+:root[data-shape='phone'] .masthead .lockup { align-self: center; }
+:root[data-shape='phone'] .masthead h1 { max-width: none; font-size: 32px; line-height: 40px; }
+:root[data-shape='phone'] .masthead p { font-size: 16px; line-height: 22px; text-align: left; }
+
+:root[data-shape='phone'] .field { left: 16px; }
+:root[data-shape='phone'] .rail { width: 40px; }
+:root[data-shape='phone'] .rail button { font-size: 15px; }
+:root[data-shape='phone'] .field__reset { min-height: 48px; padding: 0 16px; font-size: 17px; }
+
+/* The chips scroll sideways when they will not fit. The gesture hints are for the wall's own screen. */
+:root[data-shape='phone'] .chips { left: 16px; right: 16px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; gap: 8px; }
+:root[data-shape='phone'] .chips::-webkit-scrollbar { display: none; }
+:root[data-shape='phone'] .chip { min-height: 48px; padding: 0 14px; font-size: 17px; }
+:root[data-shape='phone'] .chips > .chips__note:last-child { display: none; }
+:root[data-shape='phone'] .chips__note { flex: none; font-size: 16px; }
+:root[data-shape='phone'] .chip--next { font-size: 18px; }
+:root[data-shape='phone'] .chip--lit span { font-size: 20px; }
+
+/* The bar: the lenses across the first row, search, tours, colours and Start over below. */
+:root[data-shape='phone'] .lensbar { height: 136px; flex-wrap: wrap; align-content: stretch; }
+:root[data-shape='phone'] .lensbar > button { border-top: 1px solid var(--rule); }
+:root[data-shape='phone'] .lensbar__lens { flex: 1 1 30%; height: 76px; padding: 0 14px; gap: 0; }
+:root[data-shape='phone'] .lensbar__lens::before { height: 5px; }
+:root[data-shape='phone'] .lensbar__lens .lensbar__label { font-size: 24px; }
+:root[data-shape='phone'] .lensbar__lens .lensbar__sub { display: none; }
+:root[data-shape='phone'] .lensbar__search, :root[data-shape='phone'] .lensbar__tour { flex: 1 1 22%; height: 60px; padding: 0 14px; gap: 2px; }
+:root[data-shape='phone'] .lensbar__search::before, :root[data-shape='phone'] .lensbar__tour::before { height: 4px; }
+:root[data-shape='phone'] .lensbar__search .lensbar__label, :root[data-shape='phone'] .lensbar__tour .lensbar__label { font-size: 20px; }
+:root[data-shape='phone'] .lensbar__search .lensbar__sub, :root[data-shape='phone'] .lensbar__tour .lensbar__sub { font-size: 13px; }
+:root[data-shape='phone'] .lensbar__theme { flex: 1 1 18%; height: 60px; flex-direction: row; gap: 8px; padding: 0 10px; font-size: 16px; }
+:root[data-shape='phone'] .lensbar__swatch { width: 20px; height: 20px; }
+:root[data-shape='phone'] .lensbar__restart { flex: 1 1 18%; height: 60px; padding: 0 10px; font-size: 16px; }
+
+/* A person, a pair or a place: a sheet from below, over the chips and the bar. */
+:root[data-shape='phone'] .sheet { left: 0; right: 0; top: auto; bottom: 0; z-index: 8; width: auto; height: var(--sheet-h); border-top: 2px solid var(--ink); border-left: 0; transform: translateY(100%); }
+:root[data-shape='phone'] .sheet[data-open] { transform: none; }
+:root[data-shape='phone'] .sheet__top { padding: 10px 10px 0 20px; }
+:root[data-shape='phone'] .sheet__film { min-height: 48px; font-size: 18px; }
+:root[data-shape='phone'] .play-square { width: 48px; height: 48px; }
+:root[data-shape='phone'] .sheet__close { width: 48px; height: 48px; }
+:root[data-shape='phone'] .sheet__body { padding: 4px 20px 16px; }
+:root[data-shape='phone'] .sheet__kicker { margin-bottom: 6px; font-size: 15px; }
+:root[data-shape='phone'] .sheet__name { font-size: 38px; }
+:root[data-shape='phone'] .sheet__honored { margin-top: 10px; font-size: 17px; }
+:root[data-shape='phone'] .sheet__teaser { margin-top: 10px; font-size: 19px; -webkit-line-clamp: 9; line-clamp: 9; }
+:root[data-shape='phone'] .sheet__teaser[data-short] { -webkit-line-clamp: 2; line-clamp: 2; }
+:root[data-shape='phone'] .sheet__actions { gap: 8px; padding-top: 12px; }
+:root[data-shape='phone'] .sheet__story { min-height: 64px; padding: 0 20px; font-size: 24px; }
+:root[data-shape='phone'] .sheet__ties { min-height: 52px; font-size: 18px; }
+:root[data-shape='phone'] .sheet__ties-list { margin-top: 12px; }
+:root[data-shape='phone'] .sheet__ties-list li > * { min-height: 60px; gap: 12px; }
+:root[data-shape='phone'] .sheet__tie-face { width: 44px; height: 44px; }
+:root[data-shape='phone'] .sheet__tie-text { font-size: 15px; }
+:root[data-shape='phone'] .sheet__tie-text strong { font-size: 19px; }
+:root[data-shape='phone'] .sheet__label { margin-bottom: 12px; font-size: 15px; }
+:root[data-shape='phone'] .pair { padding: 20px 20px 16px; }
+:root[data-shape='phone'] .pair__faces { gap: 12px; }
+:root[data-shape='phone'] .pair__portrait { aspect-ratio: 4 / 3; }
+:root[data-shape='phone'] .pair__name { margin-top: 8px; font-size: 22px; }
+:root[data-shape='phone'] .pair__meta { font-size: 15px; }
+:root[data-shape='phone'] .pair__shares { margin-top: 16px; }
+:root[data-shape='phone'] .pair__share { margin-top: 6px; font-size: 22px; }
+:root[data-shape='phone'] .pair__open button { min-height: 56px; font-size: 17px; }
+:root[data-shape='phone'] .pair__close { min-height: 48px; margin-top: 4px; font-size: 17px; }
+
+/* Search from above, so a phone's own keyboard never covers what is typed. */
+:root[data-shape='phone'] .sheet--search { top: 0; bottom: auto; height: var(--search-h); border-top: 0; border-bottom: 2px solid var(--ink); transform: translateY(-100%); }
+:root[data-shape='phone'] .search__top { gap: 8px; padding: 14px 10px 0 16px; }
+:root[data-shape='phone'] .search__field input { height: 60px; font-size: 30px; }
+:root[data-shape='phone'] .search__clear { min-height: 48px; padding: 0 12px; font-size: 16px; }
+:root[data-shape='phone'] .search__close { width: 48px; height: 48px; }
+:root[data-shape='phone'] .search__status { margin-top: 8px; padding: 0 16px; font-size: 16px; }
+:root[data-shape='phone'] .search__results { margin-top: 8px; padding: 0 16px 8px; }
+:root[data-shape='phone'] .search__row { gap: 12px; min-height: 68px; padding: 8px 0; }
+:root[data-shape='phone'] .search__title { font-size: 20px; }
+:root[data-shape='phone'] .search__quote { font-size: 17px; }
+:root[data-shape='phone'] .search__snippet { font-size: 16px; }
+:root[data-shape='phone'] .search__faces { width: 88px; }
+:root[data-shape='phone'] .search__faces .search__face:nth-child(n + 3) { display: none; }
+:root[data-shape='phone'] .search__face--large, :root[data-shape='phone'] .search__place { width: 48px; height: 48px; }
+:root[data-shape='phone'] .search__poster { width: 85px; height: 48px; }
+
+/* Connections. */
+:root[data-shape='phone'] .trail__label { display: none; }
+:root[data-shape='phone'] .trail__join { width: 10px; }
+:root[data-shape='phone'] .trail__step button { width: 40px; height: 40px; }
+:root[data-shape='phone'] .trail__save { min-height: 40px; margin-left: 10px; padding: 0 12px; font-size: 15px; }
+/* The note says who presented the person chosen; on a phone their sheet, just below, already lists it. */
+:root[data-shape='phone'] .trail__note { display: none; }
+:root[data-shape='phone'] .field__zoom button { width: 56px; height: 48px; font-size: 28px; }
+:root[data-shape='phone'] .field__zoom > span { font-size: 13px; }
+:root[data-shape='phone'] .chip__swatch { width: 20px; }
+
+/* Years: the year above its class, the classes along the chip band. */
+:root[data-shape='phone'] .years__year { right: 0; bottom: auto; width: auto; height: 136px; flex-direction: row; align-items: flex-end; justify-content: space-between; padding: 0 0 12px; border-right: 0; border-bottom: 2px solid var(--ink); }
+:root[data-shape='phone'] .years__year p:first-child { font-size: 16px; }
+:root[data-shape='phone'] .years__year p:last-child { font-size: 112px; }
+:root[data-shape='phone'] .years__strip button { flex: 0 0 auto; min-width: 84px; font-size: 22px; }
+
+/* A story: the portrait above, the pages below, turned by a swipe or the arrows. */
+:root[data-shape='phone'] .story { grid-template-columns: minmax(0, 1fr); grid-template-rows: 34% minmax(0, 1fr) auto; }
+:root[data-shape='phone'] .story__portrait { grid-row: 1; }
+:root[data-shape='phone'] .story__fade { background: linear-gradient(180deg, transparent 10%, color-mix(in srgb, var(--ground) 80%, transparent) 50%, var(--ground) 100%); }
+:root[data-shape='phone'] .story__film { left: 16px; top: 16px; gap: 12px; padding-right: 16px; font-size: 18px; }
+:root[data-shape='phone'] .story__play { width: 64px; height: 64px; }
+:root[data-shape='phone'] .story__who { left: 20px; right: 20px; bottom: 16px; }
+:root[data-shape='phone'] .story__kicker { margin-bottom: 8px; font-size: 15px; }
+:root[data-shape='phone'] .story__who h2 { font-size: 44px; }
+:root[data-shape='phone'] .story__honored { margin-top: 8px; font-size: 16px; }
+:root[data-shape='phone'] .story__honored + .story__honored { margin-top: 2px; }
+:root[data-shape='phone'] .story__reading { display: flex; flex-direction: column; padding: 16px 20px 8px; }
+:root[data-shape='phone'] .story__ways { position: static; justify-content: flex-end; margin-bottom: 12px; }
+:root[data-shape='phone'] .story__ways button { min-height: 48px; padding: 0 14px; font-size: 16px; }
+:root[data-shape='phone'] .story__window { flex: 1; height: auto; min-height: 0; }
+:root[data-shape='phone'] .story__columns p { margin-bottom: 16px; font-size: 20px; }
+:root[data-shape='phone'] .story__columns .story__credit { font-size: 15px; }
+:root[data-shape='phone'] .story__hint { position: static; margin-top: 6px; font-size: 15px; }
+:root[data-shape='phone'] .story__bar { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 72px 72px; }
+:root[data-shape='phone'] .story__bar > .story__next { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--rule); }
+:root[data-shape='phone'] .story__back { gap: 8px; padding: 0 16px; font-size: 18px; }
+:root[data-shape='phone'] .story__back span { font-size: 22px; }
+:root[data-shape='phone'] .story__paging { gap: 12px; }
+:root[data-shape='phone'] .story__paging > button { width: 56px; height: 56px; font-size: 26px; }
+:root[data-shape='phone'] .story__page { min-width: 96px; gap: 6px; font-size: 16px; }
+:root[data-shape='phone'] .story__next { gap: 14px; padding: 0 16px; }
+:root[data-shape='phone'] .story__thumb { width: 52px; height: 52px; }
+:root[data-shape='phone'] .story__next-label { font-size: 13px; }
+:root[data-shape='phone'] .story__next-name { font-size: 20px; }
+:root[data-shape='phone'] .story__arrow { font-size: 24px; }
+
+/* Tours, and a saved thread, on one column that scrolls. */
+:root[data-shape='phone'] .tours__frame { padding: 28px 16px 16px; overflow-y: auto; overscroll-behavior: contain; }
+:root[data-shape='phone'] .tours__frame--centred { padding: 0; overflow: hidden; }
+:root[data-shape='phone'] .tours__kicker { font-size: 15px; }
+:root[data-shape='phone'] .tours__frame h2 { font-size: 38px; }
+:root[data-shape='phone'] .tours__grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 20px; }
+:root[data-shape='phone'] .tours__card { gap: 8px; padding: 14px 14px 16px; }
+:root[data-shape='phone'] .tours__faces span { width: 40px; height: 40px; }
+:root[data-shape='phone'] .tours__prompt { font-size: 14px; }
+:root[data-shape='phone'] .tours__label { font-size: 26px; }
+:root[data-shape='phone'] .tours__description, :root[data-shape='phone'] .tours__count { font-size: 15px; }
+:root[data-shape='phone'] .tours__none { font-size: 18px; }
+:root[data-shape='phone'] .tours__threads { margin-top: 24px; }
+:root[data-shape='phone'] .tours__thread { flex: 0 0 86%; gap: 10px; padding: 14px 16px; }
+:root[data-shape='phone'] .tours__face { width: 36px; height: 36px; }
+:root[data-shape='phone'] .tours__thread-name { font-size: 22px; }
+:root[data-shape='phone'] .tours__follow, :root[data-shape='phone'] .tours__edit { min-height: 52px; font-size: 17px; }
+:root[data-shape='phone'] .tours__edit { flex-basis: 96px; }
+:root[data-shape='phone'] .tours__foot { padding-top: 20px; }
+:root[data-shape='phone'] .tours__back { width: 100%; min-height: 60px; font-size: 19px; }
+:root[data-shape='phone'] .editor { width: 100%; height: 100%; padding: 24px 16px 16px; border: 0; }
+:root[data-shape='phone'] .editor__name { font-size: 30px !important; }
+:root[data-shape='phone'] .editor__steps { margin-top: 12px; }
+:root[data-shape='phone'] .editor__steps li { gap: 8px; min-height: 72px; }
+:root[data-shape='phone'] .editor__n { flex-basis: 22px; font-size: 16px; }
+:root[data-shape='phone'] .editor__face { width: 44px; height: 44px; }
+:root[data-shape='phone'] .editor__text { font-size: 14px; }
+:root[data-shape='phone'] .editor__text strong { font-size: 19px; }
+:root[data-shape='phone'] .editor__steps button { width: 44px; height: 44px; font-size: 20px; }
+:root[data-shape='phone'] .editor__steps .editor__remove { min-width: 0; padding: 0 10px; font-size: 15px; }
+:root[data-shape='phone'] .editor__foot { flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+:root[data-shape='phone'] .editor__foot > span { display: none; }
+:root[data-shape='phone'] .editor__foot button { flex: 1 1 40%; min-height: 56px; padding: 0 12px; font-size: 17px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
