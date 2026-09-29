@@ -110,7 +110,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, tours: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
 }
 
 /**
@@ -134,6 +134,9 @@ function normaliseDraft(value) {
     profiles: object(draft.profiles),
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
+    // Only the two decisions a tour can have.
+    tours: Object.fromEntries(Object.entries(object(draft.tours)).filter(([, value]) => value?.decision === 'withdraw'
+      || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience)))),
     filmStarts: object(draft.filmStarts),
     // Only what this app can decide: an acceptance, or a clearing. A signature
     // recorded the old way, for someone else, is not made into an acceptance.

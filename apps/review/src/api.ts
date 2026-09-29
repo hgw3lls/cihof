@@ -82,6 +82,30 @@ export type AttractDecision =
   | { decision: 'approve'; seenVersion: string; note?: string }
   | { decision: 'reword'; headline: string; tagline: string; note?: string };
 
+/** A curated tour, whether it is approved, and who it visits now. */
+export type Tour = {
+  tourId: string;
+  label: string;
+  prompt: string;
+  description: string;
+  terms: string[];
+  themes: string[];
+  /** Names of the people always first, and never included. */
+  pinned: string[];
+  excluded: string[];
+  /** What approving the tour as shown records. */
+  contentVersion: string;
+  state: 'approved' | 'changed-since-approval' | 'draft';
+  /** Where its approval lets it be shown now. */
+  shownOn: { kiosk: boolean; publicWeb: boolean };
+  reviewedAt: string | null;
+  people: { id: string; name: string; classYear: number | null; portrait: string | null }[];
+};
+
+export type TourDecision =
+  | { decision: 'approve'; seenVersion: string; audience: Audience; note?: string }
+  | { decision: 'withdraw'; note?: string };
+
 /** Someone whose film is a ceremony shared with others, and where it opens. */
 export type FilmStart = {
   key: string;
@@ -158,12 +182,13 @@ export type Draft = {
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
   profiles: Record<string, ProfileDecision>;
   attract: Record<string, AttractDecision>;
+  tours: Record<string, TourDecision>;
   filmStarts: Record<string, FilmStartDecision>;
   signoffs: Record<string, SignoffDecision>;
   filmFixes: Record<string, FilmFix>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; filmStarts: number; signoffs: number; filmFixes: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; tours: number; filmStarts: number; signoffs: number; filmFixes: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -173,6 +198,7 @@ export type Review = {
   profiles: Profile[];
   kinds: Kind[];
   attract: AttractWords;
+  tours: Tour[];
   filmStarts: FilmStart[];
   /** What still stands between the exhibit and opening day, from the records. */
   readiness: ReadinessLine[];

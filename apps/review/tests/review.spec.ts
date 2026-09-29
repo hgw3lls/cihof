@@ -47,6 +47,9 @@ test.beforeAll(async () => {
     ...document, items: document.items.map(({ cleared, ...item }: { cleared?: unknown }) => ({ ...item, signed: null })),
   }));
   reset('data/cihof_caption_fixes.json', (document) => ({ ...document, fixes: [] }));
+  reset('data/cihof_story_lenses.json', (document) => ({
+    ...document, lenses: document.lenses.map(({ review, ...lens }: { review?: unknown }) => ({ ...lens, reviewStatus: 'draft' })),
+  }));
   plant('raj-aggarwal-2025', 'DoZUzteeFMU', 'Heat. Heat.');
   plant('carolyn-balogh-2016-2016', 'qzHokEDkXQc', 'Carolyn Vero');
   git('add', '-A', '--', 'data');
@@ -214,6 +217,14 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back', exact: true }).click();
 
+  // A curated tour, approved as shown for the exhibit, with the people it visits.
+  await page.getByRole('button', { name: /^Tours/ }).click();
+  const tour = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Civic Builders' }) });
+  await expect(tour.locator('.tour__people li').first()).toBeVisible();
+  await tour.getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();
+  await expect(tour.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+  await page.getByRole('button', { name: 'Back to the start' }).click();
+
   // Nothing is written until the reviewer saves.
   expect(git('status', '--porcelain').trim()).toBe('');
   expect(git('rev-parse', 'HEAD').trim()).toBe(before);
@@ -239,6 +250,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
+  expect(log).toContain('review: tours, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('review: sign-offs, 1 decision');
   expect(log).toContain('review: film captions and transcripts, 2 decisions');
@@ -297,6 +309,16 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
     review: { status: 'approved', decisionReference: expect.stringMatching(/^attract-words-review-/) },
     publication: { kiosk: true, publicWeb: false },
   });
+  // The tour is approved for exactly the version the reviewer saw; the others are still drafts.
+  const lenses = JSON.parse(readFileSync(join(worktree, 'data/cihof_story_lenses.json'), 'utf8')).lenses;
+  const approvedTours = lenses.filter((lens: { reviewStatus: string }) => lens.reviewStatus === 'approved');
+  expect(approvedTours.map((lens: { id: string }) => lens.id)).toEqual(['built-cleveland']);
+  expect(approvedTours[0].review).toMatchObject({
+    contentVersion: expect.stringMatching(/^tour-[0-9a-f]{12}$/), decisionReference: expect.stringMatching(/^tours-review-/),
+  });
+  expect(approvedTours[0].review.note).toContain('Reviewed by Playwright Reviewer');
+  // Approved for the exhibit only: the website is a separate decision.
+  expect(approvedTours[0].publication).toEqual({ kiosk: true, publicWeb: false });
   expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
   expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 
