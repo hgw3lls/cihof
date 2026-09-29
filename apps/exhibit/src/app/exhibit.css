@@ -30,7 +30,6 @@
 
 :root {
   --ground: #121211;
-  --ground-film: #000;
   --ink: #f2f1ec;
   --ink-soft: #c9c7bf;
   --muted: #a19f97;
@@ -68,16 +67,6 @@
      dialog, drawn outside the stage, it carries the scale itself. */
   --px: calc(var(--stage-scale, 1) * 1px);
 
-  /* Earlier names, for the screens not yet moved onto the wall. */
-  --rule-soft: var(--rule);
-  --lens-people: var(--people);
-  --lens-years: var(--years);
-  --lens-links: var(--links);
-  --lens-places: var(--places);
-  --lens-people-ink: var(--people-ink);
-  --lens-years-ink: var(--years-ink);
-  --lens-links-ink: var(--links-ink);
-  --lens-places-ink: var(--places-ink);
   color-scheme: dark;
 }
 
@@ -686,14 +675,17 @@ dialog.film { background: #000; }
 /* ---------------------------------------------------- idle warning, sharing */
 
 .warning__panel, .share__panel, .recovery__panel { border: 2px solid var(--ink); background: var(--ground); }
-dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: color-mix(in srgb, var(--ground) 90%, transparent); }
+/* The warning and the code lie over the display, the display dimmed behind. */
+dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: var(--scrim); }
+dialog.share::backdrop, dialog.warning::backdrop { background: transparent; }
+.warning__panel, .share__panel { animation: rise 300ms var(--ease) both; }
 .warning[open], .share[open] { display: grid; place-items: center; padding: 1.5rem; }
 .warning__panel { width: min(calc(900 * var(--px)), 100%); padding: calc(56 * var(--px)); }
 .warning__panel h2 { margin: 0 0 calc(20 * var(--px)); font-size: calc(66 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
 .warning__panel p { margin: 0 0 calc(40 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); }
 .warning__actions { display: flex; flex-wrap: wrap; gap: calc(16 * var(--px)); }
 .warning__actions button { flex: 1; min-height: max(var(--tap), calc(96 * var(--px))); padding: 0 calc(32 * var(--px)); border: 2px solid var(--ink); background: transparent; font-size: calc(34 * var(--px)); font-weight: 600; letter-spacing: -0.03em; }
-.warning__actions button:first-child { border-color: var(--lens-people); background: var(--lens-people); color: var(--on-lens); }
+.warning__actions button:first-child { border-color: var(--people); background: var(--people); color: var(--on-lens); }
 
 /* Continuation. The code is large enough to scan from standing distance, and
    the address is readable for anyone who would rather type it. */
@@ -702,8 +694,8 @@ dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: 
 .share__panel p { margin: 0 0 calc(24 * var(--px)); color: var(--ink-soft); font-size: calc(24 * var(--px)); }
 .share__panel canvas { display: block; width: min(calc(400 * var(--px)), 100%); height: auto; margin: 0 auto calc(24 * var(--px)); background: #fff; }
 .share__url { font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; color: var(--ink) !important; }
-.share__problem { color: var(--lens-people-ink) !important; }
-.share__panel button { min-height: max(var(--tap), calc(80 * var(--px))); margin-top: calc(8 * var(--px)); padding: 0 calc(48 * var(--px)); border: 0; background: var(--lens-people); color: var(--on-lens); font-size: calc(30 * var(--px)); font-weight: 600; }
+.share__problem { color: var(--people-ink) !important; }
+.share__panel button { min-height: max(var(--tap), calc(80 * var(--px))); margin-top: calc(8 * var(--px)); padding: 0 calc(48 * var(--px)); border: 0; background: var(--people); color: var(--on-lens); font-size: calc(30 * var(--px)); font-weight: 600; }
 
 /* Operator recovery. Plain, dense and readable over someone's shoulder. */
 dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in srgb, var(--ground) 94%, transparent); }
@@ -714,14 +706,14 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .recovery__facts dt { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .recovery__facts dd { margin: 0; overflow-wrap: anywhere; }
 .recovery code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; }
-.recovery__outcome { margin: 1rem 0 0; padding: 0.75rem; border: 2px solid var(--lens-people-ink); color: var(--lens-people-ink); }
+.recovery__outcome { margin: 1rem 0 0; padding: 0.75rem; border: 2px solid var(--people-ink); color: var(--people-ink); }
 .recovery__missing ul { margin: 0; padding-left: 1.25rem; font-size: 0.875rem; }
 .recovery__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 .recovery__actions button { min-height: var(--tap); padding: 0 1.25rem; border: 2px solid var(--ink); background: transparent; font-weight: 700; }
 .recovery__actions button:disabled { opacity: 0.45; }
 
 /* A build with test timings says so, so it cannot be mistaken for production. */
-.testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; margin: 0; padding: 0.25rem 0.6rem; background: var(--lens-people); color: var(--on-lens); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }
+.testbuild { position: fixed; z-index: 50; right: 0; bottom: 0; margin: 0; padding: 0.25rem 0.6rem; background: var(--people); color: var(--on-lens); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; }
 .previewbuild { position: fixed; z-index: 50; left: 0; right: 0; top: 0; margin: 0; padding: 0.3rem 0.75rem; background: var(--unreviewed); color: #141414; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
 .unreviewed { margin-left: 0.75rem; padding: 0.1rem 0.45rem; border: 1px solid var(--unreviewed); color: var(--unreviewed-ink); font-size: 0.6875rem; font-style: normal; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle; }
 

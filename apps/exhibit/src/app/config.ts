@@ -18,9 +18,14 @@ const raw = {
  */
 export const isTestBuild = raw.testMode === '1';
 
+/**
+ * A visitor who has stopped touching the display is asked whether they are
+ * still there after a minute, and the display starts over twenty seconds
+ * later. A film playing counts as somebody there.
+ */
 export const configuredTiming = {
-  idleMs: toMs(raw.idleMs, 120_000),
-  warningMs: toMs(raw.warningMs, 30_000),
+  idleMs: toMs(raw.idleMs, 80_000),
+  warningMs: toMs(raw.warningMs, 20_000),
 };
 
 function toMs(value: string | undefined, fallback: number): number {
