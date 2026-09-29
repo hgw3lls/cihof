@@ -1,4 +1,4 @@
-import type { AttractText, PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace } from '@cihof/pipeline';
+import type { AttractText, PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace, RuntimeTour } from '@cihof/pipeline';
 import type { PublishedFilm } from '@cihof/content';
 
 /**
@@ -32,4 +32,4 @@ function asBundle(value: unknown): RuntimeBundle | null {
   return candidate as RuntimeBundle;
 }
 
-export type { AttractText, PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace, PublishedFilm };
+export type { AttractText, PreviewTie, RuntimeBundle, RuntimePerson, RuntimePlace, RuntimeTour, PublishedFilm };

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import type { AttractText, RuntimePerson } from '../data/runtime.ts';
 import type { AttractMode } from './attract-settings.ts';
 import { Portrait } from './Portrait.tsx';
@@ -49,13 +49,14 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
   const spot = useSpotlight(candidates, spotlightMs, mode === 'stacked');
   const spotPerson = spot === null ? null : cells[spot] ?? null;
   const reduced = usePrefersReducedMotion();
+  const still = !motion || reduced;
 
   // With approved words, the name sits small above the headline. Without
   // them, the name with its skyline is the headline.
   const words = text
     ? (
       <>
-        <p className="attract__label"><Lockup /></p>
+        {mode === 'mosaic' && <p className="attract__label"><Lockup /></p>}
         <h2 className="attract__headline">
           {text.headline}
           {text.unreviewed && <em className="unreviewed">Unreviewed</em>}
@@ -65,8 +66,19 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
     )
     : <h2 className="attract__headline attract__headline--name"><Lockup variant="display" /></h2>;
 
+  // The same call on every screen: the whole wall, or straight to one person.
+  const cta = (
+    <button type="button" className="attract__cta" data-begin onClick={(event) => { event.stopPropagation(); onBegin(); }}>
+      <span className="attract__cta-text">
+        <span>Touch to enter</span>
+        <span className="attract__hint">{mode === 'mosaic' ? 'Or tap a portrait' : mode === 'names' ? 'Or tap a name' : 'Or tap a name or portrait'}</span>
+      </span>
+      <span className="square" aria-hidden="true" />
+    </button>
+  );
+
   return (
-    <div className={`attract attract--${mode}`} data-motion={motion ? 'on' : 'off'} style={{ '--spotlight-ms': `${spotlightMs}ms` } as CSSProperties}>
+    <div className={`attract attract--${mode}`} data-motion={still ? 'off' : 'on'} style={{ '--spotlight-ms': `${spotlightMs}ms` } as CSSProperties}>
       <h1 className="visually-hidden">{hallName}</h1>
       {/* The call to action comes first in the document, so it is the first
           thing a keyboard or a screen reader reaches; the layout places it. */}
@@ -74,74 +86,89 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
       {mode === 'mosaic' && (
         <>
           <div className="attract__panel" onClick={onBegin}>
-            <button type="button" className="block block--people attract__cta" data-begin onClick={(event) => { event.stopPropagation(); onBegin(); }}>
-              <span>Touch any face</span>
-              <span className="attract__or">or here to see everyone</span>
-            </button>
+            {cta}
             <div className="attract__words">{words}</div>
           </div>
           <ul className="attract__mosaic" aria-label="Inductees">
             {cells.map((person, index) => (
               <li key={`${person.id}:${index}`}>
-                <button
-                  type="button"
-                  className="attract__face"
-                  aria-current={index === spot ? 'true' : undefined}
+                <Face
+                  person={person}
+                  lit={index === spot}
+                  breathe={!still}
+                  index={index}
                   // A repeated face is the same person again, and a face under the
                   // text panel cannot be seen: neither is offered to a keyboard or
                   // a screen reader, so nothing opens a person nobody can see.
-                  {...(cells.indexOf(person) !== index || underPanel(index) ? { tabIndex: -1, 'aria-hidden': true } : {})}
-                  aria-label={person.name}
-                  onClick={() => onBeginWith(person.id)}
+                  hidden={cells.indexOf(person) !== index || underPanel(index)}
+                  onBeginWith={onBeginWith}
                 >
-                  <Portrait person={person} decorative />
                   {index === spot && <span className="attract__tag">{person.name}{person.classYear ? ` · ${person.classYear}` : ''}</span>}
-                </button>
+                </Face>
               </li>
             ))}
           </ul>
-
         </>
       )}
 
       {mode !== 'mosaic' && (
         <>
-          <header className="attract__masthead">
-            <p>{text ? <Lockup /> : null}</p>
-            <p>{people.length} {people.length === 1 ? 'name' : 'names'}</p>
-          </header>
-
           <div className="attract__bar">
-            <button type="button" className="block block--people attract__cta" data-begin onClick={onBegin}>
-              {mode === 'names' ? 'Touch a name' : 'Touch a name or face'}
-              <span className="square" aria-hidden="true" />
-            </button>
+            {cta}
             <div className="attract__words">{words}</div>
           </div>
-          <NameRows people={order} rows={mode === 'names' ? 6 : 3} spotId={spotPerson?.id ?? null} still={!motion || reduced} onBeginWith={onBeginWith} />
+          <header className="attract__masthead">
+            <Lockup />
+            <p>{people.length} {people.length === 1 ? 'name' : 'names'}</p>
+          </header>
+          <NameRows people={order} rows={mode === 'names' ? 6 : 3} spotId={spotPerson?.id ?? null} still={still} onBeginWith={onBeginWith} />
 
           {mode === 'stacked' && (
             <ul className="attract__strip" aria-label="Inductees">
               {cells.map((person, index) => (
                 <li key={person.id}>
-                  <button
-                    type="button"
-                    className="attract__face"
-                    aria-current={index === spot ? 'true' : undefined}
-                    aria-label={person.name}
-                    onClick={() => onBeginWith(person.id)}
-                  >
-                    <Portrait person={person} decorative />
+                  <Face person={person} lit={index === spot} breathe={false} index={index} hidden={false} onBeginWith={onBeginWith}>
                     {index === spot && <span className="attract__chip">{person.name}</span>}
-                  </button>
+                  </Face>
                 </li>
               ))}
             </ul>
           )}
-
         </>
       )}
     </div>
+  );
+}
+
+/** A portrait on the attract screen: grey and veiled, until the spotlight finds it. */
+function Face({ person, lit, breathe, index, hidden, onBeginWith, children }: {
+  person: RuntimePerson;
+  lit: boolean;
+  breathe: boolean;
+  index: number;
+  hidden: boolean;
+  onBeginWith: (personId: string) => void;
+  children?: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className="attract__face"
+      aria-current={lit ? 'true' : undefined}
+      aria-label={person.name}
+      {...(hidden ? { tabIndex: -1, 'aria-hidden': true } : {})}
+      onClick={(event) => { event.stopPropagation(); onBeginWith(person.id); }}
+    >
+      <span className="attract__picture">
+        <Portrait
+          person={person}
+          decorative
+          {...(breathe ? { style: { animation: `breathe ${5 + (index % 7)}s ease-in-out ${(index % 11) * -0.7}s infinite` } } : {})}
+        />
+      </span>
+      <span className="attract__veil" aria-hidden="true" />
+      {children}
+    </button>
   );
 }
 
@@ -188,6 +215,7 @@ function NameRows({ people, rows, spotId, still, onBeginWith }: {
                   >
                     {person.name}
                   </button>
+                  <span className="attract__dot" aria-hidden="true">·</span>
                 </li>
               )))}
             </ul>

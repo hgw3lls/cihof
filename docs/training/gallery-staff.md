@@ -12,52 +12,61 @@ below point into it.
 
 ### The attract screen
 
-![The attract screen: a wall of portraits in grey, one in colour, the Hall of Fame's name and "Touch any face"](images/display-attract.jpg)
+![The attract screen: a wall of portraits in grey, one in colour, the Hall of Fame's name and the coral "Touch to enter"](images/display-attract.jpg)
 
 When nobody is using the display, it shows the **attract screen**: every
-inductee's portrait in grey, one lit up in colour at a time, and a call to
-action along the bottom. Its job is to invite someone over.
+inductee's portrait in grey, one lit up in colour at a time, and a coral
+call to action. Its job is to invite someone over.
 
-- Touching a **face** opens that person.
-- Touching **"Touch any face"** (the coral bar) opens the whole collection.
+- Touching a **face** opens the wall with that person chosen.
+- Touching **"Touch to enter"** (the coral bar) opens the whole wall.
 
 There are three versions of the attract screen: portraits (as here), a wall
 of names, or both. Which one shows is chosen in the admin panel (section 4
 below).
 
-### Exploring
+### The wall
 
-![The People screen: the chosen person large on the left, a grid of portraits on the right, four coloured tabs along the bottom](images/display-people.jpg)
+![The wall: every inductee's face at once, one chosen and in colour with their name, a panel on the right with their story and "Read their story"](images/display-people.jpg)
 
-Everything a visitor needs is along the **bottom** of the screen, within
-reach of someone standing or seated:
+Everything is one wall of the inductees' faces, arranged in different ways.
+Along the **bottom**, within reach of someone standing or seated:
 
-- four tabs, each with its own colour: **People**, **Years**,
-  **Connections**, **Places**;
-- **Start over**, which goes back to the attract screen.
+- **People**, **Years** and **Connections**, each with its own colour: the
+  same faces, arranged A to Z (or by community or contribution), by
+  induction class, or by who is connected to whom;
+- **Search**, **Tour**, **Light** or **Dark**, and **Start over**, which goes
+  back to the attract screen.
 
-Touching a portrait chooses that person: it turns from grey to colour, and
-their name appears on the left. **Read the record** opens their full story.
-**Years** and **Places** work the same way: touch a portrait, then **Read
-the record**.
+Touching a face chooses that person: it turns from grey to colour, and a
+panel slides in from the right with the start of their story. **Read their
+story** opens the whole of it. Visitors can also hold a face to see its name,
+pull a face down to open it, and pinch to zoom.
 
-![A person's record: the portrait on the left, name, facts and biography on the right, actions along the bottom](images/display-record.jpg)
+![A person's story: their portrait on the left with "Watch the film", the story in two columns on the right, turned a page at a time](images/display-record.jpg)
 
-The record has its actions along the bottom too: **Close**, **Watch the
-film** when there is one, **Connections**, and **Take it with you** (a code
-for a phone) when the website is set up.
+A story is turned a page at a time, with the arrows along the bottom or a
+swipe. **Watch the film** sits on the portrait when there is one; **Next
+story** goes on to the next face along the wall; **Back to the wall** closes
+it.
 
-![Connections: a map with the chosen person at the centre, the people they are connected to around them, and a panel listing each connection](images/display-connections.jpg)
+![Connections: the chosen person at the centre, the people they are connected to around them with the wording of each tie, and a panel listing them](images/display-connections.jpg)
 
 **Connections** shows only relationships a curator has checked against the
-records. Touching anyone brings them to the centre.
+records. Touching anyone brings them to the centre, and the walk builds up
+along the top; **Save this thread** keeps it for the visitors after, under
+**Tour**. **Same place** sets the people out where their places are in the
+city.
+
+**Search** finds names, words in the stories, communities, years, places and
+what is said in the films, typed on a keyboard.
 
 ### When a visitor walks away
 
-After about 90 seconds with nobody touching it, the display asks **"Are you
-still here?"**. After another 30 seconds it goes back to the attract screen,
-and the next visitor starts fresh. Nothing one visitor did is kept for the
-next.
+After a minute with nobody touching it, the display asks **"Are you still
+here?"**. Twenty seconds later it goes back to the attract screen, and the
+next visitor starts fresh. The only thing kept for the next visitor is a
+thread someone chose to save.
 
 ---
 
@@ -77,7 +86,7 @@ Windows down as usual (staff guide section 3).
 When you open, check three things:
 
 - [ ] The attract screen is showing, and a portrait or name is lit up in colour.
-- [ ] Touch a face: that person opens. Touch **Start over**: the attract screen comes back.
+- [ ] Touch **Touch to enter**, then a face: that person's panel opens. Touch **Start over**: the attract screen comes back.
 - [ ] The screen is clean. Use a soft dry cloth, with the display showing the attract screen.
 
 That is all. If something is wrong, see section 5.

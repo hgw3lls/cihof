@@ -43,9 +43,27 @@ Until a curator approves the exact words (7.3), it shows the hall's name
 alone.
 
 The exhibit is dark as designed; the admin panel can switch it to light
-colours for a bright room (below). Films always play on black. The public
-website starts in light colours, with a **Dark** / **Light** button beside
-*Start over*; it remembers a visitor's choice on their own phone or computer.
+colours for a bright room (below). Films always play on black. A **Light** /
+**Dark** key beside *Start over* lets a visitor switch for their own visit;
+the next visitor meets the colours the admin panel chose. The public website
+starts in light colours and remembers a visitor's choice on their own phone
+or computer.
+
+After a minute with nobody touching it, the display asks **"Are you still
+here?"**, and twenty seconds later it starts over. A film playing counts as
+somebody there.
+
+**Tours.** The **Tour** key offers curated tours and the threads visitors
+saved. A curated tour appears only once a curator has approved it: set its
+`reviewStatus` to `approved` in `data/cihof_story_lenses.json` and publish a
+new release. Its people are chosen when the release is built, from the
+published biographies and honours, by the tour's terms and themes; its
+`pinnedPersonIds` lead and its `excludedPersonIds` never appear. An editor's
+preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
+through Connections that a visitor chose to keep. They stay on the display
+for the visitors after, named for the people they start and end with (nobody
+types a name), newest first, up to 24. Any visitor can reorder, shorten or
+delete one from *Edit* on the Tour screen.
 
 The application looks after itself:
 

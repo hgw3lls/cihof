@@ -69,6 +69,8 @@ const candidates = Array.isArray(bundle.candidates) ? bundle.candidates : [];
 if (candidates.length > 0) fail(`the bundle carries ${candidates.length} proposed ties nobody has reviewed`);
 const unreviewedPlaces = (Array.isArray(bundle.places) ? bundle.places : []).filter((place) => place?.unreviewed);
 if (unreviewedPlaces.length > 0) fail(`the bundle carries ${unreviewedPlaces.length} unreviewed places`);
+const unreviewedTours = (Array.isArray(bundle.tours) ? bundle.tours : []).filter((tour) => tour?.unreviewed);
+if (unreviewedTours.length > 0) fail(`the bundle carries ${unreviewedTours.length} unreviewed tours`);
 
 const people = Array.isArray(bundle.people) ? bundle.people : [];
 if (people.length === 0) fail('the bundle carries no people at all, which is not a publishable artifact');

@@ -1,94 +1,138 @@
 import { expect, test, type Page } from '@playwright/test';
-import { begin } from './visit.ts';
+import { begin, choose } from './visit.ts';
 
 /**
- * The Connections map, in a browser.
- *
- * The unit tests cover the arrangement. These cover the things only a real
- * display shows: that the lens is offered at all, that touching a portrait
- * moves the map under it, and that what a visitor reads on a line is the
- * wording a curator approved rather than its reverse.
+ * Connections, on the wall. The unit tests cover the arrangement; these cover
+ * what only a display shows: the lens is offered, touching a face walks to
+ * it, the wording on a tie is the claim read outwards from the centre, the
+ * places are a layer and a view, and everything is reachable by keyboard.
  */
+const bar = (page: Page) => page.getByRole('navigation', { name: 'Ways to explore' });
+const focus = (page: Page) => page.locator('.tile[data-ring="focus"]');
+const ties = (page: Page) => page.locator('.tile[data-ring="tie"]');
 
-async function openMap(page: Page) {
+async function openConnections(page: Page) {
   await begin(page);
-  await page.getByRole('button', { name: 'Connections' }).click();
-  await expect(page.locator('.map__field')).toBeVisible();
-  // The settle animation finishes before anything is measured.
-  await expect(page.locator('.map__person--focus')).toBeVisible();
+  await bar(page).getByRole('button', { name: /^Connections/ }).click();
+  await expect(focus(page)).toHaveCount(1);
 }
 
-test('the lens is offered, because the relationships behind it were approved', async ({ page }) => {
+test('the lens is offered, and Places is a layer of it rather than a lens of its own', async ({ page }) => {
   await begin(page);
-  await expect(page.getByRole('button', { name: 'Connections' })).toBeVisible();
+  await expect(bar(page).getByRole('button', { name: /^Connections/ })).toBeVisible();
+  await expect(bar(page).getByRole('button', { name: /^Places/ })).toHaveCount(0);
 });
 
-test('the map opens on somebody, with their relationships drawn to them', async ({ page }) => {
-  await openMap(page);
-  const focus = page.locator('.map__person--focus');
-  await expect(focus).toHaveCount(1);
-  // Lines to the centre are the ones a source supports for this person.
-  // Counted rather than asserted visible: a tie drawn due east of the centre
-  // is a perfectly horizontal line, whose bounding box has no height, and
-  // Playwright reports an empty box as hidden however well it is drawn.
-  await expect(page.locator('.map__tie--focus')).not.toHaveCount(0);
-  await expect(page.locator('.map__person--tie').first()).toBeVisible();
+test('it opens on somebody, their ties round them, each worded', async ({ page }) => {
+  await openConnections(page);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^At the centre: /);
+  expect(await ties(page).count()).toBeGreaterThan(0);
+  // A tie reads out as the person and the claim.
+  expect(await ties(page).first().getAttribute('aria-label')).toMatch(/^.+, .+/);
 });
 
-test('touching somebody brings them to the centre', async ({ page }) => {
-  await openMap(page);
-  const before = await page.locator('.map__person--focus').getAttribute('aria-label');
+test('touching a tie walks to that person, and the walk is kept along the top', async ({ page }) => {
+  await openConnections(page);
+  const first = ties(page).first();
+  const name = (await first.getAttribute('aria-label'))!.split(',')[0]!;
+  await first.click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
+  await expect(page.locator('.sheet__name')).toHaveText(name);
 
-  const incoming = page.locator('.map__person--tie').first();
-  const name = await incoming.getAttribute('aria-label');
-  await incoming.click();
+  const next = ties(page).first();
+  const nextName = (await next.getAttribute('aria-label'))!.split(',')[0]!;
+  await next.click();
+  const trail = page.getByRole('navigation', { name: 'Your thread' });
+  await expect(trail.locator('.trail__step button')).toHaveCount(2);
+  await expect(trail.getByRole('button', { name: 'Save this thread' })).toBeVisible();
+  await expect(trail.getByRole('button', { name: nextName })).toHaveAttribute('aria-current', 'step');
 
-  await expect
-    .poll(async () => page.locator('.map__person--focus').getAttribute('aria-label'))
-    .not.toBe(before);
-  // The label on a tie carries the claim as well as the name, so the centre's
-  // own label is the plain name it is now shown under.
-  expect(name).toContain((await page.locator('.map__person--focus').getAttribute('aria-label')) ?? '');
+  // Back along it.
+  await trail.getByRole('button', { name }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
+  await expect(trail).toHaveCount(0);
 });
 
-test('the wording on a line is the claim, read outwards from the centre', async ({ page }) => {
-  await openMap(page);
-  const tie = page.locator('.map__person--tie').first();
-  const label = await tie.locator('.map__label').innerText();
-  expect(label.trim().length).toBeGreaterThan(0);
-
-  // Centring that person reverses the reading rather than repeating it.
-  const centreName = (await page.locator('.map__person--focus .map__name').innerText()).trim();
-  await tie.click();
-  await expect(page.locator('.map__person--focus')).toBeVisible();
-  const back = page.locator('.map__person--tie').filter({ hasText: centreName }).first();
-  await expect(back).toBeVisible();
-  const reversed = (await back.locator('.map__label').innerText()).trim();
-  expect(reversed).not.toEqual(label.trim());
+test('the wording on a tie is the claim, read outwards from the centre', async ({ page }) => {
+  await begin(page);
+  await choose(page, 'Wael Khoury');
+  await page.getByRole('button', { name: /connections$/ }).click();
+  const mary = page.locator('.tile[aria-label^="Hon. Mary Rose Oakar,"]');
+  await expect(mary).toHaveAttribute('aria-label', 'Hon. Mary Rose Oakar, inducted Hon. Mary Rose Oakar');
+  await mary.click();
+  // From her side the same tie reads the other way.
+  await expect(page.locator('.tile[aria-label^="Wael Khoury,"]')).toHaveAttribute('aria-label', /Wael Khoury, was inducted by/);
 });
 
-test('every person on the map is reachable by keyboard', async ({ page }) => {
-  await openMap(page);
-  // Real buttons, so the display is operable without a touchscreen — which is
-  // how it is serviced and how it is tested.
-  const people = page.locator('.map__person');
-  await expect(people.first()).toBeVisible();
-  await people.first().focus();
-  await expect(people.first()).toBeFocused();
+test('context stays apart from relationships: it is worded as appearing together', async ({ page }) => {
+  await begin(page);
+  await choose(page, 'Wael Khoury');
+  await page.getByRole('button', { name: /connections$/ }).click();
+  await expect(page.locator('.tile[data-ring="tie"][aria-label*="Appeared together · "]').first()).toBeAttached();
+  await expect(page.locator('.sheet__ties-list')).toContainText('Appeared together · ');
+});
+
+test('turning a layer off takes its ties away', async ({ page }) => {
+  await begin(page);
+  await choose(page, 'Wael Khoury');
+  await page.getByRole('button', { name: /connections$/ }).click();
+  const welcomed = page.getByRole('button', { name: /^Welcomed in/ });
+  await expect(welcomed).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.tile[aria-label^="Hon. Mary Rose Oakar,"]')).toHaveCount(1);
+  await welcomed.click();
+  await expect(welcomed).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.tile[aria-label^="Hon. Mary Rose Oakar,"]')).toHaveCount(0);
+});
+
+test('a place can be brought to the centre, with the people tied to it', async ({ page }) => {
+  await begin(page);
+  await choose(page, 'Wael Khoury');
+  await page.getByRole('button', { name: /connections$/ }).click();
+  await page.locator('.sheet__ties-list button', { hasText: 'Cleveland Cultural Gardens' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Cleveland Cultural Gardens');
+  await expect(page.locator('.sheet__kicker')).toHaveText(/^Place/);
+  const people = await page.locator('.sheet__ties-list li').count();
+  await expect(ties(page)).toHaveCount(people);
+  await page.locator('.sheet__ties-list button').first().click();
+  await expect(focus(page)).toHaveCount(1);
+});
+
+test('by place sets every place out in the city, and choosing somebody lights their ties', async ({ page }) => {
+  await openConnections(page);
+  await page.getByRole('button', { name: /^Same place/ }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('By place');
+  await expect(page.locator('.masthead p')).toHaveText(/^13 places/);
+  await page.locator('.tile[aria-label="Wael Khoury"]').click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Wael Khoury');
+  await expect(page.locator('.masthead p')).toHaveText(/ties reach across the city$/);
+});
+
+test('zoom goes out and in, and back to the centre', async ({ page }) => {
+  await openConnections(page);
+  const level = page.locator('.field__zoom > span');
+  await expect(level).toHaveText('100%');
+  await page.getByRole('button', { name: 'Zoom in' }).click();
+  await expect(level).toHaveText('130%');
+  await page.getByRole('button', { name: 'Back to the centre' }).click();
+  await expect(level).toHaveText('100%');
+  await page.getByRole('button', { name: 'Zoom out' }).click();
+  await page.getByRole('button', { name: 'Zoom out' }).click();
+  await page.getByRole('button', { name: 'Zoom out' }).click();
+  await expect(level).toHaveText('50%');
+});
+
+test('every face on the diagram is reachable by keyboard', async ({ page }) => {
+  await openConnections(page);
+  const tie = ties(page).first();
+  const name = (await tie.getAttribute('aria-label'))!.split(',')[0]!;
+  await tie.focus();
   await page.keyboard.press('Enter');
-  await expect(page.locator('.map__person--focus')).toHaveCount(1);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
 });
 
-test('the map says how much of the collection it is showing', async ({ page }) => {
-  await openMap(page);
-  // "31 relationships" alone would let a visitor read the rim as the whole
-  // collection. The reading line names what is off to the side.
-  await expect(page.locator('.map__reading')).toContainText(/connects to|no documented relationship/);
-  await expect(page.locator('.map__note')).toContainText('documented relationship');
-});
-
-test('a record still opens from the map', async ({ page }) => {
-  await openMap(page);
-  await page.locator('.map__open').click();
-  await expect(page.locator('.record')).toBeVisible();
+test('a story still opens from Connections', async ({ page }) => {
+  await openConnections(page);
+  await ties(page).first().click();
+  await page.getByRole('button', { name: 'Read their story' }).click();
+  await expect(page.locator('dialog.record')).toBeVisible();
 });

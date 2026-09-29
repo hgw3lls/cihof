@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { begin } from './visit.ts';
+import { begin, openStory } from './visit.ts';
 
 /**
  * A03: focus behaves predictably around modal layers.
@@ -11,11 +11,7 @@ import { begin } from './visit.ts';
  */
 async function openRecord(page: Page) {
   await begin(page);
-  await page.evaluate(() => {
-    const tile = [...document.querySelectorAll('.tile')].find((b) => b.textContent?.includes('Alex Machaskee'));
-    (tile as HTMLButtonElement).click();
-  });
-  await page.getByRole('button', { name: 'Read the record' }).click();
+  await openStory(page, 'Alex Machaskee');
   await expect(page.locator('dialog.record')).toBeVisible();
 }
 
@@ -89,7 +85,7 @@ test('a film over a record closes back to the record, one layer at a time', asyn
     });
   });
   await openRecord(page);
-  await page.getByRole('button', { name: 'Watch the film' }).click();
+  await page.locator('dialog.record').getByRole('button', { name: 'Watch the film' }).click();
   await expect(page.locator('dialog.film')).toBeVisible();
 
   await page.keyboard.press('Escape');
@@ -105,5 +101,5 @@ test('closing returns the visitor to the control they opened it from', async ({ 
   await page.keyboard.press('Escape');
 
   const returned = await page.evaluate(() => document.activeElement?.textContent?.trim());
-  expect(returned).toBe('Read the record');
+  expect(returned).toBe('Read their story→');
 });
