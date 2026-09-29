@@ -87,9 +87,11 @@ function fakeBrowsers(livesMs = Infinity) {
   return { started, spawnBrowser };
 }
 
-test('a browser that closes comes straight back, and a stopped one does not', async () => {
+test('a browser that closes comes straight back, and a stopped one does not', async (t) => {
   const { started, spawnBrowser } = fakeBrowsers();
   const browser = keepBrowserRunning({ command: 'browser', args: [], spawnBrowser, log: () => {}, quickExitMs: 0 });
+  // Stopped however the test ends: a launcher left running would keep the test process alive.
+  t.after(() => browser.stop());
   assert.equal(started.length, 1);
   started[0]!.kill();
   await until(() => started.length === 2, 'it is relaunched after closing');
@@ -102,13 +104,14 @@ test('a browser that closes comes straight back, and a stopped one does not', as
   assert.equal(started.length, 3, 'stopped means stopped');
 });
 
-test('a browser that keeps dying at once is relaunched with a growing pause', async () => {
+test('a browser that keeps dying at once is relaunched with a growing pause', async (t) => {
   const { started, spawnBrowser } = fakeBrowsers(5);
   const lines: string[] = [];
   const browser = keepBrowserRunning({
     command: 'browser', args: [], spawnBrowser, log: (line) => lines.push(line),
     quickExitMs: 1000, minBackoffMs: 20, maxBackoffMs: 80,
   });
+  t.after(() => browser.stop());
   await until(() => lines.length >= 4, 'it has been relaunched four times');
   browser.stop();
   // The pause doubles from the least to the most, and stays there: a handful
@@ -149,7 +152,7 @@ test('the launcher serves the exhibit, holds a browser on it, and stop-kiosk end
   }
 });
 
-test('a browser that cannot be started at all is retried, not left for dead', async () => {
+test('a browser that cannot be started at all is retried, not left for dead', async (t) => {
   let attempts = 0;
   const spawnBrowser = (() => {
     attempts += 1;
@@ -165,6 +168,7 @@ test('a browser that cannot be started at all is retried, not left for dead', as
     command: 'browser', args: [], spawnBrowser, log: (line) => lines.push(line),
     quickExitMs: 1000, minBackoffMs: 10, maxBackoffMs: 40,
   });
+  t.after(() => browser.stop());
   await until(() => attempts >= 3, 'it has tried three times');
   browser.stop();
   assert.ok(lines.some((line) => /could not be started \(spawn EACCES\)/.test(line)));
