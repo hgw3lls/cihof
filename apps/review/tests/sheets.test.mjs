@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, tours: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
@@ -138,4 +138,15 @@ test('a caption fix names the film, the kind and the words, exactly as typed', (
   const [music, phrase] = rows(filmFixesCsv(fixes, '2026-10-01'));
   assert.deepEqual([music.filmId, music.fix, music.find, music.replaceWith, music.decisionReference], ['DoZUzteeFMU', 'music', '', '[music]', 'film-captions-review-2026-10-01']);
   assert.equal(phrase.replaceWith, 'Carolyn Balogh, "the chef"', 'commas and quotes survive');
+});
+
+test('a tour decision carries the version seen when it approves, and none when it withdraws', () => {
+  const sheet = rows(toursCsv({ reviewer: 'Jane Smith', tours: {
+    'helped-arrive': { decision: 'approve', seenVersion: 'tour-abc', note: 'Fits.' },
+    'made-art': { decision: 'withdraw', seenVersion: 'tour-def' },
+  } }, '2026-10-01'));
+  assert.deepEqual(sheet, [
+    { tourId: 'helped-arrive', decision: 'approve', contentVersion: 'tour-abc', decisionReference: 'tours-review-2026-10-01', note: 'Fits. Reviewed by Jane Smith in the staff review app.' },
+    { tourId: 'made-art', decision: 'withdraw', contentVersion: '', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
+  ]);
 });

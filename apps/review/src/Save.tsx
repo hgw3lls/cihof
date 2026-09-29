@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
+import { tourStale } from './Tours.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
 import { signoffProblem } from './Signoffs.tsx';
@@ -40,6 +41,9 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    // An approval names the tour the reviewer saw; one that has changed since needs another look.
+    ...Object.entries(draft.tours ?? {}).filter(([id, value]) => tourStale(review.tours.find((tour) => tour.tourId === id), value))
+      .map(([id]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (it changed after you approved it)`),
     // An acceptance needs a name, and an answer where the sign-off asks a question; a clearing needs a reason.
     ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
       const item = review.signoffs.find((entry) => entry.id === id);
@@ -209,6 +213,10 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.decision === 'approve'
       ? `Attract screen: approve “${review.attract.headline}”`
       : `Attract screen: new words, “${value.headline}”`);
+  }
+  for (const [id, value] of Object.entries(draft.tours ?? {})) {
+    const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
+    lines.push(`Tours: ${label}: ${value.decision === 'approve' ? 'approved for visitors' : 'taken off the displays'}`);
   }
   for (const [key, value] of Object.entries(draft.filmStarts ?? {})) {
     const name = review.filmStarts.find((entry) => entry.key === key)?.name ?? key;

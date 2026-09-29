@@ -17,12 +17,13 @@
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
+ *     tours:     { [tourId]: { decision: 'approve', seenVersion, note } | { decision: 'withdraw', note } },
  *   }
  */
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', tours: 'tours', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -114,6 +115,22 @@ export function attractCsv(draft, day) {
 }
 
 /**
+ * The curated tours: each approved as the reviewer saw it (the version they
+ * saw, which tours:apply checks), or withdrawn from the displays.
+ */
+export function toursCsv(draft, day) {
+  const reference = decisionReference('tours', day);
+  const rows = Object.entries(draft.tours ?? {}).map(([tourId, value]) => [
+    tourId,
+    value.decision,
+    value.decision === 'approve' ? value.seenVersion ?? '' : '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['tourId', 'decision', 'contentVersion', 'decisionReference', 'note'], rows);
+}
+
+/**
  * Where ceremony films open: a second in the film, or from the beginning.
  * films:starts:apply checks each second falls inside the film.
  */
@@ -179,6 +196,7 @@ export function draftCounts(draft) {
     bios: Object.keys(draft.bios ?? {}).length,
     profiles: Object.keys(draft.profiles ?? {}).length,
     attract: Object.keys(draft.attract ?? {}).length,
+    tours: Object.keys(draft.tours ?? {}).length,
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,

@@ -9,6 +9,8 @@ import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
+import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
+import { readTours, tourApproved, tourPeople, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -182,6 +184,7 @@ export function loadReview() {
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
+    tours: tours(people),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit },
@@ -201,6 +204,38 @@ function attractWords() {
     problem: status.problem,
     reviewedAt: stored.review?.reviewedAt ?? null,
   };
+}
+
+/**
+ * The curated tours: their words, whether each is approved and still the tour
+ * that was, and who it visits now, chosen as a release would choose them, from
+ * the profiles the display publishes.
+ */
+function tours(people) {
+  const published = buildRuntimeBundle(people, 'kiosk').people;
+  const byId = new Map(published.map((person) => [person.id, person]));
+  const text = (value) => (typeof value === 'string' ? value : '');
+  const list = (value) => (Array.isArray(value) ? value.filter((each) => typeof each === 'string') : []);
+  return (readTours().lenses ?? []).filter((lens) => typeof lens.id === 'string' && lens.enabled !== false).map((lens) => {
+    const approved = tourApproved(lens);
+    return {
+      tourId: lens.id,
+      label: text(lens.label),
+      prompt: text(lens.prompt),
+      description: text(lens.description),
+      terms: list(lens.terms),
+      themes: list(lens.themes),
+      pinned: list(lens.pinnedPersonIds).map((id) => byId.get(id)?.name ?? id),
+      excluded: list(lens.excludedPersonIds).map((id) => byId.get(id)?.name ?? id),
+      contentVersion: tourVersion(lens),
+      state: approved ? 'approved' : lens.reviewStatus === 'approved' ? 'changed-since-approval' : 'draft',
+      reviewedAt: typeof lens.review?.reviewedAt === 'string' ? lens.review.reviewedAt : null,
+      people: tourPeople(published, lens).map((id) => {
+        const person = byId.get(id);
+        return { id, name: person?.name ?? id, classYear: person?.classYear ?? null, portrait: person?.portrait?.src ?? null };
+      }),
+    };
+  });
 }
 
 /**
