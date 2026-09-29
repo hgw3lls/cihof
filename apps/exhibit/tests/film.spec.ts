@@ -268,6 +268,27 @@ test('a person with several films has them listed beside the screen, and the lis
   await expect(page.getByRole('button', { name: 'Show 2 films' })).toBeVisible();
 });
 
+test('a film with an approved title is called by it; one without is described by its length', async ({ page }) => {
+  const titled = { ...fixtureFilm, title: 'Alex Machaskee inducted into the Hall of Fame' };
+  const second = { ...fixtureFilm, id: 'fixture-film-2', durationSeconds: 130 };
+  await withFixtureFilm(page, {}, titled);
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({
+      json: { ...bundle, people: bundle.people.map((entry: { id: string }) => (entry.id === person ? { ...entry, films: [titled, second] } : entry)) },
+    });
+  });
+  await begin(page);
+  await openStory(page, 'Alex Machaskee');
+  await page.locator('dialog.record').getByRole('button', { name: 'Watch 2 films' }).click();
+
+  const list = page.getByRole('complementary', { name: 'Films' });
+  await expect(list.locator('.film__item-title')).toHaveText(['Alex Machaskee inducted into the Hall of Fame', 'A 2-minute film']);
+  await expect(page.locator('.film__subtitle')).toHaveText('Alex Machaskee inducted into the Hall of Fame');
+  await list.locator('li').nth(1).getByRole('button').click();
+  await expect(page.locator('.film__subtitle')).toHaveCount(0);
+});
+
 test('the transcript opens in a drawer over the screen', async ({ page }) => {
   await withFixtureFilm(page);
   await openFilm(page);

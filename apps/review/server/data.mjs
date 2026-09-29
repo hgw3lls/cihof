@@ -10,6 +10,7 @@ import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
+import { approvedFilmTitle, filmTitleLimit, readFilmTitles } from '../../../packages/pipeline/src/build/film-titles.ts';
 import { readTours, tourApproved, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
@@ -185,9 +186,10 @@ export function loadReview() {
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
     tours: tours(people),
+    filmTitles: filmTitles(byId),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
-    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit },
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
 }
@@ -238,6 +240,35 @@ function tours(people) {
       }),
     };
   });
+}
+
+/**
+ * Every film once, with whose it is, what it is called on the display now, and
+ * the title it has on YouTube: collected, unreviewed, and offered only as a
+ * suggestion (npm run source:film-titles).
+ */
+function filmTitles(byId) {
+  const researchPath = dataFile('external-research/youtube-film-titles.json');
+  const research = existsSync(researchPath) ? JSON.parse(readFileSync(researchPath, 'utf8')).films ?? {} : {};
+  const stored = readFilmTitles();
+  const films = new Map();
+  for (const [personId, videos] of readVideoHoldings()) {
+    for (const video of videos) {
+      const filmId = typeof video?.youtubeVideoId === 'string' ? video.youtubeVideoId : '';
+      if (!filmId) continue;
+      const entry = films.get(filmId) ?? {
+        filmId,
+        people: [],
+        poster: typeof video.posterRuntimePath === 'string' ? video.posterRuntimePath : null,
+        durationSeconds: typeof video.durationSeconds === 'number' ? video.durationSeconds : null,
+        approvedTitle: approvedFilmTitle(stored, filmId, 'kiosk'),
+        suggestion: research[filmId]?.title ? { title: research[filmId].title, uploader: research[filmId].uploader ?? '', url: research[filmId].url ?? '' } : null,
+      };
+      entry.people.push(byId.get(personId)?.name ?? personId);
+      films.set(filmId, entry);
+    }
+  }
+  return [...films.values()].sort((a, b) => a.people[0].localeCompare(b.people[0]) || (a.durationSeconds ?? 0) - (b.durationSeconds ?? 0));
 }
 
 /**

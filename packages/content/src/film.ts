@@ -54,6 +54,8 @@ export type PublishedFilm = {
    * Absent: from the beginning.
    */
   readonly startSeconds?: number;
+  /** What it is called, in words a curator approved for this target. Absent: it has no approved title. */
+  readonly title?: string;
 };
 
 export type FilmPrerequisite =

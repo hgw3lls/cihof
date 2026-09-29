@@ -118,6 +118,16 @@ published biographies and honours by words and honours the curators set
 change after you approve it, it comes off the displays until somebody
 approves it again. To change who a tour includes, ask the developer.
 
+### Film titles
+
+What each film is called in a person's list of films on the display.
+Without a title, the display describes a film by its length (*A 7-minute
+film*). Each film comes with the title it has on YouTube, written by whoever
+posted it. **Check it** before you use it: the spelling of the names, and
+anything it says about who inducted whom. Then **use the YouTube title**, or
+**write a title** of your own. Type a name into *Find a person* to go
+straight to their films.
+
 ### Where ceremony films start
 
 Six inductees from 2024 share one film: the whole ceremony, an hour and

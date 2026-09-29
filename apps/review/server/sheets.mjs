@@ -16,6 +16,7 @@
  *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
+ *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
  *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note } },
  *   }
@@ -23,7 +24,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', tours: 'tours', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -120,6 +121,22 @@ export function attractCsv(draft, day) {
  * from the displays. An approval with no audience chosen names none, and
  * tours:apply refuses it rather than assume one.
  */
+/**
+ * What each film is called: approved as written (the reviewer's words, or the
+ * YouTube title they kept), or cleared. films:titles:apply checks each.
+ */
+export function filmTitlesCsv(draft, day) {
+  const reference = decisionReference('filmTitles', day);
+  const rows = Object.entries(draft.filmTitles ?? {}).map(([filmId, value]) => [
+    filmId,
+    value.decision,
+    value.decision === 'approve' ? String(value.title ?? '').trim() : '',
+    reference,
+    signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['filmId', 'decision', 'title', 'decisionReference', 'note'], rows);
+}
+
 const tourTargets = { kiosk: 'kiosk', 'kiosk-and-web': 'kiosk,public-web' };
 
 export function toursCsv(draft, day) {
@@ -202,6 +219,7 @@ export function draftCounts(draft) {
     profiles: Object.keys(draft.profiles ?? {}).length,
     attract: Object.keys(draft.attract ?? {}).length,
     tours: Object.keys(draft.tours ?? {}).length,
+    filmTitles: Object.keys(draft.filmTitles ?? {}).length,
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,

@@ -1,0 +1,894 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "YouTube oEmbed",
+    "note": "Each held film's title as given on YouTube by whoever posted it. Unreviewed outside research: nothing reads this into the exhibit. A curator approves or writes a title in the staff review app."
+  },
+  "films": {
+    "-2OMPdY2pfw": {
+      "people": [
+        "shiv-k-aggarwal-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=-2OMPdY2pfw",
+      "title": "Shiv Aggarwal in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:05.428Z"
+    },
+    "-5gDFAKdaXM": {
+      "people": [
+        "ramesh-shah-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=-5gDFAKdaXM",
+      "title": "Ramesh Shah inducted into Cleveland International Hall of Fame by Sudarshan Sathe",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:26.921Z"
+    },
+    "-jbd_GOy7hk": {
+      "people": [
+        "anda-cook-2022"
+      ],
+      "url": "https://www.youtube.com/watch?v=-jbd_GOy7hk",
+      "title": "Anda Cook inducted by Dagmar Celeste into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:27.660Z"
+    },
+    "0KJhQyWFjDI": {
+      "people": [
+        "abby-mina-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=0KJhQyWFjDI",
+      "title": "Michael Mina inducts his father Abby Mina into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:17.545Z"
+    },
+    "11fqd7MQ8Fs": {
+      "people": [
+        "pierre-bejjani-2023"
+      ],
+      "url": "https://www.youtube.com/watch?v=11fqd7MQ8Fs",
+      "title": "Pierre Bejjani inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:30.309Z"
+    },
+    "1KFtDD1w3lg": {
+      "people": [
+        "abby-mina-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=1KFtDD1w3lg",
+      "title": "Pierre Bejjani inducts Abdullah Mina into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:17.147Z"
+    },
+    "2KBxzdgiqJM": {
+      "people": [
+        "berj-shakarian-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=2KBxzdgiqJM",
+      "title": "Berj Shakarian inducted into Cleveland International Hall of Fame by Paul Burik",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:24.316Z"
+    },
+    "2mG5GMQXUZQ": {
+      "people": [
+        "mona-alag-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=2mG5GMQXUZQ",
+      "title": "Mona Alag inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:16.006Z"
+    },
+    "3Zl6-HYV89Q": {
+      "people": [
+        "carl-robson-2022"
+      ],
+      "url": "https://www.youtube.com/watch?v=3Zl6-HYV89Q",
+      "title": "Dr. Carl Robson inducted by Aklilu Demessie into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:28.025Z"
+    },
+    "4jjbyRcwk3Y": {
+      "people": [
+        "beverly-kerecman-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=4jjbyRcwk3Y",
+      "title": "Beverly Kerecman inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:31.466Z"
+    },
+    "4pafixyd1zU": {
+      "people": [
+        "atul-mehta-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=4pafixyd1zU",
+      "title": "Richard Buoncore inducts Dr. Ahtul Mehta in Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:18.252Z"
+    },
+    "5BYSPErYD3o": {
+      "people": [
+        "richard-fleischman-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=5BYSPErYD3o",
+      "title": "Richard Fleischman inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:23.164Z"
+    },
+    "7AjUc16ao90": {
+      "people": [
+        "bill-miller-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=7AjUc16ao90",
+      "title": "Bill Miller inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:15.259Z"
+    },
+    "7Jj4sizisoM": {
+      "people": [
+        "honorable-jose-a-villanueva-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=7Jj4sizisoM",
+      "title": "José C. Feliciano inducts Honorable José A. Villanueva",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:03.333Z"
+    },
+    "7LmK-_kcUJs": {
+      "people": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=7LmK-_kcUJs",
+      "title": "Olivia Gutowski plays the Hejnal at Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:09.358Z"
+    },
+    "7MkiB5FNQ_g": {
+      "people": [
+        "dick-pogue-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=7MkiB5FNQ_g",
+      "title": "Sanjiv Kapur inducts Dick Pogue into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:01.759Z"
+    },
+    "8CPuLovefwA": {
+      "people": [
+        "ralph-perk-jr-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=8CPuLovefwA",
+      "title": "Judge Ralph Perk Jr. in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:19.444Z"
+    },
+    "9e7DWWD6_l0": {
+      "people": [
+        "sister-alicia-alvarado-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=9e7DWWD6_l0",
+      "title": "Jose Feliciano inducts Sister Alicia Alvarado into Cleveland Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:20.908Z"
+    },
+    "b_zP9VqXJbY": {
+      "people": [
+        "paul-burik-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=b_zP9VqXJbY",
+      "title": "Paul Burik inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:22.779Z"
+    },
+    "b9-AD6gYt14": {
+      "people": [
+        "victor-ruiz-2022"
+      ],
+      "url": "https://www.youtube.com/watch?v=b9-AD6gYt14",
+      "title": "Victor Ruiz inducted by Dr. Alex Johnson into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:28.782Z"
+    },
+    "BKuCcyGsdek": {
+      "people": [
+        "branka-malinar-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=BKuCcyGsdek",
+      "title": "Branka M. Malinar inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:31.865Z"
+    },
+    "bS3656smMfM": {
+      "people": [
+        "andy-chakalis-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=bS3656smMfM",
+      "title": "Andy Chakalis inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:34.333Z"
+    },
+    "C6EuNqGZH5E": {
+      "people": [
+        "akram-boutros-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=C6EuNqGZH5E",
+      "title": "Dr. Akram Boutros inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:21.675Z"
+    },
+    "D1Rgv29APUk": {
+      "people": [
+        "ray-pianka-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=D1Rgv29APUk",
+      "title": "Councilman Brancatelli inducts Judge Ray Pianka into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:19.805Z"
+    },
+    "diVkkJkn0sY": {
+      "people": [
+        "mayor-frank-jackson-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=diVkkJkn0sY",
+      "title": "Mayor Frank G. Jackson inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:32.695Z"
+    },
+    "DoZUzteeFMU": {
+      "people": [
+        "raj-aggarwal-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=DoZUzteeFMU",
+      "title": "Raj Aggarwal, PhD, CFA inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:33.214Z"
+    },
+    "dW7qMIULLko": {
+      "people": [
+        "jack-kahl-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=dW7qMIULLko",
+      "title": "Dan Coughlin inducts Jack Kahl into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:11.309Z"
+    },
+    "e_C-YpIWjt8": {
+      "people": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=e_C-YpIWjt8",
+      "title": "Carolyn Balogh inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:08.979Z"
+    },
+    "e3gWQ-kdEF4": {
+      "people": [
+        "catherine-jorgensen-mccutcheon-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=e3gWQ-kdEF4",
+      "title": "Catherine Jorgensen McCutcheon inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:35.073Z"
+    },
+    "EATzGX8chuI": {
+      "people": [
+        "atul-mehta-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=EATzGX8chuI",
+      "title": "Dr. Ahtul Mehta inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:18.626Z"
+    },
+    "eKdfG3zz9Os": {
+      "people": [
+        "jack-kahl-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=eKdfG3zz9Os",
+      "title": "Jack Kahl inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:11.717Z"
+    },
+    "Engy3m5Efcc": {
+      "people": [
+        "berj-shakarian-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=Engy3m5Efcc",
+      "title": "Berj Shakarian inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:23.893Z"
+    },
+    "f78jlqAJnqM": {
+      "people": [
+        "sam-kim-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=f78jlqAJnqM",
+      "title": "Seung (Sam) Kim inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:16.430Z"
+    },
+    "fEHO9Uwgb9g": {
+      "people": [
+        "ramesh-shah-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=fEHO9Uwgb9g",
+      "title": "Ramesh Shah - Cleveland International Hall of Fame Induction",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:26.399Z"
+    },
+    "FwV6dXkUhnc": {
+      "people": [
+        "abby-mina-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=FwV6dXkUhnc",
+      "title": "Abdullah (Abby) Mina inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:17.891Z"
+    },
+    "GDfhVKV-PfY": {
+      "people": [
+        "steve-mulloy-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=GDfhVKV-PfY",
+      "title": "Steve Mulloy in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:06.505Z"
+    },
+    "hmsfn1_1Kpg": {
+      "people": [
+        "arnie-de-la-porte-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=hmsfn1_1Kpg",
+      "title": "Arnie de la Porte inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:07.765Z"
+    },
+    "i-iB8SADV8Q": {
+      "people": [
+        "sheila-murphy-crawford-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=i-iB8SADV8Q",
+      "title": "Sheila Murphy Crawford inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:20.550Z"
+    },
+    "i5FJexABnHI": {
+      "people": [
+        "honorable-jose-a-villanueva-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=i5FJexABnHI",
+      "title": "Honorable José A. Villanueva in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:03.871Z"
+    },
+    "IbJbwBpHWgs": {
+      "people": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=IbJbwBpHWgs",
+      "title": "Debbie Hanson introduces Polish Consul General Urszula Gacek",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:09.740Z"
+    },
+    "ivlrvgM81r8": {
+      "people": [
+        "dick-russ-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=ivlrvgM81r8",
+      "title": "Loree Vick inducts former co-anchor Dick Russ into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:02.496Z"
+    },
+    "iX7-ecPZvy4": {
+      "people": [
+        "mohan-bafna-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=iX7-ecPZvy4",
+      "title": "Dr Mohan Bafna inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:14.411Z"
+    },
+    "IXo79dbDE_M": {
+      "people": [
+        "sree-sreenath-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=IXo79dbDE_M",
+      "title": "Sree Sreenath inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:23.539Z"
+    },
+    "IYv4tYCJ3m8": {
+      "people": [
+        "michael-d-polensek-2023"
+      ],
+      "url": "https://www.youtube.com/watch?v=IYv4tYCJ3m8",
+      "title": "Michael Polensek inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:29.934Z"
+    },
+    "JAWjKTg5nRg": {
+      "people": [
+        "georgine-welo-2023"
+      ],
+      "url": "https://www.youtube.com/watch?v=JAWjKTg5nRg",
+      "title": "Mayor Georgine Welo inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:29.145Z"
+    },
+    "jXo9xEwZ4JQ": {
+      "people": [
+        "arnie-de-la-porte-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=jXo9xEwZ4JQ",
+      "title": "Debbie Hanson introduces Lithuanian Consul Ingrida Bublys",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:07.013Z"
+    },
+    "k8t6kOylcgE": {
+      "people": [
+        "joe-valencic-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=k8t6kOylcgE",
+      "title": "Joe Valencic inducted into Cleveland International Hall of Fame by Councilman Mike Polensek",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:24.823Z"
+    },
+    "KAhoZMRbZnA": {
+      "people": [
+        "mohan-bafna-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=KAhoZMRbZnA",
+      "title": "Suresh Bafna inducts Dr Mohan Bafna into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:13.955Z"
+    },
+    "khFzLbaSw0o": {
+      "people": [
+        "joyce-mariani-2023"
+      ],
+      "url": "https://www.youtube.com/watch?v=khFzLbaSw0o",
+      "title": "Joyce Mariani inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:29.544Z"
+    },
+    "kkjaaUZr2ps": {
+      "people": [
+        "khalid-samad-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=kkjaaUZr2ps",
+      "title": "Cleveland Director Blaine Griffin inducts Khalid Samad",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:12.504Z"
+    },
+    "KMVo49Zi-94": {
+      "people": [
+        "bishop-anthony-pilla-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=KMVo49Zi-94",
+      "title": "Bishop Anthony Pilla in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:01.299Z"
+    },
+    "kofOH1CYKBQ": {
+      "people": [
+        "richard-a-ganim-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=kofOH1CYKBQ",
+      "title": "Mayor Richard Ganim in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:04.604Z"
+    },
+    "Kp2oRe3w1EM": {
+      "people": [
+        "andy-fedynsky-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=Kp2oRe3w1EM",
+      "title": "Andy Fedynsky inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:34.696Z"
+    },
+    "KuSMhQ_yG_k": {
+      "people": [
+        "mohan-bafna-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=KuSMhQ_yG_k",
+      "title": "Debbie Hanson introduces Suresh Bafna",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:13.291Z"
+    },
+    "L0fLgzezWTw": {
+      "people": [
+        "jack-kahl-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=L0fLgzezWTw",
+      "title": "Dan Hanson introduces sportswriter Dan Coughlin",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:10.950Z"
+    },
+    "M384Uvg0bh8": {
+      "people": [
+        "richard-a-ganim-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=M384Uvg0bh8",
+      "title": "Pierre Bejjani inducts Mayor Richard Ganim into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:04.245Z"
+    },
+    "mqCQvmZsu88": {
+      "people": [
+        "khalid-samad-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=mqCQvmZsu88",
+      "title": "Khalid Samad in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:12.871Z"
+    },
+    "mTJMMiUk5nI": {
+      "people": [
+        "margaret-lynch-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=mTJMMiUk5nI",
+      "title": "Margaret Lynch inducted into Cleveland International Hall of Fame by Gerry Quinn",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:25.203Z"
+    },
+    "nC0wST9j-J0": {
+      "people": [
+        "sheila-murphy-crawford-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=nC0wST9j-J0",
+      "title": "Gerry Quinn inducts Sheila Murphy Crawford into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:20.191Z"
+    },
+    "nINk_D8bi54": {
+      "people": [
+        "steve-mulloy-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=nINk_D8bi54",
+      "title": "Mayor Jane Campbell inducts Steve Mulloy into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:06.044Z"
+    },
+    "Nlcx5vaC37I": {
+      "people": [
+        "aklilu-demessie-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=Nlcx5vaC37I",
+      "title": "Aklilu Demessie inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:33.947Z"
+    },
+    "O-r4oYPcUYc": {
+      "people": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=O-r4oYPcUYc",
+      "title": "Debbie Hanson introduces Dr. Maria Pujana",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:08.140Z"
+    },
+    "OAZ7t2i1W10": {
+      "people": [
+        "wael-khoury-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=OAZ7t2i1W10",
+      "title": "Wael Khoury MD inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:16.795Z"
+    },
+    "ObIi5VXcP7Q": {
+      "people": [
+        "ingrida-bublys-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=ObIi5VXcP7Q",
+      "title": "Ingrida Bublys inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:22.038Z"
+    },
+    "P34omi5XUiY": {
+      "people": [
+        "ambassador-edward-f-crawford-2024",
+        "dona-brady-2024",
+        "dr-eugene-jordan-2024",
+        "erika-puussaar-2024",
+        "johnny-k-wu-2024",
+        "veronica-dahlberg-2024"
+      ],
+      "url": "https://www.youtube.com/watch?v=P34omi5XUiY",
+      "title": "Cleveland International Hall of Fame Class of 2024 (4/23/24)",
+      "uploader": "TV20 Cleveland",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:31.108Z"
+    },
+    "PgUsrTbLHJ4": {
+      "people": [
+        "marilyn-madigan-2019"
+      ],
+      "url": "https://www.youtube.com/watch?v=PgUsrTbLHJ4",
+      "title": "Marilyn Madigan inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:22.403Z"
+    },
+    "PpXIVZKq49U": {
+      "people": [
+        "bishop-anthony-pilla-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=PpXIVZKq49U",
+      "title": "Sam Miller inducts Bishop Anthony Pilla into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:00.941Z"
+    },
+    "q4nkyvZtzRU": {
+      "people": [
+        "sudarshan-sathe-2023"
+      ],
+      "url": "https://www.youtube.com/watch?v=q4nkyvZtzRU",
+      "title": "Sudarshan Sathe inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:30.687Z"
+    },
+    "QDE5BVEyNKg": {
+      "people": [
+        "may-chen-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=QDE5BVEyNKg",
+      "title": "May Chen inducted into Cleveland International Hall of Fame by Margaret Wong",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:25.970Z"
+    },
+    "QEdXti9t8jE": {
+      "people": [
+        "arnie-de-la-porte-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=QEdXti9t8jE",
+      "title": "Lithuanian Consul Ingrida Bublys inducts Arnie de la Porte",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:07.393Z"
+    },
+    "qtbU6qlpxRE": {
+      "people": [
+        "dick-pogue-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=qtbU6qlpxRE",
+      "title": "Dick Pogue in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:02.124Z"
+    },
+    "QxG7VrfKyXo": {
+      "people": [
+        "ralph-perk-jr-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=QxG7VrfKyXo",
+      "title": "Congresswoman Mary Rose Oakar inducts Judge Ralph Perk Jr. in Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:19.057Z"
+    },
+    "qzHokEDkXQc": {
+      "people": [
+        "carolyn-balogh-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=qzHokEDkXQc",
+      "title": "Dr. Maria Pujana inducts Carolyn Balogh into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:08.572Z"
+    },
+    "RzY-lrL0HWo": {
+      "people": [
+        "basil-russo-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=RzY-lrL0HWo",
+      "title": "Basil Russo inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:14.864Z"
+    },
+    "soPrjwdQWfw": {
+      "people": [
+        "sister-alicia-alvarado-2018"
+      ],
+      "url": "https://www.youtube.com/watch?v=soPrjwdQWfw",
+      "title": "Sister Alicia Alvarado inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:21.276Z"
+    },
+    "T5peEDc8mE8": {
+      "people": [
+        "le-nguyen-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=T5peEDc8mE8",
+      "title": "Le Nguyen inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:35.435Z"
+    },
+    "tB2FCpsakkA": {
+      "people": [
+        "valarie-mccall-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=tB2FCpsakkA",
+      "title": "Valarie McCall inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:27.291Z"
+    },
+    "Tsl-t9x0Ub0": {
+      "people": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=Tsl-t9x0Ub0",
+      "title": "Polish Consul General Urszula Gacek inducts Eugenia Stolarczyk",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:10.151Z"
+    },
+    "TU54lNScxz4": {
+      "people": [
+        "lucy-torres-2026"
+      ],
+      "url": "https://www.youtube.com/watch?v=TU54lNScxz4",
+      "title": "Lucy Torres inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:35.834Z"
+    },
+    "tX9BPpgJ_3w": {
+      "people": [
+        "shiv-k-aggarwal-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=tX9BPpgJ_3w",
+      "title": "Michael Sreshta inducts Shiv Aggarwal into Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:04.986Z"
+    },
+    "uw_NYpsccxM": {
+      "people": [
+        "eugenia-stolarczyk-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=uw_NYpsccxM",
+      "title": "Eugenia Stolarczyk inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:10.559Z"
+    },
+    "XeheG0iGICs": {
+      "people": [
+        "david-gilbert-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=XeheG0iGICs",
+      "title": "David Gilbert inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:32.247Z"
+    },
+    "xJ9n1QOUafg": {
+      "people": [
+        "dick-russ-2015"
+      ],
+      "url": "https://www.youtube.com/watch?v=xJ9n1QOUafg",
+      "title": "Dick Russ in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:02.897Z"
+    },
+    "XZh7vcFsUns": {
+      "people": [
+        "jim-craciun-2017"
+      ],
+      "url": "https://www.youtube.com/watch?v=XZh7vcFsUns",
+      "title": "Jim Craciun inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:15.634Z"
+    },
+    "YPC3hutSgL8": {
+      "people": [
+        "taras-szmagala-2022"
+      ],
+      "url": "https://www.youtube.com/watch?v=YPC3hutSgL8",
+      "title": "Taras Szmagala inducted by Andy Fedynsky into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:28.393Z"
+    },
+    "YT9DTiZdJpQ": {
+      "people": [
+        "khalid-samad-2016-2016"
+      ],
+      "url": "https://www.youtube.com/watch?v=YT9DTiZdJpQ",
+      "title": "Dan Hanson introduces Cleveland Director Blaine Griffin",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:12.118Z"
+    },
+    "yxyHzJyqYt0": {
+      "people": [
+        "may-chen-2020"
+      ],
+      "url": "https://www.youtube.com/watch?v=yxyHzJyqYt0",
+      "title": "May Chen inducted in Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:25.597Z"
+    },
+    "ZT80-BrCIyk": {
+      "people": [
+        "svetlana-stolyarova-2025"
+      ],
+      "url": "https://www.youtube.com/watch?v=ZT80-BrCIyk",
+      "title": "Svetlana Stolyarova inducted into Cleveland International Hall of Fame",
+      "uploader": "Dan Hanson",
+      "status": "collected-needs-review",
+      "collectedAt": "2026-09-29T21:21:33.575Z"
+    }
+  }
+}

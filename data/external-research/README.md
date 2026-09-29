@@ -17,6 +17,18 @@ npm run source:external-research
 
 The collector searches Wikipedia, Wikidata, and official-site leads outside the excluded domains. Every collected item is treated as `collected-needs-review`.
 
+Film titles:
+
+```sh
+npm run source:film-titles
+```
+
+This reads the title each held film has on YouTube, and who posted it, into
+`youtube-film-titles.json`. They are someone else's words, and some make
+claims about who inducted whom, so every one is `collected-needs-review`. The
+staff review app offers them as suggestions on its *Film titles* card; only a
+title a curator approves reaches the display.
+
 Contribution-only cleanup pass:
 
 ```sh

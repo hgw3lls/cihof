@@ -24,6 +24,7 @@ import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
 import { publishedAttractText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
 import { publishedTours, type RuntimeTour, type StoredTours } from './tours.ts';
+import { approvedFilmTitle, readFilmTitles, type StoredFilmTitles } from './film-titles.ts';
 
 /**
  * The runtime bundle a visitor app loads.
@@ -171,6 +172,8 @@ export type BundleSources = {
   readonly exhibitText?: StoredExhibitText;
   /** Approved film start times, injectable for tests. */
   readonly filmStarts?: StoredFilmStarts;
+  /** Approved film titles, injectable for tests. */
+  readonly filmTitles?: StoredFilmTitles;
   /** The curated tours, injectable for tests. */
   readonly tours?: StoredTours;
 };
@@ -190,13 +193,18 @@ export function buildRuntimeBundle(
   // A film that is a whole ceremony opens at this person's part of it, once a
   // curator has approved where that is (film-starts.ts).
   const filmStarts = sources.filmStarts ?? readFilmStarts();
+  // A film is called by the title a curator approved for this target, in
+  // those words, or by nothing (film-titles.ts).
+  const filmTitles = sources.filmTitles ?? readFilmTitles();
   const startingAtTheirPart = (personId: string, films: readonly PublishedFilm[]): PublishedFilm[] => films.map((film) => {
+    const title = approvedFilmTitle(filmTitles, film.id, target);
+    const titled = title ? { ...film, title } : film;
     const startSeconds = approvedFilmStart(filmStarts, personId, film.id, film.durationSeconds);
-    if (startSeconds === null) return film;
+    if (startSeconds === null) return titled;
     const source = film.source.kind === 'youtube'
       ? { ...film.source, embedUrl: `${film.source.embedUrl}?start=${startSeconds}` }
       : film.source;
-    return { ...film, source, startSeconds };
+    return { ...titled, source, startSeconds };
   });
   const runtimePeople = people.map((person) =>
     toRuntimePerson(person, startingAtTheirPart(person.id, publishableFilms(holdings.get(person.id) ?? [], target, delivery)), publishedIds));

@@ -3,6 +3,7 @@ import { loadReview, putDraft, type Draft, type Review } from './api.ts';
 import { AttractWords } from './AttractWords.tsx';
 import { FilmStarts } from './FilmStarts.tsx';
 import { Tours } from './Tours.tsx';
+import { FilmTitles } from './FilmTitles.tsx';
 import { Signoffs } from './Signoffs.tsx';
 import { History } from './History.tsx';
 import { FilmCaptions } from './FilmCaptions.tsx';
@@ -12,7 +13,7 @@ import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save';
 
 /**
  * The staff review app.
@@ -70,11 +71,12 @@ export function App() {
     bios: Object.keys(draft.bios).length,
     attract: Object.keys(draft.attract ?? {}).length,
     tours: Object.keys(draft.tours ?? {}).length,
+    filmTitles: Object.keys(draft.filmTitles ?? {}).length,
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmStarts + counts.signoffs + counts.filmFixes;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes;
   const back = () => setScreen('home');
 
   return (
@@ -107,6 +109,7 @@ export function App() {
         <Biographies review={review} draft={draft} update={update} onDone={() => { setBiographyFor(null); back(); }} startWith={biographyFor} />
       )}
       {screen === 'attract' && <AttractWords review={review} draft={draft} update={update} onDone={back} />}
+      {screen === 'filmTitles' && <FilmTitles review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'tours' && <Tours review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'filmStarts' && <FilmStarts review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'signoffs' && <Signoffs review={review} draft={draft} update={update} onDone={back} />}
@@ -146,7 +149,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmStarts: number; signoffs: number; filmFixes: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -206,6 +209,15 @@ function Home({ review, draft, waiting, counts, onOpen }: {
             progress={{ done: review.tours.filter((tour) => tour.state === 'approved').length, total: review.tours.length }}
             pending={counts.tours}
             onOpen={() => onOpen('tours')}
+          />
+        )}
+        {review.filmTitles.length > 0 && (
+          <Card
+            title="Film titles"
+            body="What each film is called in a person's list of films. Use the title it has on YouTube, after checking it, or write one."
+            progress={{ done: review.filmTitles.filter((film) => film.approvedTitle).length, total: review.filmTitles.length }}
+            pending={counts.filmTitles}
+            onOpen={() => onOpen('filmTitles')}
           />
         )}
         {review.filmStarts.length > 0 && (

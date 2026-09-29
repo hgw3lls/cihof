@@ -3,6 +3,7 @@ import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, 
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
 import { tourStale } from './Tours.tsx';
+import { filmTitleProblem } from './FilmTitles.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
 import { signoffProblem } from './Signoffs.tsx';
@@ -41,6 +42,8 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    ...Object.entries(draft.filmTitles ?? {}).filter(([, value]) => filmTitleProblem(value, review.limits.filmTitle))
+      .map(([id]) => `the title of ${review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id}'s film`),
     // An approval names the tour the reviewer saw; one that has changed since needs another look.
     ...Object.entries(draft.tours ?? {}).filter(([id, value]) => tourStale(review.tours.find((tour) => tour.tourId === id), value))
       .map(([id]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (it changed after you approved it)`),
@@ -213,6 +216,10 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.decision === 'approve'
       ? `Attract screen: approve “${review.attract.headline}”`
       : `Attract screen: new words, “${value.headline}”`);
+  }
+  for (const [id, value] of Object.entries(draft.filmTitles ?? {})) {
+    const whose = review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id;
+    lines.push(value.decision === 'approve' ? `Film titles: ${whose}: “${value.title.trim()}”` : `Film titles: ${whose}: title taken away`);
   }
   for (const [id, value] of Object.entries(draft.tours ?? {})) {
     const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
