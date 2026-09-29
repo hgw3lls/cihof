@@ -47,7 +47,12 @@ test.beforeAll(async () => {
     ...document, items: document.items.map(({ cleared, ...item }: { cleared?: unknown }) => ({ ...item, signed: null })),
   }));
   reset('data/cihof_caption_fixes.json', (document) => ({ ...document, fixes: [] }));
+  // No film titles, and so none of the differences they made recorded either:
+  // a recorded difference that no longer occurs fails the parity check.
   rmSync(join(worktree, 'data/cihof_film_titles.json'), { force: true });
+  reset('data/cihof_reviewed_differences.json', (document) => ({
+    ...document, differences: document.differences.filter(({ difference }: { difference: string }) => !difference.includes('.filmTitles:')),
+  }));
   reset('data/cihof_story_lenses.json', (document) => ({
     ...document, lenses: document.lenses.map(({ review, ...lens }: { review?: unknown }) => ({ ...lens, reviewStatus: 'draft' })),
   }));

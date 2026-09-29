@@ -1,0 +1,1084 @@
+{
+  "schemaVersion": 1,
+  "note": "Film titles approved by a curator, in the exact words approved. Applied by npm run films:titles:apply.",
+  "titles": {
+    "-2OMPdY2pfw": {
+      "title": "Shiv Aggarwal in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-e566387a96ef",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "-5gDFAKdaXM": {
+      "title": "Ramesh Shah inducted into Cleveland International Hall of Fame by Sudarshan Sathe",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-e6200df61b3a",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "-jbd_GOy7hk": {
+      "title": "Anda Cook inducted by Dagmar Celeste into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-fe5d7f1254f2",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "11fqd7MQ8Fs": {
+      "title": "Pierre Bejjani inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-87b1157ef1c6",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "1KFtDD1w3lg": {
+      "title": "Pierre Bejjani inducts Abdullah Mina into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a391b146f529",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "2KBxzdgiqJM": {
+      "title": "Berj Shakarian inducted into Cleveland International Hall of Fame by Paul Burik",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-e91ef99cf7ca",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "2mG5GMQXUZQ": {
+      "title": "Mona Alag inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-29bbf8dd6001",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "3Zl6-HYV89Q": {
+      "title": "Dr. Carl Robson inducted by Aklilu Demessie into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-d6d6c87574db",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "4jjbyRcwk3Y": {
+      "title": "Beverly Kerecman inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-5eee74a8326b",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "4pafixyd1zU": {
+      "title": "Richard Buoncore inducts Dr. Atul Mehta in Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-0792cf06d543",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "The YouTube title's spelling Ahtul corrected to Atul, as the collection spells his name. Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "5BYSPErYD3o": {
+      "title": "Richard Fleischman inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-08564f5baf1b",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "7AjUc16ao90": {
+      "title": "Bill Miller inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-c9fb9df5da7b",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "7Jj4sizisoM": {
+      "title": "José C. Feliciano inducts Honorable José A. Villanueva",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-65abb7f1311e",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "7MkiB5FNQ_g": {
+      "title": "Sanjiv Kapur inducts Dick Pogue into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-6892282374bc",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "8CPuLovefwA": {
+      "title": "Judge Ralph Perk Jr. in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-1914819276d9",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "9e7DWWD6_l0": {
+      "title": "Jose Feliciano inducts Sister Alicia Alvarado into Cleveland Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-92d0e3523043",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "b_zP9VqXJbY": {
+      "title": "Paul Burik inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8f2974b8e798",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "b9-AD6gYt14": {
+      "title": "Victor Ruiz inducted by Dr. Alex Johnson into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a951c5203e9d",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "BKuCcyGsdek": {
+      "title": "Branka M. Malinar inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-cfcc1261f4b2",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "bS3656smMfM": {
+      "title": "Andy Chakalis inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-0d9869a8ff47",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "C6EuNqGZH5E": {
+      "title": "Dr. Akram Boutros inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-9942a462cc8c",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "D1Rgv29APUk": {
+      "title": "Councilman Brancatelli inducts Judge Ray Pianka into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8939d59bac49",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "diVkkJkn0sY": {
+      "title": "Mayor Frank G. Jackson inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-23e92271042d",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "DoZUzteeFMU": {
+      "title": "Raj Aggarwal, PhD, CFA inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-82f2e0210d71",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "dW7qMIULLko": {
+      "title": "Dan Coughlin inducts Jack Kahl into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-ebdb02bdaac3",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "e_C-YpIWjt8": {
+      "title": "Carolyn Balogh inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-39a474f158ba",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "e3gWQ-kdEF4": {
+      "title": "Catherine Jorgensen McCutcheon inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8e2842e25f08",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "EATzGX8chuI": {
+      "title": "Dr. Atul Mehta inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-e163e000c4aa",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "The YouTube title's spelling Ahtul corrected to Atul, as the collection spells his name. Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "eKdfG3zz9Os": {
+      "title": "Jack Kahl inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-53fa96acd722",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "Engy3m5Efcc": {
+      "title": "Berj Shakarian inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-2e2e1a295639",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "f78jlqAJnqM": {
+      "title": "Seung (Sam) Kim inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-16c2a447f4bd",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "fEHO9Uwgb9g": {
+      "title": "Ramesh Shah - Cleveland International Hall of Fame Induction",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-7788d4a80591",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "FwV6dXkUhnc": {
+      "title": "Abdullah (Abby) Mina inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8405dadf5515",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "GDfhVKV-PfY": {
+      "title": "Steve Mulloy in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-0f9d2ee2a3e2",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "hmsfn1_1Kpg": {
+      "title": "Arnie de la Porte inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-569f316fbea9",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "i-iB8SADV8Q": {
+      "title": "Sheila Murphy Crawford inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-2c94eb97e91e",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "i5FJexABnHI": {
+      "title": "Honorable José A. Villanueva in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a2be4c1e1ce6",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "ivlrvgM81r8": {
+      "title": "Loree Vick inducts former co-anchor Dick Russ into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-068d8b11414c",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "iX7-ecPZvy4": {
+      "title": "Dr Mohan Bafna inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-910934f91d95",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "IXo79dbDE_M": {
+      "title": "Sree Sreenath inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-fae00cdf502b",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "IYv4tYCJ3m8": {
+      "title": "Michael Polensek inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-342d665e1561",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "JAWjKTg5nRg": {
+      "title": "Mayor Georgine Welo inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a5b533f4b93c",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "KAhoZMRbZnA": {
+      "title": "Suresh Bafna inducts Dr Mohan Bafna into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-57356bf0e704",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "khFzLbaSw0o": {
+      "title": "Joyce Mariani inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-85a51010ccfa",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "kkjaaUZr2ps": {
+      "title": "Cleveland Director Blaine Griffin inducts Khalid Samad",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-dfa1a3c6130e",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "KMVo49Zi-94": {
+      "title": "Bishop Anthony Pilla in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-cb44e1e51848",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "kofOH1CYKBQ": {
+      "title": "Mayor Richard Ganim in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-cd640f9b52ed",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "Kp2oRe3w1EM": {
+      "title": "Andy Fedynsky inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-cd327731cd54",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "M384Uvg0bh8": {
+      "title": "Pierre Bejjani inducts Mayor Richard Ganim into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a52842cec5b1",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "mqCQvmZsu88": {
+      "title": "Khalid Samad in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-f56b3a5564d0",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "mTJMMiUk5nI": {
+      "title": "Margaret Lynch inducted into Cleveland International Hall of Fame by Gerry Quinn",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-0203719a974b",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "nC0wST9j-J0": {
+      "title": "Gerry Quinn inducts Sheila Murphy Crawford into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-5c7e1b6b124d",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "nINk_D8bi54": {
+      "title": "Mayor Jane Campbell inducts Steve Mulloy into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-931e999615c9",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "Nlcx5vaC37I": {
+      "title": "Aklilu Demessie inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8fd42ce98e36",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "OAZ7t2i1W10": {
+      "title": "Wael Khoury MD inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-36af07f0dfde",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "ObIi5VXcP7Q": {
+      "title": "Ingrida Bublys inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-dc5cdc601860",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "P34omi5XUiY": {
+      "title": "Cleveland International Hall of Fame Class of 2024 (4/23/24)",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-6e5289271f06",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "PgUsrTbLHJ4": {
+      "title": "Marilyn Madigan inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-cca38180352d",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "PpXIVZKq49U": {
+      "title": "Sam Miller inducts Bishop Anthony Pilla into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-3657c48b2f1f",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "q4nkyvZtzRU": {
+      "title": "Sudarshan Sathe inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-bd9f5b7dba19",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "QDE5BVEyNKg": {
+      "title": "May Chen inducted into Cleveland International Hall of Fame by Margaret Wong",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-b9632e29d69f",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "qtbU6qlpxRE": {
+      "title": "Dick Pogue in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-f45feb7c07e4",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "QxG7VrfKyXo": {
+      "title": "Congresswoman Mary Rose Oakar inducts Judge Ralph Perk Jr. in Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8cb19df35f39",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "qzHokEDkXQc": {
+      "title": "Dr. Maria Pujana inducts Carolyn Balogh into Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-1d33f9aa910c",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "RzY-lrL0HWo": {
+      "title": "Basil Russo inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-8708e3390267",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "soPrjwdQWfw": {
+      "title": "Sister Alicia Alvarado inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-b2d95bbad6ae",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "T5peEDc8mE8": {
+      "title": "Le Nguyen inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-169bfab7ffd3",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "tB2FCpsakkA": {
+      "title": "Valarie McCall inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-891783eacaa4",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "Tsl-t9x0Ub0": {
+      "title": "Polish Consul General Urszula Gacek inducts Eugenia Stolarczyk",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-ad153bd5f28e",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "TU54lNScxz4": {
+      "title": "Lucy Torres inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-765cff225fe3",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "uw_NYpsccxM": {
+      "title": "Eugenia Stolarczyk inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-5072bbc5e513",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "XeheG0iGICs": {
+      "title": "David Gilbert inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-a396339d340a",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "xJ9n1QOUafg": {
+      "title": "Dick Russ in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-694b2e91def3",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "XZh7vcFsUns": {
+      "title": "Jim Craciun inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-95306a0da05d",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "YPC3hutSgL8": {
+      "title": "Taras Szmagala inducted by Andy Fedynsky into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-7d8fec0ce057",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "yxyHzJyqYt0": {
+      "title": "May Chen inducted in Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-7ca62f6398be",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    },
+    "ZT80-BrCIyk": {
+      "title": "Svetlana Stolyarova inducted into Cleveland International Hall of Fame",
+      "review": {
+        "status": "approved",
+        "decisionReference": "film-titles-review-2026-09-29",
+        "contentVersion": "title-faeffcc04b55",
+        "reviewedAt": "2026-09-29T21:56:40.123Z",
+        "note": "Reviewed by Tony Yanick in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": false
+      }
+    }
+  }
+}
