@@ -100,22 +100,25 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     })) lenses.push(lens);
   }
 
-  // Somebody's record, from whichever lens is showing. The map has no tiles, so
-  // a record is opened from People when the last lens was Connections.
+  // Somebody's record, from whichever lens is showing.
   let opened: string | null = null;
   let film = false;
   let share = false;
   await attempt('open a record', async () => {
     // A face already chosen would be unchosen by a second touch. On the
     // Connections diagram the faces out on the rim overlap one another, so a
-    // visitor reaches for the ones round the centre.
+    // visitor reaches for the ones round the centre. Somebody chosen with no
+    // tie in the layers that are on has nobody round them, and a visitor
+    // looks for somebody on People instead.
+    const lensbar = page.getByRole('navigation', { name: 'Ways to explore' });
     const ringed = page.locator('.tile[data-ring="tie"]:not([aria-pressed="true"])');
-    let tiles = await ringed.count() > 0
-      ? ringed
-      : page.locator('.tile:visible:not([aria-pressed="true"]):not([aria-hidden="true"])');
-    if (await tiles.count() === 0) {
-      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: /^People/ }).click({ timeout: step });
-      tiles = page.locator('.tile:visible:not([aria-pressed="true"]):not([aria-hidden="true"])');
+    const faces = page.locator('.tile:visible:not([aria-pressed="true"]):not([aria-hidden="true"])');
+    let tiles = await ringed.count() > 0 ? ringed : faces;
+    const onConnections = await lensbar.getByRole('button', { name: /^Connections/ }).getAttribute('aria-current') === 'page';
+    if (tiles === faces && (onConnections || await faces.count() === 0)) {
+      await lensbar.getByRole('button', { name: /^People/ }).click({ timeout: step });
+      await page.waitForTimeout(600);
+      tiles = faces;
     }
     // A chosen face is drawn larger, over its neighbours; a visitor closes it
     // before reaching for somebody it covers.
