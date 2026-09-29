@@ -10,10 +10,52 @@
 import type { RuntimePerson } from '../data/runtime.ts';
 import { groupsBy, inductionClasses, type Group } from './selectors.ts';
 
-/** The field the wall is drawn in: below the header, above the chips and the bar. */
+/** The field the wall is drawn in on the display: below the header, above the chips and the bar. */
 export const field = { left: 48, top: 96, height: 784, width: 1824, widthWithSheet: 1224, widthWithSearch: 1064 } as const;
+
+/**
+ * Where the field is on a stage of any shape, and how it gives way to a sheet
+ * or to search. On a landscape stage the header, chips and bar keep the
+ * display's sizes and the field takes the rest; a sheet or search comes in
+ * from the right and narrows it. On an upright one (a phone) the header is
+ * shorter, the bar two rows deep, a sheet rises from below and search drops
+ * from above, and each shortens the field rather than narrowing it.
+ */
+export type FieldPlace = { readonly left: number; readonly top: number; readonly width: number; readonly height: number };
+export type FieldGeometry = { readonly rest: FieldPlace; readonly sheet: FieldPlace; readonly search: FieldPlace; readonly sheetHeight: number; readonly searchHeight: number };
+
+/** The phone's header, chip band and bar, in design pixels. */
+export const phone = { masthead: 124, chips: 64, bar: 136, margin: 16 } as const;
+
+export function fieldGeometry(stage: { kind: 'wall' | 'phone'; width: number; height: number }): FieldGeometry {
+  const { width: W, height: H } = stage;
+  if (stage.kind === 'phone') {
+    const { masthead, chips, bar, margin } = phone;
+    const left = margin;
+    const width = W - 2 * margin;
+    const sheetHeight = Math.round(H * 0.52);
+    const searchHeight = Math.round(H * 0.5);
+    return {
+      rest: { left, top: masthead, width, height: H - masthead - chips - bar },
+      sheet: { left, top: masthead, width, height: H - masthead - sheetHeight - 8 },
+      search: { left, top: searchHeight + 8, width, height: H - searchHeight - 8 - chips - bar },
+      sheetHeight, searchHeight,
+    };
+  }
+  const extra = W - 1920;
+  const height = H - 1080 + field.height;
+  return {
+    rest: { left: field.left, top: field.top, width: field.width + extra, height },
+    sheet: { left: field.left, top: field.top, width: field.widthWithSheet + extra, height },
+    search: { left: field.left, top: field.top, width: field.widthWithSearch + extra, height },
+    sheetHeight: H - 232, searchHeight: H - 232,
+  };
+}
+
+/** A field narrower than any the display uses: a phone's. Layouts drawn for the display's width rearrange for it. */
+export const narrow = (width: number) => width < 1000;
 /** The letter rail's width, with the gap left beside it. */
-const railSpace = 84;
+const railSpace = (width: number) => (narrow(width) ? 52 : 84);
 
 export type Arrangement = 'name' | 'community' | 'contribution';
 
@@ -72,19 +114,20 @@ export function peopleLayout(
   lit: ReadonlySet<string> | null = null,
   /** False while the search panel stands where the rail would. */
   rail = true,
+  height: number = field.height,
 ): WallLayout {
-  const layout = arrangement === 'name' ? byName(people, width, letter, rail) : grouped(people, arrangement, width);
+  const layout = arrangement === 'name' ? byName(people, width, letter, rail, height) : grouped(people, arrangement, width, height);
   if (!lit) return layout;
   const slots = new Map<string, Slot>();
   for (const [id, slot] of layout.slots) slots.set(id, lit.has(id) ? { ...slot, lit: true } : { ...slot, dim: Math.max(slot.dim, 1) });
   return { ...layout, slots };
 }
 
-function grouped(people: readonly RuntimePerson[], arrangement: 'community' | 'contribution', width: number): WallLayout {
+function grouped(people: readonly RuntimePerson[], arrangement: 'community' | 'contribution', width: number, height: number): WallLayout {
   const groups = groupsBy(people, arrangement === 'community' ? 'communities' : 'contributions');
   const slots = new Map<string, Slot>();
   const labels: WallLabel[] = [];
-  placeBlocks(pack(groups, width, field.height, 104), field.height, slots, labels, 'var(--muted)');
+  placeBlocks(pack(groups, width, height, 104, narrow(width) ? 20 : 34), height, slots, labels, 'var(--muted)');
   return {
     slots,
     labels,
@@ -96,12 +139,12 @@ function grouped(people: readonly RuntimePerson[], arrangement: 'community' | 'c
 }
 
 /** Everyone in one block, A to Z, as large as the field allows. */
-function byName(people: readonly RuntimePerson[], width: number, letter: string | null, rail: boolean): WallLayout {
+function byName(people: readonly RuntimePerson[], width: number, letter: string | null, rail: boolean, height: number): WallLayout {
   const sorted = alphabetical(people);
-  const W = width - (rail ? railSpace : 0);
-  const H = field.height;
+  const W = width - (rail ? railSpace(width) : 0);
+  const H = height;
   let best = { cols: 10, rows: 1, cell: 0 };
-  for (let cols = 10; cols <= 22; cols += 1) {
+  for (let cols = narrow(width) ? 4 : 10; cols <= 22; cols += 1) {
     const rows = Math.ceil(sorted.length / cols);
     const cell = Math.min(W / cols, H / rows);
     if (cell > best.cell) best = { cols, rows, cell };
@@ -135,6 +178,8 @@ function byName(people: readonly RuntimePerson[], width: number, letter: string 
 
 /** Where the class's faces begin: the year stands large to their left. */
 export const yearsGutter = 680;
+/** On a phone, where they begin below the year. */
+export const yearsHead = 150;
 
 /**
  * Years: one induction class at a time, its faces large beside the year, and
@@ -143,29 +188,35 @@ export const yearsGutter = 680;
  * the newest. People with no recorded year are not placed in a guessed class;
  * the subtitle says how many there are.
  */
-export function yearsLayout(people: readonly RuntimePerson[], width: number, year: number | null, selectedId: string | null): WallLayout & { year: number | null } {
+export function yearsLayout(people: readonly RuntimePerson[], width: number, year: number | null, selectedId: string | null, height: number = field.height): WallLayout & { year: number | null } {
   const classes = inductionClasses(people);
   const chosen = selectedId ? people.find((person) => person.id === selectedId) : undefined;
   const shown = classes.find((entry) => entry.year === chosen?.classYear) ?? classes.find((entry) => entry.year === year) ?? classes[0];
   const slots = new Map<string, Slot>();
   const labels: WallLabel[] = [];
-  const H = field.height;
+  const H = height;
   if (shown) {
-    const top = 24;
-    const W = width - yearsGutter;
+    // On a phone the year stands above its class rather than beside it.
+    const upright = narrow(width);
+    const left = upright ? 0 : yearsGutter;
+    const top = upright ? yearsHead : 24;
+    const W = width - left;
     const n = shown.people.length;
+    const name = upright ? 18 : 22;
+    const colGap = upright ? 14 : 24;
+    const rowGap = upright ? 52 : 64;
     let best = { cols: 2, cell: 0 };
     for (let cols = 2; cols <= 8; cols += 1) {
       const rows = Math.ceil(n / cols);
-      const cell = Math.min((W - (cols - 1) * 24) / cols, (H - top - (rows - 1) * 20 - rows * 44) / rows);
+      const cell = Math.min((W - (cols - 1) * colGap) / cols, (H - top - (rows - 1) * (rowGap - 44) - rows * 44) / rows);
       if (cell > best.cell) best = { cols, cell };
     }
     const cell = Math.floor(Math.min(best.cell, 280));
     shown.people.forEach((person, index) => {
-      const x = yearsGutter + (index % best.cols) * (cell + 24);
-      const y = top + Math.floor(index / best.cols) * (cell + 64);
+      const x = left + (index % best.cols) * (cell + colGap);
+      const y = top + Math.floor(index / best.cols) * (cell + rowGap);
       slots.set(person.id, { x, y, size: cell, dim: 0, named: true });
-      labels.push({ x, y: y + cell + 10, w: cell, size: 22, text: person.name, color: 'var(--ink)', wrap: true, lineHeight: 1.05, lines: 2 });
+      labels.push({ x, y: y + cell + 8, w: cell, size: name, text: person.name, color: 'var(--ink)', wrap: true, lineHeight: 1.05, lines: 2 });
     });
   }
   // The other classes wait below the field, each under its own year in the strip.
@@ -189,13 +240,15 @@ export function yearsLayout(people: readonly RuntimePerson[], width: number, yea
  * order, under its name; everybody else framed small down both sides, so the
  * wall is still the whole hall.
  */
-export function tourLayout(people: readonly RuntimePerson[], personIds: readonly string[], label: string, width: number): WallLayout {
+export function tourLayout(people: readonly RuntimePerson[], personIds: readonly string[], label: string, width: number, height: number = field.height): WallLayout {
   const byId = new Map(people.map((person) => [person.id, person]));
   const on = new Set(personIds);
   const touring = personIds.map((id) => byId.get(id)).filter((person): person is RuntimePerson => person !== undefined);
   const others = alphabetical(people).filter((person) => !on.has(person.id));
   const slots = new Map<string, Slot>();
-  const H = field.height;
+  const H = height;
+
+  if (narrow(width)) return uprightTour(touring, others, label, width, height);
 
   // The frame: four columns, two at each side, as many rows as it takes.
   let frameW = 0;
@@ -229,6 +282,34 @@ export function tourLayout(people: readonly RuntimePerson[], personIds: readonly
   };
 }
 
+/** A tour on a phone: its people above, large; everybody else small along the foot. */
+function uprightTour(touring: readonly RuntimePerson[], others: readonly RuntimePerson[], label: string, width: number, height: number): WallLayout {
+  const slots = new Map<string, Slot>();
+  const small = 26;
+  const perRow = Math.max(1, Math.floor((width + 4) / (small + 4)));
+  const rows = Math.ceil(others.length / perRow);
+  const frameTop = height - rows * (small + 4) + 4;
+  others.forEach((person, index) => {
+    slots.set(person.id, { x: (index % perRow) * (small + 4), y: frameTop + Math.floor(index / perRow) * (small + 4), size: small, dim: 1 });
+  });
+  const inner = new Map<string, Slot>();
+  const innerLabels: WallLabel[] = [];
+  const innerH = (others.length ? frameTop - 24 : height) - 12;
+  const packed = pack([{ label, people: touring }], width, innerH, 150, 20);
+  placeBlocks(packed, innerH, inner, innerLabels, 'var(--ink)');
+  const blockW = packed.blocks[0]?.w ?? width;
+  const ox = (width - blockW) / 2;
+  for (const [id, slot] of inner) slots.set(id, { ...slot, x: slot.x + ox, y: slot.y + 12 });
+  return {
+    slots,
+    labels: innerLabels.map((each) => ({ ...each, x: each.x + ox, y: each.y + 12, size: 26, w: Math.min(each.w, width - ox) })),
+    order: touring.map((person) => person.id),
+    title: label,
+    subtitle: '',
+    rail: false,
+  };
+}
+
 /** The letters the rail offers: only those somebody's name starts with. */
 export function railLetters(people: readonly RuntimePerson[]): string[] {
   return [...new Set(people.map(initial))].sort();
@@ -250,20 +331,27 @@ type Packed = { blocks: Block[]; total: number };
  * at which they all fit the height. A group's columns follow its size, so a
  * large group reads as a block and a pair as a pair.
  */
-export function pack(groups: readonly Group[], W: number, H: number, maxCell: number): Packed {
+export function pack(groups: readonly Group[], W: number, H: number, maxCell: number, minCell = 34): Packed {
   let attempt: Packed = { blocks: [], total: 0 };
-  for (let cell = maxCell; cell >= 34; cell -= 2) {
+  // On a phone a field shortened by a sheet or by search can be too short even
+  // at the smallest faces meant for it; there the faces go on shrinking, and
+  // the labels with them, until everybody fits, rather than being cut off.
+  const floor = narrow(W) ? 8 : minCell;
+  for (let cell = maxCell; cell >= floor; cell -= 2) {
+    const tight = cell < minCell;
     const gap = Math.max(3, Math.round(cell * 0.07));
     const blockGap = Math.round(cell * 0.6);
-    const labelH = Math.max(30, Math.round(cell * 0.4));
-    const fontSize = Math.max(17, Math.round(labelH * 0.62));
+    const labelH = tight ? 20 : Math.max(minCell < 34 ? 26 : 30, Math.round(cell * 0.4));
+    const fontSize = tight ? 13 : Math.max(minCell < 34 ? 15 : 17, Math.round(labelH * 0.62));
     let x = 0;
     let y = 0;
     let shelfH = 0;
     const blocks: Block[] = [];
     for (const group of groups) {
       const n = group.people.length;
-      const cols = n >= 30 ? 12 : n >= 16 ? 8 : n >= 9 ? 6 : n >= 5 ? 4 : n >= 3 ? 3 : n;
+      // On a phone a large group takes as many columns as fit, rather than shrinking every face to keep twelve.
+      const most = narrow(W) ? Math.max(1, Math.floor((W + gap) / (cell + gap))) : Infinity;
+      const cols = Math.min(most, n >= 30 ? 12 : n >= 16 ? 8 : n >= 9 ? 6 : n >= 5 ? 4 : n >= 3 ? 3 : n);
       const rows = Math.ceil(n / cols);
       const facesW = cols * (cell + gap) - gap;
       const labelW = Math.min(group.label.length * fontSize * 0.54 + 4, Math.max(facesW, 260));
@@ -306,8 +394,8 @@ export const homeView: View = { zoom: 1, pan: { x: 0, y: 0 } };
  * pushed a good way past its edges and zoomed out to half, since what is
  * worth reaching can sit on its rim.
  */
-export function clampPan(pan: { x: number; y: number }, zoom: number, width: number, loose = false): { x: number; y: number } {
-  const H = field.height;
+export function clampPan(pan: { x: number; y: number }, zoom: number, width: number, loose = false, height: number = field.height): { x: number; y: number } {
+  const H = height;
   if (loose) {
     const mx = width * 0.6;
     const my = H * 0.6;
@@ -325,11 +413,11 @@ export function clampPan(pan: { x: number; y: number }, zoom: number, width: num
 export const maxZoom = 3;
 
 /** Zoom by a factor about a point on the field, as a pinch or the wheel does. */
-export function zoomAbout(view: View, factor: number, at: { x: number; y: number }, width: number, loose = false): View {
+export function zoomAbout(view: View, factor: number, at: { x: number; y: number }, width: number, loose = false, height: number = field.height): View {
   const zoom = Math.min(maxZoom, Math.max(loose ? 0.5 : 1, view.zoom * factor));
   const k = zoom / view.zoom;
   const pan = { x: at.x - (at.x - view.pan.x) * k, y: at.y - (at.y - view.pan.y) * k };
-  return { zoom, pan: clampPan(pan, zoom, width, loose) };
+  return { zoom, pan: clampPan(pan, zoom, width, loose, height) };
 }
 
 export type Pull = { readonly dx: number; readonly dy: number; readonly ready: boolean };
@@ -369,15 +457,18 @@ export function tileFrame(input: {
   pull: Pull | null;
   view: View;
   width: number;
+  height?: number;
 }): TileFrame {
-  const { slot, person, selected, held, pull, view, width } = input;
+  const { slot, person, selected, held, pull, view, width, height = field.height } = input;
   const raised = selected || held;
   let scale = slot.size / 100;
   let x = slot.x;
   let y = slot.y;
   let z = slot.ring === 'focus' ? 8 : slot.ring === 'tie' ? 7 : 1;
   if (raised) {
-    const grow = slot.ring || slot.named ? 1 : slot.size >= 150 ? 1.1 : Math.max(2.1, 200 / Math.max(slot.size, 1));
+    // On a phone's small faces, a chosen one grows to about 150 rather than 200.
+    const target = narrow(width) ? 150 : 200;
+    const grow = slot.ring || slot.named ? 1 : slot.size >= 150 ? 1.1 : Math.max(2.1, target / Math.max(slot.size, 1));
     const big = slot.size * grow;
     x = slot.x - (big - slot.size) / 2;
     y = slot.y - (big - slot.size) / 2;
@@ -394,7 +485,7 @@ export function tileFrame(input: {
   x = Math.max(-slot.size * 0.2, Math.min(width - edge + slot.size * 0.2, x));
   if (raised || pull) {
     const top = (-view.pan.y + 6) / view.zoom;
-    const bottom = (field.height - view.pan.y - 6) / view.zoom - edge;
+    const bottom = (height - view.pan.y - 6) / view.zoom - edge;
     y = Math.max(top, Math.min(bottom, y));
   }
   const dimmed = slot.dim > 0 && !raised;
@@ -414,7 +505,7 @@ export function tileFrame(input: {
     colour: raised || Boolean(pull) || Boolean(slot.ring) || Boolean(slot.lit),
     opacity,
     plate,
-    plateUp: screenBottom > field.height - 120,
+    plateUp: screenBottom > height - 120,
     plateRight: screenLeft + plateWidth > width,
   };
 }

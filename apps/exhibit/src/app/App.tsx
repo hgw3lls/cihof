@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useReducer, useState, type CSSProperti
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
 import { connectionNodes, inductionClasses } from '../state/selectors.ts';
-import { field, homeView, peopleLayout, railLetters, tourLayout, yearsLayout, type Arrangement, type View } from '../state/wall.ts';
-import { Stage } from './Stage.tsx';
+import { fieldGeometry, homeView, peopleLayout, railLetters, tourLayout, yearsLayout, type Arrangement, type View } from '../state/wall.ts';
+import { ShapeProvider, Stage, useMeasuredShape } from './Stage.tsx';
+import { readFit } from './shape.ts';
 import { Wall } from './Wall.tsx';
 import { PairSheet, PersonSheet, PlaceSheet, type TieLine } from './Sheet.tsx';
 import { Trail } from './Trail.tsx';
@@ -92,6 +93,11 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [filmListOpen, setFilmListOpen] = useState(true);
   const [chooserOpen, setChooserOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  // The display is drawn at 1920 × 1080; the public site takes the screen's shape.
+  const fit = useMemo(() => readFit(window.location.search, bundle.target), [bundle.target]);
+  const shape = useMeasuredShape(fit);
+  const geometry = useMemo(() => fieldGeometry(shape), [shape]);
+  const upright = shape.kind === 'phone';
 
   const people = bundle.people;
   const relationships = bundle.relationships;
@@ -203,7 +209,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const focusPlace = linking && state.placeId ? places.find((place) => place.id === state.placeId) ?? null : null;
   const pair = state.pair ? state.pair.map((id) => byId.get(id)).filter((person) => person !== undefined) : [];
   const sheetOpen = !searching && (selected !== null || pair.length === 2 || focusPlace !== null);
-  const width = searching ? field.widthWithSearch : sheetOpen ? field.widthWithSheet : field.width;
+  // A sheet or search takes room from the field: from its right on a landscape
+  // stage, from below or above on a phone.
+  const place = searching ? geometry.search : sheetOpen ? geometry.sheet : geometry.rest;
+  const { width, height } = place;
   // Faces lit on the wall: the people a search is finding as it is typed, or
   // those it found once it is closed.
   const lit = useMemo(() => {
@@ -214,22 +223,22 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   // Connections is arranged for the zoom and pan the visitor has, so it is a
   // function of the view the wall hands it.
   const linksAt = useCallback((view: View) => {
-    const input = { people, relationships, contexts, candidates, places, on, width };
+    const input = { people, relationships, contexts, candidates, places, on, width, height };
     return state.linkView === 'places'
       ? placesLayout({ ...input, selectedId: state.selectedId })
       : diagramLayout({
         ...input, focusId: state.selectedId, placeId: state.placeId, view,
-        keepClear: { top: state.trail.length > 1 ? 64 : 0, right: 84 },
+        keepClear: { top: state.trail.length > 1 ? (upright ? 52 : 64) : 0, right: upright ? 64 : 84 },
       });
-  }, [people, relationships, contexts, candidates, places, on, width, state.linkView, state.selectedId, state.placeId, state.trail.length]);
-  const years = useMemo(() => yearsLayout(people, width, state.year, state.selectedId), [people, width, state.year, state.selectedId]);
+  }, [people, relationships, contexts, candidates, places, on, width, height, upright, state.linkView, state.selectedId, state.placeId, state.trail.length]);
+  const years = useMemo(() => yearsLayout(people, width, state.year, state.selectedId, height), [people, width, height, state.year, state.selectedId]);
   const touring = state.lens === 'people' ? state.tour : null;
   const layout = useMemo(
     () => (linking ? linksAt(homeView)
       : yearsShown ? years
-      : touring ? tourLayout(people, touring.personIds, touring.label, width)
-      : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching)),
-    [linking, linksAt, yearsShown, years, touring, people, state.arrangement, width, state.letter, lit, searching],
+      : touring ? tourLayout(people, touring.personIds, touring.label, width, height)
+      : peopleLayout(people, state.arrangement, width, state.letter, lit, !searching, height)),
+    [linking, linksAt, yearsShown, years, touring, people, state.arrangement, width, height, state.letter, lit, searching],
   );
   // What joins two people in a thread, as the records word it.
   const allNodes = useMemo(() => nodesFor({ people, relationships, contexts, candidates: [], on: new Set(linkLayers.map((each) => each.id)) }), [people, relationships, contexts]);
@@ -303,7 +312,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   }));
 
   return (
-    <>
+    <ShapeProvider shape={shape}>
       <Stage>
         {state.mode === 'attract'
           ? (
@@ -318,7 +327,11 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
             />
           )
           : (
-            <div className="shell" data-lens={state.lens}>
+            <div
+              className="shell"
+              data-lens={state.lens}
+              style={{ '--sheet-h': `${geometry.sheetHeight}px`, '--search-h': `${geometry.searchHeight}px` } as CSSProperties}
+            >
               <header className="masthead">
                 <Lockup />
                 <h1>{heading.title}</h1>
@@ -330,6 +343,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                       people={people}
                       layout={linking ? linksAt : layout}
                       width={width}
+                      height={height}
+                      top={place.top}
                       mode={linking ? 'map' : 'wall'}
                       onPlace={(placeId) => dispatch({ type: 'place', placeId })}
                       overlay={yearsShown
@@ -650,6 +665,6 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
           Editor preview — includes unreviewed places and proposed ties. Not for visitors.
         </p>
       )}
-    </>
+    </ShapeProvider>
   );
 }
