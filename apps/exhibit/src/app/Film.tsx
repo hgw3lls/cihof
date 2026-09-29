@@ -203,6 +203,7 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
             <header className="film__header">
               <span>{kicker}</span>
               <h2 id="filmTitle" data-autofocus tabIndex={-1}>{person.name}</h2>
+              {film.title && <p className="film__subtitle">{film.title}</p>}
             </header>
 
             <section className="film__transcript" data-open={drawer ? 'true' : undefined} aria-label={`Transcript of ${person.name}`}>
@@ -275,11 +276,12 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
 }
 
 /**
- * What a film is called in the list. The collection holds no titles for its
- * films, so none is made up: a ceremony film says so, because its start time
- * says so, and any other is described by its length.
+ * What a film is called in the list: the title a curator approved, in those
+ * words. Without one, none is made up: a ceremony film says so, because its
+ * start time says so, and any other is described by its length.
  */
 function title(film: PublishedFilm): string {
+  if (film.title) return film.title;
   if ((film.startSeconds ?? 0) > 0) return 'From the ceremony';
   const minutes = Math.max(1, Math.round((film.durationSeconds ?? 0) / 60));
   return `A ${minutes}-minute film`;

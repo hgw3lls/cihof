@@ -220,3 +220,6 @@ select { font: inherit; padding: 0.6rem 0.7rem; border: 1px solid var(--line); b
 .tour__people { list-style: none; margin: 0.5rem 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem 1rem; counter-reset: stop; }
 .tour__people li { display: flex; gap: 0.6rem; align-items: center; counter-increment: stop; }
 .tour__people li::before { content: counter(stop); min-width: 1.5rem; color: var(--quiet); font-size: 0.85rem; text-align: right; }
+
+/* A film's poster beside whose it is. */
+.film-title__poster { width: 142px; height: 80px; object-fit: cover; border-radius: 6px; flex: none; background: #121211; }

@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs';
 import { buildPeople } from '../packages/pipeline/src/build/people.ts';
 import {
-  collectDifferences, ledgerJson, readReviewedDifferences, recordDecision, reviewedDifferencesPath,
+  collectDifferences, filmTitlesByPerson, ledgerJson, readPublishedRecord, readReviewedDifferences, recordDecision, reviewedDifferencesPath,
 } from '../packages/pipeline/src/build/parity.ts';
 
 /**
@@ -13,10 +13,13 @@ import {
  * reference, and those it would retire. `npm test` fails on any visible
  * difference nobody recorded, so a tool that writes must also record.
  *
- * @param {{ sources?: import('../packages/pipeline/src/build/people.ts').PeopleSources, ids: Iterable<string>, decisionReference?: string, note?: string }} change
+ * `filmTitles` is the film titles document a tool is about to write, when it
+ * writes one; otherwise the one on disk is read.
+ *
+ * @param {{ sources?: import('../packages/pipeline/src/build/people.ts').PeopleSources, filmTitles?: import('../packages/pipeline/src/build/film-titles.ts').StoredFilmTitles, ids: Iterable<string>, decisionReference?: string, note?: string }} change
  */
-export function visibleChanges({ sources = {}, ids, decisionReference = '', note = '' }) {
-  const differences = collectDifferences(buildPeople(sources));
+export function visibleChanges({ sources = {}, filmTitles, ids, decisionReference = '', note = '' }) {
+  const differences = collectDifferences(buildPeople(sources), readPublishedRecord(), filmTitlesByPerson(filmTitles));
   return recordDecision(readReviewedDifferences(), differences, {
     ids: new Set(ids),
     decisionReference,

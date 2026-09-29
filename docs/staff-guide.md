@@ -350,6 +350,12 @@ of the project, and it takes you through each review one item at a time:
   are approved as you write them. Until they are approved, the display shows
   the Hall of Fame's name instead. They appear on the display only: the
   website has no attract screen.
+- **Film titles**: what each film is called in a person's list of films.
+  Without an approved title a film is described by its length (*A 7-minute
+  film*). Each film has a title on YouTube, written by whoever posted it; the
+  app offers it as a suggestion. Check the names, and anything it says about
+  who inducted whom, then **use the YouTube title** or **write a title**.
+  Titles are approved for the display only, where the films are shown.
 - **Where ceremony films start**: some inductees' film is a whole induction
   ceremony shared with others (the 2024 ceremony, 1 hour 44 minutes, stands
   for six people). For each of them, choose where it opens, so a visitor sees
@@ -530,6 +536,17 @@ sheet `personId,filmId,decision,startSeconds,decisionReference,note`, with
 `start` and a time (`1:17:42`) or `beginning`. An approval names the exact
 second it covers. `npm run review:film-starts` redrafts the suggestions in
 `data/review-sheets/film-start-drafts.json` from the captions.
+
+**Film titles** live in `data/cihof_film_titles.json`, shown only in the
+exact words approved, and on the display only. The staff review app does
+this (7.1). By hand, `npm run films:titles:apply` takes a sheet
+`filmId,decision,title,decisionReference,note`, with `approve` and the title,
+or `clear`. The published record had no film titles, so each title is
+recorded in `data/cihof_reviewed_differences.json` for everyone whose film it
+is, under the sheet's decision reference. `npm run source:film-titles` collects each film's YouTube title
+into `data/external-research/youtube-film-titles.json`, unreviewed: nothing
+reads that file into the exhibit, and the review app offers its titles only
+as suggestions.
 
 **The attract screen's words** live in `data/cihof_exhibit_text.json` and
 are shown only once a curator approves the exact words. The staff review app

@@ -106,6 +106,22 @@ export type TourDecision =
   | { decision: 'approve'; seenVersion: string; audience: Audience; note?: string }
   | { decision: 'withdraw'; note?: string };
 
+/** A film, whose it is, what it is called on the display, and its YouTube title as a suggestion. */
+export type FilmTitle = {
+  filmId: string;
+  people: string[];
+  poster: string | null;
+  durationSeconds: number | null;
+  /** Its approved title, or null: it is described by its length. */
+  approvedTitle: string | null;
+  /** Its title on YouTube, collected and unreviewed. */
+  suggestion: { title: string; uploader: string; url: string } | null;
+};
+
+export type FilmTitleDecision =
+  | { decision: 'approve'; title: string; note?: string }
+  | { decision: 'clear'; note?: string };
+
 /** Someone whose film is a ceremony shared with others, and where it opens. */
 export type FilmStart = {
   key: string;
@@ -183,12 +199,13 @@ export type Draft = {
   profiles: Record<string, ProfileDecision>;
   attract: Record<string, AttractDecision>;
   tours: Record<string, TourDecision>;
+  filmTitles: Record<string, FilmTitleDecision>;
   filmStarts: Record<string, FilmStartDecision>;
   signoffs: Record<string, SignoffDecision>;
   filmFixes: Record<string, FilmFix>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; tours: number; filmStarts: number; signoffs: number; filmFixes: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -199,12 +216,13 @@ export type Review = {
   kinds: Kind[];
   attract: AttractWords;
   tours: Tour[];
+  filmTitles: FilmTitle[];
   filmStarts: FilmStart[];
   /** What still stands between the exhibit and opening day, from the records. */
   readiness: ReadinessLine[];
   signoffs: Signoff[];
   films: Film[];
-  limits: { label: number; headline: number; tagline: number; placeHistory: number };
+  limits: { label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number };
   roles: Role[];
   draft: Draft;
   counts: Counts;

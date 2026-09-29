@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import type { PublishedPerson } from '@cihof/content';
 import { dataFile, repoFile } from '../paths.ts';
+import { readVideoHoldings } from '../sources/media.ts';
+import { approvedFilmTitle, readFilmTitles, type StoredFilmTitles } from './film-titles.ts';
 
 /**
  * Parity against the record the old pipeline published.
@@ -63,6 +65,28 @@ export function differenceSubject(difference: string): string {
 }
 
 /**
+ * The approved titles of each person's films, in the order they hold them.
+ * The published record carried no film titles, so every title is a visible
+ * difference from it, recorded under the decision that approved it. Titles
+ * are shown on the display, so the display's approvals are the ones counted.
+ */
+export function filmTitlesByPerson(
+  stored: StoredFilmTitles = readFilmTitles(),
+  holdings: ReadonlyMap<string, readonly unknown[]> = readVideoHoldings(),
+): Map<string, string[]> {
+  const byPerson = new Map<string, string[]>();
+  for (const [personId, videos] of holdings) {
+    const titles = videos.flatMap((video) => {
+      const filmId = (video as { youtubeVideoId?: unknown })?.youtubeVideoId;
+      const title = typeof filmId === 'string' ? approvedFilmTitle(stored, filmId, 'kiosk') : null;
+      return title ? [title] : [];
+    });
+    if (titles.length > 0) byPerson.set(personId, titles);
+  }
+  return byPerson;
+}
+
+/**
  * Every way the rebuilt people differ from the published record, one line
  * each. A person added since (a new induction class) or no longer present is
  * one line of its own.
@@ -70,6 +94,7 @@ export function differenceSubject(difference: string): string {
 export function collectDifferences(
   people: readonly PublishedPerson[],
   published: readonly PublishedRecord[] = readPublishedRecord(),
+  filmTitles: ReadonlyMap<string, readonly string[]> = filmTitlesByPerson(),
 ): string[] {
   const rebuilt = new Map(people.map((person) => [String(person.id), person]));
   const publishedIds = new Set(published.map((person) => String(person['id'])));
@@ -95,6 +120,7 @@ export function collectDifferences(
     compareList(differences, id, 'themeTags', person['themeTags'], next.contributions.values);
     compareList(differences, id, 'communityTags', person['communityTags'], next.communities.values);
     compareList(differences, id, 'countryTags', person['countryTags'], next.countries.values);
+    compare(differences, id, 'filmTitles', '', (filmTitles.get(id) ?? []).join(' | '));
   }
 
   for (const id of rebuilt.keys()) {

@@ -47,6 +47,7 @@ test.beforeAll(async () => {
     ...document, items: document.items.map(({ cleared, ...item }: { cleared?: unknown }) => ({ ...item, signed: null })),
   }));
   reset('data/cihof_caption_fixes.json', (document) => ({ ...document, fixes: [] }));
+  rmSync(join(worktree, 'data/cihof_film_titles.json'), { force: true });
   reset('data/cihof_story_lenses.json', (document) => ({
     ...document, lenses: document.lenses.map(({ review, ...lens }: { review?: unknown }) => ({ ...lens, reviewStatus: 'draft' })),
   }));
@@ -225,6 +226,17 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(tour.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
+  // A film's title: its YouTube title, kept after checking.
+  await page.getByRole('button', { name: /^Film titles/ }).click();
+  await page.getByLabel('Find a person').fill('Anda Cook');
+  const film = page.locator('article.film-title').first();
+  await expect(film.locator('.suggestion')).toContainText('On YouTube');
+  // Its poster is served, not the page in its place.
+  await expect.poll(() => film.locator('img.film-title__poster').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth)).toBeGreaterThan(0);
+  await film.getByRole('button', { name: /^Use the YouTube title/ }).click();
+  await expect(film.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+  await page.getByRole('button', { name: 'Back to the start' }).click();
+
   // Nothing is written until the reviewer saves.
   expect(git('status', '--porcelain').trim()).toBe('');
   expect(git('rev-parse', 'HEAD').trim()).toBe(before);
@@ -251,6 +263,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
   expect(log).toContain('review: tours, 1 decision');
+  expect(log).toContain('review: film titles, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('review: sign-offs, 1 decision');
   expect(log).toContain('review: film captions and transcripts, 2 decisions');
@@ -309,6 +322,19 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
     review: { status: 'approved', decisionReference: expect.stringMatching(/^attract-words-review-/) },
     publication: { kiosk: true, publicWeb: false },
   });
+  // The film is called by the YouTube title the reviewer kept, on the display only.
+  const suggested = JSON.parse(readFileSync(join(worktree, 'data/external-research/youtube-film-titles.json'), 'utf8')).films;
+  const titles = Object.entries(JSON.parse(readFileSync(join(worktree, 'data/cihof_film_titles.json'), 'utf8')).titles);
+  expect(titles).toHaveLength(1);
+  const [filmId, entry] = titles[0] as [string, { title: string; review: { status: string; contentVersion: string }; publication: unknown }];
+  expect(entry.title).toBe(suggested[filmId].title);
+  expect(entry.review).toMatchObject({ status: 'approved', contentVersion: expect.stringMatching(/^title-[0-9a-f]{12}$/) });
+  expect(entry.publication).toEqual({ kiosk: true, publicWeb: false });
+  // And the title is recorded as a visible difference, under the decision that approved it.
+  const ledger = JSON.parse(readFileSync(join(worktree, 'data/cihof_reviewed_differences.json'), 'utf8')).differences;
+  expect(ledger.filter((line: { difference: string; decisionReference: string }) => line.difference.includes('.filmTitles:')
+    && /^film-titles-review-/.test(line.decisionReference)).length).toBeGreaterThan(0);
+
   // The tour is approved for exactly the version the reviewer saw; the others are still drafts.
   const lenses = JSON.parse(readFileSync(join(worktree, 'data/cihof_story_lenses.json'), 'utf8')).lenses;
   const approvedTours = lenses.filter((lens: { reviewStatus: string }) => lens.reviewStatus === 'approved');

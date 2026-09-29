@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, filmTitlesCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, tours: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
@@ -150,5 +150,16 @@ test('a tour decision carries the version seen and the audience chosen when it a
     { tourId: 'helped-arrive', decision: 'approve', contentVersion: 'tour-abc', targets: 'kiosk', decisionReference: 'tours-review-2026-10-01', note: 'Fits. Reviewed by Jane Smith in the staff review app.' },
     { tourId: 'kept-cultures', decision: 'approve', contentVersion: 'tour-ghi', targets: 'kiosk,public-web', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
     { tourId: 'made-art', decision: 'withdraw', contentVersion: '', targets: '', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
+  ]);
+});
+
+test('a film title decision carries the words approved, or none when it is taken away', () => {
+  const sheet = rows(filmTitlesCsv({ reviewer: 'Jane Smith', filmTitles: {
+    abc: { decision: 'approve', title: '  Anda Cook, inducted by Dagmar Celeste ', note: 'Checked the names.' },
+    def: { decision: 'clear' },
+  } }, '2026-10-01'));
+  assert.deepEqual(sheet, [
+    { filmId: 'abc', decision: 'approve', title: 'Anda Cook, inducted by Dagmar Celeste', decisionReference: 'film-titles-review-2026-10-01', note: 'Checked the names. Reviewed by Jane Smith in the staff review app.' },
+    { filmId: 'def', decision: 'clear', title: '', decisionReference: 'film-titles-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
   ]);
 });

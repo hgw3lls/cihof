@@ -58,8 +58,9 @@ export function createReviewServer({ root, dist, port }) {
         return await api(request, response, url.pathname);
       }
 
-      // Portraits, read-only, from the project's own media folder.
-      if (url.pathname.startsWith('/media/images/')) {
+      // Portraits, and films' posters, read-only, from the project's own media
+      // folder. Only the posters of the films: never the films themselves.
+      if (url.pathname.startsWith('/media/images/') || (url.pathname.startsWith('/media/videos/') && url.pathname.endsWith('.webp'))) {
         return file(response, join(root, 'public'), url.pathname);
       }
       return file(response, dist, url.pathname === '/' ? '/index.html' : url.pathname, join(dist, 'index.html'));
@@ -110,7 +111,7 @@ export function createReviewServer({ root, dist, port }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, tours: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
 }
 
 /**
@@ -137,6 +138,9 @@ function normaliseDraft(value) {
     // Only the two decisions a tour can have.
     tours: Object.fromEntries(Object.entries(object(draft.tours)).filter(([, value]) => value?.decision === 'withdraw'
       || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience)))),
+    // A title approved, with its words, or a clearing.
+    filmTitles: Object.fromEntries(Object.entries(object(draft.filmTitles)).filter(([, value]) => value?.decision === 'clear'
+      || (value?.decision === 'approve' && typeof value.title === 'string'))),
     filmStarts: object(draft.filmStarts),
     // Only what this app can decide: an acceptance, or a clearing. A signature
     // recorded the old way, for someone else, is not made into an acceptance.
