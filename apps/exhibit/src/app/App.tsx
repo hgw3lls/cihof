@@ -111,11 +111,14 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const tours = bundle.tours ?? [];
   const classes = useMemo(() => inductionClasses(people), [people]);
   const letters = useMemo(() => railLetters(people), [people]);
+  // "N connections" counts documented relationships only. Two people who
+  // merely appear together in a source share a context, not a connection;
+  // Connections shows that, worded as such, but it is not counted here.
   const tieCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const node of connectionNodes(people, relationships, [], contexts)) counts.set(node.person.id, node.ties.length);
+    for (const node of connectionNodes(people, relationships)) counts.set(node.person.id, node.ties.length);
     return counts;
-  }, [people, relationships, contexts]);
+  }, [people, relationships]);
   // The panel carries its own subject, so an open record always has someone to show.
   const recordPerson = state.detail.kind === 'record' ? byId.get(state.detail.personId) ?? null : null;
   const sharePerson = state.detail.kind === 'share' ? byId.get(state.detail.personId) ?? null : null;

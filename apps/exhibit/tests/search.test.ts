@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync } from 'node:fs';
 import { buildIndex, captionWords, closeness, distance, queryTerms, search } from '../src/state/search.ts';
 import type { RuntimePerson, RuntimePlace } from '../src/data/runtime.ts';
+import { publishedBundle } from './bundle.ts';
 
 const person = (id: string, name: string, extra: Partial<RuntimePerson> = {}): RuntimePerson => ({
   id, name, sortName: name, classYear: 2010, portrait: null, biography: '', biographyCurated: false,
@@ -82,7 +82,7 @@ test('caption files give each word the moment it is said, without the repeats', 
 });
 
 test('the whole published collection searches quickly', () => {
-  const bundle = JSON.parse(readFileSync(new URL('../public/data/exhibit.json', import.meta.url), 'utf8'));
+  const bundle = publishedBundle();
   const full = buildIndex({ people: bundle.people, places: bundle.places, relationships: bundle.relationships, contexts: bundle.contexts ?? [] });
   const began = performance.now();
   for (const query of ['m', 'ma', 'mar', 'slovenian', 'cultural gardens', 'grasseli', 'education 2010']) search(full, query);

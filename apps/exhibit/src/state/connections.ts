@@ -187,8 +187,13 @@ export function diagramLayout(input: Input & {
     };
   }
 
-  const nodes = nodesFor(input);
-  const focus = focusId && nodes.some((node) => node.person.id === focusId) ? focusId : null;
+  const found = nodesFor(input);
+  // Somebody chosen whose ties are all in layers turned off stays at the
+  // centre, on their own, rather than the diagram quietly centring somebody
+  // else while their sheet is still open.
+  const chosen = focusId ? people.find((person) => person.id === focusId) : undefined;
+  const nodes = chosen && !found.some((node) => node.person.id === chosen.id) ? [{ person: chosen, ties: [] }, ...found] : found;
+  const focus = chosen ? chosen.id : null;
   const map = connectionMap(nodes, focus);
   const tieOf = new Map<string, Tie & { kind?: string }>();
   const focusNode = map.focus ? nodes.find((node) => node.person.id === map.focus!.id) : undefined;
@@ -334,14 +339,13 @@ export function diagramLayout(input: Input & {
   }
 
   for (const person of people) if (!slots.has(person.id)) slots.set(person.id, { x: W / 2 - 4, y: H / 2 - 4, size: 8, dim: 2 });
-  const chosen = Boolean(focus);
   return {
     slots, labels, arcs, markers, rail: false,
     order: map.placed.map((entry) => entry.person.id),
-    title: map.focus ? (chosen ? map.focus.name : `At the centre: ${map.focus.name}`) : 'Connections',
+    title: map.focus ? (focus ? map.focus.name : `At the centre: ${map.focus.name}`) : 'Connections',
     subtitle: map.focus
       ? `${map.clusterSize > 1 ? `${map.clusterSize - 1} connected` : 'no tie in these layers'}${map.islands > 0 ? ` · ${map.islands} other groups` : ''}`
-      : 'touch anyone to bring them to the centre',
+      : nodes.length === 0 ? 'every layer is off · turn one on below' : 'touch anyone to bring them to the centre',
   };
 }
 

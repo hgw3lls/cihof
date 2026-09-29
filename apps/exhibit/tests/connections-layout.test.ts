@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { readFileSync } from 'node:fs';
 import { defaultLayers, diagramLayout, layerCounts, layerOfTie, placesLayout, tieWording, type LayerId } from '../src/state/connections.ts';
 import { field, homeView } from '../src/state/wall.ts';
 
-const bundle = JSON.parse(readFileSync(new URL('../public/data/exhibit.json', import.meta.url), 'utf8'));
+import { publishedBundle } from './bundle.ts';
+
+const bundle = publishedBundle();
 const on = new Set<LayerId>(defaultLayers);
 const input = { people: bundle.people, relationships: bundle.relationships, contexts: bundle.contexts ?? [], candidates: [], places: bundle.places, on, width: field.width };
 
@@ -49,7 +50,7 @@ test('zoomed in, everybody outside the ring lines the edges of the view at a ste
 });
 
 test('a place at the centre rings the people a curator tied to it, and nobody else', () => {
-  const place = bundle.places.find((each: { personIds: string[] }) => each.personIds.length > 3);
+  const place = bundle.places.find((each) => each.personIds.length > 3)!;
   const layout = diagramLayout({ ...input, focusId: null, placeId: place.id, view: homeView });
   assert.equal(layout.markers[0]?.focus, true);
   assert.equal(layout.title, place.name);
@@ -64,7 +65,7 @@ test('by place: every place with people has its box, no two overlap, and the res
       const [, x, y, w, h] = /M([\d.-]+) ([\d.-]+) h([\d.-]+) v([\d.-]+)/.exec(arc.d)!.map(Number);
       return { x: x!, y: y!, w: w!, h: h! };
     });
-    assert.equal(boxes.length, bundle.places.filter((each: { personIds: string[] }) => each.personIds.length > 0).length);
+    assert.equal(boxes.length, bundle.places.filter((each) => each.personIds.length > 0).length);
     for (let a = 0; a < boxes.length; a += 1) {
       for (let b = a + 1; b < boxes.length; b += 1) {
         const A = boxes[a]!;
@@ -88,4 +89,14 @@ test('the layer chips count what each layer holds', () => {
   const counts = layerCounts({ relationships: bundle.relationships, contexts: bundle.contexts, candidates: [], places: bundle.places });
   assert.equal(counts.inducted + counts.worked + counts.personal, bundle.relationships.length);
   assert.equal(counts.together, bundle.contexts.length);
+});
+
+test('somebody chosen stays at the centre when every layer holding their ties is off', () => {
+  const none = new Set<LayerId>();
+  const alone = diagramLayout({ ...input, on: none, focusId: 'wael-khoury-2017', placeId: null, view: homeView });
+  assert.equal(alone.slots.get('wael-khoury-2017')?.ring, 'focus');
+  assert.equal(alone.title, 'Wael Khoury');
+  assert.equal(alone.subtitle, 'no tie in these layers');
+  const nobody = diagramLayout({ ...input, on: none, focusId: null, placeId: null, view: homeView });
+  assert.equal(nobody.subtitle, 'every layer is off · turn one on below');
 });
