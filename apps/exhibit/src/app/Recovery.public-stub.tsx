@@ -11,8 +11,10 @@ import type { ReleaseStatus } from './useRelease.ts';
  */
 export function Recovery(_props: {
   status: ReleaseStatus | null;
+  threads: number;
   onRefresh: () => void;
   onRestore: () => void;
+  onClearThreads: () => void;
   onClose: () => void;
 }) {
   return null;

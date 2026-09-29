@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReleaseStatus } from './useRelease.ts';
 import { Modal } from './Modal.tsx';
 
@@ -12,15 +12,22 @@ import { Modal } from './Modal.tsx';
  *
  * Not a general admin surface. It reads state and can return to the previous
  * release; it cannot change content, and there is nothing here that could put
- * unreviewed material on the wall.
+ * unreviewed material on the wall. The one other thing it does is clear the
+ * threads visitors saved on this display, which any visitor can add to and
+ * edit: staff can start the display's list afresh, after asking twice.
  */
-export function Recovery({ status, onRefresh, onRestore, onClose }: {
+export function Recovery({ status, threads, onRefresh, onRestore, onClearThreads, onClose }: {
   status: ReleaseStatus | null;
+  /** How many threads visitors have saved on this display. */
+  threads: number;
   onRefresh: () => void;
   onRestore: () => void;
+  onClearThreads: () => void;
   onClose: () => void;
 }) {
   useEffect(() => { onRefresh(); }, [onRefresh]);
+  const [confirming, setConfirming] = useState(false);
+  const [cleared, setCleared] = useState<number | null>(null);
 
   const missing = status?.provisioning?.missing ?? [];
   const complete = status !== null && missing.length === 0;
@@ -69,10 +76,48 @@ export function Recovery({ status, onRefresh, onRestore, onClose }: {
                 <button type="button" disabled={!status.previous} onClick={onRestore}>
                   {status.previous ? 'Restore previous release' : 'No previous release to restore'}
                 </button>
-                <button type="button" onClick={onClose}>Close</button>
               </div>
             </>
           )}
+
+        <section className="recovery__threads" aria-labelledby="threadsHeading">
+          <h3 id="threadsHeading">Saved threads</h3>
+          <p>
+            {threads === 0
+              ? 'No threads are saved on this display.'
+              : `${threads} ${threads === 1 ? 'thread is' : 'threads are'} saved on this display, offered to visitors under Tour.`}
+          </p>
+          {cleared !== null && (
+            <p className="recovery__outcome" role="status">
+              Cleared {cleared} saved {cleared === 1 ? 'thread' : 'threads'}.
+            </p>
+          )}
+          <div className="recovery__actions">
+            {confirming
+              ? (
+                <>
+                  <button
+                    type="button"
+                    className="recovery__danger"
+                    onClick={() => { setCleared(threads); setConfirming(false); onClearThreads(); }}
+                  >
+                    Yes, clear all {threads}
+                  </button>
+                  <button type="button" onClick={() => setConfirming(false)}>Keep them</button>
+                </>
+              )
+              : (
+                <button type="button" disabled={threads === 0} onClick={() => { setCleared(null); setConfirming(true); }}>
+                  Clear all saved threads
+                </button>
+              )}
+          </div>
+          {confirming && <p className="recovery__warning">They are gone for good once cleared. Curated tours are not affected.</p>}
+        </section>
+
+        <div className="recovery__actions">
+          <button type="button" onClick={onClose}>Close</button>
+        </div>
       </div>
     </Modal>
   );
