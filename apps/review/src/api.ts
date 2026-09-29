@@ -96,12 +96,14 @@ export type Tour = {
   /** What approving the tour as shown records. */
   contentVersion: string;
   state: 'approved' | 'changed-since-approval' | 'draft';
+  /** Where its approval lets it be shown now. */
+  shownOn: { kiosk: boolean; publicWeb: boolean };
   reviewedAt: string | null;
   people: { id: string; name: string; classYear: number | null; portrait: string | null }[];
 };
 
 export type TourDecision =
-  | { decision: 'approve'; seenVersion: string; note?: string }
+  | { decision: 'approve'; seenVersion: string; audience: Audience; note?: string }
   | { decision: 'withdraw'; note?: string };
 
 /** Someone whose film is a ceremony shared with others, and where it opens. */

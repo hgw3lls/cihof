@@ -10,7 +10,7 @@ import { dataFile } from '../../../packages/pipeline/src/paths.ts';
 import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
-import { readTours, tourApproved, tourPeople, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
+import { readTours, tourApproved, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -229,6 +229,8 @@ function tours(people) {
       excluded: list(lens.excludedPersonIds).map((id) => byId.get(id)?.name ?? id),
       contentVersion: tourVersion(lens),
       state: approved ? 'approved' : lens.reviewStatus === 'approved' ? 'changed-since-approval' : 'draft',
+      // Where the approval lets it be shown, the display and the website apart.
+      shownOn: approved ? tourTargets(lens) : { kiosk: false, publicWeb: false },
       reviewedAt: typeof lens.review?.reviewedAt === 'string' ? lens.review.reviewedAt : null,
       people: tourPeople(published, lens).map((id) => {
         const person = byId.get(id);

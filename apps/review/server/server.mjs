@@ -135,7 +135,8 @@ function normaliseDraft(value) {
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
     // Only the two decisions a tour can have.
-    tours: Object.fromEntries(Object.entries(object(draft.tours)).filter(([, value]) => ['approve', 'withdraw'].includes(value?.decision))),
+    tours: Object.fromEntries(Object.entries(object(draft.tours)).filter(([, value]) => value?.decision === 'withdraw'
+      || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience)))),
     filmStarts: object(draft.filmStarts),
     // Only what this app can decide: an acceptance, or a clearing. A signature
     // recorded the old way, for someone else, is not made into an acceptance.

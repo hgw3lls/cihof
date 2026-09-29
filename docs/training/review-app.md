@@ -109,9 +109,10 @@ is always safe.
 
 The curated tours a visitor chooses from the **Tour** key. Each shows its
 name and words, whether it is on the displays, and the people it visits, in
-order. Check that the words are right and that the people fit the theme.
-**Yes, approve it** puts it on the display and the website; an approved tour
-can be **taken off the displays** again. Its people are chosen from the
+order. Check that the words are right and that the people fit the theme, then
+**approve it for the exhibit**, or **for the exhibit and the public website**
+if it has been agreed that it may go online: the two are decided apart, as
+for connections. An approved tour can be **taken off** again. Its people are chosen from the
 published biographies and honours by words and honours the curators set
 (under *How its people are chosen*). If those rules or the tour's words
 change after you approve it, it comes off the displays until somebody

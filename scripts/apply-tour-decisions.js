@@ -10,10 +10,13 @@ import { applyTourDecisions, readTours, tourDecisions, tourVersion } from '../pa
  *
  *   approve   the tour exactly as the reviewer saw it: its words and the
  *             rules that choose its people. The sheet's contentVersion must
- *             match the tour now.
- *   withdraw  takes an approved tour off the displays, back to a draft.
+ *             match the tour now, and its targets say who may see it:
+ *             kiosk, or kiosk,public-web. The display and the website are
+ *             decided apart, as for all visitor content.
+ *   withdraw  takes an approved tour off the display and the website, back
+ *             to a draft.
  *
- * A tour is shown on the display and the website alike once approved. Nothing
+ * Nothing
  * a visitor reads about a person changes, so nothing is recorded in the
  * reviewed differences.
  *
@@ -36,7 +39,7 @@ if (!inputPath || !existsSync(inputPath)) {
   console.error('\nUsage:');
   console.error('  npm run tours:apply -- --input=<sheet>');
   console.error('  npm run tours:apply -- --input=… --apply --expect-hash=<sha256>');
-  console.error('\nThe sheet\'s columns: tourId,decision,contentVersion,decisionReference,note');
+  console.error('\nThe sheet\'s columns: tourId,decision,contentVersion,targets,decisionReference,note');
   console.error('To approve a tour as it is now, give the version shown here:');
   for (const lens of readTours().lenses ?? []) {
     if (typeof lens.id === 'string') console.error(`  ${lens.id}  ${tourVersion(lens)}  (${lens.reviewStatus ?? 'no status'})`);
@@ -61,7 +64,10 @@ const stored = readTours();
 const labels = new Map((stored.lenses ?? []).map((lens) => [lens.id, lens.label]));
 const { decisions, errors, blank } = tourDecisions(csv, stored);
 for (const decision of decisions) {
-  console.log(`  ${decision.decision === 'approve' ? 'Approve' : 'Withdraw'} the tour "${labels.get(decision.tourId) ?? decision.tourId}", under ${decision.decisionReference}`);
+  const where = [decision.targets.kiosk && 'the display', decision.targets.publicWeb && 'the public website'].filter(Boolean).join(' and ');
+  console.log(decision.decision === 'approve'
+    ? `  Approve the tour "${labels.get(decision.tourId) ?? decision.tourId}" for ${where}, under ${decision.decisionReference}`
+    : `  Withdraw the tour "${labels.get(decision.tourId) ?? decision.tourId}" from the display and the website, under ${decision.decisionReference}`);
 }
 if (blank > 0) console.log(`  ${blank} row(s) left as they are.`);
 if (errors.length > 0) {

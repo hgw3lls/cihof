@@ -140,13 +140,15 @@ test('a caption fix names the film, the kind and the words, exactly as typed', (
   assert.equal(phrase.replaceWith, 'Carolyn Balogh, "the chef"', 'commas and quotes survive');
 });
 
-test('a tour decision carries the version seen when it approves, and none when it withdraws', () => {
+test('a tour decision carries the version seen and the audience chosen when it approves, and neither when it withdraws', () => {
   const sheet = rows(toursCsv({ reviewer: 'Jane Smith', tours: {
-    'helped-arrive': { decision: 'approve', seenVersion: 'tour-abc', note: 'Fits.' },
-    'made-art': { decision: 'withdraw', seenVersion: 'tour-def' },
+    'helped-arrive': { decision: 'approve', seenVersion: 'tour-abc', audience: 'kiosk', note: 'Fits.' },
+    'kept-cultures': { decision: 'approve', seenVersion: 'tour-ghi', audience: 'kiosk-and-web' },
+    'made-art': { decision: 'withdraw', seenVersion: 'tour-def', audience: 'kiosk-and-web' },
   } }, '2026-10-01'));
   assert.deepEqual(sheet, [
-    { tourId: 'helped-arrive', decision: 'approve', contentVersion: 'tour-abc', decisionReference: 'tours-review-2026-10-01', note: 'Fits. Reviewed by Jane Smith in the staff review app.' },
-    { tourId: 'made-art', decision: 'withdraw', contentVersion: '', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
+    { tourId: 'helped-arrive', decision: 'approve', contentVersion: 'tour-abc', targets: 'kiosk', decisionReference: 'tours-review-2026-10-01', note: 'Fits. Reviewed by Jane Smith in the staff review app.' },
+    { tourId: 'kept-cultures', decision: 'approve', contentVersion: 'tour-ghi', targets: 'kiosk,public-web', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
+    { tourId: 'made-art', decision: 'withdraw', contentVersion: '', targets: '', decisionReference: 'tours-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
   ]);
 });

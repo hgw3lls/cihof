@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { allowsTarget, type VisitorTarget } from '@cihof/content';
 import { dataFile } from '../paths.ts';
 import { parseRows } from './review.ts';
 
@@ -10,7 +11,9 @@ import { parseRows } from './review.ts';
  * A tour is visitor text like any other. It reaches a display only once a
  * curator has approved it (`reviewStatus: "approved"` in
  * data/cihof_story_lenses.json, with a `review` naming the version approved),
- * and only while it is still the tour that was approved: the version is a
+ * only on the targets that approval named (the display, the public website, or
+ * both, kept apart as for all visitor content), and only while it is still
+ * the tour that was approved: the version is a
  * fingerprint of its words and of the rules that choose its people, so an
  * edit to either holds it back until it is approved again. An editor's
  * preview also shows the drafts, each marked. Approvals are made in the staff
@@ -41,6 +44,7 @@ type StoredLens = {
   readonly excludedPersonIds?: unknown;
   readonly reviewStatus?: unknown;
   readonly review?: { readonly contentVersion?: unknown; readonly decisionReference?: unknown; readonly reviewedAt?: unknown; readonly note?: unknown };
+  readonly publication?: { readonly kiosk?: unknown; readonly publicWeb?: unknown };
   readonly maxPortraits?: unknown;
   readonly enabled?: unknown;
 };
@@ -68,6 +72,16 @@ export function tourApproved(lens: StoredLens): boolean {
   return lens.reviewStatus === 'approved' && lens.review?.contentVersion === tourVersion(lens);
 }
 
+/** Where its approval lets it be shown. Nothing is assumed: a flag not set is not given. */
+export function tourTargets(lens: StoredLens): { kiosk: boolean; publicWeb: boolean } {
+  return { kiosk: lens.publication?.kiosk === true, publicWeb: lens.publication?.publicWeb === true };
+}
+
+/** Approved, still the tour that was approved, and approved for this target. */
+export function tourPublished(lens: StoredLens, target: VisitorTarget): boolean {
+  return tourApproved(lens) && allowsTarget(tourTargets(lens), target);
+}
+
 type TourPerson = {
   readonly id: string;
   readonly sortName: string;
@@ -84,12 +98,13 @@ const fold = (value: string) => value.toLowerCase().normalize('NFKD').replace(/\
 
 export function publishedTours(
   people: readonly TourPerson[],
+  target: VisitorTarget,
   { preview = false, stored = readTours() }: { preview?: boolean; stored?: StoredTours } = {},
 ): RuntimeTour[] {
   const tours: RuntimeTour[] = [];
   for (const lens of stored.lenses ?? []) {
     if (lens.enabled === false || typeof lens.id !== 'string' || typeof lens.label !== 'string') continue;
-    const approved = tourApproved(lens);
+    const approved = tourPublished(lens, target);
     if (!approved && !preview) continue;
     const personIds = tourPeople(people, lens);
     if (personIds.length === 0) continue;
@@ -136,20 +151,24 @@ export type TourDecision = {
   readonly tourId: string;
   /** `approve` shows it on the displays; `withdraw` takes an approved tour off them. */
   readonly decision: 'approve' | 'withdraw';
+  /** For an approval, who may see it; asked, never assumed wider. */
+  readonly targets: { readonly kiosk: boolean; readonly publicWeb: boolean };
   readonly decisionReference: string;
   readonly note: string;
 };
 
 /**
  * Reads a curator's decisions on the tours from a sheet (tourId, decision,
- * contentVersion, decisionReference, note). An approval names the version the
- * reviewer saw, and is refused if the tour has changed since, so nobody
- * approves a tour they did not look at. An empty decision leaves a tour as it is.
+ * contentVersion, targets, decisionReference, note). An approval names the
+ * version the reviewer saw, and is refused if the tour has changed since, so
+ * nobody approves a tour they did not look at; and it names who may see it
+ * (`kiosk`, `public-web`, or both, comma-separated), since the display and the
+ * website are decided apart. An empty decision leaves a tour as it is.
  */
 export function tourDecisions(csvText: string, stored: StoredTours = readTours()) {
   const parsed = parseRows(csvText.replace(/^\uFEFF/, ''));
   const header = (parsed[0] ?? []).map((cell) => cell.trim());
-  const required = ['tourId', 'decision', 'contentVersion', 'decisionReference', 'note'];
+  const required = ['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note'];
   const missing = required.filter((column) => !header.includes(column));
   if (missing.length > 0) return { decisions: [] as TourDecision[], errors: [`the sheet is missing the column(s) ${missing.join(', ')}`], blank: 0 };
   const cell = (cells: string[], column: string) => (cells[header.indexOf(column)] ?? '').trim();
@@ -172,7 +191,13 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
     if (decision !== 'approve' && decision !== 'withdraw') { errors.push(`line ${line}: decision is approve, withdraw or empty, not "${decision}"`); return; }
     const reference = cell(cells, 'decisionReference');
     if (!reference) { errors.push(`line ${line}: a decision needs a decisionReference`); return; }
+    let targets = { kiosk: false, publicWeb: false };
     if (decision === 'approve') {
+      const names = cell(cells, 'targets').split(',').map((name) => name.trim()).filter(Boolean);
+      const unknown = names.filter((name) => name !== 'kiosk' && name !== 'public-web');
+      if (unknown.length > 0) { errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both`); return; }
+      if (names.length === 0) { errors.push(`line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`); return; }
+      targets = { kiosk: names.includes('kiosk'), publicWeb: names.includes('public-web') };
       if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to approve`); return; }
       if (cell(cells, 'contentVersion') !== tourVersion(lens)) {
         errors.push(`line ${line}: the tour "${tourId}" has changed since this sheet was made, so the approval would cover a tour nobody reviewed. Look at it again.`);
@@ -182,7 +207,7 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
       errors.push(`line ${line}: the tour "${tourId}" is not approved, so there is nothing to withdraw`);
       return;
     }
-    decisions.push({ tourId, decision, decisionReference: reference, note: cell(cells, 'note') });
+    decisions.push({ tourId, decision, targets, decisionReference: reference, note: cell(cells, 'note') });
   });
 
   return { decisions, errors, blank };
@@ -190,8 +215,9 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
 
 /**
  * The decisions written into the tours document, in memory. An approval
- * records the version it covers; a withdrawal puts the tour back to a draft
- * and says who withdrew it. Nothing else about a tour changes.
+ * records the version it covers and the targets it names; a withdrawal puts
+ * the tour back to a draft, shown nowhere, and says who withdrew it. Nothing
+ * else about a tour changes.
  */
 export function applyTourDecisions(stored: StoredTours, decisions: readonly TourDecision[], reviewedAt: string): StoredTours {
   const next = structuredClone(stored) as { lenses?: Record<string, unknown>[] } & Record<string, unknown>;
@@ -208,6 +234,7 @@ export function applyTourDecisions(stored: StoredTours, decisions: readonly Tour
         reviewedAt,
         ...(decision.note ? { note: decision.note } : {}),
       },
+      publication: decision.decision === 'approve' ? { ...decision.targets } : { kiosk: false, publicWeb: false },
     };
   });
   return next as StoredTours;

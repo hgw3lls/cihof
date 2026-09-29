@@ -216,7 +216,8 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   }
   for (const [id, value] of Object.entries(draft.tours ?? {})) {
     const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
-    lines.push(`Tours: ${label}: ${value.decision === 'approve' ? 'approved for visitors' : 'taken off the displays'}`);
+    lines.push(`Tours: ${label}: ${value.decision === 'withdraw' ? 'taken off the exhibit and the website'
+      : value.audience === 'kiosk-and-web' ? 'approved for the exhibit and the public website' : 'approved for the exhibit'}`);
   }
   for (const [key, value] of Object.entries(draft.filmStarts ?? {})) {
     const name = review.filmStarts.find((entry) => entry.key === key)?.name ?? key;

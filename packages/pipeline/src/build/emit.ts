@@ -299,7 +299,7 @@ export function buildRuntimeBundle(
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
     attract: publishedAttractText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
-    tours: publishedTours(runtimePeople, { preview, ...(sources.tours ? { stored: sources.tours } : {}) }),
+    tours: publishedTours(runtimePeople, target, { preview, ...(sources.tours ? { stored: sources.tours } : {}) }),
     filmReport: { held, blockedBy, delivery },
     contributionReport: {
       published: contributions.length,

@@ -64,10 +64,12 @@ somebody there.
 **Tours.** The **Tour** key offers curated tours and the threads visitors
 saved. A curated tour appears only once a curator has approved it, on the
 *Tours* card of the staff review app (or with a sheet and
-`npm run tours:apply`), and a new release is published. The approval covers
-the tour's words and the rules that choose its people; if either changes,
-the tour comes off the displays until it is approved again. Its people are chosen when the release is built, from the
-published biographies and honours, by the tour's terms and themes; its
+`npm run tours:apply`), and a new release is published. The approval names
+where it may be shown: the exhibit, or the exhibit and the public website,
+decided apart as for connections. It covers the tour's words and the rules
+that choose its people; if either changes, the tour comes off the displays
+until it is approved again. Its people are chosen when the release is built,
+from the published biographies and honours, by the tour's terms and themes; its
 `pinnedPersonIds` lead and its `excludedPersonIds` never appear. An editor's
 preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
 through Connections that a visitor chose to keep. They stay on the display

@@ -17,7 +17,7 @@
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
- *     tours:     { [tourId]: { decision: 'approve', seenVersion, note } | { decision: 'withdraw', note } },
+ *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note } },
  *   }
  */
 
@@ -116,18 +116,23 @@ export function attractCsv(draft, day) {
 
 /**
  * The curated tours: each approved as the reviewer saw it (the version they
- * saw, which tours:apply checks), or withdrawn from the displays.
+ * saw, which tours:apply checks) for the audience they chose, or withdrawn
+ * from the displays. An approval with no audience chosen names none, and
+ * tours:apply refuses it rather than assume one.
  */
+const tourTargets = { kiosk: 'kiosk', 'kiosk-and-web': 'kiosk,public-web' };
+
 export function toursCsv(draft, day) {
   const reference = decisionReference('tours', day);
   const rows = Object.entries(draft.tours ?? {}).map(([tourId, value]) => [
     tourId,
     value.decision,
     value.decision === 'approve' ? value.seenVersion ?? '' : '',
+    value.decision === 'approve' ? tourTargets[value.audience] ?? '' : '',
     reference,
     signedNote(value.note, draft.reviewer),
   ]);
-  return csv(['tourId', 'decision', 'contentVersion', 'decisionReference', 'note'], rows);
+  return csv(['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note'], rows);
 }
 
 /**

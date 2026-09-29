@@ -217,11 +217,11 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back', exact: true }).click();
 
-  // A curated tour, approved as shown, with the people it visits.
+  // A curated tour, approved as shown for the exhibit, with the people it visits.
   await page.getByRole('button', { name: /^Tours/ }).click();
   const tour = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Civic Builders' }) });
   await expect(tour.locator('.tour__people li').first()).toBeVisible();
-  await tour.getByRole('button', { name: /Yes, approve it/ }).click();
+  await tour.getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();
   await expect(tour.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
@@ -317,6 +317,8 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
     contentVersion: expect.stringMatching(/^tour-[0-9a-f]{12}$/), decisionReference: expect.stringMatching(/^tours-review-/),
   });
   expect(approvedTours[0].review.note).toContain('Reviewed by Playwright Reviewer');
+  // Approved for the exhibit only: the website is a separate decision.
+  expect(approvedTours[0].publication).toEqual({ kiosk: true, publicWeb: false });
   expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
   expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 
