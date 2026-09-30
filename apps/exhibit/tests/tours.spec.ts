@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { begin, choose } from './visit.ts';
+import { begin, choose, enter } from './visit.ts';
 
 /**
  * Tours: curated ones, shown only once approved, and threads a visitor saved
@@ -41,7 +41,7 @@ test('a thread saved in Connections is offered to the next visitor, named for it
   await walkAndSave(page);
   await page.getByRole('button', { name: 'Start over' }).click();
   await page.reload();
-  await page.locator('[data-begin]').click();
+  await enter(page);
   await expect(bar(page).getByRole('button', { name: /^Tour/ })).toContainText('1 followed');
   await bar(page).getByRole('button', { name: /^Tour/ }).click();
   await expect(chooser(page).locator('.tours__thread-name')).toHaveText('From Wael Khoury to Richard A. Ganim');

@@ -88,6 +88,23 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     await page.locator('.lensbar').waitFor({ state: 'visible', timeout: step });
   });
 
+  // How this works greets every visitor. Some skip it, some read it through,
+  // some touch past it.
+  await attempt('get past How this works', async () => {
+    const tutorial = page.locator('dialog.tutorial');
+    await tutorial.waitFor({ state: 'visible', timeout: step });
+    if (index % 3 === 0) {
+      await tutorial.getByRole('button', { name: 'Skip' }).click({ timeout: step });
+    } else if (index % 3 === 1) {
+      const next = tutorial.locator('.tutorial__next');
+      while (await tutorial.count() > 0 && await next.textContent() !== 'Start exploring') await next.click({ timeout: step });
+      await next.click({ timeout: step });
+    } else {
+      await page.mouse.click(8, 8);
+    }
+    await tutorial.waitFor({ state: 'detached', timeout: step });
+  });
+
   // A lens or two besides People.
   const lenses = ['People'];
   const wanted = [lensOrder[index % lensOrder.length]!, ...(index % 2 === 0 ? [lensOrder[(index + 1) % lensOrder.length]!] : [])];

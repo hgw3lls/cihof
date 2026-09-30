@@ -105,6 +105,17 @@ for (const theme of ['dark', 'light'] as const) {
       expect(await scan(page)).toEqual([]);
     });
 
+    test('How this works, pointing at a key on the bar', async ({ page }) => {
+      // Held still, so the test build's short idle does not end the visit mid-scan.
+      await page.clock.install();
+      await page.goto(`./?theme=${theme}`);
+      await page.locator('[data-begin]').first().click();
+      await page.clock.setFixedTime(await page.evaluate(() => Date.now()));
+      await page.locator('dialog.tutorial .tutorial__next').click();
+      await expect(page.locator('dialog.tutorial .tutorial__ring')).toBeVisible();
+      expect(await scan(page)).toEqual([]);
+    });
+
     test('the warning before a visit ends', async ({ page }) => {
       // The warning lasts moments in the test build; the clock is held while it is scanned.
       await page.clock.install();

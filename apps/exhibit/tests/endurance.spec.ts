@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { measure, startMeasuring, summarise, visit, type Sample } from './endurance/visit.ts';
-import { chooseSomeoneWithFilm } from './visit.ts';
+import { chooseSomeoneWithFilm, enter } from './visit.ts';
 
 // A test build ends a visit after a couple of idle seconds, less than the
 // wall takes to settle, so these run without motion. `npm run endurance`
@@ -45,7 +45,7 @@ test('watching films leaves nothing of them behind', async ({ page }) => {
   const session = await startMeasuring(page);
   const counts: number[] = [];
   for (let index = 0; index < 5; index += 1) {
-    await page.locator('[data-begin]').first().click();
+    await enter(page);
     await chooseSomeoneWithFilm(page);
     await page.locator('.sheet__film').click();
     await expect(page.locator('dialog.film')).toBeVisible();

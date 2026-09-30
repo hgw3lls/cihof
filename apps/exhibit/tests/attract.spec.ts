@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { enter } from './visit.ts';
 
 /**
  * The attract screen: what an installed display shows while nobody is using
@@ -55,11 +56,11 @@ test('touching a name on the name wall starts with that person chosen', async ({
 
 test('Start over returns to the attract screen, with nothing of the visit kept', async ({ page }) => {
   await page.goto('.');
-  await page.locator('[data-begin]').click();
+  await enter(page);
   await page.locator('.tile').first().click();
   await page.getByRole('button', { name: 'Start over' }).click();
   await expect(page.locator('.attract')).toBeVisible();
-  await page.locator('[data-begin]').click();
+  await enter(page);
   await expect(page.locator('.tile[aria-pressed="true"]')).toHaveCount(0);
 });
 

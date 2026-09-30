@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type CSSProperties } from 'react';
 import { loadBundle, type RuntimeBundle } from '../data/runtime.ts';
 import { exhibitReducer, initialState, type Lens } from '../state/exhibit.ts';
 import { connectionNodes, inductionClasses } from '../state/selectors.ts';
@@ -22,6 +22,8 @@ import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
+import { Tutorial } from './Tutorial.tsx';
+import { tutorialSteps } from './tutorial.ts';
 import { ThemeSwitch } from './ThemeSwitch.tsx';
 import { applyTheme, readTheme, rememberTheme, type Theme } from './theme.ts';
 import { configuredTiming, isTestBuild } from './config.ts';
@@ -93,6 +95,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [filmListOpen, setFilmListOpen] = useState(true);
   const [chooserOpen, setChooserOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  // How this works is shown once to each visitor who comes in from the attract
+  // screen. Every end of a visit arms it again for the next one.
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const tutorialDue = useRef(true);
   // The display is drawn at 1920 × 1080; the public site takes the screen's shape.
   const fit = useMemo(() => readFit(window.location.search, bundle.target), [bundle.target]);
   const shape = useMeasuredShape(fit);
@@ -104,7 +110,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const contexts = bundle.contexts ?? [];
   const places = bundle.places;
   // Places is a layer of Connections now, not a lens of its own.
-  const offered = (bundle.lenses.length > 0 ? bundle.lenses : ['people']).filter((lens) => lens !== 'places');
+  const offered = useMemo(() => (bundle.lenses.length > 0 ? bundle.lenses : ['people']).filter((lens) => lens !== 'places'), [bundle.lenses]);
   const candidates = bundle.candidates ?? [];
   const byId = useMemo(() => new Map(people.map((person) => [person.id, person])), [people]);
   // Saved threads outlive a visit: they are kept on the display for the next.
@@ -149,6 +155,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     setFilmListOpen(true);
     setChooserOpen(false);
     setEditingId(null);
+    setTutorialOpen(false);
+    tutorialDue.current = true;
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
     // On the display a visitor's colours last for their visit; the next visitor
@@ -165,6 +173,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   }, [release, attractSettings.rotate, bundle.target]);
 
   const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore');
+
+  // Leaving the attract screen begins a visit. A website has no attract screen
+  // and does not interrupt somebody who has only just opened it; its visitors
+  // ask for the tutorial when they want it.
+  useEffect(() => {
+    if (state.home !== 'attract' || state.mode !== 'explore' || !tutorialDue.current) return;
+    tutorialDue.current = false;
+    setTutorialOpen(true);
+  }, [state.home, state.mode]);
 
   // Search. The films' words are read the first time it opens.
   const [searched, setSearched] = useState(false);
@@ -310,6 +327,16 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       : lens === 'years' ? `${classes.length} ${classes.length === 1 ? 'class' : 'classes'}`
       : `follow a thread · ${places.length} places as a layer`,
   }));
+  // Steps only for what this release carries: the lenses offered, and films where there are any.
+  const steps = useMemo(() => tutorialSteps({
+    lenses: offered,
+    people: people.length,
+    peopleWithFilms: people.filter((person) => person.films.length > 0).length,
+    places: places.length,
+    tours: tours.length,
+    share: Boolean(bundle.continuationBase),
+    installed: bundle.target === 'kiosk',
+  }), [offered, people, places.length, tours.length, bundle.continuationBase, bundle.target]);
 
   return (
     <ShapeProvider shape={shape}>
@@ -569,7 +596,11 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                     setTheme(next);
                   }}
                 />
-                <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
+                {/* Two quiet keys stacked in one column, so neither takes width from a lens. */}
+                <span className="lensbar__aid">
+                  <button type="button" className="lensbar__help" aria-haspopup="dialog" onClick={() => setTutorialOpen(true)}>How this works</button>
+                  <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
+                </span>
               </nav>
             </div>
           )}
@@ -640,6 +671,10 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
           siteBase={bundle.continuationBase}
           onClose={() => dispatch({ type: 'open-record', personId: sharePerson.id })}
         />
+      )}
+
+      {tutorialOpen && state.mode === 'explore' && (
+        <Tutorial steps={steps} motion={attractSettings.motion} onClose={() => setTutorialOpen(false)} />
       )}
 
       {session.phase === 'warning' && (
