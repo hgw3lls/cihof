@@ -13,7 +13,7 @@
  *   audioBytes: number | null,     sound decoded while played; null if the browser does not say
  *   captionsShowing: boolean,
  *   cues: number,
- *   lastCueEnd: number | null,
+ *   lastCueEnd: number | null,     where the last caption with words ends; empty captions show nothing and are not counted
  *   transcriptChars: number,
  *   transcriptProblem: string | null,
  * }} seen

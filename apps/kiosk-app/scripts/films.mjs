@@ -148,8 +148,13 @@ async function watch(person, index, count) {
   let played = 0;
   let audioBytes = null;
   if (!shown && await page.locator('dialog.film video').count()) {
-    const before = await page.evaluate(() => document.querySelector('dialog.film video').currentTime);
+    const opened = await page.evaluate(() => document.querySelector('dialog.film video').currentTime);
     await page.evaluate(() => document.querySelector('dialog.film video').play().catch(() => undefined));
+    // Some films take several seconds to start (the display buffers the first
+    // part first). The play is measured once it is under way, so a slow start is
+    // not taken for a film that will not play; one that never starts still fails.
+    await page.waitForFunction((from) => document.querySelector('dialog.film video').currentTime > from + 0.05, opened, { timeout: 15_000 }).catch(() => undefined);
+    const before = await page.evaluate(() => document.querySelector('dialog.film video').currentTime);
     await wait(playMs);
     ({ played, audioBytes } = await page.evaluate((from) => {
       const video = document.querySelector('dialog.film video');
@@ -177,7 +182,13 @@ async function watch(person, index, count) {
       duration: video ? video.duration : null,
       captionsShowing: track?.mode === 'showing',
       cues: cues.length,
-      lastCueEnd: cues.length ? Math.max(...cues.map((cue) => cue.endTime)) : null,
+      // Where the last caption with words ends. A caption can be empty: rolling
+      // automatic captions leave blank lines, and a removed [BLANK_AUDIO] mark
+      // stays as a blank line. Those can run past the film's end and show nothing.
+      lastCueEnd: (() => {
+        const spoken = cues.filter((cue) => String(cue.text ?? '').trim());
+        return spoken.length ? Math.max(...spoken.map((cue) => cue.endTime)) : null;
+      })(),
       transcriptChars: words.trim().length,
       transcriptProblem: problem,
     };
