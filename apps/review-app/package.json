@@ -1,0 +1,69 @@
+{
+  "name": "@cihof/review-app",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/main.mjs",
+  "description": "The staff review app in a window of its own, for the one staff computer. It opens the project folder there and runs its review server; it carries no content. Not a workspace: its Electron download happens only when packaging.",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "org.cihof.review",
+    "productName": "CIHOF Staff Review",
+    "copyright": "Western Reserve Historical Society",
+    "directories": {
+      "output": "../../release/review-app",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CIHOF Staff Review",
+      "artifactName": "CIHOF-Staff-Review-Setup-${version}.${ext}"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    },
+    "publish": null,
+    "extraResources": [
+      {
+        "from": "stage/runtime",
+        "to": "runtime"
+      }
+    ]
+  }
+}

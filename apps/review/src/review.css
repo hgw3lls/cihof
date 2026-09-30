@@ -223,3 +223,5 @@ select { font: inherit; padding: 0.6rem 0.7rem; border: 1px solid var(--line); b
 
 /* A film's poster beside whose it is. */
 .film-title__poster { width: 142px; height: 80px; object-fit: cover; border-radius: 6px; flex: none; background: #121211; }
+
+.export-file { overflow-wrap: anywhere; }

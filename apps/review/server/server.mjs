@@ -12,6 +12,7 @@ import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/capt
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 import { audiences, check, gitStatus, save } from './save.mjs';
 import { draftCounts } from './sheets.mjs';
+import { exportDecisions, listExports } from './export.mjs';
 
 /**
  * The staff review app: a small local server and the pages it serves.
@@ -24,6 +25,11 @@ import { draftCounts } from './sheets.mjs';
  * reviewer's unsaved decisions in .review/draft.json (ignored by git), and
  * saves them through the same apply tools a developer runs, as local commits.
  * It never pushes.
+ *
+ * With --export-dir, as the staff review app runs it on a staff computer with
+ * no git: nothing is committed. Checked decisions are exported instead, as one
+ * file in that folder for the developer to import (export.mjs), and the
+ * history lists the files exported from this computer.
  */
 
 const mime = {
@@ -32,7 +38,8 @@ const mime = {
   '.woff2': 'font/woff2', '.ico': 'image/x-icon',
 };
 
-export function createReviewServer({ root, dist, port }) {
+export function createReviewServer({ root, dist, port, exportDir = null }) {
+  const exporting = Boolean(exportDir);
   const draftPath = join(root, '.review', 'draft.json');
   const readDraft = () => readDraftFile(draftPath);
   const writeDraft = (draft) => {
@@ -75,10 +82,14 @@ export function createReviewServer({ root, dist, port }) {
       const review = loadReview();
       const checklists = signoffChecklists(root);
       const signoffs = readSignoffs(root).map((item) => ({ ...item, confirms: checklists[item.section] ?? [] }));
-      return json(response, 200, { ...review, signoffs, readiness: readiness(review, signoffs), draft, counts: draftCounts(draft), git: gitStatus(root) });
+      return json(response, 200, {
+        ...review, signoffs, readiness: readiness(review, signoffs), draft, counts: draftCounts(draft),
+        mode: exporting ? 'export' : 'commit',
+        git: exporting ? { clean: true, unpushed: null } : gitStatus(root),
+      });
     }
     if (request.method === 'GET' && path === '/api/history') {
-      return json(response, 200, { entries: history(root) });
+      return json(response, 200, exporting ? { exports: listExports(exportDir), exportDir } : { entries: history(root) });
     }
     if (request.method === 'GET' && path === '/api/history/sheet') {
       const rows = sheetRows(root, new URL(request.url ?? '', 'http://x').searchParams.get('path'));
@@ -100,7 +111,16 @@ export function createReviewServer({ root, dist, port }) {
       const { audience } = await body(request);
       return json(response, 200, { results: check({ root, draft: readDraft(), audience: audienceOf(audience) }) });
     }
+    if (request.method === 'POST' && path === '/api/export') {
+      if (!exporting) return json(response, 404, { error: 'This review saves to the project; it does not export.' });
+      const { audience } = await body(request);
+      const outcome = exportDecisions({ root, draft: readDraft(), audience: audienceOf(audience), exportDir });
+      // Exported decisions leave the draft, so they are not sent twice; the name stays.
+      if (outcome.ok) writeDraft({ ...emptyDraft(), reviewer: readDraft().reviewer });
+      return json(response, 200, { ...outcome, counts: draftCounts(outcome.ok ? emptyDraft() : readDraft()) });
+    }
     if (request.method === 'POST' && path === '/api/save') {
+      if (exporting) return json(response, 404, { error: 'This review exports its decisions; it does not save to the project.' });
       const { audience } = await body(request);
       const outcome = save({ root, draft: readDraft(), audience: audienceOf(audience) });
       writeDraft(outcome.draft);
@@ -221,7 +241,8 @@ if (invokedDirectly) {
     console.error('The review pages have not been built. Run: npm run review');
     process.exit(1);
   }
-  const server = createReviewServer({ root, dist, port });
+  const exportDir = typeof args['export-dir'] === 'string' && args['export-dir'] ? args['export-dir'] : null;
+  const server = createReviewServer({ root, dist, port, exportDir });
   server.on('error', (error) => {
     console.error(error.code === 'EADDRINUSE'
       ? `Port ${port} is in use. Is the review app already open? Otherwise use --port=<another>.`

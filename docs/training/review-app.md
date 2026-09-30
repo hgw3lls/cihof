@@ -10,22 +10,38 @@ the developer publishes it. You can explore freely.
 
 ---
 
-## 1. Before you start: bring the computer up to date
+## 1. Before you start
 
-Once each time you sit down, in a terminal in the project folder:
+There are two ways to run the review. Ask the developer which is yours.
 
-```sh
-git pull
-npm ci
-```
+- **The CIHOF Staff Review app**, installed on your computer. There is
+  nothing to bring up to date: each time it opens, it copies the latest
+  records from the data folder the developer keeps. The first time, it asks
+  you to choose that folder.
+- **The project folder**, on the office computer that holds a copy of the
+  project. Once each time you sit down, in a terminal in the project folder:
 
-This brings in everything decided since last time. (If the app ever says the
-project has changes that are not from the app, stop and tell the developer.)
+  ```sh
+  git pull
+  npm ci
+  ```
+
+  This brings in everything decided since last time. (If the app ever says
+  the project has changes that are not from the app, stop and tell the
+  developer.)
 
 ## 2. Start the app
 
-Double-click **Start staff review** on the desktop. A black window opens:
-**leave it open** while you work. The app opens in the browser.
+Open **CIHOF Staff Review** from the Start menu, the Dock or the desktop. It
+opens in a window of its own. The first time, choose the data folder the
+developer set up (the one with a folder called *data* inside it). If that
+folder cannot be reached, for example because the shared drive is not
+connected, the app says so in its title bar and uses the records it copied
+last time.
+
+On the project computer instead, double-click **Start staff review** on the
+desktop. A black window opens: **leave it open** while you work. The app
+opens in the browser.
 
 ![The welcome page asking who is reviewing today](images/review-welcome.jpg)
 
@@ -173,9 +189,10 @@ The box at the top of the home page lists what is still open before the
 exhibit opens: your reviews, and the sign-offs other people give. It fills in
 by itself as work is saved; nothing in it is ticked by hand.
 
-## 4. Check and save
+## 4. Check and save (or export)
 
-When you have made some decisions, the home page shows **Check and save**.
+When you have made some decisions, the home page shows **Check and save**,
+or in the CIHOF Staff Review app **Check and export**.
 
 1. The summary lists everything you decided. Anything unfinished is named;
    finish it or clear it.
@@ -184,11 +201,17 @@ When you have made some decisions, the home page shows **Check and save**.
 3. **Check my decisions.** The app runs every check without saving
    anything. If something needs fixing, it says what.
 4. **Save.** Each kind of review is saved separately, with your name.
-5. **Tell the developer.** Your decisions reach the display only when the
-   developer publishes them.
+   In the app, **Export** instead: your decisions go into one file in
+   **Documents › CIHOF review decisions**, and leave the app's list so they
+   cannot be sent twice. **Show the file** opens that folder.
+5. **Tell the developer**, and in the app **send them the file** (by email,
+   or on the shared drive). Your decisions reach the display only when the
+   developer brings them in and publishes them. If something you approved
+   has changed in the meantime, it comes back to you to look at again.
 
 If a save stops part way, the part that failed is not kept and your
-decisions for it are still there. Show the details to the developer.
+decisions for it are still there. Show the details to the developer. History
+in the app lists the files exported from your computer.
 
 ---
 

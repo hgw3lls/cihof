@@ -69,7 +69,8 @@ Signing in automatically, powering on after a power cut, and Windows Assigned Ac
 - one full-screen window on the exhibit, served from the app itself: no menus, no right-click, no browser shortcuts (reload, zoom, developer tools, print), no navigating away, no pinch zoom, pointer hidden
 - a crashed or frozen page reloads itself; the app restarts daily (04:00 by default), keeps the screen awake, and starts at sign-in on Windows and macOS
 - hidden admin settings: hold the top-left corner for 5 seconds, or press Ctrl+Shift+A, then the passcode. The first passcode can only be set with the keyboard shortcut, so a visitor cannot claim a fresh display. Five wrong tries lock the keypad
-- in admin: release details; back to the start, reload, recovery panel; restart or exit to the desktop; debug switches for developer tools, menus and window, and the mouse pointer, which turn off again at the next restart; the daily restart time, start at sign-in, and the passcode
+- no films inside by default, so the installer is about 150 MB: the display plays them from a films folder chosen in admin (`--with-films` carries all of them, about 20 GB more)
+- in admin: release details; where the films come from and how many are found; back to the start, reload, recovery panel; restart or exit to the desktop; debug switches for developer tools, menus and window, and the mouse pointer, which turn off again at the next restart; the daily restart time, start at sign-in, and the passcode
 
 The app lives in `apps/kiosk-app`, outside the npm workspaces, so its Electron download happens only when packaging. `node --test apps/kiosk-app/tests/*.test.mjs` (part of `npm test`) covers its input, navigation and passcode rules; `npm run test:app` in `apps/kiosk-app` drives the real app (needs a display, or `xvfb-run` on Linux). Build it on the machine that holds the films, and never publish it.
 
@@ -122,3 +123,8 @@ The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.m
 5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
 
 The old visitor app and old portal are in git history at `c8f749c`, the last commit before the clean-up. Keep that reference until the new portal has run through one real editorial cycle.
+
+## The staff review app, installed
+
+`npm run package:review-app` builds the staff review app as a desktop app of its own, in `release/review-app/` (`--target=win-zip` for a portable Windows folder from any system). It needs no git, Node or copy of the project on the staff computer. It reads the records from a data folder kept with `npm run review:data -- --out=<folder>`, such as a shared drive. A reviewer's checked decisions leave it as one file, which `npm run review:import -- --input=<file> --apply` saves in the project, one commit per kind of review under the reviewer's name.
+

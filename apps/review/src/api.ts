@@ -227,6 +227,8 @@ export type Review = {
   draft: Draft;
   counts: Counts;
   git: GitState;
+  /** `commit` in the project; `export` in the staff review app on a staff computer, which writes a file for the developer. */
+  mode: 'commit' | 'export';
 };
 
 export type StepResult = { task: string; title: string; ok: boolean; count?: number; commit?: string | null; output: string };
@@ -243,6 +245,19 @@ export async function putDraft(draft: Draft): Promise<{ counts: Counts }> {
 export async function checkDecisions(audience: Audience): Promise<{ results: StepResult[] }> {
   return request('/api/check', { method: 'POST', body: JSON.stringify({ audience }) });
 }
+
+export type ExportOutcome = { ok: boolean; results: StepResult[]; file: string | null; problem?: string; counts: Counts };
+
+export async function exportDecisions(audience: Audience): Promise<ExportOutcome> {
+  return request('/api/export', { method: 'POST', body: JSON.stringify({ audience }) });
+}
+
+/** Only in the staff review app: shows an exported file in the computer's own file browser. */
+export function showExportedFile(file: string) {
+  (window as unknown as { cihofReview?: { showExport?: (path: string) => void } }).cihofReview?.showExport?.(file);
+}
+
+export const canShowFiles = () => Boolean((window as unknown as { cihofReview?: { showExport?: unknown } }).cihofReview?.showExport);
 
 export async function saveDecisions(audience: Audience): Promise<{ results: StepResult[]; counts: Counts; git: GitState }> {
   return request('/api/save', { method: 'POST', body: JSON.stringify({ audience }) });
