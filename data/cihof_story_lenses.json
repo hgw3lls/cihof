@@ -32,9 +32,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-fa6be82ae462",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     },
     {
       "id": "helped-arrive",
@@ -60,9 +70,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-9f66f0d45d95",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     },
     {
       "id": "kept-cultures",
@@ -89,9 +109,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-03c3bc6b38c3",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     },
     {
       "id": "changed-city",
@@ -119,9 +149,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-5c03b3907aec",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     },
     {
       "id": "made-art",
@@ -151,9 +191,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-7f24e67e6375",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     },
     {
       "id": "cared-for-city",
@@ -179,9 +229,19 @@
       "pinnedPersonIds": [],
       "excludedPersonIds": [],
       "curatorNotes": [],
-      "reviewStatus": "draft",
+      "reviewStatus": "approved",
       "maxPortraits": 48,
-      "enabled": true
+      "enabled": true,
+      "review": {
+        "contentVersion": "tour-3b538dce945b",
+        "decisionReference": "tours-review-2026-09-30",
+        "reviewedAt": "2026-09-30T21:12:09.526Z",
+        "note": "Reviewed by Tony in the staff review app."
+      },
+      "publication": {
+        "kiosk": true,
+        "publicWeb": true
+      }
     }
   ]
 }
