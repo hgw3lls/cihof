@@ -21,7 +21,12 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => { if (!sessionStorage.getItem('kept')) { localStorage.removeItem('cihof-wall-threads'); sessionStorage.setItem('kept', '1'); } });
 });
 
-test('no curated tour reaches the display until a curator approves one', async ({ page }) => {
+test('with no curated tour approved, the chooser says so', async ({ page }) => {
+  // A release whose curators have approved no tour yet.
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({ json: { ...bundle, tours: [] } });
+  });
   await begin(page);
   await expect(bar(page).getByRole('button', { name: /^Tour/ })).toContainText('0 curated · 0 followed');
   await bar(page).getByRole('button', { name: /^Tour/ }).click();
