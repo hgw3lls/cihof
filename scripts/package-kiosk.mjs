@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
  * Builds the installed exhibit and packages it for a display.
  *
  *   npm run package:kiosk
+ *   npm run package:kiosk -- --without-films   leave the films out; the display plays them from a folder
  *
  * Writes release/cihof-kiosk-<release>/: the kiosk build served at the root of
  * a local address, the exhibit's own server, start scripts, a README for staff
@@ -19,6 +20,10 @@ import { pathToFileURL } from 'node:url';
  */
 
 const root = resolve(import.meta.dirname, '..');
+// The films are 20 GB of the release. Left out, the display plays them from a
+// folder of their own (the kiosk app's admin panel, or videos/ beside
+// launch.mjs), and a release is small enough to hand over easily.
+const withoutFilms = process.argv.includes('--without-films');
 const exhibit = resolve(root, 'apps/exhibit');
 const dist = resolve(exhibit, 'dist');
 
@@ -64,7 +69,10 @@ const missing = local
 const out = resolve(root, 'release', `cihof-kiosk-${release.revision}`);
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
-cpSync(dist, join(out, 'site'), { recursive: true });
+cpSync(dist, join(out, 'site'), {
+  recursive: true,
+  filter: (source) => !(withoutFilms && /\.(mp4|webm)$/i.test(source) && relative(dist, source).split(/[\\/]/).slice(0, 2).join('/') === 'media/videos'),
+});
 for (const file of [
   'server.mjs', 'launch.mjs',
   'start-kiosk.cmd', 'stop-kiosk.cmd', 'install-autostart.cmd', 'uninstall-autostart.cmd',
@@ -86,7 +94,9 @@ const shortCommit = `${commit.slice(0, 7)}${commit.endsWith('+uncommitted') ? ' 
 const builtAt = new Date().toISOString();
 const manifest = {
   kind: 'cihof-kiosk-release',
-  warning: 'Kiosk build: carries films approved for the kiosk only. Never publish.',
+  warning: withoutFilms
+    ? 'Kiosk build: carries the captions and transcripts of films approved for the kiosk only. Never publish.'
+    : 'Kiosk build: carries films approved for the kiosk only. Never publish.',
   release: release.revision,
   contentRevision: bundle.contentRevision,
   builtAt,
@@ -95,15 +105,22 @@ const manifest = {
   lenses: bundle.lenses,
   relationships: bundle.relationships.length,
   profiles: profileCounts,
-  films: { total: films.length, localFiles: local.length, videoPresent: local.length - missing.length, videoMissing: missing },
+  films: {
+    total: films.length, localFiles: local.length, videoPresent: local.length - missing.length, videoMissing: missing,
+    // "folder": not in the package; the display plays them from its films folder, which must hold these files.
+    carried: withoutFilms ? 'folder' : 'included',
+    ...(withoutFilms ? { expectedInFolder: [...new Set(local.map(({ film }) => film.source.src.replace(/^\/media\/videos\//, '')))] } : {}),
+  },
   precachedAssets: release.assets.length,
   bytes: folderBytes(join(out, 'site')),
 };
 writeFileSync(join(out, 'MANIFEST.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
-const filmLine = missing.length === 0
-  ? `All ${local.length} films have their video file.`
-  : `${local.length - missing.length} of ${local.length} films have their video file; ${missing.length} do not.`;
+const filmLine = withoutFilms
+  ? `The ${local.length} films are not in this package: the display plays them from a films folder.${missing.length ? ` ${missing.length} of them were missing on the computer that built it.` : ''}`
+  : missing.length === 0
+    ? `All ${local.length} films have their video file.`
+    : `${local.length - missing.length} of ${local.length} films have their video file; ${missing.length} do not.`;
 const readme = readFileSync(join(exhibit, 'kiosk/README.txt'), 'utf8')
   .replaceAll('{{RELEASE}}', release.revision)
   .replaceAll('{{CONTENT}}', bundle.contentRevision.slice(0, 12))

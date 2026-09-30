@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
+import { filmsState } from './films-folder.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch, heartbeatWatch } from './watch.mjs';
 import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings, themeGround } from './settings.mjs';
@@ -56,7 +57,8 @@ async function start() {
     contents.on('will-attach-webview', (event) => event.preventDefault());
   });
 
-  const server = createKioskServer({ root: siteRoot });
+  // The films folder chosen in the admin panel, read on every request, so a change applies at once.
+  const server = createKioskServer({ root: siteRoot, videos: () => settings.videosFolder });
   try {
     await new Promise((resolve, reject) => {
       server.once('error', reject);
@@ -258,6 +260,7 @@ function adminState() {
     debug: { ...debug },
     settings: { restartAt: settings.restartAt, startAtLogin: settings.startAtLogin, port: settings.port, ...attractSettings(settings) },
     app: { version: app.getVersion(), platform: process.platform, ...releaseInfo() },
+    films: filmsState(siteRoot, settings.videosFolder),
   };
 }
 
@@ -341,6 +344,27 @@ function registerAdminHandlers() {
       if (admin && !admin.isDestroyed()) { admin.show(); admin.focus(); }
     }, 30_000);
     return true;
+  });
+
+  // Where the films are played from. Chosen with the system's own folder
+  // picker, so the panel never handles a path it was not given by staff.
+  handle('admin:choose-videos', async () => {
+    const result = await dialog.showOpenDialog(admin ?? exhibit, {
+      title: 'Choose the films folder',
+      message: 'Choose the folder that holds the films: one folder per person, as in the project\'s public/media/videos.',
+      properties: ['openDirectory'],
+    });
+    if (!result.canceled && result.filePaths[0]) {
+      settings = { ...settings, videosFolder: result.filePaths[0] };
+      saveSettings(settingsPath, settings);
+    }
+    admin?.focus();
+    return adminState();
+  });
+  handle('admin:clear-videos', () => {
+    settings = { ...settings, videosFolder: null };
+    saveSettings(settingsPath, settings);
+    return adminState();
   });
 
   handle('admin:action', (action) => {

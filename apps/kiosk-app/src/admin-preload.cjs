@@ -10,4 +10,6 @@ contextBridge.exposeInMainWorld('cihofAdmin', {
   setSetting: (name, value) => ipcRenderer.invoke('admin:set-setting', { name, value }),
   previewAttract: (candidate) => ipcRenderer.invoke('admin:preview-attract', candidate),
   action: (name) => ipcRenderer.invoke('admin:action', name),
+  chooseVideos: () => ipcRenderer.invoke('admin:choose-videos'),
+  clearVideos: () => ipcRenderer.invoke('admin:clear-videos'),
 });

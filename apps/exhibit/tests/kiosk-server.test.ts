@@ -89,3 +89,32 @@ test('a cancelled video request closes its file', { skip: !existsSync('/proc/sel
   await settle();
   assert.ok(openFiles() - before < 10, `${openFiles() - before} files left open after 40 cancelled requests`);
 });
+
+test('films can be played from a folder of their own, first, and nothing else can be reached through it', async () => {
+  const folder = mkdtempSync(join(tmpdir(), 'cihof-films-'));
+  mkdirSync(join(folder, 'someone-2020'), { recursive: true });
+  writeFileSync(join(folder, 'someone-2020', 'someone-2020_abc.mp4'), Buffer.alloc(2000, 9));
+  writeFileSync(join(folder, 'someone-2020', 'notes.txt'), 'not a film');
+  mkdirSync(join(site, 'media', 'videos', 'other-2021'), { recursive: true });
+  writeFileSync(join(site, 'media', 'videos', 'other-2021', 'other-2021_def.mp4'), Buffer.alloc(300, 1));
+
+  let chosen: string | null = folder;
+  const films = createKioskServer({ root: site, videos: () => chosen });
+  await new Promise<void>((resolve) => films.listen(0, '127.0.0.1', resolve));
+  const at = `http://127.0.0.1:${(films.address() as AddressInfo).port}`;
+  try {
+    const film = await fetch(`${at}/media/videos/someone-2020/someone-2020_abc.mp4`, { headers: { Range: 'bytes=0-99' } });
+    assert.equal(film.status, 206);
+    assert.equal(film.headers.get('content-range'), 'bytes 0-99/2000');
+    // Not in the folder: from the site, as before.
+    assert.equal((await fetch(`${at}/media/videos/other-2021/other-2021_def.mp4`)).headers.get('content-length'), '300');
+    // Only films, and never outside the folder.
+    assert.equal((await fetch(`${at}/media/videos/someone-2020/notes.txt`)).status, 404);
+    assert.equal((await fetch(`${at}/media/videos/..%2F..%2Fsecret.mp4`)).status, 404);
+    // Chosen while running: used at once; cleared: the site's own.
+    chosen = null;
+    assert.equal((await fetch(`${at}/media/videos/someone-2020/someone-2020_abc.mp4`)).status, 404);
+  } finally {
+    films.close();
+  }
+});

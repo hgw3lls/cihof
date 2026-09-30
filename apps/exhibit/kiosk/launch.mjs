@@ -9,6 +9,7 @@
  *   node launch.mjs --restart-at=04:00   daily browser restart (default); "off" to disable
  *   node launch.mjs --no-browser         the server only, for checking from another screen
  *   node launch.mjs --port=8080
+ *   node launch.mjs --videos=<folder>   play the films from this folder (default: videos/ beside this file, if there)
  *
  * The same on Windows, macOS and Linux. It finds Edge or Chrome where each
  * system installs it and runs it with its own profile folder beside this file,
@@ -206,7 +207,9 @@ async function main() {
   const restartAt = typeof args['restart-at'] === 'string' ? args['restart-at'] : '04:00';
   msUntil(restartAt); // Refuse a bad time now rather than at midnight.
 
-  const server = createKioskServer({ root });
+  // The films may live in a folder of their own, beside the site or elsewhere.
+  const videos = typeof args.videos === 'string' && args.videos ? resolve(args.videos) : existsSync(join(here, 'videos')) ? join(here, 'videos') : null;
+  const server = createKioskServer({ root, videos });
   server.on('error', (error) => {
     console.error(error.code === 'EADDRINUSE'
       ? `Port ${port} is already in use. Is the exhibit already running?`
