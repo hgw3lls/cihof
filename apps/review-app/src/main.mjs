@@ -27,6 +27,12 @@ const work = () => join(app.getPath('userData'), 'review');
 const exportDir = () => process.env.CIHOF_REVIEW_EXPORT_DIR || join(app.getPath('documents'), 'CIHOF review decisions');
 let win = null;
 let server = null;
+/**
+ * Said in the title bar while the review shows records that may be out of
+ * date: the data folder could not be reached, so the last copy is in use.
+ * The pages' own title never replaces it (see start()).
+ */
+let staleNote = '';
 let port = 0;
 let quitting = false;
 
@@ -94,6 +100,12 @@ async function start() {
     event.preventDefault();
     if (isWebAddress(url)) shell.openExternal(url);
   });
+  // The window's title is the app's: a page loading cannot replace it, so a
+  // warning about out-of-date records stays in sight while the review is used.
+  win.on('page-title-updated', (event) => {
+    event.preventDefault();
+    win?.setTitle(`CIHOF staff review${staleNote}`);
+  });
   win.on('closed', () => { win = null; });
   await launch();
 }
@@ -143,6 +155,7 @@ async function launch() {
   const problem = dataFolderProblem(folder);
   const haveCopy = existsSync(join(root, 'data', 'cihof_curated_metadata.json'));
   let note = '';
+  staleNote = '';
   if (problem) {
     if (!folder || !haveCopy) { status(folder ? 'problem' : 'choose', problem); return; }
     const when = statSync(join(root, 'data', 'cihof_curated_metadata.json')).mtime;
@@ -176,8 +189,10 @@ async function launch() {
     if (server !== current) return;
     try {
       if ((await fetch(url, { signal: AbortSignal.timeout(1000) })).ok) {
+        staleNote = note;
         win?.setTitle(`CIHOF staff review${note}`);
         await win?.loadURL(url);
+        win?.setTitle(`CIHOF staff review${note}`);
         return;
       }
     } catch { /* not listening yet */ }

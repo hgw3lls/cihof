@@ -68,3 +68,18 @@ try {
 } finally {
   await app.close();
 }
+
+// The data folder out of reach, as when a shared drive is not connected: the
+// review opens on the last copy, and the title bar says so, after the page loads.
+writeFileSync(join(userData, 'settings.json'), JSON.stringify({ dataFolder: join(userData, 'unplugged-drive') }));
+const offline = await electron.launch({ executablePath: built ?? electronBinary, args: built ? [] : [join(root, 'apps', 'review-app')], env });
+try {
+  const page = await offline.firstWindow();
+  await page.getByText('When you have made some decisions, you will export them here.').waitFor({ timeout: 60_000 });
+  await page.waitForTimeout(500);
+  const title = await offline.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getTitle());
+  assert.match(title, /the data folder cannot be reached: using the records copied on/);
+  console.log('  ✓ with the data folder out of reach, it opens on the last copy and the title bar says so');
+} finally {
+  await offline.close();
+}
