@@ -134,13 +134,14 @@ test('How this works on the bar plays it again from the start, and returns to th
  * gates open. The suite runs the display's build, so the bundle is rewritten
  * as the public release would carry it.
  */
-async function asPublished(page: Page, lenses: readonly string[]) {
+async function asPublished(page: Page, lenses: readonly string[], { tours }: { tours?: readonly unknown[] } = {}) {
   await page.route('**/data/exhibit.json', async (route) => {
     const bundle = await (await route.fetch()).json();
     await route.fulfill({
       json: {
         ...bundle, target: 'public', lenses, continuationBase: null,
         people: bundle.people.map((person: object) => ({ ...person, films: [] })),
+        ...(tours ? { tours } : {}),
       },
     });
   });
@@ -158,7 +159,8 @@ test('a website does not interrupt a visitor who has just opened it, and offers 
 });
 
 test('a lens its gate closed has no step', async ({ page }) => {
-  await asPublished(page, ['people', 'years']);
+  // A release with no Connections, and no curated tour approved.
+  await asPublished(page, ['people', 'years'], { tours: [] });
   await expect(bar(page).getByRole('button', { name: /^Connections/ })).toHaveCount(0);
   await bar(page).getByRole('button', { name: 'How this works' }).click();
   // No Connections to save a thread in and no curated tour: Tour has nothing to show round yet.
