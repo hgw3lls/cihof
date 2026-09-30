@@ -19,7 +19,12 @@
       "title": "The choices about caption and transcript noise are made",
       "who": "Curator",
       "where": "docs/film-transcript-check.md",
-      "signed": null
+      "signed": {
+        "by": "Tony",
+        "date": "2026-09-30",
+        "reference": "Accepted in the staff review app (sign-offs-review-2026-09-30)",
+        "recordedAt": "2026-09-30T21:12:11.230Z"
+      }
     },
     {
       "id": "public-website",

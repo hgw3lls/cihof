@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { applyTourDecisions, publishedTours, tourDecisions, tourPeople, tourVersion } from '../src/build/tours.ts';
+import { applyTourDecisions, publishedTours, readTours, tourDecisions, tourPeople, tourPublished, tourVersion } from '../src/build/tours.ts';
 
 const person = (id: string, sortName: string, biography: string, contributions: string[] = []) => ({ id, sortName, biography, contributions });
 const people = [
@@ -34,8 +34,15 @@ test('a tour that finds nobody is not published', () => {
   assert.deepEqual(publishedTours(people, 'kiosk', { stored: { lenses: [{ ...lens, terms: ['astronaut'], themes: [] }] } }), []);
 });
 
-test('the release today publishes no tour, since none is approved', () => {
-  assert.deepEqual(publishedTours(people, 'kiosk'), []);
+test('a release publishes only tours approved for its target, in the version approved', () => {
+  const stored = readTours();
+  for (const target of ['kiosk', 'public'] as const) {
+    const approvedHere = new Set((stored.lenses ?? [])
+      .filter((each) => each.enabled !== false && tourPublished(each, target))
+      .map((each) => each.id));
+    // Every tour it publishes is approved here, never merely because it exists.
+    for (const tour of publishedTours(people, target)) assert.ok(approvedHere.has(tour.id), `${tour.id} on ${target}`);
+  }
 });
 
 test('an approved tour that has changed since is held back until it is approved again', () => {
