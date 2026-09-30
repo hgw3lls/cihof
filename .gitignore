@@ -53,3 +53,7 @@ apps/kiosk-app/stage/
 # The staff review app's drafts and the sheets it writes for the apply tools.
 # A reviewer's work in progress on this computer; saved decisions are commits.
 /.review/
+
+# The staff review app's staged copy of the review, and its tools: generated.
+apps/review-app/stage/
+apps/review-app/node_modules/

@@ -15,7 +15,12 @@
  *   node server.mjs                       http://localhost:8080/
  *   node server.mjs --port=9000
  *   node server.mjs --root=/path/to/site
+ *   node server.mjs --videos=/path/to/videos
  *
+ * The films can live outside the site, in a folder of their own laid out as
+ * the project's public/media/videos is (one folder per person), so a release
+ * need not carry 20 GB of them: a film is looked for there first, then in the
+ * site.
  * It listens on 127.0.0.1 by default: the display is its only visitor. Pass
  * --host=0.0.0.0 only on purpose, for example to check it from a laptop on a
  * private network during installation.
@@ -49,12 +54,21 @@ const types = {
   '.map': 'application/json; charset=utf-8',
 };
 
+/** What the films folder may serve: the films, and nothing else. */
+const filmFile = /\.(mp4|webm)$/i;
+
 /**
- * @param {{ root: string }} options
+ * @param {{ root: string, videos?: string | null | (() => string | null) }} options
+ *   `videos`: the films folder, or a function that says what it is now, so a
+ *   folder chosen while the display runs is used at once.
  * @returns {import('node:http').Server}
  */
-export function createKioskServer({ root }) {
+export function createKioskServer({ root, videos = null }) {
   const siteRoot = resolve(root);
+  const videosRoot = () => {
+    const folder = typeof videos === 'function' ? videos() : videos;
+    return folder ? resolve(folder) : null;
+  };
 
   return createServer((request, response) => {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
@@ -62,7 +76,7 @@ export function createKioskServer({ root }) {
       return;
     }
 
-    const file = locate(siteRoot, request.url ?? '/');
+    const file = locateFilm(videosRoot(), request.url ?? '/') ?? locate(siteRoot, request.url ?? '/');
     if (!file) {
       response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Not found');
       return;
@@ -111,6 +125,29 @@ export function createKioskServer({ root }) {
  */
 function send(file, response) {
   pipeline(file, response, () => {});
+}
+
+/**
+ * A film from the films folder, or null: only a film's address
+ * (/media/videos/<person>/<film>.mp4), and never anything outside the folder.
+ */
+function locateFilm(videosRoot, url) {
+  if (!videosRoot) return null;
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(url, 'http://localhost').pathname);
+  } catch {
+    return null;
+  }
+  if (!pathname.startsWith('/media/videos/') || !filmFile.test(pathname) || pathname.includes('\0')) return null;
+  const candidate = resolve(videosRoot, `.${normalize(pathname.slice('/media/videos'.length))}`);
+  if (!candidate.startsWith(videosRoot + sep)) return null;
+  try {
+    const stat = statSync(candidate);
+    return stat.isFile() ? { path: candidate, size: stat.size } : null;
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -196,7 +233,8 @@ if (invokedDirectly) {
     process.exit(1);
   }
 
-  const server = createKioskServer({ root });
+  const videos = args.videos ? resolve(args.videos) : null;
+  const server = createKioskServer({ root, videos });
   server.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
       console.error(`Port ${port} is already in use. Is the exhibit already running? Otherwise pass --port=<another>.`);
@@ -208,6 +246,7 @@ if (invokedDirectly) {
   server.listen(port, host, () => {
     console.log(`Cleveland International Hall of Fame exhibit`);
     console.log(`  serving ${root}`);
+    if (videos) console.log(`  films   ${videos}`);
     console.log(`  open    http://localhost:${port}/`);
     console.log('  stop    Ctrl+C');
   });

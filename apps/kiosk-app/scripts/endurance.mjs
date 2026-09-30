@@ -68,7 +68,9 @@ const restartAt = (() => {
   const at = new Date(Date.now() + (restartIn + 1) * 60_000);
   return `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')}`;
 })();
-const { userData, settingsPath } = temporarySettings('cihof-endurance-', { port, restartAt });
+// An app built without its films plays them from a folder, as the display will.
+const videosFolder = resolve(args.videos ?? join(root, 'public', 'media', 'videos'));
+const { userData, settingsPath } = temporarySettings('cihof-endurance-', { port, restartAt, videosFolder });
 
 const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const out = resolve(args.out ?? join(root, 'reports', 'endurance', `app-${stamp}`));

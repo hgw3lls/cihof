@@ -16,7 +16,7 @@ import { attractCsv, filmTitlesCsv, toursCsv, biosCsv, decisionReference, filmFi
  * the commits over and pushes them.
  */
 
-const steps = [
+export const steps = [
   {
     task: 'ties', title: 'Connections', script: 'ties:apply', csv: tiesCsv,
     refresh: ['review:ties'], checks: ['review:ties:check'],

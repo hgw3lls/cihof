@@ -151,6 +151,12 @@ install there is none yet, and it can only be set **with a keyboard**:
 Holding the corner of the screen never offers to set a first passcode. This
 stops a visitor from setting one on a new display and locking staff out.
 
+Then give it the films. The developer hands over a copy of the films folder
+(about 20 GB) with the installer. Copy it to this PC's own drive, for example
+`C:\CIHOF\films`, then in the admin panel choose **Films › Choose the films
+folder** and pick it. It should say that all the films are in the folder.
+(An installer built with the films inside needs no folder.)
+
 ### 2.4 Check it
 
 Restart the PC. Without anyone touching it, it should sign in and come up
@@ -197,6 +203,7 @@ wrong tries.
 | **Back to the start** | Returns the exhibit to its first screen. |
 | **Reload** | Reloads the exhibit, as if it had just started. |
 | **Recovery panel** | Opens the release and recovery panel (section 5). |
+| **Films** | Where the films are played from, and how many of them it finds. **Choose the films folder** once, after installing: the copy of the films the developer provides, on this PC's own drive. **Stop using the folder** plays only films inside the app, if it carries any. A film it cannot find shows its captions and transcript instead. |
 | **Restart app** | Closes and reopens the application. |
 | **Exit to desktop** | Closes the exhibit. It stays closed until someone starts it (Start menu, *CIHOF Exhibit*) or the PC restarts. |
 | **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
@@ -230,7 +237,8 @@ hands it over, again never by a public link.
 3. Run the new installer. It replaces the old version.
 4. Start *CIHOF Exhibit* from the Start menu, or restart the PC.
 5. Open the admin panel. **Release** and **Content** should show the new
-   values.
+   values, and **Films** should say that all the films are found. If the
+   developer handed over new films, copy them into the films folder first.
 
 The display keeps the previous release it had stored. If the new one
 misbehaves, the recovery panel can go back to it (section 5). Keep the
@@ -308,8 +316,19 @@ Two principles are built into every step and cannot be switched off:
 
 ### 7.1 The staff review app (Staff: curator)
 
-The easiest way to review. It runs on one office computer that holds a copy
-of the project, and it takes you through each review one item at a time:
+The easiest way to review. It takes you through each review one item at a
+time. It runs in either of two ways:
+
+- **Installed, as the CIHOF Staff Review app**, on any staff computer. It
+  needs no git, no Node and no copy of the project: it reads the records
+  from a data folder the developer keeps (`npm run review:data`, 7.3), copied
+  in each time it opens, and a reviewer's checked decisions leave it as one
+  file for the developer to bring in (`npm run review:import`, 7.3).
+- **From the project folder**, on the office computer that holds a copy of
+  the project (`npm run review`), where saving records each kind of review
+  as its own commit.
+
+Either way it offers:
 
 - **Profiles**: each inductee's profile exactly as visitors see it: name,
   class, portrait, the lines under the name, tags and biography. Approve it,
@@ -575,21 +594,61 @@ it. Find the decision behind it and record it with
 `npm run parity:record -- --ids=<id> --decision-reference=<reference>`; a
 difference no decision made is a fault to fix, not to record.
 
+**Decisions from the CIHOF Staff Review app** arrive as a file,
+`cihof-decisions-<reviewer>-<date>-<time>.json`. Bring them in on a clean
+checkout:
+
+```sh
+npm run review:import -- --input=<file>            # checks every decision, writes nothing
+npm run review:import -- --input=<file> --apply    # one commit per kind of review, under the reviewer's name
+```
+
+It saves them exactly as the app does in the project, with the day the
+reviewer decided. An approval of something that has changed since the
+reviewer saw it is refused, and that kind of review is not saved: ask them
+to look again. Then look the commits over and push.
+
+**The app's data folder** is kept up to date with
+
+```sh
+npm run review:data -- --out=<folder>    # e.g. a folder on the shared drive
+```
+
+which copies every file git tracks under `data/` and `public/media/` (the
+records, portraits, and the films' posters, captions and transcripts; never
+the films) and removes what the project no longer has. Run it after pulling
+or applying decisions; reviewers see the change the next time they open the
+app. **The app itself** is built with `npm run package:review-app`
+(`-- --target=win-zip` for a portable Windows folder from any system) into
+`release/review-app/`. It carries the review's code and no records. Build a
+new one when the review app itself changes.
+
 ### 7.4 Making a release (Developer, on the machine with the videos)
 
 ```sh
 npm ci
 npm run package:kiosk-app              # on Windows: the installer, in release/app/
 npm run package:kiosk-app -- --target=win-zip   # from any system: a portable Windows folder
+npm run package:kiosk-app -- --with-films       # carry the films inside, about 20 GB more
 ```
+
+**The films are not in the installer** unless `--with-films` is given, so it
+stays small (about 150 MB instead of 21 GB). The display plays them from a
+**films folder**: a copy of `public/media/videos` from the machine with the
+videos, on the display's own drive, chosen once in the admin panel (**Films**,
+section 2). The setting stays across releases; copy the folder again only
+when films are added or changed. `MANIFEST.json` in the release lists, under
+`films.expectedInFolder`, every file the folder must hold.
 
 The installer can only be built on Windows (or with Wine). Before handing it
 over:
 
-- read the summary it prints: people, relationships, and how many films have
-  their video file. **All of them should.** `MANIFEST.json` in
-  `release/cihof-kiosk-<release>/` lists any that do not;
-- play every film in the app the step above staged:
+- read the summary it prints: people, relationships, and the films. A release
+  that carries its films should say **all of them** have their video file;
+  `MANIFEST.json` in `release/cihof-kiosk-<release>/` lists any that do not;
+- play every film in the app the step above staged (from this project's
+  `public/media/videos`, as a films folder, unless the app carries them;
+  `--videos=<folder>` checks another folder, such as the copy for the display):
 
   ```sh
   npm run films:check
@@ -622,7 +681,8 @@ Three things hold the exhibit. Everything else can be rebuilt from them.
 | --- | --- | --- | --- |
 | **The project repository**: all content, decisions, signed sheets, the code | GitHub (`hgw3lls/cihof`) | small | GitHub keeps it. Also make a local copy after each release: `git bundle create cihof-<date>.bundle --all` and store it with the video backup. |
 | **The film video files**: the 93 films the exhibit shows | `public/media/videos/` on the developer's machine. **Not in the repository.** The folder may also hold other downloads; back up all of it. | tens of GB (the folder was about 41 GB) | Copy the whole folder to two external drives, one kept off site. Refresh after any new film. |
-| **The installer of each release** | `release/app/` | varies | Keep the current and the previous installer on the same drives. They contain kiosk-only films: store them like the videos, never on a shared link. |
+| **The installer of each release** | `release/app/` | about 150 MB, or 21 GB with the films | Keep the current and the previous installer on the same drives. They carry kiosk-only content (and, built `--with-films`, the films): store them like the videos, never on a shared link. |
+| **The display's films folder** | on the display PC | about 20 GB | A copy of the film video files. If the display's drive fails, copy them to the new one from the video backup and choose the folder again in the admin panel. |
 
 The display itself holds nothing that cannot be reinstalled. Its
 `settings.json` contains only the passcode (stored scrambled), the restart

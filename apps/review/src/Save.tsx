@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { checkDecisions, saveDecisions, type Audience, type Draft, type Review, type StepResult } from './api.ts';
+import { canShowFiles, checkDecisions, exportDecisions, saveDecisions, showExportedFile, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
 import { tourStale } from './Tours.tsx';
@@ -20,11 +20,17 @@ type Props = {
  * problem is found while it can still be fixed; saving runs them for real and
  * records each kind of review as a saved change on this computer, for the
  * developer to publish.
+ *
+ * In the staff review app on a staff computer there is nothing to save to:
+ * the last step exports the checked decisions as one file for the developer
+ * instead, and they leave this computer's list of decisions.
  */
 export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
   const [audience, setAudience] = useState<Audience>('kiosk');
   const [checked, setChecked] = useState<StepResult[] | null>(null);
   const [saved, setSaved] = useState<StepResult[] | null>(null);
+  const [exported, setExported] = useState<string | null>(null);
+  const exporting = review.mode === 'export';
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,11 +80,20 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
   const lines = summary(review, draft, tieName);
 
   const run = async (what: 'check' | 'save') => {
-    setBusy(what === 'check' ? 'Checking…' : 'Saving… this can take a minute.');
+    setBusy(what === 'check' ? 'Checking…' : exporting ? 'Exporting…' : 'Saving… this can take a minute.');
     setError(null);
     try {
       if (what === 'check') {
         setChecked((await checkDecisions(audience)).results);
+      } else if (exporting) {
+        const outcome = await exportDecisions(audience);
+        if (outcome.ok && outcome.file) {
+          setExported(outcome.file);
+          await onSaved();
+        } else {
+          setChecked(outcome.results);
+          if (outcome.problem) setError(outcome.problem);
+        }
       } else {
         const outcome = await saveDecisions(audience);
         setSaved(outcome.results);
@@ -90,6 +105,19 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
       setBusy(null);
     }
   };
+
+  if (exported) {
+    return (
+      <main className="page page--narrow">
+        <h1>Exported</h1>
+        <p className="lead">Your decisions are in one file. Send it to the developer, who brings them into the exhibit.</p>
+        <p className="panel"><code className="export-file">{exported}</code></p>
+        {canShowFiles() && <p><button type="button" onClick={() => showExportedFile(exported)}>Show the file</button></p>}
+        <p className="quiet">They have left this computer&rsquo;s list of decisions, so they cannot be sent twice. The file stays where it is, and History lists it.</p>
+        <button type="button" className="primary" onClick={onBack}>Back to the start</button>
+      </main>
+    );
+  }
 
   if (saved) {
     const failed = saved.find((result) => !result.ok);
@@ -119,7 +147,7 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
 
   return (
     <main className="page page--narrow">
-      <h1>Check and save</h1>
+      <h1>{exporting ? 'Check and export' : 'Check and save'}</h1>
 
       <section className="panel">
         <h2 className="question">Your decisions</h2>
@@ -172,10 +200,10 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
         </button>
         <button type="button" className="primary" disabled={Boolean(busy) || !checked || Boolean(checkFailed) || unfinished.length > 0}
           onClick={() => run('save')}>
-          Save
+          {exporting ? 'Export' : 'Save'}
         </button>
       </nav>
-      {!checked && lines.length > 0 && <p className="quiet">Check first. Saving becomes available once everything checks out.</p>}
+      {!checked && lines.length > 0 && <p className="quiet">Check first. {exporting ? 'Exporting' : 'Saving'} becomes available once everything checks out.</p>}
     </main>
   );
 }

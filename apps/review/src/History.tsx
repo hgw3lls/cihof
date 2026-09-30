@@ -20,8 +20,11 @@ type Sheet = { kind: 'table'; header: string[]; rows: string[][]; total: number 
  * with the signed sheet it archived, which is what the decision rests on.
  * Nothing here can be changed.
  */
+type Exported = { name: string; reviewer: string; day: string; exportedAt: string; total: number; counts: Record<string, number> };
+
 export function History({ onDone }: { onDone: () => void }) {
   const [entries, setEntries] = useState<Entry[] | null>(null);
+  const [exports, setExports] = useState<{ files: Exported[]; folder: string } | null>(null);
   const [problem, setProblem] = useState('');
   const [person, setPerson] = useState('');
   const [kind, setKind] = useState('');
@@ -30,7 +33,11 @@ export function History({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     fetch('/api/history')
       .then((response) => response.json())
-      .then((value: { entries?: Entry[]; error?: string }) => (value.entries ? setEntries(value.entries) : setProblem(value.error ?? 'The history could not be read.')))
+      .then((value: { entries?: Entry[]; exports?: Exported[]; exportDir?: string; error?: string }) => {
+        if (value.exports) setExports({ files: value.exports, folder: value.exportDir ?? '' });
+        else if (value.entries) setEntries(value.entries);
+        else setProblem(value.error ?? 'The history could not be read.');
+      })
       .catch(() => setProblem('The history could not be read.'));
   }, []);
 
@@ -38,6 +45,8 @@ export function History({ onDone }: { onDone: () => void }) {
   const people = [...new Set(decisions.map((entry) => entry.who))].sort();
   const kinds = [...new Set(decisions.map((entry) => entry.kind))].sort();
   const shown = decisions.filter((entry) => (!person || entry.who === person) && (!kind || entry.kind === kind));
+
+  if (exports) return <ExportHistory exports={exports} onDone={onDone} />;
 
   return (
     <main className="page">
@@ -73,6 +82,37 @@ export function History({ onDone }: { onDone: () => void }) {
         {shown.map((entry) => <HistoryEntry key={entry.commit} entry={entry} />)}
       </ol>
 
+      <nav className="pager">
+        <span />
+        <button type="button" className="primary" onClick={onDone}>Back to the start</button>
+      </nav>
+    </main>
+  );
+}
+
+/**
+ * In the staff review app on a staff computer: the decisions files exported
+ * from here, newest first. What became of them is in the project's own
+ * history, once the developer has brought them in.
+ */
+function ExportHistory({ exports, onDone }: { exports: { files: Exported[]; folder: string }; onDone: () => void }) {
+  return (
+    <main className="page">
+      <h1>History</h1>
+      <p className="lead">The decisions exported from this computer, newest first. The developer brings each file into the exhibit.</p>
+      {exports.folder && <p className="quiet">They are in <code className="export-file">{exports.folder}</code></p>}
+      {exports.files.length === 0 && <p className="quiet">Nothing has been exported from this computer yet.</p>}
+      <ol className="history">
+        {exports.files.map((file) => (
+          <li key={file.name} className="panel history__entry">
+            <p>
+              <strong>{file.total} decision{file.total === 1 ? '' : 's'}</strong> · {file.reviewer}
+              <span className="quiet"> · {new Date(file.exportedAt).toLocaleString()}</span>
+            </p>
+            <p className="quiet small">{Object.entries(file.counts).map(([task, count]) => `${task} ${count}`).join(' · ')} · {file.name}</p>
+          </li>
+        ))}
+      </ol>
       <nav className="pager">
         <span />
         <button type="button" className="primary" onClick={onDone}>Back to the start</button>

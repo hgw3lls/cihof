@@ -21,7 +21,9 @@ import { clock, judgeFilm } from './film-judge.mjs';
  * handed over (Windows checklist A). It writes films-check.md and
  * films-check.json to reports/films/… and exits with 1 if any film has a
  * problem. Options: --play-seconds=4, --port=18090, --debug-port=19334,
- * --out=<folder>. On Linux it needs a display (xvfb-run -a).
+ * --out=<folder>, --videos=<films folder> (default: this project's
+ * public/media/videos, for an app built without its films). On Linux it needs
+ * a display (xvfb-run -a).
  *
  * It checks what a machine can. Whether the captions say what is said, and
  * whether the sound is right in the gallery, is for people (sign-off 2).
@@ -39,7 +41,9 @@ const debugPort = positive('debug-port', 19334);
 const { packaged, executable } = resolveApp(args);
 const origin = `http://127.0.0.1:${port}`;
 
-const { userData } = temporarySettings('cihof-films-', { port, restartAt: 'off' });
+// An app built without its films plays them from a folder, as the display will.
+const videosFolder = resolve(args.videos ?? join(root, 'public', 'media', 'videos'));
+const { userData } = temporarySettings('cihof-films-', { port, restartAt: 'off', videosFolder });
 const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const out = resolve(args.out ?? join(root, 'reports', 'films', stamp));
 mkdirSync(out, { recursive: true });
@@ -117,15 +121,21 @@ await finish(failed.length === 0 ? 0 : 1);
 /** Opens the person's record and their film, plays it, and reports what it saw. */
 async function watch(person, index, count) {
   await page.locator('[data-begin]').first().click({ timeout: 10_000 });
+  // The person's face on the wall, chosen as a keyboard would choose it, then
+  // their story, then its film; a later film from the list beside the player.
   const found = await page.evaluate((name) => {
-    const tile = [...document.querySelectorAll('.tile')].find((button) => button.querySelector('.caption')?.textContent?.trim() === name);
+    const tile = [...document.querySelectorAll('.tile')].find((button) => button.getAttribute('aria-label') === name);
     tile?.click();
     return Boolean(tile);
   }, person.name);
   if (!found) throw new Error(`no portrait for ${person.name}`);
-  await page.getByRole('button', { name: 'Read the record' }).click({ timeout: 10_000 });
-  await page.getByRole('button', { name: count > 1 ? new RegExp(`^Watch film ${index + 1}\\b`) : /^Watch the film/ }).click({ timeout: 10_000 });
+  await page.locator('.sheet[data-open] .sheet__story').click({ timeout: 10_000 });
+  await page.locator('dialog.record .story__film').click({ timeout: 10_000 });
   await page.locator('dialog.film').waitFor({ state: 'visible', timeout: 10_000 });
+  if (count > 1 && index > 0) {
+    await page.locator('dialog.film .film__list li').nth(index).getByRole('button').click({ timeout: 10_000 });
+    await page.locator('dialog.film .film__list-title').filter({ hasText: `${index + 1} of ${count}` }).waitFor({ timeout: 10_000 });
+  }
 
   // Loaded enough to know its length and picture, or the display has given up on it.
   await page.waitForFunction(() => {

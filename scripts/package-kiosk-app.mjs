@@ -9,6 +9,12 @@ import { join, resolve } from 'node:path';
  *   npm run package:kiosk-app -- --target=win  a Windows installer (build on Windows)
  *   npm run package:kiosk-app -- --target=win-zip   a portable Windows folder, from any system
  *   npm run package:kiosk-app -- --target=mac | linux
+ *   npm run package:kiosk-app -- --with-films  carry the films inside the app, as before
+ *
+ * By default the app carries no films, so the installer is small: the display
+ * plays them from a folder chosen in its admin panel (a copy of the project's
+ * public/media/videos, on the display's own drive). With --with-films it
+ * carries all of them, about 20 GB, and needs no folder.
  *
  * Writes to release/app/. Like the kiosk package it carries kiosk-only films,
  * so it is built by hand, on the machine that holds the video files, and never
@@ -49,7 +55,8 @@ if (target === 'win' && process.platform !== 'win32' && spawnSync('wine', ['--ve
 }
 
 // 1. The exhibit itself: the kiosk build, served at "/".
-run(process.execPath, [join(root, 'scripts', 'package-kiosk.mjs')]);
+const withFilms = process.argv.includes('--with-films');
+run(process.execPath, [join(root, 'scripts', 'package-kiosk.mjs'), ...(withFilms ? [] : ['--without-films'])]);
 const releases = join(root, 'release');
 const newest = readdirSync(releases)
   .filter((name) => name.startsWith('cihof-kiosk-'))
@@ -72,4 +79,9 @@ copyFileSync(join(root, 'docs', 'opening-plan.md'), join(releases, 'app', 'openi
 cpSync(join(root, 'docs', 'training'), join(releases, 'app', 'training'), { recursive: true });
 
 console.log(`\nKiosk app for ${target} written to ${join(releases, 'app')}`);
-console.log('KIOSK ONLY: it carries kiosk-only films. Never publish it.\n');
+console.log(withFilms
+  ? 'It carries the films.'
+  : 'It carries no films: on the display, choose the films folder in the admin panel (Films).');
+console.log(withFilms
+  ? 'KIOSK ONLY: it carries kiosk-only films. Never publish it.\n'
+  : 'KIOSK ONLY: it carries the films\' kiosk-only captions and transcripts. Never publish it.\n');

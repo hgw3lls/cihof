@@ -90,3 +90,8 @@ FILMS
   {{FILMS}}
   A film whose video file is missing shows its captions and transcript
   instead. MANIFEST.json lists any missing files by name.
+
+  The films can also live in a folder of their own, laid out as the
+  project's public/media/videos is (one folder per person): put it beside
+  launch.mjs as videos/, or start with node launch.mjs --videos=<folder>.
+  A film in that folder is played from there first.

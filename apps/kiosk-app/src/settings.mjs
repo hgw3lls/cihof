@@ -31,6 +31,8 @@ export const defaults = Object.freeze({
   motion: true,
   /** Dark, as designed, or light for a bright room. */
   theme: 'dark',
+  /** The folder the films are played from, when the release does not carry them; null for none. */
+  videosFolder: null,
 });
 
 export const themes = Object.freeze(['dark', 'light']);
@@ -82,7 +84,10 @@ export function exhibitAddress(origin, settings, extra = {}) {
 export function loadSettings(path) {
   try {
     const stored = JSON.parse(readFileSync(path, 'utf8'));
-    return { ...defaults, ...stored, lockout: { ...defaults.lockout, ...(stored.lockout ?? {}) }, ...attractSettings(stored) };
+    return {
+      ...defaults, ...stored, lockout: { ...defaults.lockout, ...(stored.lockout ?? {}) }, ...attractSettings(stored),
+      videosFolder: typeof stored.videosFolder === 'string' && stored.videosFolder ? stored.videosFolder : null,
+    };
   } catch {
     return { ...defaults, lockout: { ...defaults.lockout } };
   }

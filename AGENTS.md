@@ -3,7 +3,7 @@
 ## Surfaces
 
 - The kiosk is `apps/exhibit` (`@cihof/exhibit`). It is the only visitor surface.
-- `apps/review` (`@cihof/review`, `npm run review`) is the staff review app. It runs on one staff computer, answers only 127.0.0.1, fills in the same sheets a curator would and applies them with the same apply tools, then makes one local commit per kind of review with the reviewer's name. It never pushes, never decides anything the reviewer did not choose, and must never be exposed beyond that computer. The old portal is in git history at `c8f749c`, for reference only.
+- `apps/review` (`@cihof/review`, `npm run review`) is the staff review app. It runs on one staff computer, answers only 127.0.0.1, fills in the same sheets a curator would and applies them with the same apply tools, then makes one local commit per kind of review with the reviewer's name. It never pushes, never decides anything the reviewer did not choose, and must never be exposed beyond that computer. Installed as the CIHOF Staff Review app (`apps/review-app`, `npm run package:review-app`, outside the workspaces) it needs no git or project: it reads a data folder (`npm run review:data`), commits nothing, and exports the checked decisions as a file that `npm run review:import` saves through the same code, under the reviewer's name. The old portal is in git history at `c8f749c`, for reference only.
 - `apps/web` is the static QR companion, kept pending the QR decision in `plans/docs/CLEAN_APP_PLAN.md` §5.1.
 - `plans/` is an archive. Paths inside it describe the old layout. Do not implement from it without checking the current code.
 
@@ -22,7 +22,7 @@
 
 - Use Node 22 as pinned by `.nvmrc`.
 - `apps/exhibit` reads `CIHOF_TARGET` (`public` or `kiosk`). It is required under CI; an unrecognised value is always an error; absent locally it defaults to `kiosk` and says so.
-- `npm run build:kiosk` carries all 93 films. Never publish it. The same goes for `npm run package:kiosk`, which writes that build with its server to `release/` (git-ignored) for a display, and for `npm run package:kiosk-app`, the desktop app built from it (`apps/kiosk-app`, outside the workspaces).
+- `npm run build:kiosk` carries all 93 films. Never publish it. The same goes for `npm run package:kiosk`, which writes that build with its server to `release/` (git-ignored) for a display, and for `npm run package:kiosk-app`, the desktop app built from it (`apps/kiosk-app`, outside the workspaces). `package:kiosk-app` leaves the films out by default (the display plays them from a folder chosen in its admin panel) and still carries kiosk-only captions and transcripts, so it is never published either way; `--with-films` carries them all.
 - `npm run build:public` carries no films and runs `assert:public`, which inspects the built artifact. A failure means do not publish; it never means loosen the check.
 - `CIHOF_PREVIEW=all` (`dev:preview`, `build:preview`) shows unreviewed places and proposed ties, marked, for an editor. It changes no review state, is refused under CI and for the public target, and must never be published. Showing something in preview is not approving it.
 - Set `CIHOF_SITE_URL` only for a durable public address, never for a preview.

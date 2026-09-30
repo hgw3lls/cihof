@@ -114,6 +114,8 @@
         el('dt', {}, 'App'), el('dd', {}, `${state.app.version} · ${state.app.platform} · port ${state.settings.port}`),
       ),
 
+      filmsSection(state),
+
       el('h2', {}, 'Exhibit'),
       el('div', { class: 'row' },
         el('button', { type: 'button', onclick: act('home') }, 'Back to the start'),
@@ -150,6 +152,34 @@
       ),
       el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => changePasscode(state) }, 'Change passcode')),
     );
+  }
+
+  // Where the films are played from: inside the app, or a folder chosen here.
+  function filmsSection(state) {
+    const films = state.films ?? { total: 0, inFolder: 0, inApp: 0, missing: [], folder: null, folderFound: false };
+    const section = el('section', { 'aria-labelledby': 'filmsTitle' });
+    const draw = (current) => {
+      const playable = current.inFolder + current.inApp;
+      let summary;
+      if (current.total === 0) summary = 'This release has no films.';
+      else if (current.folder && !current.folderFound) summary = `The films folder cannot be reached: ${current.folder}. Is the drive connected?`;
+      else if (current.folder) summary = `${current.inFolder} of ${current.total} films are in the folder${current.inApp ? `, and ${current.inApp} more inside the app` : ''}.`;
+      else if (current.inApp === current.total) summary = `All ${current.total} films are inside the app.`;
+      else summary = `${current.inApp} of ${current.total} films are inside the app. Choose the folder that holds the films.`;
+      const missing = current.total - playable;
+      section.replaceChildren(
+        el('h2', { id: 'filmsTitle' }, 'Films'),
+        el('p', {}, summary),
+        ...(current.folder ? [el('p', { class: 'muted' }, current.folder)] : []),
+        ...(missing > 0 && current.total > 0 ? [el('p', { class: 'error' }, `${missing} ${missing === 1 ? 'film is' : 'films are'} not found, and show their captions and transcript instead${current.missing.length ? `: ${current.missing.slice(0, 3).join(', ')}${current.missing.length > 3 ? '…' : ''}` : ''}.`)] : []),
+        el('div', { class: 'row' },
+          el('button', { type: 'button', onclick: async () => draw((await api.chooseVideos()).films) }, current.folder ? 'Choose another folder…' : 'Choose the films folder…'),
+          ...(current.folder ? [el('button', { type: 'button', onclick: async () => draw((await api.clearVideos()).films) }, 'Stop using the folder')] : []),
+        ),
+      );
+    };
+    draw(films);
+    return section;
   }
 
   // What the display shows while nobody is using it. Choices are held here

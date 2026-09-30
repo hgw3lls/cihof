@@ -248,11 +248,11 @@ function Home({ review, draft, waiting, counts, onOpen }: {
 
       <section className="save-call">
         {waiting === 0
-          ? <p className="quiet">When you have made some decisions, you will save them here.</p>
+          ? <p className="quiet">When you have made some decisions, you will {review.mode === 'export' ? 'export' : 'save'} them here.</p>
           : (
             <>
-              <p><strong>{waiting} decision{waiting === 1 ? '' : 's'}</strong> ready to check and save.</p>
-              <button type="button" className="primary" onClick={() => onOpen('save')}>Check and save</button>
+              <p><strong>{waiting} decision{waiting === 1 ? '' : 's'}</strong> ready to check and {review.mode === 'export' ? 'export' : 'save'}.</p>
+              <button type="button" className="primary" onClick={() => onOpen('save')}>{review.mode === 'export' ? 'Check and export' : 'Check and save'}</button>
             </>
           )}
         {review.git.unpushed ? (
@@ -260,7 +260,9 @@ function Home({ review, draft, waiting, counts, onOpen }: {
             {review.git.unpushed} saved review{review.git.unpushed === 1 ? ' is' : 's are'} waiting for the developer to publish.
           </p>
         ) : null}
-        <p><button type="button" className="link" onClick={() => onOpen('history')}>History: who decided what, and when</button></p>
+        <p><button type="button" className="link" onClick={() => onOpen('history')}>
+          {review.mode === 'export' ? 'History: the decisions exported from this computer' : 'History: who decided what, and when'}
+        </button></p>
       </section>
     </main>
   );
