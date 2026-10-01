@@ -2,9 +2,10 @@ import { expect, test, type Page } from '@playwright/test';
 import { skipTutorial } from './visit.ts';
 
 /**
- * How this works: shown once to each visitor who comes in from the attract
- * screen, with Next, Start again and Stop on every step, armed again whenever
- * the visit ends, and there to ask for from the bar at any time.
+ * How this works: offered, never imposed, to each visitor who comes in from
+ * the attract screen, offered again whenever the visit ends, and there to ask
+ * for from the bar at any time. Once open, Next, Start again and Stop are on
+ * every step.
  */
 
 const tutorial = (page: Page) => page.locator('dialog.tutorial');
@@ -38,11 +39,14 @@ async function holdStill(page: Page) {
   await page.clock.setFixedTime(await page.evaluate(() => Date.now()));
 }
 
+/** Comes in from the attract screen and asks for the guide from the bar, as a visitor may at any time. */
 async function enterDisplay(page: Page) {
   await page.clock.install();
   await page.goto('.');
   await holdStill(page);
   await page.locator('[data-begin]').click();
+  await expect(tutorial(page)).toHaveCount(0);
+  await bar(page).getByRole('button', { name: 'How this works' }).click();
   await expect(tutorial(page)).toBeVisible();
 }
 
@@ -82,17 +86,6 @@ async function ringOn(page: Page, selector: string) {
     && Math.abs(ring!.width - key!.width) < 2 && Math.abs(ring!.height - key!.height) < 2;
 }
 
-test('leaving the attract screen opens How this works on its first step', async ({ page }) => {
-  await page.goto('.');
-  await expect(tutorial(page)).toHaveCount(0);
-  await page.locator('[data-begin]').click();
-  await expect(tutorial(page)).toBeVisible();
-  await expect(heading(page)).toHaveText('How to explore the Hall');
-  await expect(tutorial(page).locator('.tutorial__kicker')).toContainText(`1 of ${displaySteps.length}`);
-  await expect(tutorial(page).locator('.tutorial__body')).toContainText('3 ways in, along the bottom of the screen: People, Years and Connections');
-  await expect(heading(page)).toBeFocused();
-});
-
 test('the display walks every lens, a person\'s record, the films, the code to take home, and the bar', async ({ page }) => {
   await enterDisplay(page);
   const { titles, bodies } = await walk(page);
@@ -131,12 +124,12 @@ test('a step about something not on screen is shown unlit, never pointing at the
   await expect(tutorial(page).locator('.tutorial__layer')).not.toHaveAttribute('data-lit');
 });
 
-test('coming in by touching a face opens it over that person, and points at their story', async ({ page }) => {
+test('asked for over somebody chosen, it points at their story', async ({ page }) => {
   await page.clock.install();
   await page.goto('./?attract=stacked');
   await holdStill(page);
   await page.locator('.attract__face').nth(2).click();
-  await expect(tutorial(page)).toBeVisible();
+  await bar(page).getByRole('button', { name: 'How this works' }).click();
   await goTo(page, 'Their story');
   await expect.poll(() => ringOn(page, '.sheet[data-open] .sheet__story')).toBe(true);
   await skipTutorial(page);
@@ -191,9 +184,7 @@ test('Stop closes it from any step, and it does not come back during the visit',
 });
 
 test('a touch outside the panel lets it go, and so does Escape', async ({ page }) => {
-  await page.goto('.');
-  await page.locator('[data-begin]').click();
-  await expect(tutorial(page)).toBeVisible();
+  await enterDisplay(page);
   await page.mouse.click(8, 8);
   await expect(tutorial(page)).toHaveCount(0);
 
@@ -217,26 +208,134 @@ test('every key on the panel is one a finger can find', async ({ page }) => {
   }
 });
 
-test('Start over arms it again for the next visitor', async ({ page }) => {
+/**
+ * The offer. Coming in from the attract screen opens nothing: the visitor is
+ * offered the guide in one line of the masthead, which they can take, turn
+ * down, or simply ignore. These hold the page's clock where the offer must
+ * stay up long enough to look at; the test build retires it after a second.
+ */
+const invitation = (page: Page) => page.locator('.invitation');
+
+async function comeIn(page: Page, address = '.') {
+  await page.clock.install();
+  await page.goto(address);
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
+}
+
+test('coming in from the attract screen opens nothing over the wall, and offers How this works', async ({ page }) => {
+  await comeIn(page);
+  await expect(invitation(page)).toHaveCount(0);
+  await page.locator('[data-begin]').click();
+  await expect(page.locator('.lensbar')).toBeVisible();
+  await expect(tutorial(page)).toHaveCount(0);
+  await expect(invitation(page)).toContainText('New here?');
+  await expect(invitation(page).getByRole('button', { name: 'How this works' })).toBeVisible();
+  await expect(invitation(page).getByRole('button', { name: 'No thanks' })).toBeVisible();
+  // It stands in the masthead, clear of the wall, and its keys are full size.
+  const offer = (await invitation(page).boundingBox())!;
+  const wall = (await page.locator('.field').boundingBox())!;
+  expect(offer.y + offer.height <= wall.y + 1, 'above the wall, not over it').toBe(true);
+  for (const name of ['How this works', 'No thanks']) {
+    const height = await invitation(page).getByRole('button', { name }).evaluate((el) => el.getBoundingClientRect().height
+      / Number(getComputedStyle(document.documentElement).getPropertyValue('--stage-scale')));
+    expect(height, name).toBeGreaterThanOrEqual(48);
+  }
+});
+
+test('coming in by touching a face offers it too, beside that person\'s card', async ({ page }) => {
+  await comeIn(page, './?attract=stacked');
+  await page.locator('.attract__face').nth(2).click();
+  await expect(page.locator('.sheet[data-open]')).toHaveCount(1);
+  await expect(invitation(page)).toBeVisible();
+  await expect(tutorial(page)).toHaveCount(0);
+});
+
+test('the first touch anywhere else retires the offer, and still does what it was for', async ({ page }) => {
+  await comeIn(page);
+  await page.locator('[data-begin]').click();
+  await expect(invitation(page)).toBeVisible();
+  await page.locator('.tile').nth(4).click();
+  await expect(invitation(page)).toHaveCount(0);
+  await expect(page.locator('.sheet[data-open]')).toHaveCount(1);
+  await expect(page.locator('.masthead p')).toBeVisible();
+});
+
+test('No thanks retires the offer, and the key on the bar still opens the guide', async ({ page }) => {
+  await comeIn(page);
+  await page.locator('[data-begin]').click();
+  await invitation(page).getByRole('button', { name: 'No thanks' }).click();
+  await expect(invitation(page)).toHaveCount(0);
+  await expect(tutorial(page)).toHaveCount(0);
+  // Changing lens is not a new visit: the offer is made once.
+  await bar(page).getByRole('button', { name: /^Years/ }).click();
+  await bar(page).getByRole('button', { name: /^People/ }).click();
+  await expect(invitation(page)).toHaveCount(0);
+  await bar(page).getByRole('button', { name: 'How this works' }).click();
+  await expect(heading(page)).toHaveText('How to explore the Hall');
+});
+
+test('left alone, the offer retires by itself in the time the build sets, before the visit ends', async ({ page }) => {
   await page.goto('.');
   await page.locator('[data-begin]').click();
-  await skipTutorial(page);
+  await expect(invitation(page)).toBeVisible();
+  // VITE_CIHOF_INVITATION_MS is a second in the test build; the idle is longer.
+  await expect(invitation(page)).toHaveCount(0, { timeout: 2_000 });
+  await expect(page.locator('.attract')).toHaveCount(0);
+  await expect(tutorial(page)).toHaveCount(0);
+});
+
+test('taking the offer opens the whole guide on its first step, and hands focus to the bar when done', async ({ page }) => {
+  await comeIn(page);
+  await page.locator('[data-begin]').click();
+  await invitation(page).getByRole('button', { name: 'How this works' }).click();
+  await expect(invitation(page)).toHaveCount(0);
+  await expect(heading(page)).toHaveText('How to explore the Hall');
+  await expect(tutorial(page).locator('.tutorial__kicker')).toContainText(`1 of ${displaySteps.length}`);
+  await expect(tutorial(page).locator('.tutorial__body')).toContainText('3 ways in, along the bottom of the screen: People, Years and Connections');
+  await page.clock.resume();
+  await expect(heading(page)).toBeFocused();
+  await control(page, 'Next').click();
+  await expect(heading(page)).toHaveText('People');
+  await control(page, 'Stop').click();
+  await expect(tutorial(page)).toHaveCount(0);
+  // The offer that opened it has gone; the key on the bar that offers the same guide has the focus.
+  await expect(bar(page).getByRole('button', { name: 'How this works' })).toBeFocused();
+});
+
+test('Start over offers it again to the next visitor, though this one turned it down', async ({ page }) => {
+  await comeIn(page);
+  await page.locator('[data-begin]').click();
+  await invitation(page).getByRole('button', { name: 'No thanks' }).click();
   await page.getByRole('button', { name: 'Start over' }).click();
   await expect(page.locator('.attract')).toBeVisible();
   await page.locator('[data-begin]').click();
-  await expect(tutorial(page)).toBeVisible();
-  await expect(tutorial(page).locator('.tutorial__kicker')).toContainText('1 of');
+  await expect(invitation(page)).toBeVisible();
+  await expect(tutorial(page)).toHaveCount(0);
 });
 
-test('a visit that ends by itself arms it again too, and closes it if it was open', async ({ page }) => {
+test('a visit that ends by itself closes the guide if open, and the next visitor is offered it again', async ({ page }) => {
   await page.goto('.');
   await page.locator('[data-begin]').click();
+  await bar(page).getByRole('button', { name: 'How this works' }).click();
   await expect(tutorial(page)).toBeVisible();
   // Left alone with it open: the test build's short idle ends the visit.
   await expect(page.locator('.attract')).toBeVisible({ timeout: 10_000 });
   await expect(tutorial(page)).toHaveCount(0);
   await page.locator('[data-begin]').click();
-  await expect(tutorial(page)).toBeVisible();
+  await expect(invitation(page)).toBeVisible();
+  await expect(tutorial(page)).toHaveCount(0);
+});
+
+test('a reload is a new visitor: the attract screen, then the offer', async ({ page }) => {
+  await comeIn(page);
+  await page.locator('[data-begin]').click();
+  await invitation(page).getByRole('button', { name: 'No thanks' }).click();
+  await page.reload();
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
+  await expect(page.locator('.attract')).toBeVisible();
+  await page.locator('[data-begin]').click();
+  await expect(invitation(page)).toBeVisible();
+  await expect(tutorial(page)).toHaveCount(0);
 });
 
 test('How this works on the bar plays it again from the start, and returns to the bar', async ({ page }) => {
@@ -277,6 +376,12 @@ async function asPublished(page: Page, lenses: readonly string[], { tours }: { t
 test('a website does not interrupt a visitor who has just opened it, and offers it on the bar', async ({ page }) => {
   await asPublished(page, ['people', 'years', 'links']);
   await expect(page.locator('.attract')).toHaveCount(0);
+  await expect(tutorial(page)).toHaveCount(0);
+  // Nothing is offered unasked either, on opening the page or on reloading it.
+  await expect(page.locator('.invitation')).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('.tile').first()).toBeVisible();
+  await expect(page.locator('.invitation')).toHaveCount(0);
   await expect(tutorial(page)).toHaveCount(0);
   await bar(page).getByRole('button', { name: 'How this works' }).click();
   const { titles, bodies } = await walk(page);
@@ -328,4 +433,25 @@ test('the ring follows its control when the screen is turned or resized while it
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator('html')).toHaveAttribute('data-shape', 'phone');
   await expect.poll(fits, { timeout: 3000 }).toBe(true);
+});
+
+test('on a phone the offer fits its masthead, clear of the wall, with full-size keys', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await comeIn(page, './?fit=fill');
+  await page.locator('[data-begin]').click();
+  await expect(page.locator('html')).toHaveAttribute('data-shape', 'phone');
+  await expect(invitation(page)).toBeVisible();
+  const offer = (await invitation(page).boundingBox())!;
+  const head = (await page.locator('.masthead').boundingBox())!;
+  const wall = (await page.locator('.field').boundingBox())!;
+  expect(offer.y >= head.y && offer.y + offer.height <= head.y + head.height + 0.5, 'inside the masthead').toBe(true);
+  expect(offer.y + offer.height <= wall.y + 0.5, 'clear of the wall').toBe(true);
+  for (const name of ['How this works', 'No thanks']) {
+    const height = await invitation(page).getByRole('button', { name }).evaluate((el) => el.getBoundingClientRect().height
+      / Number(getComputedStyle(document.documentElement).getPropertyValue('--stage-scale')));
+    expect(height, name).toBeGreaterThanOrEqual(48);
+  }
+  // The title is back once the offer has gone.
+  await invitation(page).getByRole('button', { name: 'No thanks' }).click();
+  await expect(page.locator('.masthead h1')).toBeVisible();
 });

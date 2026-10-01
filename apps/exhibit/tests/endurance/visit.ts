@@ -88,19 +88,20 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     await page.locator('.lensbar').waitFor({ state: 'visible', timeout: step });
   });
 
-  // How this works greets every visitor. Some skip it, some read it through,
-  // some touch past it.
-  await attempt('get past How this works', async () => {
+  // How this works is offered to every visitor. Some ignore the offer, some
+  // turn it down, some ask for the guide and read it through.
+  await attempt('answer the offer of How this works', async () => {
     const tutorial = page.locator('dialog.tutorial');
-    await tutorial.waitFor({ state: 'visible', timeout: step });
-    if (index % 3 === 0) {
-      await tutorial.getByRole('button', { name: 'Stop' }).click({ timeout: step });
-    } else if (index % 3 === 1) {
+    if (index % 3 === 1) {
+      // The offer retires by itself in moments; turned down if it is still there.
+      const declined = page.locator('.invitation').getByRole('button', { name: 'No thanks' });
+      if (await declined.count() > 0) await declined.click({ timeout: step }).catch(() => undefined);
+      await page.locator('.invitation').waitFor({ state: 'detached', timeout: step });
+    } else if (index % 3 === 2) {
+      await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: 'How this works' }).click({ timeout: step });
       const next = tutorial.locator('.tutorial__next');
       while (await tutorial.count() > 0 && await next.textContent() !== 'Start exploring') await next.click({ timeout: step });
       await next.click({ timeout: step });
-    } else {
-      await page.mouse.click(8, 8);
     }
     await tutorial.waitFor({ state: 'detached', timeout: step });
   });

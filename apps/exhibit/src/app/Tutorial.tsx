@@ -3,8 +3,8 @@ import { Modal } from './Modal.tsx';
 import type { TutorialStep } from './tutorial.ts';
 
 /**
- * A walk round the controls, one at a time, for somebody who has just come in
- * from the attract screen, and for anybody who asks with How this works.
+ * A walk round the controls, one at a time, for anybody who asks for it: from
+ * the invitation a visitor is offered on coming in, or the key on the bar.
  *
  * It points at each control rather than describing where it is: the control
  * is lit and the rest of the display dimmed. Nothing in it moves on a timer;
@@ -69,6 +69,44 @@ export function Tutorial({ steps, motion, onClose }: {
         </div>
       </div>
     </Modal>
+  );
+}
+
+/**
+ * The offer of How this works, for somebody who has just come in from the
+ * attract screen. One line in the masthead, where the subtitle sits, so it
+ * covers none of the wall a visitor came to see.
+ *
+ * It asks nothing of anyone who ignores it. Their first touch anywhere else
+ * retires it, and so does being left alone for `retireMs` (config.ts); the key
+ * on the bar offers the same guide for the rest of the visit either way.
+ */
+export function TutorialInvitation({ retireMs, onOpen, onDismiss }: {
+  retireMs: number;
+  onOpen: () => void;
+  onDismiss: () => void;
+}) {
+  const root = useRef<HTMLDivElement>(null);
+  const dismiss = useRef(onDismiss);
+  dismiss.current = onDismiss;
+  useEffect(() => {
+    const timer = window.setTimeout(() => dismiss.current(), retireMs);
+    // Captured, so a touch on the wall still does what it was for as well.
+    const elsewhere = (event: PointerEvent) => {
+      if (!(event.target instanceof Node && root.current?.contains(event.target))) dismiss.current();
+    };
+    document.addEventListener('pointerdown', elsewhere, true);
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener('pointerdown', elsewhere, true);
+    };
+  }, [retireMs]);
+  return (
+    <div ref={root} className="invitation" role="status">
+      <span className="invitation__text">New here?</span>
+      <button type="button" className="invitation__open" aria-haspopup="dialog" onClick={onOpen}>How this works</button>
+      <button type="button" className="invitation__dismiss" onClick={onDismiss}>No thanks</button>
+    </div>
   );
 }
 
