@@ -62,10 +62,17 @@ type Box = { left: number; top: number; width: number; height: number };
  * Where the control a step is about sits on the screen, in screen pixels. The
  * dialog is drawn in the top layer, outside the scaled stage, so it reads the
  * box the browser measured rather than working it out from design pixels.
+ *
+ * Measured again whenever the stage may have moved it: a resize or a phone
+ * turned arrives before the stage is redrawn at its new size, so the stage's
+ * own record of its size and scale on the root element (Stage.tsx) is watched
+ * too, and the control itself, and each change is measured on the next frame,
+ * once the new layout is in place.
  */
 function useTargetBox(selector: string | null): Box | null {
   const [box, setBox] = useState<Box | null>(null);
   useLayoutEffect(() => {
+    let frame = 0;
     const measure = () => {
       const element = selector ? document.querySelector(selector) : null;
       const rect = element?.getBoundingClientRect();
@@ -73,9 +80,23 @@ function useTargetBox(selector: string | null): Box | null {
         ? { left: rect.left, top: rect.top, width: rect.width, height: rect.height }
         : null);
     };
+    const soon = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
     measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    window.addEventListener('resize', soon);
+    const stage = new MutationObserver(soon);
+    stage.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'data-shape'] });
+    const element = selector ? document.querySelector(selector) : null;
+    const resized = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(soon);
+    if (element) resized?.observe(element);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', soon);
+      stage.disconnect();
+      resized?.disconnect();
+    };
   }, [selector]);
   return box;
 }

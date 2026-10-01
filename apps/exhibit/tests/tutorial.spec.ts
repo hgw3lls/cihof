@@ -166,3 +166,22 @@ test('a lens its gate closed has no step', async ({ page }) => {
   // No Connections to save a thread in and no curated tour: Tour has nothing to show round yet.
   expect(await walk(page)).toEqual(['111 faces, one wall', 'Years', 'Search', 'Start over, or see this again']);
 });
+
+test('the ring follows its control when the screen is turned or resized while it is open', async ({ page }) => {
+  // The website takes the screen's shape: a phone turned upright rearranges the whole bar.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await asPublished(page, ['people', 'years', 'links']);
+  await bar(page).getByRole('button', { name: 'How this works' }).click();
+  await tutorial(page).getByRole('button', { name: 'Next' }).click();
+  await expect(tutorial(page).locator('.tutorial__title, h2').first()).toHaveText('Years');
+  const fits = async () => {
+    const ring = await tutorial(page).locator('.tutorial__ring').boundingBox();
+    const key = await page.locator('.lensbar__lens[data-lens="years"]').boundingBox();
+    return Boolean(ring && key) && Math.abs(ring!.x - key!.x) < 2 && Math.abs(ring!.y - key!.y) < 2
+      && Math.abs(ring!.width - key!.width) < 2 && Math.abs(ring!.height - key!.height) < 2;
+  };
+  await expect.poll(fits).toBe(true);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('html')).toHaveAttribute('data-shape', 'phone');
+  await expect.poll(fits, { timeout: 3000 }).toBe(true);
+});
