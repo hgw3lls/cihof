@@ -11,8 +11,24 @@ export async function begin(page: Page, address = '.') {
   // run into that, so these specs see the wall without its motion.
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(address);
-  await page.locator('[data-begin]').first().click();
+  await enter(page);
   await expect(page.locator('.tile').first()).toBeVisible();
+}
+
+/**
+ * Touches the call to action on an attract screen already showing. Every
+ * visitor who comes in is shown How this works first; these specs are about
+ * what comes after it, so they skip it, as a visitor may.
+ */
+export async function enter(page: Page) {
+  await page.locator('[data-begin]').first().click();
+  await skipTutorial(page);
+}
+
+export async function skipTutorial(page: Page) {
+  const tutorial = page.locator('dialog.tutorial');
+  await tutorial.getByRole('button', { name: 'Skip' }).click();
+  await expect(tutorial).toHaveCount(0);
 }
 
 /** Touches somebody's face on the wall, as a visitor would, and waits for their sheet. */
