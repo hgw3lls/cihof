@@ -27,6 +27,7 @@ import { tutorialSteps } from './tutorial.ts';
 import { ThemeSwitch } from './ThemeSwitch.tsx';
 import { applyTheme, readTheme, rememberTheme, type Theme } from './theme.ts';
 import { configuredTiming, isTestBuild } from './config.ts';
+import { normaliseTiming } from '../state/session.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
 import { Attract } from './Attract.tsx';
 import { Lockup } from './Lockup.tsx';
@@ -331,12 +332,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const steps = useMemo(() => tutorialSteps({
     lenses: offered,
     people: people.length,
+    classes: classes.length,
     peopleWithFilms: people.filter((person) => person.films.length > 0).length,
     places: places.length,
     tours: tours.length,
     share: Boolean(bundle.continuationBase),
     installed: bundle.target === 'kiosk',
-  }), [offered, people, places.length, tours.length, bundle.continuationBase, bundle.target]);
+    // As the session runs it, so the guide says what the display will do.
+    timing: normaliseTiming(configuredTiming, isTestBuild),
+  }), [offered, people, classes.length, places.length, tours.length, bundle.continuationBase, bundle.target]);
 
   return (
     <ShapeProvider shape={shape}>

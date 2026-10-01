@@ -94,7 +94,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     const tutorial = page.locator('dialog.tutorial');
     await tutorial.waitFor({ state: 'visible', timeout: step });
     if (index % 3 === 0) {
-      await tutorial.getByRole('button', { name: 'Skip' }).click({ timeout: step });
+      await tutorial.getByRole('button', { name: 'Stop' }).click({ timeout: step });
     } else if (index % 3 === 1) {
       const next = tutorial.locator('.tutorial__next');
       while (await tutorial.count() > 0 && await next.textContent() !== 'Start exploring') await next.click({ timeout: step });

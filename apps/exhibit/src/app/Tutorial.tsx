@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { Modal } from './Modal.tsx';
 import type { TutorialStep } from './tutorial.ts';
 
@@ -8,8 +8,10 @@ import type { TutorialStep } from './tutorial.ts';
  *
  * It points at each control rather than describing where it is: the control
  * is lit and the rest of the display dimmed. Nothing in it moves on a timer;
- * each step waits for the visitor. It never keeps anyone: Skip is on every
- * step, Escape closes it, and a touch anywhere outside the panel lets it go.
+ * each step waits for the visitor. It never keeps anyone. Every step has the
+ * same three ways on: Next skips to the following step, Start again goes back
+ * to the first, and Stop closes it; Escape and a touch anywhere outside the
+ * panel close it too.
  */
 export function Tutorial({ steps, motion, onClose }: {
   steps: readonly TutorialStep[];
@@ -21,6 +23,17 @@ export function Tutorial({ steps, motion, onClose }: {
   const step = steps[Math.min(at, steps.length - 1)]!;
   const last = at >= steps.length - 1;
   const lit = useTargetBox(step.target);
+  const panel = useRef<HTMLDivElement>(null);
+  const title = useRef<HTMLHeadingElement>(null);
+  // A key that goes away with the step it was on (Back, on the first) would
+  // drop focus to the page behind; the step's title takes it instead.
+  useEffect(() => {
+    if (!panel.current?.contains(document.activeElement)) title.current?.focus();
+  }, [at]);
+  const goTo = (next: number) => {
+    setAt(next);
+    if (next === 0) title.current?.focus();
+  };
 
   return (
     <Modal className="tutorial" labelledBy="tutorialTitle" onClose={onClose}>
@@ -38,18 +51,21 @@ export function Tutorial({ steps, motion, onClose }: {
             style={{ left: lit.left, top: lit.top, width: lit.width, height: lit.height } as CSSProperties}
           />
         )}
-        <div className="tutorial__panel" data-step={step.id}>
+        <div ref={panel} className="tutorial__panel" data-step={step.id}>
           <p className="tutorial__kicker">How this works · {at + 1} of {steps.length}</p>
-          <h2 id="tutorialTitle" data-autofocus tabIndex={-1}>{step.title}</h2>
+          <h2 ref={title} id="tutorialTitle" data-autofocus tabIndex={-1}>{step.title}</h2>
           <p className="tutorial__body" aria-live="polite">{step.body}</p>
           <div className="tutorial__actions">
-            {!last && <button type="button" className="tutorial__skip" onClick={onClose}>Skip</button>}
-            {at > 0 && <button type="button" onClick={() => setAt(at - 1)}>Back</button>}
-            <button type="button" className="tutorial__next" onClick={() => (last ? onClose() : setAt(at + 1))}>
+            <button type="button" className="tutorial__stop" onClick={onClose}>Stop</button>
+            <button type="button" className="tutorial__restart" disabled={at === 0} onClick={() => goTo(0)}>Start again</button>
+            <button type="button" className="tutorial__back" disabled={at === 0} onClick={() => goTo(at - 1)}>Back</button>
+            <button type="button" className="tutorial__next" onClick={() => (last ? onClose() : goTo(at + 1))}>
               {last ? 'Start exploring' : 'Next'}
             </button>
           </div>
-          <p className="tutorial__hint">Or touch anywhere outside this box to close it.</p>
+          <p className="tutorial__hint">
+            {last ? 'Or touch anywhere outside this box to close it.' : 'Next skips to the following step. Or touch anywhere outside this box to stop.'}
+          </p>
         </div>
       </div>
     </Modal>
