@@ -272,9 +272,12 @@ export const tourEditColumns = ['label', 'prompt', 'description', 'terms', 'them
  * An edit also fills the columns in `tourEditColumns`: the whole of the tour
  * as edited. Its contentVersion is the version the editing began from, so an
  * edit is refused, rather than laid over somebody else's, if the tour has
- * changed since. With targets it approves the tour as edited, for them; with
- * none it leaves it a draft for somebody to approve. `knownPersonIds` is who
- * may be put first or left out; without it, nobody may.
+ * changed since. Its targets must be given, as for an approval: `kiosk` or
+ * `kiosk,public-web` approve the tour as edited, for them; `none` leaves it a
+ * draft, shown nowhere, for somebody to approve. An edit with no targets is
+ * refused, never taken to mean `none`: that would take an approved tour off
+ * the displays without anybody choosing to. `knownPersonIds` is who may be put
+ * first or left out; without it, nobody may.
  */
 export function tourDecisions(csvText: string, stored: StoredTours = readTours(), knownPersonIds: ReadonlySet<string> = new Set()) {
   const parsed = parseRows(csvText.replace(/^\uFEFF/, ''));
@@ -305,9 +308,17 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
     let targets = { kiosk: false, publicWeb: false };
     if (decision === 'approve' || decision === 'edit') {
       const names = cell(cells, 'targets').split(',').map((name) => name.trim()).filter(Boolean);
-      const unknown = names.filter((name) => name !== 'kiosk' && name !== 'public-web');
-      if (unknown.length > 0) { errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both`); return; }
+      const leaving = decision === 'edit' && names.length === 1 && names[0] === 'none';
+      const unknown = leaving ? [] : names.filter((name) => name !== 'kiosk' && name !== 'public-web');
+      if (unknown.length > 0) {
+        errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both${decision === 'edit' ? ', or none alone to leave it a draft' : ''}`);
+        return;
+      }
       if (decision === 'approve' && names.length === 0) { errors.push(`line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`); return; }
+      if (decision === 'edit' && names.length === 0) {
+        errors.push(`line ${line}: an edit needs targets: kiosk or kiosk,public-web to approve the tour as edited, or none to leave it a draft for somebody to approve`);
+        return;
+      }
       targets = { kiosk: names.includes('kiosk'), publicWeb: names.includes('public-web') };
       if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to ${decision}`); return; }
       if (cell(cells, 'contentVersion') !== tourVersion(lens)) {

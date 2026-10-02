@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { canShowFiles, checkDecisions, exportDecisions, saveDecisions, showExportedFile, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
-import { tourStale } from './Tours.tsx';
+import { tourStale, tourUnchosen } from './Tours.tsx';
 import { filmTitleProblem } from './FilmTitles.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
@@ -55,6 +55,9 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
       .map(([id, value]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (${value.decision === 'edit'
         ? 'somebody else changed it after you began editing it; discard your changes and edit it again'
         : 'it changed after you approved it'})`),
+    // An edited tour says whether it is approved as edited or left for somebody else: never assumed.
+    ...Object.entries(draft.tours ?? {}).filter(([, value]) => tourUnchosen(value))
+      .map(([id]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (choose whether to approve your changes or leave them for somebody else)`),
     // An acceptance needs a name, and an answer where the sign-off asks a question; a clearing needs a reason.
     ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
       const item = review.signoffs.find((entry) => entry.id === id);
@@ -255,6 +258,7 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
     const where = value.decision === 'withdraw' ? null
       : value.audience === 'kiosk-and-web' ? 'the exhibit and the public website' : value.audience === 'kiosk' ? 'the exhibit' : null;
+    // An unchosen edit is listed as unfinished above and never saved.
     if (value.decision === 'edit') {
       const renamed = value.changes.label.trim() !== label ? `, renamed “${value.changes.label.trim()}”` : '';
       lines.push(`Tours: ${label}: edited${renamed}, ${where ? `and approved as edited for ${where}` : 'left for somebody else to approve'}`);

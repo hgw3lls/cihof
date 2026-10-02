@@ -76,7 +76,9 @@ function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; v
     ? { ...edit, audience }
     : { decision: 'approve', seenVersion: tour.contentVersion, audience, note: value?.note ?? '' });
   const keep = (changes: TourChanges) => {
-    // Kept fresh: an approval covers the edit the reviewer last saw, so it is chosen again.
+    // Kept, but not finished: whether it is approved, or left for somebody
+    // else, is chosen afterwards, and again after every edit, since an
+    // approval covers the edit the reviewer last saw.
     set({ decision: 'edit', seenVersion: edit?.seenVersion ?? tour.contentVersion, changes, audience: null, note: value?.note ?? '' });
     setEditing(false);
   };
@@ -139,7 +141,7 @@ function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; v
                 </>
               )}
               {edit && (
-                <Choice selected={edit.audience === null && !stale} onClick={() => set({ ...edit, audience: null })}
+                <Choice selected={edit.audience === 'nobody' && !stale} onClick={() => set({ ...edit, audience: 'nobody' })}
                   title="Leave it for somebody else to approve" body="The changes are saved, and the tour stays off the displays until it is approved." />
               )}
               {approved && !edit && (
@@ -162,7 +164,10 @@ function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; v
               </label>
             )}
             {value && !edit && <p><button type="button" className="link" onClick={() => set(undefined)}>Clear my answer</button></p>}
-            {value && !stale && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
+            {edit && edit.audience === null && !stale && (
+              <p className="todo" role="status">Choose one of these, so it is clear whether visitors may see the tour as edited. Until then your changes cannot be saved.</p>
+            )}
+            {value && !stale && !tourUnchosen(value) && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
           </>
         )}
     </article>
@@ -181,6 +186,11 @@ function useEditedPreview(tourId: string, changes: TourChanges | null): TourPrev
     // Asked again only when the edit itself changes, not each time it is rebuilt.
   }, [tourId, key]);
   return preview;
+}
+
+/** An edit kept without saying whether it is approved or left for somebody else. */
+export function tourUnchosen(value: TourDecision | undefined): boolean {
+  return value?.decision === 'edit' && value.audience === null;
 }
 
 /**

@@ -250,6 +250,9 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   const edited = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Art and Artists', exact: true }) });
   await expect(edited.getByText(/Your changes, not yet saved/)).toBeVisible();
   await expect(edited.locator('.tour__people li').first()).toContainText(moving);
+  // Kept, but not decided: nothing is chosen for the reviewer.
+  await expect(edited.getByText(/Choose one of these/)).toBeVisible();
+  await expect(edited.getByRole('button', { name: /^Leave it for somebody else to approve/ })).toHaveAttribute('aria-pressed', 'false');
   await edited.getByRole('button', { name: /^Leave it for somebody else to approve/ }).click();
   await expect(edited.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();

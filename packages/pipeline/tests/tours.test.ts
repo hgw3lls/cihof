@@ -132,9 +132,9 @@ test('an edit with targets rewrites the tour and approves it as edited, for them
   assert.deepEqual(publishedTours(people, 'public', { stored: next }), []);
 });
 
-test('an edit without targets leaves the tour a draft, shown nowhere, even if it was approved', () => {
+test('an edit with the target none leaves the tour a draft, shown nowhere, even if it was approved', () => {
   const changes = { ...tourChangesOf(lens), terms: [...lens.terms, 'newcomer'] };
-  const { decisions, errors } = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), changes }]), { lenses: [lens] }, known);
+  const { decisions, errors } = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), targets: 'none', changes }]), { lenses: [lens] }, known);
   assert.deepEqual(errors, []);
   const next = applyTourDecisions({ lenses: [lens] }, decisions, '2026-10-02T10:00:00.000Z');
   assert.equal(next.lenses?.[0]?.reviewStatus, 'draft');
@@ -145,13 +145,23 @@ test('an edit without targets leaves the tour a draft, shown nowhere, even if it
 
 test('an edit is refused over a tour that changed since it began, or when it changes nothing', () => {
   const changes = { ...tourChangesOf(lens), label: 'Elsewhere' };
-  const stale = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: 'tour-000000000000', changes }]), { lenses: [lens] }, known);
+  const stale = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: 'tour-000000000000', targets: 'none', changes }]), { lenses: [lens] }, known);
   assert.match(stale.errors[0]!, /changed since this edit began/);
-  const same = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), changes: tourChangesOf(lens) }]), { lenses: [lens] }, known);
+  const same = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), targets: 'none', changes: tourChangesOf(lens) }]), { lenses: [lens] }, known);
   assert.match(same.errors[0]!, /changes nothing/);
   // An old sheet without the edit columns cannot carry an edit.
-  const bare = tourDecisions(sheet(['helped-arrive', 'edit', tourVersion(lens), '', 'ref', '']), { lenses: [lens] }, known);
+  const bare = tourDecisions(sheet(['helped-arrive', 'edit', tourVersion(lens), 'none', 'ref', '']), { lenses: [lens] }, known);
   assert.match(bare.errors[0]!, /needs the column\(s\) label/);
+});
+
+test('an edit that does not say whether it is approved is refused, never taken off the displays by default', () => {
+  const changes = { ...tourChangesOf(lens), label: 'Elsewhere' };
+  const unchosen = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), changes }]), { lenses: [lens] }, known);
+  assert.equal(unchosen.decisions.length, 0);
+  assert.match(unchosen.errors[0]!, /an edit needs targets/);
+  assert.match(tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: tourVersion(lens), targets: 'kiosk,none', changes }]), { lenses: [lens] }, known).errors[0]!, /"none" is not a target/);
+  // none is a choice for an edit only; an approval still names who may see the tour.
+  assert.match(tourDecisions(sheet(['helped-arrive', 'approve', tourVersion(lens), 'none', 'ref', '']), { lenses: [lens] }).errors[0]!, /"none" is not a target/);
 });
 
 test('an edit says what is wrong with it, in the curator\'s terms', () => {

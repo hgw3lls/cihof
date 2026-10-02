@@ -20,7 +20,7 @@
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
  *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note }
  *                  | { decision: 'edit', seenVersion, changes: { label, prompt, description, terms, themes, pinnedPersonIds, excludedPersonIds, maxPortraits },
- *                      audience: 'kiosk' | 'kiosk-and-web' | null, note } },
+ *                      audience: 'kiosk' | 'kiosk-and-web' | 'nobody' | null, note } },
  *   }
  */
 
@@ -143,8 +143,10 @@ const tourTargets = { kiosk: 'kiosk', 'kiosk-and-web': 'kiosk,public-web' };
 
 /**
  * An edit carries the whole tour as edited, its lists separated by
- * semicolons, and the version the editing began from; its audience, when the
- * reviewer chose one, approves it as edited.
+ * semicolons, and the version the editing began from. Its audience approves
+ * it as edited; `nobody` is written as the target `none`, a draft for
+ * somebody else. An edit nobody chose for is written with no targets, which
+ * tours:apply refuses, so it can never take a tour off the displays unasked.
  */
 export function toursCsv(draft, day) {
   const reference = decisionReference('tours', day);
@@ -155,7 +157,7 @@ export function toursCsv(draft, day) {
       tourId,
       value.decision,
       value.decision === 'withdraw' ? '' : value.seenVersion ?? '',
-      value.decision === 'withdraw' ? '' : tourTargets[value.audience] ?? '',
+      value.decision === 'withdraw' ? '' : value.decision === 'edit' && value.audience === 'nobody' ? 'none' : tourTargets[value.audience] ?? '',
       reference,
       signedNote(value.note, draft.reviewer),
       ...edits.map((field) => {

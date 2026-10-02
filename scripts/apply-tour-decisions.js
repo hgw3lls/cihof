@@ -21,9 +21,10 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
  *             contentVersion is the version the editing began from, and its
  *             other columns (label, prompt, description, terms, themes,
  *             pinnedPersonIds, excludedPersonIds, maxPortraits; lists
- *             separated by semicolons) the whole tour as edited. With targets
- *             it approves the tour as edited, for them; without, it leaves it a
- *             draft, shown nowhere, for somebody to approve.
+ *             separated by semicolons) the whole tour as edited. Its targets
+ *             approve the tour as edited, for them, or are `none`, which
+ *             leaves it a draft, shown nowhere, for somebody to approve. An
+ *             edit with no targets is refused.
  *
  * Nothing
  * a visitor reads about a person changes, so nothing is recorded in the

@@ -123,8 +123,12 @@ export type TourChanges = {
 export type TourDecision =
   | { decision: 'approve'; seenVersion: string; audience: Audience; note?: string }
   | { decision: 'withdraw'; note?: string }
-  /** `seenVersion` is the tour the editing began from; an audience approves it as edited, none leaves it a draft. */
-  | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | null; note?: string };
+  /**
+   * `seenVersion` is the tour the editing began from. An audience approves it
+   * as edited; `nobody` leaves it a draft for somebody else to approve; null
+   * is not yet chosen, and the edit cannot be saved until it is.
+   */
+  | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string };
 
 /** A tour as an edit would leave it. */
 export type TourPreview = { contentVersion: string; changed: boolean; problems: string[]; people: TourPerson[] };

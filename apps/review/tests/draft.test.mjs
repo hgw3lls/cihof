@@ -37,11 +37,13 @@ test('a tour edit keeps only its own fields, and an audience only if it is one',
   writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', tours: {
     kept: { decision: 'edit', seenVersion: 'tour-abc', changes: { ...changes, smuggled: 'x' }, audience: 'everyone', note: 'Fine.' },
     approved: { decision: 'edit', seenVersion: 'tour-def', changes, audience: 'kiosk-and-web' },
+    left: { decision: 'edit', seenVersion: 'tour-jkl', changes, audience: 'nobody' },
     halfMade: { decision: 'edit', seenVersion: 'tour-ghi', changes: { label: 'Only a name' } },
     unversioned: { decision: 'edit', changes },
   } }));
   assert.deepEqual(readDraftFile(path).tours, {
     kept: { decision: 'edit', seenVersion: 'tour-abc', changes, audience: null, note: 'Fine.' },
     approved: { decision: 'edit', seenVersion: 'tour-def', changes, audience: 'kiosk-and-web', note: '' },
+    left: { decision: 'edit', seenVersion: 'tour-jkl', changes, audience: 'nobody', note: '' },
   });
 });

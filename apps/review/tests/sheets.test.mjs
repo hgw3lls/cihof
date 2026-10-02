@@ -154,19 +154,22 @@ test('a tour decision carries the version seen and the audience chosen when it a
   ]);
 });
 
-test('a tour edit carries the whole tour as edited, the version it began from, and an audience only if one was chosen', () => {
+test('a tour edit carries the whole tour as edited, the version it began from, and the choice made about it', () => {
   const changes = {
     label: 'Welcome Home', prompt: 'Newcomers', description: 'Who made newcomers, at home, in Cleveland.',
     terms: ['refugee', 'resettled'], themes: ['newcomer support'], pinnedPersonIds: ['a-2010', 'b-2012'], excludedPersonIds: ['c-2015'], maxPortraits: 24,
   };
   const sheet = rows(toursCsv({ reviewer: 'Jane Smith', tours: {
     'helped-arrive': { decision: 'edit', seenVersion: 'tour-abc', changes, audience: 'kiosk' },
-    'made-art': { decision: 'edit', seenVersion: 'tour-def', changes, audience: null, note: 'For Maria to look at.' },
+    'made-art': { decision: 'edit', seenVersion: 'tour-def', changes, audience: 'nobody', note: 'For Maria to look at.' },
+    'kept-cultures': { decision: 'edit', seenVersion: 'tour-ghi', changes, audience: null },
   } }, '2026-10-02'));
   const edited = { label: 'Welcome Home', prompt: 'Newcomers', description: 'Who made newcomers, at home, in Cleveland.', terms: 'refugee;resettled', themes: 'newcomer support', pinnedPersonIds: 'a-2010;b-2012', excludedPersonIds: 'c-2015', maxPortraits: '24' };
   assert.deepEqual(sheet, [
     { tourId: 'helped-arrive', decision: 'edit', contentVersion: 'tour-abc', targets: 'kiosk', decisionReference: 'tours-review-2026-10-02', note: 'Reviewed by Jane Smith in the staff review app.', ...edited },
-    { tourId: 'made-art', decision: 'edit', contentVersion: 'tour-def', targets: '', decisionReference: 'tours-review-2026-10-02', note: 'For Maria to look at. Reviewed by Jane Smith in the staff review app.', ...edited },
+    { tourId: 'made-art', decision: 'edit', contentVersion: 'tour-def', targets: 'none', decisionReference: 'tours-review-2026-10-02', note: 'For Maria to look at. Reviewed by Jane Smith in the staff review app.', ...edited },
+    // Not chosen: no targets, which tours:apply refuses.
+    { tourId: 'kept-cultures', decision: 'edit', contentVersion: 'tour-ghi', targets: '', decisionReference: 'tours-review-2026-10-02', note: 'Reviewed by Jane Smith in the staff review app.', ...edited },
   ]);
 });
 

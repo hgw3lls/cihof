@@ -168,7 +168,8 @@ function normaliseDraft(value) {
       if (value?.decision !== 'edit' || typeof value.seenVersion !== 'string') return [];
       const changes = tourChanges(value.changes);
       if (!changes) return [];
-      const audience = Object.hasOwn(audiences, value.audience) ? value.audience : null;
+      // Approved for an audience, left for somebody else, or not yet chosen.
+      const audience = Object.hasOwn(audiences, value.audience) || value.audience === 'nobody' ? value.audience : null;
       return [[tourId, { decision: 'edit', seenVersion: value.seenVersion, changes, audience, note: typeof value.note === 'string' ? value.note : '' }]];
     })),
     // A title approved, with its words, or a clearing.
