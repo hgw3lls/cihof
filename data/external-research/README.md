@@ -49,3 +49,9 @@ If a run records many `429` source errors from Wikipedia or Wikidata, rerun late
 ```sh
 npm run source:external-research -- --delay-ms=1500 --timeout-ms=8000
 ```
+
+Sources for one biography:
+
+`samuel-h-miller-2013-biography-sources.md` lists where each outside fact in
+Samuel H. Miller's rewritten biography was read, and what was left out. It is
+a record for whoever checks that biography, not something the pipeline reads.
