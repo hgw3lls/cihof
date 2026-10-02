@@ -93,9 +93,11 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
   await attempt('answer the offer of How this works', async () => {
     const tutorial = page.locator('dialog.tutorial');
     if (index % 3 === 1) {
-      // The offer retires by itself in moments; turned down if it is still there.
+      // The offer retires by itself in moments; turned down if it is still
+      // there. It can go between looking and touching, so the touch waits
+      // only briefly rather than a whole step for a key that has gone.
       const declined = page.locator('.invitation').getByRole('button', { name: 'No thanks' });
-      if (await declined.count() > 0) await declined.click({ timeout: step }).catch(() => undefined);
+      if (await declined.count() > 0) await declined.click({ timeout: 1_000 }).catch(() => undefined);
       await page.locator('.invitation').waitFor({ state: 'detached', timeout: step });
     } else if (index % 3 === 2) {
       await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: 'How this works' }).click({ timeout: step });
