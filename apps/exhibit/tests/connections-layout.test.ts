@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { defaultLayers, diagramLayout, layerCounts, layerOfTie, placesLayout, tieWording, type LayerId } from '../src/state/connections.ts';
+import { defaultLayers, diagramLayout, layerCounts, layerOfTie, placesLayout, spreadAt, tieWording, type LayerId } from '../src/state/connections.ts';
 import { field, homeView } from '../src/state/wall.ts';
 
 import { publishedBundle } from './bundle.ts';
@@ -59,8 +59,8 @@ test('a place at the centre rings the people a curator tied to it, and nobody el
 });
 
 test('by place: every place with people has its box, no two overlap, and the rest wait along the bottom', () => {
-  for (const width of [field.width, field.widthWithSheet]) {
-    const layout = placesLayout({ ...input, width, selectedId: null });
+  for (const [width, zoom] of [[field.width, 1], [field.widthWithSheet, 1], [field.width, 1.7], [field.width, 3]] as const) {
+    const layout = placesLayout({ ...input, width, selectedId: null, view: { zoom, pan: { x: 0, y: 0 } } });
     const boxes = layout.arcs.filter((arc) => arc.d.includes(' h')).map((arc) => {
       const [, x, y, w, h] = /M([\d.-]+) ([\d.-]+) h([\d.-]+) v([\d.-]+)/.exec(arc.d)!.map(Number);
       return { x: x!, y: y!, w: w!, h: h! };
@@ -70,7 +70,7 @@ test('by place: every place with people has its box, no two overlap, and the res
       for (let b = a + 1; b < boxes.length; b += 1) {
         const A = boxes[a]!;
         const B = boxes[b]!;
-        assert.ok(!(A.x < B.x + B.w && B.x < A.x + A.w && A.y < B.y + B.h && B.y < A.y + A.h), `places ${a} and ${b} overlap at ${width}`);
+        assert.ok(!(A.x < B.x + B.w && B.x < A.x + A.w && A.y < B.y + B.h && B.y < A.y + A.h), `places ${a} and ${b} overlap at ${width}, ${zoom}×`);
       }
     }
     for (const box of boxes) assert.ok(box.x >= 0 && box.x + box.w <= width && box.y >= 0, 'inside the field');
@@ -99,4 +99,24 @@ test('somebody chosen stays at the centre when every layer holding their ties is
   assert.equal(alone.subtitle, 'no tie in these layers');
   const nobody = diagramLayout({ ...input, on: none, focusId: null, placeId: null, view: homeView });
   assert.equal(nobody.subtitle, 'every layer is off · turn one on below');
+});
+
+test('zoomed in, a map spreads out: words and faces grow on the screen more slowly than the zoom, so they separate', () => {
+  assert.equal(spreadAt(0.5), 1);
+  assert.equal(spreadAt(1), 1);
+  assert.ok(spreadAt(2) > 1 && spreadAt(2) < 2);
+  const zoom = 2;
+  const view = { zoom, pan: { x: 0, y: 0 } };
+  const near = placesLayout({ ...input, selectedId: null, view });
+  const far = placesLayout({ ...input, selectedId: null });
+  const title = (layout: typeof far) => layout.labels.find((label) => label.chip)!;
+  assert.ok(title(near).size < title(far).size, 'smaller on the field');
+  assert.ok(title(near).size * zoom > title(far).size, 'larger on the screen');
+
+  const focusId = 'senator-george-voinovich-2010';
+  const close = diagramLayout({ ...input, focusId, placeId: null, view });
+  const whole = diagramLayout({ ...input, focusId, placeId: null, view: homeView });
+  const centreOf = (layout: typeof whole) => { const slot = layout.slots.get(focusId)!; return { x: slot.x + slot.size / 2, y: slot.y + slot.size / 2, size: slot.size }; };
+  assert.ok(Math.abs(centreOf(close).x - centreOf(whole).x) < 0.5 && Math.abs(centreOf(close).y - centreOf(whole).y) < 0.5, 'the centre stays where it was');
+  assert.ok(centreOf(close).size < centreOf(whole).size && centreOf(close).size * zoom > centreOf(whole).size);
 });

@@ -268,7 +268,7 @@ export function Wall({ people, layout: arrange, width, height = field.height, to
             onClick={(event) => { if (event.detail === 0) choose(marker.id); }}
             style={{ width: marker.size, height: marker.size, transform: `translate(${marker.x}px, ${marker.y}px)` }}
           >
-            <span style={{ fontSize: marker.focus ? 52 : 18, width: marker.focus ? 62 : 26, height: marker.focus ? 62 : 26 }}>{marker.count}</span>
+            <span style={{ fontSize: (marker.focus ? 52 : 18) * (marker.ink ?? 1), width: (marker.focus ? 62 : 26) * (marker.ink ?? 1), height: (marker.focus ? 62 : 26) * (marker.ink ?? 1) }}>{marker.count}</span>
           </button>
         ))}
         {people.map((person, index) => {
