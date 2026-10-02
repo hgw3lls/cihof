@@ -53,8 +53,9 @@ export type Text = { text: string; provenance: string };
 export type Profile = {
   id: string;
   name: string;
+  sortName: string;
   classYear: number | null;
-  portrait: { src: string; alt: string; shown: boolean; rights: string } | null;
+  portrait: { src: string; alt: string; shown: boolean; rights: string; focalPoint: string } | null;
   biography: Text | null;
   contribution: Text | null;
   context: Text | null;
@@ -64,7 +65,37 @@ export type Profile = {
   contentVersion: string;
   state: 'unreviewed' | 'approved' | 'changed-since-approval' | 'changes-requested';
   reviewNote: string;
+  /** Its editable parts as stored, which the profile editor starts from. Not on a preview. */
+  edit?: ProfileEdit;
 };
+
+/** What the profile editor changes: the words, tags and picture text a visitor sees. */
+export type ProfileEdit = {
+  name: string;
+  sortName: string;
+  communities: string[];
+  /** The honours. */
+  contributions: string[];
+  countries: string[];
+  honoredFor: string;
+  contextLine: string;
+  portraitAlt: string;
+  /** `center` (the face towards the top, as usual) or a position such as `50% 30%`. */
+  focalPoint: string;
+};
+
+/** A profile as an edit would leave it. */
+export type ProfilePreview = {
+  profile: Profile;
+  /** The computer's wording of both lines for the edited tags. */
+  composed: { honoredFor: string; contextLine: string };
+  problems: string[];
+  changed: boolean;
+};
+
+export async function previewProfile(id: string, edit: ProfileEdit): Promise<ProfilePreview> {
+  return request('/api/profiles/preview', { method: 'POST', body: JSON.stringify({ id, edit }) });
+}
 
 export type ProfileDecision = { decision: 'approve' | 'changes'; seenVersion: string; note?: string };
 
@@ -232,6 +263,8 @@ export type Draft = {
   placeTies: Record<string, { role: string; note?: string }>;
   bios: Record<string, { correctedText?: string; useSourceText?: boolean; note?: string }>;
   profiles: Record<string, ProfileDecision>;
+  /** `seenVersion` is the profile the editing began from. */
+  profileEdits?: Record<string, { seenVersion: string; edit: ProfileEdit; note?: string }>;
   attract: Record<string, AttractDecision>;
   tours: Record<string, TourDecision>;
   filmTitles: Record<string, FilmTitleDecision>;
@@ -240,7 +273,7 @@ export type Draft = {
   filmFixes: Record<string, FilmFix>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -251,6 +284,8 @@ export type Review = {
   kinds: Kind[];
   attract: AttractWords;
   tours: Tour[];
+  /** The communities, honours and countries already in use. */
+  profileTags: { communities: string[]; contributions: string[]; countries: string[] };
   /** Everyone a tour may visit. */
   tourPeople: TourPerson[];
   /** Where a new tour starts. */
@@ -266,6 +301,7 @@ export type Review = {
   limits: {
     label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number;
     tour: { label: number; prompt: number; description: number; term: number; terms: number; maxPortraits: number };
+    profile: { name: number; line: number; portraitAlt: number; tag: number; tags: number };
   };
   roles: Role[];
   draft: Draft;

@@ -44,6 +44,7 @@
     "bios:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-biography-decisions.js",
     "review:profiles": "node --experimental-strip-types --no-warnings=ExperimentalWarning packages/pipeline/scripts/profile-sheet.mjs",
     "profiles:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-profile-decisions.js",
+    "profiles:edit": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-profile-edits.js",
     "text:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-exhibit-text.js",
     "tours:apply": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/apply-tour-decisions.js",
     "class:template": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/add-induction-class.js template",

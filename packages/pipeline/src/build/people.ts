@@ -4,7 +4,7 @@ import {
 } from '@cihof/content';
 import { classifyComposed, composeContextLine, composeHonoredFor } from '../compose.ts';
 import { inducteeId } from '../identity.ts';
-import { curatedRosterFrom, readCuratedRoster } from '../sources/curated.ts';
+import { curatedRosterFrom, readCuratedRoster, type CuratedLine } from '../sources/curated.ts';
 import { portraitsFrom, readPortraits } from '../sources/media.ts';
 import { readRoster, rosterFrom } from '../sources/manifest.ts';
 import { readInductionCrosswalk } from '../sources/crosswalk.ts';
@@ -49,12 +49,16 @@ export function buildPeople(sources: PeopleSources = {}): PublishedPerson[] {
     const themes = record.approvedThemeTags;
     const communities = normalizeCommunityTags(record.approvedCommunityTags);
 
-    const contextKind = classifyComposed(
+    // A line a curator wrote in the profile editor is theirs while it still
+    // says what they wrote; otherwise it is the generator's, or cannot be told.
+    const contextByCurator = writtenBy(record.contextLineCurated, record.documentedContextLine);
+    const honoredByCurator = writtenBy(record.honoredForCurated, record.honoredForSummary);
+    const contextKind = contextByCurator ? 'curated' : classifyComposed(
       record.documentedContextLine,
       composeContextLine({ classYear, inductedBy: row.inductedBy, region: row.region, countryTags: countries, communityTags: communities }),
       'context',
     );
-    const honoredKind = classifyComposed(
+    const honoredKind = honoredByCurator ? 'curated' : classifyComposed(
       record.honoredForSummary,
       composeHonoredFor(themes, countries),
       'honoredFor',
@@ -69,8 +73,8 @@ export function buildPeople(sources: PeopleSources = {}): PublishedPerson[] {
       biography: record.bioTextOverride
         ? attributed(record.bioTextOverride, 'curated', 'cihof_curated_metadata.json#bioTextOverride')
         : attributed(normalizeBioText(row.bioText, name), 'source', 'cihof_kiosk_manifest.csv'),
-      contribution: attributed(record.honoredForSummary, honoredKind, 'generate-first-pass-content-decisions.js'),
-      context: attributed(record.documentedContextLine, contextKind, 'generate-first-pass-content-decisions.js'),
+      contribution: attributed(record.honoredForSummary, honoredKind, honoredByCurator ?? 'generate-first-pass-content-decisions.js'),
+      context: attributed(record.documentedContextLine, contextKind, contextByCurator ?? 'generate-first-pass-content-decisions.js'),
       communities: tags(communities),
       contributions: tags(themes),
       countries: tags(countries),
@@ -85,6 +89,11 @@ export function buildPeople(sources: PeopleSources = {}): PublishedPerson[] {
   }
 
   return people.sort((a, b) => a.sortName.localeCompare(b.sortName));
+}
+
+/** The decision a curator's words rest on, while the line is still exactly those words. */
+function writtenBy(line: CuratedLine | null, current: string): string | null {
+  return line && line.text === current.trim() ? line.decisionReference : null;
 }
 
 function tags(values: readonly string[]): TagSet {

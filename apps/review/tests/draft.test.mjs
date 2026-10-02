@@ -67,3 +67,14 @@ test('deleting a tour is kept only with the version the reviewer chose to delete
   } }));
   assert.deepEqual(readDraftFile(path).tours, { 'made-art': { decision: 'delete', seenVersion: 'tour-abc', note: 'Gone.' } });
 });
+
+test('a profile edit is kept only with its version and every field an edit has, and nothing more', () => {
+  const path = join(folder, 'profile-edit.json');
+  const edit = { name: 'A', sortName: 'A', communities: [], contributions: ['Education'], countries: [], honoredFor: '', contextLine: '', portraitAlt: '', focalPoint: 'center' };
+  writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', profileEdits: {
+    kept: { seenVersion: 'profile-abc', edit: { ...edit, approvalStatus: 'approved' }, note: 'Fine.' },
+    unversioned: { edit },
+    halfMade: { seenVersion: 'profile-def', edit: { name: 'Only a name' } },
+  } }));
+  assert.deepEqual(readDraftFile(path).profileEdits, { kept: { seenVersion: 'profile-abc', edit, note: 'Fine.' } });
+});

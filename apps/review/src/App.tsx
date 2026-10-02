@@ -65,7 +65,7 @@ export function App() {
   }
 
   const counts = {
-    profiles: Object.keys(draft.profiles).length,
+    profiles: Object.keys(draft.profiles).length + Object.keys(draft.profileEdits ?? {}).length,
     ties: Object.keys(draft.ties).length,
     places: Object.values(draft.places).filter((value) => value.approve).length + Object.keys(draft.placeTies).length,
     bios: Object.keys(draft.bios).length,

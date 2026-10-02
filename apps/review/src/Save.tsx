@@ -46,6 +46,12 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     // An approval covers the words the reviewer saw. A biography correction
     // for the same person would change them straight after, so the two cannot
     // be saved together: save the correction first, then approve.
+    // A profile edit names the profile as it began: one changed since by somebody else needs editing again,
+    // and a decision on the same profile in the same save would be about the profile before the edit.
+    ...Object.entries(draft.profileEdits ?? {}).filter(([id, value]) => review.profiles.find((profile) => profile.id === id)?.contentVersion !== value.seenVersion)
+      .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (it changed after you began editing it; discard your changes and edit it again)`),
+    ...Object.keys(draft.profileEdits ?? {}).filter((id) => draft.profiles[id])
+      .map((id) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (edited and decided together; clear the decision, save the edit, then decide)`),
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
@@ -234,6 +240,11 @@ function Details({ output, open = false }: { output: string; open?: boolean }) {
 
 function summary(review: Review, draft: Draft, tieName: (id: string) => string): string[] {
   const lines: string[] = [];
+  for (const [id, value] of Object.entries(draft.profileEdits ?? {})) {
+    const name = review.profiles.find((profile) => profile.id === id)?.name ?? id;
+    const renamed = value.edit.name.trim() !== name ? `, renamed “${value.edit.name.trim()}”` : '';
+    lines.push(`Profiles: ${name}: edited${renamed}; approve it after saving`);
+  }
   for (const [id, value] of Object.entries(draft.profiles)) {
     const name = review.profiles.find((profile) => profile.id === id)?.name ?? id;
     lines.push(`Profiles: ${name}: ${value.decision === 'approve' ? 'approved' : `changes needed (${value.note ?? ''})`}`);

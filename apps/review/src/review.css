@@ -259,3 +259,15 @@ button.danger { background: var(--problem); color: var(--on-accent); border-colo
 button.link--danger { color: var(--problem); }
 .tour--deleting { border-color: var(--problem); }
 .tour--deleting .place__name { text-decoration: line-through; }
+
+/* The profile editor: the form beside the profile as it would be. */
+.profile-editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.profile-editor__preview { position: sticky; top: 1rem; }
+.profile-editor__preview[aria-busy='true'] { opacity: 0.75; }
+.profile-editor__line { margin-bottom: 0.5rem; }
+.profile-editor__suggestion { margin: -0.4rem 0 0.6rem; padding: 0.5rem 0.7rem; border: 1px solid var(--suggestion-line); border-radius: var(--radius); background: var(--suggestion); }
+.profile-editor__focal { display: flex; align-items: center; gap: 1rem; }
+.profile-editor__crop { flex: none; width: 96px; height: 96px; border-radius: 50%; background: var(--line) no-repeat; background-size: cover; filter: grayscale(1); }
+.find-person { align-items: flex-end; gap: 0.6rem; margin: 0.5rem 0; }
+.find-person .field { margin: 0; }
+@media (max-width: 900px) { .profile-editor { grid-template-columns: 1fr; } .profile-editor__preview { position: static; } }

@@ -15,6 +15,8 @@
  *     placeTies: { ["placeId|personId"]: { role, note } },
  *     bios:      { [personId]: { correctedText } | { useSourceText: true }, note },
  *     profiles:  { [personId]: { decision: 'approve' | 'changes', seenVersion, note } },
+ *     profileEdits: { [personId]: { seenVersion, edit: { name, sortName, communities, contributions, countries,
+ *                                   honoredFor, contextLine, portraitAlt, focalPoint }, note } },
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
@@ -28,7 +30,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -99,6 +101,20 @@ export function profilesCsv(draft, day) {
     id, value.seenVersion ?? '', value.decision, reference, signedNote(value.note, draft.reviewer),
   ]);
   return csv(['id', 'contentVersion', 'decision', 'decisionReference', 'note'], rows);
+}
+
+/**
+ * Profile edits: the whole of each edited profile's editable parts, lists
+ * separated by semicolons, and the version the editing began from, which
+ * profiles:edit checks.
+ */
+export function profileEditsCsv(draft, day) {
+  const reference = decisionReference('profileEdits', day);
+  const rows = Object.entries(draft.profileEdits ?? {}).map(([id, { seenVersion, edit, note }]) => [
+    id, seenVersion ?? '', edit.name, edit.sortName, edit.communities.join(';'), edit.contributions.join(';'), edit.countries.join(';'),
+    edit.honoredFor, edit.contextLine, edit.portraitAlt, edit.focalPoint, reference, signedNote(note, draft.reviewer),
+  ]);
+  return csv(['id', 'contentVersion', 'name', 'sortName', 'communities', 'contributions', 'countries', 'honoredFor', 'contextLine', 'portraitAlt', 'focalPoint', 'decisionReference', 'note'], rows);
 }
 
 /**
@@ -237,6 +253,7 @@ export function draftCounts(draft) {
     placeTies: Object.keys(draft.placeTies ?? {}).length,
     bios: Object.keys(draft.bios ?? {}).length,
     profiles: Object.keys(draft.profiles ?? {}).length,
+    profileEdits: Object.keys(draft.profileEdits ?? {}).length,
     attract: Object.keys(draft.attract ?? {}).length,
     tours: Object.keys(draft.tours ?? {}).length,
     filmTitles: Object.keys(draft.filmTitles ?? {}).length,

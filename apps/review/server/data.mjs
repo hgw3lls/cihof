@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { buildBiographySheet } from '../../../packages/pipeline/src/build/biographies.ts';
 import { buildPeople } from '../../../packages/pipeline/src/build/people.ts';
 import { profileContentVersion, profileState, readPortraitChecksums, readProfileReviews } from '../../../packages/pipeline/src/build/profiles.ts';
+import { applyProfileEdits, composedLines, profileEditLimits, profileEditOf, profileEditProblems } from '../../../packages/pipeline/src/build/profile-edits.ts';
 import { buildPlaceReviewSheet, buildProposedTiesSheet, placeRoles, relationshipKinds } from '../../../packages/pipeline/src/build/review.ts';
 import { readCorpusConnections } from '../../../packages/pipeline/src/sources/corpus.ts';
 import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts';
@@ -150,33 +151,14 @@ export function loadReview() {
   // Each profile as a visitor sees it, with what a curator has said about it.
   const reviews = readProfileReviews();
   const checksums = readPortraitChecksums();
+  const curatedDocument = readCuratedDocument();
   const profiles = [...people]
     .sort((a, b) => (a.classYear ?? 0) - (b.classYear ?? 0) || a.sortName.localeCompare(b.sortName))
-    .map((person) => {
-      const contentVersion = profileContentVersion(person, checksums.get(person.id) ?? '');
-      const review = reviews.get(person.id);
-      return {
-        id: person.id,
-        name: person.name,
-        classYear: person.classYear,
-        portrait: person.portrait
-          ? { src: person.portrait.src, alt: person.portrait.alt, shown: person.portrait.rights === 'approved', rights: person.portrait.rights }
-          : null,
-        biography: person.biography ? { text: person.biography.text, provenance: person.biography.provenance } : null,
-        contribution: person.contribution ? { text: person.contribution.text, provenance: person.contribution.provenance } : null,
-        context: person.context ? { text: person.context.text, provenance: person.context.provenance } : null,
-        tags: {
-          contributions: person.contributions.values,
-          communities: person.communities.values,
-          countries: person.countries.values,
-        },
-        presentedBy: person.presentedBy?.recordedName ?? null,
-        sourceUrl: person.sourceUrl,
-        contentVersion,
-        state: profileState(review, contentVersion),
-        reviewNote: review?.note ?? '',
-      };
-    });
+    .map((person) => ({
+      ...profileSummary(person, checksums, reviews),
+      // Everything the profile editor starts from.
+      edit: profileEditOf(curatedDocument.inductees[person.id] ?? {}, person),
+    }));
 
   return {
     ties,
@@ -185,6 +167,8 @@ export function loadReview() {
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
+    // The communities, honours and countries already in use, offered as the profile editor's suggestions.
+    profileTags: profileTagsInUse(curatedDocument),
     tours: tours(people),
     // Everyone a tour may visit, for the tour editor to add.
     tourPeople: tourPool().published.map(tourPerson),
@@ -194,8 +178,67 @@ export function loadReview() {
     filmTitles: filmTitles(byId),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
-    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits },
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
+  };
+}
+
+/** A profile as the Profiles card shows it: what a visitor sees, its version, and where its review stands. */
+function profileSummary(person, checksums, reviews) {
+  const contentVersion = profileContentVersion(person, checksums.get(person.id) ?? '');
+  const review = reviews.get(person.id);
+  return {
+    id: person.id,
+    name: person.name,
+    sortName: person.sortName,
+    classYear: person.classYear,
+    portrait: person.portrait
+      ? { src: person.portrait.src, alt: person.portrait.alt, shown: person.portrait.rights === 'approved', rights: person.portrait.rights, focalPoint: person.portrait.focalPoint ?? 'center' }
+      : null,
+    biography: person.biography ? { text: person.biography.text, provenance: person.biography.provenance } : null,
+    contribution: person.contribution ? { text: person.contribution.text, provenance: person.contribution.provenance } : null,
+    context: person.context ? { text: person.context.text, provenance: person.context.provenance } : null,
+    tags: {
+      contributions: person.contributions.values,
+      communities: person.communities.values,
+      countries: person.countries.values,
+    },
+    presentedBy: person.presentedBy?.recordedName ?? null,
+    sourceUrl: person.sourceUrl,
+    contentVersion,
+    state: profileState(review, contentVersion),
+    reviewNote: review?.note ?? '',
+  };
+}
+
+function readCuratedDocument() {
+  return JSON.parse(readFileSync(dataFile('cihof_curated_metadata.json'), 'utf8'));
+}
+
+function profileTagsInUse(document) {
+  const inUse = (field) => [...new Set(Object.values(document.inductees ?? {}).flatMap((record) => (Array.isArray(record[field]) ? record[field] : [])))]
+    .filter((tag) => typeof tag === 'string').sort((a, b) => a.localeCompare(b));
+  return { communities: inUse('approvedCommunityTags'), contributions: inUse('approvedThemeTags'), countries: inUse('approvedCountryTags') };
+}
+
+/**
+ * A profile as an edit would leave it, built as a release would build it:
+ * what a visitor would see, the generator's wording of both lines for the
+ * edited tags, anything wrong with the edit, and the version it would have.
+ * Nothing is written. Null for somebody who is not in the collection.
+ */
+export function previewProfile(id, edit) {
+  const document = readCuratedDocument();
+  const person = buildPeople().find((each) => each.id === id);
+  if (!person || !document.inductees[id]) return null;
+  const composed = composedLines(id, edit);
+  const decision = { id, name: person.name, edit, composed, decisionReference: 'profile-edits-preview', note: '' };
+  const edited = buildPeople({ curated: applyProfileEdits(document, [decision], new Date().toISOString()) }).find((each) => each.id === id) ?? person;
+  return {
+    profile: profileSummary(edited, readPortraitChecksums(), readProfileReviews()),
+    composed,
+    problems: profileEditProblems(edit),
+    changed: JSON.stringify(edit) !== JSON.stringify(profileEditOf(document.inductees[id], person)),
   };
 }
 
