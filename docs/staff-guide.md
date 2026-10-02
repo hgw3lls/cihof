@@ -49,6 +49,30 @@ the next visitor meets the colours the admin panel chose. The public website
 starts in light colours and remembers a visitor's choice on their own phone
 or computer.
 
+**How this works.** A visitor who comes in from the attract screen is
+offered a guided walk round the controls, once, in the masthead where the
+subtitle usually sits: *New here?*, with **How this works** and **No
+thanks**. Nothing opens unless they ask. The offer goes by itself after 12
+seconds, or at their first touch anywhere else, and the next visitor is
+offered it again. The **How this works** key on the bar, beside **Start over**,
+opens the same walk at any time, on the display and on the public website; the website
+has no attract screen, so it makes no offer and has only the key.
+
+The walk goes in the order a visit does: the ways in, choosing somebody and
+what their story offers, each other way in, the keys on the bar, and how a
+visit ends. Each step lights the control it describes and dims the rest.
+Nothing in it moves on a timer, and every step has **Stop**, **Start again**,
+**Back** and **Next** (**Start exploring** on the last); a touch outside the
+box closes it too. It is built from what the release carries, so a way in or
+films the release does not have get no step, and its figures (how many
+people, classes, films and places) are counted from the release itself. Its
+words are the exhibit's own instructions rather than content about the
+inductees, so they need no curator approval; a change to them comes with a
+new release.
+
+The offer's 12 seconds is set when the release is built
+(`VITE_CIHOF_INVITATION_MS`); a release will not take less than 6 seconds.
+
 The display is always drawn at 1920 × 1080. The public website fills
 whatever screen it is opened on: a landscape screen gets the display's
 arrangement, stretched to the screen's shape, and a phone or tablet held
