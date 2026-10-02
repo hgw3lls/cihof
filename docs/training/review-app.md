@@ -156,6 +156,13 @@ or **leave it for somebody else to approve**. It cannot be saved until you
 have chosen. **Edit my new tour** changes it again; **Discard this new
 tour** throws it away.
 
+**Delete this tour**, at the foot of a tour, removes it altogether: off the
+exhibit and the website, and out of the tours here. The app asks once more
+before it marks the tour *To be deleted when you save*, and **Don’t delete
+it** changes your mind until you save. To keep a tour but stop visitors
+seeing it, take it off the displays instead; it can be approved again
+later.
+
 ### Film titles
 
 What each film is called in a person's list of films on the display.

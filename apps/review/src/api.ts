@@ -129,6 +129,8 @@ export type TourDecision =
    * is not yet chosen, and the edit cannot be saved until it is.
    */
   | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string }
+  /** Out of the records altogether; `seenVersion` is the tour the reviewer chose to delete. */
+  | { decision: 'delete'; seenVersion: string; note?: string }
   /** A new tour, kept under the name it was given when first kept; its audience as for an edit. */
   | { decision: 'create'; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string };
 

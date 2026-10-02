@@ -220,3 +220,22 @@ test('a new tour is named from its words, and never takes a name already in use'
   assert.equal(newTourId('Arts', new Set(['arts', 'arts-2'])), 'arts-3');
   assert.equal(newTourId('!!!', new Set()), 'tour');
 });
+
+test('a deleted tour is taken out of the records, off every display, and its name is free again', () => {
+  const stored = { lenses: [lens, { ...draft, id: 'other' }] };
+  const { decisions, errors } = tourDecisions(sheet(['helped-arrive', 'delete', tourVersion(lens), '', 'tours-review-2026-10-02', 'Replaced by another.']), stored, known);
+  assert.deepEqual(errors, []);
+  const next = applyTourDecisions(stored, decisions, '2026-10-02T10:00:00.000Z');
+  assert.deepEqual(next.lenses?.map((each) => each.id), ['other']);
+  assert.deepEqual(publishedTours(people, 'kiosk', { stored: next }), []);
+  // A new tour may take its name afterwards.
+  const again = tourDecisions(editSheet([{ tourId: 'helped-arrive', contentVersion: '', targets: 'none', decision: 'create', changes: fresh }]), next, known);
+  assert.deepEqual(again.errors, []);
+});
+
+test('a tour is not deleted unseen: one changed since, or one that is not there, is refused', () => {
+  const stored = { lenses: [lens] };
+  assert.match(tourDecisions(sheet(['helped-arrive', 'delete', 'tour-000000000000', '', 'ref', '']), stored).errors[0]!, /changed since it was chosen for deleting/);
+  assert.match(tourDecisions(sheet(['gone', 'delete', 'tour-000000000000', '', 'ref', '']), stored).errors[0]!, /no tour "gone"/);
+  assert.match(tourDecisions(sheet(['helped-arrive', 'delete', tourVersion(lens), '', '', '']), stored).errors[0]!, /decisionReference/);
+});

@@ -21,7 +21,8 @@
  *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note }
  *                  | { decision: 'edit', seenVersion, changes: { label, prompt, description, terms, themes, pinnedPersonIds, excludedPersonIds, maxPortraits },
  *                      audience: 'kiosk' | 'kiosk-and-web' | 'nobody' | null, note }
- *                  | { decision: 'create', changes, audience, note }, under the new tour's name },
+ *                  | { decision: 'create', changes, audience, note }, under the new tour's name
+ *                  | { decision: 'delete', seenVersion, note } },
  *   }
  */
 
