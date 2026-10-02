@@ -64,9 +64,20 @@ export function profileEditOf(record: RawRecord, person: Pick<PublishedPerson, '
   };
 }
 
-/** What is wrong with an edit, in words for the curator; empty when nothing is. */
-export function profileEditProblems(edit: ProfileEdit): string[] {
+/**
+ * What is wrong with an edit, in words for the curator; empty when nothing is.
+ * `stored` is the profile as it is now: a community it already has is left
+ * alone, but one added that the community list leaves out of what visitors
+ * see (normalizeCommunityTags) is refused, since it would never appear.
+ */
+export function profileEditProblems(edit: ProfileEdit, stored?: Pick<ProfileEdit, 'communities'>): string[] {
   const problems: string[] = [];
+  const had = new Set(stored?.communities ?? []);
+  for (const tag of edit.communities) {
+    if (!had.has(tag) && tag.trim() && normalizeCommunityTags([tag.trim()]).length === 0) {
+      problems.push(`"${tag.trim()}" is not shown to visitors among the communities; choose one that is.`);
+    }
+  }
   for (const [field, label] of [['name', 'The name'], ['sortName', 'The name as it is alphabetised']] as const) {
     const value = edit[field].trim();
     if (!value) problems.push(`${label} is empty.`);
@@ -168,7 +179,7 @@ export function profileEditDecisions(csvText: string, context: {
       portraitAlt: cell(cells, 'portraitAlt'),
       focalPoint: cell(cells, 'focalPoint') || 'center',
     };
-    const problems = profileEditProblems(edit);
+    const problems = profileEditProblems(edit, profileEditOf(record, person));
     if (problems.length > 0) { errors.push(...problems.map((problem) => `line ${line}: ${person.name}: ${problem}`)); return; }
     if (JSON.stringify(edit) === JSON.stringify(profileEditOf(record, person))) {
       errors.push(`line ${line}: the edit of ${person.name}'s profile changes nothing`);

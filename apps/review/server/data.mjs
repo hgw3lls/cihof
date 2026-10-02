@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { buildBiographySheet } from '../../../packages/pipeline/src/build/biographies.ts';
 import { buildPeople } from '../../../packages/pipeline/src/build/people.ts';
 import { profileContentVersion, profileState, readPortraitChecksums, readProfileReviews } from '../../../packages/pipeline/src/build/profiles.ts';
+import { normalizeCommunityTags } from '../../../packages/pipeline/src/text/biography.ts';
 import { applyProfileEdits, composedLines, profileEditLimits, profileEditOf, profileEditProblems } from '../../../packages/pipeline/src/build/profile-edits.ts';
 import { buildPlaceReviewSheet, buildProposedTiesSheet, placeRoles, relationshipKinds } from '../../../packages/pipeline/src/build/review.ts';
 import { readCorpusConnections } from '../../../packages/pipeline/src/sources/corpus.ts';
@@ -215,10 +216,20 @@ function readCuratedDocument() {
   return JSON.parse(readFileSync(dataFile('cihof_curated_metadata.json'), 'utf8'));
 }
 
+/**
+ * The tags already in use, as suggestions. Communities as visitors see them:
+ * the community list renames some and leaves others out, and a suggestion
+ * that never appears would only mislead.
+ */
 function profileTagsInUse(document) {
-  const inUse = (field) => [...new Set(Object.values(document.inductees ?? {}).flatMap((record) => (Array.isArray(record[field]) ? record[field] : [])))]
-    .filter((tag) => typeof tag === 'string').sort((a, b) => a.localeCompare(b));
-  return { communities: inUse('approvedCommunityTags'), contributions: inUse('approvedThemeTags'), countries: inUse('approvedCountryTags') };
+  const records = Object.values(document.inductees ?? {});
+  const tags = (record, field) => (Array.isArray(record[field]) ? record[field].filter((tag) => typeof tag === 'string') : []);
+  const inUse = (field, shown = (values) => values) => [...new Set(records.flatMap((record) => shown(tags(record, field))))].sort((a, b) => a.localeCompare(b));
+  return {
+    communities: inUse('approvedCommunityTags', normalizeCommunityTags),
+    contributions: inUse('approvedThemeTags'),
+    countries: inUse('approvedCountryTags'),
+  };
 }
 
 /**
@@ -237,7 +248,7 @@ export function previewProfile(id, edit) {
   return {
     profile: profileSummary(edited, readPortraitChecksums(), readProfileReviews()),
     composed,
-    problems: profileEditProblems(edit),
+    problems: profileEditProblems(edit, profileEditOf(document.inductees[id], person)),
     changed: JSON.stringify(edit) !== JSON.stringify(profileEditOf(document.inductees[id], person)),
   };
 }

@@ -80,3 +80,10 @@ test('an edit says what is wrong with it, in the curator\'s terms', () => {
   assert.match(problems({ focalPoint: 'top left' }), /not a place in the picture/);
   assert.equal(problems({ focalPoint: '50% 0%' }), '');
 });
+
+test('a community added that visitors would never see is refused; one the profile already has is left alone', () => {
+  // "African" is in the curated data, but the community list leaves it out of what visitors see.
+  assert.match(profileEditProblems({ ...current, communities: [...current.communities, 'African'] }, current).join(' '), /"African" is not shown to visitors/);
+  assert.equal(profileEditProblems({ ...current, communities: ['African'] }, { communities: ['African'] }).join(' '), '');
+  assert.equal(profileEditProblems({ ...current, communities: [...current.communities, 'European Heritage'] }, current).filter((problem) => /not shown/.test(problem)).length, 0);
+});
