@@ -14,6 +14,9 @@ test.beforeEach(async ({ page }) => { await page.emulateMedia({ reducedMotion: '
  */
 for (const mode of ['mosaic', 'names', 'stacked']) {
   test(`simulated visits from the ${mode} attract screen each end back on it`, async ({ page }) => {
+    // Six whole visits, two of them waiting for the display to give up on an
+    // idle visitor: about 25 s on a desk machine, and CI runs slower.
+    test.setTimeout(120_000);
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(`./?attract=${mode}`);

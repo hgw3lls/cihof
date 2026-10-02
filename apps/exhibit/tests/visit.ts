@@ -17,17 +17,17 @@ export async function begin(page: Page, address = '.') {
 
 /**
  * Touches the call to action on an attract screen already showing. Every
- * visitor who comes in is shown How this works first; these specs are about
- * what comes after it, so they skip it, as a visitor may.
+ * visitor who comes in is offered How this works in the masthead; these specs
+ * are about what comes after, so they ignore it, as a confident visitor does,
+ * and their first touch retires it.
  */
 export async function enter(page: Page) {
   await page.locator('[data-begin]').first().click();
-  await skipTutorial(page);
 }
 
 export async function skipTutorial(page: Page) {
   const tutorial = page.locator('dialog.tutorial');
-  await tutorial.getByRole('button', { name: 'Skip' }).click();
+  await tutorial.getByRole('button', { name: 'Stop' }).click();
   await expect(tutorial).toHaveCount(0);
 }
 

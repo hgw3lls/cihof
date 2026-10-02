@@ -105,14 +105,35 @@ for (const theme of ['dark', 'light'] as const) {
       expect(await scan(page)).toEqual([]);
     });
 
+    test('the offer of How this works, as a visitor comes in', async ({ page }) => {
+      // Held still, so neither the offer nor the visit times out mid-scan.
+      await page.clock.install();
+      await page.goto(`./?theme=${theme}`);
+      await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
+      await page.locator('[data-begin]').first().click();
+      await expect(page.locator('.invitation')).toBeVisible();
+      // The offer retires on a timer a second away in the test build. While the
+      // scan works the page's clock creeps on a millisecond at a time: enough
+      // for the scan's own short steps, nowhere near enough to retire the offer.
+      let scanning = true;
+      let crept = 0;
+      const scanned = scan(page).finally(() => { scanning = false; });
+      while (scanning && crept < 900) { await page.clock.runFor(1); crept += 1; await page.waitForTimeout(5); }
+      expect(await scanned).toEqual([]);
+      await expect(page.locator('.invitation')).toBeVisible();
+    });
+
     test('How this works, pointing at a key on the bar', async ({ page }) => {
       // Held still, so the test build's short idle does not end the visit mid-scan.
       await page.clock.install();
       await page.goto(`./?theme=${theme}`);
+      await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
       await page.locator('[data-begin]').first().click();
-      await page.clock.setFixedTime(await page.evaluate(() => Date.now()));
+      await page.locator('.invitation').getByRole('button', { name: 'How this works' }).click();
       await page.locator('dialog.tutorial .tutorial__next').click();
       await expect(page.locator('dialog.tutorial .tutorial__ring')).toBeVisible();
+      await page.clock.setFixedTime(await page.evaluate(() => Date.now()));
+      await page.clock.resume();
       expect(await scan(page)).toEqual([]);
     });
 

@@ -33,6 +33,8 @@ export default defineConfig({
       VITE_CIHOF_TEST_MODE: '1',
       VITE_CIHOF_IDLE_MS: '2500',
       VITE_CIHOF_WARNING_MS: '1200',
+      // Inside the idle, so a spec can watch the offer of How this works retire by itself.
+      VITE_CIHOF_INVITATION_MS: '1000',
     },
     url: baseURL,
     reuseExistingServer: !process.env.CI,

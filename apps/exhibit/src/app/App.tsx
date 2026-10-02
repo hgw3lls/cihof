@@ -22,11 +22,12 @@ import { Film } from './Film.tsx';
 import { Recovery } from './Recovery.tsx';
 import { Share } from './Share.tsx';
 import { SessionWarning } from './SessionWarning.tsx';
-import { Tutorial } from './Tutorial.tsx';
+import { Tutorial, TutorialInvitation } from './Tutorial.tsx';
 import { tutorialSteps } from './tutorial.ts';
 import { ThemeSwitch } from './ThemeSwitch.tsx';
 import { applyTheme, readTheme, rememberTheme, type Theme } from './theme.ts';
-import { configuredTiming, isTestBuild } from './config.ts';
+import { configuredTiming, invitationMs, isTestBuild } from './config.ts';
+import { normaliseTiming } from '../state/session.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
 import { Attract } from './Attract.tsx';
 import { Lockup } from './Lockup.tsx';
@@ -95,10 +96,12 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const [filmListOpen, setFilmListOpen] = useState(true);
   const [chooserOpen, setChooserOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  // How this works is shown once to each visitor who comes in from the attract
-  // screen. Every end of a visit arms it again for the next one.
+  // How this works opens only when somebody asks for it. Each visitor who comes
+  // in from the attract screen is offered it once, in a line they can ignore;
+  // every end of a visit arms that offer again for the next one.
   const [tutorialOpen, setTutorialOpen] = useState(false);
-  const tutorialDue = useRef(true);
+  const [inviting, setInviting] = useState(false);
+  const invitationDue = useRef(true);
   // The display is drawn at 1920 × 1080; the public site takes the screen's shape.
   const fit = useMemo(() => readFit(window.location.search, bundle.target), [bundle.target]);
   const shape = useMeasuredShape(fit);
@@ -156,7 +159,8 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     setChooserOpen(false);
     setEditingId(null);
     setTutorialOpen(false);
-    tutorialDue.current = true;
+    setInviting(false);
+    invitationDue.current = true;
     // Rotating shows a different attract screen each time the display goes idle.
     if (attractSettings.rotate) setAttractMode(nextAttractMode);
     // On the display a visitor's colours last for their visit; the next visitor
@@ -174,14 +178,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
   const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore');
 
-  // Leaving the attract screen begins a visit. A website has no attract screen
-  // and does not interrupt somebody who has only just opened it; its visitors
-  // ask for the tutorial when they want it.
+  // Leaving the attract screen begins a visit, and offers the guide without
+  // opening it. A website has no attract screen and offers nothing unasked;
+  // its key on the bar is there for whoever wants it.
   useEffect(() => {
-    if (state.home !== 'attract' || state.mode !== 'explore' || !tutorialDue.current) return;
-    tutorialDue.current = false;
-    setTutorialOpen(true);
+    if (state.home !== 'attract' || state.mode !== 'explore' || !invitationDue.current) return;
+    invitationDue.current = false;
+    setInviting(true);
   }, [state.home, state.mode]);
+  const openTutorial = () => { setInviting(false); setTutorialOpen(true); };
 
   // Search. The films' words are read the first time it opens.
   const [searched, setSearched] = useState(false);
@@ -331,12 +336,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const steps = useMemo(() => tutorialSteps({
     lenses: offered,
     people: people.length,
+    classes: classes.length,
     peopleWithFilms: people.filter((person) => person.films.length > 0).length,
     places: places.length,
     tours: tours.length,
     share: Boolean(bundle.continuationBase),
     installed: bundle.target === 'kiosk',
-  }), [offered, people, places.length, tours.length, bundle.continuationBase, bundle.target]);
+    // As the session runs it, so the guide says what the display will do.
+    timing: normaliseTiming(configuredTiming, isTestBuild),
+  }), [offered, people, classes.length, places.length, tours.length, bundle.continuationBase, bundle.target]);
 
   return (
     <ShapeProvider shape={shape}>
@@ -359,10 +367,12 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
               data-lens={state.lens}
               style={{ '--sheet-h': `${geometry.sheetHeight}px`, '--search-h': `${geometry.searchHeight}px` } as CSSProperties}
             >
-              <header className="masthead">
+              <header className={inviting ? 'masthead masthead--inviting' : 'masthead'}>
                 <Lockup />
                 <h1>{heading.title}</h1>
-                <p>{heading.subtitle}</p>
+                {inviting
+                  ? <TutorialInvitation retireMs={invitationMs} onOpen={openTutorial} onDismiss={() => setInviting(false)} />
+                  : <p>{heading.subtitle}</p>}
               </header>
 
               <main>
@@ -598,7 +608,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
                 />
                 {/* Two quiet keys stacked in one column, so neither takes width from a lens. */}
                 <span className="lensbar__aid">
-                  <button type="button" className="lensbar__help" aria-haspopup="dialog" onClick={() => setTutorialOpen(true)}>How this works</button>
+                  <button type="button" className="lensbar__help" aria-haspopup="dialog" onClick={openTutorial}>How this works</button>
                   <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
                 </span>
               </nav>
@@ -674,7 +684,18 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
       )}
 
       {tutorialOpen && state.mode === 'explore' && (
-        <Tutorial steps={steps} motion={attractSettings.motion} onClose={() => setTutorialOpen(false)} />
+        <Tutorial
+          steps={steps}
+          motion={attractSettings.motion}
+          onClose={() => {
+            setTutorialOpen(false);
+            // Opened from the invitation, which has gone: the key on the bar
+            // that offers the same guide takes the focus instead of the page.
+            window.requestAnimationFrame(() => {
+              if (document.activeElement === document.body) document.querySelector<HTMLElement>('.lensbar__help')?.focus();
+            });
+          }}
+        />
       )}
 
       {session.phase === 'warning' && (

@@ -218,6 +218,11 @@ button:active { filter: brightness(0.92); }
 
 .masthead { position: absolute; left: 0; right: 0; top: 0; height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 48px; }
 .masthead h1 { flex: 0 1 auto; min-width: 0; max-width: 1100px; margin: 0; overflow: hidden; font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; white-space: nowrap; text-overflow: ellipsis; }
+/* The offer of How this works, in the subtitle's place: one line, two full-size keys, nothing over the wall. */
+.invitation { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; font-size: 22px; }
+.invitation__text { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.invitation > button { min-height: max(var(--tap), 72px); padding: 0 28px; border: 2px solid var(--ink); background: transparent; color: var(--ink); font-size: 22px; font-weight: 600; white-space: nowrap; }
+.invitation > .invitation__open { border-color: var(--people); background: var(--people); color: var(--on-lens); }
 .masthead p { flex: 0 100 auto; min-width: 0; margin: 0; overflow: hidden; color: var(--muted); font-size: 20px; white-space: nowrap; text-overflow: ellipsis; text-align: right; }
 
 /* The field: the wall, and whatever each lens draws over it. Its size and top are the shell's (wall.ts). */
@@ -722,7 +727,11 @@ dialog.tutorial::backdrop { background: transparent; }
 .tutorial__body { margin: 0 0 calc(40 * var(--px)); color: var(--ink-soft); font-size: calc(30 * var(--px)); line-height: 1.3; text-wrap: pretty; }
 .tutorial__actions { display: flex; flex-wrap: wrap; gap: calc(16 * var(--px)); }
 .tutorial__actions button { flex: 1; min-height: max(var(--tap), calc(96 * var(--px))); padding: 0 calc(32 * var(--px)); border: 2px solid var(--ink); background: transparent; font-size: calc(34 * var(--px)); font-weight: 600; letter-spacing: -0.03em; }
-.tutorial__actions .tutorial__next { border-color: var(--people); background: var(--people); color: var(--on-lens); }
+/* Each label on one line: on a narrow panel the row wraps, never the word. */
+.tutorial__actions button { flex: 1 0 auto; white-space: nowrap; }
+.tutorial__actions .tutorial__next { flex: 2 0 auto; border-color: var(--people); background: var(--people); color: var(--on-lens); }
+/* Back and Start again keep their place on the first step, so no key moves under a finger. */
+.tutorial__actions button:disabled { opacity: 0.3; }
 .tutorial__hint { margin: calc(24 * var(--px)) 0 0; color: var(--muted); font-size: calc(22 * var(--px)); }
 
 /* Operator recovery. Plain, dense and readable over someone's shoulder. */
@@ -762,6 +771,11 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 :root[data-shape='phone'] .masthead .lockup { align-self: center; }
 :root[data-shape='phone'] .masthead h1 { max-width: none; font-size: 32px; line-height: 40px; }
 :root[data-shape='phone'] .masthead p { font-size: 16px; line-height: 22px; text-align: left; }
+/* A phone's masthead is three short rows: the offer takes the title's and the
+   subtitle's together, full-size keys and all, and the title waits until it goes. */
+:root[data-shape='phone'] .masthead--inviting h1 { display: none; }
+:root[data-shape='phone'] .invitation { grid-row: 2 / 4; align-self: center; gap: 8px; font-size: 16px; }
+:root[data-shape='phone'] .invitation > button { min-height: var(--tap); padding: 0 14px; font-size: 16px; }
 
 :root[data-shape='phone'] .field { left: 16px; }
 :root[data-shape='phone'] .rail { width: 40px; }
