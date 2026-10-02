@@ -202,15 +202,14 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           pending={counts.attract}
           onOpen={() => onOpen('attract')}
         />
-        {review.tours.length > 0 && (
-          <Card
-            title="Tours"
-            body="The curated tours a visitor can choose. Check each one's words and the people it visits, and approve it for visitors."
-            progress={{ done: review.tours.filter((tour) => tour.state === 'approved').length, total: review.tours.length }}
-            pending={counts.tours}
-            onOpen={() => onOpen('tours')}
-          />
-        )}
+        {/* Always offered, even with no tours: it is where a new one is started. */}
+        <Card
+          title="Tours"
+          body="The curated tours a visitor can choose. Check each one's words and the people it visits, approve it for visitors, edit it, or start a new one."
+          progress={{ done: review.tours.filter((tour) => tour.state === 'approved').length, total: review.tours.length }}
+          pending={counts.tours}
+          onOpen={() => onOpen('tours')}
+        />
         {review.filmTitles.length > 0 && (
           <Card
             title="Film titles"

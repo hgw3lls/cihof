@@ -65,3 +65,20 @@ export function withWord(list: readonly string[], word: string): string[] {
 export function sameChanges(a: TourChanges, b: TourChanges): boolean {
   return JSON.stringify(a) === JSON.stringify(b);
 }
+
+/**
+ * A name for a new tour, from the words it is called by, as the pipeline's
+ * newTourId makes it: lowercase, hyphened, and different from every name in
+ * `taken`. tours:apply checks it again.
+ */
+export function newTourId(label: string, taken: ReadonlySet<string>): string {
+  const base = label.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '').replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '').slice(0, 50).replace(/-+$/, '') || 'tour';
+  if (!taken.has(base)) return base;
+  for (let n = 2; ; n += 1) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`;
+}
+
+/** A tour with nobody put in it and nothing to choose anybody by, as the pipeline's choosesNobody: a new one may not be made so. */
+export function choosesNobody(changes: Pick<TourChanges, 'terms' | 'themes' | 'pinnedPersonIds'>): boolean {
+  return changes.terms.length === 0 && changes.themes.length === 0 && changes.pinnedPersonIds.length === 0;
+}

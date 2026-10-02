@@ -147,6 +147,15 @@ the website), or **leave it for somebody else to approve**. Either way the
 changes are saved with your other decisions, and until it is approved as
 edited the tour stays off the displays.
 
+**Start a new tour** opens the same editor on an empty tour. Give it a name,
+the line above it and a few words about it; add the people it should visit,
+or words and honours to choose them by, or both. **Keep these changes**, and
+it waits at the top of the card, marked *A new tour, not yet saved*, until
+you choose: **approve it** for the exhibit (or the exhibit and the website),
+or **leave it for somebody else to approve**. It cannot be saved until you
+have chosen. **Edit my new tour** changes it again; **Discard this new
+tour** throws it away.
+
 ### Film titles
 
 What each film is called in a person's list of films on the display.

@@ -47,3 +47,14 @@ test('a tour edit keeps only its own fields, and an audience only if it is one',
     left: { decision: 'edit', seenVersion: 'tour-jkl', changes, audience: 'nobody', note: '' },
   });
 });
+
+test('a new tour is kept only under a name a tour can have, with its own fields', () => {
+  const path = join(folder, 'tour-create.json');
+  const changes = { label: 'Painters', prompt: 'P', description: 'D', terms: ['painter'], themes: [], pinnedPersonIds: [], excludedPersonIds: [], maxPortraits: 48 };
+  writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', tours: {
+    painters: { decision: 'create', changes, audience: 'nobody', seenVersion: 'ignored' },
+    'Not A Name': { decision: 'create', changes, audience: 'kiosk' },
+    blank: { decision: 'create', changes: { label: 'Only a name' } },
+  } }));
+  assert.deepEqual(readDraftFile(path).tours, { painters: { decision: 'create', changes, audience: 'nobody', note: '' } });
+});

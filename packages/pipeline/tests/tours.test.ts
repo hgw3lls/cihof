@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { applyTourDecisions, editedLens, publishedTours, readTours, tourChangesOf, tourChangesProblems, tourDecisions, tourEditColumns, tourPeople, tourPublished, tourVersion, type TourChanges } from '../src/build/tours.ts';
+import { applyTourDecisions, blankTourChanges, editedLens, newTourId, publishedTours, readTours, tourChangesOf, tourChangesProblems, tourDecisions, tourEditColumns, tourPeople, tourPublished, tourVersion, type TourChanges } from '../src/build/tours.ts';
 
 const person = (id: string, sortName: string, biography: string, contributions: string[] = []) => ({ id, sortName, biography, contributions });
 const people = [
@@ -107,12 +107,12 @@ test('the display and the website are decided apart', () => {
   assert.deepEqual(withdrawn.lenses?.[0]?.publication, { kiosk: false, publicWeb: false });
 });
 
-const editSheet = (rows: { tourId: string; contentVersion: string; targets?: string; changes: TourChanges }[]) => {
+const editSheet = (rows: { tourId: string; contentVersion: string; targets?: string; changes: TourChanges; decision?: string }[]) => {
   const quote = (cell: string) => (/[",\n]/.test(cell) ? `"${cell.replace(/"/g, '""')}"` : cell);
   return [
     ['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note', ...tourEditColumns].join(','),
-    ...rows.map(({ tourId, contentVersion, targets = '', changes }) => [
-      tourId, 'edit', contentVersion, targets, 'tours-review-2026-10-02', 'Edited.',
+    ...rows.map(({ tourId, contentVersion, targets = '', changes, decision = 'edit' }) => [
+      tourId, decision, contentVersion, targets, 'tours-review-2026-10-02', 'Edited.',
       changes.label, changes.prompt, changes.description, changes.terms.join(';'), changes.themes.join(';'),
       changes.pinnedPersonIds.join(';'), changes.excludedPersonIds.join(';'), String(changes.maxPortraits),
     ].map(quote).join(',')),
@@ -177,4 +177,46 @@ test('an edit says what is wrong with it, in the curator\'s terms', () => {
   assert.match(problems({ maxPortraits: 0 }), /At most 1 to/);
   // Without knowing who is in the collection, nobody may be named.
   assert.match(tourChangesProblems({ ...base, pinnedPersonIds: ['a'] }, new Set()).join(' '), /nobody "a"/);
+});
+
+const fresh: TourChanges = { ...blankTourChanges, label: 'Painters', prompt: 'The arts', description: 'Who painted the city.', themes: ['newcomer support'], pinnedPersonIds: ['c'] };
+
+test('a new tour is added after the others, approved as written for the targets it names', () => {
+  const { decisions, errors } = tourDecisions(editSheet([{ tourId: 'painters', contentVersion: '', targets: 'kiosk', decision: 'create', changes: fresh }]), { lenses: [lens] }, known);
+  assert.deepEqual(errors, []);
+  const next = applyTourDecisions({ lenses: [lens] }, decisions, '2026-10-02T10:00:00.000Z');
+  assert.deepEqual(next.lenses?.map((each) => each.id), ['helped-arrive', 'painters']);
+  const tours = publishedTours(people, 'kiosk', { stored: next });
+  assert.deepEqual(tours.map((tour) => [tour.id, tour.label]), [['helped-arrive', 'Newcomer Support'], ['painters', 'Painters']]);
+  assert.deepEqual(tours[1]?.personIds, ['c', 'b']);
+  assert.deepEqual(publishedTours(people, 'public', { stored: next }), []);
+  assert.equal(next.lenses?.[1]?.enabled, true);
+});
+
+test('a new tour left for somebody else is a draft, shown nowhere until it is approved', () => {
+  const { decisions } = tourDecisions(editSheet([{ tourId: 'painters', contentVersion: '', targets: 'none', decision: 'create', changes: fresh }]), { lenses: [] }, known);
+  const next = applyTourDecisions({ lenses: [] }, decisions, '2026-10-02T10:00:00.000Z');
+  assert.equal(next.lenses?.[0]?.reviewStatus, 'draft');
+  assert.deepEqual(publishedTours(people, 'kiosk', { stored: next }), []);
+  // Approved later, as it is.
+  const approved = tourDecisions(sheet(['painters', 'approve', tourVersion(next.lenses![0]!), 'kiosk', 'ref', '']), next, known);
+  assert.deepEqual(approved.errors, []);
+  assert.deepEqual(publishedTours(people, 'kiosk', { stored: applyTourDecisions(next, approved.decisions, '2026-10-03T10:00:00.000Z') }).map((tour) => tour.id), ['painters']);
+});
+
+test('a new tour is refused under a name already taken, a name that cannot be one, without a choice, or with nobody to choose', () => {
+  const refused = (tourId: string, changes: TourChanges, targets = 'kiosk') =>
+    tourDecisions(editSheet([{ tourId, contentVersion: '', targets, decision: 'create', changes }]), { lenses: [lens] }, known).errors[0] ?? '';
+  assert.match(refused('helped-arrive', fresh), /already a tour "helped-arrive"/);
+  assert.match(refused('Painters!', fresh), /cannot name a tour/);
+  assert.match(refused('painters', fresh, ''), /a new tour needs targets/);
+  assert.match(refused('painters', { ...fresh, themes: [], pinnedPersonIds: [] }), /nobody in it/);
+  assert.match(refused('painters', { ...fresh, label: '' }), /The name is empty/);
+});
+
+test('a new tour is named from its words, and never takes a name already in use', () => {
+  assert.equal(newTourId('Care + Health', new Set()), 'care-health');
+  assert.equal(newTourId('Ōtautahi Artists', new Set()), 'otautahi-artists');
+  assert.equal(newTourId('Arts', new Set(['arts', 'arts-2'])), 'arts-3');
+  assert.equal(newTourId('!!!', new Set()), 'tour');
 });

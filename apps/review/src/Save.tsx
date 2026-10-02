@@ -3,6 +3,7 @@ import { canShowFiles, checkDecisions, exportDecisions, saveDecisions, showExpor
 import { isComplete } from './Connections.tsx';
 import { wordingProblem } from './AttractWords.tsx';
 import { tourStale, tourUnchosen } from './Tours.tsx';
+import { choosesNobody } from './tour-edit.ts';
 import { filmTitleProblem } from './FilmTitles.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
@@ -57,7 +58,15 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
         : 'it changed after you approved it'})`),
     // An edited tour says whether it is approved as edited or left for somebody else: never assumed.
     ...Object.entries(draft.tours ?? {}).filter(([, value]) => tourUnchosen(value))
-      .map(([id]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (choose whether to approve your changes or leave them for somebody else)`),
+      .map(([id, value]) => (value.decision === 'create'
+        ? `the new tour "${value.changes.label.trim() || id}" (choose whether to approve it or leave it for somebody else)`
+        : `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (choose whether to approve your changes or leave them for somebody else)`)),
+    // A new tour needs somebody in it, or something to choose them by; tours:apply refuses it otherwise.
+    ...Object.entries(draft.tours ?? {}).filter(([, value]) => value.decision === 'create' && choosesNobody(value.changes))
+      .map(([id, value]) => `the new tour "${value.decision === 'create' ? value.changes.label.trim() || id : id}" (put somebody in it, or words or honours to choose people by)`),
+    // A new tour whose name somebody else's tour has taken since.
+    ...Object.entries(draft.tours ?? {}).filter(([id, value]) => value.decision === 'create' && review.tourIds.includes(id))
+      .map(([id]) => `the new tour "${id}" (a tour by that name was saved since; discard yours and start again)`),
     // An acceptance needs a name, and an answer where the sign-off asks a question; a clearing needs a reason.
     ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
       const item = review.signoffs.find((entry) => entry.id === id);
@@ -255,11 +264,13 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.decision === 'approve' ? `Film titles: ${whose}: “${value.title.trim()}”` : `Film titles: ${whose}: title taken away`);
   }
   for (const [id, value] of Object.entries(draft.tours ?? {})) {
-    const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
+    const label = value.decision === 'create' ? value.changes.label.trim() || id : review.tours.find((tour) => tour.tourId === id)?.label ?? id;
     const where = value.decision === 'withdraw' ? null
       : value.audience === 'kiosk-and-web' ? 'the exhibit and the public website' : value.audience === 'kiosk' ? 'the exhibit' : null;
     // An unchosen edit is listed as unfinished above and never saved.
-    if (value.decision === 'edit') {
+    if (value.decision === 'create') {
+      lines.push(`Tours: a new tour, “${label}”, ${where ? `approved for ${where}` : 'left for somebody else to approve'}`);
+    } else if (value.decision === 'edit') {
       const renamed = value.changes.label.trim() !== label ? `, renamed “${value.changes.label.trim()}”` : '';
       lines.push(`Tours: ${label}: edited${renamed}, ${where ? `and approved as edited for ${where}` : 'left for somebody else to approve'}`);
     } else {

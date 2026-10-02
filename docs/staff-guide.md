@@ -100,7 +100,9 @@ change all of that in the review app's tour editor (**Edit this tour** on the
 themes, seeing the tour as visitors would while they work. An edit is saved
 like any other decision, refused if somebody else changed the tour first, and
 either approves the tour as edited or leaves it a draft for somebody to
-approve. An editor's preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
+approve. **Start a new tour** on the same card makes a new one in the same
+editor, decided the same way; it is named from its words and added after
+the others. An editor's preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
 through Connections that a visitor chose to keep. They stay on the display
 for the visitors after, named for the people they start and end with (nobody
 types a name), newest first, up to 24. Any visitor can reorder, shorten or

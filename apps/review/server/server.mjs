@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadReview, previewTour } from './data.mjs';
+import { tourIdPattern } from '../../../packages/pipeline/src/build/tours.ts';
 import { readiness, readSignoffs } from './readiness.mjs';
 import { signoffChecklists } from './checklist.mjs';
 import { history, sheetRows } from './history.mjs';
@@ -104,9 +105,9 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
     }
     // Who a tour would visit, as edited, before the reviewer keeps the edit.
     if (request.method === 'POST' && path === '/api/tours/preview') {
-      const { tourId, changes } = await body(request);
+      const { tourId, changes, creating } = await body(request);
       const tidy = tourChanges(changes);
-      const preview = tidy ? previewTour(String(tourId ?? ''), tidy) : null;
+      const preview = tidy ? previewTour(String(tourId ?? ''), tidy, { creating: creating === true }) : null;
       return preview ? json(response, 200, preview) : json(response, 400, { error: 'No such tour, or not an edit of one.' });
     }
     if (request.method === 'PUT' && path === '/api/draft') {
@@ -165,12 +166,16 @@ function normaliseDraft(value) {
     // Only the decisions a tour can have; an edit kept to its own fields.
     tours: Object.fromEntries(Object.entries(object(draft.tours)).flatMap(([tourId, value]) => {
       if (value?.decision === 'withdraw' || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience))) return [[tourId, value]];
-      if (value?.decision !== 'edit' || typeof value.seenVersion !== 'string') return [];
+      const creating = value?.decision === 'create' && tourIdPattern.test(tourId);
+      if (!creating && (value?.decision !== 'edit' || typeof value.seenVersion !== 'string')) return [];
       const changes = tourChanges(value.changes);
       if (!changes) return [];
       // Approved for an audience, left for somebody else, or not yet chosen.
       const audience = Object.hasOwn(audiences, value.audience) || value.audience === 'nobody' ? value.audience : null;
-      return [[tourId, { decision: 'edit', seenVersion: value.seenVersion, changes, audience, note: typeof value.note === 'string' ? value.note : '' }]];
+      const note = typeof value.note === 'string' ? value.note : '';
+      return [[tourId, creating
+        ? { decision: 'create', changes, audience, note }
+        : { decision: 'edit', seenVersion: value.seenVersion, changes, audience, note }]];
     })),
     // A title approved, with its words, or a clearing.
     filmTitles: Object.fromEntries(Object.entries(object(draft.filmTitles)).filter(([, value]) => value?.decision === 'clear'

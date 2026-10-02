@@ -11,7 +11,7 @@ import { attractLimits, publishedAttractText, readExhibitText } from '../../../p
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
 import { approvedFilmTitle, filmTitleLimit, readFilmTitles } from '../../../packages/pipeline/src/build/film-titles.ts';
-import { editedLens, readTours, tourApproved, tourChangesOf, tourChangesProblems, tourLimits, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
+import { blankTourChanges, choosesNobody, editedLens, readTours, tourApproved, tourChangesOf, tourChangesProblems, tourLimits, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -188,6 +188,9 @@ export function loadReview() {
     tours: tours(people),
     // Everyone a tour may visit, for the tour editor to add.
     tourPeople: tourPool().published.map(tourPerson),
+    // Where a new tour starts, and every name a tour already has, enabled or not.
+    blankTour: blankTourChanges,
+    tourIds: (readTours().lenses ?? []).map((lens) => lens.id).filter((id) => typeof id === 'string'),
     filmTitles: filmTitles(byId),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
@@ -263,17 +266,23 @@ function tourPerson(person) {
 /**
  * A tour as an edit would leave it: who it would visit, in order, the version
  * an approval of it would name, and anything wrong with the edit. Nothing is
- * written. Null for a tour that does not exist.
+ * written. Null for a tour that does not exist, unless it is a new one, which
+ * starts from nothing.
  */
-export function previewTour(tourId, changes) {
-  const lens = (readTours().lenses ?? []).find((each) => each.id === tourId);
-  if (!lens) return null;
+export function previewTour(tourId, changes, { creating = false } = {}) {
+  const found = (readTours().lenses ?? []).find((each) => each.id === tourId);
+  if (creating ? found : !found) return null;
+  const lens = found ?? { id: tourId };
   const { published, byId } = tourPool();
   const edited = editedLens(lens, changes);
   return {
     contentVersion: tourVersion(edited),
     changed: tourVersion(edited) !== tourVersion(lens),
-    problems: tourChangesProblems(changes, new Set(published.map((person) => person.id))),
+    problems: [
+      ...tourChangesProblems(changes, new Set(published.map((person) => person.id))),
+      // As tours:apply refuses it, so the editor says so before it is kept.
+      ...(creating && choosesNobody(changes) ? ['Put somebody in it, or give it words or honours to choose people by.'] : []),
+    ],
     people: tourPeople(published, edited).map((id) => tourPerson(byId.get(id) ?? { id })),
   };
 }

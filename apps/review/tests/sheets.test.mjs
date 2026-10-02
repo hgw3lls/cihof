@@ -183,3 +183,15 @@ test('a film title decision carries the words approved, or none when it is taken
     { filmId: 'def', decision: 'clear', title: '', decisionReference: 'film-titles-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.' },
   ]);
 });
+
+test('a new tour carries everything it is, no version, and the choice made about it', () => {
+  const changes = { label: 'Painters', prompt: 'The arts', description: 'Who painted the city.', terms: ['painter'], themes: [], pinnedPersonIds: ['a-2010'], excludedPersonIds: [], maxPortraits: 48 };
+  const sheet = rows(toursCsv({ reviewer: 'Jane Smith', tours: {
+    painters: { decision: 'create', changes, audience: 'kiosk-and-web' },
+    sculptors: { decision: 'create', changes: { ...changes, label: 'Sculptors' }, audience: 'nobody' },
+  } }, '2026-10-02'));
+  assert.deepEqual(sheet.map((row) => [row.tourId, row.decision, row.contentVersion, row.targets, row.label, row.pinnedPersonIds, row.maxPortraits]), [
+    ['painters', 'create', '', 'kiosk,public-web', 'Painters', 'a-2010', '48'],
+    ['sculptors', 'create', '', 'none', 'Sculptors', 'a-2010', '48'],
+  ]);
+});

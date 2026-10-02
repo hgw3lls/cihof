@@ -20,7 +20,8 @@
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
  *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note }
  *                  | { decision: 'edit', seenVersion, changes: { label, prompt, description, terms, themes, pinnedPersonIds, excludedPersonIds, maxPortraits },
- *                      audience: 'kiosk' | 'kiosk-and-web' | 'nobody' | null, note } },
+ *                      audience: 'kiosk' | 'kiosk-and-web' | 'nobody' | null, note }
+ *                  | { decision: 'create', changes, audience, note }, under the new tour's name },
  *   }
  */
 
@@ -152,12 +153,12 @@ export function toursCsv(draft, day) {
   const reference = decisionReference('tours', day);
   const edits = ['label', 'prompt', 'description', 'terms', 'themes', 'pinnedPersonIds', 'excludedPersonIds', 'maxPortraits'];
   const rows = Object.entries(draft.tours ?? {}).map(([tourId, value]) => {
-    const changes = value.decision === 'edit' ? value.changes ?? {} : null;
+    const changes = value.decision === 'edit' || value.decision === 'create' ? value.changes ?? {} : null;
     return [
       tourId,
       value.decision,
-      value.decision === 'withdraw' ? '' : value.seenVersion ?? '',
-      value.decision === 'withdraw' ? '' : value.decision === 'edit' && value.audience === 'nobody' ? 'none' : tourTargets[value.audience] ?? '',
+      value.decision === 'withdraw' || value.decision === 'create' ? '' : value.seenVersion ?? '',
+      value.decision === 'withdraw' ? '' : changes && value.audience === 'nobody' ? 'none' : tourTargets[value.audience] ?? '',
       reference,
       signedNote(value.note, draft.reviewer),
       ...edits.map((field) => {
