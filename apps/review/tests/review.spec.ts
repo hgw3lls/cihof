@@ -192,6 +192,25 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await page.getByRole('button', { name: /Something needs changing/ }).click();
   await expect(page.getByText(/Not finished yet: say what needs changing/)).toBeVisible();
   await page.getByLabel('What needs changing?').fill('Test: the class year needs checking');
+
+  // A profile edited: found by name, its "Honoured for" line rewritten in the
+  // curator's own words, a country added and the face set lower.
+  await page.getByLabel('Find a person').fill('Joe Valencic');
+  await page.getByRole('button', { name: 'Go to them' }).click();
+  await expect(page.locator('.profile h2')).toHaveText('Joe Valencic');
+  await page.getByRole('button', { name: 'Edit this profile' }).click();
+  const profileEditor = page.locator('section.profile-editor');
+  await profileEditor.getByLabel(/^“Honoured for”/).fill('Test: words a curator wrote about Joe Valencic.');
+  await profileEditor.getByLabel('Add to countries and heritage').fill('Testland');
+  await profileEditor.getByLabel('Add to countries and heritage').press('Enter');
+  await profileEditor.getByLabel('Where the face sits').selectOption('50% 35%');
+  await expect(profileEditor.locator('.profile-editor__preview')).toContainText('Test: words a curator wrote about Joe Valencic. (a curator’s words)');
+  await expect(profileEditor.locator('.profile-editor__preview .tag', { hasText: 'Testland' })).toBeVisible();
+  await profileEditor.getByRole('button', { name: 'Keep these changes' }).click();
+  await expect(page.getByText(/Shown with your changes, not yet saved/)).toBeVisible();
+  await expect(page.locator('.profile')).toContainText('(a curator’s words)');
+  // Approving waits until the edit is saved, so the approval covers it.
+  await expect(page.getByRole('button', { name: /Yes, approve it/ })).toHaveCount(0);
   await page.getByRole('button', { name: 'Stop for now' }).click();
 
   // Approving a profile, then correcting that person's biography, cannot be
@@ -323,6 +342,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: places, 1 decision');
   expect(log).toContain('review: what people did at places, 1 decision');
   expect(log).toContain('review: biographies, 1 decision');
+  expect(log).toContain('review: profile edits, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
   expect(log).toContain('review: tours, 4 decisions');
@@ -346,6 +366,15 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(byName(approvedName).profileReview).toMatchObject({ status: 'approved', decisionReference: expect.stringMatching(/^profiles-review-/) });
   expect(byName(approvedName).approvalStatus).toBe('approved');
   expect(byName(queriedName).profileReview).toMatchObject({ status: 'changes-requested' });
+  // The edit is in the record, its line credited to the curator, and what
+  // visitors see differently recorded under the decision.
+  const joe = byName('Joe Valencic');
+  expect(joe.honoredForSummary).toBe('Test: words a curator wrote about Joe Valencic.');
+  expect(joe.honoredForCurated).toMatchObject({ text: 'Test: words a curator wrote about Joe Valencic.', decisionReference: expect.stringMatching(/^profile-edits-review-/) });
+  expect(joe.approvedCountryTags).toContain('Testland');
+  expect(joe.image.focalPoint).toBe('50% 35%');
+  const differences = JSON.parse(readFileSync(join(worktree, 'data/cihof_reviewed_differences.json'), 'utf8')).differences;
+  expect(differences.some((line: { decisionReference: string }) => /^profile-edits-review-/.test(line.decisionReference))).toBe(true);
 
   // The place shows the reviewer's words, and its approval names them.
   const reworded = JSON.parse(readFileSync(join(worktree, 'data/cihof_places.json'), 'utf8')).places

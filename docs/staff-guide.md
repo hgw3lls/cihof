@@ -443,7 +443,17 @@ Either way it offers:
 
 On **Profiles**, the induction classes run along the top, each with how many
 are approved: choose one to work through that class alone, and **Next
-undecided** skips what you have already decided. **As on the display** shows
+undecided** skips what you have already decided. **Find a person** goes to
+anyone, approved or not, and **Edit this profile** changes the name and how
+it is alphabetised, the communities, honours and countries, the two lines
+under the name, and the picture's description and framing, shown as the
+profile would be. A line a curator rewrites is credited as a curator's
+words; the computer's wording for the edited tags stays the computer's. The
+class year, who presented them, the biography (corrected on its own screen),
+the portrait file, its rights and every approval are not edited here. An
+edit is saved by `npm run profiles:edit`, which refuses it if the profile
+changed after the editing began and records every visible difference under
+the decision; the profile is then approved again as edited. **As on the display** shows
 the profile laid out as the display's record shows it, in its dark or light
 colours. With no field selected, **A** approves and the arrow keys move
 between profiles.

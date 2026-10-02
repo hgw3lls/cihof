@@ -4,7 +4,7 @@ import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, st
 import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadReview, previewTour } from './data.mjs';
+import { loadReview, previewProfile, previewTour } from './data.mjs';
 import { tourIdPattern } from '../../../packages/pipeline/src/build/tours.ts';
 import { readiness, readSignoffs } from './readiness.mjs';
 import { signoffChecklists } from './checklist.mjs';
@@ -103,6 +103,13 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
       if (!film || !['music', 'blank', 'phrase'].includes(fix)) return json(response, 400, { error: 'No such film or fix.' });
       return json(response, 200, previewFix(film, { filmId: film.filmId, fix, find: String(find ?? ''), replaceWith: String(replaceWith ?? '') }));
     }
+    // A profile as an edit would leave it, before the reviewer keeps the edit.
+    if (request.method === 'POST' && path === '/api/profiles/preview') {
+      const { id, edit } = await body(request);
+      const tidy = profileEdit(edit);
+      const preview = tidy ? previewProfile(String(id ?? ''), tidy) : null;
+      return preview ? json(response, 200, preview) : json(response, 400, { error: 'No such profile, or not an edit of one.' });
+    }
     // Who a tour would visit, as edited, before the reviewer keeps the edit.
     if (request.method === 'POST' && path === '/api/tours/preview') {
       const { tourId, changes, creating } = await body(request);
@@ -139,7 +146,7 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
 }
 
 /**
@@ -161,6 +168,13 @@ function normaliseDraft(value) {
     placeTies: object(draft.placeTies),
     bios: object(draft.bios),
     profiles: object(draft.profiles),
+    // An edit names the profile it began from, and carries only an edit's fields.
+    profileEdits: Object.fromEntries(Object.entries(object(draft.profileEdits)).flatMap(([id, value]) => {
+      const tidy = profileEdit(value?.edit);
+      return tidy && typeof value.seenVersion === 'string'
+        ? [[id, { seenVersion: value.seenVersion, edit: tidy, note: typeof value.note === 'string' ? value.note : '' }]]
+        : [];
+    })),
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
     // Only the decisions a tour can have; an edit kept to its own fields.
@@ -189,6 +203,19 @@ function normaliseDraft(value) {
     signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
   };
+}
+
+/** A profile edit's fields, and nothing else; null when it is not one. */
+function profileEdit(value) {
+  if (!value || typeof value !== 'object') return null;
+  const text = (field) => (typeof value[field] === 'string' ? value[field].slice(0, 1000) : null);
+  const list = (field) => (Array.isArray(value[field]) ? value[field].filter((each) => typeof each === 'string').slice(0, 50).map((each) => each.slice(0, 200)) : null);
+  const edit = {
+    name: text('name'), sortName: text('sortName'),
+    communities: list('communities'), contributions: list('contributions'), countries: list('countries'),
+    honoredFor: text('honoredFor'), contextLine: text('contextLine'), portraitAlt: text('portraitAlt'), focalPoint: text('focalPoint'),
+  };
+  return Object.values(edit).every((each) => each !== null) ? edit : null;
 }
 
 /** A tour edit's fields, and nothing else; null when it is not one. */

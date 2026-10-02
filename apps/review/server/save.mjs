@@ -3,7 +3,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
-import { attractCsv, filmTitlesCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -31,6 +31,14 @@ export const steps = [
     task: 'placeTies', title: 'What people did at places', script: 'places:apply', csv: placeTiesCsv,
     refresh: ['review:places'], checks: ['review:places:check'],
     keys: (draft) => Object.keys(draft.placeTies ?? {}),
+  },
+  // First of the profile reviews: an edit names the profile as it began, so it
+  // goes before anything else that changes a profile. Like a biography
+  // correction it changes what visitors see, so it is checked the same way.
+  {
+    task: 'profileEdits', title: 'Profile edits', script: 'profiles:edit', csv: profileEditsCsv,
+    refresh: [], checks: ['parity:report', 'crosswalk:check'],
+    keys: (draft) => Object.keys(draft.profileEdits ?? {}),
   },
   // Before biographies: an approval covers the profile as the reviewer saw it,
   // and the app will not approve a profile whose biography correction is

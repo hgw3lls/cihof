@@ -77,6 +77,19 @@ If the biography itself is wrong, use **correct it now**. Save the
 correction before you approve the profile, so the approval covers the
 corrected words; the app will remind you.
 
+**Edit this profile** changes the rest of what visitors read: the name and
+how it is alphabetised; the communities, honours and countries (choose from
+the tags already in use where one fits); the two lines under the name; and
+the picture's description and where the face sits. The profile is shown
+beside the form as it would be. The two lines were first written by the
+computer from the tags and do not change when the tags do: keep a line, use
+**the computer's wording** for the tags as they are now, or write your own,
+which is then shown as a curator's words. The class year and who presented
+them come from the Hall of Fame's own records and cannot be changed here.
+**Keep these changes**, save them, and then approve the profile, so the
+approval covers it as edited. **Find a person** goes straight to anyone,
+approved or not.
+
 *A good pace is one induction class per sitting.* The classes run along the
 top of the screen, each with how many are approved: choose one to work
 through it alone. **Next undecided** skips what you have decided, and **As

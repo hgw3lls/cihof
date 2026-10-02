@@ -16,6 +16,13 @@ export type CuratedRecord = {
   readonly approvedSummary: string;
   readonly honoredForSummary: string;
   readonly documentedContextLine: string;
+  /**
+   * The words a curator wrote for either line, in the profile editor, and the
+   * decision they rest on. They count only while the line still says exactly
+   * that: a line changed since by anything else is not credited to them.
+   */
+  readonly honoredForCurated: CuratedLine | null;
+  readonly contextLineCurated: CuratedLine | null;
   readonly lifeWorkSummary: string;
   readonly pronunciation: string;
   readonly approvalStatus: string;
@@ -26,6 +33,8 @@ export type CuratedRecord = {
   readonly imageAltText: string;
   readonly imageFocalPoint: string;
 };
+
+export type CuratedLine = { readonly text: string; readonly decisionReference: string };
 
 import { dataFile } from '../paths.ts';
 
@@ -50,6 +59,8 @@ export function curatedRosterFrom(source: unknown): Map<string, CuratedRecord> {
       approvedSummary: text(raw['approvedSummary']),
       honoredForSummary: text(raw['honoredForSummary']),
       documentedContextLine: text(raw['documentedContextLine']),
+      honoredForCurated: curatedLine(raw['honoredForCurated']),
+      contextLineCurated: curatedLine(raw['contextLineCurated']),
       lifeWorkSummary: text(raw['lifeWorkSummary']),
       pronunciation: text(raw['pronunciation']),
       approvalStatus: text(raw['approvalStatus']),
@@ -62,6 +73,13 @@ export function curatedRosterFrom(source: unknown): Map<string, CuratedRecord> {
     });
   }
   return records;
+}
+
+function curatedLine(value: unknown): CuratedLine | null {
+  const line = asRecord(value);
+  const words = preserved(line['text']);
+  const reference = text(line['decisionReference']);
+  return words && reference ? { text: words, decisionReference: reference } : null;
 }
 
 function text(value: unknown): string {

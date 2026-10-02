@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, filmTitlesCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
@@ -200,4 +200,18 @@ test('deleting a tour names the version the reviewer chose to delete, and nothin
   const [row] = rows(toursCsv({ reviewer: 'Jane Smith', tours: { 'made-art': { decision: 'delete', seenVersion: 'tour-abc', note: 'Folded into Culture.' } } }, '2026-10-02'));
   assert.deepEqual([row.tourId, row.decision, row.contentVersion, row.targets, row.label, row.note],
     ['made-art', 'delete', 'tour-abc', '', '', 'Folded into Culture. Reviewed by Jane Smith in the staff review app.']);
+});
+
+test('a profile edit carries the whole of what may change, the version it began from, and the note', () => {
+  const edit = {
+    name: 'Alex Machaskee', sortName: 'Machaskee, Alex', communities: ['European Heritage'], contributions: ['Media and Storytelling', 'Civic Leadership'],
+    countries: ['Serbian'], honoredFor: 'Led The Plain Dealer, "Ohio\'s largest newspaper".', contextLine: '', portraitAlt: 'Portrait of Alex Machaskee.', focalPoint: '50% 30%',
+  };
+  const [row] = rows(profileEditsCsv({ reviewer: 'Jane Smith', profileEdits: { 'alex-machaskee-2010': { seenVersion: 'profile-abc', edit, note: 'From the obituary.' } } }, '2026-10-02'));
+  assert.deepEqual(row, {
+    id: 'alex-machaskee-2010', contentVersion: 'profile-abc', name: 'Alex Machaskee', sortName: 'Machaskee, Alex', communities: 'European Heritage',
+    contributions: 'Media and Storytelling;Civic Leadership', countries: 'Serbian', honoredFor: 'Led The Plain Dealer, "Ohio\'s largest newspaper".', contextLine: '',
+    portraitAlt: 'Portrait of Alex Machaskee.', focalPoint: '50% 30%', decisionReference: 'profile-edits-review-2026-10-02',
+    note: 'From the obituary. Reviewed by Jane Smith in the staff review app.',
+  });
 });
