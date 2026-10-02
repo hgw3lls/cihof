@@ -128,13 +128,15 @@ export type TourDecision =
    * as edited; `nobody` leaves it a draft for somebody else to approve; null
    * is not yet chosen, and the edit cannot be saved until it is.
    */
-  | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string };
+  | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string }
+  /** A new tour, kept under the name it was given when first kept; its audience as for an edit. */
+  | { decision: 'create'; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string };
 
 /** A tour as an edit would leave it. */
 export type TourPreview = { contentVersion: string; changed: boolean; problems: string[]; people: TourPerson[] };
 
-export async function previewTour(tourId: string, changes: TourChanges): Promise<TourPreview> {
-  return request('/api/tours/preview', { method: 'POST', body: JSON.stringify({ tourId, changes }) });
+export async function previewTour(tourId: string, changes: TourChanges, creating = false): Promise<TourPreview> {
+  return request('/api/tours/preview', { method: 'POST', body: JSON.stringify({ tourId, changes, creating }) });
 }
 
 /** A film, whose it is, what it is called on the display, and its YouTube title as a suggestion. */
@@ -249,6 +251,10 @@ export type Review = {
   tours: Tour[];
   /** Everyone a tour may visit. */
   tourPeople: TourPerson[];
+  /** Where a new tour starts. */
+  blankTour: TourChanges;
+  /** Every name a tour already has, so a new one takes another. */
+  tourIds: string[];
   filmTitles: FilmTitle[];
   filmStarts: FilmStart[];
   /** What still stands between the exhibit and opening day, from the records. */

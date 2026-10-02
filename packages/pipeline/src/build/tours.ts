@@ -247,15 +247,35 @@ export type TourDecision = {
   /**
    * `approve` shows it on the displays; `withdraw` takes an approved tour off
    * them; `edit` changes its words or the rules that choose its people, and
-   * approves it as edited when it names targets, or leaves it a draft.
+   * approves it as edited when it names targets, or leaves it a draft;
+   * `create` adds a new tour, approved or a draft in the same way.
    */
-  readonly decision: 'approve' | 'withdraw' | 'edit';
+  readonly decision: 'approve' | 'withdraw' | 'edit' | 'create';
   /** For an approval, who may see it; asked, never assumed wider. */
   readonly targets: { readonly kiosk: boolean; readonly publicWeb: boolean };
-  /** Only for an edit. */
+  /** Only for an edit or a new tour. */
   readonly changes?: TourChanges;
   readonly decisionReference: string;
   readonly note: string;
+};
+
+/** What may name a new tour: it is how the tour is known in the data and the sheets. */
+export const tourIdPattern = /^(?=.{1,60}$)[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/**
+ * A name for a new tour, from the words it is called by: lowercase, hyphened,
+ * and different from every name in `taken`.
+ */
+export function newTourId(label: string, taken: ReadonlySet<string>): string {
+  const base = label.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '').replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '').slice(0, 50).replace(/-+$/, '') || 'tour';
+  if (!taken.has(base)) return base;
+  for (let n = 2; ; n += 1) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`;
+}
+
+/** A tour with nothing in it yet, as the editor starts a new one. */
+export const blankTourChanges: TourChanges = {
+  label: '', prompt: '', description: '', terms: [], themes: [], pinnedPersonIds: [], excludedPersonIds: [], maxPortraits: 48,
 };
 
 /** The columns an edit adds to a tour sheet. Lists are separated by semicolons. */
@@ -272,7 +292,8 @@ export const tourEditColumns = ['label', 'prompt', 'description', 'terms', 'them
  * An edit also fills the columns in `tourEditColumns`: the whole of the tour
  * as edited. Its contentVersion is the version the editing began from, so an
  * edit is refused, rather than laid over somebody else's, if the tour has
- * changed since. Its targets must be given, as for an approval: `kiosk` or
+ * changed since. A new tour (`create`) fills the same columns under a name no
+ * tour has yet, with no contentVersion. Its targets must be given, as for an approval: `kiosk` or
  * `kiosk,public-web` approve the tour as edited, for them; `none` leaves it a
  * draft, shown nowhere, for somebody to approve. An edit with no targets is
  * refused, never taken to mean `none`: that would take an approved tour off
@@ -292,52 +313,28 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
   const seen = new Set<string>();
   let blank = 0;
 
-  parsed.slice(1).forEach((cells, index) => {
-    const line = index + 2;
-    const tourId = cell(cells, 'tourId');
-    const decision = cell(cells, 'decision').toLowerCase();
-    if (!tourId) return;
-    if (decision === '' || decision === 'skip') { blank += 1; return; }
-    const lens = lenses.get(tourId);
-    if (!lens) { errors.push(`line ${line}: there is no tour "${tourId}"`); return; }
-    if (seen.has(tourId)) { errors.push(`line ${line}: the tour "${tourId}" appears twice`); return; }
-    seen.add(tourId);
-    if (decision !== 'approve' && decision !== 'withdraw' && decision !== 'edit') { errors.push(`line ${line}: decision is approve, withdraw, edit or empty, not "${decision}"`); return; }
-    const reference = cell(cells, 'decisionReference');
-    if (!reference) { errors.push(`line ${line}: a decision needs a decisionReference`); return; }
-    let targets = { kiosk: false, publicWeb: false };
-    if (decision === 'approve' || decision === 'edit') {
-      const names = cell(cells, 'targets').split(',').map((name) => name.trim()).filter(Boolean);
-      const leaving = decision === 'edit' && names.length === 1 && names[0] === 'none';
-      const unknown = leaving ? [] : names.filter((name) => name !== 'kiosk' && name !== 'public-web');
-      if (unknown.length > 0) {
-        errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both${decision === 'edit' ? ', or none alone to leave it a draft' : ''}`);
-        return;
-      }
-      if (decision === 'approve' && names.length === 0) { errors.push(`line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`); return; }
-      if (decision === 'edit' && names.length === 0) {
-        errors.push(`line ${line}: an edit needs targets: kiosk or kiosk,public-web to approve the tour as edited, or none to leave it a draft for somebody to approve`);
-        return;
-      }
-      targets = { kiosk: names.includes('kiosk'), publicWeb: names.includes('public-web') };
-      if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to ${decision}`); return; }
-      if (cell(cells, 'contentVersion') !== tourVersion(lens)) {
-        errors.push(decision === 'approve'
-          ? `line ${line}: the tour "${tourId}" has changed since this sheet was made, so the approval would cover a tour nobody reviewed. Look at it again.`
-          : `line ${line}: the tour "${tourId}" has changed since this edit began, so it would undo somebody else's change. Edit it again from how it is now.`);
-        return;
-      }
-    } else if (lens.reviewStatus !== 'approved') {
-      errors.push(`line ${line}: the tour "${tourId}" is not approved, so there is nothing to withdraw`);
-      return;
+  // Who may see the tour, as a sheet names it. An edit or a new tour may
+  // instead name `none`, a draft for somebody to approve; nothing is assumed.
+  const readTargets = (cells: string[], line: number, decision: 'approve' | 'edit' | 'create') => {
+    const names = cell(cells, 'targets').split(',').map((name) => name.trim()).filter(Boolean);
+    const leaving = decision !== 'approve' && names.length === 1 && names[0] === 'none';
+    const unknown = leaving ? [] : names.filter((name) => name !== 'kiosk' && name !== 'public-web');
+    if (unknown.length > 0) {
+      errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both${decision === 'approve' ? '' : ', or none alone to leave it a draft'}`);
+      return null;
     }
-    if (decision !== 'edit') {
-      decisions.push({ tourId, decision, targets, decisionReference: reference, note: cell(cells, 'note') });
-      return;
+    if (names.length === 0) {
+      errors.push(decision === 'approve'
+        ? `line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`
+        : `line ${line}: ${decision === 'edit' ? 'an edit' : 'a new tour'} needs targets: kiosk or kiosk,public-web to approve it as written, or none to leave it a draft for somebody to approve`);
+      return null;
     }
-
+    return { kiosk: names.includes('kiosk'), publicWeb: names.includes('public-web') };
+  };
+  // The whole tour, as an edit or a new tour writes it, checked.
+  const readChanges = (cells: string[], line: number, what: string): TourChanges | null => {
     const absent = tourEditColumns.filter((column) => !header.includes(column));
-    if (absent.length > 0) { errors.push(`line ${line}: an edit needs the column(s) ${absent.join(', ')}`); return; }
+    if (absent.length > 0) { errors.push(`line ${line}: ${what} needs the column(s) ${absent.join(', ')}`); return null; }
     const list = (column: string) => cell(cells, column).split(';').map((each) => each.trim()).filter(Boolean);
     const maxCell = cell(cells, 'maxPortraits');
     const changes: TourChanges = {
@@ -351,12 +348,70 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
       maxPortraits: /^\d+$/.test(maxCell) ? Number(maxCell) : Number.NaN,
     };
     const problems = tourChangesProblems(changes, knownPersonIds);
-    if (problems.length > 0) { errors.push(...problems.map((problem) => `line ${line}: ${problem}`)); return; }
+    if (problems.length > 0) { errors.push(...problems.map((problem) => `line ${line}: ${problem}`)); return null; }
+    return changes;
+  };
+
+  parsed.slice(1).forEach((cells, index) => {
+    const line = index + 2;
+    const tourId = cell(cells, 'tourId');
+    const decision = cell(cells, 'decision').toLowerCase();
+    if (!tourId) return;
+    if (decision === '' || decision === 'skip') { blank += 1; return; }
+    if (seen.has(tourId)) { errors.push(`line ${line}: the tour "${tourId}" appears twice`); return; }
+    seen.add(tourId);
+    if (decision !== 'approve' && decision !== 'withdraw' && decision !== 'edit' && decision !== 'create') {
+      errors.push(`line ${line}: decision is approve, withdraw, edit, create or empty, not "${decision}"`);
+      return;
+    }
+    const reference = cell(cells, 'decisionReference');
+    if (!reference) { errors.push(`line ${line}: a decision needs a decisionReference`); return; }
+    const note = cell(cells, 'note');
+
+    if (decision === 'create') {
+      if (lenses.has(tourId)) { errors.push(`line ${line}: there is already a tour "${tourId}", so a new one cannot take its name`); return; }
+      if (!tourIdPattern.test(tourId)) {
+        errors.push(`line ${line}: "${tourId}" cannot name a tour; use lowercase letters, numbers and single hyphens, at most 60 characters`);
+        return;
+      }
+      const targets = readTargets(cells, line, decision);
+      const changes = targets && readChanges(cells, line, 'a new tour');
+      if (!targets || !changes) return;
+      if (changes.terms.length === 0 && changes.themes.length === 0 && changes.pinnedPersonIds.length === 0) {
+        errors.push(`line ${line}: the new tour "${changes.label.trim()}" has nobody in it and nothing to choose anybody by`);
+        return;
+      }
+      decisions.push({ tourId, decision, targets, changes, decisionReference: reference, note });
+      return;
+    }
+
+    const lens = lenses.get(tourId);
+    if (!lens) { errors.push(`line ${line}: there is no tour "${tourId}"`); return; }
+    if (decision === 'withdraw') {
+      if (lens.reviewStatus !== 'approved') { errors.push(`line ${line}: the tour "${tourId}" is not approved, so there is nothing to withdraw`); return; }
+      decisions.push({ tourId, decision, targets: { kiosk: false, publicWeb: false }, decisionReference: reference, note });
+      return;
+    }
+    const targets = readTargets(cells, line, decision);
+    if (!targets) return;
+    if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to ${decision}`); return; }
+    if (cell(cells, 'contentVersion') !== tourVersion(lens)) {
+      errors.push(decision === 'approve'
+        ? `line ${line}: the tour "${tourId}" has changed since this sheet was made, so the approval would cover a tour nobody reviewed. Look at it again.`
+        : `line ${line}: the tour "${tourId}" has changed since this edit began, so it would undo somebody else's change. Edit it again from how it is now.`);
+      return;
+    }
+    if (decision === 'approve') {
+      decisions.push({ tourId, decision, targets, decisionReference: reference, note });
+      return;
+    }
+    const changes = readChanges(cells, line, 'an edit');
+    if (!changes) return;
     if (tourVersion(editedLens(lens, changes)) === tourVersion(lens)) {
       errors.push(`line ${line}: the edit of "${tourId}" changes nothing; approve it as it is instead`);
       return;
     }
-    decisions.push({ tourId, decision, targets, changes, decisionReference: reference, note: cell(cells, 'note') });
+    decisions.push({ tourId, decision, targets, changes, decisionReference: reference, note });
   });
 
   return { decisions, errors, blank };
@@ -367,15 +422,16 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
  * records the version it covers and the targets it names; a withdrawal puts
  * the tour back to a draft, shown nowhere, and says who withdrew it. An edit
  * writes the tour's words and rules as edited, and is an approval of them
- * when it names targets, or a draft, shown nowhere, when it does not. Nothing
- * else about a tour changes.
+ * when it names targets, or a draft, shown nowhere, when it does not. A new
+ * tour is added after the others, approved or a draft in the same way.
+ * Nothing else about a tour changes.
  */
 export function applyTourDecisions(stored: StoredTours, decisions: readonly TourDecision[], reviewedAt: string): StoredTours {
   const next = structuredClone(stored) as { lenses?: Record<string, unknown>[] } & Record<string, unknown>;
   const byId = new Map(decisions.map((decision) => [decision.tourId, decision]));
   next.lenses = (next.lenses ?? []).map((lens) => {
     const decision = typeof lens['id'] === 'string' ? byId.get(lens['id']) : undefined;
-    if (!decision) return lens;
+    if (!decision || decision.decision === 'create') return lens;
     if (decision.decision === 'edit' && decision.changes) {
       const edited = editedLens(lens as Record<string, unknown> & StoredLens, decision.changes);
       const approve = decision.targets.kiosk || decision.targets.publicWeb;
@@ -404,5 +460,26 @@ export function applyTourDecisions(stored: StoredTours, decisions: readonly Tour
       publication: decision.decision === 'approve' ? { ...decision.targets } : { kiosk: false, publicWeb: false },
     };
   });
+  // New tours come after the others, written as the editor made them.
+  for (const decision of decisions) {
+    if (decision.decision !== 'create' || !decision.changes) continue;
+    const approve = decision.targets.kiosk || decision.targets.publicWeb;
+    const written = editedLens({ id: decision.tourId } as StoredLens & Record<string, unknown>, decision.changes);
+    next.lenses.push({
+      ...written,
+      maxPortraits: decision.changes.maxPortraits,
+      curatorNotes: [],
+      enabled: true,
+      reviewStatus: approve ? 'approved' : 'draft',
+      review: {
+        ...(approve ? { contentVersion: tourVersion({ ...written, maxPortraits: decision.changes.maxPortraits }) } : {}),
+        created: true,
+        decisionReference: decision.decisionReference,
+        reviewedAt,
+        ...(decision.note ? { note: decision.note } : {}),
+      },
+      publication: approve ? { ...decision.targets } : { kiosk: false, publicWeb: false },
+    });
+  }
   return next as StoredTours;
 }

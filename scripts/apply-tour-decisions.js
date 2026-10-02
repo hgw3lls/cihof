@@ -25,6 +25,10 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
  *             approve the tour as edited, for them, or are `none`, which
  *             leaves it a draft, shown nowhere, for somebody to approve. An
  *             edit with no targets is refused.
+ *   create    adds a new tour from the tour editor, under a tourId no tour
+ *             has yet, filling the same columns as an edit (no
+ *             contentVersion). Its targets approve it as written, or are
+ *             `none`, which adds it as a draft for somebody to approve.
  *
  * Nothing
  * a visitor reads about a person changes, so nothing is recorded in the
@@ -78,7 +82,12 @@ const { decisions, errors, blank } = tourDecisions(csv, stored, known);
 for (const decision of decisions) {
   const where = [decision.targets.kiosk && 'the display', decision.targets.publicWeb && 'the public website'].filter(Boolean).join(' and ');
   const name = labels.get(decision.tourId) ?? decision.tourId;
-  if (decision.decision === 'edit') {
+  if (decision.decision === 'create') {
+    const called = decision.changes?.label.trim() ?? decision.tourId;
+    console.log(where
+      ? `  Add the new tour "${called}" (${decision.tourId}), approved for ${where}, under ${decision.decisionReference}`
+      : `  Add the new tour "${called}" (${decision.tourId}) as a draft for somebody to approve, under ${decision.decisionReference}`);
+  } else if (decision.decision === 'edit') {
     const renamed = decision.changes && decision.changes.label.trim() !== name ? ` (to be called "${decision.changes.label.trim()}")` : '';
     console.log(where
       ? `  Edit the tour "${name}"${renamed} and approve it as edited for ${where}, under ${decision.decisionReference}`

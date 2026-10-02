@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { moved, withAdded, withLeftOut, withMove, withPutBack, withWord } from '../src/tour-edit.ts';
+import { moved, newTourId, withAdded, withLeftOut, withMove, withPutBack, withWord } from '../src/tour-edit.ts';
 
 const tour = { label: 'T', prompt: 'P', description: 'D', terms: ['refugee'], themes: [], pinnedPersonIds: [], excludedPersonIds: [], maxPortraits: 3 };
 
@@ -39,4 +39,11 @@ test('a word to look for is added once, as typed', () => {
   assert.deepEqual(withWord(['refugee'], '  Citizenship '), ['refugee', 'Citizenship']);
   assert.deepEqual(withWord(['refugee'], 'REFUGEE'), ['refugee']);
   assert.deepEqual(withWord(['refugee'], '  '), ['refugee']);
+});
+
+test('a new tour is named from its words, as the pipeline names it, and never by a name in use', () => {
+  assert.equal(newTourId('Care + Health', new Set()), 'care-health');
+  assert.equal(newTourId('Ōtautahi Artists', new Set()), 'otautahi-artists');
+  assert.equal(newTourId('Arts', new Set(['arts', 'arts-2'])), 'arts-3');
+  assert.equal(newTourId('', new Set()), 'tour');
 });

@@ -10,6 +10,8 @@ type Props = {
   initial: TourChanges;
   onKeep: (changes: TourChanges) => void;
   onCancel: () => void;
+  /** A new tour: it starts from nothing, under a name it has not been given yet. */
+  creating?: boolean;
 };
 
 /**
@@ -21,9 +23,9 @@ type Props = {
  * list a visitor would walk. Nothing is written until the reviewer keeps the
  * changes, and even then only into their draft: it is saved, or exported,
  * like any other decision, and the tour comes off the displays until it is
- * approved as edited.
+ * approved as edited. A new tour is made the same way, starting from nothing.
  */
-export function TourEditor({ tour, review, initial, onKeep, onCancel }: Props) {
+export function TourEditor({ tour, review, initial, onKeep, onCancel, creating = false }: Props) {
   const [changes, setChanges] = useState<TourChanges>(initial);
   // The preview, and the changes it answered: while they differ, it is out of date.
   const [previewed, setPreviewed] = useState<{ changes: TourChanges; preview: TourPreview } | null>(null);
@@ -34,12 +36,12 @@ export function TourEditor({ tour, review, initial, onKeep, onCancel }: Props) {
   useEffect(() => {
     const ask = ++asked.current;
     const timer = window.setTimeout(() => {
-      previewTour(tour.tourId, changes)
+      previewTour(tour.tourId, changes, creating)
         .then((answer) => { if (ask === asked.current) { setPreviewed({ changes, preview: answer }); setFailed(null); } })
         .catch((error: Error) => { if (ask === asked.current) setFailed(error.message); });
     }, 200);
     return () => window.clearTimeout(timer);
-  }, [tour.tourId, changes]);
+  }, [tour.tourId, changes, creating]);
 
   const preview = previewed?.preview ?? null;
   const people = preview?.people ?? tour.people;
@@ -52,7 +54,7 @@ export function TourEditor({ tour, review, initial, onKeep, onCancel }: Props) {
   const move = (from: number, to: number) => setChanges((now) => withMove(now, order, from, to));
 
   return (
-    <section className="tour-editor" aria-label={`Editing ${tour.label}`}>
+    <section className="tour-editor" aria-label={creating ? 'A new tour' : `Editing ${tour.label}`}>
       <div className="tour-editor__preview" aria-label="As visitors would see it in the Tour key">
         <p className="quiet small">As visitors would see it</p>
         <div className="tourcard">
@@ -141,9 +143,13 @@ export function TourEditor({ tour, review, initial, onKeep, onCancel }: Props) {
           Keep these changes
         </button>
         <button type="button" onClick={onCancel}>Cancel</button>
-        {!unchanged && <button type="button" className="link" onClick={() => setChanges(tour.changes)}>Start again from the tour as it is</button>}
+        {!unchanged && (
+          <button type="button" className="link" onClick={() => setChanges(tour.changes)}>
+            {creating ? 'Clear it and start again' : 'Start again from the tour as it is'}
+          </button>
+        )}
       </div>
-      {unchanged && <p className="quiet small">Nothing has been changed yet.</p>}
+      {unchanged && <p className="quiet small">{creating ? 'Give it a name, a few words, and some people or words to choose them by.' : 'Nothing has been changed yet.'}</p>}
     </section>
   );
 }

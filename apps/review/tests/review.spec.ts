@@ -255,6 +255,25 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(edited.getByRole('button', { name: /^Leave it for somebody else to approve/ })).toHaveAttribute('aria-pressed', 'false');
   await edited.getByRole('button', { name: /^Leave it for somebody else to approve/ }).click();
   await expect(edited.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+
+  // A new tour: named, given someone to visit and a word to choose the rest
+  // by, then approved for the exhibit.
+  await page.getByRole('button', { name: 'Start a new tour' }).click();
+  const fresh = page.locator('section.tour-editor');
+  await fresh.getByLabel(/^The line above the name/).fill('Test');
+  await fresh.getByLabel(/^Its name/).fill('Test Painters');
+  await fresh.getByLabel(/^What it is about/).fill('A tour made by the browser test.');
+  await fresh.getByRole('searchbox').fill('Basil Russo');
+  await fresh.getByRole('button', { name: 'Add Basil Russo' }).click();
+  await fresh.getByLabel('Add to words to look for in their biographies').fill('painter');
+  await fresh.getByRole('button', { name: 'Add', exact: true }).first().click();
+  await expect(fresh.locator('.tour-editor__name').first()).toContainText('Basil Russo');
+  await fresh.getByRole('button', { name: 'Keep these changes' }).click();
+  const created = page.locator('article.tour--new', { has: page.getByRole('heading', { name: 'Test Painters', exact: true }) });
+  await expect(created.getByText(/A new tour, not yet saved/)).toBeVisible();
+  await expect(created.getByText(/Choose one of these/)).toBeVisible();
+  await created.getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();
+  await expect(created.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
   // A film's title: its YouTube title, kept after checking.
@@ -293,7 +312,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
-  expect(log).toContain('review: tours, 2 decisions');
+  expect(log).toContain('review: tours, 3 decisions');
   expect(log).toContain('review: film titles, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('review: sign-offs, 1 decision');
@@ -369,7 +388,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   // The tour is approved for exactly the version the reviewer saw; the others are still drafts.
   const lenses = JSON.parse(readFileSync(join(worktree, 'data/cihof_story_lenses.json'), 'utf8')).lenses;
   const approvedTours = lenses.filter((lens: { reviewStatus: string }) => lens.reviewStatus === 'approved');
-  expect(approvedTours.map((lens: { id: string }) => lens.id)).toEqual(['built-cleveland']);
+  expect(approvedTours.map((lens: { id: string }) => lens.id)).toEqual(['built-cleveland', 'test-painters']);
   expect(approvedTours[0].review).toMatchObject({
     contentVersion: expect.stringMatching(/^tour-[0-9a-f]{12}$/), decisionReference: expect.stringMatching(/^tours-review-/),
   });
@@ -382,6 +401,14 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(artsLens.review).toMatchObject({ edited: true, decisionReference: expect.stringMatching(/^tours-review-/) });
   expect(artsLens.excludedPersonIds).toHaveLength(1);
   expect(artsLens.pinnedPersonIds).toHaveLength(1);
+  // The new tour is added after the others, as written, approved for the exhibit only.
+  const painters = lenses.at(-1);
+  expect(painters).toMatchObject({
+    id: 'test-painters', label: 'Test Painters', prompt: 'Test', description: 'A tour made by the browser test.',
+    terms: ['painter'], pinnedPersonIds: [expect.stringMatching(/^basil-russo/)], enabled: true,
+    reviewStatus: 'approved', publication: { kiosk: true, publicWeb: false },
+  });
+  expect(painters.review).toMatchObject({ created: true, contentVersion: expect.stringMatching(/^tour-[0-9a-f]{12}$/) });
   expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
   expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 
