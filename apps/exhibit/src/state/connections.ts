@@ -78,6 +78,8 @@ export type Marker = {
   readonly count: number;
   /** The place at the centre, drawn larger with a ring. */
   readonly focus: boolean;
+  /** How large its count is drawn, against its usual size: smaller once a zoomed map has spread out. */
+  readonly ink?: number;
 };
 
 export type ConnectionsLayout = WallLayout & {
@@ -96,6 +98,49 @@ type Input = {
   /** The field's height; the display's unless a phone's is given. */
   height?: number;
 };
+
+/**
+ * How far a map spreads out at a zoom. Zoomed in, a map is drawn on a field
+ * this many times larger, with faces and words at their usual sizes, and then
+ * brought back to the field's size: everything keeps its place, but faces and
+ * captions take less room, so what overlapped at arm's length separates as the
+ * visitor comes closer. On the screen a face still grows as the zoom does, only
+ * more slowly. Stepped, so a pinch rearranges a handful of times rather than on
+ * every frame; zoomed out, nothing changes.
+ */
+export function spreadAt(zoom: number): number {
+  if (!(zoom > 1)) return 1;
+  return Math.round(Math.pow(zoom, 0.6) * 10) / 10;
+}
+
+/** An SVG path's coordinates times `k`; an arc's rotation and flags are left alone. */
+function scalePath(d: string, k: number): string {
+  const arity: Record<string, number> = { m: 2, l: 2, t: 2, h: 1, v: 1, c: 6, s: 4, q: 4, a: 7, z: 0 };
+  let command = '';
+  let index = 0;
+  return d.replace(/[a-zA-Z]|-?(?:\d+\.?\d*|\.\d+)(?:e-?\d+)?/g, (token) => {
+    if (/[a-zA-Z]/.test(token)) { command = token.toLowerCase(); index = 0; return token; }
+    const at = index % (arity[command] || 1);
+    index += 1;
+    if (command === 'a' && at >= 2 && at <= 4) return token;
+    return round(Number(token) * k);
+  });
+}
+
+/** A layout drawn on a field `s` times larger, brought back to the field's own size. */
+function spreadBack(layout: ConnectionsLayout, s: number): ConnectionsLayout {
+  if (s === 1) return layout;
+  const k = 1 / s;
+  const slots = new Map<string, Slot>();
+  for (const [id, slot] of layout.slots) slots.set(id, { ...slot, x: slot.x * k, y: slot.y * k, size: slot.size * k });
+  return {
+    ...layout,
+    slots,
+    labels: layout.labels.map((label) => ({ ...label, x: label.x * k, y: label.y * k, w: label.w * k, size: label.size * k })),
+    arcs: layout.arcs.map((arc) => ({ ...arc, d: scalePath(arc.d, k), width: arc.width * k })),
+    markers: layout.markers.map((marker) => ({ ...marker, x: marker.x * k, y: marker.y * k, size: marker.size * k, ink: (marker.ink ?? 1) * k })),
+  };
+}
 
 /** The ties the layers switched on allow, gathered per person, with each tie's kind. */
 export function nodesFor(input: Pick<Input, 'people' | 'relationships' | 'contexts' | 'candidates' | 'on'>): (ConnectionNode & { ties: readonly (Tie & { kind?: string })[] })[] {
@@ -117,6 +162,14 @@ const chip = true;
 const captionHeight = (text: string, width: number, size: number) => Math.ceil((text.length * size * 0.52) / width) * Math.round(size * 1.18);
 const round = (value: number) => value.toFixed(1);
 
+type DiagramInput = Input & {
+  focusId: string | null;
+  placeId: string | null;
+  view: View;
+  /** Screen space the edges keep clear: the trail along the top, the zoom buttons down the right. */
+  keepClear?: { top: number; right: number };
+};
+
 /**
  * The diagram. `focusId` is a person or null (the best-connected person);
  * `placeId` puts a place at the centre instead. `view` is the visitor's zoom
@@ -124,13 +177,18 @@ const round = (value: number) => value.toFixed(1);
  * the edges of the view and keep a constant on-screen size, in the order they
  * sit round the centre.
  */
-export function diagramLayout(input: Input & {
-  focusId: string | null;
-  placeId: string | null;
-  view: View;
-  /** Screen space the edges keep clear: the trail along the top, the zoom buttons down the right. */
-  keepClear?: { top: number; right: number };
-}): ConnectionsLayout {
+export function diagramLayout(input: DiagramInput): ConnectionsLayout {
+  const W = input.width;
+  const H = input.height ?? field.height;
+  const zoom = input.view.zoom || 1;
+  const s = spreadAt(zoom);
+  // Drawn on the larger field, the view is the same pan at a smaller zoom.
+  const drawn = drawDiagram({ ...input, width: W * s, height: H * s, view: { zoom: zoom / s, pan: input.view.pan } }, narrow(W), zoom, { w: W, h: H });
+  return spreadBack(drawn, s);
+}
+
+/** `phone` and `screen` are the field's own size, not the spread one's; `zoomed` is the visitor's zoom. */
+function drawDiagram(input: DiagramInput, phone: boolean, zoomed: number, screen: { w: number; h: number }): ConnectionsLayout {
   const { people, places, on, width: W, height: H = field.height, focusId, placeId, view, keepClear = { top: 0, right: 0 } } = input;
   const byId = new Map(people.map((person) => [person.id, person]));
   const slots = new Map<string, Slot>();
@@ -141,7 +199,7 @@ export function diagramLayout(input: Input & {
   const X = (v: number) => W / 2 + (v / 2.4) * W;
   const Y = (v: number) => H / 2 + (v / 2.4) * H;
   // On a phone the faces and their captions are drawn smaller, to fit a field a third as wide.
-  const small = narrow(W);
+  const small = phone;
   const size = small ? { focus: 120, tie: 64, cluster: 34, elsewhere: 30 } : { focus: 184, tie: 104, cluster: 54, elsewhere: 46 };
   const type = small ? { name: 17, wording: 14, w: 170, nameH: 22 } : { name: 21, wording: 16, w: 250, nameH: 28 };
 
@@ -211,7 +269,7 @@ export function diagramLayout(input: Input & {
 
   const tieAngles: number[] = [];
   const zoom = view.zoom || 1;
-  const edge = Math.max(0, Math.min(1, (zoom - 1.05) / 0.45));
+  const edge = Math.max(0, Math.min(1, (zoomed - 1.05) / 0.45));
   const aside: typeof map.placed[number][] = [];
   for (const entry of map.placed) {
     if (edge > 0 && (entry.ring === 'cluster' || entry.ring === 'elsewhere')) { aside.push(entry); continue; }
@@ -236,8 +294,8 @@ export function diagramLayout(input: Input & {
     // 44px on the screen, in the order they sit around the centre.
     const vx0 = -view.pan.x / zoom;
     const vy0 = -view.pan.y / zoom + keepClear.top / zoom;
-    const vw = (W - keepClear.right) / zoom;
-    const vh = (H - keepClear.top) / zoom;
+    const vw = (screen.w - keepClear.right) / zoom;
+    const vh = (screen.h - keepClear.top) / zoom;
     const sz = (small ? 34 : 44) / zoom;
     const m = sz / 2 + 10 / zoom;
     const w = vw - 2 * m;
@@ -358,7 +416,14 @@ export function diagramLayout(input: Input & {
  * at their first place. People with no reviewed place wait in a strip along
  * the bottom. Choosing somebody draws their ties across the city.
  */
-export function placesLayout(input: Input & { selectedId: string | null }): ConnectionsLayout {
+export function placesLayout(input: Input & { selectedId: string | null; view?: View }): ConnectionsLayout {
+  const W = input.width;
+  const H = input.height ?? field.height;
+  const s = spreadAt(input.view?.zoom ?? 1);
+  return spreadBack(drawPlaces({ ...input, width: W * s, height: H * s }, narrow(W)), s);
+}
+
+function drawPlaces(input: Input & { selectedId: string | null }, phone: boolean): ConnectionsLayout {
   const { people, places, width: W, height: H = field.height, selectedId } = input;
   const byId = new Map(people.map((person) => [person.id, person]));
   const slots = new Map<string, Slot>();
@@ -374,7 +439,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
   for (const { place, ids } of ranked) for (const id of ids) if (!home.has(id)) home.set(id, place.id);
   const loose = sorted.filter((person) => !home.has(person.id));
 
-  const small = narrow(W) ? 20 : 26;
+  const small = phone ? 20 : 26;
   const perRow = Math.floor(W / (small + 4));
   const looseTop = H - Math.ceil(loose.length / perRow) * (small + 4);
   const mapH = looseTop - 40;
@@ -445,7 +510,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
   let cell = 58;
   let arranged = arrange(cell);
   // A phone's narrow field goes smaller still before it gives up.
-  const steps = narrow(W) ? [[52, 1], [46, 1], [40, 0.8], [34, 0.6], [28, 0.5], [24, 0.4]] as const : [[52, 1], [46, 1], [40, 0.8], [40, 0.6]] as const;
+  const steps = phone ? [[52, 1], [46, 1], [40, 0.8], [34, 0.6], [28, 0.5], [24, 0.4]] as const : [[52, 1], [46, 1], [40, 0.8], [40, 0.6]] as const;
   for (const [smaller, tightness] of steps) {
     if (arranged.fitted) break;
     cell = smaller;
@@ -484,7 +549,7 @@ export function placesLayout(input: Input & { selectedId: string | null }): Conn
 
   // Somebody with no reviewed place, once chosen, is lifted into a clear space above the strip.
   if (chosen && !home.has(chosen)) {
-    const fs = narrow(W) ? 80 : 110;
+    const fs = phone ? 80 : 110;
     const clear = (x: number, y: number) => boxes.every((box) => {
       const bx0 = box.cx - box.w / 2 - 22;
       const bx1 = box.cx + box.w / 2 + 22;

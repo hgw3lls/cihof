@@ -11,7 +11,7 @@ import { Trail } from './Trail.tsx';
 import { ThreadEditor, TourChooser } from './Tours.tsx';
 import { loadThreads, sameThread, saveThreads, threadLimit, threadName, type Thread } from './threads.ts';
 import {
-  diagramLayout, layer, layerCounts, layerOfTie, layers as linkLayers, nodesFor, placesLayout, tieWording,
+  diagramLayout, layer, layerCounts, layerOfTie, layers as linkLayers, nodesFor, placesLayout, spreadAt, tieWording,
   type LayerId,
 } from '../state/connections.ts';
 import { Search } from './Search.tsx';
@@ -244,15 +244,29 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
   const on = useMemo(() => new Set<LayerId>(state.linkLayers), [state.linkLayers]);
   // Connections is arranged for the zoom and pan the visitor has, so it is a
   // function of the view the wall hands it.
+  // By place depends only on how far the zoom has spread it, and packing the
+  // city is the costly part, so each step is drawn once.
+  const placesAt = useMemo(() => {
+    const drawn = new Map<number, ReturnType<typeof placesLayout>>();
+    return (view: View) => {
+      const spread = spreadAt(view.zoom);
+      let layout = drawn.get(spread);
+      if (!layout) {
+        layout = placesLayout({ people, relationships, contexts, candidates, places, on, width, height, selectedId: state.selectedId, view });
+        drawn.set(spread, layout);
+      }
+      return layout;
+    };
+  }, [people, relationships, contexts, candidates, places, on, width, height, state.selectedId]);
   const linksAt = useCallback((view: View) => {
     const input = { people, relationships, contexts, candidates, places, on, width, height };
     return state.linkView === 'places'
-      ? placesLayout({ ...input, selectedId: state.selectedId })
+      ? placesAt(view)
       : diagramLayout({
         ...input, focusId: state.selectedId, placeId: state.placeId, view,
         keepClear: { top: state.trail.length > 1 ? (upright ? 52 : 64) : 0, right: upright ? 64 : 84 },
       });
-  }, [people, relationships, contexts, candidates, places, on, width, height, upright, state.linkView, state.selectedId, state.placeId, state.trail.length]);
+  }, [people, relationships, contexts, candidates, places, on, width, height, upright, placesAt, state.linkView, state.selectedId, state.placeId, state.trail.length]);
   const years = useMemo(() => yearsLayout(people, width, state.year, state.selectedId, height), [people, width, height, state.year, state.selectedId]);
   const touring = state.lens === 'people' ? state.tour : null;
   const layout = useMemo(
