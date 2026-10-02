@@ -225,3 +225,29 @@ select { font: inherit; padding: 0.6rem 0.7rem; border: 1px solid var(--line); b
 .film-title__poster { width: 142px; height: 80px; object-fit: cover; border-radius: 6px; flex: none; background: #121211; }
 
 .export-file { overflow-wrap: anywhere; }
+
+/* The tour editor: the card as the Tour key shows it, then the words, the people and the rules. */
+.tour-editor__preview { margin: 0.5rem 0 1rem; }
+.tourcard { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; max-width: 26rem; padding: 1rem 1.1rem 1.2rem; border: 1px solid #3b3a37; border-radius: var(--radius); background: #121211; color: #f2f1ec; }
+.tourcard__faces { display: flex; gap: 4px; min-height: 40px; }
+.tourcard__faces .portrait { filter: grayscale(1); border-radius: 0; }
+.tourcard__prompt { color: #a9a79f; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.tourcard__label { font-size: 1.7rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1; overflow-wrap: anywhere; }
+.tourcard__description { display: -webkit-box; overflow: hidden; color: #d6d4cc; line-height: 1.35; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; }
+.tourcard__count { color: #a9a79f; font-size: 0.9rem; }
+.tour-editor__people { list-style: none; margin: 0.5rem 0 1rem; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; counter-reset: stop; }
+.tour-editor__people[aria-busy='true'] { opacity: 0.7; }
+.tour-editor__stop { display: flex; align-items: center; gap: 0.6rem; padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); counter-increment: stop; cursor: grab; }
+.tour-editor__stop::before { content: counter(stop); min-width: 1.6rem; color: var(--quiet); font-size: 0.85rem; text-align: right; }
+.tour-editor__stop--over { border-color: var(--accent); box-shadow: 0 -3px 0 var(--accent); }
+.tour-editor__grip { color: var(--quiet); letter-spacing: -0.2em; }
+.tour-editor__name { flex: 1; min-width: 0; }
+.tour-editor__keys { display: flex; gap: 0.3rem; }
+.tour-editor__keys button { min-height: 40px; padding: 0.3rem 0.7rem; }
+.tour-editor__found { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+.tour-editor__found button { display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; }
+.tour-editor__out .chips, .tour-editor__words .chips { list-style: none; padding: 0; margin: 0.3rem 0 0.6rem; }
+.chip--plain { text-transform: none; }
+.tour-editor__word { display: flex; gap: 0.4rem; max-width: 26rem; margin-bottom: 1rem; }
+.tour-editor__word input { flex: 1; }
+.tour-editor__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1rem; }

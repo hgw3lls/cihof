@@ -94,8 +94,13 @@ decided apart as for connections. It covers the tour's words and the rules
 that choose its people; if either changes, the tour comes off the displays
 until it is approved again. Its people are chosen when the release is built,
 from the published biographies and honours, by the tour's terms and themes; its
-`pinnedPersonIds` lead and its `excludedPersonIds` never appear. An editor's
-preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
+`pinnedPersonIds` lead and its `excludedPersonIds` never appear. Curators
+change all of that in the review app's tour editor (**Edit this tour** on the
+*Tours* card): the words, who it visits and in what order, and the terms and
+themes, seeing the tour as visitors would while they work. An edit is saved
+like any other decision, refused if somebody else changed the tour first, and
+either approves the tour as edited or leaves it a draft for somebody to
+approve. An editor's preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
 through Connections that a visitor chose to keep. They stay on the display
 for the visitors after, named for the people they start and end with (nobody
 types a name), newest first, up to 24. Any visitor can reorder, shorten or

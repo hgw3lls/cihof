@@ -18,7 +18,9 @@
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
- *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note } },
+ *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note }
+ *                  | { decision: 'edit', seenVersion, changes: { label, prompt, description, terms, themes, pinnedPersonIds, excludedPersonIds, maxPortraits },
+ *                      audience: 'kiosk' | 'kiosk-and-web' | null, note } },
  *   }
  */
 
@@ -139,17 +141,31 @@ export function filmTitlesCsv(draft, day) {
 
 const tourTargets = { kiosk: 'kiosk', 'kiosk-and-web': 'kiosk,public-web' };
 
+/**
+ * An edit carries the whole tour as edited, its lists separated by
+ * semicolons, and the version the editing began from; its audience, when the
+ * reviewer chose one, approves it as edited.
+ */
 export function toursCsv(draft, day) {
   const reference = decisionReference('tours', day);
-  const rows = Object.entries(draft.tours ?? {}).map(([tourId, value]) => [
-    tourId,
-    value.decision,
-    value.decision === 'approve' ? value.seenVersion ?? '' : '',
-    value.decision === 'approve' ? tourTargets[value.audience] ?? '' : '',
-    reference,
-    signedNote(value.note, draft.reviewer),
-  ]);
-  return csv(['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note'], rows);
+  const edits = ['label', 'prompt', 'description', 'terms', 'themes', 'pinnedPersonIds', 'excludedPersonIds', 'maxPortraits'];
+  const rows = Object.entries(draft.tours ?? {}).map(([tourId, value]) => {
+    const changes = value.decision === 'edit' ? value.changes ?? {} : null;
+    return [
+      tourId,
+      value.decision,
+      value.decision === 'withdraw' ? '' : value.seenVersion ?? '',
+      value.decision === 'withdraw' ? '' : tourTargets[value.audience] ?? '',
+      reference,
+      signedNote(value.note, draft.reviewer),
+      ...edits.map((field) => {
+        if (!changes) return '';
+        const cell = changes[field];
+        return Array.isArray(cell) ? cell.join(';') : String(cell ?? '');
+      }),
+    ];
+  });
+  return csv(['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note', ...edits], rows);
 }
 
 /**

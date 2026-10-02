@@ -52,7 +52,9 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
       .map(([id]) => `the title of ${review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id}'s film`),
     // An approval names the tour the reviewer saw; one that has changed since needs another look.
     ...Object.entries(draft.tours ?? {}).filter(([id, value]) => tourStale(review.tours.find((tour) => tour.tourId === id), value))
-      .map(([id]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (it changed after you approved it)`),
+      .map(([id, value]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (${value.decision === 'edit'
+        ? 'somebody else changed it after you began editing it; discard your changes and edit it again'
+        : 'it changed after you approved it'})`),
     // An acceptance needs a name, and an answer where the sign-off asks a question; a clearing needs a reason.
     ...Object.entries(draft.signoffs ?? {}).flatMap(([id, value]) => {
       const item = review.signoffs.find((entry) => entry.id === id);
@@ -251,8 +253,14 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   }
   for (const [id, value] of Object.entries(draft.tours ?? {})) {
     const label = review.tours.find((tour) => tour.tourId === id)?.label ?? id;
-    lines.push(`Tours: ${label}: ${value.decision === 'withdraw' ? 'taken off the exhibit and the website'
-      : value.audience === 'kiosk-and-web' ? 'approved for the exhibit and the public website' : 'approved for the exhibit'}`);
+    const where = value.decision === 'withdraw' ? null
+      : value.audience === 'kiosk-and-web' ? 'the exhibit and the public website' : value.audience === 'kiosk' ? 'the exhibit' : null;
+    if (value.decision === 'edit') {
+      const renamed = value.changes.label.trim() !== label ? `, renamed “${value.changes.label.trim()}”` : '';
+      lines.push(`Tours: ${label}: edited${renamed}, ${where ? `and approved as edited for ${where}` : 'left for somebody else to approve'}`);
+    } else {
+      lines.push(`Tours: ${label}: ${where ? `approved for ${where}` : 'taken off the exhibit and the website'}`);
+    }
   }
   for (const [key, value] of Object.entries(draft.filmStarts ?? {})) {
     const name = review.filmStarts.find((entry) => entry.key === key)?.name ?? key;

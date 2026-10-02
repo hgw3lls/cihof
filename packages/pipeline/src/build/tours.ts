@@ -17,7 +17,8 @@ import { parseRows } from './review.ts';
  * fingerprint of its words and of the rules that choose its people, so an
  * edit to either holds it back until it is approved again. An editor's
  * preview also shows the drafts, each marked. Approvals are made in the staff
- * review app, or with a sheet and `npm run tours:apply`. Its people are chosen here, at build time, from the published
+ * review app, or with a sheet and `npm run tours:apply`; so are edits, which
+ * the app's tour editor makes and which may approve the tour as edited. Its people are chosen here, at build time, from the published
  * biographies and honours by the terms and themes the curator set, with the
  * people they pinned first and the people they excluded left out, so every
  * display of a release walks the same tour.
@@ -147,15 +148,118 @@ export function tourPeople(people: readonly TourPerson[], lens: StoredLens): str
   return [...pinned, ...scored.map((entry) => entry.person.id)].slice(0, limit);
 }
 
+/** What a curator may change about a tour: its words, and the rules that choose its people. */
+export type TourChanges = {
+  readonly label: string;
+  readonly prompt: string;
+  readonly description: string;
+  readonly terms: readonly string[];
+  readonly themes: readonly string[];
+  /** Always first, in this order. */
+  readonly pinnedPersonIds: readonly string[];
+  /** Never in the tour. */
+  readonly excludedPersonIds: readonly string[];
+  readonly maxPortraits: number;
+};
+
+/**
+ * How long a tour's words may be, as the display's tour card sets them out:
+ * the name in large type, the line above it in small capitals, and at most
+ * three lines of description.
+ */
+export const tourLimits = { label: 40, prompt: 30, description: 180, term: 40, terms: 30, maxPortraits: 120 } as const;
+
+/** A tour's changeable parts as they are stored now. */
+export function tourChangesOf(lens: StoredLens): TourChanges {
+  const text = (value: unknown) => (typeof value === 'string' ? value : '');
+  return {
+    label: text(lens.label),
+    prompt: text(lens.prompt),
+    description: text(lens.description),
+    terms: strings(lens.terms),
+    themes: strings(lens.themes),
+    pinnedPersonIds: strings(lens.pinnedPersonIds),
+    excludedPersonIds: strings(lens.excludedPersonIds),
+    maxPortraits: typeof lens.maxPortraits === 'number' && lens.maxPortraits > 0 ? lens.maxPortraits : 48,
+  };
+}
+
+/**
+ * What is wrong with an edit, in words for the curator; empty when nothing
+ * is. A word of one or two letters would match nearly every biography, and a
+ * person the collection does not have cannot be put first or left out.
+ */
+export function tourChangesProblems(changes: TourChanges, knownPersonIds: ReadonlySet<string>): string[] {
+  const problems: string[] = [];
+  const words = [['label', 'The name', tourLimits.label], ['prompt', 'The line above the name', tourLimits.prompt], ['description', 'The description', tourLimits.description]] as const;
+  for (const [field, name, limit] of words) {
+    const value = changes[field].trim();
+    if (!value) problems.push(`${name} is empty.`);
+    else if (value.length > limit) problems.push(`${name} is ${value.length} characters; the display has room for ${limit}.`);
+  }
+  for (const [field, name] of [['terms', 'word'], ['themes', 'honour']] as const) {
+    const list = changes[field];
+    if (list.length > tourLimits.terms) problems.push(`There are ${list.length} ${name}s to look for; keep it to ${tourLimits.terms}.`);
+    for (const each of list) {
+      const value = each.trim();
+      if (value.length < 3) problems.push(`"${value}" is too short to look for: it would match almost everyone.`);
+      else if (value.length > tourLimits.term) problems.push(`"${value.slice(0, 20)}…" is too long to look for.`);
+      if (value.includes(';')) problems.push(`"${value}" has a semicolon in it, which a sheet cannot carry.`);
+    }
+  }
+  for (const id of [...changes.pinnedPersonIds, ...changes.excludedPersonIds]) {
+    if (!knownPersonIds.has(id)) problems.push(`There is nobody "${id}" in the collection.`);
+  }
+  const excluded = new Set(changes.excludedPersonIds);
+  for (const id of changes.pinnedPersonIds) if (excluded.has(id)) problems.push(`"${id}" is both always first and never included.`);
+  if (new Set(changes.pinnedPersonIds).size !== changes.pinnedPersonIds.length) problems.push('Somebody is put first twice.');
+  if (!Number.isInteger(changes.maxPortraits) || changes.maxPortraits < 1 || changes.maxPortraits > tourLimits.maxPortraits) {
+    problems.push(`At most 1 to ${tourLimits.maxPortraits} people, not ${changes.maxPortraits}.`);
+  } else if (changes.pinnedPersonIds.length > changes.maxPortraits) {
+    problems.push(`${changes.pinnedPersonIds.length} people are put first, more than the ${changes.maxPortraits} the tour visits.`);
+  }
+  return problems;
+}
+
+/**
+ * The tour with an edit made to it, in memory. A tour that never stated how
+ * many it visits keeps the default unstated, so an edit that changes nothing
+ * leaves its version as it was.
+ */
+export function editedLens<T extends StoredLens>(lens: T, changes: TourChanges): T {
+  const tidy = (list: readonly string[]) => list.map((each) => each.trim()).filter(Boolean);
+  const stated = typeof lens.maxPortraits === 'number' || changes.maxPortraits !== 48;
+  return {
+    ...lens,
+    label: changes.label.trim(),
+    prompt: changes.prompt.trim(),
+    description: changes.description.trim(),
+    terms: tidy(changes.terms),
+    themes: tidy(changes.themes),
+    pinnedPersonIds: [...changes.pinnedPersonIds],
+    excludedPersonIds: [...changes.excludedPersonIds],
+    ...(stated ? { maxPortraits: changes.maxPortraits } : {}),
+  };
+}
+
 export type TourDecision = {
   readonly tourId: string;
-  /** `approve` shows it on the displays; `withdraw` takes an approved tour off them. */
-  readonly decision: 'approve' | 'withdraw';
+  /**
+   * `approve` shows it on the displays; `withdraw` takes an approved tour off
+   * them; `edit` changes its words or the rules that choose its people, and
+   * approves it as edited when it names targets, or leaves it a draft.
+   */
+  readonly decision: 'approve' | 'withdraw' | 'edit';
   /** For an approval, who may see it; asked, never assumed wider. */
   readonly targets: { readonly kiosk: boolean; readonly publicWeb: boolean };
+  /** Only for an edit. */
+  readonly changes?: TourChanges;
   readonly decisionReference: string;
   readonly note: string;
 };
+
+/** The columns an edit adds to a tour sheet. Lists are separated by semicolons. */
+export const tourEditColumns = ['label', 'prompt', 'description', 'terms', 'themes', 'pinnedPersonIds', 'excludedPersonIds', 'maxPortraits'] as const;
 
 /**
  * Reads a curator's decisions on the tours from a sheet (tourId, decision,
@@ -164,8 +268,15 @@ export type TourDecision = {
  * nobody approves a tour they did not look at; and it names who may see it
  * (`kiosk`, `public-web`, or both, comma-separated), since the display and the
  * website are decided apart. An empty decision leaves a tour as it is.
+ *
+ * An edit also fills the columns in `tourEditColumns`: the whole of the tour
+ * as edited. Its contentVersion is the version the editing began from, so an
+ * edit is refused, rather than laid over somebody else's, if the tour has
+ * changed since. With targets it approves the tour as edited, for them; with
+ * none it leaves it a draft for somebody to approve. `knownPersonIds` is who
+ * may be put first or left out; without it, nobody may.
  */
-export function tourDecisions(csvText: string, stored: StoredTours = readTours()) {
+export function tourDecisions(csvText: string, stored: StoredTours = readTours(), knownPersonIds: ReadonlySet<string> = new Set()) {
   const parsed = parseRows(csvText.replace(/^\uFEFF/, ''));
   const header = (parsed[0] ?? []).map((cell) => cell.trim());
   const required = ['tourId', 'decision', 'contentVersion', 'targets', 'decisionReference', 'note'];
@@ -188,26 +299,53 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
     if (!lens) { errors.push(`line ${line}: there is no tour "${tourId}"`); return; }
     if (seen.has(tourId)) { errors.push(`line ${line}: the tour "${tourId}" appears twice`); return; }
     seen.add(tourId);
-    if (decision !== 'approve' && decision !== 'withdraw') { errors.push(`line ${line}: decision is approve, withdraw or empty, not "${decision}"`); return; }
+    if (decision !== 'approve' && decision !== 'withdraw' && decision !== 'edit') { errors.push(`line ${line}: decision is approve, withdraw, edit or empty, not "${decision}"`); return; }
     const reference = cell(cells, 'decisionReference');
     if (!reference) { errors.push(`line ${line}: a decision needs a decisionReference`); return; }
     let targets = { kiosk: false, publicWeb: false };
-    if (decision === 'approve') {
+    if (decision === 'approve' || decision === 'edit') {
       const names = cell(cells, 'targets').split(',').map((name) => name.trim()).filter(Boolean);
       const unknown = names.filter((name) => name !== 'kiosk' && name !== 'public-web');
       if (unknown.length > 0) { errors.push(`line ${line}: "${unknown.join(', ')}" is not a target; use kiosk, public-web, or both`); return; }
-      if (names.length === 0) { errors.push(`line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`); return; }
+      if (decision === 'approve' && names.length === 0) { errors.push(`line ${line}: an approval needs targets, saying who may see the tour (kiosk, or kiosk,public-web)`); return; }
       targets = { kiosk: names.includes('kiosk'), publicWeb: names.includes('public-web') };
-      if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to approve`); return; }
+      if (lens.enabled === false) { errors.push(`line ${line}: the tour "${tourId}" is switched off, so there is nothing to ${decision}`); return; }
       if (cell(cells, 'contentVersion') !== tourVersion(lens)) {
-        errors.push(`line ${line}: the tour "${tourId}" has changed since this sheet was made, so the approval would cover a tour nobody reviewed. Look at it again.`);
+        errors.push(decision === 'approve'
+          ? `line ${line}: the tour "${tourId}" has changed since this sheet was made, so the approval would cover a tour nobody reviewed. Look at it again.`
+          : `line ${line}: the tour "${tourId}" has changed since this edit began, so it would undo somebody else's change. Edit it again from how it is now.`);
         return;
       }
     } else if (lens.reviewStatus !== 'approved') {
       errors.push(`line ${line}: the tour "${tourId}" is not approved, so there is nothing to withdraw`);
       return;
     }
-    decisions.push({ tourId, decision, targets, decisionReference: reference, note: cell(cells, 'note') });
+    if (decision !== 'edit') {
+      decisions.push({ tourId, decision, targets, decisionReference: reference, note: cell(cells, 'note') });
+      return;
+    }
+
+    const absent = tourEditColumns.filter((column) => !header.includes(column));
+    if (absent.length > 0) { errors.push(`line ${line}: an edit needs the column(s) ${absent.join(', ')}`); return; }
+    const list = (column: string) => cell(cells, column).split(';').map((each) => each.trim()).filter(Boolean);
+    const maxCell = cell(cells, 'maxPortraits');
+    const changes: TourChanges = {
+      label: cell(cells, 'label'),
+      prompt: cell(cells, 'prompt'),
+      description: cell(cells, 'description'),
+      terms: list('terms'),
+      themes: list('themes'),
+      pinnedPersonIds: list('pinnedPersonIds'),
+      excludedPersonIds: list('excludedPersonIds'),
+      maxPortraits: /^\d+$/.test(maxCell) ? Number(maxCell) : Number.NaN,
+    };
+    const problems = tourChangesProblems(changes, knownPersonIds);
+    if (problems.length > 0) { errors.push(...problems.map((problem) => `line ${line}: ${problem}`)); return; }
+    if (tourVersion(editedLens(lens, changes)) === tourVersion(lens)) {
+      errors.push(`line ${line}: the edit of "${tourId}" changes nothing; approve it as it is instead`);
+      return;
+    }
+    decisions.push({ tourId, decision, targets, changes, decisionReference: reference, note: cell(cells, 'note') });
   });
 
   return { decisions, errors, blank };
@@ -216,7 +354,9 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
 /**
  * The decisions written into the tours document, in memory. An approval
  * records the version it covers and the targets it names; a withdrawal puts
- * the tour back to a draft, shown nowhere, and says who withdrew it. Nothing
+ * the tour back to a draft, shown nowhere, and says who withdrew it. An edit
+ * writes the tour's words and rules as edited, and is an approval of them
+ * when it names targets, or a draft, shown nowhere, when it does not. Nothing
  * else about a tour changes.
  */
 export function applyTourDecisions(stored: StoredTours, decisions: readonly TourDecision[], reviewedAt: string): StoredTours {
@@ -225,6 +365,22 @@ export function applyTourDecisions(stored: StoredTours, decisions: readonly Tour
   next.lenses = (next.lenses ?? []).map((lens) => {
     const decision = typeof lens['id'] === 'string' ? byId.get(lens['id']) : undefined;
     if (!decision) return lens;
+    if (decision.decision === 'edit' && decision.changes) {
+      const edited = editedLens(lens as Record<string, unknown> & StoredLens, decision.changes);
+      const approve = decision.targets.kiosk || decision.targets.publicWeb;
+      return {
+        ...edited,
+        reviewStatus: approve ? 'approved' : 'draft',
+        review: {
+          ...(approve ? { contentVersion: tourVersion(edited) } : {}),
+          edited: true,
+          decisionReference: decision.decisionReference,
+          reviewedAt,
+          ...(decision.note ? { note: decision.note } : {}),
+        },
+        publication: approve ? { ...decision.targets } : { kiosk: false, publicWeb: false },
+      };
+    }
     return {
       ...lens,
       reviewStatus: decision.decision === 'approve' ? 'approved' : 'draft',
