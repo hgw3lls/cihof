@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { previewHash, targetsLabel } from './preview-hash.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
@@ -62,7 +62,9 @@ if (!inputPath || !existsSync(inputPath)) {
 }
 
 const csv = readFileSync(inputPath, 'utf8');
-const hash = createHash('sha256').update(csv).digest('hex');
+// The preview's token covers the audience as well as the sheet: who may see
+// it is part of the decision, and is never changed between preview and apply.
+const hash = previewHash(csv, targetsLabel(targets));
 const rows = readRows(csv);
 const header = Object.keys(rows[0] ?? {});
 
