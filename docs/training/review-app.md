@@ -107,7 +107,8 @@ Two inductees the research linked, with the record it came from. Decide
   what kind, and write the short phrase visitors will read (60 characters at
   most, such as *worked together to promote Juneteenth*).
 - **They appear together, nothing more**: a photo caption or a ceremony list
-  shows them in the same place. That is not a relationship.
+  shows them in the same place. That is not a relationship, and visitors
+  are not shown it.
 - **This is wrong**: the record does not support it.
 
 ### Places and Biographies

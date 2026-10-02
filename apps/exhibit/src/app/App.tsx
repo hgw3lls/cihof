@@ -434,7 +434,7 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
 
               {linking && (
                 <div className="chips" style={{ width }}>
-                  {linkLayers.filter((each) => each.id !== 'proposed' || candidates.length > 0).map((each) => {
+                  {linkLayers.filter((each) => (each.id !== 'proposed' || candidates.length > 0) && (each.id !== 'together' || contexts.length > 0)).map((each) => {
                     // "Same place" is the way into the city by place, as well as a layer.
                     const pressed = each.id === 'places' ? state.linkView === 'places' : state.linkLayers.includes(each.id);
                     return (

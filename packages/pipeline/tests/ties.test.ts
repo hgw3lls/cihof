@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { buildPeople } from '../src/build/people.ts';
 import { buildRuntimeBundle } from '../src/build/emit.ts';
 import { buildProposedTiesSheet } from '../src/build/review.ts';
+import { tieContexts } from '../src/build/ties.ts';
 import { readCorpusConnections } from '../src/sources/corpus.ts';
 import type { TieDecision } from '../src/sources/ties.ts';
 
@@ -63,12 +64,14 @@ test('a decided relationship with a gap in it is not published', () => {
   assert.equal(bundle.relationshipReport.fromTies, 0, 'a directional kind with no inverse wording is refused');
 });
 
-test('context stays context: drawn apart, never counted as a relationship', () => {
+test('context is never a relationship, and is not shown to visitors on either target', () => {
+  // Kept as context, a pair is recorded as no relationship; it is not drawn
+  // either (decided 2026-10-02). tieContexts still reads what was decided.
   const kiosk = buildRuntimeBundle(people, 'kiosk', { tieDecisions: [together] });
-  assert.equal(kiosk.contexts.length, 1);
-  assert.equal(kiosk.contexts[0]!.basis, 'appeared-together');
+  assert.equal(kiosk.contexts.length, 0);
   assert.equal(kiosk.relationships.length, inductionOnly());
   assert.equal(buildRuntimeBundle(people, 'public', { tieDecisions: [together] }).contexts.length, 0);
+  assert.equal(tieContexts([together], 'kiosk')[0]!.basis, 'appeared-together');
 });
 
 test('a decided tie, whichever way it went, is no longer proposed in preview', () => {
@@ -76,7 +79,7 @@ test('a decided tie, whichever way it went, is no longer proposed in preview', (
   const before = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [] });
   const after = buildRuntimeBundle(people, 'kiosk', { preview: true, tieDecisions: [rejected, together] });
   assert.equal(after.candidates.length, before.candidates.length - 2);
-  assert.equal(after.contexts.length, 1);
+  assert.equal(after.contexts.length, 0, 'decided as context, and not shown');
   assert.equal(after.relationships.length, inductionOnly(), 'a rejection publishes nothing');
 });
 

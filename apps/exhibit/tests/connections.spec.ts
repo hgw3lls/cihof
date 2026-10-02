@@ -64,12 +64,16 @@ test('the wording on a tie is the claim, read outwards from the centre', async (
   await expect(page.locator('.tile[aria-label^="Wael Khoury,"]')).toHaveAttribute('aria-label', /Wael Khoury, was inducted by/);
 });
 
-test('context stays apart from relationships: it is worded as appearing together', async ({ page }) => {
+test('two people who only appear together in a source are not shown as tied, and there is no Together key', async ({ page }) => {
+  // Wael Khoury appears with others in a source; a reviewer kept those pairs
+  // as context, which visitors are no longer shown.
   await begin(page);
   await choose(page, 'Wael Khoury');
   await page.getByRole('button', { name: /connections$/ }).click();
-  await expect(page.locator('.tile[data-ring="tie"][aria-label*="Appeared together · "]').first()).toBeAttached();
-  await expect(page.locator('.sheet__ties-list')).toContainText('Appeared together · ');
+  await expect(page.locator('.sheet__ties-list')).toBeVisible();
+  await expect(page.locator('.tile[aria-label*="Appeared together"]')).toHaveCount(0);
+  await expect(page.locator('.sheet__ties-list')).not.toContainText('Appeared together');
+  await expect(page.getByRole('button', { name: /^Together/ })).toHaveCount(0);
 });
 
 test('turning a layer off takes its ties away', async ({ page }) => {

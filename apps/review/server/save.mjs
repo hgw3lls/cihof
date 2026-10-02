@@ -86,7 +86,7 @@ export const steps = [
   },
 ];
 
-/** Who may see the ties a reviewer kept. Asked at save time; never assumed wider. */
+/** Who may see the ties and places a reviewer kept. Asked at save time; never assumed wider. */
 export const audiences = { kiosk: 'kiosk', 'kiosk-and-web': 'kiosk,public-web' };
 
 export function today(now = new Date()) {
@@ -184,8 +184,9 @@ function plan(draft) {
   return steps.filter((step) => step.keys(draft).length > 0);
 }
 
+/** Who may see what is kept: asked once at save time for connections and places alike. */
 function toolArgs(step, audience) {
-  if (step.task !== 'ties') return [];
+  if (!['ties', 'places', 'placeTies'].includes(step.task)) return [];
   const targets = audiences[audience];
   if (!targets) throw new Error(`Unknown audience: ${audience}`);
   return [`--targets=${targets}`];

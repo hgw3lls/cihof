@@ -30,11 +30,18 @@ import { placeHistoryProblem, placeTextVersion } from '../packages/pipeline/src/
  * own words, approved as written. The approval records the version of what is
  * shown after the change (see packages/pipeline/src/build/place-text.ts).
  *
+ * Who may see what a sheet approves is --targets: kiosk (the default, as it
+ * always was), or kiosk,public-web to publish to the public website as well.
+ * The website is a separate decision from the display, as it is for films and
+ * relationships, so it is named, never assumed. Approving an approved place or
+ * tie again, with its words unchanged, is how it is published more widely.
+ *
  * Same three gates as the other decision tools: dry run by default,
  * --expect-hash on apply so nothing lands unpreviewed, and a clean tree so the
  * change arrives as its own diff.
  *
  *   node scripts/apply-place-decisions.js --input=data/review-sheets/places-review-sheet.csv
+ *   node scripts/apply-place-decisions.js --input=… --targets=kiosk,public-web
  *   node scripts/apply-place-decisions.js --input=… --apply --expect-hash=<sha>
  */
 
@@ -43,6 +50,7 @@ const roles = ['lived', 'worked', 'studied', 'taught', 'organized', 'served', 'f
 const args = parseArgs(process.argv.slice(2));
 const apply = Boolean(args.apply);
 const root = resolve(import.meta.dirname, '..');
+const targets = parseTargets(args.targets) ?? { publicWeb: false, kiosk: true };
 const inputPath = args.input ? resolve(args.input) : '';
 
 if (!inputPath || !existsSync(inputPath)) {
@@ -147,9 +155,9 @@ function applyPlaces() {
       reviewedAt: new Date().toISOString(),
       ...(change.note ? { note: change.note } : {}),
     };
-    // Reviewed for the wall. The public web is a separate decision, as it is
+    // Where --targets says. The public web is a separate decision, as it is
     // for films and for relationships.
-    change.place.publication = { publicWeb: false, kiosk: true };
+    change.place.publication = { ...targets };
   }
   write(path, document);
 }
@@ -204,14 +212,15 @@ function applyTies() {
       reviewedAt: new Date().toISOString(),
       ...(change.note ? { note: change.note } : {}),
     };
-    change.tie.publication = { publicWeb: false, kiosk: true };
+    change.tie.publication = { ...targets };
     // A tie is a claim about a person, so it cites what it rests on. The
-    // harvested prose becomes a citation rather than staying a sentence.
+    // harvested prose becomes a citation rather than staying a sentence; a tie
+    // approved before already has its citations, and keeps them as they are.
     change.tie.evidence = (change.tie.evidence ?? []).map((entry, position) => ({
       id: `${change.tie.id}:src${position}`,
-      title: entry.text || 'HOF_WORLD place association',
+      title: entry.text || entry.title || 'HOF_WORLD place association',
       kind: 'secondary-source',
-      ...(entry.sourceUrls?.[0] ? { url: entry.sourceUrls[0] } : {}),
+      ...(entry.sourceUrls?.[0] ? { url: entry.sourceUrls[0] } : entry.url ? { url: entry.url } : {}),
     }));
   }
   write(path, document);
@@ -223,7 +232,9 @@ function report(what, count, summary) {
   console.log(`\nPlace decisions — ${basename(inputPath)} (${what})`);
   console.log(`  rows read                 ${rows.length}`);
   console.log(`  decisions                 ${count}`);
+  console.log(`  shown on                  ${[targets.kiosk && 'the display', targets.publicWeb && 'the public website'].filter(Boolean).join(' and ') || 'nowhere'}`);
   console.log(`  ${summary}`);
+  if (targets.publicWeb) console.log('\n  This publishes to the public website as well. That is a separate decision from the display, and this is it.');
 }
 
 function finish() {
@@ -240,7 +251,7 @@ function finish() {
   }
   if (!apply) {
     console.log(`\n  Dry run — nothing written. To apply:`);
-    console.log(`    node scripts/apply-place-decisions.js --input=${args.input} --apply --expect-hash=${hash}`);
+    console.log(`    node scripts/apply-place-decisions.js --input=${args.input}${args.targets ? ` --targets=${args.targets}` : ''} --apply --expect-hash=${hash}`);
     console.log();
     return false;
   }
@@ -257,6 +268,17 @@ function write(path, document) {
   console.log('  Decision sheet archived beside it.');
   console.log('\n  Next: npm run review:places   (see whether the lens opens)');
   console.log();
+}
+
+function parseTargets(value) {
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  const names = value.split(',').map((name) => name.trim()).filter(Boolean);
+  const unknown = names.filter((name) => name !== 'kiosk' && name !== 'public-web');
+  if (unknown.length > 0 || names.length === 0) {
+    console.error(`\n"${unknown.join(', ')}" is not a target — use kiosk, public-web, or both.`);
+    process.exit(1);
+  }
+  return { publicWeb: names.includes('public-web'), kiosk: names.includes('kiosk') };
 }
 
 function readRows(text) {
