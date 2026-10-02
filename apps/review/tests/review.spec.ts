@@ -229,6 +229,32 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await expect(tour.locator('.tour__people li').first()).toBeVisible();
   await tour.getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();
   await expect(tour.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+
+  // Another tour, edited: renamed, its first person left out and its second
+  // moved up, then left for somebody else to approve.
+  const arts = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Arts', exact: true }) });
+  await arts.getByRole('button', { name: 'Edit this tour' }).click();
+  const editor = page.locator('section.tour-editor');
+  await expect(editor.locator('.tourcard__label')).toHaveText('Arts');
+  await editor.getByLabel(/^Its name/).fill('Art and Artists');
+  await expect(editor.locator('.tourcard__label')).toHaveText('Art and Artists');
+  const stops = editor.locator('.tour-editor__name');
+  const leftOut = (await stops.nth(0).textContent())!.split(' · ')[0]!;
+  await editor.getByRole('button', { name: `Leave ${leftOut} out` }).click();
+  await expect(editor.getByRole('button', { name: `Put ${leftOut} back` })).toBeVisible();
+  const moving = (await stops.nth(1).textContent())!.split(' · ')[0]!;
+  await editor.getByRole('button', { name: `Move ${moving} earlier` }).click();
+  await expect(stops.nth(0)).toContainText(`${moving} · `);
+  await expect(stops.nth(0)).toContainText('placed by hand');
+  await editor.getByRole('button', { name: 'Keep these changes' }).click();
+  const edited = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Art and Artists', exact: true }) });
+  await expect(edited.getByText(/Your changes, not yet saved/)).toBeVisible();
+  await expect(edited.locator('.tour__people li').first()).toContainText(moving);
+  // Kept, but not decided: nothing is chosen for the reviewer.
+  await expect(edited.getByText(/Choose one of these/)).toBeVisible();
+  await expect(edited.getByRole('button', { name: /^Leave it for somebody else to approve/ })).toHaveAttribute('aria-pressed', 'false');
+  await edited.getByRole('button', { name: /^Leave it for somebody else to approve/ }).click();
+  await expect(edited.getByText(/Decided\. Kept on this computer/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the start' }).click();
 
   // A film's title: its YouTube title, kept after checking.
@@ -267,7 +293,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
-  expect(log).toContain('review: tours, 1 decision');
+  expect(log).toContain('review: tours, 2 decisions');
   expect(log).toContain('review: film titles, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('review: sign-offs, 1 decision');
@@ -350,6 +376,12 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(approvedTours[0].review.note).toContain('Reviewed by Playwright Reviewer');
   // Approved for the exhibit only: the website is a separate decision.
   expect(approvedTours[0].publication).toEqual({ kiosk: true, publicWeb: false });
+  // The edited tour has its new name and rules, and waits, off the displays, for somebody to approve it.
+  const artsLens = lenses.find((lens: { id: string }) => lens.id === 'made-art');
+  expect(artsLens).toMatchObject({ label: 'Art and Artists', reviewStatus: 'draft', publication: { kiosk: false, publicWeb: false } });
+  expect(artsLens.review).toMatchObject({ edited: true, decisionReference: expect.stringMatching(/^tours-review-/) });
+  expect(artsLens.excludedPersonIds).toHaveLength(1);
+  expect(artsLens.pinnedPersonIds).toHaveLength(1);
   expect(byName(queriedName).profileReview.note).toContain('the class year needs checking');
   expect(curated.inductees['jeanette-grasselli-brown-2010'].profileReview).toBeUndefined();
 

@@ -93,18 +93,49 @@ export type Tour = {
   /** Names of the people always first, and never included. */
   pinned: string[];
   excluded: string[];
+  /** Its words and rules as stored, which the tour editor starts from. */
+  changes: TourChanges;
   /** What approving the tour as shown records. */
   contentVersion: string;
   state: 'approved' | 'changed-since-approval' | 'draft';
   /** Where its approval lets it be shown now. */
   shownOn: { kiosk: boolean; publicWeb: boolean };
   reviewedAt: string | null;
-  people: { id: string; name: string; classYear: number | null; portrait: string | null }[];
+  people: TourPerson[];
+};
+
+export type TourPerson = { id: string; name: string; classYear: number | null; portrait: string | null };
+
+/** What the tour editor changes: a tour's words, and the rules that choose its people. */
+export type TourChanges = {
+  label: string;
+  prompt: string;
+  description: string;
+  terms: string[];
+  themes: string[];
+  /** Always first, in this order. */
+  pinnedPersonIds: string[];
+  /** Never in the tour. */
+  excludedPersonIds: string[];
+  maxPortraits: number;
 };
 
 export type TourDecision =
   | { decision: 'approve'; seenVersion: string; audience: Audience; note?: string }
-  | { decision: 'withdraw'; note?: string };
+  | { decision: 'withdraw'; note?: string }
+  /**
+   * `seenVersion` is the tour the editing began from. An audience approves it
+   * as edited; `nobody` leaves it a draft for somebody else to approve; null
+   * is not yet chosen, and the edit cannot be saved until it is.
+   */
+  | { decision: 'edit'; seenVersion: string; changes: TourChanges; audience: Audience | 'nobody' | null; note?: string };
+
+/** A tour as an edit would leave it. */
+export type TourPreview = { contentVersion: string; changed: boolean; problems: string[]; people: TourPerson[] };
+
+export async function previewTour(tourId: string, changes: TourChanges): Promise<TourPreview> {
+  return request('/api/tours/preview', { method: 'POST', body: JSON.stringify({ tourId, changes }) });
+}
 
 /** A film, whose it is, what it is called on the display, and its YouTube title as a suggestion. */
 export type FilmTitle = {
@@ -216,13 +247,18 @@ export type Review = {
   kinds: Kind[];
   attract: AttractWords;
   tours: Tour[];
+  /** Everyone a tour may visit. */
+  tourPeople: TourPerson[];
   filmTitles: FilmTitle[];
   filmStarts: FilmStart[];
   /** What still stands between the exhibit and opening day, from the records. */
   readiness: ReadinessLine[];
   signoffs: Signoff[];
   films: Film[];
-  limits: { label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number };
+  limits: {
+    label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number;
+    tour: { label: number; prompt: number; description: number; term: number; terms: number; maxPortraits: number };
+  };
   roles: Role[];
   draft: Draft;
   counts: Counts;

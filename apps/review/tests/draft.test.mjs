@@ -30,3 +30,20 @@ test('a missing or unreadable draft opens empty', () => {
   assert.deepEqual(readDraftFile(path), emptyDraft());
   assert.deepEqual(readDraftFile(join(folder, 'missing.json')), emptyDraft());
 });
+
+test('a tour edit keeps only its own fields, and an audience only if it is one', () => {
+  const path = join(folder, 'tour-edit.json');
+  const changes = { label: 'A', prompt: 'B', description: 'C', terms: ['refugee'], themes: [], pinnedPersonIds: ['a'], excludedPersonIds: [], maxPortraits: 12 };
+  writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', tours: {
+    kept: { decision: 'edit', seenVersion: 'tour-abc', changes: { ...changes, smuggled: 'x' }, audience: 'everyone', note: 'Fine.' },
+    approved: { decision: 'edit', seenVersion: 'tour-def', changes, audience: 'kiosk-and-web' },
+    left: { decision: 'edit', seenVersion: 'tour-jkl', changes, audience: 'nobody' },
+    halfMade: { decision: 'edit', seenVersion: 'tour-ghi', changes: { label: 'Only a name' } },
+    unversioned: { decision: 'edit', changes },
+  } }));
+  assert.deepEqual(readDraftFile(path).tours, {
+    kept: { decision: 'edit', seenVersion: 'tour-abc', changes, audience: null, note: 'Fine.' },
+    approved: { decision: 'edit', seenVersion: 'tour-def', changes, audience: 'kiosk-and-web', note: '' },
+    left: { decision: 'edit', seenVersion: 'tour-jkl', changes, audience: 'nobody', note: '' },
+  });
+});

@@ -4,7 +4,7 @@ import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, st
 import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadReview } from './data.mjs';
+import { loadReview, previewTour } from './data.mjs';
 import { readiness, readSignoffs } from './readiness.mjs';
 import { signoffChecklists } from './checklist.mjs';
 import { history, sheetRows } from './history.mjs';
@@ -102,6 +102,13 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
       if (!film || !['music', 'blank', 'phrase'].includes(fix)) return json(response, 400, { error: 'No such film or fix.' });
       return json(response, 200, previewFix(film, { filmId: film.filmId, fix, find: String(find ?? ''), replaceWith: String(replaceWith ?? '') }));
     }
+    // Who a tour would visit, as edited, before the reviewer keeps the edit.
+    if (request.method === 'POST' && path === '/api/tours/preview') {
+      const { tourId, changes } = await body(request);
+      const tidy = tourChanges(changes);
+      const preview = tidy ? previewTour(String(tourId ?? ''), tidy) : null;
+      return preview ? json(response, 200, preview) : json(response, 400, { error: 'No such tour, or not an edit of one.' });
+    }
     if (request.method === 'PUT' && path === '/api/draft') {
       const draft = normaliseDraft(await body(request));
       writeDraft(draft);
@@ -155,9 +162,16 @@ function normaliseDraft(value) {
     profiles: object(draft.profiles),
     // One block of exhibit text so far; nothing else can name a block.
     attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
-    // Only the two decisions a tour can have.
-    tours: Object.fromEntries(Object.entries(object(draft.tours)).filter(([, value]) => value?.decision === 'withdraw'
-      || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience)))),
+    // Only the decisions a tour can have; an edit kept to its own fields.
+    tours: Object.fromEntries(Object.entries(object(draft.tours)).flatMap(([tourId, value]) => {
+      if (value?.decision === 'withdraw' || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience))) return [[tourId, value]];
+      if (value?.decision !== 'edit' || typeof value.seenVersion !== 'string') return [];
+      const changes = tourChanges(value.changes);
+      if (!changes) return [];
+      // Approved for an audience, left for somebody else, or not yet chosen.
+      const audience = Object.hasOwn(audiences, value.audience) || value.audience === 'nobody' ? value.audience : null;
+      return [[tourId, { decision: 'edit', seenVersion: value.seenVersion, changes, audience, note: typeof value.note === 'string' ? value.note : '' }]];
+    })),
     // A title approved, with its words, or a clearing.
     filmTitles: Object.fromEntries(Object.entries(object(draft.filmTitles)).filter(([, value]) => value?.decision === 'clear'
       || (value?.decision === 'approve' && typeof value.title === 'string'))),
@@ -167,6 +181,19 @@ function normaliseDraft(value) {
     signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
   };
+}
+
+/** A tour edit's fields, and nothing else; null when it is not one. */
+function tourChanges(value) {
+  if (!value || typeof value !== 'object') return null;
+  const text = (field) => (typeof value[field] === 'string' ? value[field].slice(0, 1000) : null);
+  const list = (field) => (Array.isArray(value[field]) ? value[field].filter((each) => typeof each === 'string').slice(0, 200).map((each) => each.slice(0, 200)) : null);
+  const changes = {
+    label: text('label'), prompt: text('prompt'), description: text('description'),
+    terms: list('terms'), themes: list('themes'), pinnedPersonIds: list('pinnedPersonIds'), excludedPersonIds: list('excludedPersonIds'),
+    maxPortraits: Number.isInteger(value.maxPortraits) ? value.maxPortraits : null,
+  };
+  return Object.values(changes).every((each) => each !== null) ? changes : null;
 }
 
 function audienceOf(value) {

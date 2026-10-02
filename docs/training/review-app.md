@@ -132,7 +132,20 @@ for connections. An approved tour can be **taken off** again. Its people are cho
 published biographies and honours by words and honours the curators set
 (under *How its people are chosen*). If those rules or the tour's words
 change after you approve it, it comes off the displays until somebody
-approves it again. To change who a tour includes, ask the developer.
+approves it again.
+
+**Edit this tour** opens the tour editor. Change its name, the line above it
+and what it is about, and watch them on a copy of the card visitors see in
+the Tour key. Change who it visits: drag someone to a new place (or use the
+arrows), **Leave out** someone who does not belong, or **Add someone** by
+name. Whoever you move, and everyone above them, keeps that order; below
+them the tour's words and honours choose as before, and you can change those
+too, along with how many people it visits at most. The list always shows who
+the tour would visit, worked out as the display would. **Keep these
+changes**, then **approve it as edited** for the exhibit (or the exhibit and
+the website), or **leave it for somebody else to approve**. Either way the
+changes are saved with your other decisions, and until it is approved as
+edited the tour stays off the displays.
 
 ### Film titles
 

@@ -35,8 +35,8 @@ Along the **bottom**, within reach of someone standing or seated:
 - **People**, **Years** and **Connections**, each with its own colour: the
   same faces, arranged A to Z (or by community or contribution), by
   induction class, or by who is connected to whom;
-- **Search**, **Tour**, **Light** or **Dark**, and **Start over**, which goes
-  back to the attract screen.
+- **Search**, **Tour**, **Light** or **Dark**, **How this works**, and
+  **Start over**, which goes back to the attract screen.
 
 Touching a face chooses that person: it turns from grey to colour, and a
 panel slides in from the right with the start of their story. **Read their
@@ -60,6 +60,22 @@ city.
 
 **Search** finds names, words in the stories, communities, years, places and
 what is said in the films, typed on a keyboard.
+
+### How this works
+
+As a visitor comes in from the attract screen, the top of the screen offers
+them a guide: **"New here?"**, with **How this works** and **No thanks**. It
+never opens by itself. If they ignore it, it goes after about twelve
+seconds, or as soon as they touch anything else.
+
+**How this works** walks them round the display one control at a time,
+lighting each one up: the ways in, choosing someone and reading their story,
+films, Connections, the keys on the bar, and how a visit ends. Every step has
+**Stop**, **Start again**, **Back** and **Next**, and touching outside the
+box closes it. Nothing moves on until they touch Next.
+
+If a visitor looks unsure later on, point them to the **How this works** key
+on the bar, beside **Start over**. It opens the same guide at any time.
 
 ### When a visitor walks away
 
@@ -157,5 +173,8 @@ The full table is in staff guide section 6.
    CIHOF Exhibit from the Start menu)*
 3. How do you open the admin panel without a keyboard? *(Hold the top-left
    corner for 5 seconds)*
-4. What do you write down before reporting a problem? *(Release, Content,
+4. A visitor turned down the guide when they came in and is now stuck. What
+   do you point them to? *(The How this works key on the bar, beside Start
+   over)*
+5. What do you write down before reporting a problem? *(Release, Content,
    the time, and what you saw)*

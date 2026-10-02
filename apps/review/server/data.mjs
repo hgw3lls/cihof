@@ -11,7 +11,7 @@ import { attractLimits, publishedAttractText, readExhibitText } from '../../../p
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
 import { approvedFilmTitle, filmTitleLimit, readFilmTitles } from '../../../packages/pipeline/src/build/film-titles.ts';
-import { readTours, tourApproved, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
+import { editedLens, readTours, tourApproved, tourChangesOf, tourChangesProblems, tourLimits, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -186,10 +186,12 @@ export function loadReview() {
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
     tours: tours(people),
+    // Everyone a tour may visit, for the tour editor to add.
+    tourPeople: tourPool().published.map(tourPerson),
     filmTitles: filmTitles(byId),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
-    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit },
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
 }
@@ -214,8 +216,7 @@ function attractWords() {
  * the profiles the display publishes.
  */
 function tours(people) {
-  const published = buildRuntimeBundle(people, 'kiosk').people;
-  const byId = new Map(published.map((person) => [person.id, person]));
+  const { published, byId } = tourPool(people);
   const text = (value) => (typeof value === 'string' ? value : '');
   const list = (value) => (Array.isArray(value) ? value.filter((each) => typeof each === 'string') : []);
   return (readTours().lenses ?? []).filter((lens) => typeof lens.id === 'string' && lens.enabled !== false).map((lens) => {
@@ -229,17 +230,52 @@ function tours(people) {
       themes: list(lens.themes),
       pinned: list(lens.pinnedPersonIds).map((id) => byId.get(id)?.name ?? id),
       excluded: list(lens.excludedPersonIds).map((id) => byId.get(id)?.name ?? id),
+      // Everything the tour editor starts from.
+      changes: tourChangesOf(lens),
       contentVersion: tourVersion(lens),
       state: approved ? 'approved' : lens.reviewStatus === 'approved' ? 'changed-since-approval' : 'draft',
       // Where the approval lets it be shown, the display and the website apart.
       shownOn: approved ? tourTargets(lens) : { kiosk: false, publicWeb: false },
       reviewedAt: typeof lens.review?.reviewedAt === 'string' ? lens.review.reviewedAt : null,
-      people: tourPeople(published, lens).map((id) => {
-        const person = byId.get(id);
-        return { id, name: person?.name ?? id, classYear: person?.classYear ?? null, portrait: person?.portrait?.src ?? null };
-      }),
+      people: tourPeople(published, lens).map((id) => tourPerson(byId.get(id) ?? { id })),
     };
   });
+}
+
+/**
+ * The people a tour chooses from: the profiles the display publishes. Kept
+ * from the last full read, so the editor's preview answers quickly; every
+ * page load reads them afresh.
+ */
+let pool = null;
+function tourPool(people) {
+  if (people || !pool) {
+    const published = buildRuntimeBundle(people ?? buildPeople(), 'kiosk').people;
+    pool = { published, byId: new Map(published.map((person) => [person.id, person])) };
+  }
+  return pool;
+}
+
+function tourPerson(person) {
+  return { id: person.id, name: person.name ?? person.id, classYear: person.classYear ?? null, portrait: person.portrait?.src ?? null };
+}
+
+/**
+ * A tour as an edit would leave it: who it would visit, in order, the version
+ * an approval of it would name, and anything wrong with the edit. Nothing is
+ * written. Null for a tour that does not exist.
+ */
+export function previewTour(tourId, changes) {
+  const lens = (readTours().lenses ?? []).find((each) => each.id === tourId);
+  if (!lens) return null;
+  const { published, byId } = tourPool();
+  const edited = editedLens(lens, changes);
+  return {
+    contentVersion: tourVersion(edited),
+    changed: tourVersion(edited) !== tourVersion(lens),
+    problems: tourChangesProblems(changes, new Set(published.map((person) => person.id))),
+    people: tourPeople(published, edited).map((id) => tourPerson(byId.get(id) ?? { id })),
+  };
 }
 
 /**

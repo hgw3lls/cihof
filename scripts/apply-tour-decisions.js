@@ -3,6 +3,7 @@ import { projectStatus } from './working-tree.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { applyTourDecisions, readTours, tourDecisions, tourVersion } from '../packages/pipeline/src/build/tours.ts';
+import { buildPeople } from '../packages/pipeline/src/build/people.ts';
 
 /**
  * Records a curator's decisions on the curated tours, from the staff review
@@ -15,6 +16,15 @@ import { applyTourDecisions, readTours, tourDecisions, tourVersion } from '../pa
  *             decided apart, as for all visitor content.
  *   withdraw  takes an approved tour off the display and the website, back
  *             to a draft.
+ *   edit      changes the tour's words, or the rules that choose its people,
+ *             from the tour editor in the staff review app. The sheet's
+ *             contentVersion is the version the editing began from, and its
+ *             other columns (label, prompt, description, terms, themes,
+ *             pinnedPersonIds, excludedPersonIds, maxPortraits; lists
+ *             separated by semicolons) the whole tour as edited. Its targets
+ *             approve the tour as edited, for them, or are `none`, which
+ *             leaves it a draft, shown nowhere, for somebody to approve. An
+ *             edit with no targets is refused.
  *
  * Nothing
  * a visitor reads about a person changes, so nothing is recorded in the
@@ -40,6 +50,7 @@ if (!inputPath || !existsSync(inputPath)) {
   console.error('  npm run tours:apply -- --input=<sheet>');
   console.error('  npm run tours:apply -- --input=… --apply --expect-hash=<sha256>');
   console.error('\nThe sheet\'s columns: tourId,decision,contentVersion,targets,decisionReference,note');
+  console.error('An edit adds: label,prompt,description,terms,themes,pinnedPersonIds,excludedPersonIds,maxPortraits');
   console.error('To approve a tour as it is now, give the version shown here:');
   for (const lens of readTours().lenses ?? []) {
     if (typeof lens.id === 'string') console.error(`  ${lens.id}  ${tourVersion(lens)}  (${lens.reviewStatus ?? 'no status'})`);
@@ -62,12 +73,21 @@ if (args.apply) {
 
 const stored = readTours();
 const labels = new Map((stored.lenses ?? []).map((lens) => [lens.id, lens.label]));
-const { decisions, errors, blank } = tourDecisions(csv, stored);
+const known = new Set(buildPeople().map((person) => person.id));
+const { decisions, errors, blank } = tourDecisions(csv, stored, known);
 for (const decision of decisions) {
   const where = [decision.targets.kiosk && 'the display', decision.targets.publicWeb && 'the public website'].filter(Boolean).join(' and ');
-  console.log(decision.decision === 'approve'
-    ? `  Approve the tour "${labels.get(decision.tourId) ?? decision.tourId}" for ${where}, under ${decision.decisionReference}`
-    : `  Withdraw the tour "${labels.get(decision.tourId) ?? decision.tourId}" from the display and the website, under ${decision.decisionReference}`);
+  const name = labels.get(decision.tourId) ?? decision.tourId;
+  if (decision.decision === 'edit') {
+    const renamed = decision.changes && decision.changes.label.trim() !== name ? ` (to be called "${decision.changes.label.trim()}")` : '';
+    console.log(where
+      ? `  Edit the tour "${name}"${renamed} and approve it as edited for ${where}, under ${decision.decisionReference}`
+      : `  Edit the tour "${name}"${renamed}, leaving it a draft for somebody to approve, under ${decision.decisionReference}`);
+  } else {
+    console.log(decision.decision === 'approve'
+      ? `  Approve the tour "${name}" for ${where}, under ${decision.decisionReference}`
+      : `  Withdraw the tour "${name}" from the display and the website, under ${decision.decisionReference}`);
+  }
 }
 if (blank > 0) console.log(`  ${blank} row(s) left as they are.`);
 if (errors.length > 0) {
