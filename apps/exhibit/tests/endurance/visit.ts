@@ -52,10 +52,34 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
   const began = Date.now();
   const step = options.stepMs ?? 10_000;
   const problems: string[] = [];
+  // Once a visit is under way, a step that finds the attract screen back says
+  // so once and the rest are skipped, rather than each waiting a whole step
+  // for keys that have gone with the visit.
+  let underWay = false;
+  let cutShort = false;
   const attempt = async (what: string, action: () => Promise<void>) => {
+    if (underWay && (cutShort || await page.locator('.attract').isVisible())) {
+      if (!cutShort) problems.push(`the display ended the visit before "${what}"`);
+      cutShort = true;
+      return false;
+    }
     try { await action(); return true; } catch (error) {
       problems.push(`${what}: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`);
       return false;
+    }
+  };
+  // Asked "Are you still here?" partway through, a visitor says so. A test
+  // build asks after a moment's pause, and a slow machine pauses: unanswered,
+  // the warning blocks every touch until the visit ends under it.
+  const warning = page.locator('[data-session-warning]');
+  const keepReading = () => warning.getByRole('button', { name: 'Keep reading' }).click({ timeout: 2_000 }).catch(() => undefined);
+  await page.addLocatorHandler(warning, keepReading, { noWaitAfter: true });
+  // Pausing to look at something, answering the warning if it comes, so that
+  // a key pressed afterwards reaches the page and not the warning.
+  const linger = async (ms: number) => {
+    for (const until = Date.now() + ms; Date.now() < until;) {
+      await page.waitForTimeout(Math.min(250, Math.max(0, until - Date.now())));
+      if (await warning.isVisible()) await keepReading();
     }
   };
 
@@ -87,6 +111,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     }
     await page.locator('.lensbar').waitFor({ state: 'visible', timeout: step });
   });
+  underWay = true;
 
   // How this works is offered to every visitor. Some ignore the offer, some
   // turn it down, some ask for the guide and read it through.
@@ -116,7 +141,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     if (await button.count() === 0) continue;
     if (await attempt(`open ${lens}`, async () => {
       await button.click({ timeout: step });
-      await page.waitForTimeout(600);
+      await linger(600);
     })) lenses.push(lens);
   }
 
@@ -137,7 +162,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     const onConnections = await lensbar.getByRole('button', { name: /^Connections/ }).getAttribute('aria-current') === 'page';
     if (tiles === faces && (onConnections || await faces.count() === 0)) {
       await lensbar.getByRole('button', { name: /^People/ }).click({ timeout: step });
-      await page.waitForTimeout(600);
+      await linger(600);
       tiles = faces;
     }
     // A chosen face is drawn larger, over its neighbours; a visitor closes it
@@ -155,7 +180,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     if (options.films !== false && index % 2 === 0 && await watch.count() > 0) {
       await watch.first().click({ timeout: step });
       await page.locator('dialog.film').waitFor({ state: 'visible', timeout: step });
-      await page.waitForTimeout(options.filmMs);
+      await linger(options.filmMs);
       await page.keyboard.press('Escape');
       await page.locator('dialog.film').waitFor({ state: 'detached', timeout: step });
       film = true;
@@ -164,7 +189,7 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     if (index % 4 === 1 && await take.count() > 0) {
       await take.click({ timeout: step });
       await page.locator('.share').waitFor({ state: 'visible', timeout: step });
-      await page.waitForTimeout(1_500);
+      await linger(1_500);
       await page.keyboard.press('Escape');
       await page.locator('.share').waitFor({ state: 'detached', timeout: step });
       share = true;
@@ -173,7 +198,10 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     await page.locator('dialog.record').waitFor({ state: 'detached', timeout: step });
   });
 
-  // Then leave. One visitor in three touches Start over; the rest walk away.
+  // Then leave. One visitor in three touches Start over; the rest walk away,
+  // and nobody is there to answer the warning.
+  await page.removeLocatorHandler(warning);
+  underWay = false;
   let ended: VisitResult['ended'] = index % 3 === 0 ? 'start over' : 'left alone';
   // A display with short timings may already have ended the visit itself.
   if (await page.locator('.attract').isVisible()) ended = 'left alone';
