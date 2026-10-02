@@ -20,8 +20,9 @@ import { basename, join, resolve } from 'node:path';
  * It is built from a kiosk package (npm run package:kiosk), which it makes
  * first in release/cihof-kiosk-<revision>/. Once the app is built, that
  * package has served its purpose, so it is removed, unless --keep-package is
- * given or the build fails. Only a package this run made is removed: one that
- * was already there, made on purpose for a display, is left alone.
+ * given or the build fails. Only the package this run wrote is removed; every
+ * other package in release/ is left alone. (The packaging step replaces a
+ * package of the same release, so one by that name is this run's either way.)
  *
  * Writes to release/app/. Like the kiosk package it carries kiosk-only films,
  * so it is built by hand, on the machine that holds the video files, and never
@@ -65,13 +66,15 @@ if (target === 'win' && process.platform !== 'win32' && spawnSync('wine', ['--ve
 const withFilms = process.argv.includes('--with-films');
 const releases = join(root, 'release');
 const packages = () => (existsSync(releases) ? readdirSync(releases).filter((name) => name.startsWith('cihof-kiosk-')) : []);
-const before = new Set(packages());
+const started = Date.now();
 run(process.execPath, [join(root, 'scripts', 'package-kiosk.mjs'), ...(withFilms ? [] : ['--without-films'])]);
 const newest = packages()
   .map((name) => join(releases, name))
   .sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)[0];
-// Made by this run, rather than already there: only such a package is removed afterwards.
-const madeHere = !before.has(basename(newest));
+// Written by this run: the packaging step deletes and recreates its folder,
+// so this holds even when a package by that name was there before, as after
+// a failed build or one run with --keep-package. Only that package is removed.
+const madeHere = Boolean(newest) && statSync(newest).mtimeMs >= started - 1000;
 
 // 2. The app's own tools, installed only here and only when needed.
 if (!existsSync(join(app, 'node_modules', 'electron-builder'))) run('npm', ['ci'], { cwd: app });
@@ -95,7 +98,7 @@ if (madeHere && !process.argv.includes('--keep-package')) {
   rmSync(newest, { recursive: true, force: true });
   console.log(`\nRemoved the kiosk package it was built from (${basename(newest)}); pass --keep-package to keep it.`);
 } else if (!madeHere) {
-  console.log(`\nLeft ${basename(newest)} in place: it was there before this build.`);
+  console.log(`\nLeft ${basename(newest)} in place: this build did not write it.`);
 }
 
 console.log(`\nKiosk app for ${target} written to ${join(releases, 'app')}`);
