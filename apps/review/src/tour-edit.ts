@@ -77,3 +77,8 @@ export function newTourId(label: string, taken: ReadonlySet<string>): string {
   if (!taken.has(base)) return base;
   for (let n = 2; ; n += 1) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`;
 }
+
+/** A tour with nobody put in it and nothing to choose anybody by, as the pipeline's choosesNobody: a new one may not be made so. */
+export function choosesNobody(changes: Pick<TourChanges, 'terms' | 'themes' | 'pinnedPersonIds'>): boolean {
+  return changes.terms.length === 0 && changes.themes.length === 0 && changes.pinnedPersonIds.length === 0;
+}

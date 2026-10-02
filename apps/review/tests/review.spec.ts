@@ -263,6 +263,9 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await fresh.getByLabel(/^The line above the name/).fill('Test');
   await fresh.getByLabel(/^Its name/).fill('Test Painters');
   await fresh.getByLabel(/^What it is about/).fill('A tour made by the browser test.');
+  // Words alone are not a tour: it cannot be kept with nobody to visit.
+  await expect(fresh.getByText('Put somebody in it, or give it words or honours to choose people by.')).toBeVisible();
+  await expect(fresh.getByRole('button', { name: 'Keep these changes' })).toBeDisabled();
   await fresh.getByRole('searchbox').fill('Basil Russo');
   await fresh.getByRole('button', { name: 'Add Basil Russo' }).click();
   await fresh.getByLabel('Add to words to look for in their biographies').fill('painter');

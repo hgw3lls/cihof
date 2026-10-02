@@ -11,7 +11,7 @@ import { attractLimits, publishedAttractText, readExhibitText } from '../../../p
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
 import { approvedFilmTitle, filmTitleLimit, readFilmTitles } from '../../../packages/pipeline/src/build/film-titles.ts';
-import { blankTourChanges, editedLens, readTours, tourApproved, tourChangesOf, tourChangesProblems, tourLimits, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
+import { blankTourChanges, choosesNobody, editedLens, readTours, tourApproved, tourChangesOf, tourChangesProblems, tourLimits, tourPeople, tourTargets, tourVersion } from '../../../packages/pipeline/src/build/tours.ts';
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
@@ -278,7 +278,11 @@ export function previewTour(tourId, changes, { creating = false } = {}) {
   return {
     contentVersion: tourVersion(edited),
     changed: tourVersion(edited) !== tourVersion(lens),
-    problems: tourChangesProblems(changes, new Set(published.map((person) => person.id))),
+    problems: [
+      ...tourChangesProblems(changes, new Set(published.map((person) => person.id))),
+      // As tours:apply refuses it, so the editor says so before it is kept.
+      ...(creating && choosesNobody(changes) ? ['Put somebody in it, or give it words or honours to choose people by.'] : []),
+    ],
     people: tourPeople(published, edited).map((id) => tourPerson(byId.get(id) ?? { id })),
   };
 }

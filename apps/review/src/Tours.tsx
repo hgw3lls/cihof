@@ -3,7 +3,7 @@ import { previewTour, type Audience, type Draft, type Review, type Tour, type To
 import { Choice } from './Connections.tsx';
 import { Portrait } from './Portrait.tsx';
 import { TourEditor } from './TourEditor.tsx';
-import { newTourId } from './tour-edit.ts';
+import { choosesNobody, newTourId } from './tour-edit.ts';
 
 type Props = {
   review: Review;
@@ -257,6 +257,9 @@ function NewTourPanel({ tourId, value, review, set }: {
             {taken && (
               <p className="todo" role="status">A tour called <code>{tourId}</code> was saved by somebody else since you started this one. Discard it and start again.</p>
             )}
+            {choosesNobody(words) && (
+              <p className="todo" role="status">It has nobody in it and nothing to choose anybody by, so it cannot be saved. Edit it to put somebody in it.</p>
+            )}
             {value.audience === null && !taken && (
               <p className="todo" role="status">Choose one of these, so it is clear whether visitors may see it. Until then it cannot be saved.</p>
             )}
@@ -264,7 +267,7 @@ function NewTourPanel({ tourId, value, review, set }: {
               <span>A note, if you want one <span className="quiet small">(kept with the decision)</span></span>
               <input value={value.note ?? ''} onChange={(event) => set({ ...value, note: event.target.value })} />
             </label>
-            {value.audience !== null && !taken && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
+            {value.audience !== null && !taken && !choosesNobody(words) && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
           </>
         )}
     </article>

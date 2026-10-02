@@ -273,6 +273,11 @@ export function newTourId(label: string, taken: ReadonlySet<string>): string {
   for (let n = 2; ; n += 1) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`;
 }
 
+/** A tour with nobody put in it and nothing to choose anybody by: a new one may not be made so. */
+export function choosesNobody(changes: Pick<TourChanges, 'terms' | 'themes' | 'pinnedPersonIds'>): boolean {
+  return changes.terms.length === 0 && changes.themes.length === 0 && changes.pinnedPersonIds.length === 0;
+}
+
 /** A tour with nothing in it yet, as the editor starts a new one. */
 export const blankTourChanges: TourChanges = {
   label: '', prompt: '', description: '', terms: [], themes: [], pinnedPersonIds: [], excludedPersonIds: [], maxPortraits: 48,
@@ -377,7 +382,7 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
       const targets = readTargets(cells, line, decision);
       const changes = targets && readChanges(cells, line, 'a new tour');
       if (!targets || !changes) return;
-      if (changes.terms.length === 0 && changes.themes.length === 0 && changes.pinnedPersonIds.length === 0) {
+      if (choosesNobody(changes)) {
         errors.push(`line ${line}: the new tour "${changes.label.trim()}" has nobody in it and nothing to choose anybody by`);
         return;
       }

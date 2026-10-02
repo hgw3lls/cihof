@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { moved, newTourId, withAdded, withLeftOut, withMove, withPutBack, withWord } from '../src/tour-edit.ts';
+import { choosesNobody, moved, newTourId, withAdded, withLeftOut, withMove, withPutBack, withWord } from '../src/tour-edit.ts';
 
 const tour = { label: 'T', prompt: 'P', description: 'D', terms: ['refugee'], themes: [], pinnedPersonIds: [], excludedPersonIds: [], maxPortraits: 3 };
 
@@ -46,4 +46,10 @@ test('a new tour is named from its words, as the pipeline names it, and never by
   assert.equal(newTourId('Ōtautahi Artists', new Set()), 'otautahi-artists');
   assert.equal(newTourId('Arts', new Set(['arts', 'arts-2'])), 'arts-3');
   assert.equal(newTourId('', new Set()), 'tour');
+});
+
+test('a tour with nobody in it and nothing to choose anybody by is told apart', () => {
+  assert.equal(choosesNobody({ terms: [], themes: [], pinnedPersonIds: [] }), true);
+  assert.equal(choosesNobody({ terms: ['painter'], themes: [], pinnedPersonIds: [] }), false);
+  assert.equal(choosesNobody({ terms: [], themes: [], pinnedPersonIds: ['a'] }), false);
 });
