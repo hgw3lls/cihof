@@ -149,7 +149,7 @@ function TieCard({ tie, kinds, limit, value, onChange }: {
           <Choice selected={choice === 'relationship'} onClick={() => choose('relationship')}
             title="A real connection" body="The record says their lives or work touched: they worked together, were family, one mentored the other." />
           <Choice selected={choice === 'context'} onClick={() => choose('context')}
-            title="They appear together, nothing more" body="Named in the same caption, on the same stage, in the same session. Shown as a quieter link that claims nothing." />
+            title="They appear together, nothing more" body="Named in the same caption, on the same stage, in the same session. Recorded as no relationship, and not shown to visitors." />
           <Choice selected={choice === 'reject'} onClick={() => choose('reject')}
             title="This is wrong" body="The record does not support it, or it is about someone else. It will not be shown or proposed again." />
         </div>

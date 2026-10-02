@@ -96,7 +96,10 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
       return typeof value.history === 'string' && historyProblem(value.history, review.limits.placeHistory) ? [`the words for ${name}`] : [];
     }),
   ];
-  const shown = Object.values(draft.ties).some((value) => value.decision !== 'reject');
+  // Who may see them is asked when connections or places are kept, the display and the website apart.
+  const shownTies = Object.values(draft.ties).some((value) => value.decision !== 'reject');
+  const shownPlaces = Object.values(draft.places).some((value) => value.approve === true) || Object.keys(draft.placeTies).length > 0;
+  const shown = shownTies || shownPlaces;
   const lines = summary(review, draft, tieName);
 
   const run = async (what: 'check' | 'save') => {
@@ -184,7 +187,9 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
 
       {shown && (
         <section className="panel">
-          <h2 className="question">Who may see the connections you kept?</h2>
+          <h2 className="question">
+            Who may see the {shownTies && shownPlaces ? 'connections and places' : shownTies ? 'connections' : 'places'} you kept?
+          </h2>
           <div className="choices choices--small">
             <button type="button" className="choice" aria-pressed={audience === 'kiosk'} onClick={() => { setAudience('kiosk'); setChecked(null); }}>
               <strong>The exhibit only</strong><span>The touchscreen in the gallery. The usual choice.</span>

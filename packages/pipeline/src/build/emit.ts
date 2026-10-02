@@ -21,7 +21,7 @@ import { placeWordsState } from './place-text.ts';
 import { approvedFilmStart, readFilmStarts, type StoredFilmStarts } from './film-starts.ts';
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
-import { decidedCorpusIds, tieContexts, tieRelationships } from './ties.ts';
+import { decidedCorpusIds, tieRelationships } from './ties.ts';
 import { publishedAttractText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
 import { publishedTours, type RuntimeTour, type StoredTours } from './tours.ts';
 import { approvedFilmTitle, readFilmTitles, type StoredFilmTitles } from './film-titles.ts';
@@ -250,8 +250,12 @@ export function buildRuntimeBundle(
   const candidates = preview
     ? previewTies((sources.corpusConnections ?? readCorpusConnections()).filter((row) => !decided.has(row.id)), publishedIds)
     : [];
-  const contexts = tieContexts(tieDecisions, target)
-    .filter((context) => context.between.every((id) => publishedIds.has(id as string)));
+  // Pairs a reviewer kept as context, two people who only appear together in
+  // a source, are not shown to visitors on either target (decided 2026-10-02):
+  // a dotted line between two faces read as a connection however it was
+  // worded. The decisions stay in data/cihof_tie_decisions.json, so a reviewer
+  // still says a pair is no relationship, and showing them again is this line.
+  const contexts: SharedContext[] = [];
 
   // The roster's `inducted_by` column becomes relationships here, and only
   // here. Resolving who a name refers to happens in the crosswalk under review;
