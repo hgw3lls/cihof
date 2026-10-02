@@ -1,8 +1,8 @@
-import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
+import { previewHash } from '../../../scripts/preview-hash.js';
 import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
@@ -123,7 +123,9 @@ export function save({ root, draft, audience = 'kiosk', day = today() }) {
     }
 
     const input = writeSheet(root, step, draft, day);
-    const hash = createHash('sha256').update(readFileSync(input, 'utf8')).digest('hex');
+    // As the tool will compute it: the sheet, and for a tool with an audience, the audience too.
+    const targets = toolArgs(step, audience)[0]?.slice('--targets='.length);
+    const hash = previewHash(readFileSync(input, 'utf8'), targets);
     const log = [];
     const run = (script, args = []) => {
       const result = runTool(root, script, args);

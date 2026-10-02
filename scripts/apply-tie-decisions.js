@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { previewHash, targetsLabel } from './preview-hash.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { projectStatus } from './working-tree.js';
 import { basename, resolve } from 'node:path';
@@ -59,7 +60,10 @@ if (!inputPath || !existsSync(inputPath)) {
 }
 
 const csv = readFileSync(inputPath, 'utf8');
-const hash = createHash('sha256').update(csv).digest('hex');
+// Who may see the ties is part of what is previewed, so it is read first and
+// the preview's token covers it as well as the sheet.
+const targets = parseTargets(args.targets);
+const hash = previewHash(csv, targetsLabel(targets));
 
 if (apply) {
   if (args.expectHash !== hash) {
@@ -77,7 +81,6 @@ const ties = new Map(buildProposedTiesSheet(readCorpusConnections(), people).map
 const existing = readTieDecisions();
 const existingByTie = new Map(existing.map((decision) => [decision.tieId, decision]));
 const rows = readDecisionRows(csv);
-const targets = parseTargets(args.targets);
 const reviewedAt = new Date().toISOString();
 
 const errors = [];
