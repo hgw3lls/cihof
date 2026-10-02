@@ -86,6 +86,7 @@ export function Tours({ review, draft, update, onDone }: Props) {
 
 function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; value: TourDecision | undefined; set: (value: TourDecision | undefined) => void }) {
   const [editing, setEditing] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const edit = value?.decision === 'edit' ? value : null;
   const preview = useEditedPreview(tour.tourId, edit?.changes ?? null);
   const stale = tourStale(tour, value);
@@ -104,6 +105,26 @@ function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; v
     set({ decision: 'edit', seenVersion: edit?.seenVersion ?? tour.contentVersion, changes, audience: null, note: value?.note ?? '' });
     setEditing(false);
   };
+
+  // Chosen for deleting: nothing else is asked about it, and it can still be kept.
+  if (value?.decision === 'delete') {
+    return (
+      <article className="panel tour tour--deleting" aria-labelledby={`tour-${tour.tourId}`}>
+        <p className="quiet small tour__prompt">{tour.prompt}</p>
+        <h2 id={`tour-${tour.tourId}`} className="place__name">{tour.label}</h2>
+        <p className="todo" role="status">
+          To be deleted when you save. It comes off the exhibit and the website, and out of the tours here; the record of this decision keeps what it was.
+        </p>
+        {stale && <p className="todo" role="status">This tour changed after you chose to delete it. Look at it again: keep it, or choose to delete it again.</p>}
+        <label className="field">
+          <span>Why, if you want to say <span className="quiet small">(kept with the decision)</span></span>
+          <input value={value.note ?? ''} onChange={(event) => set({ ...value, note: event.target.value })} />
+        </label>
+        <p><button type="button" onClick={() => set(undefined)}>Don’t delete it</button></p>
+        {!stale && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
+      </article>
+    );
+  }
 
   return (
     <article className="panel tour" aria-labelledby={`tour-${tour.tourId}`}>
@@ -190,6 +211,23 @@ function TourPanel({ tour, review, value, set }: { tour: Tour; review: Review; v
               <p className="todo" role="status">Choose one of these, so it is clear whether visitors may see the tour as edited. Until then your changes cannot be saved.</p>
             )}
             {value && !stale && !tourUnchosen(value) && <p className="done" role="status">✓ Decided. Kept on this computer until you save.</p>}
+
+            {confirming
+              ? (
+                <div className="tour__delete" role="group" aria-label={`Delete ${tour.label}?`}>
+                  <p>
+                    <strong>Delete “{tour.label}” for good?</strong> It comes off the exhibit and the website, and out of the tours here.
+                    {edit ? ' Your changes to it are thrown away.' : ''} To stop visitors seeing it but keep it, take it off the displays instead.
+                  </p>
+                  <p>
+                    <button type="button" className="danger" onClick={() => { set({ decision: 'delete', seenVersion: tour.contentVersion, note: '' }); setConfirming(false); }}>
+                      Yes, delete it
+                    </button>
+                    {' '}<button type="button" onClick={() => setConfirming(false)}>Keep it</button>
+                  </p>
+                </div>
+              )
+              : <p><button type="button" className="link link--danger" onClick={() => setConfirming(true)}>Delete this tour</button></p>}
           </>
         )}
     </article>

@@ -166,6 +166,9 @@ function normaliseDraft(value) {
     // Only the decisions a tour can have; an edit kept to its own fields.
     tours: Object.fromEntries(Object.entries(object(draft.tours)).flatMap(([tourId, value]) => {
       if (value?.decision === 'withdraw' || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience))) return [[tourId, value]];
+      if (value?.decision === 'delete') {
+        return typeof value.seenVersion === 'string' ? [[tourId, { decision: 'delete', seenVersion: value.seenVersion, note: typeof value.note === 'string' ? value.note : '' }]] : [];
+      }
       const creating = value?.decision === 'create' && tourIdPattern.test(tourId);
       if (!creating && (value?.decision !== 'edit' || typeof value.seenVersion !== 'string')) return [];
       const changes = tourChanges(value.changes);

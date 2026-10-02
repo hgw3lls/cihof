@@ -55,7 +55,7 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
     ...Object.entries(draft.tours ?? {}).filter(([id, value]) => tourStale(review.tours.find((tour) => tour.tourId === id), value))
       .map(([id, value]) => `the tour "${review.tours.find((tour) => tour.tourId === id)?.label ?? id}" (${value.decision === 'edit'
         ? 'somebody else changed it after you began editing it; discard your changes and edit it again'
-        : 'it changed after you approved it'})`),
+        : value.decision === 'delete' ? 'it changed after you chose to delete it; look at it again' : 'it changed after you approved it'})`),
     // An edited tour says whether it is approved as edited or left for somebody else: never assumed.
     ...Object.entries(draft.tours ?? {}).filter(([, value]) => tourUnchosen(value))
       .map(([id, value]) => (value.decision === 'create'
@@ -265,10 +265,12 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
   }
   for (const [id, value] of Object.entries(draft.tours ?? {})) {
     const label = value.decision === 'create' ? value.changes.label.trim() || id : review.tours.find((tour) => tour.tourId === id)?.label ?? id;
-    const where = value.decision === 'withdraw' ? null
+    const where = value.decision === 'withdraw' || value.decision === 'delete' ? null
       : value.audience === 'kiosk-and-web' ? 'the exhibit and the public website' : value.audience === 'kiosk' ? 'the exhibit' : null;
     // An unchosen edit is listed as unfinished above and never saved.
-    if (value.decision === 'create') {
+    if (value.decision === 'delete') {
+      lines.push(`Tours: ${label}: deleted`);
+    } else if (value.decision === 'create') {
       lines.push(`Tours: a new tour, “${label}”, ${where ? `approved for ${where}` : 'left for somebody else to approve'}`);
     } else if (value.decision === 'edit') {
       const renamed = value.changes.label.trim() !== label ? `, renamed “${value.changes.label.trim()}”` : '';

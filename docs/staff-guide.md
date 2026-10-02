@@ -102,7 +102,11 @@ like any other decision, refused if somebody else changed the tour first, and
 either approves the tour as edited or leaves it a draft for somebody to
 approve. **Start a new tour** on the same card makes a new one in the same
 editor, decided the same way; it is named from its words and added after
-the others. An editor's preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
+the others. **Delete this tour** removes one from the records altogether, after
+asking once more; it is refused if the tour changed after it was chosen for
+deleting. The archived sheet in `data/curation-decisions/`, and the project's
+history, keep what it was. Taking a tour off the displays instead keeps it,
+to be approved again. An editor's preview shows the drafts, marked *Unreviewed*. **Saved threads** are walks
 through Connections that a visitor chose to keep. They stay on the display
 for the visitors after, named for the people they start and end with (nobody
 types a name), newest first, up to 24. Any visitor can reorder, shorten or

@@ -248,9 +248,10 @@ export type TourDecision = {
    * `approve` shows it on the displays; `withdraw` takes an approved tour off
    * them; `edit` changes its words or the rules that choose its people, and
    * approves it as edited when it names targets, or leaves it a draft;
-   * `create` adds a new tour, approved or a draft in the same way.
+   * `create` adds a new tour, approved or a draft in the same way; `delete`
+   * takes a tour out of the records altogether.
    */
-  readonly decision: 'approve' | 'withdraw' | 'edit' | 'create';
+  readonly decision: 'approve' | 'withdraw' | 'edit' | 'create' | 'delete';
   /** For an approval, who may see it; asked, never assumed wider. */
   readonly targets: { readonly kiosk: boolean; readonly publicWeb: boolean };
   /** Only for an edit or a new tour. */
@@ -298,7 +299,9 @@ export const tourEditColumns = ['label', 'prompt', 'description', 'terms', 'them
  * as edited. Its contentVersion is the version the editing began from, so an
  * edit is refused, rather than laid over somebody else's, if the tour has
  * changed since. A new tour (`create`) fills the same columns under a name no
- * tour has yet, with no contentVersion. Its targets must be given, as for an approval: `kiosk` or
+ * tour has yet, with no contentVersion. A deletion names the version of the
+ * tour the reviewer chose to delete, and nothing else.
+ * An edit's or a new tour's targets must be given, as for an approval: `kiosk` or
  * `kiosk,public-web` approve the tour as edited, for them; `none` leaves it a
  * draft, shown nowhere, for somebody to approve. An edit with no targets is
  * refused, never taken to mean `none`: that would take an approved tour off
@@ -365,8 +368,8 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
     if (decision === '' || decision === 'skip') { blank += 1; return; }
     if (seen.has(tourId)) { errors.push(`line ${line}: the tour "${tourId}" appears twice`); return; }
     seen.add(tourId);
-    if (decision !== 'approve' && decision !== 'withdraw' && decision !== 'edit' && decision !== 'create') {
-      errors.push(`line ${line}: decision is approve, withdraw, edit, create or empty, not "${decision}"`);
+    if (decision !== 'approve' && decision !== 'withdraw' && decision !== 'edit' && decision !== 'create' && decision !== 'delete') {
+      errors.push(`line ${line}: decision is approve, withdraw, edit, create, delete or empty, not "${decision}"`);
       return;
     }
     const reference = cell(cells, 'decisionReference');
@@ -394,6 +397,16 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
     if (!lens) { errors.push(`line ${line}: there is no tour "${tourId}"`); return; }
     if (decision === 'withdraw') {
       if (lens.reviewStatus !== 'approved') { errors.push(`line ${line}: the tour "${tourId}" is not approved, so there is nothing to withdraw`); return; }
+      decisions.push({ tourId, decision, targets: { kiosk: false, publicWeb: false }, decisionReference: reference, note });
+      return;
+    }
+    // Deleting names the version the reviewer chose to delete, so a tour
+    // somebody changed since is looked at again rather than lost unseen.
+    if (decision === 'delete') {
+      if (cell(cells, 'contentVersion') !== tourVersion(lens)) {
+        errors.push(`line ${line}: the tour "${tourId}" has changed since it was chosen for deleting, so it would be deleted unseen. Look at it again.`);
+        return;
+      }
       decisions.push({ tourId, decision, targets: { kiosk: false, publicWeb: false }, decisionReference: reference, note });
       return;
     }
@@ -428,15 +441,17 @@ export function tourDecisions(csvText: string, stored: StoredTours = readTours()
  * the tour back to a draft, shown nowhere, and says who withdrew it. An edit
  * writes the tour's words and rules as edited, and is an approval of them
  * when it names targets, or a draft, shown nowhere, when it does not. A new
- * tour is added after the others, approved or a draft in the same way.
- * Nothing else about a tour changes.
+ * tour is added after the others, approved or a draft in the same way. A
+ * deleted tour is taken out; the archived sheet and the project's history
+ * keep what it was. Nothing else about a tour changes.
  */
 export function applyTourDecisions(stored: StoredTours, decisions: readonly TourDecision[], reviewedAt: string): StoredTours {
   const next = structuredClone(stored) as { lenses?: Record<string, unknown>[] } & Record<string, unknown>;
   const byId = new Map(decisions.map((decision) => [decision.tourId, decision]));
-  next.lenses = (next.lenses ?? []).map((lens) => {
+  const deleted = new Set(decisions.filter((decision) => decision.decision === 'delete').map((decision) => decision.tourId));
+  next.lenses = (next.lenses ?? []).filter((lens) => !deleted.has(lens['id'] as string)).map((lens) => {
     const decision = typeof lens['id'] === 'string' ? byId.get(lens['id']) : undefined;
-    if (!decision || decision.decision === 'create') return lens;
+    if (!decision || decision.decision === 'create' || decision.decision === 'delete') return lens;
     if (decision.decision === 'edit' && decision.changes) {
       const edited = editedLens(lens as Record<string, unknown> & StoredLens, decision.changes);
       const approve = decision.targets.kiosk || decision.targets.publicWeb;

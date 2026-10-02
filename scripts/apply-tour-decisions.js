@@ -25,6 +25,10 @@ import { buildPeople } from '../packages/pipeline/src/build/people.ts';
  *             approve the tour as edited, for them, or are `none`, which
  *             leaves it a draft, shown nowhere, for somebody to approve. An
  *             edit with no targets is refused.
+ *   delete    takes a tour out of data/cihof_story_lenses.json altogether,
+ *             off the displays and out of the review. The sheet's
+ *             contentVersion must match the tour now, as for an approval;
+ *             the archived sheet and the project's history keep what it was.
  *   create    adds a new tour from the tour editor, under a tourId no tour
  *             has yet, filling the same columns as an edit (no
  *             contentVersion). Its targets approve it as written, or are
@@ -82,7 +86,9 @@ const { decisions, errors, blank } = tourDecisions(csv, stored, known);
 for (const decision of decisions) {
   const where = [decision.targets.kiosk && 'the display', decision.targets.publicWeb && 'the public website'].filter(Boolean).join(' and ');
   const name = labels.get(decision.tourId) ?? decision.tourId;
-  if (decision.decision === 'create') {
+  if (decision.decision === 'delete') {
+    console.log(`  Delete the tour "${name}" (${decision.tourId}), taking it off the displays and out of the records, under ${decision.decisionReference}`);
+  } else if (decision.decision === 'create') {
     const called = decision.changes?.label.trim() ?? decision.tourId;
     console.log(where
       ? `  Add the new tour "${called}" (${decision.tourId}), approved for ${where}, under ${decision.decisionReference}`

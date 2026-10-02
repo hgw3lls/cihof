@@ -256,6 +256,16 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   await edited.getByRole('button', { name: /^Leave it for somebody else to approve/ }).click();
   await expect(edited.getByText(/Decided\. Kept on this computer/)).toBeVisible();
 
+  // A tour deleted: asked once more, then marked, and still possible to keep.
+  const care = page.locator('article.tour', { has: page.getByRole('heading', { name: 'Care + Health', exact: true }) });
+  await care.getByRole('button', { name: 'Delete this tour' }).click();
+  await care.getByRole('button', { name: 'Keep it' }).click();
+  await expect(care.getByRole('button', { name: 'Yes, delete it' })).toHaveCount(0);
+  await care.getByRole('button', { name: 'Delete this tour' }).click();
+  await care.getByRole('button', { name: 'Yes, delete it' }).click();
+  await expect(care.getByText(/To be deleted when you save/)).toBeVisible();
+  await care.getByLabel(/^Why, if you want to say/).fill('Test: folded into another tour');
+
   // A new tour: named, given someone to visit and a word to choose the rest
   // by, then approved for the exhibit.
   await page.getByRole('button', { name: 'Start a new tour' }).click();
@@ -315,7 +325,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
   expect(log).toContain('review: attract screen words, 1 decision');
-  expect(log).toContain('review: tours, 3 decisions');
+  expect(log).toContain('review: tours, 4 decisions');
   expect(log).toContain('review: film titles, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
   expect(log).toContain('review: sign-offs, 1 decision');
@@ -404,6 +414,10 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(artsLens.review).toMatchObject({ edited: true, decisionReference: expect.stringMatching(/^tours-review-/) });
   expect(artsLens.excludedPersonIds).toHaveLength(1);
   expect(artsLens.pinnedPersonIds).toHaveLength(1);
+  // The deleted tour is gone from the records; the archived sheet says why.
+  expect(lenses.some((lens: { id: string }) => lens.id === 'cared-for-city')).toBe(false);
+  const tourSheets = readdirSync(join(worktree, 'data/curation-decisions')).filter((name) => name.startsWith('tour-decisions-'));
+  expect(tourSheets.map((name) => readFileSync(join(worktree, 'data/curation-decisions', name), 'utf8')).join('\n')).toMatch(/cared-for-city,delete,tour-[0-9a-f]{12},.*folded into another tour/);
   // The new tour is added after the others, as written, approved for the exhibit only.
   const painters = lenses.at(-1);
   expect(painters).toMatchObject({

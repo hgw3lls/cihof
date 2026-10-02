@@ -58,3 +58,12 @@ test('a new tour is kept only under a name a tour can have, with its own fields'
   } }));
   assert.deepEqual(readDraftFile(path).tours, { painters: { decision: 'create', changes, audience: 'nobody', note: '' } });
 });
+
+test('deleting a tour is kept only with the version the reviewer chose to delete', () => {
+  const path = join(folder, 'tour-delete.json');
+  writeFileSync(path, JSON.stringify({ reviewer: 'Jane Smith', tours: {
+    'made-art': { decision: 'delete', seenVersion: 'tour-abc', note: 'Gone.', changes: { smuggled: true } },
+    unversioned: { decision: 'delete' },
+  } }));
+  assert.deepEqual(readDraftFile(path).tours, { 'made-art': { decision: 'delete', seenVersion: 'tour-abc', note: 'Gone.' } });
+});

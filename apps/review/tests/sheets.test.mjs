@@ -195,3 +195,9 @@ test('a new tour carries everything it is, no version, and the choice made about
     ['sculptors', 'create', '', 'none', 'Sculptors', 'a-2010', '48'],
   ]);
 });
+
+test('deleting a tour names the version the reviewer chose to delete, and nothing else', () => {
+  const [row] = rows(toursCsv({ reviewer: 'Jane Smith', tours: { 'made-art': { decision: 'delete', seenVersion: 'tour-abc', note: 'Folded into Culture.' } } }, '2026-10-02'));
+  assert.deepEqual([row.tourId, row.decision, row.contentVersion, row.targets, row.label, row.note],
+    ['made-art', 'delete', 'tour-abc', '', '', 'Folded into Culture. Reviewed by Jane Smith in the staff review app.']);
+});

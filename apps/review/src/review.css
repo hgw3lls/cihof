@@ -251,3 +251,11 @@ select { font: inherit; padding: 0.6rem 0.7rem; border: 1px solid var(--line); b
 .tour-editor__word { display: flex; gap: 0.4rem; max-width: 26rem; margin-bottom: 1rem; }
 .tour-editor__word input { flex: 1; }
 .tour-editor__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+
+/* Deleting a tour: asked once more, and marked until it is saved. */
+.tour__delete { margin-top: 1rem; padding: 0.9rem 1rem; border: 1px solid var(--problem); border-radius: var(--radius); background: var(--problem-soft); }
+.tour__delete p { margin: 0.3rem 0; }
+button.danger { background: var(--problem); color: var(--on-accent); border-color: var(--problem); font-weight: 600; }
+button.link--danger { color: var(--problem); }
+.tour--deleting { border-color: var(--problem); }
+.tour--deleting .place__name { text-decoration: line-through; }
