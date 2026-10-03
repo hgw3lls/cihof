@@ -13,6 +13,7 @@ import { join, resolve } from 'node:path';
 import { _electron as electron } from '@playwright/test';
 import { makeUpdate } from '../src/content-package.mjs';
 import { extractZip } from '../src/zip.mjs';
+import { connectToDisplay } from '../../review/server/display-connection.mjs';
 
 // Where Electron's own binary is, under node_modules/electron/dist, on each system.
 const electronBinary = { win32: 'electron.exe', darwin: 'Electron.app/Contents/MacOS/Electron' }[process.platform] ?? 'electron';
@@ -227,6 +228,19 @@ try {
   assert.equal(await exhibit.evaluate(() => fetch('/data/exhibit.json').then((r) => r.json()).then((b) => b.people[0].name)), originalName);
   await admin.getByRole('button', { name: 'Show this version' }).waitFor();
   step('the delivered content can be shown again, and the update is kept to show again');
+
+  // The staff connection: opened from the panel, reached with the code it shows, closed again.
+  await admin.getByRole('button', { name: 'Open a staff connection' }).click();
+  const code = (await admin.locator('.connection .code').textContent({ timeout: 30_000 }))?.trim() ?? '';
+  assert.match(code, /^[2-9A-Z]{4}-[2-9A-Z]{4}$/);
+  const { state: reached } = await connectToDisplay({ address: '127.0.0.1:5190', code });
+  assert.equal(reached.content.onDelivered, true);
+  await assert.rejects(connectToDisplay({ address: '127.0.0.1:5190', code: 'ZZZZ-ZZZZ' }), /did not accept the pairing code/);
+  await admin.getByText(/The staff portal connected/).waitFor({ timeout: 15_000 });
+  await admin.getByRole('button', { name: 'Close it now' }).click();
+  await admin.getByRole('button', { name: 'Open a staff connection' }).waitFor();
+  await assert.rejects(connectToDisplay({ address: '127.0.0.1:5190', code }), /No display answered/);
+  step('a staff connection opens from the panel, answers only its code, and closes');
 
   const closed = new Promise((done) => electronApp.process().once('exit', done));
   await admin.getByRole('button', { name: 'Exit to desktop' }).click({ noWaitAfter: true }).catch(() => {});

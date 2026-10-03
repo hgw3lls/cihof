@@ -296,8 +296,9 @@ export function snapshot(root) {
   };
 }
 
-// The app opens an export by running this file:
-//   node apps/review/server/portal.mjs --open=<export> [--replace]      (from the working copy)
+// The app opens an export by running this file, from the working copy:
+//   node apps/review/server/portal.mjs --open=<export> [--replace]
+//   node apps/review/server/portal.mjs --from-display=<address> [--replace]   (the code in CIHOF_PAIRING_CODE)
 const invokedDirectly = process.argv[1] && existsSync(process.argv[1])
   && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
@@ -305,15 +306,30 @@ if (invokedDirectly) {
     const [key, ...rest] = a.slice(2).split('=');
     return [key, rest.length > 0 ? rest.join('=') : true];
   }));
-  if (typeof args.open !== 'string') {
+  if (typeof args.open !== 'string' && typeof args['from-display'] !== 'string') {
     console.error('Usage: node apps/review/server/portal.mjs --open=<export> [--replace]');
+    console.error('       CIHOF_PAIRING_CODE=<code> node apps/review/server/portal.mjs --from-display=<address> [--replace]');
     process.exit(2);
   }
+  const root = process.cwd();
+  let fetched = null;
   try {
-    const state = await openExport({ root: process.cwd(), file: resolve(args.open), replace: Boolean(args.replace) });
+    let file = typeof args.open === 'string' ? resolve(args.open) : null;
+    if (!file) {
+      // What the display shows, fetched over its staff connection, then opened as an export from a stick would be.
+      const { connectToDisplay, fetchExport } = await import('./display-connection.mjs');
+      const { display } = await connectToDisplay({ address: args['from-display'], code: process.env.CIHOF_PAIRING_CODE ?? '' });
+      mkdirSync(folder(root), { recursive: true });
+      fetched = join(folder(root), `from-display-${randomUUID()}.cihof`);
+      await fetchExport(display, fetched);
+      file = fetched;
+    }
+    const state = await openExport({ root, file, replace: Boolean(args.replace) });
     console.log(JSON.stringify(state.opened));
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
-    process.exit(1);
+    process.exitCode = 1;
+  } finally {
+    if (fetched) rmSync(fetched, { force: true });
   }
 }

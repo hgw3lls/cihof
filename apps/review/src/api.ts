@@ -438,6 +438,25 @@ export async function makeDisplayUpdate(note: string): Promise<UpdateOutcome & {
   return request('/api/display-update', { method: 'POST', body: JSON.stringify({ note }) });
 }
 
+/** A display reached over the network, as the portal's server reports it. */
+export type DisplayLink =
+  | { connected: false; problem?: string }
+  | { connected: true; name: string; address: string; state: { name: string; content: { active: string; onDelivered: boolean } } };
+
+/** What a display says about an update sent to it, before anybody applies it. */
+export type SentUpdate =
+  | { ok: true; id: string; problems: string[]; stale: string | null; changes: { to: string; summary: string[]; newFilms: number } | null }
+  | { ok: false; problem: string };
+
+export const displayLink = (): Promise<DisplayLink> => request('/api/display');
+export const connectDisplay = (address: string, code: string): Promise<DisplayLink> => request('/api/display/connect', { method: 'POST', body: JSON.stringify({ address, code }) });
+export const disconnectDisplay = (): Promise<DisplayLink> => request('/api/display/disconnect', { method: 'POST', body: '{}' });
+export const openFromDisplay = (replace: boolean): Promise<{ ok: boolean; problem?: string; unsaved?: boolean; portal?: PortalState }> =>
+  request('/api/display/open-content', { method: 'POST', body: JSON.stringify({ replace }) });
+export const sendToDisplay = (file: string): Promise<SentUpdate> => request('/api/display/send', { method: 'POST', body: JSON.stringify({ file }) });
+export const applyOnDisplay = (id: string, now: boolean, force: boolean): Promise<{ ok: boolean; problem?: string; stale?: boolean }> =>
+  request('/api/display/apply', { method: 'POST', body: JSON.stringify({ id, now, force }) });
+
 /** Only in the staff portal app: shows a display update in the computer's own file browser. */
 export function showUpdateFile(file: string) {
   (window as unknown as { cihofReview?: { showUpdate?: (path: string) => void } }).cihofReview?.showUpdate?.(file);

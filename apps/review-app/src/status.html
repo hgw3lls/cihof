@@ -11,8 +11,16 @@
     <h1>CIHOF staff review</h1>
     <p id="message" role="status"></p>
     <pre id="detail" hidden></pre>
+    <form id="connect" class="connect" hidden>
+      <h2>Connect to a display</h2>
+      <p>On the display, open the admin panel, then Staff connection, and Open a staff connection. Type what it shows.</p>
+      <label>Address <input id="address" placeholder="192.168.1.40:5190" required></label>
+      <label>Code <input id="code" placeholder="K7RM-4QXP" autocomplete="off" required></label>
+      <button type="submit">Connect and open what it shows</button>
+    </form>
     <p id="actions" class="actions" hidden>
       <button type="button" id="open">Open a display's content</button>
+      <button type="button" id="connectButton">Connect to a display</button>
       <button type="button" id="choose">Choose the data folder</button>
       <button type="button" id="retry">Try again</button>
     </p>

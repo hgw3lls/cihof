@@ -115,7 +115,8 @@ if (displayExport) {
     await page.getByRole('button', { name: 'Make a display update' }).click();
     await page.getByRole('heading', { name: 'Display update', exact: true }).waitFor();
     await page.getByRole('button', { name: 'Make a display update' }).click();
-    await page.getByRole('heading', { name: 'Display update made' }).waitFor({ timeout: 120_000 });
+    await page.getByRole('heading', { name: 'Display update made' }).waitFor({ timeout: 120_000 })
+      .catch(async (error) => { console.error(await page.locator('main').innerText().catch(() => '')); throw error; });
     const made = readdirSync(updates).filter((name) => /^cihof-update-.+\.cihof$/.test(name));
     assert.equal(made.length, 1);
     const { listZip, extractEntry } = await import('../../kiosk-app/src/zip.mjs');

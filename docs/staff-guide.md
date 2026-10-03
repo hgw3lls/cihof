@@ -240,6 +240,7 @@ wrong tries.
 | **Recovery panel** | Opens the release and recovery panel (section 5). |
 | **Films** | Where the films are played from, and how many of them it finds. **Choose the films folder** once, after installing: the copy of the films the developer provides, on this PC's own drive. **Stop using the folder** plays only films inside the app, if it carries any. A film it cannot find shows its captions and transcript instead. |
 | **Content** | Which content the display is showing: as delivered, or a content update. **Load a content update…** takes in an update made with the staff portal; **Export current content…** gives the portal what the display shows now. Every version is kept and can be shown again. See *Content updates* below. |
+| **Staff connection** | Lets the staff portal fetch what the display shows and send it updates over the network, for as long as you choose, with the code it shows. Closed until opened. See *Staff connection* below. |
 | **Restart app** | Closes and reopens the application. |
 | **Exit to desktop** | Closes the exhibit. It stays closed until someone starts it (Start menu, *CIHOF Exhibit*) or the PC restarts. |
 | **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
@@ -288,6 +289,33 @@ back, so a newer version can be shown again afterwards.
 
 Updates carry the films' kiosk-only captions and transcripts, and may carry
 films: treat the files like the release itself, never on a public link.
+
+### Staff connection (Staff)
+
+Instead of a USB stick, the staff portal can reach the display over the
+museum's network, while somebody at the display allows it.
+
+1. On the display, in the admin panel: **Staff connection**, choose for how
+   long (15 minutes to 2 hours), and **Open a staff connection**. The panel
+   shows a code (such as `K7RM-4QXP`) and the display's address (such as
+   `192.168.1.40:5190`). The admin panel can then be closed: the exhibit
+   carries on, and the connection stays open until its time is up.
+2. In the staff portal: **File › Connect to a display…** the first time, or
+   **Display update › Connect to the display**, and type the address and the
+   code. **Start from what it shows now** fetches what the display shows, as
+   an export would.
+3. After **Make a display update**, **Send it to the display**. The display
+   checks it exactly as one loaded from a stick and says what it changes;
+   then **Apply at the next reset** (the usual choice), or **Apply and show
+   now** only if nobody is using the display.
+
+The panel lists everything the portal did while it was open. **Close it
+now** ends it at once. The code changes every time it is opened, and the
+connection closes itself after a dozen requests without the right code. The
+code never crosses the network (each request is signed with it), and every
+file is checked against its checksum when it arrives. The museum network
+must let the staff computer reach the display on port 5190; on Windows,
+allow *CIHOF Exhibit* through the firewall the first time it asks.
 
 ### Forgotten passcode (Administrator)
 

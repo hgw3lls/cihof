@@ -1,10 +1,12 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, powerSaveBlocker, session } from 'electron';
 import { readFileSync } from 'node:fs';
+import { hostname } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
 import { createContentStore } from './content-store.mjs';
+import { connectionMinutes, createStaffConnection } from './connection.mjs';
 import { filmsState } from './films-folder.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch, heartbeatWatch } from './watch.mjs';
@@ -53,6 +55,8 @@ let previewTimer = null;
 let content = null;
 /** An update chosen in the admin panel and checked, waiting for staff to apply it. */
 let pendingUpdate = null;
+/** The staff portal reaching this display over the network, while staff have it open (connection.mjs). */
+let staffConnection = null;
 /** The check-in watch of each exhibit window's page, by its web contents. */
 const heartbeats = new Map();
 
@@ -72,6 +76,20 @@ async function start() {
     content = null;
     console.error(`The content store could not be opened; showing the delivered content. ${error.message}`);
   }
+
+  // Closed until staff open it in the admin panel. What arrives is applied as
+  // an update loaded from a stick would be, and brought onto the screen the same way.
+  staffConnection = createStaffConnection({
+    content: () => content,
+    apply: async (file, { now, force }) => {
+      if (!content) throw new Error('The content store is not available on this display.');
+      await content.apply(file, { force });
+      await noticeContent({ now });
+    },
+    describe: () => ({ name: `CIHOF display (${hostname()})`, app: { version: app.getVersion(), ...releaseInfo() } }),
+    scratch: join(app.getPath('userData'), 'connection'),
+  });
+  app.on('before-quit', () => { void staffConnection?.close(); });
 
   // The films folder chosen in the admin panel, and the content version
   // being served, read on every request, so a change applies at once.
@@ -281,6 +299,7 @@ function adminState() {
     app: { version: app.getVersion(), platform: process.platform, ...releaseInfo() },
     films: filmsState(siteRoot, settings.videosFolder),
     content: content ? { ...content.state(), pending: pendingUpdate?.report ?? null } : { unavailable: true },
+    connection: staffConnection ? { ...staffConnection.state(), minutes: connectionMinutes } : { open: false, log: [], minutes: connectionMinutes },
   };
 }
 
@@ -481,6 +500,21 @@ function registerAdminHandlers() {
     if (result.canceled || !result.filePath) return { ...adminState(), exported: null };
     const outcome = await content.exportCurrent(result.filePath);
     return { ...adminState(), exported: { file: result.filePath, ...outcome } };
+  });
+
+  // The staff connection: opened for as long as staff choose, closed by them or by the clock.
+  handle('admin:connection-open', async ({ minutes } = {}) => {
+    if (!staffConnection) throw new Error('The staff connection is not available on this display.');
+    try {
+      await staffConnection.open({ minutes: Number(minutes), name: `CIHOF display (${hostname()})` });
+    } catch (error) {
+      throw new Error(error?.code === 'EADDRINUSE' ? 'Another program is using the staff connection\'s port (5190). Restart the display and try again.' : error.message);
+    }
+    return adminState();
+  });
+  handle('admin:connection-close', async () => {
+    await staffConnection?.close();
+    return adminState();
   });
 
   handle('admin:action', (action) => {

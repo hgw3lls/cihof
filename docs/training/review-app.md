@@ -330,6 +330,14 @@ file you load on the display yourself.
    **Content › Load a content update…**, read what it says it changes, then
    **Apply and show now** or **Apply at the next reset**.
 
+**Over the network instead of a stick.** On the display, open the admin
+panel, **Staff connection**, and **Open a staff connection**: it shows an
+address and a code. In the app, **File › Connect to a display…** (or, once
+working, **Connect to the display** on the Display update page), type them,
+and the app fetches what the display shows. After **Make a display update**,
+**Send it to the display**: the display says what it changes, then **Apply
+at the next reset**. The connection closes itself when its time is up.
+
 Keep working in the app afterwards: the next display update follows this one.
 The display keeps its earlier content, and the content it was delivered with,
 so it can always go back (**Content › Versions kept**). If two people change

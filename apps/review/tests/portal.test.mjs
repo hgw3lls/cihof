@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { execFileSync, spawnSync } from 'node:child_process';
+import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -36,7 +36,7 @@ before(async () => {
   // The portal's working folder, as the app installs it: the review's code, and no git.
   work = join(scratch, 'work');
   const code = tracked('apps/review/server', 'apps/review/package.json', 'apps/kiosk-app/src/zip.mjs', 'apps/kiosk-app/src/content-store.mjs',
-    'apps/kiosk-app/src/content-package.mjs', 'packages/content', 'packages/pipeline', 'scripts', 'package.json')
+    'apps/kiosk-app/src/content-package.mjs', 'apps/kiosk-app/src/connection-auth.mjs', 'packages/content', 'packages/pipeline', 'scripts', 'package.json')
     .filter((path) => !/^packages\/[^/]+\/tests\//.test(path) && existsSync(join(repo, path)));
   for (const path of code) { mkdirSync(dirname(join(work, path)), { recursive: true }); cpSync(join(repo, path), join(work, path)); }
   for (const name of ['content', 'pipeline']) {
@@ -248,4 +248,69 @@ test('a place renamed and a new place added in the portal are on the display aft
   const market = shown.find((place) => place.id === 'place:west-side-market');
   assert.ok(market, 'the new place is on the display');
   assert.deepEqual(market.personIds, [someone]);
+});
+
+test('over a staff connection, the portal starts from what the display shows and sends it an update', async () => {
+  const { createStaffConnection } = await import('../../kiosk-app/src/connection.mjs');
+  const { applyUpdate, connectToDisplay, sendUpdate } = await import('../server/display-connection.mjs');
+  const display = createContentStore({ dir: join(scratch, 'display'), deliveredSite, deliveredSource });
+  const connection = createStaffConnection({
+    content: () => display,
+    apply: (file, { force }) => display.apply(file, { force }),
+    describe: () => ({ name: 'Test display' }),
+    scratch: join(scratch, 'connection'),
+  });
+  try {
+    const opened = await connection.open({ minutes: 15, port: 0, name: 'Test display' });
+    const address = `127.0.0.1:${opened.port}`;
+
+    // Start from what it shows, as the app's Connect to a display does.
+    // Run alongside: this same process is the display answering it.
+    const fetched = await new Promise((done) => {
+      const child = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/portal.mjs', `--from-display=${address}`, '--replace'],
+        { cwd: work, env: { ...process.env, CIHOF_PAIRING_CODE: opened.code } });
+      let errors = '';
+      child.stderr.on('data', (chunk) => { errors += chunk; });
+      child.on('exit', (status) => done({ status, stderr: errors }));
+    });
+    assert.equal(fetched.status, 0, fetched.stderr);
+    assert.equal(portalState(work).opened.contentVersion, display.state().active);
+
+    const saved = saveHere({ root: work, draft: { reviewer: 'Sam Lee', bios: { [person]: { correctedText: 'Corrected over the staff connection.' } } } });
+    assert.ok(saved.results.every((result) => result.ok));
+    const update = await makeDisplayUpdate({ root: work, outDir: join(scratch, 'updates'), by: 'Sam Lee' });
+    assert.equal(update.ok, true);
+
+    const { display: link } = await connectToDisplay({ address, code: opened.code });
+    const sent = await sendUpdate(link, update.file);
+    assert.deepEqual(sent.problems, []);
+    assert.equal(sent.stale, null, 'it follows what the display shows');
+    await applyUpdate(link, sent.id, { now: false });
+    assert.equal(display.state().active, update.contentVersion);
+    assert.match(readFileSync(display.serving().site('data/exhibit.json'), 'utf8'), /Corrected over the staff connection/);
+  } finally {
+    await connection.close();
+  }
+});
+
+test('the portal\'s server keeps making display updates and connecting to a display apart', async () => {
+  const { createReviewServer } = await import('../server/server.mjs');
+  // A free port first: the server answers only its own host, by the port it is told.
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  const real = createReviewServer({ root: work, dist: join(scratch, 'no-pages'), port, updatesDir: join(scratch, 'updates') });
+  await new Promise((done) => real.listen(port, '127.0.0.1', done));
+  try {
+    const post = (path) => fetch(`http://127.0.0.1:${port}${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}' });
+    const update = await (await post('/api/display-update')).json();
+    assert.doesNotMatch(String(update.problem ?? update.error ?? ''), /Connect to the display/);
+    assert.equal((await (await fetch(`http://127.0.0.1:${port}/api/display`)).json()).connected, false);
+    assert.equal((await post('/api/display/send')).status, 409, 'sending needs a connection');
+  } finally {
+    real.closeAllConnections();
+    await new Promise((done) => real.close(done));
+  }
 });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { canShowFiles, makeDisplayUpdate, showUpdateFile, type DisplayUpdate, type PortalState } from './api.ts';
+import { DisplayConnection, SendToDisplay } from './DisplayLink.tsx';
 
 type Props = {
   portal: PortalState;
@@ -46,7 +47,8 @@ export function DisplayUpdateScreen({ portal, waiting, onBack, onSave, onMade }:
         <h1>Display update made</h1>
         <p className="panel"><code className="export-file">{made.file}</code></p>
         {canShowFiles() && <p><button type="button" onClick={() => showUpdateFile(made.file)}>Show the file</button></p>}
-        <h2 className="question">To show it on the display</h2>
+        <SendToDisplay update={made} />
+        <h2 className="question">To show it on the display from a USB stick</h2>
         <ol className="how-to">
           <li>Copy the file to a USB stick, or anywhere the display can reach.</li>
           <li>On the display, open the admin panel, then Content, then <strong>Load a content update…</strong>, and choose the file.</li>
@@ -68,6 +70,8 @@ export function DisplayUpdateScreen({ portal, waiting, onBack, onSave, onMade }:
           {portal.lastUpdate ? ` The last display update was made on ${day(portal.lastUpdate.at)} by ${portal.lastUpdate.by}.` : ''}
         </p>
       )}
+
+      <DisplayConnection portal={portal} onOpened={onMade} />
 
       <section className="panel">
         <h2 className="question">Saved since the last display update</h2>
@@ -111,10 +115,11 @@ export function DisplayUpdateScreen({ portal, waiting, onBack, onSave, onMade }:
         <section className="panel">
           <h2 className="question">Display updates made here</h2>
           <ul className="summary">
-            {[...portal.updates].reverse().map((update) => (
+            {[...portal.updates].reverse().map((update, index) => (
               <li key={update.contentVersion + update.at}>
                 {day(update.at)}, by {update.by}: {update.summary.join(' ')}
                 {canShowFiles() && <> <button type="button" className="link" onClick={() => showUpdateFile(update.file)}>Show the file</button></>}
+                {index === 0 && <SendToDisplay update={update} />}
               </li>
             ))}
           </ul>
