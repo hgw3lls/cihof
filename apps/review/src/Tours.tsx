@@ -333,7 +333,7 @@ function TourPeople({ people, waiting }: { people: TourPerson[]; waiting: boolea
 }
 
 /** A tour that is not in the records yet, in the shape the editor works on. */
-function unwrittenTour(tourId: string, review: Review, changes: TourChanges): Tour {
+export function unwrittenTour(tourId: string, review: Review, changes: TourChanges): Tour {
   return {
     tourId, label: changes.label || 'A new tour', prompt: changes.prompt, description: changes.description,
     terms: changes.terms, themes: changes.themes, pinned: [], excluded: [],

@@ -453,6 +453,7 @@ export const saveProfileInStudio = (change: { id: string; seenVersion: string; n
 /** Any other change the studio makes: a portrait, a film, a new inductee. */
 export const saveInStudio = (change: Record<string, unknown>): Promise<StudioOutcome & { change?: StudioChange }> =>
   request('/api/studio/save', { method: 'POST', body: JSON.stringify(change) });
+export const approveProfileInStudio = (id: string): Promise<StudioOutcome> => request('/api/studio/approve-profile', { method: 'POST', body: JSON.stringify({ id }) });
 export const undoInStudio = (): Promise<StudioOutcome> => request('/api/studio/undo', { method: 'POST', body: '{}' });
 export const approveInStudio = (id: string): Promise<StudioOutcome> => request('/api/studio/approve', { method: 'POST', body: JSON.stringify({ id }) });
 

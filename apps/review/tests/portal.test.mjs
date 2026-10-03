@@ -418,3 +418,49 @@ test('in the studio, a portrait, a film and a new inductee are each saved and sh
     server.kill();
   }
 });
+
+test('in the studio, the attract words, a tour and a place are each changed in place, and a profile approved', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  const bundle = () => JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8'));
+  try {
+    const review = await call('/api/review');
+
+    const attract = await call('/api/studio/save', { kind: 'attract', headline: 'Welcome to the Hall of Fame.', tagline: 'Meet the people who built Cleveland.' });
+    assert.equal(attract.ok, true, JSON.stringify(attract.results));
+    assert.equal(bundle().attract.headline, 'Welcome to the Hall of Fame.');
+
+    const tour = review.tours.find((each) => each.state === 'approved');
+    const edited = await call('/api/studio/save', { kind: 'tour', tourId: tour.tourId, decision: { decision: 'edit', seenVersion: tour.contentVersion, changes: { ...tour.changes, label: `${tour.changes.label} (edited)` }, audience: tour.shownOn.publicWeb ? 'kiosk-and-web' : 'kiosk' } });
+    assert.equal(edited.ok, true, JSON.stringify(edited.results));
+    assert.equal(bundle().tours.find((each) => each.id === tour.tourId)?.label, `${tour.changes.label} (edited)`, 'it stays on the exhibit, as edited');
+
+    const place = review.places.find((each) => each.words === 'current');
+    const renamed = await call('/api/studio/save', { kind: 'place', key: place.placeId, edit: {
+      decision: 'edit', placeId: place.placeId, seenVersion: place.contentVersion, name: `${place.name} (renamed)`, neighborhood: place.neighborhood,
+      type: place.type, shortHistory: place.shortHistory, people: [], audience: place.publication.publicWeb ? 'kiosk-and-web' : 'kiosk',
+    } });
+    assert.equal(renamed.ok, true, JSON.stringify(renamed.results));
+    assert.equal(bundle().places.find((each) => each.id === place.placeId)?.name, `${place.name} (renamed)`);
+
+    // One with no change of its own waiting: approving one that has is refused, since approving that change approves it.
+    const busy = new Set((await call('/api/studio')).changes.filter((each) => each.status === 'waiting').map((each) => each.subject.id));
+    const unapproved = (await call('/api/review')).profiles.find((each) => each.state !== 'approved' && each.id !== person && !busy.has(each.id));
+    if (unapproved) {
+      const approved = await call('/api/studio/approve-profile', { id: unapproved.id });
+      assert.equal(approved.ok, true, JSON.stringify(approved.results));
+      assert.equal((await call('/api/review')).profiles.find((each) => each.id === unapproved.id).state, 'approved');
+    }
+  } finally {
+    server.kill();
+  }
+});

@@ -29,7 +29,7 @@ export function TourChooser({ tours, threads, byId, onStart, onFollow, onEdit, o
             <ul className="tours__grid">
               {tours.map((tour) => (
                 <li key={tour.id}>
-                  <button type="button" className="tours__card" onClick={() => onStart(tour)}>
+                  <button type="button" className="tours__card" onClick={() => onStart(tour)} data-edit="tour" data-edit-id={tour.id}>
                     <span className="tours__faces" aria-hidden="true">
                       {faces(tour.personIds, 4).map((person) => (
                         <span key={person.id} style={{ backgroundImage: portraitUrl(person), backgroundPosition: focalPoint(person) }} />

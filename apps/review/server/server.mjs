@@ -247,6 +247,19 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
         if (!outcome.ok) return json(response, 200, { ok: false, results: outcome.results });
         return json(response, 200, { ok: true, change: outcome.change, preview: refreshPreview(root), ...studioState(root) });
       }
+      // An approval made from the studio: the profile as it reads now. A decision, not an edit, so it neither waits nor undoes.
+      if (request.method === 'POST' && path === '/api/studio/approve-profile') {
+        const reviewer = readDraft().reviewer?.trim();
+        if (!reviewer) return json(response, 400, { error: 'Enter your name first.' });
+        const { id } = await body(request);
+        const profile = loadReview().profiles.find((each) => each.id === id);
+        if (!profile) return json(response, 404, { error: 'No such profile.' });
+        if (waitingChanges(root).some((change) => change.subject?.kind === 'profile' && change.subject.id === id)) {
+          return json(response, 200, { ok: false, problem: 'A change to this profile is waiting for approval: approve that, which approves the profile as it reads.' });
+        }
+        const outcome = saveHere({ root, draft: { reviewer, profiles: { [id]: { decision: 'approve', seenVersion: profile.contentVersion, note: 'Approved in the staff portal\'s studio.' } } } });
+        return json(response, 200, { ok: outcome.results.every((result) => result.ok), results: outcome.results });
+      }
       if (request.method === 'POST' && path === '/api/studio/undo') {
         const outcome = undoStudioChange(root);
         return json(response, 200, { ...outcome, preview: outcome.ok ? refreshPreview(root) : null, ...studioState(root) });
@@ -473,6 +486,26 @@ function studioDraft(change, reviewer) {
       title: `${who(film.personId)}: ${film.decision === 'add' ? `a film added${film.title ? `, “${film.title}”` : ''}` : 'a film taken off the display'}`,
       subject: { kind: 'film', id: film.personId }, draft,
     };
+  }
+  // The attract screen's words, as written, approved as written (text:apply's reword).
+  if (change?.kind === 'attract') {
+    const draft = tidy({ attract: { attract: { decision: 'reword', headline: String(change.headline ?? '').slice(0, 300), tagline: String(change.tagline ?? '').slice(0, 300) } } });
+    return { title: 'The attract screen\'s words', subject: { kind: 'attract', id: 'attract' }, draft };
+  }
+  // A tour edited, or a new one, kept for the audience it has (or the one chosen), so it stays on the exhibit while it waits.
+  if (change?.kind === 'tour' && typeof change.tourId === 'string') {
+    const draft = tidy({ tours: { [change.tourId]: change.decision } });
+    const tour = draft.tours[change.tourId];
+    if (!tour) return null;
+    const label = tour.changes?.label?.trim() || change.tourId;
+    return { title: `The tour “${label}”: ${tour.decision === 'create' ? 'added' : tour.decision === 'delete' ? 'deleted' : 'edited'}`, subject: { kind: 'tour', id: change.tourId }, draft };
+  }
+  // A place edited or added (PlaceEditor's edit, as All items keeps it).
+  if (change?.kind === 'place' && typeof change.key === 'string') {
+    const draft = tidy({ placeEdits: { [change.key]: change.edit } });
+    const place = draft.placeEdits[change.key];
+    if (!place) return null;
+    return { title: `${place.name}: ${place.decision === 'create' ? 'a new place' : 'place edited'}`, subject: { kind: 'place', id: place.placeId || change.key }, draft };
   }
   if (change?.kind === 'new-inductee' && typeof change.key === 'string') {
     const draft = tidy({ newClass: { [change.key]: change.person } });

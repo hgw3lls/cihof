@@ -1,18 +1,25 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
-  approveInStudio, refreshStudioPreview, saveInStudio, saveProfileInStudio, studioState, undoInStudio,
-  type FilmChange, type PortraitChoice, type ProfileEdit, type Review, type StudioOutcome, type StudioState,
+  approveInStudio, approveProfileInStudio, refreshStudioPreview, saveInStudio, saveProfileInStudio, studioState, undoInStudio,
+  type Draft, type FilmChange, type PlaceEdit, type PortraitChoice, type ProfileEdit, type Review, type StudioOutcome, type StudioState, type TourChanges,
 } from './api.ts';
+import { placeNeedsWork, type Screen } from './App.tsx';
+import { PlaceEditor } from './PlaceEditor.tsx';
+import { TourEditor } from './TourEditor.tsx';
+import { unwrittenTour } from './Tours.tsx';
+import { newTourId } from './tour-edit.ts';
 import { Tags } from './ProfileEditor.tsx';
 import { FilmAdder, PortraitChooser, portraitProblem } from './Media.tsx';
 import { InducteeForm, blankInductee } from './NewInductees.tsx';
 
 type Props = {
   review: Review;
+  draft: Draft;
   reload: () => Promise<void>;
   onAllItems: () => void;
   onPublish: () => void;
-  onMedia: () => void;
+  /** One of All items' screens, for what has no place on the exhibit. */
+  onOpen: (screen: Screen) => void;
 };
 
 /** The marker the exhibit's editor puts on every message (apps/exhibit/src/app/editor.ts). */
@@ -29,7 +36,7 @@ type Picked = { kind: string; id: string };
  * person or another, and Publish makes a display update only once none is
  * waiting.
  */
-export function Studio({ review, reload, onAllItems, onPublish, onMedia }: Props) {
+export function Studio({ review, draft, reload, onAllItems, onPublish, onOpen }: Props) {
   const [studio, setStudio] = useState<StudioState | null>(null);
   const [editing, setEditing] = useState(true);
   const [picked, setPicked] = useState<Picked | null>(null);
@@ -123,7 +130,10 @@ export function Studio({ review, reload, onAllItems, onPublish, onMedia }: Props
         <button type="button" className={waiting.length ? 'studio__waiting' : ''} onClick={() => { setShowWaiting(true); setPicked(null); }}>
           {waiting.length ? `${waiting.length} waiting for approval` : 'Nothing waiting'}
         </button>
-        <button type="button" onClick={() => { setPicked({ kind: 'new-inductee', id: '' }); setShowWaiting(false); }}>+ Add an inductee</button>
+        <button type="button" onClick={() => { setPicked({ kind: 'new-inductee', id: '' }); setShowWaiting(false); }}>+ Inductee</button>
+        <button type="button" onClick={() => { setPicked({ kind: 'tour', id: '' }); setShowWaiting(false); }}>+ Tour</button>
+        <button type="button" onClick={() => { setPicked({ kind: 'place', id: '' }); setShowWaiting(false); }}>+ Place</button>
+        <button type="button" onClick={() => { setPicked({ kind: 'to-review', id: '' }); setShowWaiting(false); }}>To review</button>
         <span className="studio__spacer" />
         <button type="button" onClick={onAllItems}>All items</button>
         <button type="button" className="primary" disabled={waiting.length > 0} title={waiting.length ? 'Approve or undo every change first' : ''} onClick={onPublish}>Publish to the display</button>
@@ -153,6 +163,14 @@ export function Studio({ review, reload, onAllItems, onPublish, onMedia }: Props
                     } finally { setBusy(null); }
                   }} />
               )
+              : picked?.kind === 'attract'
+                ? <AttractInspector key={review.attract.contentVersion} review={review} onSaved={async () => { await refreshed(null); }} />
+              : picked?.kind === 'tour'
+                ? <TourInspector key={picked.id || 'new'} review={review} tourId={picked.id} onSaved={async () => { await refreshed(null); }} onCancel={() => setPicked(null)} />
+              : picked?.kind === 'place'
+                ? <PlaceInspector key={picked.id || 'new'} review={review} placeId={picked.id} onSaved={async () => { await refreshed(null); }} onCancel={() => setPicked(null)} />
+              : picked?.kind === 'to-review'
+                ? <ToReview review={review} draft={draft} onOpen={onOpen} />
               : picked?.kind === 'films'
                 ? <FilmsInspector key={picked.id} review={review} personId={picked.id} onSaved={async () => { await refreshed(null, picked.id); }} />
                 : picked
@@ -234,6 +252,18 @@ function PersonInspector({ review, personId, kind, onSaved }: {
     <div className="studio__form">
       <h2>{profile.name}</h2>
       <p className="quiet small">Class of {profile.classYear} · {profile.state === 'approved' ? 'approved' : 'not yet approved'}</p>
+      {profile.state !== 'approved' && !editChanged && !bioChanged && (
+        <p>
+          <button type="button" disabled={busy} onClick={async () => {
+            setBusy(true); setProblem(null);
+            try {
+              const outcome = await approveProfileInStudio(personId);
+              if (!outcome.ok) { setProblem(failure(outcome)); return; }
+              await onSaved(null);
+            } finally { setBusy(false); }
+          }}>Approve this profile as it reads</button>
+        </p>
+      )}
       {kind === 'portrait' && <PortraitSection review={review} personId={personId} onSaved={() => onSaved(null)} />}
       <label className="field"><span>Name</span><input value={edit.name} maxLength={limit.name} onChange={(event) => change({ name: event.target.value })} /></label>
       <label className="field"><span>Alphabetised as</span><input value={edit.sortName} maxLength={limit.name} onChange={(event) => change({ sortName: event.target.value })} /></label>
@@ -330,6 +360,120 @@ function FilmsInspector({ review, personId, onSaved }: { review: Review; personI
       {busy && <p className="quiet" role="status">Saving…</p>}
       {problem && <pre className="output" role="alert">{problem}</pre>}
       <FilmAdder person={person} titleLimit={review.limits.filmTitle} onAdd={(key, value) => { void save(key, value); }} />
+    </div>
+  );
+}
+
+/** The attract screen's words, written here and shown on the exhibit's attract screen. */
+function AttractInspector({ review, onSaved }: { review: Review; onSaved: () => Promise<void> }) {
+  const [headline, setHeadline] = useState(review.attract.headline);
+  const [tagline, setTagline] = useState(review.attract.tagline);
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  const changed = headline.trim() !== review.attract.headline.trim() || tagline.trim() !== review.attract.tagline.trim();
+  const tooLong = headline.trim().length > review.limits.headline || tagline.trim().length > review.limits.tagline;
+  const save = async () => {
+    setBusy(true); setProblem(null);
+    try {
+      const outcome = await saveInStudio({ kind: 'attract', headline: headline.trim(), tagline: tagline.trim() });
+      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+      await onSaved();
+    } finally { setBusy(false); }
+  };
+  return (
+    <div className="studio__form">
+      <h2>The attract screen&rsquo;s words</h2>
+      <p className="quiet small">What the display says while nobody is using it. {review.attract.approved ? 'Approved as they read now.' : 'Not approved yet: the display shows the Hall of Fame\'s name alone.'}</p>
+      <label className="field"><span>Headline <span className="quiet small">({headline.trim().length} of {review.limits.headline})</span></span>
+        <textarea rows={2} value={headline} onChange={(event) => setHeadline(event.target.value)} /></label>
+      <label className="field"><span>The line beneath <span className="quiet small">({tagline.trim().length} of {review.limits.tagline})</span></span>
+        <textarea rows={3} value={tagline} onChange={(event) => setTagline(event.target.value)} /></label>
+      {tooLong && <p className="todo">Too long for the screen.</p>}
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+      <p className="actions">
+        <button type="button" className="primary" disabled={busy || !changed || tooLong || !headline.trim()} onClick={() => void save()}>{busy ? 'Saving…' : 'Save'}</button>
+      </p>
+    </div>
+  );
+}
+
+/** A tour's words, rules and people, or a new tour; kept for the audience it has, so it stays on the exhibit while it waits. */
+function TourInspector({ review, tourId, onSaved, onCancel }: { review: Review; tourId: string; onSaved: () => Promise<void>; onCancel: () => void }) {
+  const tour = review.tours.find((each) => each.tourId === tourId);
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  const creating = !tour;
+  const audience = (shownOn: { kiosk: boolean; publicWeb: boolean } | undefined) => (shownOn?.publicWeb ? 'kiosk-and-web' : 'kiosk');
+  const keep = async (changes: TourChanges) => {
+    setBusy(true); setProblem(null);
+    try {
+      const id = tour ? tour.tourId : newTourId(changes.label, new Set(review.tourIds));
+      const decision = tour
+        ? { decision: 'edit', seenVersion: tour.contentVersion, changes, audience: audience(tour.state === 'draft' ? undefined : tour.shownOn), note: '' }
+        : { decision: 'create', changes, audience: 'kiosk', note: '' };
+      const outcome = await saveInStudio({ kind: 'tour', tourId: id, decision });
+      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+      await onSaved();
+    } finally { setBusy(false); }
+  };
+  return (
+    <div className="studio__form">
+      <h2>{tour ? tour.label : 'A new tour'}</h2>
+      <p className="quiet small">{creating ? 'Shown on the exhibit once saved, and on the display once approved and published.' : 'It stays on the exhibit as you edit it, for the audience it has.'}</p>
+      <TourEditor tour={tour ?? unwrittenTour('', review, review.blankTour)} review={review} creating={creating}
+        initial={tour?.changes ?? review.blankTour} onKeep={(changes) => { void keep(changes); }} onCancel={onCancel} />
+      {busy && <p className="quiet" role="status">Saving…</p>}
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+    </div>
+  );
+}
+
+/** A place's name, neighbourhood, words and people, or a new place, as the place editor in All items has them. */
+function PlaceInspector({ review, placeId, onSaved, onCancel }: { review: Review; placeId: string; onSaved: () => Promise<void>; onCancel: () => void }) {
+  const place = review.places.find((each) => each.placeId === placeId) ?? null;
+  const [problem, setProblem] = useState<string | null>(null);
+  const keep = async (edit: PlaceEdit) => {
+    setProblem(null);
+    const outcome = await saveInStudio({ kind: 'place', key: place ? place.placeId : `new-${Date.now()}`, edit });
+    if (!outcome.ok) { setProblem(failure(outcome)); return; }
+    await onSaved();
+  };
+  return (
+    <div className="studio__form">
+      <PlaceEditor review={review} place={place} initial={undefined} onKeep={(edit) => { void keep(edit); }} onCancel={onCancel} />
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+    </div>
+  );
+}
+
+/**
+ * What the research holds that somebody must look at, and that has no place
+ * on the exhibit until they do: profiles not yet approved, connections not
+ * decided, places to decide, tours not approved, films without a title, and
+ * sign-offs. Each opens the screen in All items that decides it.
+ */
+function ToReview({ review, draft, onOpen }: { review: Review; draft: Draft; onOpen: (screen: Screen) => void }) {
+  const lines: [Screen, string, number][] = [
+    ['profiles', 'Profiles not yet approved', review.profiles.filter((profile) => profile.state !== 'approved').length],
+    ['ties', 'Connections to decide', review.ties.filter((tie) => tie.status === 'unreviewed' || tie.wordingProblem).length],
+    ['places', 'Places to decide', review.places.filter((place) => placeNeedsWork(place, draft)).length],
+    ['tours', 'Tours not yet approved', review.tours.filter((tour) => tour.state !== 'approved').length],
+    ['filmTitles', 'Films without a title', review.filmTitles.filter((film) => !film.approvedTitle).length],
+    ['filmStarts', 'Ceremony films to start at somebody\'s part', review.filmStarts.filter((entry) => entry.approvedSeconds === null).length],
+    ['signoffs', 'Sign-offs not yet given', review.signoffs.filter((item) => !item.signed).length],
+  ];
+  return (
+    <div>
+      <h2>To review</h2>
+      <p className="quiet small">What the research holds that somebody must decide before visitors see it. Each opens in All items.</p>
+      <ul className="studio__changes">
+        {lines.map(([screen, label, count]) => (
+          <li key={screen}>
+            <strong>{label}: {count}</strong>
+            {count > 0 && <button type="button" onClick={() => onOpen(screen)}>Open</button>}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

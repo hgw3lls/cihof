@@ -17,7 +17,7 @@ import { Media } from './Media.tsx';
 import { NewInductees } from './NewInductees.tsx';
 import { Studio } from './Studio.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media' | 'newClass' | 'studio';
+export type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media' | 'newClass' | 'studio';
 
 /**
  * The staff review app.
@@ -111,7 +111,7 @@ export function App() {
       {error && <p className="problem banner" role="alert">{error}</p>}
 
       {screen === 'studio' && (
-        <Studio review={review} reload={reload} onAllItems={() => setScreen('home')} onPublish={() => setScreen('update')} onMedia={() => setScreen('media')} />
+        <Studio review={review} draft={draft} reload={reload} onAllItems={() => setScreen('home')} onPublish={() => setScreen('update')} onOpen={setScreen} />
       )}
       {screen === 'home' && (
         <Home

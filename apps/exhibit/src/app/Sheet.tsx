@@ -170,12 +170,14 @@ export function PlaceSheet({ place, people, onPerson, onClose }: {
         <button type="button" className="sheet__close" aria-label="Close" onClick={onClose}>×</button>
       </div>
       <div className="sheet__body">
-        <p className="sheet__kicker sheet__kicker--place">Place{place.neighborhood && place.neighborhood !== place.name ? ` · ${place.neighborhood}` : ''}</p>
-        <h2 className="sheet__name">
-          {place.name}
-          {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
-        </h2>
-        {place.shortHistory && <p className="sheet__teaser" data-short="true">{place.shortHistory}</p>}
+        <div className="sheet__who" data-edit="place" data-edit-id={place.id}>
+          <p className="sheet__kicker sheet__kicker--place">Place{place.neighborhood && place.neighborhood !== place.name ? ` · ${place.neighborhood}` : ''}</p>
+          <h2 className="sheet__name">
+            {place.name}
+            {place.unreviewed && <em className="unreviewed">Unreviewed</em>}
+          </h2>
+          {place.shortHistory && <p className="sheet__teaser" data-short="true">{place.shortHistory}</p>}
+        </div>
         <ul className="sheet__ties-list" aria-label="People tied to this place">
           {people.map((person) => (
             <li key={person.id}>
