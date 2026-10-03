@@ -690,7 +690,9 @@ over:
 
 - read the summary it prints: people, relationships, and the films. A release
   that carries its films should say **all of them** have their video file;
-  `MANIFEST.json` in `release/cihof-kiosk-<release>/` lists any that do not;
+  `MANIFEST.json` beside the installer in `release/app/` lists any that do
+  not (the kiosk package the app is built from is removed once the app is
+  built; `--keep-package` keeps it);
 - play every film in the app the step above staged (from this project's
   `public/media/videos`, as a films folder, unless the app carries them;
   `--videos=<folder>` checks another folder, such as the copy for the display):
