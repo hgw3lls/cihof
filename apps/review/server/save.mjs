@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
 import { previewHash } from '../../../scripts/preview-hash.js';
+import { recordChange, snapshot } from './portal.mjs';
 import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
@@ -165,6 +166,49 @@ export function save({ root, draft, audience = 'kiosk', day = today() }) {
     commit(root, message, draft.reviewer.trim());
     const sha = git(root, ['rev-parse', '--short', 'HEAD']).trim();
     results.push({ task: step.task, title: step.title, ok: true, commit: sha, count, output: log.join('\n') });
+    remaining = withoutStep(remaining, step);
+  }
+
+  return { results, draft: remaining };
+}
+
+/**
+ * Saves into the staff portal's working copy, which has no git: each kind of
+ * review is applied by its own tool and checked as `save` does, and a copy of
+ * the records taken first is put back if anything fails, so nothing of it is
+ * kept. Each saved kind is recorded under the reviewer's name, for the next
+ * display update to list. Stops at the first that fails.
+ */
+export function saveHere({ root, draft, audience = 'kiosk', day = today(), now = new Date() }) {
+  if (!draft.reviewer?.trim()) throw new Error('Enter your name before saving.');
+  const results = [];
+  let remaining = structuredClone(draft);
+
+  for (const step of plan(draft)) {
+    const input = writeSheet(root, step, draft, day);
+    const targets = toolArgs(step, audience)[0]?.slice('--targets='.length);
+    const hash = previewHash(readFileSync(input, 'utf8'), targets);
+    const log = [];
+    const run = (script, args = []) => {
+      const result = runTool(root, script, args);
+      log.push(`$ npm run ${script}\n${result.output}`);
+      return result.ok;
+    };
+
+    const before = snapshot(root);
+    const ok = run(step.script, [`--input=${input}`, ...toolArgs(step, audience), '--apply', `--expect-hash=${hash}`, '--no-backup'])
+      && step.refresh.every((script) => run(script))
+      && step.checks.every((script) => run(script));
+    if (!ok) {
+      before.restore();
+      results.push({ task: step.task, title: step.title, ok: false, output: log.join('\n') });
+      break;
+    }
+    before.discard();
+
+    const count = step.keys(draft).length;
+    recordChange(root, { by: draft.reviewer.trim(), task: step.task, title: step.title, count, reference: decisionReference(step.task, day), now });
+    results.push({ task: step.task, title: step.title, ok: true, commit: null, saved: true, count, output: log.join('\n') });
     remaining = withoutStep(remaining, step);
   }
 

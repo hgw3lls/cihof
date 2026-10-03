@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dataFolderProblem, freePort, installRuntime, isExportedFile, isOwnPage, isWebAddress, syncDataFolder } from './runtime.mjs';
+import { dataFolderProblem, freePort, installRuntime, isExportedFile, isOwnPage, isUpdateFile, isWebAddress, syncDataFolder } from './runtime.mjs';
 
 /**
  * The staff review app, installed on a staff computer.
@@ -16,6 +16,11 @@ import { dataFolderProblem, freePort, installRuntime, isExportedFile, isOwnPage,
  * as one file, in Documents/CIHOF review decisions, for the developer to bring
  * in with npm run review:import. Nothing is committed here, and nothing is
  * sent anywhere by the app itself.
+ *
+ * Or, as the staff portal, it works on the content a display exported
+ * (File, Open a display's content): edits are saved into that copy and made
+ * into a display update, a file the display loads, with nobody in between
+ * (apps/review/server/portal.mjs).
  */
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -25,6 +30,9 @@ const runtime = app.isPackaged ? join(process.resourcesPath, 'runtime') : resolv
 const settingsPath = () => join(app.getPath('userData'), 'settings.json');
 const work = () => join(app.getPath('userData'), 'review');
 const exportDir = () => process.env.CIHOF_REVIEW_EXPORT_DIR || join(app.getPath('documents'), 'CIHOF review decisions');
+const updatesDir = () => process.env.CIHOF_REVIEW_UPDATES_DIR || join(app.getPath('documents'), 'CIHOF display updates');
+const portalMode = () => readSettings().mode === 'portal';
+const appTitle = () => (portalMode() ? 'CIHOF staff portal' : 'CIHOF staff review');
 let win = null;
 let server = null;
 /**
@@ -61,9 +69,11 @@ async function start() {
     {
       label: 'File',
       submenu: [
+        { label: 'Open a display\'s content…', click: () => openContent() },
+        { label: 'Show display updates', click: () => { mkdirSync(updatesDir(), { recursive: true }); shell.openPath(updatesDir()); } },
+        { type: 'separator' },
         { label: 'Copy the latest records again', click: () => launch() },
         { label: 'Choose the data folder…', click: () => chooseFolder() },
-        { type: 'separator' },
         { label: 'Show exported decisions', click: () => { mkdirSync(exportDir(), { recursive: true }); shell.openPath(exportDir()); } },
         { type: 'separator' },
         process.platform === 'darwin' ? { role: 'close' } : { role: 'quit' },
@@ -74,6 +84,10 @@ async function start() {
   ]));
 
   ipcMain.handle('review-app:choose-folder', () => chooseFolder());
+  ipcMain.handle('review-app:open-content', () => openContent());
+  ipcMain.handle('review-app:show-update', (_event, path) => {
+    if (isUpdateFile(path, updatesDir())) shell.showItemInFolder(resolve(path));
+  });
   ipcMain.handle('review-app:retry', () => launch());
   ipcMain.handle('review-app:show-export', (_event, path) => {
     if (isExportedFile(path, exportDir())) shell.showItemInFolder(resolve(path));
@@ -84,7 +98,7 @@ async function start() {
     height: 900,
     minWidth: 900,
     minHeight: 600,
-    title: 'CIHOF staff review',
+    title: appTitle(),
     backgroundColor: '#f4f2ec',
     webPreferences: { preload: join(here, 'preload.cjs'), contextIsolation: true, sandbox: true, nodeIntegration: false },
   });
@@ -104,7 +118,7 @@ async function start() {
   // warning about out-of-date records stays in sight while the review is used.
   win.on('page-title-updated', (event) => {
     event.preventDefault();
-    win?.setTitle(`CIHOF staff review${staleNote}`);
+    win?.setTitle(`${appTitle()}${staleNote}`);
   });
   win.on('closed', () => { win = null; });
   await launch();
@@ -125,9 +139,66 @@ async function chooseFolder() {
   const folder = result.filePaths[0];
   const problem = dataFolderProblem(folder);
   if (problem) { status('problem', problem); return false; }
-  writeSettings({ dataFolder: folder });
+  writeSettings({ dataFolder: folder, mode: 'review' });
   await launch();
   return true;
+}
+
+/**
+ * Opens the content a display exported as the portal's working copy. Saved
+ * changes not yet in a display update would be replaced, so that is asked.
+ */
+async function openContent() {
+  const result = await dialog.showOpenDialog(win, {
+    title: 'Open a display\'s content',
+    message: 'Choose the content exported from the display: its admin panel, Content, Export current content.',
+    properties: ['openFile'],
+    filters: [{ name: 'Display content', extensions: ['cihof', 'zip'] }],
+  });
+  if (result.canceled || !result.filePaths[0]) return false;
+  const file = result.filePaths[0];
+  stopServer();
+  status('starting', 'Opening the display\'s content…');
+  try {
+    installRuntime(runtime, work(), build());
+  } catch (error) {
+    status('problem', 'The portal could not be set up on this computer.', String(error?.stack ?? error));
+    return false;
+  }
+  let outcome = await runPortal([`--open=${file}`]);
+  if (!outcome.ok && /not yet in a display update/.test(outcome.output)) {
+    const answer = await dialog.showMessageBox(win, {
+      type: 'warning',
+      buttons: ['Open it anyway', 'Cancel'],
+      defaultId: 1,
+      cancelId: 1,
+      message: outcome.output.trim(),
+      detail: 'To keep them, cancel and make a display update first. Opening this content replaces them with what the display had.',
+    });
+    if (answer.response !== 0) { await launch(); return false; }
+    outcome = await runPortal([`--open=${file}`, '--replace']);
+  }
+  if (!outcome.ok) {
+    status('problem', 'The display\'s content could not be opened.', outcome.output.trim());
+    return false;
+  }
+  writeSettings({ mode: 'portal' });
+  await launch();
+  return true;
+}
+
+function runPortal(args) {
+  return new Promise((done) => {
+    const output = [];
+    const child = spawn(process.execPath, [
+      '--experimental-strip-types', '--no-warnings=ExperimentalWarning',
+      join(work(), 'apps', 'review', 'server', 'portal.mjs'), ...args,
+    ], { cwd: work(), env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
+    child.stdout.on('data', (chunk) => output.push(String(chunk)));
+    child.stderr.on('data', (chunk) => output.push(String(chunk)));
+    child.on('error', (error) => done({ ok: false, output: String(error) }));
+    child.on('exit', (code) => done({ ok: code === 0, output: output.join('') }));
+  });
 }
 
 function build() {
@@ -149,24 +220,31 @@ async function launch() {
     return;
   }
 
-  // The latest records from the data folder. If it cannot be reached, the
-  // last copy is used, and the window says so.
-  const folder = readSettings().dataFolder;
-  const problem = dataFolderProblem(folder);
-  const haveCopy = existsSync(join(root, 'data', 'cihof_curated_metadata.json'));
+  // The portal works on the copy a display's export was opened into, and
+  // nothing else: the data folder plays no part.
+  const portal = portalMode();
   let note = '';
   staleNote = '';
-  if (problem) {
-    if (!folder || !haveCopy) { status(folder ? 'problem' : 'choose', problem); return; }
-    const when = statSync(join(root, 'data', 'cihof_curated_metadata.json')).mtime;
-    note = ` · the data folder cannot be reached: using the records copied on ${when.toLocaleDateString()}`;
+  if (portal) {
+    if (!existsSync(join(root, '.portal', 'base.json'))) { status('choose', 'Open the content exported from the display to begin: File, Open a display\'s content.'); return; }
   } else {
-    status('starting', `Copying the latest records from ${folder}…`);
-    try {
-      syncDataFolder(folder, root);
-    } catch (error) {
-      if (!haveCopy) { status('problem', `The records could not be copied from ${folder}.`, String(error?.message ?? error)); return; }
-      note = ' · the latest records could not be copied: using the last copy';
+    // The latest records from the data folder. If it cannot be reached, the
+    // last copy is used, and the window says so.
+    const folder = readSettings().dataFolder;
+    const problem = dataFolderProblem(folder);
+    const haveCopy = existsSync(join(root, 'data', 'cihof_curated_metadata.json'));
+    if (problem) {
+      if (!folder || !haveCopy) { status(folder ? 'problem' : 'choose', problem); return; }
+      const when = statSync(join(root, 'data', 'cihof_curated_metadata.json')).mtime;
+      note = ` · the data folder cannot be reached: using the records copied on ${when.toLocaleDateString()}`;
+    } else {
+      status('starting', `Copying the latest records from ${folder}…`);
+      try {
+        syncDataFolder(folder, root);
+      } catch (error) {
+        if (!haveCopy) { status('problem', `The records could not be copied from ${folder}.`, String(error?.message ?? error)); return; }
+        note = ' · the latest records could not be copied: using the last copy';
+      }
     }
   }
 
@@ -174,7 +252,8 @@ async function launch() {
   const output = [];
   server = spawn(process.execPath, [
     '--experimental-strip-types', '--no-warnings=ExperimentalWarning',
-    join(root, 'apps', 'review', 'server', 'server.mjs'), '--no-open', `--port=${port}`, `--export-dir=${exportDir()}`,
+    join(root, 'apps', 'review', 'server', 'server.mjs'), '--no-open', `--port=${port}`,
+    portal ? `--updates-dir=${updatesDir()}` : `--export-dir=${exportDir()}`,
   ], { cwd: root, env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
   const current = server;
   current.stdout.on('data', (chunk) => output.push(String(chunk)));
@@ -190,9 +269,9 @@ async function launch() {
     try {
       if ((await fetch(url, { signal: AbortSignal.timeout(1000) })).ok) {
         staleNote = note;
-        win?.setTitle(`CIHOF staff review${note}`);
+        win?.setTitle(`${appTitle()}${note}`);
         await win?.loadURL(url);
-        win?.setTitle(`CIHOF staff review${note}`);
+        win?.setTitle(`${appTitle()}${note}`);
         return;
       }
     } catch { /* not listening yet */ }

@@ -307,11 +307,38 @@ export type Review = {
   draft: Draft;
   counts: Counts;
   git: GitState;
-  /** `commit` in the project; `export` in the staff review app on a staff computer, which writes a file for the developer. */
-  mode: 'commit' | 'export';
+  /**
+   * `commit` in the project; `export` in the staff review app on a staff computer, which writes a file for the developer;
+   * `portal` in the staff portal, which saves into its copy of a display's content and makes updates for the display.
+   */
+  mode: 'commit' | 'export' | 'portal';
+  portal?: PortalState;
 };
 
-export type StepResult = { task: string; title: string; ok: boolean; count?: number; commit?: string | null; output: string };
+/** A kind of review saved into the portal's copy. `inUpdate` names the display update that carries it. */
+export type PortalChange = { at: string; by: string; task: string; title: string; count: number; reference: string; inUpdate: string | null };
+export type DisplayUpdate = { at: string; by: string; file: string; contentVersion: string; basedOn: string; carried: number; summary: string[] };
+export type PortalState = {
+  opened: { file: string; contentVersion: string; exportedAt: string | null; openedAt: string; people: number | null; films: number } | null;
+  pending: PortalChange[];
+  changes: PortalChange[];
+  updates: DisplayUpdate[];
+  lastUpdate: DisplayUpdate | null;
+  updatesDir?: string;
+};
+
+export type UpdateOutcome = ({ ok: true } & DisplayUpdate) | { ok: false; problem: string; output?: string };
+
+export async function makeDisplayUpdate(note: string): Promise<UpdateOutcome & { portal: PortalState }> {
+  return request('/api/display-update', { method: 'POST', body: JSON.stringify({ note }) });
+}
+
+/** Only in the staff portal app: shows a display update in the computer's own file browser. */
+export function showUpdateFile(file: string) {
+  (window as unknown as { cihofReview?: { showUpdate?: (path: string) => void } }).cihofReview?.showUpdate?.(file);
+}
+
+export type StepResult = { task: string; title: string; ok: boolean; count?: number; commit?: string | null; saved?: boolean; output: string };
 export type Audience = 'kiosk' | 'kiosk-and-web';
 
 export async function loadReview(): Promise<Review> {

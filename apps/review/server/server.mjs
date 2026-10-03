@@ -11,7 +11,8 @@ import { signoffChecklists } from './checklist.mjs';
 import { history, sheetRows } from './history.mjs';
 import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
-import { audiences, check, gitStatus, save } from './save.mjs';
+import { audiences, check, gitStatus, save, saveHere } from './save.mjs';
+import { isPortal, makeDisplayUpdate, portalState } from './portal.mjs';
 import { draftCounts } from './sheets.mjs';
 import { exportDecisions, listExports } from './export.mjs';
 
@@ -31,6 +32,11 @@ import { exportDecisions, listExports } from './export.mjs';
  * no git: nothing is committed. Checked decisions are exported instead, as one
  * file in that folder for the developer to import (export.mjs), and the
  * history lists the files exported from this computer.
+ *
+ * With --updates-dir, as the staff portal: the working folder is a copy of
+ * what a display shows, opened from its export (portal.mjs). Decisions are
+ * saved straight into it, with no git, and display updates are made from it
+ * into that folder.
  */
 
 const mime = {
@@ -39,8 +45,9 @@ const mime = {
   '.woff2': 'font/woff2', '.ico': 'image/x-icon',
 };
 
-export function createReviewServer({ root, dist, port, exportDir = null }) {
-  const exporting = Boolean(exportDir);
+export function createReviewServer({ root, dist, port, exportDir = null, updatesDir = null }) {
+  const portal = Boolean(updatesDir);
+  const exporting = !portal && Boolean(exportDir);
   const draftPath = join(root, '.review', 'draft.json');
   const readDraft = () => readDraftFile(draftPath);
   const writeDraft = (draft) => {
@@ -85,11 +92,13 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
       const signoffs = readSignoffs(root).map((item) => ({ ...item, confirms: checklists[item.section] ?? [] }));
       return json(response, 200, {
         ...review, signoffs, readiness: readiness(review, signoffs), draft, counts: draftCounts(draft),
-        mode: exporting ? 'export' : 'commit',
-        git: exporting ? { clean: true, unpushed: null } : gitStatus(root),
+        mode: portal ? 'portal' : exporting ? 'export' : 'commit',
+        git: portal || exporting ? { clean: true, unpushed: null } : gitStatus(root),
+        ...(portal ? { portal: { ...portalState(root), updatesDir } } : {}),
       });
     }
     if (request.method === 'GET' && path === '/api/history') {
+      if (portal) return json(response, 200, { portal: portalState(root) });
       return json(response, 200, exporting ? { exports: listExports(exportDir), exportDir } : { entries: history(root) });
     }
     if (request.method === 'GET' && path === '/api/history/sheet') {
@@ -137,9 +146,21 @@ export function createReviewServer({ root, dist, port, exportDir = null }) {
     if (request.method === 'POST' && path === '/api/save') {
       if (exporting) return json(response, 404, { error: 'This review exports its decisions; it does not save to the project.' });
       const { audience } = await body(request);
+      if (portal) {
+        const outcome = saveHere({ root, draft: readDraft(), audience: audienceOf(audience) });
+        writeDraft(outcome.draft);
+        return json(response, 200, { results: outcome.results, counts: draftCounts(outcome.draft), git: { clean: true, unpushed: null }, portal: portalState(root) });
+      }
       const outcome = save({ root, draft: readDraft(), audience: audienceOf(audience) });
       writeDraft(outcome.draft);
       return json(response, 200, { results: outcome.results, counts: draftCounts(outcome.draft), git: gitStatus(root) });
+    }
+    // The display's content, made from this copy, as an update for the display.
+    if (request.method === 'POST' && path === '/api/display-update') {
+      if (!portal) return json(response, 404, { error: 'Only the staff portal makes display updates.' });
+      const { note } = await body(request);
+      const outcome = await makeDisplayUpdate({ root, outDir: updatesDir, by: readDraft().reviewer, note: typeof note === 'string' ? note.slice(0, 2000) : '' });
+      return json(response, 200, { ...outcome, portal: portalState(root) });
     }
     return json(response, 404, { error: 'No such request.' });
   }
@@ -304,7 +325,12 @@ if (invokedDirectly) {
     process.exit(1);
   }
   const exportDir = typeof args['export-dir'] === 'string' && args['export-dir'] ? args['export-dir'] : null;
-  const server = createReviewServer({ root, dist, port, exportDir });
+  const updatesDir = typeof args['updates-dir'] === 'string' && args['updates-dir'] ? args['updates-dir'] : null;
+  if (updatesDir && !isPortal(root)) {
+    console.error('The staff portal needs a display\'s export opened first.');
+    process.exit(1);
+  }
+  const server = createReviewServer({ root, dist, port, exportDir, updatesDir });
   server.on('error', (error) => {
     console.error(error.code === 'EADDRINUSE'
       ? `Port ${port} is in use. Is the review app already open? Otherwise use --port=<another>.`

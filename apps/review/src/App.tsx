@@ -12,8 +12,9 @@ import { Connections } from './Connections.tsx';
 import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
+import { DisplayUpdateScreen } from './DisplayUpdate.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update';
 
 /**
  * The staff review app.
@@ -61,7 +62,7 @@ export function App() {
   if (!review || !draft) return <main className="page"><p className="quiet">Loading…</p></main>;
 
   if (!draft.reviewer.trim()) {
-    return <Welcome onName={(name) => update((current) => ({ ...current, reviewer: name }))} />;
+    return <Welcome portal={review.mode === 'portal'} onName={(name) => update((current) => ({ ...current, reviewer: name }))} />;
   }
 
   const counts = {
@@ -82,7 +83,7 @@ export function App() {
   return (
     <>
       <header className="bar">
-        <button type="button" className="bar__home" onClick={back}>CIHOF staff review</button>
+        <button type="button" className="bar__home" onClick={back}>{review.mode === 'portal' ? 'CIHOF staff portal' : 'CIHOF staff review'}</button>
         <span className="bar__who">
           {draft.reviewer}
           <button type="button" className="link" onClick={() => update((current) => ({ ...current, reviewer: '' }))}>Not you?</button>
@@ -116,23 +117,37 @@ export function App() {
       {screen === 'history' && <History onDone={back} />}
       {screen === 'filmFixes' && <FilmCaptions review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
-        <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }} />
+        <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }}
+          onUpdate={() => setScreen('update')} />
+      )}
+      {screen === 'update' && review.portal && (
+        <DisplayUpdateScreen portal={review.portal} waiting={waiting} onBack={back} onSave={() => setScreen('save')}
+          onMade={async () => { await reload(); }} />
       )}
     </>
   );
 }
 
-function Welcome({ onName }: { onName: (name: string) => void }) {
+function Welcome({ portal, onName }: { portal: boolean; onName: (name: string) => void }) {
   const [name, setName] = useState('');
   return (
     <main className="page page--narrow">
       <h1>Welcome</h1>
-      <p className="lead">
-        This is where the Hall of Fame's research is checked before visitors see it.
-        You will look at one thing at a time and say what the record shows.
-        Nothing you do here changes the exhibit until you choose to save, and even
-        then it waits for the developer to publish it.
-      </p>
+      {portal ? (
+        <p className="lead">
+          This is where what the display shows is checked and changed.
+          You will look at one thing at a time and say what the record shows.
+          Nothing you do here changes the display until you save it and load a
+          display update onto it, and the display can always go back.
+        </p>
+      ) : (
+        <p className="lead">
+          This is where the Hall of Fame's research is checked before visitors see it.
+          You will look at one thing at a time and say what the record shows.
+          Nothing you do here changes the exhibit until you choose to save, and even
+          then it waits for the developer to publish it.
+        </p>
+      )}
       <form onSubmit={(event) => { event.preventDefault(); if (name.trim()) onName(name.trim()); }}>
         <label className="field">
           <span>Who is reviewing today?</span>
@@ -164,8 +179,11 @@ function Home({ review, draft, waiting, counts, onOpen }: {
     <main className="page">
       <Readiness lines={review.readiness} />
 
-      <h1>What would you like to review?</h1>
-      <p className="lead">Pick one. You can stop at any point; your choices are kept on this computer.</p>
+      <h1>{review.mode === 'portal' ? 'What would you like to review or change?' : 'What would you like to review?'}</h1>
+      <p className="lead">
+        Pick one. You can stop at any point; your choices are kept on this computer.
+        {review.mode === 'portal' ? ' Saved changes reach the display in a display update, made below.' : ''}
+      </p>
 
       <div className="cards">
         <Card
@@ -254,14 +272,26 @@ function Home({ review, draft, waiting, counts, onOpen }: {
               <button type="button" className="primary" onClick={() => onOpen('save')}>{review.mode === 'export' ? 'Check and export' : 'Check and save'}</button>
             </>
           )}
+        {review.portal && (
+          <p>
+            {review.portal.pending.length > 0
+              ? <><strong>{review.portal.pending.length} saved change{review.portal.pending.length === 1 ? '' : 's'}</strong> not yet on the display. </>
+              : null}
+            <button type="button" className={review.portal.pending.length > 0 ? 'primary' : 'link'} onClick={() => onOpen('update')}>
+              {review.portal.pending.length > 0 ? 'Make a display update' : 'Display updates'}
+            </button>
+          </p>
+        )}
         {review.git.unpushed ? (
           <p className="quiet">
             {review.git.unpushed} saved review{review.git.unpushed === 1 ? ' is' : 's are'} waiting for the developer to publish.
           </p>
         ) : null}
-        <p><button type="button" className="link" onClick={() => onOpen('history')}>
-          {review.mode === 'export' ? 'History: the decisions exported from this computer' : 'History: who decided what, and when'}
-        </button></p>
+        {review.mode !== 'portal' && (
+          <p><button type="button" className="link" onClick={() => onOpen('history')}>
+            {review.mode === 'export' ? 'History: the decisions exported from this computer' : 'History: who decided what, and when'}
+          </button></p>
+        )}
       </section>
     </main>
   );

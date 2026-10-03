@@ -13,9 +13,11 @@ import { dirname, join, resolve } from 'node:path';
  *   npm run package:review-app -- --stage-only      only stage it, for npm start in apps/review-app
  *
  * It carries the review (its pages and server, the pipeline, the apply tools
- * and the sign-off sheet) as they are in this checkout, and no records: the
- * app reads those from a data folder (npm run review:data). Decisions leave
- * it as a file for npm run review:import. Written to release/review-app/,
+ * and the sign-off sheet, and the display's own code for content updates) as
+ * they are in this checkout, and no records: the app reads those from a data
+ * folder (npm run review:data), and decisions leave it as a file for npm run
+ * review:import; or, as the staff portal, from a display's export, and
+ * changes leave it as a display update. Written to release/review-app/,
  * which git ignores.
  */
 
@@ -47,7 +49,8 @@ run('npm', ['run', 'build', '--workspace', '@cihof/review']);
 
 // 2. The review's code, as git tracks it: nothing left lying in a folder.
 rmSync(join(app, 'stage'), { recursive: true, force: true });
-const tracked = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard', '--', 'apps/review/server', 'apps/review/package.json', 'packages/content', 'packages/pipeline', 'scripts', 'docs/sign-off.md', 'package.json'], { cwd: root, encoding: 'utf8' })
+const tracked = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard', '--', 'apps/review/server', 'apps/review/package.json',
+  'apps/kiosk-app/src/zip.mjs', 'apps/kiosk-app/src/content-store.mjs', 'apps/kiosk-app/src/content-package.mjs', 'packages/content', 'packages/pipeline', 'scripts', 'docs/sign-off.md', 'package.json'], { cwd: root, encoding: 'utf8' })
   .split('\0').filter(Boolean)
   // The packages' tests and the pipeline's generating scripts stay behind.
   .filter((path) => !/^packages\/[^/]+\/tests\//.test(path));

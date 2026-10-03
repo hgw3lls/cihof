@@ -256,6 +256,40 @@ If a save stops part way, the part that failed is not kept and your
 decisions for it are still there. Show the details to the developer. History
 in the app lists the files exported from your computer.
 
+## 5. The staff portal: changing what the display shows
+
+The same app also works on what a display shows now, with nobody in
+between. Changes made this way reach the display as a **display update**, a
+file you load on the display yourself.
+
+1. **Export the display's content.** On the display, open the admin panel,
+   then **Content › Export current content…**, and save the file to a USB
+   stick.
+2. **Open it in the app.** **File › Open a display's content…** and choose
+   the file. The window's title becomes **CIHOF staff portal**. If changes
+   you saved earlier are not yet in a display update, the app asks before
+   opening, since opening replaces them with what the display had.
+3. **Make your changes** with the same reviews as above, then **Check and
+   save**. Saving writes them into the app's copy straight away, each kind
+   with your name. Nothing has changed on the display yet.
+4. **Make a display update.** From the save page, or from the foot of the
+   home page. Add a line saying what changed if you like. The file goes to
+   **Documents › CIHOF display updates**; **Show the file** opens that
+   folder. It takes a moment: the app builds the display's content from your
+   copy exactly as the exhibit is built.
+5. **Load it on the display.** Copy the file to a USB stick. On the display,
+   **Content › Load a content update…**, read what it says it changes, then
+   **Apply and show now** or **Apply at the next reset**.
+
+Keep working in the app afterwards: the next display update follows this one.
+The display keeps its earlier content, and the content it was delivered with,
+so it can always go back (**Content › Versions kept**). If two people change
+the same display from the same export, the second update is flagged on the
+display: export again and make it from that.
+
+To go back to reviewing the developer's records, choose **File › Choose the
+data folder…**.
+
 ---
 
 ## Check your understanding
@@ -268,4 +302,8 @@ in the app lists the files exported from your computer.
 3. You saved. Is it on the display? *(Not yet: tell the developer, who
    publishes it)*
 4. Can you break the display from this app? *(No. Nothing leaves this
-   computer until the developer publishes it.)*
+   computer until the developer publishes it, or, in the staff portal, until
+   you load a display update, which the display checks first and can always
+   undo.)*
+5. In the staff portal you saved a correction. Is it on the display? *(Not
+   yet: make a display update and load it on the display)*

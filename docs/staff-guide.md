@@ -259,8 +259,12 @@ or from a shared folder.
 
 1. **Start from what the display shows.** In the admin panel, **Content ›
    Export current content…**, and save the file to a USB stick. Open it in the
-   staff portal and make the changes there. (An update made from anything else
-   is refused, or warned about, so nobody's changes are lost.)
+   staff portal (the CIHOF Staff Review app, **File › Open a display's
+   content…**), make the changes, check and save them, and choose **Make a
+   display update**. The update is written to **Documents › CIHOF display
+   updates**. (An update made from anything else is refused, or warned about,
+   so nobody's changes are lost. The walkthrough is
+   `docs/training/review-app.md`, section 5.)
 2. **Load the update.** Back at the display: **Content › Load a content
    update…** and choose the file the portal made. The panel checks it before
    anything changes and shows who made it, when, and what it changes. An
@@ -767,8 +771,8 @@ npm run content:update -- --from=<the display's export> --by="Your name" --summa
 
 `--from` is the file the display exported (admin panel, **Content › Export
 current content…**). The update is this project as it stands (the kiosk build
-of the exhibit's data and media, and the source data git tracks under
-`data/`), made from that export, so it carries only what the display lacks
+of the exhibit's data and media, and the source git tracks under `data/`
+and `public/media/`, films aside), made from that export, so it carries only what the display lacks
 and the display refuses it if it has moved on since. It is written to
 `release/content/`. Like a release, it carries kiosk-only content: never
 publish it. A change to the exhibit's code (`apps/exhibit/src`) still needs a

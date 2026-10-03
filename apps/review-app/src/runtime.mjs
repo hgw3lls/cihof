@@ -80,18 +80,20 @@ function* walk(folder) {
 /**
  * Puts the review's code, from the app, into the working folder: again only
  * when the app is a different build, so a reviewer's unsent decisions
- * (.review/) and the copied data are never touched.
+ * (.review/), the copied data and the portal's own record (.portal/) are
+ * never touched.
  */
 export function installRuntime(runtime, work, build) {
   const stampPath = join(work, '.review-app-build');
   const current = existsSync(stampPath) ? readFileSync(stampPath, 'utf8').trim() : '';
   const linked = ['content', 'pipeline'].every((name) => existsSync(join(work, 'node_modules', '@cihof', name, 'package.json')));
   if (current === build && linked) return false;
-  for (const part of [join('apps', 'review'), 'packages', 'scripts', 'docs', 'node_modules', 'package.json']) {
+  for (const part of [join('apps', 'review'), join('apps', 'kiosk-app'), 'packages', 'scripts', 'docs', 'node_modules', 'package.json']) {
     rmSync(join(work, part), { recursive: true, force: true });
   }
   mkdirSync(work, { recursive: true });
-  for (const part of [join('apps', 'review'), 'packages', 'scripts', 'docs', 'package.json']) {
+  // apps/kiosk-app holds only what the portal shares with the display: how content updates are made.
+  for (const part of [join('apps', 'review'), join('apps', 'kiosk-app'), 'packages', 'scripts', 'docs', 'package.json']) {
     cpSync(join(runtime, part), join(work, part), { recursive: true });
   }
   // The project's own packages, found by name as in the project. Linked, not
@@ -143,4 +145,11 @@ export function isExportedFile(path, exportDir) {
   if (typeof path !== 'string' || !path) return false;
   const full = resolve(path);
   return full.startsWith(resolve(exportDir) + sep) && /cihof-decisions-[^/\\]+\.json$/.test(full) && existsSync(full);
+}
+
+/** A file the page asks to show must be one of the display updates the portal made. */
+export function isUpdateFile(path, updatesDir) {
+  if (typeof path !== 'string' || !path) return false;
+  const full = resolve(path);
+  return full.startsWith(resolve(updatesDir) + sep) && /cihof-update-[^/\\]+\.cihof$/.test(full) && existsSync(full);
 }

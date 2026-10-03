@@ -1,18 +1,21 @@
 /**
  * The staff review app, end to end, in a real Electron window: it starts with
  * no git or Node of its own, reads a data folder, and exports a reviewer's
- * checked decisions as a file that npm run review:import accepts.
+ * checked decisions as a file that npm run review:import accepts. Given a
+ * display's export, it also works as the staff portal: opens it, saves a
+ * decision into its copy, and makes a display update from it.
  *
  *   npm run package:review-app -- --stage-only
  *   npm run review:data -- --out=<folder>
  *   CIHOF_REVIEW_DATA=<folder> node apps/review-app/tests/app.e2e.mjs
  *   CIHOF_REVIEW_APP_EXECUTABLE=<built app> …   the same checks on a built app
+ *   CIHOF_DISPLAY_EXPORT=<a display's export> …  the staff portal too
  *
  * Not part of npm test: it launches a browser engine.
  */
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { _electron as electron } from '@playwright/test';
@@ -54,7 +57,7 @@ try {
   const document = JSON.parse(readFileSync(join(exports, files[0]), 'utf8'));
   assert.equal(document.reviewer, 'Test Reviewer');
   assert.equal(Object.keys(document.draft.tours).length, 1);
-  assert.match(document.sheets.tours, /^tourId,decision,contentVersion,targets,decisionReference,note\n/);
+  assert.match(document.sheets.tours, /^tourId,decision,contentVersion,targets,decisionReference,note,/);
   console.log(`  ✓ exports the decision as ${files[0]}`);
 
   // The developer's side accepts it (checking only: nothing is written).
@@ -82,4 +85,50 @@ try {
   console.log('  ✓ with the data folder out of reach, it opens on the last copy and the title bar says so');
 } finally {
   await offline.close();
+}
+
+// As the staff portal: a display's export opened in the window, a decision
+// saved into its copy with no git, and a display update made from it.
+const displayExport = process.env.CIHOF_DISPLAY_EXPORT;
+if (displayExport) {
+  const updates = join(userData, 'updates');
+  const portal = await electron.launch({ executablePath: built ?? electronBinary, args: built ? [] : [join(root, 'apps', 'review-app')], env: { ...env, CIHOF_REVIEW_UPDATES_DIR: updates } });
+  try {
+    const page = await portal.firstWindow();
+    await page.getByText('When you have made some decisions, you will export them here.').waitFor({ timeout: 60_000 });
+    await portal.evaluate(({ dialog }, file) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [file] }); }, resolve(displayExport));
+    await page.evaluate(() => { void window.cihofReview.openContent(); });
+    await page.getByRole('heading', { name: 'What would you like to review or change?' }).waitFor({ timeout: 120_000 });
+    assert.equal(await portal.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getTitle()), 'CIHOF staff portal');
+    console.log('  ✓ opens a display\'s export as the staff portal');
+
+    await page.getByRole('button', { name: /^Tours/ }).click();
+    await page.locator('article.tour').first().getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();
+    await page.getByRole('button', { name: 'Back to the start' }).click();
+    await page.getByRole('button', { name: 'Check and save' }).click();
+    await page.getByRole('button', { name: 'Check my decisions' }).click();
+    await page.getByRole('heading', { name: 'Everything checks out' }).waitFor({ timeout: 60_000 });
+    await page.getByRole('button', { name: 'Save', exact: true }).click();
+    await page.getByRole('heading', { name: 'Saved' }).waitFor({ timeout: 60_000 });
+    console.log('  ✓ saves a decision into its copy, with no git');
+
+    await page.getByRole('button', { name: 'Make a display update' }).click();
+    await page.getByRole('heading', { name: 'Display update', exact: true }).waitFor();
+    await page.getByRole('button', { name: 'Make a display update' }).click();
+    await page.getByRole('heading', { name: 'Display update made' }).waitFor({ timeout: 120_000 });
+    const made = readdirSync(updates).filter((name) => /^cihof-update-.+\.cihof$/.test(name));
+    assert.equal(made.length, 1);
+    const { listZip, extractEntry } = await import('../../kiosk-app/src/zip.mjs');
+    const entries = await listZip(join(updates, made[0]));
+    const scratch = join(userData, 'update-content.json');
+    await extractEntry(join(updates, made[0]), entries.find((entry) => entry.name === 'content.json'), scratch);
+    const manifest = JSON.parse(readFileSync(scratch, 'utf8'));
+    rmSync(scratch);
+    assert.equal(manifest.createdBy, 'Test Reviewer');
+    assert.ok(manifest.summary.some((line) => line.startsWith('Tours: 1 decision by Test Reviewer')));
+    assert.ok(entries.length < 50, 'it carries only what changed');
+    console.log(`  ✓ makes a display update, ${made[0]}, carrying ${entries.length - 1} changed files`);
+  } finally {
+    await portal.close();
+  }
 }
