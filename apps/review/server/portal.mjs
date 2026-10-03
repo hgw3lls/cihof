@@ -189,9 +189,7 @@ export async function makeDisplayUpdate({ root, outDir, by, note = '', now = new
   for (const part of ['data', 'media']) {
     for (const file of walk(join(published, part))) site[relative(published, file).split('\\').join('/')] = file;
   }
-  // Films an update brought stay as the display has them, listed and never carried again.
-  const held = new Set(Object.values(base.films ?? {}).map((file) => file.sha256));
-  const films = Object.fromEntries(Object.entries(follows.films ?? {}).filter(([, file]) => held.has(file.sha256)));
+  const films = filmsShown(root, base, follows);
 
   const stamp = [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getHours(), now.getMinutes()].map((part, index) => String(part).padStart(index === 0 ? 4 : 2, '0'));
   const name = `cihof-update-${stamp.slice(0, 3).join('-')}-${stamp.slice(3).join('')}.cihof`;
@@ -223,6 +221,32 @@ export async function makeDisplayUpdate({ root, outDir, by, note = '', now = new
     updates: [...state.updates, record],
   });
   return { ok: true, ...record };
+}
+
+/**
+ * The films the update brings, by their path in the display's films folder:
+ * each film on the display that the records name and the display's own
+ * folder does not hold, which is a film added in the portal or by an earlier
+ * update. One added here is the file itself; one an update brought before is
+ * listed by its checksum, never carried again, when the export holds it.
+ * The delivered films are in the display's films folder, and not listed.
+ */
+function filmsShown(root, base, follows) {
+  const manifest = readJson(join(root, 'data', 'media_manifest.json'), { assets: {} });
+  const held = new Map(Object.values(base.films ?? {}).map((file) => [file.sha256, file]));
+  const earlier = { ...(base.films ?? {}), ...(follows.films ?? {}) };
+  const films = {};
+  for (const asset of Object.values(manifest.assets ?? {})) {
+    for (const video of Array.isArray(asset?.videos) ? asset.videos : []) {
+      const runtime = typeof video?.runtimePath === 'string' ? video.runtimePath : '';
+      if (video?.approvedForKiosk !== true || !runtime.startsWith('/media/videos/') || !filmFile.test(runtime)) continue;
+      const path = runtime.slice('/media/videos/'.length);
+      const here = join(root, 'public', 'media', 'videos', ...path.split('/'));
+      if (existsSync(here)) films[path] = here;
+      else if (earlier[path] && held.has(earlier[path].sha256)) films[path] = held.get(earlier[path].sha256);
+    }
+  }
+  return films;
 }
 
 /** The working copy's source: every file of the records and media, by its path in the export. */
@@ -260,9 +284,11 @@ export function snapshot(root) {
   }
   return {
     restore() {
+      // Everything but the films, which the copy did not take: a film the
+      // failed save copied in is left for the next attempt to find.
       for (const part of sourceParts) {
-        rmSync(join(root, part), { recursive: true, force: true });
-        if (existsSync(join(keep, part))) { mkdirSync(dirname(join(root, part)), { recursive: true }); renameSync(join(keep, part), join(root, part)); }
+        for (const file of walk(join(root, part))) if (!filmFile.test(file)) rmSync(file, { force: true });
+        if (existsSync(join(keep, part))) cpSync(join(keep, part), join(root, part), { recursive: true });
       }
       rmSync(keep, { recursive: true, force: true });
     },

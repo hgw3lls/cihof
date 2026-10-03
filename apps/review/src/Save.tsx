@@ -8,6 +8,7 @@ import { filmTitleProblem } from './FilmTitles.tsx';
 import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
 import { signoffProblem } from './Signoffs.tsx';
+import { portraitProblem } from './Media.tsx';
 
 type Props = {
   review: Review;
@@ -40,6 +41,7 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const personName = (id: string) => review.media.find((person) => person.id === id)?.name ?? id;
   const tieName = (id: string) => {
     const tie = review.ties.find((item) => item.tieId === id);
     return tie ? `${tie.a.name} & ${tie.b.name}` : id;
@@ -59,6 +61,15 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
       .map((id) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (edited and decided together; clear the decision, save the edit, then decide)`),
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
+    // A new picture needs its description and the rights confirmed, and names the profile as it was.
+    ...Object.entries(draft.portraits ?? {}).filter(([, value]) => portraitProblem(value, review.limits.profile.portraitAlt))
+      .map(([id]) => `${personName(id)}'s new portrait (${portraitProblem(draft.portraits![id]!, review.limits.profile.portraitAlt)})`),
+    ...Object.entries(draft.portraits ?? {}).filter(([id, value]) => review.media.find((person) => person.id === id)?.contentVersion !== value.seenVersion)
+      .map(([id]) => `${personName(id)}'s new portrait (the profile changed after you chose it; choose the picture again)`),
+    ...Object.keys(draft.portraits ?? {}).filter((id) => draft.profileEdits?.[id] || draft.profiles[id])
+      .map((id) => `${personName(id)}'s profile (a new portrait and another change to the profile cannot be saved together; save the portrait first)`),
+    ...(review.mode === 'export' ? Object.keys({ ...(draft.portraits ?? {}), ...(draft.films ?? {}) }).slice(0, 1)
+      .map(() => 'portraits and films (they cannot be exported for the developer: the files are on this computer; clear them)') : []),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
     ...Object.entries(draft.filmTitles ?? {}).filter(([, value]) => filmTitleProblem(value, review.limits.filmTitle))
       .map(([id]) => `the title of ${review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id}'s film`),
@@ -321,6 +332,20 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.action === 'accept'
       ? `Sign-offs: ${title}: accepted by ${value.by} on ${value.date}${value.note?.trim() ? ` (${value.note.trim()})` : ''}`
       : `Sign-offs: ${title}: cleared (${value.note})`);
+  }
+  for (const [id, value] of Object.entries(draft.portraits ?? {})) {
+    const name = review.media.find((person) => person.id === id)?.name ?? id;
+    lines.push(`Portraits: ${name}: a new picture, ${value.width} by ${value.height}; approve the profile again after saving`);
+  }
+  for (const value of Object.values(draft.films ?? {})) {
+    const person = review.media.find((each) => each.id === value.personId);
+    const name = person?.name ?? value.personId;
+    if (value.decision === 'withdraw') {
+      const film = person?.films.find((each) => each.filmId === value.filmId);
+      lines.push(`Films: ${name}: ${film?.title ? `“${film.title}”` : 'a film'} taken off the display`);
+    } else {
+      lines.push(`Films: ${name}: a new film${value.title ? `, “${value.title}”` : ''}, added to the display`);
+    }
   }
   for (const [id, value] of Object.entries(draft.bios)) {
     const name = review.bios.find((bio) => bio.id === id)?.name ?? id;

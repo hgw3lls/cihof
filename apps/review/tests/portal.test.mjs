@@ -137,3 +137,55 @@ test('a correction saved in the portal reaches the display through an update, an
   saveHere({ root: work, draft: { reviewer: 'Sam Lee', bios: { [person]: { correctedText: `${words} Three times.` } } } });
   await assert.rejects(openExport({ root: work, file: exportZip }), /not yet in a display update/);
 });
+
+test('a new portrait and a new film chosen in the portal reach the display, the film carried in the update', async () => {
+  // Uploads as the portal's page sends them: kept by checksum.
+  const uploads = join(work, '.review', 'uploads');
+  mkdirSync(uploads, { recursive: true });
+  const keep = (bytes, kind) => {
+    const data = Buffer.from(bytes);
+    const name = `${createHash('sha256').update(data).digest('hex')}.${kind}`;
+    writeFileSync(join(uploads, name), data);
+    return name;
+  };
+  const jpeg = (width, height, salt) => [0xff, 0xd8, 0xff, 0xc0, 0x00, 0x11, 0x08, height >> 8, height & 255, width >> 8, width & 255, 3, salt, 0, 0, 0, 0];
+  const picture = keep(jpeg(400, 500, 1), 'jpg');
+  const film = keep([0, 0, 0, 0x18, ...Buffer.from('ftypisom'), ...Buffer.alloc(4096, 7)], 'mp4');
+  const poster = keep(jpeg(640, 360, 2), 'jpg');
+  const captions = keep(Buffer.from('WEBVTT\n\n00:00:00.000 --> 00:00:02.000\nWelcome.\n'), 'vtt');
+  const transcript = keep(Buffer.from('Welcome.\n'), 'txt');
+
+  const versionNow = () => {
+    // The pipeline reads the folder it is run from: the review's working copy.
+    const run = spawnSync(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', '--input-type=module', '-e',
+      `const { loadReview } = await import('./apps/review/server/data.mjs'); console.log(loadReview().media.find((p) => p.id === '${person}').contentVersion);`], { cwd: work, encoding: 'utf8' });
+    return run.stdout.trim();
+  };
+  const saved = saveHere({
+    root: work,
+    draft: {
+      reviewer: 'Jane Smith',
+      portraits: { [person]: { seenVersion: versionNow(), upload: picture, portraitAlt: 'A new portrait.', focalPoint: 'center', rightsConfirmed: true, note: '' } },
+      films: { [`add:${person}:${film.slice(0, 12)}`]: {
+        decision: 'add', personId: person, film, poster, captions, transcript, durationSeconds: 2, title: 'A new film',
+        rightsConfirmed: true, captionsChecked: true, transcriptChecked: true, note: '',
+      } },
+    },
+  });
+  assert.ok(saved.results.every((result) => result.ok), saved.results.map((result) => result.output).join('\n'));
+  assert.equal(existsSync(join(uploads, film)), false, 'the film\'s upload is let go once it is saved');
+
+  const update = await makeDisplayUpdate({ root: work, outDir: join(scratch, 'updates'), by: 'Jane Smith' });
+  assert.equal(update.ok, true, update.output ?? update.problem);
+  const display = createContentStore({ dir: join(scratch, 'display'), deliveredSite, deliveredSource });
+  const report = await display.inspect(update.file);
+  assert.deepEqual(report.problems, []);
+  assert.equal(report.changes.newFilms, 1);
+  await display.apply(update.file, { force: true });
+  const shown = JSON.parse(readFileSync(display.serving().site('data/exhibit.json'), 'utf8')).people.find((each) => each.id === person);
+  assert.equal(shown.portrait.src, `/media/images/${person}/portrait-${picture.slice(0, 12)}.jpg`);
+  const added = shown.films.find((each) => each.title === 'A new film');
+  assert.ok(added, 'the film is on the display, with its title');
+  const path = added.source.src.slice('/media/videos/'.length);
+  assert.equal(sha256(display.serving().film(path)), film.slice(0, 64), 'and the display plays the very file chosen');
+});

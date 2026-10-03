@@ -17,7 +17,8 @@ import { extractEntry, listZip } from '../apps/kiosk-app/src/zip.mjs';
  * moved on since the export.
  *
  * The new version is this project as it stands: the kiosk build of the
- * exhibit (its data and media; films stay in the display's films folder) and
+ * exhibit (its data and media; the delivered films stay in the display's films
+ * folder, and only films the hall added itself are carried) and
  * the source git tracks under data/ and public/media/ (never the films), as
  * the display keeps it for the staff portal. Kiosk content, so the update, like
  * the kiosk release, is never published.
@@ -77,6 +78,20 @@ for (const path of execFileSync('git', ['ls-files', '-z', '--', 'data', 'public/
   if (!/\.(mp4|m4v|mov|webm|mkv|avi)$/i.test(path) && existsSync(join(root, path))) source[path] = join(root, path);
 }
 
+// Films the hall added itself (staff portal or films:change): no YouTube id,
+// and not among the delivered films the display plays from its own folder.
+const films = {};
+const manifest = JSON.parse(readFileSync(join(root, 'data', 'media_manifest.json'), 'utf8'));
+for (const asset of Object.values(manifest.assets ?? {})) {
+  for (const video of asset.videos ?? []) {
+    if (video.approvedForKiosk !== true || video.youtubeVideoId || !String(video.runtimePath ?? '').startsWith('/media/videos/')) continue;
+    const path = video.runtimePath.slice('/media/videos/'.length);
+    const file = join(root, 'public', 'media', 'videos', ...path.split('/'));
+    if (existsSync(file)) films[path] = file;
+    else console.warn(`  ${path} is a film the hall added, but it is not in public/media/videos here; the display will show its words instead.`);
+  }
+}
+
 const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
 const out = resolve(args.out ?? join(root, 'release', 'content', `cihof-update-${stamp}.cihof`));
 mkdirSync(join(out, '..'), { recursive: true });
@@ -85,6 +100,7 @@ const made = await makeUpdate({
   base,
   site,
   source,
+  films,
   createdBy: args.by || 'The project',
   summary: args.summary.length ? args.summary : [`From the project at ${gitCommit()}.`],
   people: bundle.people.length,

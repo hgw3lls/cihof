@@ -466,6 +466,11 @@ Either way it offers:
   and as they should be; the app shows where they are found before you add
   the correction. Every fix changes the captions and the transcript
   together, in every copy of the film.
+- **Portraits and films** (staff portal and project only): a new portrait,
+  with its description and the rights confirmed; a film added, with a poster
+  taken from it, its captions checked against it and a transcript, and the
+  rights confirmed; or a film taken off the display. Files chosen are kept in
+  `.review/uploads` by their checksum until saved, then removed.
 - **Sign-offs**: the logo, the Windows checklist, each section of the
   sign-off sheet and the approval to open, each accepted by the person
   responsible. The app shows what a section of the sheet confirms; **Accept
@@ -651,6 +656,22 @@ is, under the sheet's decision reference. `npm run source:film-titles` collects 
 into `data/external-research/youtube-film-titles.json`, unreviewed: nothing
 reads that file into the exhibit, and the review app offers its titles only
 as suggestions.
+
+**New portraits and films** come from the staff portal's Portraits and
+films (7.1). By hand, `npm run portraits:replace` takes a sheet
+`id,contentVersion,upload,portraitAlt,focalPoint,rightsConfirmed,decisionReference,note`
+and `npm run films:change` a sheet
+`personId,decision,filmId,film,poster,captions,transcript,durationSeconds,title,rightsConfirmed,captionsChecked,transcriptChecked,decisionReference,note`
+(`add` or `withdraw`). Each file is an upload in `.review/uploads` named by
+its SHA-256 (`--uploads=<folder>` for another). A new portrait is copied
+beside the old one in `public/media/images`, approved, and its profile's
+approval lapses. A new film is copied with its poster, captions and
+transcript into `public/media/videos`, approved for the display only, with
+no YouTube id: that is how a film the hall added is told from the 93
+delivered ones. The delivered films stay in the display's films folder; a
+film the hall added reaches the display in a content update (the portal's,
+or `npm run content:update`, which carries such films). Visible differences
+are recorded under the sheet's decision reference.
 
 **The attract screen's words** live in `data/cihof_exhibit_text.json` and
 are shown only once a curator approves the exact words. The staff review app

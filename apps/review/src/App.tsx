@@ -13,8 +13,9 @@ import { Places } from './Places.tsx';
 import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 import { DisplayUpdateScreen } from './DisplayUpdate.tsx';
+import { Media } from './Media.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media';
 
 /**
  * The staff review app.
@@ -76,8 +77,9 @@ export function App() {
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
+    media: Object.keys(draft.portraits ?? {}).length + Object.keys(draft.films ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes;
+  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes + counts.media;
   const back = () => setScreen('home');
 
   return (
@@ -115,6 +117,7 @@ export function App() {
       {screen === 'filmStarts' && <FilmStarts review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'signoffs' && <Signoffs review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'history' && <History onDone={back} />}
+      {screen === 'media' && <Media review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'filmFixes' && <FilmCaptions review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
         <SaveScreen review={review} draft={draft} onBack={back} onSaved={async () => { await reload(); }}
@@ -164,7 +167,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; media: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -254,6 +257,15 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           pending={counts.filmFixes}
           onOpen={() => onOpen('filmFixes')}
         />
+        {/* The files chosen stay on this computer, so not where decisions are exported for somebody else to bring in. */}
+        {review.mode !== 'export' && (
+          <Card
+            title="Portraits and films"
+            body="Give somebody a new portrait, add a film to their films, or take a film off the display."
+            pending={counts.media}
+            onOpen={() => onOpen('media')}
+          />
+        )}
         <Card
           title="Sign-offs"
           body="Record a signature given outside the app: the logo, the installation checks, the approval to open."

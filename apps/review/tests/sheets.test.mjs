@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv } from '../server/sheets.mjs';
+import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv, filmChangesCsv, portraitsCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,29 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0, portraits: 0, films: 0 });
+});
+
+test('a new portrait and a change to films become rows the tools read, each signed', () => {
+  const upload = `${'a'.repeat(64)}.jpg`;
+  const portrait = rows(portraitsCsv({ reviewer: 'Jane Smith', portraits: { p1: { seenVersion: 'profile-1', upload, portraitAlt: 'Smiling, in a blue suit.', focalPoint: 'center', rightsConfirmed: true, note: 'From the family' } } }, '2026-10-03'))[0];
+  assert.deepEqual(portrait, {
+    id: 'p1', contentVersion: 'profile-1', upload, portraitAlt: 'Smiling, in a blue suit.', focalPoint: 'center', rightsConfirmed: 'yes',
+    decisionReference: 'portraits-review-2026-10-03', note: 'From the family. Reviewed by Jane Smith in the staff review app.',
+  });
+  const unconfirmed = rows(portraitsCsv({ reviewer: 'Jane Smith', portraits: { p1: { seenVersion: 'profile-1', upload, portraitAlt: 'x', focalPoint: '', rightsConfirmed: false } } }, '2026-10-03'))[0];
+  assert.equal(unconfirmed.rightsConfirmed, '', 'never confirmed for them');
+  assert.equal(unconfirmed.focalPoint, 'center');
+
+  const [added, withdrawn] = rows(filmChangesCsv({ reviewer: 'Jane Smith', films: {
+    'add:p1:abc': { decision: 'add', personId: 'p1', film: 'f.mp4', poster: 'p.jpg', captions: 'c.vtt', transcript: 't.txt', durationSeconds: 95, title: 'The ceremony', rightsConfirmed: true, captionsChecked: true, transcriptChecked: false },
+    'withdraw:p2:yt1': { decision: 'withdraw', personId: 'p2', filmId: 'yt1', note: '' },
+  } }, '2026-10-03'));
+  assert.equal(added.decision, 'add');
+  assert.equal(added.durationSeconds, '95');
+  assert.deepEqual([added.rightsConfirmed, added.captionsChecked, added.transcriptChecked], ['yes', 'yes', '']);
+  assert.equal(added.decisionReference, 'film-changes-review-2026-10-03');
+  assert.deepEqual([withdrawn.personId, withdrawn.decision, withdrawn.filmId, withdrawn.film], ['p2', 'withdraw', 'yt1', '']);
 });
 
 test('an attract-words decision carries the version seen, or the new words, never both', () => {

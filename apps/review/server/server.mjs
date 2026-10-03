@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
-import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
+import { createReadStream, createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { createHash, randomUUID } from 'node:crypto';
+import { Transform } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { createServer } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +16,8 @@ import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/capt
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 import { audiences, check, gitStatus, save, saveHere } from './save.mjs';
 import { isPortal, makeDisplayUpdate, portalState } from './portal.mjs';
+import { kindOf, uploadLimits, uploadPattern } from '../../../packages/pipeline/src/build/media-changes.ts';
+import { imageSize } from '../../../packages/pipeline/src/build/images.ts';
 import { draftCounts } from './sheets.mjs';
 import { exportDecisions, listExports } from './export.mjs';
 
@@ -55,6 +60,45 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
     writeFileSync(draftPath, `${JSON.stringify(draft, null, 2)}\n`);
   };
   const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`]);
+  const uploadsDir = join(root, '.review', 'uploads');
+
+  /**
+   * Keeps a chosen file, by its checksum, after checking it is the kind of
+   * file it is chosen as. The apply tools find it there by that name.
+   */
+  const upload = async (request, response, kind) => {
+    if (!Object.hasOwn(uploadLimits, kind)) return json(response, 400, { error: 'Not a kind of file the exhibit uses.' });
+    mkdirSync(uploadsDir, { recursive: true });
+    const incoming = join(uploadsDir, `incoming-${randomUUID()}`);
+    const hash = createHash('sha256');
+    const head = [];
+    let size = 0;
+    try {
+      // Streamed to disk as it arrives: a film can be gigabytes.
+      await pipeline(request, new Transform({
+        transform(chunk, _encoding, next) {
+          size += chunk.length;
+          if (size > uploadLimits[kind]) { next(new Error('The file is too large.')); return; }
+          if (head.length < 64) head.push(...chunk.subarray(0, 64 - head.length));
+          hash.update(chunk);
+          next(null, chunk);
+        },
+      }), createWriteStream(incoming));
+    } catch (error) {
+      rmSync(incoming, { force: true });
+      return json(response, 400, { error: error instanceof Error && error.message === 'The file is too large.' ? error.message : 'The file did not arrive whole.' });
+    }
+    const sniffed = kindOf(Uint8Array.from(head));
+    const fits = kind === 'txt' ? sniffed === null || sniffed === 'vtt' : sniffed === kind;
+    if (size === 0 || !fits) {
+      rmSync(incoming, { force: true });
+      return json(response, 400, { error: size === 0 ? 'The file is empty.' : `That is not a .${kind} file.` });
+    }
+    const name = `${hash.digest('hex')}.${kind}`;
+    renameSync(incoming, join(uploadsDir, name));
+    const picture = kind === 'jpg' || kind === 'png' ? imageSize(new Uint8Array(readFileSync(join(uploadsDir, name)))) : null;
+    return json(response, 200, { name, bytes: size, width: picture?.width ?? null, height: picture?.height ?? null });
+  };
 
   return createServer(async (request, response) => {
     try {
@@ -67,6 +111,17 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
       const url = new URL(request.url ?? '/', `http://${request.headers.host}`);
 
       if (url.pathname.startsWith('/api/')) {
+        // A file chosen in Portraits and films. Its type is not one a form on
+        // another site can send, so a browser asks first, and is not answered.
+        if (request.method === 'POST' && url.pathname === '/api/uploads') {
+          if (String(request.headers['content-type'] ?? '') !== 'application/octet-stream') return send(response, 415, 'Send the file.');
+          return await upload(request, response, url.searchParams.get('kind') ?? '');
+        }
+        if (request.method === 'GET' && url.pathname.startsWith('/api/uploads/')) {
+          const name = url.pathname.slice('/api/uploads/'.length);
+          if (!uploadPattern.test(name) || !/\.(jpg|png)$/.test(name)) return send(response, 404, 'Not found.');
+          return file(response, uploadsDir, `/${name}`);
+        }
         if (request.method !== 'GET' && !String(request.headers['content-type'] ?? '').startsWith('application/json')) {
           return send(response, 415, 'Send JSON.');
         }
@@ -75,7 +130,7 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
 
       // Portraits, and films' posters, read-only, from the project's own media
       // folder. Only the posters of the films: never the films themselves.
-      if (url.pathname.startsWith('/media/images/') || (url.pathname.startsWith('/media/videos/') && url.pathname.endsWith('.webp'))) {
+      if (url.pathname.startsWith('/media/images/') || (url.pathname.startsWith('/media/videos/') && /\.(webp|jpg|png)$/.test(url.pathname))) {
         return file(response, join(root, 'public'), url.pathname);
       }
       return file(response, dist, url.pathname === '/' ? '/index.html' : url.pathname, join(dist, 'index.html'));
@@ -167,7 +222,7 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {}, portraits: {}, films: {} };
 }
 
 /**
@@ -223,6 +278,33 @@ function normaliseDraft(value) {
     // recorded the old way, for someone else, is not made into an acceptance.
     signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
+    // A new picture names an upload and the profile as it was; nothing else.
+    portraits: Object.fromEntries(Object.entries(object(draft.portraits)).flatMap(([id, value]) => (
+      value && typeof value.seenVersion === 'string' && typeof value.upload === 'string' && uploadPattern.test(value.upload)
+        ? [[id, {
+          seenVersion: value.seenVersion, upload: value.upload,
+          portraitAlt: typeof value.portraitAlt === 'string' ? value.portraitAlt.slice(0, 1000) : '',
+          focalPoint: typeof value.focalPoint === 'string' ? value.focalPoint.slice(0, 20) : 'center',
+          rightsConfirmed: value.rightsConfirmed === true,
+          note: typeof value.note === 'string' ? value.note : '',
+        }]]
+        : []))),
+    // A film added names its uploads; a film taken off names the film.
+    films: Object.fromEntries(Object.entries(object(draft.films)).flatMap(([key, value]) => {
+      const note = typeof value?.note === 'string' ? value.note : '';
+      const person = typeof value?.personId === 'string' ? value.personId : '';
+      if (!person) return [];
+      if (value.decision === 'withdraw' && typeof value.filmId === 'string') return [[key, { decision: 'withdraw', personId: person, filmId: value.filmId, note }]];
+      const files = ['film', 'poster', 'captions', 'transcript'];
+      if (value.decision !== 'add' || !files.every((part) => typeof value[part] === 'string' && uploadPattern.test(value[part]))) return [];
+      return [[key, {
+        decision: 'add', personId: person, film: value.film, poster: value.poster, captions: value.captions, transcript: value.transcript,
+        durationSeconds: Number.isFinite(value.durationSeconds) ? value.durationSeconds : 0,
+        title: typeof value.title === 'string' ? value.title.slice(0, 200) : '',
+        rightsConfirmed: value.rightsConfirmed === true, captionsChecked: value.captionsChecked === true, transcriptChecked: value.transcriptChecked === true,
+        note,
+      }]];
+    })),
   };
 }
 

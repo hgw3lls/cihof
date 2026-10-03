@@ -209,6 +209,29 @@ Varo*) and as they should be (*Carolyn Balogh*). The app tells you where it
 found them before you **Add this correction**. Every fix changes the
 captions and the transcript together.
 
+### Portraits and films
+
+In the staff portal, and in the project, not where decisions are exported
+for the developer: the files you choose stay on your computer until saved.
+Choose a person to see their portrait and films.
+
+- **A new portrait.** Choose a photograph (JPEG, PNG or WebP). The app makes
+  it a JPEG no larger than 1600 pixels on its long side. Describe it for
+  people who cannot see it, and tick that the museum has the right to show it
+  permanently. The old picture is kept, and the profile needs approving again
+  with its new picture.
+- **Add a film.** Choose an MP4. The app plays it: a film that cannot be
+  played here could not be played on the display either. Play it to a good
+  moment and **Use the picture showing now as its poster**. Choose its
+  captions (.vtt or .srt); they show on the film so you can check them. The
+  transcript is made from the captions: correct anything wrong. Give it a
+  title if you like, tick the three confirmations (rights, captions checked,
+  transcript checked), and **Add it to my decisions**. A large film takes a
+  while to send to the app; the page counts it up.
+- **Take it off the display** hides a film, keeping its record.
+
+A display update carries new films to the display with everything else.
+
 ### Sign-offs
 
 Each sign-off (the logo, a section of the sign-off sheet, the approval to

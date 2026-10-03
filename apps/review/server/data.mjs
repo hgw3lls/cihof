@@ -17,6 +17,8 @@ import { blankTourChanges, choosesNobody, editedLens, readTours, tourApproved, t
 import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../packages/pipeline/src/build/film-starts.ts';
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
+import { filmIdOf } from '../../../packages/pipeline/src/build/media-changes.ts';
+import { filmShortfalls } from '@cihof/content';
 
 /**
  * Everything the review screens show, read fresh from `data/` each time, so a
@@ -179,9 +181,46 @@ export function loadReview() {
     filmTitles: filmTitles(byId),
     filmStarts: filmStarts(byId),
     films: filmsForCaptions(byId),
+    // Each person's portrait and films, for Portraits and films.
+    media: mediaReview(people, checksums, reviews),
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
+}
+
+/**
+ * Each person's portrait and every film recorded for them, shown or not, as
+ * Portraits and films lists them: what a new picture would replace, and which
+ * films can be taken off the display.
+ */
+function mediaReview(people, checksums, reviews) {
+  const manifest = JSON.parse(readFileSync(dataFile('media_manifest.json'), 'utf8'));
+  const titles = readFilmTitles();
+  return [...people]
+    .sort((a, b) => (a.classYear ?? 0) - (b.classYear ?? 0) || a.sortName.localeCompare(b.sortName))
+    .map((person) => {
+      const summary = profileSummary(person, checksums, reviews);
+      const videos = Array.isArray(manifest.assets?.[person.id]?.videos) ? manifest.assets[person.id].videos : [];
+      return {
+        id: person.id,
+        name: person.name,
+        sortName: person.sortName,
+        classYear: person.classYear,
+        contentVersion: summary.contentVersion,
+        portrait: summary.portrait,
+        films: videos.map((video) => {
+          const filmId = filmIdOf(video);
+          return {
+            filmId,
+            title: filmId ? approvedFilmTitle(titles, filmId, 'kiosk') : null,
+            poster: typeof video.posterRuntimePath === 'string' ? video.posterRuntimePath : null,
+            durationSeconds: typeof video.durationSeconds === 'number' ? video.durationSeconds : null,
+            shown: filmShortfalls(video, 'kiosk').length === 0,
+            addedHere: !video.youtubeVideoId,
+          };
+        }).filter((film) => film.filmId),
+      };
+    });
 }
 
 /** A profile as the Profiles card shows it: what a visitor sees, its version, and where its review stands. */
