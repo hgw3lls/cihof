@@ -425,6 +425,12 @@ Either way it offers:
   the same words show next to both people, name neither of them. Where the
   app shows a *Suggested* decision, it was drafted from the evidence by the
   developer's AI assistant: check it, use it, change it or ignore it.
+- **Place edits** (Places, **Edit its name, neighbourhood, words or people**
+  and **Add a place…**): a place's name, neighbourhood, kind and words,
+  somebody tied to it whose record says they were there, or a new place with
+  somebody tied to it, approved as edited for the audience chosen or left for
+  somebody else. Saved with `npm run places:edit`, before the places review's
+  own decisions.
 - **Places**: the words visitors read about each place, and what each
   person did there (lived, worked, studied, taught, organized, served,
   founded). Approve a place's words as they are, start from the plainer
@@ -598,6 +604,7 @@ npm run bios:apply   -- --input=reports/biographies-sheet.csv
 npm run profiles:apply -- --input=reports/profiles-sheet.csv
 npm run text:apply   -- --input=<sheet>                      # the attract screen's words
 npm run class:add    -- --input=<folder>/class-2027.csv      # new inductees; the portal writes this sheet too
+npm run places:edit  -- --input=<sheet>                      # a place renamed, reworded, given people, or added
 npm run portraits:replace -- --input=<sheet>                 # a new portrait, from the portal's uploads
 npm run films:change -- --input=<sheet>                      # a film added or taken off, likewise
 

@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
 import { previewHash } from '../../../scripts/preview-hash.js';
 import { recordChange, snapshot } from './portal.mjs';
-import { attractCsv, filmChangesCsv, newClassCsv, portraitsCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { attractCsv, filmChangesCsv, newClassCsv, placeEditsCsv, portraitsCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -29,6 +29,13 @@ export const steps = [
     task: 'ties', title: 'Connections', script: 'ties:apply', csv: tiesCsv,
     refresh: ['review:ties'], checks: ['review:ties:check'],
     keys: (draft) => Object.keys(draft.ties ?? {}),
+  },
+  // Before the places review: an edit names the words it began from, and an
+  // approval in the places review names the words it saw.
+  {
+    task: 'placeEdits', title: 'Place edits', script: 'places:edit', csv: placeEditsCsv,
+    refresh: ['review:places'], checks: ['review:places:check'],
+    keys: (draft) => Object.keys(draft.placeEdits ?? {}),
   },
   {
     task: 'places', title: 'Places', script: 'places:apply', csv: placesCsv,

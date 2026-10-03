@@ -119,6 +119,14 @@ an approval covers exactly those words. Places already on the display that
 were approved before approvals recorded the words come back once, to be
 checked. Then say what each person did there (lived, worked, studied,
 taught, organized, served, founded).
+**Edit its name, neighbourhood, words or people** changes a place's name,
+neighbourhood, kind or words, and ties somebody to it whose record says they
+were there, with what they did. **Add a place…** adds one the research never
+found: it needs a kind, its words and somebody tied to it. Choose who may see
+it as edited: it starts as the place's own audience (approving a place on the
+website for the exhibit only takes it off the website), or leave it for
+somebody else to approve. An edit is saved before the place's other
+questions, so answer those after saving.
 **Biographies**: search for a person, correct the text, and check the
 highlighted changes before keeping them.
 

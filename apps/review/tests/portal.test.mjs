@@ -219,3 +219,33 @@ test('a new inductee added in the portal is on the display after the update', as
   assert.match(added.biography?.text ?? JSON.stringify(added), /founded a school/);
   assert.equal(added.portrait?.src, '/media/images/ada-example-2027/primary.jpg');
 });
+
+test('a place renamed and a new place added in the portal are on the display after the update', async () => {
+  // The places as the working copy has them now.
+  const places = JSON.parse(readFileSync(join(work, 'data', 'cihof_places.json'), 'utf8'));
+  const ties = JSON.parse(readFileSync(join(work, 'data', 'cihof_place_associations.json'), 'utf8')).associations;
+  const gardens = places.places.find((place) => place.id === 'place:cleveland-cultural-gardens');
+  const { placeTextVersion } = await import('../../../packages/pipeline/src/build/place-text.ts');
+  const someone = Object.keys(JSON.parse(readFileSync(join(work, 'data', 'cihof_curated_metadata.json'), 'utf8')).inductees)
+    .find((id) => !ties.some((tie) => tie.person === id && tie.place === gardens.id));
+  const saved = saveHere({
+    root: work,
+    draft: {
+      reviewer: 'Jane Smith',
+      placeEdits: {
+        [gardens.id]: { decision: 'edit', placeId: gardens.id, seenVersion: placeTextVersion(gardens), name: 'The Cleveland Cultural Gardens', neighborhood: gardens.neighborhood, type: gardens.type, shortHistory: gardens.shortHistory, people: [], audience: 'kiosk' },
+        'new-1': { decision: 'create', placeId: '', seenVersion: '', name: 'West Side Market', neighborhood: 'Ohio City', type: 'business', shortHistory: 'A public market since 1912.', people: [{ personId: someone, role: 'worked' }], audience: 'kiosk' },
+      },
+    },
+  });
+  assert.ok(saved.results.every((result) => result.ok), saved.results.map((result) => result.output).join('\n'));
+  const update = await makeDisplayUpdate({ root: work, outDir: join(scratch, 'updates'), by: 'Jane Smith' });
+  assert.equal(update.ok, true, update.output ?? update.problem);
+  const display = createContentStore({ dir: join(scratch, 'display'), deliveredSite, deliveredSource });
+  await display.apply(update.file, { force: true });
+  const shown = JSON.parse(readFileSync(display.serving().site('data/exhibit.json'), 'utf8')).places;
+  assert.equal(shown.find((place) => place.id === gardens.id)?.name, 'The Cleveland Cultural Gardens');
+  const market = shown.find((place) => place.id === 'place:west-side-market');
+  assert.ok(market, 'the new place is on the display');
+  assert.deepEqual(market.personIds, [someone]);
+});

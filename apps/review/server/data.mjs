@@ -121,6 +121,9 @@ export function loadReview() {
     return {
       placeId: row.placeId,
       name: row.name,
+      type: typeof seed.type === 'string' ? seed.type : '',
+      // Who may see it now, for the place editor to start from.
+      publication: { kiosk: seed.publication?.kiosk === true, publicWeb: seed.publication?.publicWeb === true },
       neighborhood: row.neighborhood,
       address: typeof seed.address === 'string' ? seed.address : '',
       dates: typeof seed.dateRange?.label === 'string' ? seed.dateRange.label : '',
@@ -184,6 +187,8 @@ export function loadReview() {
     films: filmsForCaptions(byId),
     // Each person's portrait and films, for Portraits and films.
     media: mediaReview(people, checksums, reviews),
+    // The kinds of place the records use.
+    placeTypes: Array.isArray(placesDocument.placeTypes) ? placesDocument.placeTypes : [],
     // What a new inductee's region may be (class:add checks the same list).
     regions: [...regions],
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
