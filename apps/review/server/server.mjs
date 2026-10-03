@@ -17,6 +17,7 @@ import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.
 import { audiences, check, gitStatus, save, saveHere } from './save.mjs';
 import { isPortal, makeDisplayUpdate, openExport, portalState } from './portal.mjs';
 import { applyUpdate, connectToDisplay, displayState, fetchExport, sendUpdate } from './display-connection.mjs';
+import { inducteeId } from '../../../packages/pipeline/src/identity.ts';
 import { approveStudioChange, markPublished, previewFolder, refreshPreview, saveStudioChange, studioState, undoStudioChange, waitingChanges } from './studio.mjs';
 import { kindOf, uploadLimits, uploadPattern } from '../../../packages/pipeline/src/build/media-changes.ts';
 import { imageSize } from '../../../packages/pipeline/src/build/images.ts';
@@ -456,6 +457,29 @@ function normaliseDraft(value) {
  * edited together from the profile the editing began with.
  */
 function studioDraft(change, reviewer) {
+  // Each through the same rules as a draft kept for All items (normaliseDraft).
+  const tidy = (value) => normaliseDraft({ reviewer, ...value });
+  const who = (id) => (typeof change?.name === 'string' && change.name.trim() ? change.name.trim() : id);
+  if (change?.kind === 'portrait' && typeof change.id === 'string') {
+    const draft = tidy({ portraits: { [change.id]: change.choice } });
+    if (!draft.portraits[change.id]) return null;
+    return { title: `${who(change.id)}: a new portrait`, subject: { kind: 'profile', id: change.id }, draft };
+  }
+  if (change?.kind === 'film' && typeof change.key === 'string') {
+    const draft = tidy({ films: { [change.key]: change.film } });
+    const film = draft.films[change.key];
+    if (!film) return null;
+    return {
+      title: `${who(film.personId)}: ${film.decision === 'add' ? `a film added${film.title ? `, “${film.title}”` : ''}` : 'a film taken off the display'}`,
+      subject: { kind: 'film', id: film.personId }, draft,
+    };
+  }
+  if (change?.kind === 'new-inductee' && typeof change.key === 'string') {
+    const draft = tidy({ newClass: { [change.key]: change.person } });
+    const person = draft.newClass[change.key];
+    if (!person?.name || !person.classYear) return null;
+    return { title: `${person.displayName || person.name}: added, class of ${person.classYear}`, subject: { kind: 'profile', id: inducteeId(person.name, String(person.classYear)) }, draft };
+  }
   if (change?.kind === 'profile' && typeof change.id === 'string' && typeof change.seenVersion === 'string') {
     const edit = profileEdit(change.edit);
     const biography = typeof change.biography === 'string' ? change.biography.slice(0, 20000) : null;

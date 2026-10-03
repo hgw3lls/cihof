@@ -360,3 +360,61 @@ test('in the studio, a change is saved and shown at once, waits for approval bef
     server.kill();
   }
 });
+
+test('in the studio, a portrait, a film and a new inductee are each saved and shown at once, and undone cleanly', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  const upload = async (bytes, kind) => (await fetch(`http://127.0.0.1:${port}/api/uploads?kind=${kind}`, { method: 'POST', headers: { 'content-type': 'application/octet-stream' }, body: Buffer.from(bytes) })).json();
+  const jpeg = (width, height, salt) => [0xff, 0xd8, 0xff, 0xc0, 0x00, 0x11, 0x08, height >> 8, height & 255, width >> 8, width & 255, 3, salt, 0, 0, 0, 0];
+  const shown = () => JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people;
+  try {
+    const review = await call('/api/review');
+    const someone = review.media.find((each) => each.id !== person && each.films.length === 0);
+
+    // A portrait.
+    const picture = await upload(jpeg(420, 520, 41), 'jpg');
+    const portrait = await call('/api/studio/save', { kind: 'portrait', id: someone.id, name: someone.name, choice: { seenVersion: someone.contentVersion, upload: picture.name, portraitAlt: 'A new portrait.', focalPoint: 'center', rightsConfirmed: true } });
+    assert.equal(portrait.ok, true, JSON.stringify(portrait.results));
+    assert.equal(shown().find((each) => each.id === someone.id).portrait.src, `/media/images/${someone.id}/portrait-${picture.name.slice(0, 12)}.jpg`);
+
+    // A film.
+    const parts = {
+      film: await upload([0, 0, 0, 0x18, ...Buffer.from('ftypisom'), ...Buffer.alloc(1024, 3)], 'mp4'),
+      poster: await upload(jpeg(640, 360, 42), 'jpg'),
+      captions: await upload(Buffer.from('WEBVTT\n\n00:00:00.000 --> 00:00:02.000\nHello.\n'), 'vtt'),
+      transcript: await upload(Buffer.from('Hello.\n'), 'txt'),
+    };
+    const film = await call('/api/studio/save', { kind: 'film', key: `add:${someone.id}:x`, name: someone.name, film: {
+      decision: 'add', personId: someone.id, film: parts.film.name, poster: parts.poster.name, captions: parts.captions.name, transcript: parts.transcript.name,
+      durationSeconds: 2, title: 'A studio film', rightsConfirmed: true, captionsChecked: true, transcriptChecked: true,
+    } });
+    assert.equal(film.ok, true, JSON.stringify(film.results));
+    assert.ok(shown().find((each) => each.id === someone.id).films.some((each) => each.title === 'A studio film'));
+
+    // A new inductee, then undone: gone from the preview, and their portrait file with them.
+    const face = await upload(jpeg(400, 500, 43), 'jpg');
+    const added = await call('/api/studio/save', { kind: 'new-inductee', key: 'new-1', person: {
+      name: 'Bea Example', classYear: 2027, displayName: '', sortName: 'Example, Bea', region: 'Europe', profileUrl: '', inductedBy: 'Cy Example',
+      biography: 'Bea Example taught newcomers English.', themeTags: ['Education'], countryTags: [], communityTags: [], portrait: face.name, portraitAltText: 'Bea Example.', rightsConfirmed: true,
+    } });
+    assert.equal(added.ok, true, JSON.stringify(added.results));
+    assert.equal(added.change.subject.id, 'bea-example-2027');
+    assert.ok(shown().some((each) => each.id === 'bea-example-2027'));
+    assert.equal((await call('/api/studio')).changes.filter((each) => each.status === 'waiting').length, 3);
+    const undone = await call('/api/studio/undo', {});
+    assert.equal(undone.ok, true);
+    assert.equal(shown().some((each) => each.id === 'bea-example-2027'), false);
+    assert.equal(existsSync(join(work, 'public', 'media', 'images', 'bea-example-2027', 'primary.jpg')), false);
+  } finally {
+    server.kill();
+  }
+});

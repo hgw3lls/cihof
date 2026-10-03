@@ -155,7 +155,7 @@ function MediaPanel({ person, draft, update, limits }: {
   );
 }
 
-function PortraitChooser({ person, choice, set, limit }: {
+export function PortraitChooser({ person, choice, set, limit }: {
   person: MediaPerson;
   choice: PortraitChoice | undefined;
   set: (value: PortraitChoice | undefined) => void;
@@ -217,7 +217,7 @@ function PortraitChooser({ person, choice, set, limit }: {
   );
 }
 
-function FilmAdder({ person, titleLimit, onAdd }: {
+export function FilmAdder({ person, titleLimit, onAdd }: {
   person: MediaPerson;
   titleLimit: number;
   onAdd: (key: string, value: FilmChange) => void;

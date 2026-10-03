@@ -43,7 +43,7 @@ export function PersonSheet({ person, ties, tieLines, onClose, onStory, onFilm, 
         {/* No film is offered where none can play: the public site carries none. */}
         {films > 0
           ? (
-            <button type="button" className="sheet__film" onClick={onFilm}>
+            <button type="button" className="sheet__film" onClick={onFilm} data-edit="films" data-edit-id={person.id}>
               <span className="play-square" aria-hidden="true"><span className="play" /></span>
               {films > 1 ? `Watch ${films} films` : 'Watch the film'}
             </button>
@@ -52,10 +52,13 @@ export function PersonSheet({ person, ties, tieLines, onClose, onStory, onFilm, 
         <button type="button" className="sheet__close" aria-label="Close" onClick={onClose}>×</button>
       </div>
       <div className="sheet__body">
-        <p className="sheet__kicker">{kicker(person)}</p>
-        <h2 className="sheet__name">{person.name}</h2>
-        {person.contributions.length > 0 && <p className="sheet__honored">Honored for {person.contributions.join(' · ')}</p>}
-        <p className="sheet__teaser" data-short={tieLines ? 'true' : undefined}><Rich spans={teaser(person.biography)} /></p>
+        {/* data-edit: what the staff portal's copy lets an editor pick (editor.ts). */}
+        <div className="sheet__who" data-edit="profile" data-edit-id={person.id}>
+          <p className="sheet__kicker">{kicker(person)}</p>
+          <h2 className="sheet__name">{person.name}</h2>
+          {person.contributions.length > 0 && <p className="sheet__honored">Honored for {person.contributions.join(' · ')}</p>}
+        </div>
+        <p className="sheet__teaser" data-short={tieLines ? 'true' : undefined} data-edit="biography" data-edit-id={person.id}><Rich spans={teaser(person.biography)} /></p>
         {tieLines && tieLines.length > 0 && (
           <ul className="sheet__ties-list" aria-label="Ties">
             {tieLines.map((line) => {

@@ -35,7 +35,7 @@ export function NewInductees({ review, draft, update, onDone }: Props) {
   if (editing) {
     return (
       <main className="page page--narrow">
-        <InducteeForm review={review} initial={draft.newClass?.[editing] ?? blank()}
+        <InducteeForm review={review} initial={draft.newClass?.[editing] ?? blankInductee()}
           onKeep={(value) => { set(editing, value); setEditing(null); }} onCancel={() => setEditing(null)} />
       </main>
     );
@@ -80,7 +80,7 @@ export function NewInductees({ review, draft, update, onDone }: Props) {
   );
 }
 
-function InducteeForm({ review, initial, onKeep, onCancel }: {
+export function InducteeForm({ review, initial, onKeep, onCancel }: {
   review: Review;
   initial: NewInductee;
   onKeep: (value: NewInductee) => void;
@@ -232,7 +232,7 @@ export function sortNameOf(name: string): string {
   return `${words.at(-1)}, ${words.slice(0, -1).join(' ')}`;
 }
 
-function blank(): NewInductee {
+export function blankInductee(): NewInductee {
   return {
     name: '', classYear: new Date().getFullYear(), displayName: '', sortName: '', region: '', profileUrl: '', inductedBy: '', biography: '',
     themeTags: [], countryTags: [], communityTags: [], portrait: '', portraitAltText: '', rightsConfirmed: false, note: '',

@@ -264,6 +264,7 @@ button:active { filter: brightness(0.92); }
 .play-square .play { margin-left: 4px; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent var(--on-lens); }
 .sheet__close { width: 56px; height: 56px; border: 1px solid var(--rule-dim); background: transparent; color: var(--ink); font-size: 28px; line-height: 1; }
 .sheet__body { position: relative; display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 8px 40px 32px; }
+.sheet__who { display: flex; flex-direction: column; }
 .sheet__kicker { margin: 0 0 10px; color: var(--lens-ink); font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .sheet__name { margin: 0; font-size: 54px; font-weight: 600; letter-spacing: -0.035em; line-height: 0.95; text-wrap: balance; }
 .sheet__honored { margin: 18px 0 0; color: var(--muted); font-size: 19px; line-height: 1.35; }

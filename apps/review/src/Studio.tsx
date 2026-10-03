@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
-  approveInStudio, refreshStudioPreview, saveProfileInStudio, studioState, undoInStudio,
-  type ProfileEdit, type Review, type StudioState,
+  approveInStudio, refreshStudioPreview, saveInStudio, saveProfileInStudio, studioState, undoInStudio,
+  type FilmChange, type PortraitChoice, type ProfileEdit, type Review, type StudioOutcome, type StudioState,
 } from './api.ts';
 import { Tags } from './ProfileEditor.tsx';
+import { FilmAdder, PortraitChooser, portraitProblem } from './Media.tsx';
+import { InducteeForm, blankInductee } from './NewInductees.tsx';
 
 type Props = {
   review: Review;
@@ -121,6 +123,7 @@ export function Studio({ review, reload, onAllItems, onPublish, onMedia }: Props
         <button type="button" className={waiting.length ? 'studio__waiting' : ''} onClick={() => { setShowWaiting(true); setPicked(null); }}>
           {waiting.length ? `${waiting.length} waiting for approval` : 'Nothing waiting'}
         </button>
+        <button type="button" onClick={() => { setPicked({ kind: 'new-inductee', id: '' }); setShowWaiting(false); }}>+ Add an inductee</button>
         <span className="studio__spacer" />
         <button type="button" onClick={onAllItems}>All items</button>
         <button type="button" className="primary" disabled={waiting.length > 0} title={waiting.length ? 'Approve or undo every change first' : ''} onClick={onPublish}>Publish to the display</button>
@@ -136,8 +139,24 @@ export function Studio({ review, reload, onAllItems, onPublish, onMedia }: Props
         <aside className="studio__inspector" aria-label="Edit">
           {showWaiting
             ? <Waiting studio={studio} onApproved={async (state) => { await refreshed(state); }} />
-            : picked
-              ? <PersonInspector key={`${picked.id}:${review.profiles.find((each) => each.id === picked.id)?.contentVersion ?? ''}`} review={review} personId={picked.id} kind={picked.kind} onMedia={onMedia}
+            : picked?.kind === 'new-inductee'
+              ? (
+                <InducteeForm review={review} initial={blankInductee()} onCancel={() => setPicked(null)}
+                  onKeep={async (person) => {
+                    setBusy('Adding them…'); setProblem(null);
+                    try {
+                      const outcome = await saveInStudio({ kind: 'new-inductee', key: `new-${Date.now()}`, person });
+                      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+                      const id = outcome.change?.subject.id ?? '';
+                      setPicked({ kind: 'profile', id });
+                      await refreshed(null, id);
+                    } finally { setBusy(null); }
+                  }} />
+              )
+              : picked?.kind === 'films'
+                ? <FilmsInspector key={picked.id} review={review} personId={picked.id} onSaved={async () => { await refreshed(null, picked.id); }} />
+                : picked
+              ? <PersonInspector key={`${picked.id}:${review.profiles.find((each) => each.id === picked.id)?.contentVersion ?? ''}`} review={review} personId={picked.id} kind={picked.kind}
                 onSaved={async (state) => { await refreshed(state, picked.id); }} />
               : (
                 <div className="studio__hint">
@@ -187,8 +206,8 @@ function Waiting({ studio, onApproved }: { studio: StudioState; onApproved: (sta
   );
 }
 
-function PersonInspector({ review, personId, kind, onSaved, onMedia }: {
-  review: Review; personId: string; kind: string; onSaved: (state: StudioState | null) => Promise<void>; onMedia: () => void;
+function PersonInspector({ review, personId, kind, onSaved }: {
+  review: Review; personId: string; kind: string; onSaved: (state: StudioState | null) => Promise<void>; onMedia?: () => void;
 }) {
   const profile = review.profiles.find((each) => each.id === personId);
   const bio = review.bios.find((each) => each.id === personId);
@@ -215,11 +234,7 @@ function PersonInspector({ review, personId, kind, onSaved, onMedia }: {
     <div className="studio__form">
       <h2>{profile.name}</h2>
       <p className="quiet small">Class of {profile.classYear} · {profile.state === 'approved' ? 'approved' : 'not yet approved'}</p>
-      {(kind === 'portrait' || kind === 'films') && (
-        <p className="notice small">
-          A new {kind === 'portrait' ? 'picture' : 'film'} is chosen in <button type="button" className="link" onClick={onMedia}>Portraits and films</button>. The picture&rsquo;s description is below.
-        </p>
-      )}
+      {kind === 'portrait' && <PortraitSection review={review} personId={personId} onSaved={() => onSaved(null)} />}
       <label className="field"><span>Name</span><input value={edit.name} maxLength={limit.name} onChange={(event) => change({ name: event.target.value })} /></label>
       <label className="field"><span>Alphabetised as</span><input value={edit.sortName} maxLength={limit.name} onChange={(event) => change({ sortName: event.target.value })} /></label>
       <Tags title="Communities (above the name, with the class)" field="studio-communities" tags={edit.communities} known={review.profileTags.communities} limit={limit.tags} onChange={(communities) => change({ communities })} />
@@ -235,6 +250,86 @@ function PersonInspector({ review, personId, kind, onSaved, onMedia }: {
         <button type="button" className="primary" disabled={busy || (!editChanged && !bioChanged)} onClick={() => void save()}>{busy ? 'Saving…' : 'Save'}</button>
       </p>
       <p className="quiet small">Saved changes show on the exhibit at once, and wait for approval before they can be published. The lines the exhibit does not show (what they are honoured for, the context line) are in All items, Profiles.</p>
+    </div>
+  );
+}
+
+/** What a refused save says, for the editor to read. */
+function failure(outcome: StudioOutcome): string {
+  return outcome.problem ?? outcome.results?.filter((result) => !result.ok).map((result) => result.output).join('\n\n') ?? 'It was not saved.';
+}
+
+/** A new picture for this person, chosen, described and confirmed, saved straight into this copy. */
+function PortraitSection({ review, personId, onSaved }: { review: Review; personId: string; onSaved: () => Promise<void> }) {
+  const person = review.media.find((each) => each.id === personId);
+  const [choice, setChoice] = useState<PortraitChoice | undefined>(undefined);
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  if (!person) return null;
+  const limit = review.limits.profile.portraitAlt;
+  const save = async () => {
+    if (!choice) return;
+    setBusy(true); setProblem(null);
+    try {
+      const outcome = await saveInStudio({ kind: 'portrait', id: personId, name: person.name, choice });
+      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+      setChoice(undefined);
+      await onSaved();
+    } finally { setBusy(false); }
+  };
+  return (
+    <section className="studio__section">
+      <h3>A new portrait</h3>
+      <PortraitChooser person={person} choice={choice} set={setChoice} limit={limit} />
+      {choice && (
+        <p className="actions">
+          <button type="button" className="primary" disabled={busy || Boolean(portraitProblem(choice, limit))} onClick={() => void save()}>{busy ? 'Saving…' : 'Save the new portrait'}</button>
+        </p>
+      )}
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+    </section>
+  );
+}
+
+/** A person's films: each one on the display can be taken off, and a new one added, each saved straight into this copy. */
+function FilmsInspector({ review, personId, onSaved }: { review: Review; personId: string; onSaved: () => Promise<void> }) {
+  const person = review.media.find((each) => each.id === personId);
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  if (!person) return <p className="quiet">That is not somebody this copy can edit.</p>;
+  const save = async (key: string, film: FilmChange) => {
+    setBusy(true); setProblem(null);
+    try {
+      const outcome = await saveInStudio({ kind: 'film', key, film, name: person.name });
+      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+      await onSaved();
+    } finally { setBusy(false); }
+  };
+  return (
+    <div className="studio__form">
+      <h2>{person.name}&rsquo;s films</h2>
+      <ul className="media-films">
+        {person.films.map((film) => (
+          <li key={film.filmId}>
+            {film.poster ? <img src={film.poster} alt="" loading="lazy" /> : <span className="media-film__none" />}
+            <span>
+              <strong>{film.title ?? (film.durationSeconds ? `A ${Math.max(1, Math.round(film.durationSeconds / 60))}-minute film` : 'A film')}</strong>
+              <span className="quiet small">{film.shown ? 'On the display' : 'Not on the display'}</span>
+            </span>
+            {film.shown && (
+              <button type="button" disabled={busy} onClick={() => {
+                if (window.confirm('Take this film off the display? Its record is kept, and it can be put back from All items.')) {
+                  void save(`withdraw:${person.id}:${film.filmId}`, { decision: 'withdraw', personId: person.id, filmId: film.filmId, note: '' });
+                }
+              }}>Take it off the display</button>
+            )}
+          </li>
+        ))}
+        {person.films.length === 0 && <li className="quiet small">No films yet.</li>}
+      </ul>
+      {busy && <p className="quiet" role="status">Saving…</p>}
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+      <FilmAdder person={person} titleLimit={review.limits.filmTitle} onAdd={(key, value) => { void save(key, value); }} />
     </div>
   );
 }
