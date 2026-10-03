@@ -1,3 +1,4 @@
+import { editing } from './editor.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type ReleaseStatus = {
@@ -28,7 +29,8 @@ export function useRelease() {
   const waiting = useRef<ServiceWorker | null>(null);
 
   useEffect(() => {
-    if (!('serviceWorker' in navigator) || import.meta.env.DEV) return;
+    // The staff portal's copy changes with every edit: it caches nothing.
+    if (!('serviceWorker' in navigator) || import.meta.env.DEV || editing) return;
 
     let cancelled = false;
     const onMessage = (event: MessageEvent) => {

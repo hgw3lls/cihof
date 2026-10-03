@@ -17,6 +17,7 @@ import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.
 import { audiences, check, gitStatus, save, saveHere } from './save.mjs';
 import { isPortal, makeDisplayUpdate, openExport, portalState } from './portal.mjs';
 import { applyUpdate, connectToDisplay, displayState, fetchExport, sendUpdate } from './display-connection.mjs';
+import { approveStudioChange, markPublished, previewFolder, refreshPreview, saveStudioChange, studioState, undoStudioChange, waitingChanges } from './studio.mjs';
 import { kindOf, uploadLimits, uploadPattern } from '../../../packages/pipeline/src/build/media-changes.ts';
 import { imageSize } from '../../../packages/pipeline/src/build/images.ts';
 import { draftCounts } from './sheets.mjs';
@@ -51,7 +52,7 @@ const mime = {
   '.woff2': 'font/woff2', '.ico': 'image/x-icon',
 };
 
-export function createReviewServer({ root, dist, port, exportDir = null, updatesDir = null }) {
+export function createReviewServer({ root, dist, port, exportDir = null, updatesDir = null, shell = fileURLToPath(new URL('../exhibit-shell', import.meta.url)) }) {
   const portal = Boolean(updatesDir);
   const exporting = !portal && Boolean(exportDir);
   const draftPath = join(root, '.review', 'draft.json');
@@ -140,6 +141,13 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
         return await api(request, response, url.pathname);
       }
 
+      // The studio's preview: the exhibit built with its editor, on the copy's
+      // own published content, as a display would show it (studio.mjs).
+      if (portal && (url.pathname === '/exhibit' || url.pathname.startsWith('/exhibit/'))) {
+        const inside = url.pathname.slice('/exhibit'.length) || '/';
+        if (inside.startsWith('/data/') || inside.startsWith('/media/')) return file(response, previewFolder(root), inside);
+        return file(response, shell, inside === '/' ? '/index.html' : inside, join(shell, 'index.html'));
+      }
       // Portraits, and films' posters, read-only, from the project's own media
       // folder. Only the posters of the films: never the films themselves.
       if (url.pathname.startsWith('/media/images/') || (url.pathname.startsWith('/media/videos/') && /\.(webp|jpg|png)$/.test(url.pathname))) {
@@ -222,6 +230,43 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
       writeDraft(outcome.draft);
       return json(response, 200, { results: outcome.results, counts: draftCounts(outcome.draft), git: gitStatus(root) });
     }
+    // The studio: editing the exhibit in place, each change saved, undoable, and waiting for approval.
+    if (portal && (path === '/api/studio' || path.startsWith('/api/studio/'))) {
+      if (request.method === 'GET' && path === '/api/studio') {
+        return json(response, 200, { ...studioState(root), preview: existsSync(join(previewFolder(root), 'data', 'exhibit.json')), shell: existsSync(join(shell, 'index.html')) });
+      }
+      if (request.method === 'POST' && path === '/api/studio/preview') return json(response, 200, refreshPreview(root));
+      if (request.method === 'POST' && path === '/api/studio/save') {
+        const reviewer = readDraft().reviewer?.trim();
+        if (!reviewer) return json(response, 400, { error: 'Enter your name first.' });
+        const change = await body(request);
+        const draft = studioDraft(change, reviewer);
+        if (!draft) return json(response, 400, { error: 'Not a change the studio can make.' });
+        const outcome = saveStudioChange({ root, draft: draft.draft, title: draft.title, subject: draft.subject });
+        if (!outcome.ok) return json(response, 200, { ok: false, results: outcome.results });
+        return json(response, 200, { ok: true, change: outcome.change, preview: refreshPreview(root), ...studioState(root) });
+      }
+      if (request.method === 'POST' && path === '/api/studio/undo') {
+        const outcome = undoStudioChange(root);
+        return json(response, 200, { ...outcome, preview: outcome.ok ? refreshPreview(root) : null, ...studioState(root) });
+      }
+      if (request.method === 'POST' && path === '/api/studio/approve') {
+        const { id } = await body(request);
+        const reviewer = readDraft().reviewer?.trim();
+        const change = studioState(root).changes.find((each) => each.id === id);
+        // A profile approved as edited: the approval names its words as they are now.
+        if (change?.status === 'waiting' && change.subject?.kind === 'profile') {
+          const profile = loadReview().profiles.find((each) => each.id === change.subject.id);
+          if (profile) {
+            const approval = saveHere({ root, draft: { reviewer, profiles: { [profile.id]: { decision: 'approve', seenVersion: profile.contentVersion, note: 'Approved as edited in the staff portal.' } } } });
+            if (!approval.results.every((result) => result.ok)) return json(response, 200, { ok: false, results: approval.results });
+          }
+        }
+        const outcome = approveStudioChange(root, { id, by: reviewer });
+        return json(response, 200, { ...outcome, ...studioState(root) });
+      }
+      return json(response, 404, { error: 'No such request.' });
+    }
     // A display over the network: connect with the address and code its admin panel shows.
     if (portal && (path === '/api/display' || path.startsWith('/api/display/'))) {
       if (request.method === 'GET' && path === '/api/display') return json(response, 200, await displayStatus());
@@ -279,7 +324,13 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
     if (request.method === 'POST' && path === '/api/display-update') {
       if (!portal) return json(response, 404, { error: 'Only the staff portal makes display updates.' });
       const { note } = await body(request);
+      // Every change made in the studio is approved before it goes to the display.
+      const waiting = waitingChanges(root);
+      if (waiting.length > 0) {
+        return json(response, 200, { ok: false, problem: `${waiting.length} change${waiting.length === 1 ? ' is' : 's are'} waiting for approval: approve or undo ${waiting.length === 1 ? 'it' : 'them'} first.`, portal: portalState(root) });
+      }
       const outcome = await makeDisplayUpdate({ root, outDir: updatesDir, by: readDraft().reviewer, note: typeof note === 'string' ? note.slice(0, 2000) : '' });
+      if (outcome.ok) markPublished(root);
       return json(response, 200, { ...outcome, portal: portalState(root) });
     }
     return json(response, 404, { error: 'No such request.' });
@@ -397,6 +448,30 @@ function normaliseDraft(value) {
       }]];
     })),
   };
+}
+
+/**
+ * One change made in the studio, as the draft that saves it: a person's
+ * profile (its words, tags and portrait description) and their biography,
+ * edited together from the profile the editing began with.
+ */
+function studioDraft(change, reviewer) {
+  if (change?.kind === 'profile' && typeof change.id === 'string' && typeof change.seenVersion === 'string') {
+    const edit = profileEdit(change.edit);
+    const biography = typeof change.biography === 'string' ? change.biography.slice(0, 20000) : null;
+    if (!edit && biography === null) return null;
+    const note = typeof change.note === 'string' ? change.note.slice(0, 2000) : '';
+    return {
+      title: `${(edit?.name || change.name || change.id)}: profile edited`,
+      subject: { kind: 'profile', id: change.id },
+      draft: {
+        reviewer,
+        ...(edit ? { profileEdits: { [change.id]: { seenVersion: change.seenVersion, edit, note } } } : {}),
+        ...(biography !== null ? { bios: { [change.id]: { correctedText: biography, note } } } : {}),
+      },
+    };
+  }
+  return null;
 }
 
 /** A profile edit's fields, and nothing else; null when it is not one. */

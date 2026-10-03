@@ -33,6 +33,7 @@ import { Attract } from './Attract.tsx';
 import { Lockup } from './Lockup.tsx';
 import { useRelease } from './useRelease.ts';
 import { useSession } from './useSession.ts';
+import { editing as inPortal, useEditorBridge } from './editor.ts';
 import './exhibit.css';
 
 /**
@@ -56,6 +57,8 @@ const arrangements: readonly (readonly [Arrangement, string])[] = [
 export function App() {
   const [bundle, setBundle] = useState<RuntimeBundle | null>(null);
   const [error, setError] = useState('');
+  // Asked again by the staff portal after each edit; the screen stays where it is.
+  const [loads, setLoads] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -63,7 +66,7 @@ export function App() {
       .then(setBundle)
       .catch((cause: Error) => { if (cause.name !== 'AbortError') setError(cause.message); });
     return () => controller.abort();
-  }, []);
+  }, [loads]);
 
   if (error) {
     return (
@@ -80,14 +83,14 @@ export function App() {
     return <div className="shell shell--plain"><p className="notice" role="status">Loading the collection…</p></div>;
   }
 
-  return <Exhibit bundle={bundle} />;
+  return <Exhibit bundle={bundle} reloadBundle={() => setLoads((count) => count + 1)} />;
 }
 
 /**
  * The exhibit once its content has arrived. Only an installed display has an
  * attract screen: a website visitor who opened the page is already exploring.
  */
-function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
+function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle: () => void }) {
   const [state, dispatch] = useReducer(exhibitReducer, bundle.target === 'kiosk' ? 'attract' : 'explore', initialState);
   const attractSettings = useMemo(() => readAttractSettings(window.location.search), []);
   const [attractMode, setAttractMode] = useState(attractSettings.mode);
@@ -176,7 +179,15 @@ function Exhibit({ bundle }: { bundle: RuntimeBundle }) {
     window.requestAnimationFrame(() => document.querySelector<HTMLElement>('[data-begin], #restart')?.focus());
   }, [release, attractSettings.rotate, bundle.target]);
 
-  const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore');
+  // In the staff portal's copy nobody is timed out: an editor is not a visitor.
+  const session = useSession(configuredTiming, isTestBuild, restart, state.mode === 'explore' && !inPortal);
+  useEditorBridge({
+    reloadBundle,
+    openPerson: (personId) => {
+      if (state.mode !== 'explore') dispatch({ type: 'begin-with', personId });
+      dispatch({ type: 'open-record', personId });
+    },
+  });
 
   // Leaving the attract screen begins a visit, and offers the guide without
   // opening it. A website has no attract screen and offers nothing unasked;

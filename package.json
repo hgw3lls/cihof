@@ -12,6 +12,7 @@
     "review": "npm run build --workspace @cihof/review && node --experimental-strip-types --no-warnings=ExperimentalWarning apps/review/server/server.mjs",
     "review:import": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/import-review-decisions.mjs",
     "review:data": "node scripts/review-data-folder.mjs",
+    "review:shell": "node scripts/build-exhibit-shell.mjs",
     "package:review-app": "node scripts/package-review-app.mjs",
     "package:kiosk": "node scripts/package-kiosk.mjs",
     "package:kiosk-app": "node scripts/package-kiosk-app.mjs",

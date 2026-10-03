@@ -314,3 +314,49 @@ test('the portal\'s server keeps making display updates and connecting to a disp
     await new Promise((done) => real.close(done));
   }
 });
+
+test('in the studio, a change is saved and shown at once, waits for approval before it can be published, and can be undone', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  mkdirSync(join(work, '.review'), { recursive: true });
+  writeFileSync(join(work, '.review', 'draft.json'), JSON.stringify({ reviewer: 'Jane Smith' }));
+  // As the app runs it: its own process, in the portal's copy, which it reads its records from.
+  mkdirSync(join(work, 'apps', 'review', 'dist'), { recursive: true });
+  writeFileSync(join(work, 'apps', 'review', 'dist', 'index.html'), '<!doctype html><title>Review</title>');
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  try {
+    const review = await call('/api/review');
+    const profile = review.profiles.find((each) => each.id === person);
+    const saved = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} Junior` }, biography: null });
+    assert.equal(saved.ok, true, JSON.stringify(saved.results));
+    assert.equal(saved.preview.ok, true);
+    const shown = JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people.find((each) => each.id === person);
+    assert.equal(shown.name, `${profile.edit.name} Junior`, 'the preview shows it at once');
+
+    const held = await call('/api/display-update', {});
+    assert.equal(held.ok, false);
+    assert.match(held.problem, /waiting for approval/);
+
+    // Undone, and saved again, then approved: the profile is approved as it now reads, and can be published.
+    const undone = await call('/api/studio/undo', {});
+    assert.equal(undone.ok, true);
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people.find((each) => each.id === person).name, profile.name);
+    const again = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} Junior` }, biography: null });
+    const approved = await call('/api/studio/approve', { id: again.change.id });
+    assert.equal(approved.ok, true, JSON.stringify(approved.results));
+    assert.equal((await call('/api/review')).profiles.find((each) => each.id === person).state, 'approved');
+    const published = await call('/api/display-update', {});
+    assert.equal(published.ok, true, published.problem ?? published.output);
+    assert.equal((await call('/api/studio')).changes.at(-1).status, 'published');
+  } finally {
+    server.kill();
+  }
+});

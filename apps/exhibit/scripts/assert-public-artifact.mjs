@@ -122,6 +122,8 @@ for (const path of files) {
   for (const host of embedHosts) {
     if (text.includes(host)) fail(`embedded player host "${host}" in ${relative(dist, path)}`);
   }
+  // The staff portal's editing (src/app/editor.ts) is for its own copy, never a visitor's.
+  if (text.includes('cihof-editor-bridge')) fail(`the staff portal's editor in ${relative(dist, path)}`);
 }
 
 // ------------------------------------------------------------------- verdict

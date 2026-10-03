@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { listSource } from '../src/content-store.mjs';
 
@@ -61,6 +61,12 @@ if (args.site) {
   const bundle = JSON.parse(readFileSync(join(site, 'data', 'exhibit.json'), 'utf8'));
   if (release.base !== '/' || bundle.target !== 'kiosk' || bundle.preview) {
     console.error(`${site} is not a kiosk build served at "/" (base ${release.base}, target ${bundle.target}${bundle.preview ? ', preview' : ''}).`);
+    process.exit(1);
+  }
+  // The staff portal's editing (apps/exhibit/src/app/editor.ts) is for its own copy, never the display's.
+  const assets = join(site, 'assets');
+  if (existsSync(assets) && readdirSync(assets).some((name) => name.endsWith('.js') && readFileSync(join(assets, name), 'utf8').includes('cihof-editor-bridge'))) {
+    console.error(`${site} is the staff portal's editing copy of the exhibit, not a display's.`);
     process.exit(1);
   }
   rmSync(join(stage, 'site'), { recursive: true, force: true });
