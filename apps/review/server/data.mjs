@@ -18,6 +18,7 @@ import { approvedFilmStart, readFilmStarts, sharedFilms } from '../../../package
 import { filmFiles, findNoise } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 import { filmIdOf } from '../../../packages/pipeline/src/build/media-changes.ts';
+import { regions } from '../../../packages/pipeline/src/build/new-class.ts';
 import { filmShortfalls } from '@cihof/content';
 
 /**
@@ -183,6 +184,8 @@ export function loadReview() {
     films: filmsForCaptions(byId),
     // Each person's portrait and films, for Portraits and films.
     media: mediaReview(people, checksums, reviews),
+    // What a new inductee's region may be (class:add checks the same list).
+    regions: [...regions],
     limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };

@@ -9,6 +9,7 @@ import { historyProblem } from './Places.tsx';
 import { clock, startProblem } from './FilmStarts.tsx';
 import { signoffProblem } from './Signoffs.tsx';
 import { portraitProblem } from './Media.tsx';
+import { inducteeProblem } from './NewInductees.tsx';
 
 type Props = {
   review: Review;
@@ -61,6 +62,8 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
       .map((id) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (edited and decided together; clear the decision, save the edit, then decide)`),
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
+    ...Object.values(draft.newClass ?? {}).filter((value) => inducteeProblem(value, review))
+      .map((value) => `the new inductee ${value.name.trim() || '(no name yet)'} (${inducteeProblem(value, review)})`),
     // A new picture needs its description and the rights confirmed, and names the profile as it was.
     ...Object.entries(draft.portraits ?? {}).filter(([, value]) => portraitProblem(value, review.limits.profile.portraitAlt))
       .map(([id]) => `${personName(id)}'s new portrait (${portraitProblem(draft.portraits![id]!, review.limits.profile.portraitAlt)})`),
@@ -68,8 +71,8 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
       .map(([id]) => `${personName(id)}'s new portrait (the profile changed after you chose it; choose the picture again)`),
     ...Object.keys(draft.portraits ?? {}).filter((id) => draft.profileEdits?.[id] || draft.profiles[id])
       .map((id) => `${personName(id)}'s profile (a new portrait and another change to the profile cannot be saved together; save the portrait first)`),
-    ...(review.mode === 'export' ? Object.keys({ ...(draft.portraits ?? {}), ...(draft.films ?? {}) }).slice(0, 1)
-      .map(() => 'portraits and films (they cannot be exported for the developer: the files are on this computer; clear them)') : []),
+    ...(review.mode === 'export' ? Object.keys({ ...(draft.portraits ?? {}), ...(draft.films ?? {}), ...(draft.newClass ?? {}) }).slice(0, 1)
+      .map(() => 'new inductees, portraits and films (they cannot be exported for the developer: the files are on this computer; clear them)') : []),
     ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
     ...Object.entries(draft.filmTitles ?? {}).filter(([, value]) => filmTitleProblem(value, review.limits.filmTitle))
       .map(([id]) => `the title of ${review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id}'s film`),
@@ -332,6 +335,9 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     lines.push(value.action === 'accept'
       ? `Sign-offs: ${title}: accepted by ${value.by} on ${value.date}${value.note?.trim() ? ` (${value.note.trim()})` : ''}`
       : `Sign-offs: ${title}: cleared (${value.note})`);
+  }
+  for (const value of Object.values(draft.newClass ?? {})) {
+    lines.push(`New inductees: ${value.displayName || value.name}, class of ${value.classYear}${value.rightsConfirmed ? '' : ', portrait kept off the display for now'}`);
   }
   for (const [id, value] of Object.entries(draft.portraits ?? {})) {
     const name = review.media.find((person) => person.id === id)?.name ?? id;

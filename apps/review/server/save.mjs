@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { projectStatus } from '../../../scripts/working-tree.js';
 import { previewHash } from '../../../scripts/preview-hash.js';
 import { recordChange, snapshot } from './portal.mjs';
-import { attractCsv, filmChangesCsv, portraitsCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
+import { attractCsv, filmChangesCsv, newClassCsv, portraitsCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, splitTieKey, tiesCsv } from './sheets.mjs';
 
 /**
  * Checking and saving a reviewer's decisions, with the tools a developer runs.
@@ -18,6 +18,13 @@ import { attractCsv, filmChangesCsv, portraitsCsv, filmTitlesCsv, profileEditsCs
  */
 
 export const steps = [
+  // New inductees first: everybody else's decisions are about people already there.
+  {
+    task: 'newClass', title: 'New inductees', script: 'class:add', csv: newClassCsv,
+    // class:add regenerates the crosswalk and the links sheet itself; these prove it.
+    refresh: [], checks: ['parity:report', 'crosswalk:check'],
+    keys: (draft) => Object.keys(draft.newClass ?? {}),
+  },
   {
     task: 'ties', title: 'Connections', script: 'ties:apply', csv: tiesCsv,
     refresh: ['review:ties'], checks: ['review:ties:check'],
@@ -246,6 +253,7 @@ function stageNewMedia(root, step) {
 /** A saved picture or film is in the media folder now: its upload, perhaps gigabytes, is not needed. */
 function forgetUploads(root, step, draft) {
   const names = step.task === 'portraits' ? Object.values(draft.portraits ?? {}).map((value) => value.upload)
+    : step.task === 'newClass' ? Object.values(draft.newClass ?? {}).map((value) => value.portrait)
     : step.task === 'films' ? Object.values(draft.films ?? {}).flatMap((value) => [value.film, value.poster, value.captions, value.transcript])
       : [];
   for (const name of names) if (typeof name === 'string' && /^[0-9a-f]{64}\.[a-z0-9]+$/.test(name)) rmSync(join(root, '.review', 'uploads', name), { force: true });

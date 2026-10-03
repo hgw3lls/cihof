@@ -14,8 +14,9 @@ import { Profiles } from './Profiles.tsx';
 import { SaveScreen } from './Save.tsx';
 import { DisplayUpdateScreen } from './DisplayUpdate.tsx';
 import { Media } from './Media.tsx';
+import { NewInductees } from './NewInductees.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media';
+type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media' | 'newClass';
 
 /**
  * The staff review app.
@@ -78,8 +79,9 @@ export function App() {
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
     media: Object.keys(draft.portraits ?? {}).length + Object.keys(draft.films ?? {}).length,
+    newClass: Object.keys(draft.newClass ?? {}).length,
   };
-  const waiting = counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes + counts.media;
+  const waiting = counts.newClass + counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes + counts.media;
   const back = () => setScreen('home');
 
   return (
@@ -117,6 +119,7 @@ export function App() {
       {screen === 'filmStarts' && <FilmStarts review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'signoffs' && <Signoffs review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'history' && <History onDone={back} />}
+      {screen === 'newClass' && <NewInductees review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'media' && <Media review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'filmFixes' && <FilmCaptions review={review} draft={draft} update={update} onDone={back} />}
       {screen === 'save' && (
@@ -167,7 +170,7 @@ function Home({ review, draft, waiting, counts, onOpen }: {
   review: Review;
   draft: Draft;
   waiting: number;
-  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; media: number };
+  counts: { profiles: number; ties: number; places: number; bios: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; media: number; newClass: number };
   onOpen: (screen: Screen) => void;
 }) {
   // Undecided, or decided with wording that cannot go on the map: the same
@@ -258,6 +261,14 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           onOpen={() => onOpen('filmFixes')}
         />
         {/* The files chosen stay on this computer, so not where decisions are exported for somebody else to bring in. */}
+        {review.mode !== 'export' && (
+          <Card
+            title="New inductees"
+            body="Add this year's class: each person's name, class, biography, tags and portrait, from the Hall of Fame's own record."
+            pending={counts.newClass}
+            onOpen={() => onOpen('newClass')}
+          />
+        )}
         {review.mode !== 'export' && (
           <Card
             title="Portraits and films"

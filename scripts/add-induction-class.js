@@ -160,8 +160,12 @@ console.log(`  Portraits copied into public/media/images/. Sheet archived to ${r
 // The crosswalk and the contribution worksheet are built from the roster, and
 // the links sheet from the crosswalk. Regenerated here so the checks pass and
 // a new inducter name is waiting in the links sheet to be resolved.
+// Run with this same Node, as npm would run them: the staff portal has no npm.
+const scripts = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8')).scripts ?? {};
 for (const script of ['crosswalk', 'review:links']) {
-  const result = spawnSync('npm', ['run', '-s', script], { cwd: root, stdio: 'inherit', shell: process.platform === 'win32' });
+  const command = scripts[script];
+  if (typeof command !== 'string' || !command.startsWith('node ')) fail(`No usable "${script}" script in package.json.`);
+  const result = spawnSync(process.execPath, command.split(/\s+/).slice(1), { cwd: root, stdio: 'inherit' });
   if (result.status !== 0) fail(`npm run ${script} failed. The sources were written; run it again once fixed.`);
 }
 

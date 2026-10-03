@@ -399,7 +399,7 @@ export function portraitProblem(choice: PortraitChoice, limit: number): string |
 }
 
 /** A photograph as the exhibit keeps one: upright, at most 1600 pixels on its long side, as a JPEG. */
-async function preparePicture(file: File): Promise<Blob> {
+export async function preparePicture(file: File): Promise<Blob> {
   let bitmap: ImageBitmap;
   try {
     bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });

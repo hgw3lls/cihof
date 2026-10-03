@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv, filmChangesCsv, portraitsCsv } from '../server/sheets.mjs';
+import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv, filmChangesCsv, newClassCsv, portraitsCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0, portraits: 0, films: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0, newClass: 0, portraits: 0, films: 0 });
 });
 
 test('a new portrait and a change to films become rows the tools read, each signed', () => {
@@ -236,4 +236,18 @@ test('a profile edit carries the whole of what may change, the version it began 
     portraitAlt: 'Portrait of Alex Machaskee.', focalPoint: '50% 30%', decisionReference: 'profile-edits-review-2026-10-02',
     note: 'From the obituary. Reviewed by Jane Smith in the staff review app.',
   });
+});
+
+test('a new inductee becomes the row class:add reads, its portrait beside the sheet and pending until its rights are confirmed', () => {
+  const person = {
+    name: 'Ada Example', classYear: 2027, displayName: '', sortName: 'Example, Ada', region: 'Europe', profileUrl: '', inductedBy: 'Bo Example',
+    biography: 'Her own words.', themeTags: ['Business', 'Education'], countryTags: ['Ireland'], communityTags: [],
+    portrait: `${'b'.repeat(64)}.jpg`, portraitAltText: 'Ada Example, smiling.', rightsConfirmed: false, note: '',
+  };
+  const [row] = rows(newClassCsv({ reviewer: 'Jane Smith', newClass: { a: person } }, '2027-05-01'));
+  assert.equal(row.portraitFile, `../uploads/${'b'.repeat(64)}.jpg`);
+  assert.equal(row.portraitRights, 'pending');
+  assert.equal(row.themeTags, 'Business|Education');
+  assert.equal(row.decisionReference, 'new-inductees-review-2027-05-01');
+  assert.equal(rows(newClassCsv({ reviewer: 'Jane Smith', newClass: { a: { ...person, rightsConfirmed: true } } }, '2027-05-01'))[0].portraitRights, 'approved');
 });

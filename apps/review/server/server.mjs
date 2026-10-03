@@ -222,7 +222,7 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {}, portraits: {}, films: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {}, newClass: {}, portraits: {}, films: {} };
 }
 
 /**
@@ -278,6 +278,20 @@ function normaliseDraft(value) {
     // recorded the old way, for someone else, is not made into an acceptance.
     signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
+    // A new inductee: the row class:add reads, and nothing else.
+    newClass: Object.fromEntries(Object.entries(object(draft.newClass)).flatMap(([key, value]) => {
+      if (!value || typeof value !== 'object') return [];
+      const text = (field, limit = 300) => (typeof value[field] === 'string' ? value[field].slice(0, limit) : '');
+      const tags = (field) => (Array.isArray(value[field]) ? value[field].filter((tag) => typeof tag === 'string').slice(0, 20).map((tag) => tag.slice(0, 60)) : []);
+      return [[key, {
+        name: text('name', 120), classYear: Number.isInteger(value.classYear) ? value.classYear : null,
+        displayName: text('displayName', 120), sortName: text('sortName', 120), region: text('region', 40),
+        profileUrl: text('profileUrl', 500), inductedBy: text('inductedBy', 200), biography: text('biography', 20000),
+        themeTags: tags('themeTags'), countryTags: tags('countryTags'), communityTags: tags('communityTags'),
+        portrait: typeof value.portrait === 'string' && uploadPattern.test(value.portrait) ? value.portrait : '',
+        portraitAltText: text('portraitAltText', 1000), rightsConfirmed: value.rightsConfirmed === true, note: text('note', 2000),
+      }]];
+    })),
     // A new picture names an upload and the profile as it was; nothing else.
     portraits: Object.fromEntries(Object.entries(object(draft.portraits)).flatMap(([id, value]) => (
       value && typeof value.seenVersion === 'string' && typeof value.upload === 'string' && uploadPattern.test(value.upload)

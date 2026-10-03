@@ -20,6 +20,8 @@
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
+ *     newClass:  { [key]: { name, classYear, displayName, sortName, region, profileUrl, inductedBy, biography,
+ *                           themeTags, countryTags, communityTags, portrait: '<sha256>.jpg', portraitAltText, rightsConfirmed, note } },
  *     portraits: { [personId]: { seenVersion, upload: '<sha256>.jpg', portraitAlt, focalPoint, rightsConfirmed: true, note } },
  *     films:     { ['add:personId:<sha>']: { decision: 'add', personId, film, poster, captions, transcript, durationSeconds, title,
  *                                            rightsConfirmed, captionsChecked, transcriptChecked, note }
@@ -35,7 +37,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { portraits: 'portraits', films: 'film-changes', ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { newClass: 'new-inductees', portraits: 'portraits', films: 'film-changes', ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -113,6 +115,26 @@ export function profilesCsv(draft, day) {
  * separated by semicolons, and the version the editing began from, which
  * profiles:edit checks.
  */
+/**
+ * New inductees, as class:add reads them. The sheet is written beside the
+ * uploads (.review/sheets and .review/uploads), and a portrait is named
+ * relative to it, as the tool expects. A portrait whose rights nobody
+ * confirmed is added as pending: kept off the display until they are.
+ */
+export function newClassCsv(draft, day) {
+  const reference = decisionReference('newClass', day);
+  const tags = (value) => (Array.isArray(value) ? value.join('|') : '');
+  const rows = Object.values(draft.newClass ?? {}).map((value) => [
+    value.name ?? '', String(value.classYear ?? ''), value.displayName ?? '', value.sortName ?? '', value.region ?? '', value.profileUrl ?? '',
+    value.inductedBy ?? '', value.biography ?? '', tags(value.themeTags), tags(value.countryTags), tags(value.communityTags),
+    value.portrait ? `../uploads/${value.portrait}` : '', '', value.portraitAltText ?? '', value.rightsConfirmed === true ? 'approved' : 'pending',
+    reference, signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['name', 'classYear', 'displayName', 'sortName', 'region', 'profileUrl', 'inductedBy', 'biography',
+    'themeTags', 'countryTags', 'communityTags', 'portraitFile', 'portraitSourceUrl', 'portraitAltText', 'portraitRights',
+    'decisionReference', 'note'], rows);
+}
+
 /** New portraits: each names the profile as it was when the picture was chosen, and the upload. */
 export function portraitsCsv(draft, day) {
   const reference = decisionReference('portraits', day);
@@ -287,6 +309,7 @@ export function draftCounts(draft) {
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
+    newClass: Object.keys(draft.newClass ?? {}).length,
     portraits: Object.keys(draft.portraits ?? {}).length,
     films: Object.keys(draft.films ?? {}).length,
   };
