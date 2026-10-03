@@ -5,7 +5,7 @@ import { writeZip } from './zip.mjs';
 /**
  * Makes a content update: the zip a display takes in (content-store.mjs says
  * what it holds and how the display checks it). The staff portal makes one
- * from its edits; so does `npm run content:package` for whoever builds and
+ * from its edits; so does `npm run content:update` for whoever builds and
  * tests the apps.
  *
  * The update lists every file of the new version, but carries only those the
@@ -17,19 +17,29 @@ import { writeZip } from './zip.mjs';
  *   out: string,
  *   site: Record<string, string>,      content path → file on disk (data/…, media/…)
  *   source: Record<string, string>,    source data path → file on disk
- *   films?: Record<string, string>,    "<person>/<file>.mp4" → film on disk
+ *   films?: Record<string, string | { sha256: string, bytes: number }>,
+ *                                      "<person>/<file>.mp4" → film on disk, or one the base
+ *                                      already has, by its checksum (never carried)
  *   base?: { contentVersion: string, site: object, source: object, films?: object } | null,
+ *   basedOn?: string | null,           the version it follows, when not the base's own: the
+ *                                      portal's last update, carrying all the base lacks
  *   createdBy: string,
  *   summary?: string[],
  *   people?: number | null,
  *   exhibitSchemaVersion?: number | null,
  * }} options
  */
-export async function makeUpdate({ out, site, source, films = {}, base = null, createdBy, summary = [], people = null, exhibitSchemaVersion = null }) {
+export async function makeUpdate({ out, site, source, films = {}, base = null, basedOn, createdBy, summary = [], people = null, exhibitSchemaVersion = null }) {
+  const have = new Set(base ? [...Object.values(base.site ?? {}), ...Object.values(base.source ?? {}), ...Object.values(base.films ?? {})].map((file) => file.sha256) : []);
   const describe = async (map) => {
     const listed = {};
     const where = new Map();
     for (const [path, file] of Object.entries(map).sort(([a], [b]) => a.localeCompare(b))) {
+      if (typeof file !== 'string') {
+        if (!have.has(file?.sha256)) throw new Error(`${path} is listed by its checksum, but the version the update is made from does not have it.`);
+        listed[path] = { sha256: file.sha256, bytes: file.bytes };
+        continue;
+      }
       const checksum = await hashFile(file);
       listed[path] = { sha256: checksum, bytes: (await stat(file)).size };
       where.set(checksum, file);
@@ -43,7 +53,7 @@ export async function makeUpdate({ out, site, source, films = {}, base = null, c
     format: contentFormat,
     formatVersion: contentFormatVersion,
     contentVersion: '',
-    basedOn: base?.contentVersion ?? null,
+    basedOn: basedOn !== undefined ? basedOn : base?.contentVersion ?? null,
     createdAt: new Date().toISOString(),
     createdBy,
     summary,
@@ -56,7 +66,6 @@ export async function makeUpdate({ out, site, source, films = {}, base = null, c
   manifest.contentVersion = contentVersionOf(manifest);
 
   // Only what the display does not have already.
-  const have = new Set(base ? [...Object.values(base.site ?? {}), ...Object.values(base.source ?? {}), ...Object.values(base.films ?? {})].map((file) => file.sha256) : []);
   const carried = new Map();
   for (const where of [siteFiles.where, sourceFiles.where, filmFiles.where]) {
     for (const [checksum, file] of where) if (!have.has(checksum)) carried.set(checksum, file);

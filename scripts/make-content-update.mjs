@@ -18,7 +18,8 @@ import { extractEntry, listZip } from '../apps/kiosk-app/src/zip.mjs';
  *
  * The new version is this project as it stands: the kiosk build of the
  * exhibit (its data and media; films stay in the display's films folder) and
- * the source data git tracks under data/. Kiosk content, so the update, like
+ * the source git tracks under data/ and public/media/ (never the films), as
+ * the display keeps it for the staff portal. Kiosk content, so the update, like
  * the kiosk release, is never published.
  */
 
@@ -72,8 +73,8 @@ const walk = (directory) => {
 for (const part of ['data', 'media']) if (existsSync(join(dist, part))) walk(join(dist, part));
 
 const source = {};
-for (const path of execFileSync('git', ['ls-files', '-z', '--', 'data'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean)) {
-  if (existsSync(join(root, path))) source[path] = join(root, path);
+for (const path of execFileSync('git', ['ls-files', '-z', '--', 'data', 'public/media'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean)) {
+  if (!/\.(mp4|m4v|mov|webm|mkv|avi)$/i.test(path) && existsSync(join(root, path))) source[path] = join(root, path);
 }
 
 const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');

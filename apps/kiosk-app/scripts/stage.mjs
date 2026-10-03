@@ -13,8 +13,10 @@ import { listSource } from '../src/content-store.mjs';
  * writes as release/cihof-kiosk-<release>/site. Without --site, a site
  * already staged is kept, so `npm start` can be rerun after code changes.
  *
- * Beside it, in content-source/, the source data it was built from: every
- * file git tracks under the project's data/, with a list of their checksums.
+ * Beside it, in content-source/, the source it was built from: every file git
+ * tracks under the project's data/ and public/media/ (the records, portraits,
+ * and the films' posters, captions and transcripts; never the films), with a
+ * list of their checksums.
  * The display keeps it so that the staff portal can always start an update
  * from what the display shows, delivered content included.
  */
@@ -65,17 +67,18 @@ if (args.site) {
   cpSync(site, join(stage, 'site'), { recursive: true });
   console.log(`Staged release ${release.revision} (${bundle.people.length} people).`);
 
-  // The source data, as git tracks it in the project this app is built from.
+  // The source, as git tracks it in the project this app is built from: what the review data folder holds.
   const project = resolve(app, '../..');
   const source = join(stage, 'content-source');
   rmSync(source, { recursive: true, force: true });
-  const tracked = execFileSync('git', ['ls-files', '-z', '--', 'data'], { cwd: project, encoding: 'utf8' }).split('\0').filter((path) => path && existsSync(join(project, path)));
+  const tracked = execFileSync('git', ['ls-files', '-z', '--', 'data', 'public/media'], { cwd: project, encoding: 'utf8' }).split('\0')
+    .filter((path) => path && !/\.(mp4|m4v|mov|webm|mkv|avi)$/i.test(path) && existsSync(join(project, path)));
   for (const path of tracked) {
     mkdirSync(dirname(join(source, path)), { recursive: true });
     cpSync(join(project, path), join(source, path));
   }
   writeFileSync(join(source, 'content.json'), `${JSON.stringify({ source: await listSource(source) }, null, 2)}\n`);
-  console.log(`Staged the source data: ${tracked.length} files.`);
+  console.log(`Staged the source: ${tracked.length} files.`);
 } else if (keptSite) {
   console.log('Kept the site already staged.');
 } else {

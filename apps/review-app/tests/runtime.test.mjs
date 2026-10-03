@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, utimesSync, writeFile
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { test } from 'node:test';
-import { dataFolderProblem, installRuntime, isExportedFile, isOwnPage, isWebAddress, syncDataFolder } from '../src/runtime.mjs';
+import { dataFolderProblem, installRuntime, isExportedFile, isUpdateFile, isOwnPage, isWebAddress, syncDataFolder } from '../src/runtime.mjs';
 
 const place = (root, files) => {
   for (const [path, text] of Object.entries(files)) {
@@ -57,13 +57,14 @@ test('the review\'s code is installed once per build, with the project\'s packag
   const work = temp();
   place(runtime, {
     'apps/review/server/server.mjs': '// v1',
+    'apps/kiosk-app/src/content-package.mjs': '',
     'packages/content/package.json': '{"name":"@cihof/content"}',
     'packages/pipeline/package.json': '{"name":"@cihof/pipeline"}',
     'scripts/a.js': '',
     'docs/sign-off.md': '',
     'package.json': '{"workspaces":[]}',
   });
-  place(work, { '.review/draft.json': 'kept', 'data/x.json': 'kept' });
+  place(work, { '.review/draft.json': 'kept', '.portal/state.json': 'kept', 'data/x.json': 'kept' });
   assert.equal(installRuntime(runtime, work, 'build-1'), true);
   assert.ok(existsSync(join(work, 'node_modules/@cihof/content/package.json')));
   assert.equal(installRuntime(runtime, work, 'build-1'), false, 'the same build is not installed again');
@@ -71,10 +72,12 @@ test('the review\'s code is installed once per build, with the project\'s packag
   assert.equal(installRuntime(runtime, work, 'build-2'), true);
   assert.equal(readFileSync(join(work, 'apps/review/server/server.mjs'), 'utf8'), '// v2');
   assert.equal(readFileSync(join(work, '.review/draft.json'), 'utf8'), 'kept');
+  assert.equal(readFileSync(join(work, '.portal/state.json'), 'utf8'), 'kept');
   assert.equal(readFileSync(join(work, 'data/x.json'), 'utf8'), 'kept');
+  assert.ok(existsSync(join(work, 'apps/kiosk-app/src/content-package.mjs')), 'with how display updates are made');
 });
 
-test('only the review\'s own pages stay in the window, and only an exported file can be shown', () => {
+test('only the review\'s own pages stay in the window, and only an exported file or a display update can be shown', () => {
   assert.equal(isOwnPage('http://localhost:5180/', 5180), true);
   assert.equal(isOwnPage('http://localhost:5181/', 5180), false);
   assert.equal(isOwnPage('https://www.youtube.com/watch?v=x', 5180), false);
@@ -85,4 +88,9 @@ test('only the review\'s own pages stay in the window, and only an exported file
   assert.equal(isExportedFile(join(exports, 'cihof-decisions-jane-2026-10-01-090000.json'), exports), true);
   assert.equal(isExportedFile(join(exports, 'other.json'), exports), false);
   assert.equal(isExportedFile('/etc/passwd', exports), false);
+  const updates = temp();
+  place(updates, { 'cihof-update-2026-10-03-1015.cihof': 'zip', 'cihof-update-notes.txt': '' });
+  assert.equal(isUpdateFile(join(updates, 'cihof-update-2026-10-03-1015.cihof'), updates), true);
+  assert.equal(isUpdateFile(join(updates, 'cihof-update-notes.txt'), updates), false);
+  assert.equal(isUpdateFile(join(exports, 'cihof-decisions-jane-2026-10-01-090000.json'), updates), false);
 });

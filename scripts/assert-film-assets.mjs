@@ -33,11 +33,13 @@ const absent = paths.filter((path) => !existsSync(path));
 
 // `git ls-files` reports only tracked paths, which is exactly the question: will
 // a fresh checkout have this file? Asking the filesystem would not tell us.
-const tracked = new Set(
-  execFileSync('git', ['ls-files', '-z', '--', ...paths], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
+// Outside a project, in the staff portal's own copy of a display's content,
+// there is no checkout to make: being there is the whole question.
+const tracked = new Set(inRepository()
+  ? execFileSync('git', ['ls-files', '-z', '--', ...paths], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
     .split('\0')
-    .filter(Boolean),
-);
+    .filter(Boolean)
+  : paths);
 const untracked = paths.filter((path) => !tracked.has(path) && existsSync(path));
 
 if (absent.length > 0) {
@@ -58,3 +60,11 @@ if (untracked.length > 0) {
 if (absent.length > 0 || untracked.length > 0) process.exit(1);
 
 console.log(`All ${paths.length} film assets named by the manifest are present and tracked.`);
+
+function inRepository() {
+  try {
+    return execFileSync('git', ['rev-parse', '--is-inside-work-tree'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() === 'true';
+  } catch {
+    return false;
+  }
+}

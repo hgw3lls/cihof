@@ -225,6 +225,8 @@ select { font: inherit; padding: 0.6rem 0.7rem; border: 1px solid var(--line); b
 .film-title__poster { width: 142px; height: 80px; object-fit: cover; border-radius: 6px; flex: none; background: #121211; }
 
 .export-file { overflow-wrap: anywhere; }
+.how-to { padding-left: 1.4rem; }
+.how-to li { margin: 0.4rem 0; }
 
 /* The tour editor: the card as the Tour key shows it, then the words, the people and the rules. */
 .tour-editor__preview { margin: 0.5rem 0 1rem; }

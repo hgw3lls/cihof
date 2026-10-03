@@ -14,6 +14,8 @@ type Props = {
   draft: Draft;
   onBack: () => void;
   onSaved: () => Promise<void>;
+  /** In the staff portal: on to making a display update. */
+  onUpdate?: () => void;
 };
 
 /**
@@ -25,8 +27,11 @@ type Props = {
  * In the staff review app on a staff computer there is nothing to save to:
  * the last step exports the checked decisions as one file for the developer
  * instead, and they leave this computer's list of decisions.
+ *
+ * In the staff portal, saving writes into its copy of the display's content,
+ * and the next step is a display update.
  */
-export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
+export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) {
   const [audience, setAudience] = useState<Audience>('kiosk');
   const [checked, setChecked] = useState<StepResult[] | null>(null);
   const [saved, setSaved] = useState<StepResult[] | null>(null);
@@ -152,16 +157,22 @@ export function SaveScreen({ review, draft, onBack, onSaved }: Props) {
             <li key={result.task} className={result.ok ? 'done' : 'problem'}>
               <strong>{result.title}</strong>:{' '}
               {result.ok
-                ? result.commit ? `saved (${result.count} decision${result.count === 1 ? '' : 's'}, change ${result.commit})` : 'already recorded; nothing new to save'
+                ? result.commit ? `saved (${result.count} decision${result.count === 1 ? '' : 's'}, change ${result.commit})`
+                  : result.saved ? `saved (${result.count} decision${result.count === 1 ? '' : 's'})` : 'already recorded; nothing new to save'
                 : 'not saved'}
               {!result.ok && <Details output={result.output} />}
             </li>
           ))}
         </ul>
         {failed
-          ? <p>Nothing of the part that failed was kept, and your decisions for it are still here. Show the details above to the developer.</p>
-          : <p className="lead">Your decisions are saved on this computer. They reach the exhibit when the developer publishes them; let them know.</p>}
-        <button type="button" className="primary" onClick={onBack}>Back to the start</button>
+          ? <p>Nothing of the part that failed was kept, and your decisions for it are still here. {review.mode === 'portal' ? 'Look at the details above, change what they point to, and save again.' : 'Show the details above to the developer.'}</p>
+          : review.mode === 'portal'
+            ? <p className="lead">Saved. They reach the display in the next display update: make one now, or keep making changes and make it later.</p>
+            : <p className="lead">Your decisions are saved on this computer. They reach the exhibit when the developer publishes them; let them know.</p>}
+        <nav className="pager">
+          <button type="button" className={review.mode === 'portal' && !failed ? '' : 'primary'} onClick={onBack}>Back to the start</button>
+          {review.mode === 'portal' && !failed && onUpdate && <button type="button" className="primary" onClick={onUpdate}>Make a display update</button>}
+        </nav>
       </main>
     );
   }
