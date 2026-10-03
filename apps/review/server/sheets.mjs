@@ -20,6 +20,8 @@
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
+ *     placeEdits: { [placeId, or 'new-…']: { decision: 'edit' | 'create', placeId, seenVersion, name, neighborhood, type, shortHistory,
+ *                                          people: [{ personId, role }], audience: 'kiosk' | 'kiosk-and-web' | 'nobody', note } },
  *     newClass:  { [key]: { name, classYear, displayName, sortName, region, profileUrl, inductedBy, biography,
  *                           themeTags, countryTags, communityTags, portrait: '<sha256>.jpg', portraitAltText, rightsConfirmed, note } },
  *     portraits: { [personId]: { seenVersion, upload: '<sha256>.jpg', portraitAlt, focalPoint, rightsConfirmed: true, note } },
@@ -37,7 +39,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { newClass: 'new-inductees', portraits: 'portraits', films: 'film-changes', ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { placeEdits: 'place-edits', newClass: 'new-inductees', portraits: 'portraits', films: 'film-changes', ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -115,11 +117,24 @@ export function profilesCsv(draft, day) {
  * separated by semicolons, and the version the editing began from, which
  * profiles:edit checks.
  */
+/** Place edits and new places: the whole of each place as edited, the words it began from, and who may see it. */
+export function placeEditsCsv(draft, day) {
+  const reference = decisionReference('placeEdits', day);
+  const rows = Object.values(draft.placeEdits ?? {}).map((value) => [
+    value.decision === 'create' ? '' : value.placeId ?? '', value.decision, value.decision === 'create' ? '' : value.seenVersion ?? '',
+    value.name ?? '', value.neighborhood ?? '', value.type ?? '', value.shortHistory ?? '',
+    (value.people ?? []).map((person) => `${person.personId}:${person.role}`).join('; '),
+    value.audience ?? 'nobody', reference, signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['placeId', 'decision', 'contentVersion', 'name', 'neighborhood', 'type', 'shortHistory', 'people', 'audience', 'decisionReference', 'note'], rows);
+}
+
 /**
  * New inductees, as class:add reads them. The sheet is written beside the
  * uploads (.review/sheets and .review/uploads), and a portrait is named
- * relative to it, as the tool expects. A portrait whose rights nobody
- * confirmed is added as pending: kept off the display until they are.
+ * relative to it, as the tool expects. Its rights are approved only when the
+ * reviewer confirmed them; a row without that confirmation never gets this
+ * far (the app asks first), and would be written as pending, never approved.
  */
 export function newClassCsv(draft, day) {
   const reference = decisionReference('newClass', day);
@@ -309,6 +324,7 @@ export function draftCounts(draft) {
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
+    placeEdits: Object.keys(draft.placeEdits ?? {}).length,
     newClass: Object.keys(draft.newClass ?? {}).length,
     portraits: Object.keys(draft.portraits ?? {}).length,
     films: Object.keys(draft.films ?? {}).length,

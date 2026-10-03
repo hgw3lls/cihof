@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { tieKey, type Draft, type Place, type PlaceDecision, type Review } from './api.ts';
+import { tieKey, type Draft, type Place, type PlaceDecision, type PlaceEdit, type Review } from './api.ts';
+import { PlaceEditor } from './PlaceEditor.tsx';
 import { placeNeedsWork } from './App.tsx';
 import { Choice } from './Connections.tsx';
 import { Portrait } from './Portrait.tsx';
@@ -27,13 +28,46 @@ export function Places({ review, draft, update, onDone }: Props) {
     [review.places, showAll],
   );
   const [index, setIndex] = useState(0);
+  const [editing, setEditing] = useState<{ key: string; place: Place | null } | null>(null);
   const place = list[Math.min(index, list.length - 1)];
+  const setEdit = (key: string, value: PlaceEdit | undefined) => update((current) => {
+    const placeEdits = { ...(current.placeEdits ?? {}) };
+    if (value) placeEdits[key] = value; else delete placeEdits[key];
+    return { ...current, placeEdits };
+  });
+  const added = Object.entries(draft.placeEdits ?? {}).filter(([, value]) => value.decision === 'create');
+
+  if (editing) {
+    return (
+      <PlaceEditor review={review} place={editing.place} initial={draft.placeEdits?.[editing.key]}
+        onKeep={(value) => { setEdit(editing.key, value); setEditing(null); }} onCancel={() => setEditing(null)} />
+    );
+  }
+
+  const newPlaces = (
+    <section className="panel">
+      <h2 className="question">New places</h2>
+      {added.length > 0 && (
+        <ul className="media-films">
+          {added.map(([key, value]) => (
+            <li key={key}>
+              <span><strong>{value.name}</strong><span className="quiet small">{value.people.length} {value.people.length === 1 ? 'person' : 'people'} · added when you save</span></span>
+              <button type="button" onClick={() => setEditing({ key, place: null })}>Edit</button>
+              <button type="button" className="link" onClick={() => setEdit(key, undefined)}>Don&rsquo;t add</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p><button type="button" onClick={() => setEditing({ key: `new-${Date.now()}`, place: null })}>Add a place…</button></p>
+    </section>
+  );
 
   if (!place) {
     return (
       <main className="page page--narrow">
         <h1>Places</h1>
         <p className="lead">Nothing is left to decide about places.</p>
+        {newPlaces}
         <button type="button" onClick={() => setShowAll(true)}>Look at every place</button>{' '}
         <button type="button" className="primary" onClick={onDone}>Back to the start</button>
       </main>
@@ -69,7 +103,17 @@ export function Places({ review, draft, update, onDone }: Props) {
         <header className="place">
           <h2 className="place__name">{place.name}</h2>
           <p className="quiet">{[place.neighborhood, place.address, place.dates].filter(Boolean).join(' · ')}</p>
+          <button type="button" className="link" onClick={() => setEditing({ key: place.placeId, place })}>
+            {draft.placeEdits?.[place.placeId] ? 'Change your edit of this place' : 'Edit its name, neighbourhood, words or people'}
+          </button>
         </header>
+        {draft.placeEdits?.[place.placeId] && (
+          <p className="notice">
+            You edited this place{draft.placeEdits[place.placeId]!.name !== place.name ? `, renaming it “${draft.placeEdits[place.placeId]!.name}”` : ''}.
+            The edit is saved first when you check and save; answer the questions below about it afterwards.{' '}
+            <button type="button" className="link" onClick={() => setEdit(place.placeId, undefined)}>Discard the edit</button>
+          </p>
+        )}
 
         <PlaceWords place={place} value={draft.places[place.placeId]} limit={review.limits.placeHistory} set={decide} />
 
@@ -106,6 +150,8 @@ export function Places({ review, draft, update, onDone }: Props) {
           </ul>
         </section>
       </article>
+
+      {newPlaces}
 
       <nav className="pager">
         <button type="button" disabled={index === 0} onClick={() => setIndex(index - 1)}>← Previous</button>

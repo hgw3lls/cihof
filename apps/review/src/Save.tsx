@@ -10,6 +10,7 @@ import { clock, startProblem } from './FilmStarts.tsx';
 import { signoffProblem } from './Signoffs.tsx';
 import { portraitProblem } from './Media.tsx';
 import { inducteeProblem } from './NewInductees.tsx';
+import { placeEditProblem } from './PlaceEditor.tsx';
 
 type Props = {
   review: Review;
@@ -62,6 +63,16 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
       .map((id) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (edited and decided together; clear the decision, save the edit, then decide)`),
     ...Object.entries(draft.profiles).filter(([id, value]) => value.decision === 'approve' && draft.bios[id])
       .map(([id]) => `${review.profiles.find((profile) => profile.id === id)?.name ?? id}'s profile (approved, but the biography correction for them must be saved first; clear the approval for now)`),
+    // A place edit names the words it began from; a decision about the same place in the same save would be about the words before it.
+    ...Object.entries(draft.placeEdits ?? {}).flatMap(([key, value]) => {
+      const place = value.decision === 'edit' ? review.places.find((each) => each.placeId === value.placeId) ?? null : null;
+      if (value.decision === 'edit' && (!place || place.contentVersion !== value.seenVersion)) return [`your edit of ${value.name} (the place changed since; discard the edit and make it again)`];
+      if (value.decision === 'edit' && (draft.places[key] || Object.keys(draft.placeTies).some((tie) => tie.startsWith(`${key}|`)))) {
+        return [`${value.name} (edited and decided about together; save the edit first, then answer the places questions)`];
+      }
+      const problem = placeEditProblem(value, place, review);
+      return problem ? [`${value.decision === 'create' ? 'the new place' : 'your edit of'} ${value.name || ''} (${problem})`] : [];
+    }),
     ...Object.values(draft.newClass ?? {}).filter((value) => inducteeProblem(value, review))
       .map((value) => `the new inductee ${value.name.trim() || '(no name yet)'} (${inducteeProblem(value, review)})`),
     // A new picture needs its description and the rights confirmed, and names the profile as it was.
@@ -336,8 +347,13 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
       ? `Sign-offs: ${title}: accepted by ${value.by} on ${value.date}${value.note?.trim() ? ` (${value.note.trim()})` : ''}`
       : `Sign-offs: ${title}: cleared (${value.note})`);
   }
+  for (const value of Object.values(draft.placeEdits ?? {})) {
+    const where = value.audience === 'kiosk-and-web' ? 'approved for the exhibit and the public website' : value.audience === 'kiosk' ? 'approved for the exhibit' : 'left for somebody else to approve';
+    const people = value.people.length ? `, ${value.people.length} ${value.people.length === 1 ? 'person' : 'people'} tied to it` : '';
+    lines.push(`Places: ${value.decision === 'create' ? `a new place, “${value.name}”` : `${value.name}: edited`}${people}, ${where}`);
+  }
   for (const value of Object.values(draft.newClass ?? {})) {
-    lines.push(`New inductees: ${value.displayName || value.name}, class of ${value.classYear}${value.rightsConfirmed ? '' : ', portrait kept off the display for now'}`);
+    lines.push(`New inductees: ${value.displayName || value.name}, class of ${value.classYear}`);
   }
   for (const [id, value] of Object.entries(draft.portraits ?? {})) {
     const name = review.media.find((person) => person.id === id)?.name ?? id;

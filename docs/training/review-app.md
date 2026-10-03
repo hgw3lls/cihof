@@ -119,6 +119,14 @@ an approval covers exactly those words. Places already on the display that
 were approved before approvals recorded the words come back once, to be
 checked. Then say what each person did there (lived, worked, studied,
 taught, organized, served, founded).
+**Edit its name, neighbourhood, words or people** changes a place's name,
+neighbourhood, kind or words, and ties somebody to it whose record says they
+were there, with what they did. **Add a place…** adds one the research never
+found: it needs a kind, its words and somebody tied to it. Choose who may see
+it as edited: it starts as the place's own audience (approving a place on the
+website for the exhibit only takes it off the website), or leave it for
+somebody else to approve. An edit is saved before the place's other
+questions, so answer those after saving.
 **Biographies**: search for a person, correct the text, and check the
 highlighted changes before keeping them.
 
@@ -219,8 +227,8 @@ Grasselli Brown*; check it), the class year, the region, who inducted them,
 the biography in the institution's own words, their page on the Hall of
 Fame's website if they have one, their communities, honours and countries,
 and a portrait with its description. Tick that the museum may show the
-portrait, or leave it unticked to add them with the portrait kept off the
-display until somebody confirms it. A new tag the collection has not used
+portrait: a new inductee is added only with a portrait the museum may show.
+A tag cannot contain `;` or `|`. A new tag the collection has not used
 before is pointed out when you check: make sure it is spelt like the others.
 
 Once saved, they are in the exhibit like everybody else: approve their

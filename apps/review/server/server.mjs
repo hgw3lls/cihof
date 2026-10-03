@@ -222,7 +222,7 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
 }
 
 export function emptyDraft() {
-  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {}, newClass: {}, portraits: {}, films: {} };
+  return { reviewer: '', ties: {}, places: {}, placeTies: {}, bios: {}, profiles: {}, profileEdits: {}, attract: {}, tours: {}, filmTitles: {}, filmStarts: {}, signoffs: {}, filmFixes: {}, placeEdits: {}, newClass: {}, portraits: {}, films: {} };
 }
 
 /**
@@ -278,6 +278,18 @@ function normaliseDraft(value) {
     // recorded the old way, for someone else, is not made into an acceptance.
     signoffs: Object.fromEntries(Object.entries(object(draft.signoffs)).filter(([, value]) => ['accept', 'clear'].includes(value?.action))),
     filmFixes: object(draft.filmFixes),
+    // A place as edited, or a new one: its words, the people added, and who may see it.
+    placeEdits: Object.fromEntries(Object.entries(object(draft.placeEdits)).flatMap(([key, value]) => {
+      if (!value || (value.decision !== 'edit' && value.decision !== 'create')) return [];
+      const text = (field, limit = 120) => (typeof value[field] === 'string' ? value[field].slice(0, limit) : '');
+      const people = Array.isArray(value.people) ? value.people.filter((person) => typeof person?.personId === 'string' && typeof person?.role === 'string')
+        .slice(0, 40).map((person) => ({ personId: person.personId.slice(0, 120), role: person.role.slice(0, 40) })) : [];
+      return [[key, {
+        decision: value.decision, placeId: text('placeId', 200), seenVersion: text('seenVersion', 40),
+        name: text('name'), neighborhood: text('neighborhood'), type: text('type', 60), shortHistory: text('shortHistory', 2000), people,
+        audience: ['kiosk', 'kiosk-and-web', 'nobody'].includes(value.audience) ? value.audience : 'nobody', note: text('note', 2000),
+      }]];
+    })),
     // A new inductee: the row class:add reads, and nothing else.
     newClass: Object.fromEntries(Object.entries(object(draft.newClass)).flatMap(([key, value]) => {
       if (!value || typeof value !== 'object') return [];

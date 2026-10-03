@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { parseRows } from '../../../packages/pipeline/src/build/review.ts';
-import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv, filmChangesCsv, newClassCsv, portraitsCsv } from '../server/sheets.mjs';
+import { attractCsv, filmTitlesCsv, profileEditsCsv, toursCsv, biosCsv, decisionReference, draftCounts, filmFixesCsv, filmStartsCsv, signoffsCsv, placeTiesCsv, placesCsv, profilesCsv, signedNote, tiesCsv, filmChangesCsv, newClassCsv, placeEditsCsv, portraitsCsv } from '../server/sheets.mjs';
 
 const draft = {
   reviewer: 'Jane Smith',
@@ -83,7 +83,7 @@ test('a profile decision carries the version the reviewer saw', () => {
 });
 
 test('the counts say what will be saved', () => {
-  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0, newClass: 0, portraits: 0, films: 0 });
+  assert.deepEqual(draftCounts(draft), { ties: 3, places: 2, placeTies: 1, bios: 2, profiles: 2, profileEdits: 0, attract: 0, tours: 0, filmTitles: 0, filmStarts: 0, signoffs: 0, filmFixes: 0, placeEdits: 0, newClass: 0, portraits: 0, films: 0 });
 });
 
 test('a new portrait and a change to films become rows the tools read, each signed', () => {
@@ -250,4 +250,14 @@ test('a new inductee becomes the row class:add reads, its portrait beside the sh
   assert.equal(row.themeTags, 'Business|Education');
   assert.equal(row.decisionReference, 'new-inductees-review-2027-05-01');
   assert.equal(rows(newClassCsv({ reviewer: 'Jane Smith', newClass: { a: { ...person, rightsConfirmed: true } } }, '2027-05-01'))[0].portraitRights, 'approved');
+});
+
+test('a place edit carries the whole place as edited, the words it began from and who may see it; a new place carries no id or version', () => {
+  const [edited, created] = rows(placeEditsCsv({ reviewer: 'Jane Smith', placeEdits: {
+    'place:a': { decision: 'edit', placeId: 'place:a', seenVersion: 'place-1', name: 'A, renamed', neighborhood: 'Ohio City', type: 'business', shortHistory: 'Words.', people: [{ personId: 'p1', role: 'worked' }, { personId: 'p2', role: 'served' }], audience: 'kiosk-and-web' },
+    'new-1': { decision: 'create', placeId: 'ignored', seenVersion: 'ignored', name: 'B', neighborhood: '', type: 'church', shortHistory: 'More words.', people: [{ personId: 'p3', role: 'founded' }], audience: 'nobody' },
+  } }, '2026-10-03'));
+  assert.deepEqual([edited.placeId, edited.decision, edited.contentVersion, edited.name, edited.people, edited.audience], ['place:a', 'edit', 'place-1', 'A, renamed', 'p1:worked; p2:served', 'kiosk-and-web']);
+  assert.deepEqual([created.placeId, created.decision, created.contentVersion, created.people], ['', 'create', '', 'p3:founded']);
+  assert.equal(created.decisionReference, 'place-edits-review-2026-10-03');
 });

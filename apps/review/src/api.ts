@@ -24,6 +24,10 @@ export type Tie = {
 export type Place = {
   placeId: string;
   name: string;
+  /** The kind of place, one of the review's placeTypes. */
+  type: string;
+  /** Who may see it now. */
+  publication: { kiosk: boolean; publicWeb: boolean };
   neighborhood: string;
   address: string;
   dates: string;
@@ -271,12 +275,29 @@ export type Draft = {
   filmStarts: Record<string, FilmStartDecision>;
   signoffs: Record<string, SignoffDecision>;
   filmFixes: Record<string, FilmFix>;
+  /** A place edited (keyed by its id) or added (keyed `new-…`). */
+  placeEdits?: Record<string, PlaceEdit>;
   /** New inductees, each the row class:add reads, keyed by when they were begun. */
   newClass?: Record<string, NewInductee>;
   /** A new picture, by its upload, and the profile as it was when it was chosen. */
   portraits?: Record<string, PortraitChoice>;
   /** Films added, keyed `add:<person>:<film>`, or taken off the display, keyed `withdraw:<person>:<film>`. */
   films?: Record<string, FilmChange>;
+};
+
+export type PlaceEdit = {
+  decision: 'edit' | 'create';
+  placeId: string;
+  /** The words the editing began from; empty for a new place. */
+  seenVersion: string;
+  name: string;
+  neighborhood: string;
+  type: string;
+  shortHistory: string;
+  /** People tied to it who were not, with what they did there. */
+  people: { personId: string; role: string }[];
+  audience: 'kiosk' | 'kiosk-and-web' | 'nobody';
+  note?: string;
 };
 
 export type NewInductee = {
@@ -352,7 +373,7 @@ export function uploadFile(file: Blob, kind: 'jpg' | 'png' | 'mp4' | 'vtt' | 'tx
   });
 }
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; newClass: number; portraits: number; films: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; placeEdits: number; newClass: number; portraits: number; films: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -378,6 +399,8 @@ export type Review = {
   signoffs: Signoff[];
   films: Film[];
   media: MediaPerson[];
+  /** The kinds of place the records use. */
+  placeTypes: string[];
   /** The regions a new inductee's record may name. */
   regions: string[];
   limits: {

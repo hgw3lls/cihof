@@ -18,8 +18,10 @@ type Props = {
  * institution's own words, the tags, and a portrait. Nothing is filled in for
  * them: the permanent id comes from the name and year as for everybody else,
  * and the line about what they are honoured for is left for the profile
- * editor once they are added. A portrait whose rights nobody confirmed is
- * kept off the display until somebody does.
+ * editor once they are added. Their portrait is added only with somebody's
+ * word that the museum may show it: a portrait left pending could not be
+ * approved later from the portal, which replaces pictures rather than
+ * re-approving one.
  */
 export function NewInductees({ review, draft, update, onDone }: Props) {
   const [editing, setEditing] = useState<string | null>(null);
@@ -57,7 +59,6 @@ export function NewInductees({ review, draft, update, onDone }: Props) {
                   <strong>{person.displayName || person.name}</strong>
                   <span className="quiet small">
                     Class of {person.classYear}{inducteeProblem(person, review) ? ` · not finished: ${inducteeProblem(person, review)}` : ''}
-                    {!person.rightsConfirmed ? ' · portrait kept off the display until its rights are confirmed' : ''}
                   </span>
                 </span>
                 <button type="button" onClick={() => setEditing(key)}>Edit</button>
@@ -186,7 +187,7 @@ function InducteeForm({ review, initial, onKeep, onCancel }: {
         </label>
         <label className="check">
           <input type="checkbox" checked={person.rightsConfirmed} onChange={(event) => change({ rightsConfirmed: event.target.checked })} />
-          <span>The museum has the right to show this picture in the exhibit, permanently. <span className="quiet small">Leave it unticked to add them with the portrait kept off the display for now.</span></span>
+          <span>The museum has the right to show this picture in the exhibit, permanently.</span>
         </label>
       </section>
 
@@ -217,6 +218,9 @@ export function inducteeProblem(person: NewInductee, review: Pick<Review, 'regio
     !person.portrait ? 'a portrait' : null,
     !person.portraitAltText.trim() ? 'a description of the portrait' : null,
     person.portraitAltText.trim().length > review.limits.profile.portraitAlt ? 'a shorter description of the portrait' : null,
+    !person.rightsConfirmed ? 'confirmation that the museum may show the portrait' : null,
+    // The sheet separates tags with these, so one inside a tag would make two.
+    [...person.communityTags, ...person.themeTags, ...person.countryTags].some((tag) => /[;|]/.test(tag)) ? 'tags without ; or | in them' : null,
   ].filter(Boolean);
   return missing.length > 0 ? `${missing.join(', ')}.` : null;
 }
