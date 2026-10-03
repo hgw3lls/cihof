@@ -469,7 +469,7 @@ Either way it offers:
 - **New inductees** (staff portal and project only): each year's class, one
   person at a time, from the Hall of Fame's own record: name, class year,
   region, who inducted them, biography, tags, and a portrait with its
-  description and rights. Saved with `npm run class:add`, as below.
+  description, added only once its rights are confirmed. Saved with `npm run class:add`, as below.
 - **Portraits and films** (staff portal and project only): a new portrait,
   with its description and the rights confirmed; a film added, with a poster
   taken from it, its captions checked against it and a transcript, and the

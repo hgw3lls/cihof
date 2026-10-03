@@ -219,8 +219,8 @@ Grasselli Brown*; check it), the class year, the region, who inducted them,
 the biography in the institution's own words, their page on the Hall of
 Fame's website if they have one, their communities, honours and countries,
 and a portrait with its description. Tick that the museum may show the
-portrait, or leave it unticked to add them with the portrait kept off the
-display until somebody confirms it. A new tag the collection has not used
+portrait: a new inductee is added only with a portrait the museum may show.
+A tag cannot contain `;` or `|`. A new tag the collection has not used
 before is pointed out when you check: make sure it is spelt like the others.
 
 Once saved, they are in the exhibit like everybody else: approve their

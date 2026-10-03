@@ -118,8 +118,9 @@ export function profilesCsv(draft, day) {
 /**
  * New inductees, as class:add reads them. The sheet is written beside the
  * uploads (.review/sheets and .review/uploads), and a portrait is named
- * relative to it, as the tool expects. A portrait whose rights nobody
- * confirmed is added as pending: kept off the display until they are.
+ * relative to it, as the tool expects. Its rights are approved only when the
+ * reviewer confirmed them; a row without that confirmation never gets this
+ * far (the app asks first), and would be written as pending, never approved.
  */
 export function newClassCsv(draft, day) {
   const reference = decisionReference('newClass', day);

@@ -337,7 +337,7 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
       : `Sign-offs: ${title}: cleared (${value.note})`);
   }
   for (const value of Object.values(draft.newClass ?? {})) {
-    lines.push(`New inductees: ${value.displayName || value.name}, class of ${value.classYear}${value.rightsConfirmed ? '' : ', portrait kept off the display for now'}`);
+    lines.push(`New inductees: ${value.displayName || value.name}, class of ${value.classYear}`);
   }
   for (const [id, value] of Object.entries(draft.portraits ?? {})) {
     const name = review.media.find((person) => person.id === id)?.name ?? id;
