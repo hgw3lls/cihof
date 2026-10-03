@@ -189,3 +189,33 @@ test('a new portrait and a new film chosen in the portal reach the display, the 
   const path = added.source.src.slice('/media/videos/'.length);
   assert.equal(sha256(display.serving().film(path)), film.slice(0, 64), 'and the display plays the very file chosen');
 });
+
+test('a new inductee added in the portal is on the display after the update', async () => {
+  const uploads = join(work, '.review', 'uploads');
+  mkdirSync(uploads, { recursive: true });
+  const data = Buffer.from([0xff, 0xd8, 0xff, 0xc0, 0x00, 0x11, 0x08, 0x01, 0xf4, 0x01, 0x90, 3, 9, 0, 0, 0, 0]);
+  const portrait = `${createHash('sha256').update(data).digest('hex')}.jpg`;
+  writeFileSync(join(uploads, portrait), data);
+  const saved = saveHere({
+    root: work,
+    draft: {
+      reviewer: 'Jane Smith',
+      newClass: { first: {
+        name: 'Ada Example', classYear: 2027, displayName: '', sortName: 'Example, Ada', region: 'Europe', profileUrl: '', inductedBy: 'Bo Example',
+        biography: 'Ada Example founded a school for newcomers to Cleveland.', themeTags: ['Education'], countryTags: [], communityTags: [],
+        portrait, portraitAltText: 'Ada Example, smiling.', rightsConfirmed: true, note: '',
+      } },
+    },
+  });
+  assert.ok(saved.results.every((result) => result.ok), saved.results.map((result) => result.output).join('\n'));
+  const update = await makeDisplayUpdate({ root: work, outDir: join(scratch, 'updates'), by: 'Jane Smith' });
+  assert.equal(update.ok, true, update.output ?? update.problem);
+  const display = createContentStore({ dir: join(scratch, 'display'), deliveredSite, deliveredSource });
+  assert.deepEqual((await display.inspect(update.file)).problems, []);
+  await display.apply(update.file, { force: true });
+  const added = JSON.parse(readFileSync(display.serving().site('data/exhibit.json'), 'utf8')).people.find((each) => each.id === 'ada-example-2027');
+  assert.ok(added, 'the new inductee is on the display');
+  assert.equal(added.classYear, 2027);
+  assert.match(added.biography?.text ?? JSON.stringify(added), /founded a school/);
+  assert.equal(added.portrait?.src, '/media/images/ada-example-2027/primary.jpg');
+});

@@ -271,10 +271,33 @@ export type Draft = {
   filmStarts: Record<string, FilmStartDecision>;
   signoffs: Record<string, SignoffDecision>;
   filmFixes: Record<string, FilmFix>;
+  /** New inductees, each the row class:add reads, keyed by when they were begun. */
+  newClass?: Record<string, NewInductee>;
   /** A new picture, by its upload, and the profile as it was when it was chosen. */
   portraits?: Record<string, PortraitChoice>;
   /** Films added, keyed `add:<person>:<film>`, or taken off the display, keyed `withdraw:<person>:<film>`. */
   films?: Record<string, FilmChange>;
+};
+
+export type NewInductee = {
+  name: string;
+  classYear: number | null;
+  displayName: string;
+  sortName: string;
+  region: string;
+  profileUrl: string;
+  inductedBy: string;
+  biography: string;
+  themeTags: string[];
+  countryTags: string[];
+  communityTags: string[];
+  /** The portrait's upload, and its size. */
+  portrait: string;
+  portraitWidth?: number;
+  portraitHeight?: number;
+  portraitAltText: string;
+  rightsConfirmed: boolean;
+  note?: string;
 };
 
 export type PortraitChoice = {
@@ -329,7 +352,7 @@ export function uploadFile(file: Blob, kind: 'jpg' | 'png' | 'mp4' | 'vtt' | 'tx
   });
 }
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; portraits: number; films: number };
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; newClass: number; portraits: number; films: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -355,6 +378,8 @@ export type Review = {
   signoffs: Signoff[];
   films: Film[];
   media: MediaPerson[];
+  /** The regions a new inductee's record may name. */
+  regions: string[];
   limits: {
     label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number;
     tour: { label: number; prompt: number; description: number; term: number; terms: number; maxPortraits: number };

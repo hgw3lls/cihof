@@ -466,6 +466,10 @@ Either way it offers:
   and as they should be; the app shows where they are found before you add
   the correction. Every fix changes the captions and the transcript
   together, in every copy of the film.
+- **New inductees** (staff portal and project only): each year's class, one
+  person at a time, from the Hall of Fame's own record: name, class year,
+  region, who inducted them, biography, tags, and a portrait with its
+  description and rights. Saved with `npm run class:add`, as below.
 - **Portraits and films** (staff portal and project only): a new portrait,
   with its description and the rights confirmed; a film added, with a poster
   taken from it, its captions checked against it and a transcript, and the
@@ -593,7 +597,9 @@ npm run <tool>:apply -- --input=<sheet> [same options] --apply --expect-hash=<ha
 npm run bios:apply   -- --input=reports/biographies-sheet.csv
 npm run profiles:apply -- --input=reports/profiles-sheet.csv
 npm run text:apply   -- --input=<sheet>                      # the attract screen's words
-npm run class:add    -- --input=<folder>/class-2027.csv
+npm run class:add    -- --input=<folder>/class-2027.csv      # new inductees; the portal writes this sheet too
+npm run portraits:replace -- --input=<sheet>                 # a new portrait, from the portal's uploads
+npm run films:change -- --input=<sheet>                      # a film added or taken off, likewise
 
 # Curated metadata and media approvals preview the same way; --apply writes.
 # A change visitors will see needs the decision it rests on.

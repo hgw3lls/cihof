@@ -144,7 +144,7 @@ export function ProfileEditor({ profile, review, initial, onKeep, onCancel }: Pr
   );
 }
 
-function Tags({ title, field, tags, known, limit, onChange }: {
+export function Tags({ title, field, tags, known, limit, onChange }: {
   title: string; field: string; tags: string[]; known: string[]; limit: number; onChange: (tags: string[]) => void;
 }) {
   const [typed, setTyped] = useState('');

@@ -209,6 +209,24 @@ Varo*) and as they should be (*Carolyn Balogh*). The app tells you where it
 found them before you **Add this correction**. Every fix changes the
 captions and the transcript together.
 
+### New inductees
+
+In the staff portal, and in the project. Each year's class is added here, one
+person at a time, from the Hall of Fame's own record of the induction: the
+full name (and the name visitors see, if different), how the name is
+alphabetised (the app suggests *Brown, Jeanette Grasselli* from *Jeanette
+Grasselli Brown*; check it), the class year, the region, who inducted them,
+the biography in the institution's own words, their page on the Hall of
+Fame's website if they have one, their communities, honours and countries,
+and a portrait with its description. Tick that the museum may show the
+portrait, or leave it unticked to add them with the portrait kept off the
+display until somebody confirms it. A new tag the collection has not used
+before is pointed out when you check: make sure it is spelt like the others.
+
+Once saved, they are in the exhibit like everybody else: approve their
+profiles, write what they are honoured for in the profile editor, and add
+their films under Portraits and films.
+
 ### Portraits and films
 
 In the staff portal, and in the project, not where decisions are exported
