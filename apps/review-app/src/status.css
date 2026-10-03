@@ -10,3 +10,7 @@ button { min-height: 44px; padding: 0 1.1rem; border: 1px solid #121211; border-
 #choose { background: #1f4e79; border-color: #1f4e79; color: #fff; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { body[data-state='starting'] #message::after { animation: none; } }
+
+.connect { display: flex; flex-direction: column; gap: 0.6rem; max-width: 26rem; margin: 1rem 0; }
+.connect label { display: flex; flex-direction: column; gap: 0.25rem; }
+.connect input { font: inherit; padding: 0.5rem 0.6rem; }

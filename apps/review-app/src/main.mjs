@@ -70,6 +70,7 @@ async function start() {
       label: 'File',
       submenu: [
         { label: 'Open a display\'s content…', click: () => openContent() },
+        { label: 'Connect to a display…', click: () => status('connect') },
         { label: 'Show display updates', click: () => { mkdirSync(updatesDir(), { recursive: true }); shell.openPath(updatesDir()); } },
         { type: 'separator' },
         { label: 'Copy the latest records again', click: () => launch() },
@@ -85,6 +86,7 @@ async function start() {
 
   ipcMain.handle('review-app:choose-folder', () => chooseFolder());
   ipcMain.handle('review-app:open-content', () => openContent());
+  ipcMain.handle('review-app:connect-display', (_event, details) => openFromDisplay(details));
   ipcMain.handle('review-app:show-update', (_event, path) => {
     if (isUpdateFile(path, updatesDir())) shell.showItemInFolder(resolve(path));
   });
@@ -187,13 +189,49 @@ async function openContent() {
   return true;
 }
 
-function runPortal(args) {
+/**
+ * Opens what a display shows, fetched over its staff connection with the
+ * address and code its admin panel shows, as the portal's working copy.
+ */
+async function openFromDisplay(details) {
+  const address = String(details?.address ?? '').slice(0, 200);
+  const code = String(details?.code ?? '').slice(0, 40);
+  if (!address.trim() || !code.trim()) return { ok: false, problem: 'Type the address and the code the display shows.' };
+  stopServer();
+  status('starting', 'Fetching what the display shows… this can take a few minutes.');
+  try {
+    installRuntime(runtime, work(), build());
+  } catch (error) {
+    status('problem', 'The portal could not be set up on this computer.', String(error?.stack ?? error));
+    return { ok: false };
+  }
+  const environment = { CIHOF_PAIRING_CODE: code };
+  let outcome = await runPortal([`--from-display=${address}`], environment);
+  if (!outcome.ok && /not yet in a display update/.test(outcome.output)) {
+    const answer = await dialog.showMessageBox(win, {
+      type: 'warning', buttons: ['Open it anyway', 'Cancel'], defaultId: 1, cancelId: 1,
+      message: outcome.output.trim(),
+      detail: 'To keep them, cancel and make a display update first. Opening what the display shows replaces them.',
+    });
+    if (answer.response !== 0) { await launch(); return { ok: false }; }
+    outcome = await runPortal([`--from-display=${address}`, '--replace'], environment);
+  }
+  if (!outcome.ok) {
+    status('connect', outcome.output.trim() || 'The display could not be reached.');
+    return { ok: false };
+  }
+  writeSettings({ mode: 'portal' });
+  await launch();
+  return { ok: true };
+}
+
+function runPortal(args, environment = {}) {
   return new Promise((done) => {
     const output = [];
     const child = spawn(process.execPath, [
       '--experimental-strip-types', '--no-warnings=ExperimentalWarning',
       join(work(), 'apps', 'review', 'server', 'portal.mjs'), ...args,
-    ], { cwd: work(), env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
+    ], { cwd: work(), env: { ...process.env, ...environment, ELECTRON_RUN_AS_NODE: '1' }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
     child.stdout.on('data', (chunk) => output.push(String(chunk)));
     child.stderr.on('data', (chunk) => output.push(String(chunk)));
     child.on('error', (error) => done({ ok: false, output: String(error) }));

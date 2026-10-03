@@ -7,6 +7,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('cihofReview', {
   chooseFolder: () => ipcRenderer.invoke('review-app:choose-folder'),
   openContent: () => ipcRenderer.invoke('review-app:open-content'),
+  connectDisplay: (address, code) => ipcRenderer.invoke('review-app:connect-display', { address: String(address), code: String(code) }),
   retry: () => ipcRenderer.invoke('review-app:retry'),
   showExport: (path) => ipcRenderer.invoke('review-app:show-export', String(path)),
   showUpdate: (path) => ipcRenderer.invoke('review-app:show-update', String(path)),

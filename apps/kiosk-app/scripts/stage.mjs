@@ -30,7 +30,7 @@ const args = Object.fromEntries(process.argv.slice(2).filter((a) => a.startsWith
 }));
 
 const keptSite = existsSync(join(stage, 'site')) && !args.site;
-for (const entry of existsSync(stage) ? ['main.mjs', 'preload.cjs', 'admin-preload.cjs', 'admin', 'policy.mjs', 'settings.mjs', 'watch.mjs', 'films-folder.mjs', 'content-store.mjs', 'content-package.mjs', 'zip.mjs', 'server.mjs', 'launch.mjs', 'package.json'] : []) {
+for (const entry of existsSync(stage) ? ['main.mjs', 'preload.cjs', 'admin-preload.cjs', 'admin', 'policy.mjs', 'settings.mjs', 'watch.mjs', 'films-folder.mjs', 'content-store.mjs', 'content-package.mjs', 'zip.mjs', 'connection.mjs', 'connection-auth.mjs', 'server.mjs', 'launch.mjs', 'package.json'] : []) {
   rmSync(join(stage, entry), { recursive: true, force: true });
 }
 mkdirSync(stage, { recursive: true });

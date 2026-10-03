@@ -50,7 +50,7 @@ run('npm', ['run', 'build', '--workspace', '@cihof/review']);
 // 2. The review's code, as git tracks it: nothing left lying in a folder.
 rmSync(join(app, 'stage'), { recursive: true, force: true });
 const tracked = execFileSync('git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard', '--', 'apps/review/server', 'apps/review/package.json',
-  'apps/kiosk-app/src/zip.mjs', 'apps/kiosk-app/src/content-store.mjs', 'apps/kiosk-app/src/content-package.mjs', 'packages/content', 'packages/pipeline', 'scripts', 'docs/sign-off.md', 'package.json'], { cwd: root, encoding: 'utf8' })
+  'apps/kiosk-app/src/zip.mjs', 'apps/kiosk-app/src/content-store.mjs', 'apps/kiosk-app/src/content-package.mjs', 'apps/kiosk-app/src/connection-auth.mjs', 'packages/content', 'packages/pipeline', 'scripts', 'docs/sign-off.md', 'package.json'], { cwd: root, encoding: 'utf8' })
   .split('\0').filter(Boolean)
   // The packages' tests and the pipeline's generating scripts stay behind.
   .filter((path) => !/^packages\/[^/]+\/tests\//.test(path));

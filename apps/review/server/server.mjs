@@ -15,7 +15,8 @@ import { history, sheetRows } from './history.mjs';
 import { filmFiles, previewFix } from '../../../packages/pipeline/src/build/caption-fixes.ts';
 import { readVideoHoldings } from '../../../packages/pipeline/src/sources/media.ts';
 import { audiences, check, gitStatus, save, saveHere } from './save.mjs';
-import { isPortal, makeDisplayUpdate, portalState } from './portal.mjs';
+import { isPortal, makeDisplayUpdate, openExport, portalState } from './portal.mjs';
+import { applyUpdate, connectToDisplay, displayState, fetchExport, sendUpdate } from './display-connection.mjs';
 import { kindOf, uploadLimits, uploadPattern } from '../../../packages/pipeline/src/build/media-changes.ts';
 import { imageSize } from '../../../packages/pipeline/src/build/images.ts';
 import { draftCounts } from './sheets.mjs';
@@ -61,6 +62,17 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
   };
   const allowedHosts = new Set([`127.0.0.1:${port}`, `localhost:${port}`]);
   const uploadsDir = join(root, '.review', 'uploads');
+  /** The display this portal is connected to over the network, if any (display-connection.mjs). Kept in memory only. */
+  let display = null;
+  const displayStatus = async () => {
+    if (!display) return { connected: false };
+    try {
+      return { connected: true, name: display.name, address: display.base.replace(/^http:\/\//, ''), state: await displayState(display) };
+    } catch (error) {
+      display = null;
+      return { connected: false, problem: `The connection to the display ended: ${error instanceof Error ? error.message : error}` };
+    }
+  };
 
   /**
    * Keeps a chosen file, by its checksum, after checking it is the kind of
@@ -209,6 +221,59 @@ export function createReviewServer({ root, dist, port, exportDir = null, updates
       const outcome = save({ root, draft: readDraft(), audience: audienceOf(audience) });
       writeDraft(outcome.draft);
       return json(response, 200, { results: outcome.results, counts: draftCounts(outcome.draft), git: gitStatus(root) });
+    }
+    // A display over the network: connect with the address and code its admin panel shows.
+    if (portal && (path === '/api/display' || path.startsWith('/api/display/'))) {
+      if (request.method === 'GET' && path === '/api/display') return json(response, 200, await displayStatus());
+      if (request.method === 'POST' && path === '/api/display/connect') {
+        const { address, code } = await body(request);
+        try {
+          display = (await connectToDisplay({ address, code: String(code ?? '') })).display;
+        } catch (error) {
+          display = null;
+          return json(response, 200, { connected: false, problem: error instanceof Error ? error.message : String(error) });
+        }
+        return json(response, 200, await displayStatus());
+      }
+      if (request.method === 'POST' && path === '/api/display/disconnect') { display = null; return json(response, 200, { connected: false }); }
+      if (!display) return json(response, 409, { error: 'Connect to the display first.' });
+      // What the display shows, fetched and opened as this copy, as an export from a stick would be.
+      if (request.method === 'POST' && path === '/api/display/open-content') {
+        const { replace } = await body(request);
+        const file = join(root, '.portal', `from-display-${randomUUID()}.cihof`);
+        mkdirSync(join(root, '.portal'), { recursive: true });
+        try {
+          await fetchExport(display, file);
+          await openExport({ root, file, replace: replace === true });
+          return json(response, 200, { ok: true, portal: portalState(root) });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          return json(response, 200, { ok: false, problem: message, unsaved: /not yet in a display update/.test(message) });
+        } finally {
+          rmSync(file, { force: true });
+        }
+      }
+      // An update made here, sent for the display to check; applied by the next request, once seen.
+      if (request.method === 'POST' && path === '/api/display/send') {
+        const { file } = await body(request);
+        const made = portalState(root).updates.find((update) => update.file === file);
+        if (!made || !existsSync(made.file)) return json(response, 404, { error: 'That display update is not on this computer any more.' });
+        try {
+          return json(response, 200, { ok: true, ...(await sendUpdate(display, made.file)) });
+        } catch (error) {
+          return json(response, 200, { ok: false, problem: error instanceof Error ? error.message : String(error) });
+        }
+      }
+      if (request.method === 'POST' && path === '/api/display/apply') {
+        const { id, now, force } = await body(request);
+        try {
+          const outcome = await applyUpdate(display, String(id ?? ''), { now: now === true, force: force === true });
+          return json(response, 200, { ok: true, ...outcome });
+        } catch (error) {
+          return json(response, 200, { ok: false, problem: error instanceof Error ? error.message : String(error), stale: error?.stale === true });
+        }
+      }
+      return json(response, 404, { error: 'No such request.' });
     }
     // The display's content, made from this copy, as an update for the display.
     if (request.method === 'POST' && path === '/api/display-update') {

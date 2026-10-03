@@ -20,4 +20,7 @@ contextBridge.exposeInMainWorld('cihofAdmin', {
   exportContent: () => ipcRenderer.invoke('admin:content-export'),
   showContentNow: () => ipcRenderer.invoke('admin:content-show-now'),
   cancelUpdate: () => ipcRenderer.invoke('admin:content-cancel'),
+  // The staff connection: open for so many minutes, or close it.
+  openConnection: (minutes) => ipcRenderer.invoke('admin:connection-open', { minutes }),
+  closeConnection: () => ipcRenderer.invoke('admin:connection-close'),
 });

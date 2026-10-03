@@ -117,6 +117,7 @@
       filmsSection(state),
 
       contentSection(state),
+      connectionSection(state),
 
       el('h2', {}, 'Exhibit'),
       el('div', { class: 'row' },
@@ -283,6 +284,52 @@
       );
     };
     draw(state);
+    return section;
+  }
+
+  // The staff portal reaching this display over the network, for as long as
+  // staff open it. The code is read out to whoever is at the portal.
+  function connectionSection(state) {
+    const section = el('section', { class: 'connection', 'aria-labelledby': 'connectionTitle' });
+    let timer = null;
+    const when = (iso) => new Date(iso).toLocaleTimeString([], { timeStyle: 'short' });
+    const draw = (connection, problem = '') => {
+      clearInterval(timer);
+      const choose = el('select', { 'aria-label': 'For how long' }, ...connection.minutes.map((minutes) => el('option', { value: String(minutes), ...(minutes === 30 ? { selected: 'selected' } : {}) }, `${minutes} minutes`)));
+      const act = async (work) => {
+        try { draw((await work()).connection); } catch (error) { draw(connection, error.message); }
+      };
+      const log = connection.log.length
+        ? [el('h3', {}, 'What happened'), el('ul', { class: 'log' }, ...connection.log.slice(0, 8).map((entry) => el('li', {}, `${when(entry.at)} · ${entry.what}`)))]
+        : [];
+      section.replaceChildren(
+        el('h2', { id: 'connectionTitle' }, 'Staff connection'),
+        ...(connection.open
+          ? [
+            el('p', {}, 'Open. In the staff portal, connect to this display with:'),
+            el('p', { class: 'code', 'aria-label': 'Pairing code' }, connection.code),
+            el('p', {}, connection.addresses.length
+              ? `Address: ${connection.addresses.join(' or ')}`
+              : 'This display has no network address: connect it to the museum network first.'),
+            el('p', { class: 'muted' }, `It closes by itself at ${when(connection.expiresAt)}. The exhibit carries on meanwhile, and the panel can be closed.`),
+            el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => act(() => api.closeConnection()) }, 'Close it now')),
+          ]
+          : [
+            el('p', {}, 'Lets the staff portal fetch what this display shows and send it an update over the museum network, instead of on a USB stick. Closed until you open it, and only for as long as you choose.'),
+            el('div', { class: 'row' }, choose, el('button', { type: 'button', class: 'primary', onclick: () => act(() => api.openConnection(Number(choose.value))) }, 'Open a staff connection')),
+          ]),
+        ...log,
+        ...(problem ? [el('p', { class: 'error', role: 'alert' }, problem)] : []),
+      );
+      // While it is open, keep the time and what happened up to date.
+      if (connection.open) {
+        timer = setInterval(async () => {
+          if (!section.isConnected) { clearInterval(timer); return; }
+          try { draw((await api.state()).connection); } catch { /* the panel is closing */ }
+        }, 5000);
+      }
+    };
+    draw(state.connection);
     return section;
   }
 
