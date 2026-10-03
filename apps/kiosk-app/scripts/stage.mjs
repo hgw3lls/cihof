@@ -1,5 +1,7 @@
+import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { listSource } from '../src/content-store.mjs';
 
 /**
  * Assembles the runnable app in stage/: the app's own code, the exhibit's
@@ -10,6 +12,11 @@ import { join, resolve } from 'node:path';
  * The site is the kiosk build served at "/" — what npm run package:kiosk
  * writes as release/cihof-kiosk-<release>/site. Without --site, a site
  * already staged is kept, so `npm start` can be rerun after code changes.
+ *
+ * Beside it, in content-source/, the source data it was built from: every
+ * file git tracks under the project's data/, with a list of their checksums.
+ * The display keeps it so that the staff portal can always start an update
+ * from what the display shows, delivered content included.
  */
 
 const app = resolve(import.meta.dirname, '..');
@@ -21,7 +28,7 @@ const args = Object.fromEntries(process.argv.slice(2).filter((a) => a.startsWith
 }));
 
 const keptSite = existsSync(join(stage, 'site')) && !args.site;
-for (const entry of existsSync(stage) ? ['main.mjs', 'preload.cjs', 'admin-preload.cjs', 'admin', 'policy.mjs', 'settings.mjs', 'watch.mjs', 'films-folder.mjs', 'server.mjs', 'launch.mjs', 'package.json'] : []) {
+for (const entry of existsSync(stage) ? ['main.mjs', 'preload.cjs', 'admin-preload.cjs', 'admin', 'policy.mjs', 'settings.mjs', 'watch.mjs', 'films-folder.mjs', 'content-store.mjs', 'content-package.mjs', 'zip.mjs', 'server.mjs', 'launch.mjs', 'package.json'] : []) {
   rmSync(join(stage, entry), { recursive: true, force: true });
 }
 mkdirSync(stage, { recursive: true });
@@ -57,6 +64,18 @@ if (args.site) {
   rmSync(join(stage, 'site'), { recursive: true, force: true });
   cpSync(site, join(stage, 'site'), { recursive: true });
   console.log(`Staged release ${release.revision} (${bundle.people.length} people).`);
+
+  // The source data, as git tracks it in the project this app is built from.
+  const project = resolve(app, '../..');
+  const source = join(stage, 'content-source');
+  rmSync(source, { recursive: true, force: true });
+  const tracked = execFileSync('git', ['ls-files', '-z', '--', 'data'], { cwd: project, encoding: 'utf8' }).split('\0').filter((path) => path && existsSync(join(project, path)));
+  for (const path of tracked) {
+    mkdirSync(dirname(join(source, path)), { recursive: true });
+    cpSync(join(project, path), join(source, path));
+  }
+  writeFileSync(join(source, 'content.json'), `${JSON.stringify({ source: await listSource(source) }, null, 2)}\n`);
+  console.log(`Staged the source data: ${tracked.length} files.`);
 } else if (keptSite) {
   console.log('Kept the site already staged.');
 } else {

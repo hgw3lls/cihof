@@ -65,6 +65,10 @@ export function useRelease() {
   const activateWaitingRelease = useCallback(() => {
     const worker = waiting.current;
     if (!worker) return;
+    // The page has already read the old release's data, so once the new one
+    // takes over it starts afresh on it. This is called at a reset, between
+    // visitors, so nobody loses anything.
+    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload(), { once: true });
     worker.postMessage('activate-release');
     waiting.current = null;
     setUpdateWaiting(false);

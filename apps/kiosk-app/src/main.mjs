@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { msUntil } from './launch.mjs';
 import { createKioskServer } from './server.mjs';
+import { createContentStore } from './content-store.mjs';
 import { filmsState } from './films-folder.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch, heartbeatWatch } from './watch.mjs';
@@ -23,6 +24,8 @@ import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashP
 
 const here = dirname(fileURLToPath(import.meta.url));
 const siteRoot = app.isPackaged ? join(process.resourcesPath, 'site') : (process.env.CIHOF_SITE ?? join(here, 'site'));
+// The source data delivered with the app, which the staff portal edits.
+const sourceRoot = app.isPackaged ? join(process.resourcesPath, 'content-source') : (process.env.CIHOF_CONTENT_SOURCE ?? join(here, 'content-source'));
 // Tests, and a second display profile on one machine, can keep settings apart.
 if (process.env.CIHOF_USER_DATA) app.setPath('userData', process.env.CIHOF_USER_DATA);
 const settingsPath = join(app.getPath('userData'), 'settings.json');
@@ -46,6 +49,10 @@ let quitting = false;
 let origin = '';
 let restartTimer = null;
 let previewTimer = null;
+/** The display's content: as delivered, and the updates since (content-store.mjs). */
+let content = null;
+/** An update chosen in the admin panel and checked, waiting for staff to apply it. */
+let pendingUpdate = null;
 /** The check-in watch of each exhibit window's page, by its web contents. */
 const heartbeats = new Map();
 
@@ -57,8 +64,18 @@ async function start() {
     contents.on('will-attach-webview', (event) => event.preventDefault());
   });
 
-  // The films folder chosen in the admin panel, read on every request, so a change applies at once.
-  const server = createKioskServer({ root: siteRoot, videos: () => settings.videosFolder });
+  // The content updates staff have loaded. If the store cannot be read, the
+  // delivered content is served, and the admin panel says why.
+  try {
+    content = createContentStore({ dir: join(app.getPath('userData'), 'content'), deliveredSite: siteRoot, deliveredSource: sourceRoot });
+  } catch (error) {
+    content = null;
+    console.error(`The content store could not be opened; showing the delivered content. ${error.message}`);
+  }
+
+  // The films folder chosen in the admin panel, and the content version
+  // being served, read on every request, so a change applies at once.
+  const server = createKioskServer({ root: siteRoot, videos: () => settings.videosFolder, content: () => content?.serving() ?? null });
   try {
     await new Promise((resolve, reject) => {
       server.once('error', reject);
@@ -243,8 +260,10 @@ function openAdmin({ setupAllowed }) {
 
 function releaseInfo() {
   try {
-    const release = JSON.parse(readFileSync(join(siteRoot, 'release.json'), 'utf8'));
-    const bundle = JSON.parse(readFileSync(join(siteRoot, 'data', 'exhibit.json'), 'utf8'));
+    // What is being served: the delivered release, or a content version's.
+    const serving = content?.serving();
+    const release = JSON.parse(readFileSync(serving?.releaseJson ?? join(siteRoot, 'release.json'), 'utf8'));
+    const bundle = JSON.parse(readFileSync(serving?.site('data/exhibit.json') ?? join(siteRoot, 'data', 'exhibit.json'), 'utf8'));
     return { release: release.revision, content: String(bundle.contentRevision).slice(0, 12), people: bundle.people.length };
   } catch {
     return { release: 'unknown', content: 'unknown', people: 0 };
@@ -261,7 +280,39 @@ function adminState() {
     settings: { restartAt: settings.restartAt, startAtLogin: settings.startAtLogin, port: settings.port, ...attractSettings(settings) },
     app: { version: app.getVersion(), platform: process.platform, ...releaseInfo() },
     films: filmsState(siteRoot, settings.videosFolder),
+    content: content ? { ...content.state(), pending: pendingUpdate?.report ?? null } : { unavailable: true },
   };
+}
+
+/**
+ * Brings a new content version onto the screen. `now`: straight away, which
+ * staff choose with the admin panel open and nobody mid-visit. Otherwise the
+ * exhibit is told a new release is ready, and takes it over at its next reset.
+ */
+async function noticeContent({ now }) {
+  if (!exhibit || exhibit.isDestroyed()) return;
+  const contents = exhibit.webContents;
+  const check = 'navigator.serviceWorker ? navigator.serviceWorker.getRegistration().then((r) => (r ? r.update() : null)).then(() => "ok", () => "none") : "none"';
+  const takeOver = `(async () => {
+    if (!navigator.serviceWorker) return 'no-worker';
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (!registration) return 'no-worker';
+    await registration.update();
+    const settle = (worker) => new Promise((done) => {
+      if (!worker || ['installed', 'activated', 'redundant'].includes(worker.state)) return done();
+      worker.addEventListener('statechange', () => { if (['installed', 'activated', 'redundant'].includes(worker.state)) done(); });
+    });
+    await settle(registration.installing);
+    if (!registration.waiting) return 'nothing-waiting';
+    const changed = new Promise((done) => { navigator.serviceWorker.addEventListener('controllerchange', done, { once: true }); setTimeout(done, 10000); });
+    registration.waiting.postMessage('activate-release');
+    await changed;
+    return 'taken-over';
+  })()`;
+  try {
+    await contents.executeJavaScript(now ? takeOver : check);
+  } catch { /* the page is reloading or gone; it reads what is served when it loads */ }
+  if (now) exhibit.loadURL(exhibitAddress(origin, settings));
 }
 
 function registerAdminHandlers() {
@@ -365,6 +416,71 @@ function registerAdminHandlers() {
     settings = { ...settings, videosFolder: null };
     saveSettings(settingsPath, settings);
     return adminState();
+  });
+
+  // A content update from the staff portal, chosen with the system's own
+  // picker and checked before anything changes.
+  handle('admin:content-choose', async () => {
+    if (!content) throw new Error('The content store is not available on this display.');
+    const result = await dialog.showOpenDialog(admin ?? exhibit, {
+      title: 'Choose a content update',
+      message: 'Choose the content update made with the staff portal.',
+      filters: [{ name: 'Content updates', extensions: ['cihof', 'zip'] }],
+      properties: ['openFile'],
+    });
+    admin?.focus();
+    if (result.canceled || !result.filePaths[0]) return adminState();
+    const path = result.filePaths[0];
+    const report = await content.inspect(path);
+    pendingUpdate = {
+      path,
+      report: {
+        file: path.split(/[\\/]/).pop(),
+        problems: report.problems,
+        stale: report.stale,
+        changes: report.changes,
+        contentVersion: report.manifest?.contentVersion ?? null,
+      },
+    };
+    return adminState();
+  });
+  handle('admin:content-apply', async ({ force = false, now = true } = {}) => {
+    if (!content || !pendingUpdate) throw new Error('Choose a content update first.');
+    await content.apply(pendingUpdate.path, { force: Boolean(force) });
+    pendingUpdate = null;
+    await noticeContent({ now: Boolean(now) });
+    admin?.focus();
+    return adminState();
+  });
+  handle('admin:content-restore', async ({ id, now = true } = {}) => {
+    if (!content) throw new Error('The content store is not available on this display.');
+    await content.restore(String(id));
+    await noticeContent({ now: Boolean(now) });
+    admin?.focus();
+    return adminState();
+  });
+  handle('admin:content-cancel', () => {
+    pendingUpdate = null;
+    return adminState();
+  });
+  handle('admin:content-show-now', async () => {
+    await noticeContent({ now: true });
+    admin?.focus();
+    return adminState();
+  });
+  // What the display shows now, for the staff portal to start from.
+  handle('admin:content-export', async () => {
+    if (!content) throw new Error('The content store is not available on this display.');
+    const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+    const result = await dialog.showSaveDialog(admin ?? exhibit, {
+      title: 'Export the current content',
+      defaultPath: `cihof-content-export-${stamp}.cihof`,
+      filters: [{ name: 'Content export', extensions: ['cihof'] }],
+    });
+    admin?.focus();
+    if (result.canceled || !result.filePath) return { ...adminState(), exported: null };
+    const outcome = await content.exportCurrent(result.filePath);
+    return { ...adminState(), exported: { file: result.filePath, ...outcome } };
   });
 
   handle('admin:action', (action) => {

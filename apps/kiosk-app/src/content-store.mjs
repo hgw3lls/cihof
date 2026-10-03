@@ -210,13 +210,14 @@ export function createContentStore({ dir, deliveredSite, deliveredSource = null 
     },
 
     /**
-     * Writes the content the display shows now as a zip for the staff
-     * portal: its full list and every file, films aside, which stay on the
-     * display and which the portal does not need to edit.
+     * Writes the content the display shows now as a zip: for the staff
+     * portal to start from, and as the display's own backup. Its full list
+     * and every file, including any film an update brought, which exists
+     * only here; the films folder is not part of it.
      */
     async exportCurrent(zipPath) {
       const manifest = activeManifest() ?? delivered.manifest;
-      const checksums = new Set([...Object.values(manifest.site), ...Object.values(manifest.source ?? {})].map((file) => file.sha256));
+      const checksums = new Set([...Object.values(manifest.site), ...Object.values(manifest.source ?? {}), ...Object.values(manifest.films ?? {})].map((file) => file.sha256));
       const entries = [{ name: 'content.json', data: `${JSON.stringify({ ...manifest, appliedAt: undefined, exported: { at: new Date().toISOString() } }, null, 2)}\n` }];
       for (const checksum of [...checksums].sort()) {
         const path = blobPath(checksum);

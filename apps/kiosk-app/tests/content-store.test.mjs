@@ -189,6 +189,29 @@ test('a film an update brings is served from the display', async () => {
   assert.equal(readFileSync(fixture.store.serving().film('a-2010/new.mp4'), 'utf8'), 'film-bytes');
   assert.equal(fixture.store.serving().film('a-2010/other.mp4'), null);
   assert.equal(fixture.store.state().history[0].films, 1);
+  // A film an update brought exists only on the display, so the display's export carries it.
+  await fixture.store.exportCurrent(join(fixture.root, 'with-film.zip'));
+  const { entries } = await exported(join(fixture.root, 'with-film.zip'));
+  assert.ok(entries.some((entry) => entry.name === `blobs/${sha('film-bytes')}`));
+});
+
+test('an export restores a display from nothing: a fresh install takes it in', async () => {
+  const fixture = await delivered();
+  await fixture.store.exportCurrent(join(fixture.root, 'export.zip'));
+  const { manifest: base } = await exported(join(fixture.root, 'export.zip'));
+  const film = put(join(fixture.root, 'films', 'new.mp4'), 'film-bytes');
+  await update(fixture, { base, films: { 'a-2010/new.mp4': film } });
+  await fixture.store.apply(join(fixture.root, 'update.zip'));
+  await fixture.store.exportCurrent(join(fixture.root, 'backup.zip'));
+  // A new display, as delivered, given the backup.
+  const fresh = createContentStore({ dir: join(fixture.root, 'fresh-store'), deliveredSite: fixture.site, deliveredSource: fixture.source });
+  const report = await fresh.inspect(join(fixture.root, 'backup.zip'));
+  assert.deepEqual(report.problems, []);
+  // Its version was made from the delivered content, which a fresh display shows, so nothing is overwritten.
+  assert.equal(report.stale, null);
+  await fresh.apply(join(fixture.root, 'backup.zip'));
+  assert.match(readFileSync(fresh.serving().site('data/exhibit.json'), 'utf8'), /Corrected words/);
+  assert.equal(readFileSync(fresh.serving().film('a-2010/new.mp4'), 'utf8'), 'film-bytes');
 });
 
 test(`only the newest ${keptVersions} versions are kept, with the files they use`, async () => {

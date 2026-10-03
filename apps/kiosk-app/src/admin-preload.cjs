@@ -12,4 +12,12 @@ contextBridge.exposeInMainWorld('cihofAdmin', {
   action: (name) => ipcRenderer.invoke('admin:action', name),
   chooseVideos: () => ipcRenderer.invoke('admin:choose-videos'),
   clearVideos: () => ipcRenderer.invoke('admin:clear-videos'),
+  // Content updates from the staff portal. The file is chosen with the
+  // system's own picker in the main process; the panel never names a path.
+  chooseUpdate: () => ipcRenderer.invoke('admin:content-choose'),
+  applyUpdate: (options) => ipcRenderer.invoke('admin:content-apply', options),
+  restoreContent: (options) => ipcRenderer.invoke('admin:content-restore', options),
+  exportContent: () => ipcRenderer.invoke('admin:content-export'),
+  showContentNow: () => ipcRenderer.invoke('admin:content-show-now'),
+  cancelUpdate: () => ipcRenderer.invoke('admin:content-cancel'),
 });

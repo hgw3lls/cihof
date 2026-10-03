@@ -25,12 +25,17 @@
     },
     "files": [
       "**/*",
-      "!site/**"
+      "!site/**",
+      "!content-source/**"
     ],
     "extraResources": [
       {
         "from": "stage/site",
         "to": "site"
+      },
+      {
+        "from": "stage/content-source",
+        "to": "content-source"
       }
     ],
     "asar": true,

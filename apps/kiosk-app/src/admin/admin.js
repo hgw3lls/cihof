@@ -116,6 +116,8 @@
 
       filmsSection(state),
 
+      contentSection(state),
+
       el('h2', {}, 'Exhibit'),
       el('div', { class: 'row' },
         el('button', { type: 'button', onclick: act('home') }, 'Back to the start'),
@@ -179,6 +181,108 @@
       );
     };
     draw(films);
+    return section;
+  }
+
+  // The display's content: as delivered, or an update made with the staff
+  // portal, any of which can be shown again. Updates are files staff bring
+  // on a USB stick or from a shared folder.
+  function contentSection(state) {
+    const section = el('section', { class: 'content', 'aria-labelledby': 'contentTitle' });
+    const when = (iso) => (iso ? new Date(iso).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : '');
+    const short = (id) => String(id ?? '').replace(/^content-/, '').slice(0, 8);
+    const run = async (work, message = '') => {
+      try { draw(await work(), message); } catch (error) { draw(state.content, '', error.message); }
+    };
+    const draw = (next, message = '', problem = '') => {
+      const current = next.content ?? next;
+      state = { ...state, content: current };
+      if (current.unavailable) {
+        section.replaceChildren(el('h2', { id: 'contentTitle' }, 'Content'), el('p', { class: 'error' }, 'Content updates are not available on this display: its content store could not be opened. The delivered content is shown.'));
+        return;
+      }
+      const showing = current.onDelivered ? current.delivered : current.history.find((entry) => entry.contentVersion === current.active);
+      const pending = current.pending;
+      const describe = (entry) => [entry.createdBy, when(entry.createdAt)].filter(Boolean).join(' · ');
+
+      const pendingBlock = pending ? el('div', { class: 'pending' },
+        el('p', {}, el('strong', {}, pending.file)),
+        ...(pending.changes ? [
+          el('p', { class: 'muted' }, `Made by ${pending.changes.createdBy ?? 'someone'}${pending.changes.createdAt ? `, ${when(pending.changes.createdAt)}` : ''}.${pending.changes.newFilms ? ` Brings ${pending.changes.newFilms} film(s).` : ''}`),
+          ...(pending.changes.summary.length ? [el('ul', {}, ...pending.changes.summary.slice(0, 8).map((line) => el('li', {}, line)))] : []),
+        ] : []),
+        ...(pending.problems.length
+          ? [el('p', { class: 'error' }, `This update cannot be applied: ${pending.problems.join(' ')}`)]
+          : [
+            ...(pending.stale ? [el('p', { class: 'note' }, pending.stale)] : []),
+            el('div', { class: 'row' },
+              el('button', {
+                type: 'button', class: 'primary',
+                onclick: () => {
+                  if (pending.stale && !window.confirm('Apply it anyway? What changed on this display since it was made will be replaced. It can be shown again from the list below.')) return;
+                  run(() => api.applyUpdate({ force: Boolean(pending.stale), now: true }), 'Applied. The display is showing it now.');
+                },
+              }, 'Apply and show now'),
+              el('button', {
+                type: 'button',
+                onclick: () => {
+                  if (pending.stale && !window.confirm('Apply it anyway? What changed on this display since it was made will be replaced.')) return;
+                  run(() => api.applyUpdate({ force: Boolean(pending.stale), now: false }), 'Applied. The display takes it over at its next reset between visitors.');
+                },
+              }, 'Apply at the next reset'),
+            ),
+          ]),
+        el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => run(() => api.cancelUpdate()) }, 'Cancel')),
+      ) : null;
+
+      const versionRow = (entry, delivered) => el('li', { class: 'version' },
+        el('div', {},
+          el('strong', {}, delivered ? 'The content delivered with the app' : `Update ${short(entry.contentVersion)}`),
+          el('p', { class: 'muted' }, delivered ? 'Always kept: going back to it undoes every update.' : `${describe(entry)}${entry.summary[0] ? ` · ${entry.summary[0]}` : ''}`),
+        ),
+        entry.contentVersion === current.active
+          ? el('span', { class: 'muted' }, 'Showing now')
+          : el('button', {
+            type: 'button',
+            onclick: () => {
+              if (!window.confirm(delivered ? 'Go back to the content delivered with the app? Every update stays in this list and can be shown again.' : 'Show this version on the display now?')) return;
+              run(() => api.restoreContent({ id: delivered ? 'delivered' : entry.contentVersion, now: true }), 'Done. The display is showing it now.');
+            },
+          }, delivered ? 'Go back to it' : 'Show this version'),
+      );
+
+      section.replaceChildren(
+        el('h2', { id: 'contentTitle' }, 'Content'),
+        el('p', {}, current.onDelivered
+          ? 'Showing the content delivered with the app.'
+          : `Showing update ${short(current.active)}${showing ? ` (${describe(showing)})` : ''}.`),
+        ...(showing && !current.onDelivered && showing.summary.length ? [el('ul', {}, ...showing.summary.slice(0, 5).map((line) => el('li', {}, line)))] : []),
+        ...(pendingBlock ? [pendingBlock] : []),
+        el('div', { class: 'row' },
+          el('button', { type: 'button', onclick: () => run(() => api.chooseUpdate()) }, 'Load a content update…'),
+          el('button', {
+            type: 'button',
+            onclick: async () => {
+              try {
+                const result = await api.exportContent();
+                draw(result, result.exported ? `Exported to ${result.exported.file}. Open it in the staff portal to make the next update.` : '');
+              } catch (error) {
+                draw(state.content, '', error.message);
+              }
+            },
+          }, 'Export current content…'),
+        ),
+        el('p', { class: 'muted' }, 'Export gives the staff portal what this display shows now, to make the next update from.'),
+        el('h3', {}, 'Versions kept'),
+        el('ul', { class: 'versions' },
+          ...current.history.map((entry) => versionRow(entry, false)),
+          versionRow(current.delivered, true),
+        ),
+        el('p', { class: 'prompt', role: 'status' }, message),
+        ...(problem ? [el('p', { class: 'error', role: 'alert' }, problem)] : []),
+      );
+    };
+    draw(state);
     return section;
   }
 
