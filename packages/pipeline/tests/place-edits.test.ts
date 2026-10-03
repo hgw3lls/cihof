@@ -9,6 +9,7 @@ import { dataFile } from '../src/paths.ts';
 // The real places, read once; nothing here writes into them.
 const places = JSON.parse(readFileSync(dataFile('cihof_places.json'), 'utf8'));
 const associations = JSON.parse(readFileSync(dataFile('cihof_place_associations.json'), 'utf8'));
+const removed = JSON.parse(readFileSync(dataFile('cihof_places_removed.json'), 'utf8')).removed;
 const personIds = new Set(Object.keys(JSON.parse(readFileSync(dataFile('cihof_curated_metadata.json'), 'utf8')).inductees));
 const gardens = places.places.find((place: { id: string }) => place.id === 'place:cleveland-cultural-gardens');
 const untied = [...personIds].find((id) => !associations.associations.some((tie: { person: string; place: string }) => tie.person === id && tie.place === gardens.id))!;
@@ -21,7 +22,7 @@ const sheet = (...rows: Partial<Record<(typeof placeEditColumns)[number], string
     type: gardens.type, shortHistory: gardens.shortHistory, people: '', audience: 'kiosk', decisionReference: 'place-edits-review-2026-10-03', note: '', ...row,
   }[column] ?? '')).join(',')),
 ].join('\n');
-const read = (...rows: Parameters<typeof sheet>) => placeEditDecisions(sheet(...rows), { places, associations, personIds });
+const read = (...rows: Parameters<typeof sheet>) => placeEditDecisions(sheet(...rows), { places, associations, personIds, removed });
 
 test('a renamed place, approved as edited, is shown under its new name with somebody new tied to it', () => {
   const { decisions, errors } = read({ name: 'The Cleveland Cultural Gardens', people: `${untied}:served` });
@@ -37,10 +38,22 @@ test('a renamed place, approved as edited, is shown under its new name with some
   assert.equal(places.places.find((place: { id: string }) => place.id === gardens.id).name, 'Cleveland Cultural Gardens', 'the places read in are untouched');
 });
 
-test('an edit left for somebody else hides the place until its new words are approved', () => {
-  const { decisions } = read({ shortHistory: `${gardens.shortHistory.slice(0, 200).trim()}.`, audience: 'nobody' });
-  const edited = applyPlaceEdits(places, associations, decisions, '2026-10-03T10:00:00.000Z').places.places.find((place) => place.id === gardens.id)!;
-  assert.equal(placeWordsState(edited), 'changed');
+test('an edit left for somebody else hides the place until its new words are approved, and shows its new people nowhere', () => {
+  const { decisions } = read({ shortHistory: `${gardens.shortHistory.slice(0, 200).trim()}.`, audience: 'nobody', people: `${untied}:served` });
+  const next = applyPlaceEdits(places, associations, decisions, '2026-10-03T10:00:00.000Z');
+  assert.equal(placeWordsState(next.places.places.find((place) => place.id === gardens.id)!), 'changed');
+  const tie = next.associations.associations.at(-1)!;
+  assert.equal((tie['review'] as { status: string }).status, 'needs-review');
+  assert.deepEqual(tie['publication'], { kiosk: false, publicWeb: false });
+});
+
+test('a place may not take another place\'s name, or bring back one a curator took out', () => {
+  const create = { placeId: '', decision: 'create', contentVersion: '', neighborhood: '', type: 'business', shortHistory: 'Words.', people: `${untied}:worked`, audience: 'nobody' };
+  const other = places.places.find((place: { id: string; name: string }) => place.id !== gardens.id)!;
+  assert.match(read({ name: other.name }).errors.join(' '), /another place is called/);
+  assert.match(read({ ...create, name: 'Cleveland Cultural Gardens ' }, {}).errors.join(' '), /already a place|another place is called/);
+  assert.match(read({ ...create, name: 'The Gardens' }, { name: 'The Gardens' }).errors.join(' '), /another place is called/);
+  assert.match(read({ ...create, name: removed[0].name }).errors.join(' '), /taken out of the places/);
 });
 
 test('a new place needs a kind, words and somebody there, and takes its id from its name', () => {

@@ -18,7 +18,10 @@ import { parseRows, placeRoles } from './review.ts';
  * approval in the places review would be, or left for somebody else to
  * approve: changed words hide an approved place until then, as they always
  * have. A tie added says what the person did there, from the vocabulary the
- * places review uses, and rests on the decision that added it.
+ * places review uses, and rests on the decision that added it; left for
+ * somebody else, it is shown nowhere until the places review approves it.
+ * A new place may not share a name with another, or bring back a place a
+ * curator took out of scope.
  */
 
 export const placeEditColumns = [
@@ -61,7 +64,17 @@ export function readPeople(cell: string) {
   });
 }
 
-export function placeEditDecisions(csvText: string, context: { places: Places; associations: Associations; personIds: ReadonlySet<string> }) {
+/**
+ * `removed` is the ledger of places a curator took out of scope
+ * (data/cihof_places_removed.json): a new place may not bring one back under
+ * the same id. Undoing such a decision is a decision of its own.
+ */
+export function placeEditDecisions(csvText: string, context: {
+  places: Places;
+  associations: Associations;
+  personIds: ReadonlySet<string>;
+  removed?: readonly { readonly id?: unknown; readonly decisionReference?: unknown }[];
+}) {
   const parsed = parseRows(csvText.replace(/^﻿/, ''));
   const header = (parsed[0] ?? []).map((cell) => cell.trim());
   const missing = placeEditColumns.filter((column) => !header.includes(column));
@@ -70,6 +83,17 @@ export function placeEditDecisions(csvText: string, context: { places: Places; a
   const byId = new Map(context.places.places.map((place) => [place.id, place]));
   const types = context.places.placeTypes ?? [];
   const tied = new Set(context.associations.associations.map((tie) => `${text(tie['person'])}|${text(tie['place'])}`));
+  const removed = new Map((context.removed ?? []).map((entry) => [text(entry.id), text(entry.decisionReference)]));
+  // Every place's name as it will be, so two places never end up showing the same one.
+  const key = (name: string) => name.trim().toLocaleLowerCase();
+  const namesAfter = new Map(context.places.places.map((place) => [place.id, text(place.name)]));
+  parsed.slice(1).forEach((cells) => {
+    const decision = cell(cells, 'decision');
+    const name = cell(cells, 'name');
+    if (decision === 'edit' && byId.has(cell(cells, 'placeId'))) namesAfter.set(cell(cells, 'placeId'), name);
+    if (decision === 'create' && slugify(name)) namesAfter.set(`${newPlaceId(name)}#new`, name);
+  });
+  const nameTaken = (placeId: string, name: string) => [...namesAfter].some(([id, other]) => id !== placeId && id !== `${placeId}#new` && key(other) === key(name));
   const decisions: PlaceEdit[] = [];
   const errors: string[] = [];
   const seen = new Set<string>();
@@ -96,7 +120,10 @@ export function placeEditDecisions(csvText: string, context: { places: Places; a
       problems.push('a new place needs a name');
     } else if (place) {
       problems.push(`there is already a place called that (${placeId})`);
+    } else if (removed.has(placeId)) {
+      problems.push(`"${name}" was taken out of the places under ${removed.get(placeId) || 'an earlier decision'}; bringing it back is a decision of its own`);
     }
+    if (name && nameTaken(placeId, name)) problems.push(`another place is called "${name}" too`);
     if (seen.has(placeId)) problems.push('the place appears twice in this sheet');
     seen.add(placeId);
 
@@ -174,7 +201,9 @@ export function applyPlaceEdits(places: Places, associations: Associations, deci
       };
       place['publication'] = { ...placeAudiences[decision.audience] };
     }
-    const tieTargets = decision.audience === 'nobody' ? placeAudiences.kiosk : placeAudiences[decision.audience];
+    // A tie left for somebody else is recorded with its role, but approved for
+    // nobody, so it shows nowhere until somebody approves it in the places review.
+    const approved = decision.audience !== 'nobody';
     for (const { personId, role } of decision.people) {
       const id = `edge:${createHash('sha256').update(`${personId}|${decision.placeId}|staff`).digest('hex').slice(0, 14)}`;
       nextTies.associations.push({
@@ -185,14 +214,16 @@ export function applyPlaceEdits(places: Places, associations: Associations, deci
         role,
         evidence: [{ id: `${id}:src0`, title: `Recorded in the staff portal under ${decision.decisionReference}.`, kind: 'staff-decision' }],
         verificationLayer: 'curated',
-        review: {
-          status: 'approved',
-          decisionReference: decision.decisionReference,
-          contentVersion: 'places-v1',
-          reviewedAt: appliedAt,
-          ...(decision.note ? { note: decision.note } : {}),
-        },
-        publication: { ...tieTargets },
+        review: approved
+          ? {
+            status: 'approved',
+            decisionReference: decision.decisionReference,
+            contentVersion: 'places-v1',
+            reviewedAt: appliedAt,
+            ...(decision.note ? { note: decision.note } : {}),
+          }
+          : { status: 'needs-review', decisionReference: decision.decisionReference, ...(decision.note ? { note: decision.note } : {}) },
+        publication: decision.audience === 'nobody' ? { kiosk: false, publicWeb: false } : { ...placeAudiences[decision.audience] },
       });
     }
   }

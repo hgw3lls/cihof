@@ -50,7 +50,9 @@ if (args.apply) {
 const places = JSON.parse(readFileSync(placesPath, 'utf8'));
 const associations = JSON.parse(readFileSync(tiesPath, 'utf8'));
 const personIds = new Set(Object.keys(JSON.parse(readFileSync(curatedPath, 'utf8')).inductees ?? {}));
-const { decisions, errors, blank } = placeEditDecisions(csv, { places, associations, personIds });
+const removedPath = resolve(root, 'data/cihof_places_removed.json');
+const removed = existsSync(removedPath) ? JSON.parse(readFileSync(removedPath, 'utf8')).removed ?? [] : [];
+const { decisions, errors, blank } = placeEditDecisions(csv, { places, associations, personIds, removed });
 console.log(`\n  ${decisions.length} place change(s), ${blank} row(s) left as they are.`);
 for (const decision of decisions) {
   const where = decision.audience === 'nobody' ? 'left for somebody else to approve'
