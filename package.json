@@ -15,6 +15,7 @@
     "package:review-app": "node scripts/package-review-app.mjs",
     "package:kiosk": "node scripts/package-kiosk.mjs",
     "package:kiosk-app": "node scripts/package-kiosk-app.mjs",
+    "content:update": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/make-content-update.mjs",
     "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit && npm test --workspace @cihof/review && node --test apps/kiosk-app/tests/*.test.mjs && node --test apps/review-app/tests/*.test.mjs",
     "test:browser": "playwright test -c apps/exhibit/playwright.config.ts",
     "test:web": "npm test --workspace @cihof/web",

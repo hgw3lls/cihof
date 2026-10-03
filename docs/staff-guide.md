@@ -239,6 +239,7 @@ wrong tries.
 | **Reload** | Reloads the exhibit, as if it had just started. |
 | **Recovery panel** | Opens the release and recovery panel (section 5). |
 | **Films** | Where the films are played from, and how many of them it finds. **Choose the films folder** once, after installing: the copy of the films the developer provides, on this PC's own drive. **Stop using the folder** plays only films inside the app, if it carries any. A film it cannot find shows its captions and transcript instead. |
+| **Content** | Which content the display is showing: as delivered, or a content update. **Load a content update…** takes in an update made with the staff portal; **Export current content…** gives the portal what the display shows now. Every version is kept and can be shown again. See *Content updates* below. |
 | **Restart app** | Closes and reopens the application. |
 | **Exit to desktop** | Closes the exhibit. It stays closed until someone starts it (Start menu, *CIHOF Exhibit*) or the PC restarts. |
 | **Debugging** | Developer tools, menus and window, and mouse pointer. For a developer diagnosing a problem. **They turn themselves off at the next restart**, including the nightly one, so a display is never left in debug mode. |
@@ -248,6 +249,41 @@ wrong tries.
 | **Change passcode** | Choose a new passcode. |
 
 Close the panel with **Close** at the top right.
+
+### Content updates (Staff)
+
+The words, pictures and films the display shows can be changed without
+reinstalling it. Changes are made with the staff portal, which writes a
+**content update**: one file (`.cihof`), brought to the display on a USB stick
+or from a shared folder.
+
+1. **Start from what the display shows.** In the admin panel, **Content ›
+   Export current content…**, and save the file to a USB stick. Open it in the
+   staff portal and make the changes there. (An update made from anything else
+   is refused, or warned about, so nobody's changes are lost.)
+2. **Load the update.** Back at the display: **Content › Load a content
+   update…** and choose the file the portal made. The panel checks it before
+   anything changes and shows who made it, when, and what it changes. An
+   update that is damaged, made for another exhibit, or holds anything that
+   would break the display is refused, and the display keeps what it shows.
+3. **Apply it.** **Apply and show now** shows it straight away (nobody is
+   using the display while the panel is open). **Apply at the next reset**
+   lets the current visitor finish; the display takes it over when it next
+   returns to its attract screen.
+
+If the update was made from an earlier version than the display now shows (for
+example, two people made changes from the same export), the panel says so:
+applying it would undo the other changes. Export again and make the update from
+that, or **apply it anyway** if that is what you want.
+
+**Going back.** **Content › Versions kept** lists every update
+loaded (the last ten are kept) and **the content delivered with the app**,
+which is never changed. **Show this version** shows any of them again;
+**Go back to it** returns to the delivered content. Nothing is deleted by going
+back, so a newer version can be shown again afterwards.
+
+Updates carry the films' kiosk-only captions and transcripts, and may carry
+films: treat the files like the release itself, never on a public link.
 
 ### Forgotten passcode (Administrator)
 
@@ -718,6 +754,27 @@ app is the supported route; the browser package is a fallback.
 `release/` is ignored by git on purpose. Nothing in it is ever committed or
 published.
 
+### 7.5 A content update instead of a release (Developer)
+
+When only the content has changed (words, approvals, tours, portraits),
+the display does not need a new installer: it takes a content update (see
+*Content updates*, section 3). The staff portal makes these from staff edits;
+the same can be made from this project:
+
+```sh
+npm run content:update -- --from=<the display's export> --by="Your name" --summary="What changed"
+```
+
+`--from` is the file the display exported (admin panel, **Content › Export
+current content…**). The update is this project as it stands (the kiosk build
+of the exhibit's data and media, and the source data git tracks under
+`data/`), made from that export, so it carries only what the display lacks
+and the display refuses it if it has moved on since. It is written to
+`release/content/`. Like a release, it carries kiosk-only content: never
+publish it. A change to the exhibit's code (`apps/exhibit/src`) still needs a
+new installer; an update changes content only, and the display refuses one
+whose data is a newer version than the app shows.
+
 ---
 
 ## 8. Backups (Developer and Administrator)
@@ -731,10 +788,16 @@ Three things hold the exhibit. Everything else can be rebuilt from them.
 | **The installer of each release** | `release/app/` | about 150 MB, or 21 GB with the films | Keep the current and the previous installer on the same drives. They carry kiosk-only content (and, built `--with-films`, the films): store them like the videos, never on a shared link. |
 | **The display's films folder** | on the display PC | about 20 GB | A copy of the film video files. If the display's drive fails, copy them to the new one from the video backup and choose the folder again in the admin panel. |
 
-The display itself holds nothing that cannot be reinstalled. Its
-`settings.json` contains only the passcode (stored scrambled), the restart
-time and start-at-sign-in. To rebuild a display, reinstall and set the
-passcode again.
+The display holds two things of its own. Its `settings.json` contains only
+the passcode (stored scrambled), the restart time, start-at-sign-in, the
+attract screen and the films folder. Its **content updates** are kept in the
+app's own data folder, with every version since delivery. To keep a copy, use
+the admin panel's **Content › Export current content…** after each update and
+store the file with the backups: it holds everything the display shows apart
+from the films folder (films an update brought are included). To rebuild a
+display, reinstall, set the passcode again, choose the films folder, and load
+that export as an update (**apply it anyway** when the panel says it was made
+from another version).
 
 Check the backup at least once: restore the bundle into a fresh folder
 (`git clone cihof-<date>.bundle`), copy the videos into place, and confirm

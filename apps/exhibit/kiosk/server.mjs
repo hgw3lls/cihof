@@ -58,12 +58,26 @@ const types = {
 const filmFile = /\.(mp4|webm)$/i;
 
 /**
- * @param {{ root: string, videos?: string | null | (() => string | null) }} options
+ * @param {{
+ *   root: string,
+ *   videos?: string | null | (() => string | null),
+ *   content?: (() => ContentServing | null) | null,
+ * }} options
  *   `videos`: the films folder, or a function that says what it is now, so a
  *   folder chosen while the display runs is used at once.
+ *   `content`: in the desktop app, the content version being served instead
+ *   of the delivered content (see apps/kiosk-app/src/content-store.mjs), or
+ *   null while the delivered content is served. Asked on every request, so a
+ *   version chosen in the admin panel is served at once.
  * @returns {import('node:http').Server}
+ *
+ * @typedef {{
+ *   releaseJson: string, workerJs: string,
+ *   site: (path: string) => string | null,
+ *   film: (path: string) => string | null,
+ * }} ContentServing
  */
-export function createKioskServer({ root, videos = null }) {
+export function createKioskServer({ root, videos = null, content = null }) {
   const siteRoot = resolve(root);
   const videosRoot = () => {
     const folder = typeof videos === 'function' ? videos() : videos;
@@ -76,7 +90,10 @@ export function createKioskServer({ root, videos = null }) {
       return;
     }
 
-    const file = locateFilm(videosRoot(), request.url ?? '/') ?? locate(siteRoot, request.url ?? '/');
+    const serving = typeof content === 'function' ? content() : null;
+    const file = serving
+      ? locateContent(serving, videosRoot(), siteRoot, request.url ?? '/')
+      : locateFilm(videosRoot(), request.url ?? '/') ?? locate(siteRoot, request.url ?? '/');
     if (!file) {
       response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Not found');
       return;
@@ -148,6 +165,39 @@ function locateFilm(videosRoot, url) {
   } catch {
     return null;
   }
+}
+
+/**
+ * With a content version served: its own release manifest and worker, its
+ * content (`data/`, `media/`) from the version and nothing else, so a file it
+ * dropped is gone, a film it brought before the films folder, and the app's
+ * own files as delivered.
+ */
+function locateContent(serving, videosRoot, siteRoot, url) {
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(url, 'http://localhost').pathname);
+  } catch {
+    return null;
+  }
+  if (pathname.includes('\0')) return null;
+  const fileAt = (path) => {
+    if (!path) return null;
+    try {
+      const stat = statSync(path);
+      return stat.isFile() ? { path, size: stat.size } : null;
+    } catch {
+      return null;
+    }
+  };
+  if (pathname === '/release.json') return fileAt(serving.releaseJson);
+  if (pathname === '/sw.js') return fileAt(serving.workerJs);
+  const relative = pathname.replace(/^\/+/, '');
+  if (pathname.startsWith('/media/videos/') && filmFile.test(pathname)) {
+    return fileAt(serving.film(pathname.slice('/media/videos/'.length))) ?? locateFilm(videosRoot, url) ?? locate(siteRoot, url);
+  }
+  if (relative.startsWith('data/') || relative.startsWith('media/')) return fileAt(serving.site(relative));
+  return locate(siteRoot, url);
 }
 
 /**

@@ -149,12 +149,17 @@ function byName(people: readonly RuntimePerson[], width: number, letter: string 
     const cell = Math.min(W / cols, H / rows);
     if (cell > best.cell) best = { cols, rows, cell };
   }
-  const gap = Math.round(best.cell * 0.06);
+  // Narrow gaps: wide dark lines between bright faces make the wall seem to
+  // flicker where they cross.
+  const gap = Math.max(2, Math.round(best.cell * 0.025));
   const cell = Math.floor(best.cell - gap);
   const blockW = best.cols * (cell + gap) - gap;
   const blockH = best.rows * (cell + gap) - gap;
-  const ox = (W - blockW) / 2;
-  const oy = (H - blockH) / 2;
+  // On whole pixels: a grid centred on a half pixel draws every face's edge
+  // across two pixels on the display, which softens the gaps and makes the
+  // wall seem to shimmer.
+  const ox = Math.floor((W - blockW) / 2);
+  const oy = Math.floor((H - blockH) / 2);
   const slots = new Map<string, Slot>();
   sorted.forEach((person, index) => {
     const c = index % best.cols;
@@ -270,7 +275,7 @@ export function tourLayout(people: readonly RuntimePerson[], personIds: readonly
   const packed = pack([{ label, people: touring }], innerW, H - 40, 150);
   placeBlocks(packed, H - 40, inner, innerLabels, 'var(--ink)');
   const blockW = packed.blocks[0]?.w ?? innerW;
-  const ox = frameW + 48 + (innerW - blockW) / 2;
+  const ox = frameW + 48 + Math.floor((innerW - blockW) / 2);
   for (const [id, slot] of inner) slots.set(id, { ...slot, x: slot.x + ox, y: slot.y + 20 });
   return {
     slots,
@@ -298,7 +303,7 @@ function uprightTour(touring: readonly RuntimePerson[], others: readonly Runtime
   const packed = pack([{ label, people: touring }], width, innerH, 150, 20);
   placeBlocks(packed, innerH, inner, innerLabels, 'var(--ink)');
   const blockW = packed.blocks[0]?.w ?? width;
-  const ox = (width - blockW) / 2;
+  const ox = Math.floor((width - blockW) / 2);
   for (const [id, slot] of inner) slots.set(id, { ...slot, x: slot.x + ox, y: slot.y + 12 });
   return {
     slots,
@@ -370,7 +375,7 @@ export function pack(groups: readonly Group[], W: number, H: number, maxCell: nu
 }
 
 export function placeBlocks(packed: Packed, H: number, slots: Map<string, Slot>, labels: WallLabel[], labelColor: string) {
-  const offsetY = Math.max(0, (H - packed.total) / 2);
+  const offsetY = Math.max(0, Math.floor((H - packed.total) / 2));
   for (const block of packed.blocks) {
     labels.push({ x: block.x, y: block.y + offsetY, w: Math.max(block.w, 60), size: block.fontSize, text: block.group.label, color: labelColor });
     block.group.people.forEach((person, index) => {

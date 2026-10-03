@@ -118,3 +118,52 @@ test('films can be played from a folder of their own, first, and nothing else ca
     films.close();
   }
 });
+
+test('with a content version served, its content and release come from the version, and the app from the site', async () => {
+  // A version's files, kept wherever the desktop app's content store keeps them.
+  const store = join(root, 'store');
+  mkdirSync(store, { recursive: true });
+  writeFileSync(join(store, 'release.json'), '{"revision":"bbbbbbbbbbbbbbbb"}');
+  writeFileSync(join(store, 'sw.js'), "const RELEASE = 'bbbbbbbbbbbbbbbb';");
+  writeFileSync(join(store, 'exhibit.json'), '{"people":["updated"]}');
+  writeFileSync(join(store, 'new.mp4'), Buffer.alloc(50, 9));
+  writeFileSync(join(site, 'sw.js'), "const RELEASE = 'aaaaaaaaaaaaaaaa';");
+  mkdirSync(join(site, 'data'), { recursive: true });
+  writeFileSync(join(site, 'data', 'exhibit.json'), '{"people":["delivered"]}');
+  writeFileSync(join(site, 'data', 'dropped.json'), '{}');
+  let serving: object | null = {
+    releaseJson: join(store, 'release.json'),
+    workerJs: join(store, 'sw.js'),
+    site: (path: string) => (path === 'data/exhibit.json' ? join(store, 'exhibit.json') : null),
+    film: (path: string) => (path === 'someone/new.mp4' ? join(store, 'new.mp4') : null),
+  };
+  const versioned = createKioskServer({ root: site, content: () => serving as never });
+  await new Promise<void>((resolve) => versioned.listen(0, '127.0.0.1', resolve));
+  const at = `http://127.0.0.1:${(versioned.address() as AddressInfo).port}`;
+  try {
+    assert.equal(await (await fetch(`${at}/data/exhibit.json`)).text(), '{"people":["updated"]}');
+    assert.match(await (await fetch(`${at}/sw.js`)).text(), /bbbbbbbbbbbbbbbb/);
+    assert.match(await (await fetch(`${at}/release.json`)).text(), /bbbbbbbbbbbbbbbb/);
+    // Content the version does not hold is gone, not the delivered copy.
+    const dropped = await fetch(`${at}/data/dropped.json`);
+    assert.equal(dropped.status, 404);
+    await dropped.arrayBuffer();
+    // A film it brought plays, with ranges; one it did not falls back to the site.
+    const film = await fetch(`${at}/media/videos/someone/new.mp4`, { headers: { Range: 'bytes=0-9' } });
+    assert.equal(film.status, 206);
+    assert.equal((await film.arrayBuffer()).byteLength, 10);
+    // The app itself is the delivered site.
+    assert.match(await (await fetch(`${at}/`)).text(), /exhibit/);
+    for (const path of ['/data/..%2f..%2fsecret.txt', '/media/videos/..%2f..%2fsecret.mp4']) {
+      const response = await fetch(`${at}${path}`);
+      assert.equal(response.status, 404, path);
+      await response.arrayBuffer();
+    }
+    // Back on the delivered content, everything is as delivered.
+    serving = null;
+    assert.equal(await (await fetch(`${at}/data/exhibit.json`)).text(), '{"people":["delivered"]}');
+    assert.match(await (await fetch(`${at}/sw.js`)).text(), /aaaaaaaaaaaaaaaa/);
+  } finally {
+    versioned.close();
+  }
+});
