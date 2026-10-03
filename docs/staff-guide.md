@@ -18,7 +18,7 @@ Each task is marked with who can do it:
 > website, a public share or a shared drive other people can download from.
 
 
-New to the display or the review app? Start with the illustrated walkthroughs in [`training/`](training/): [gallery staff](training/gallery-staff.md) and [reviewers](training/review-app.md).
+New to the display or the staff portal? Start with the walkthroughs in [`training/`](training/): [gallery staff](training/gallery-staff.md), [looking after the content with the staff portal](training/staff-portal.md), and [reviewers](training/review-app.md). On handover day, work through [`handover-checklist.md`](handover-checklist.md).
 
 ---
 
@@ -260,7 +260,7 @@ or from a shared folder.
 
 1. **Start from what the display shows.** In the admin panel, **Content ›
    Export current content…**, and save the file to a USB stick. Open it in the
-   staff portal (the CIHOF Staff Review app, **File › Open a display's
+   staff portal (the CIHOF Staff Portal app, **File › Open a display's
    content…**), make the changes, check and save them, and choose **Make a
    display update**. The update is written to **Documents › CIHOF display
    updates**. (An update made from anything else is refused, or warned about,
@@ -422,7 +422,7 @@ Two principles are built into every step and cannot be switched off:
 The easiest way to review. It takes you through each review one item at a
 time. It runs in either of two ways:
 
-- **Installed, as the CIHOF Staff Review app**, on any staff computer. It
+- **Installed, as the CIHOF Staff Portal app**, on any staff computer. It
   needs no git, no Node and no copy of the project: it reads the records
   from a data folder the developer keeps (`npm run review:data`, 7.3), copied
   in each time it opens, and a reviewer's checked decisions leave it as one
@@ -741,7 +741,7 @@ it. Find the decision behind it and record it with
 `npm run parity:record -- --ids=<id> --decision-reference=<reference>`; a
 difference no decision made is a fault to fix, not to record.
 
-**Decisions from the CIHOF Staff Review app** arrive as a file,
+**Decisions from the CIHOF Staff Portal app** (reviewing a data folder) arrive as a file,
 `cihof-decisions-<reviewer>-<date>-<time>.json`. Bring them in on a clean
 checkout:
 
@@ -874,19 +874,24 @@ package reports all 93 films with their video file.
 
 ## What still needs a developer
 
-Every content task has a sheet and a tool. What still needs someone who
-works in the repository:
+The museum's own staff do every content task in the staff portal
+(`training/staff-portal.md`): people and their profiles, biographies,
+portraits and films, the new class each year, places, tours, connections,
+film titles and captions, and the attract screen's words, put on the
+display as content updates. What still needs someone who works in the
+project:
 
-1. **Publishing and releasing.** The staff review app (7.1) saves
-   connections, places and biographies on its computer; pushing those
-   changes, and making a release, are a developer's commands. Links, film
-   approvals and new classes are still reviewed in sheets (7.2) and applied
-   by a developer (7.3).
-2. **A new film.** Its captions, poster and transcript must be added to git
-   explicitly (`git add -f`); `npm run media:assert` fails until they are.
+1. **A new version of either app**: anything about how the exhibit looks or
+   behaves, or its own words (headings, buttons, instructions), which are
+   part of the app. A new app is installed as in section 4; the display
+   keeps its content updates.
+2. **The public website**, which is rebuilt from the project and shows only
+   what is approved for it. Changes made in the staff portal reach the
+   display; to have them on the website too, they are brought into the
+   project (the portal's display export holds them all) and published.
 3. **A person's id.** It is permanent and is never changed. A name spelled
-   wrongly when the person was added is corrected in `displayName`
-   (`curate:apply`), not by changing the id.
+   wrongly when the person was added is corrected in the profile editor,
+   not by changing the id.
 
 ## What the machines check: accessibility and endurance (Developer)
 

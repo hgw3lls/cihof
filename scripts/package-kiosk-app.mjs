@@ -89,6 +89,7 @@ run('npx', ['electron-builder', ...builderArgs], { cwd: app });
 copyFileSync(join(root, 'docs', 'staff-guide.md'), join(releases, 'app', 'STAFF-GUIDE.md'));
 copyFileSync(join(root, 'docs', 'sign-off.md'), join(releases, 'app', 'sign-off.md'));
 copyFileSync(join(root, 'docs', 'opening-plan.md'), join(releases, 'app', 'opening-plan.md'));
+copyFileSync(join(root, 'docs', 'handover-checklist.md'), join(releases, 'app', 'handover-checklist.md'));
 cpSync(join(root, 'docs', 'training'), join(releases, 'app', 'training'), { recursive: true });
 // What the release holds, films included or not, kept beside the installer.
 if (existsSync(join(newest, 'MANIFEST.json'))) copyFileSync(join(newest, 'MANIFEST.json'), join(releases, 'app', 'MANIFEST.json'));

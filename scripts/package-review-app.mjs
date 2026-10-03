@@ -3,7 +3,7 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 /**
- * Builds the staff review app for a staff computer: the review in a window of
+ * Builds the CIHOF Staff Portal (the staff review app) for a staff computer: the review in a window of
  * its own, needing no git, Node or copy of the project there.
  *
  *   npm run package:review-app                      for this computer's system
@@ -74,5 +74,7 @@ if (!existsSync(join(app, 'node_modules', 'electron', 'dist'))) run(process.exec
 // 4. Build.
 run('npx', ['electron-builder', ...builderArgs], { cwd: app });
 cpSync(join(root, 'docs', 'training', 'review-app.md'), join(root, 'release', 'review-app', 'REVIEW-APP-GUIDE.md'));
-console.log(`\nStaff review app for ${target} written to ${join(root, 'release', 'review-app')}`);
+cpSync(join(root, 'docs', 'training', 'staff-portal.md'), join(root, 'release', 'review-app', 'STAFF-PORTAL-GUIDE.md'));
+cpSync(join(root, 'docs', 'handover-checklist.md'), join(root, 'release', 'review-app', 'handover-checklist.md'));
+console.log(`\nCIHOF Staff Portal for ${target} written to ${join(root, 'release', 'review-app')}`);
 console.log('It carries no records: point it at a data folder made with npm run review:data.\n');
