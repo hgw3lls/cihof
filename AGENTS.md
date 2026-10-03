@@ -13,6 +13,7 @@
 - `data/external-research/` is collected, unreviewed material from outside sources. Nothing reads it into the exhibit; a curator promotes facts from it into authored sources.
 - Change canonical sources or generator logic, never generated output.
 - Never invent historical claims, relationships, dates, identity fields, portraits, or quotations. Do not change rights, caption, transcript, relationship, or publication approval states without an authorized editorial decision.
+- New portraits and films come only from staff decisions (`portraits:replace`, `films:change`, written by the staff portal's Portraits and films), each with the rights confirmed and, for a film, captions and a transcript checked against it. A film the hall added has no YouTube id and plays from the display's own copy, which a content update carries.
 - Keep generated entity relationships, explicit curated relationships, and shared induction-class context distinct. Two people inducted the same year share a context, not a relationship.
 - Keep `publicWeb` and `kiosk` publication flags separate.
 - A profile approval (`profileReview` on the curated record) covers the profile's content version: everything a visitor sees, portrait file included. It records that the museum stands behind the profile; it never decides whether a person is shown. Only `profiles:apply` writes it.

@@ -271,9 +271,65 @@ export type Draft = {
   filmStarts: Record<string, FilmStartDecision>;
   signoffs: Record<string, SignoffDecision>;
   filmFixes: Record<string, FilmFix>;
+  /** A new picture, by its upload, and the profile as it was when it was chosen. */
+  portraits?: Record<string, PortraitChoice>;
+  /** Films added, keyed `add:<person>:<film>`, or taken off the display, keyed `withdraw:<person>:<film>`. */
+  films?: Record<string, FilmChange>;
 };
 
-export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number };
+export type PortraitChoice = {
+  seenVersion: string;
+  upload: string;
+  width: number;
+  height: number;
+  portraitAlt: string;
+  focalPoint: string;
+  rightsConfirmed: boolean;
+  note?: string;
+};
+
+export type FilmChange =
+  | {
+    decision: 'add'; personId: string; film: string; poster: string; captions: string; transcript: string;
+    durationSeconds: number; title: string; rightsConfirmed: boolean; captionsChecked: boolean; transcriptChecked: boolean; note?: string;
+  }
+  | { decision: 'withdraw'; personId: string; filmId: string; note?: string };
+
+/** A person's portrait and films, for Portraits and films. */
+export type MediaPerson = {
+  id: string;
+  name: string;
+  sortName: string;
+  classYear: number | null;
+  contentVersion: string;
+  portrait: { src: string; alt: string; shown: boolean; focalPoint: string } | null;
+  films: { filmId: string; title: string | null; poster: string | null; durationSeconds: number | null; shown: boolean; addedHere: boolean }[];
+};
+
+export type Uploaded = { name: string; bytes: number; width: number | null; height: number | null };
+
+/**
+ * Sends a chosen file to this computer's review, which keeps it by its
+ * checksum. Sent as it is read, with progress, since a film can be gigabytes.
+ */
+export function uploadFile(file: Blob, kind: 'jpg' | 'png' | 'mp4' | 'vtt' | 'txt', onProgress?: (fraction: number) => void): Promise<Uploaded> {
+  return new Promise((done, fail) => {
+    const request = new XMLHttpRequest();
+    request.open('POST', `/api/uploads?kind=${kind}`);
+    request.setRequestHeader('content-type', 'application/octet-stream');
+    request.upload.onprogress = (event) => { if (event.lengthComputable) onProgress?.(event.loaded / event.total); };
+    request.onload = () => {
+      let value: unknown = null;
+      try { value = JSON.parse(request.responseText); } catch { /* answered with text */ }
+      if (request.status === 200) done(value as Uploaded);
+      else fail(new Error((value as { error?: string } | null)?.error ?? request.responseText ?? 'The file was not taken.'));
+    };
+    request.onerror = () => fail(new Error('The file could not be sent.'));
+    request.send(file);
+  });
+}
+
+export type Counts = { ties: number; places: number; placeTies: number; bios: number; profiles: number; profileEdits: number; attract: number; tours: number; filmTitles: number; filmStarts: number; signoffs: number; filmFixes: number; portraits: number; films: number };
 export type GitState = { clean: boolean; unpushed: number | null };
 
 export type Review = {
@@ -298,6 +354,7 @@ export type Review = {
   readiness: ReadinessLine[];
   signoffs: Signoff[];
   films: Film[];
+  media: MediaPerson[];
   limits: {
     label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number;
     tour: { label: number; prompt: number; description: number; term: number; terms: number; maxPortraits: number };

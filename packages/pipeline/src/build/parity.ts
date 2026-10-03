@@ -4,6 +4,7 @@ import type { PublishedPerson } from '@cihof/content';
 import { dataFile, repoFile } from '../paths.ts';
 import { readVideoHoldings } from '../sources/media.ts';
 import { approvedFilmTitle, readFilmTitles, type StoredFilmTitles } from './film-titles.ts';
+import { filmIdOf } from './media-changes.ts';
 
 /**
  * Parity against the record the old pipeline published.
@@ -65,7 +66,7 @@ export function differenceSubject(difference: string): string {
 }
 
 /**
- * The approved titles of each person's films, in the order they hold them.
+ * The approved titles of each person's films on the display, in the order they hold them.
  * The published record carried no film titles, so every title is a visible
  * difference from it, recorded under the decision that approved it. Titles
  * are shown on the display, so the display's approvals are the ones counted.
@@ -77,8 +78,11 @@ export function filmTitlesByPerson(
   const byPerson = new Map<string, string[]>();
   for (const [personId, videos] of holdings) {
     const titles = videos.flatMap((video) => {
-      const filmId = (video as { youtubeVideoId?: unknown })?.youtubeVideoId;
-      const title = typeof filmId === 'string' ? approvedFilmTitle(stored, filmId, 'kiosk') : null;
+      // Only films on the display, known as the exhibit knows them: by YouTube
+      // id, or by where the display plays a film the hall added itself.
+      if ((video as { approvedForKiosk?: unknown })?.approvedForKiosk !== true) return [];
+      const filmId = filmIdOf(video);
+      const title = filmId ? approvedFilmTitle(stored, filmId, 'kiosk') : null;
       return title ? [title] : [];
     });
     if (titles.length > 0) byPerson.set(personId, titles);

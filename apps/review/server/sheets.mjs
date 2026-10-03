@@ -20,6 +20,11 @@
  *     attract:   { attract: { decision: 'approve', seenVersion } | { decision: 'reword', headline, tagline } },
  *     filmTitles: { [filmId]: { decision: 'approve', title, note } | { decision: 'clear', note } },
  *     filmStarts: { ["personId|filmId"]: { decision: 'start', seconds } | { decision: 'beginning' } },
+ *     portraits: { [personId]: { seenVersion, upload: '<sha256>.jpg', portraitAlt, focalPoint, rightsConfirmed: true, note } },
+ *     films:     { ['add:personId:<sha>']: { decision: 'add', personId, film, poster, captions, transcript, durationSeconds, title,
+ *                                            rightsConfirmed, captionsChecked, transcriptChecked, note }
+ *                  | ['withdraw:personId:filmId']: { decision: 'withdraw', personId, filmId, note } },
+ *                 each file an upload from the staff portal, named by its checksum
  *     tours:     { [tourId]: { decision: 'approve', seenVersion, audience: 'kiosk' | 'kiosk-and-web', note } | { decision: 'withdraw', note }
  *                  | { decision: 'edit', seenVersion, changes: { label, prompt, description, terms, themes, pinnedPersonIds, excludedPersonIds, maxPortraits },
  *                      audience: 'kiosk' | 'kiosk-and-web' | 'nobody' | null, note }
@@ -30,7 +35,7 @@
 
 /** The decision reference for one kind of review on one day. */
 export function decisionReference(task, day) {
-  const subject = { ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
+  const subject = { portraits: 'portraits', films: 'film-changes', ties: 'connections', places: 'places', placeTies: 'place-roles', bios: 'biographies', profiles: 'profiles', profileEdits: 'profile-edits', attract: 'attract-words', tours: 'tours', filmTitles: 'film-titles', filmStarts: 'film-starts', signoffs: 'sign-offs', filmFixes: 'film-captions' }[task];
   if (!subject) throw new Error(`Unknown review: ${task}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Not a day: ${day}`);
   return `${subject}-review-${day}`;
@@ -108,6 +113,28 @@ export function profilesCsv(draft, day) {
  * separated by semicolons, and the version the editing began from, which
  * profiles:edit checks.
  */
+/** New portraits: each names the profile as it was when the picture was chosen, and the upload. */
+export function portraitsCsv(draft, day) {
+  const reference = decisionReference('portraits', day);
+  const rows = Object.entries(draft.portraits ?? {}).map(([id, value]) => [
+    id, value.seenVersion ?? '', value.upload ?? '', value.portraitAlt ?? '', value.focalPoint || 'center',
+    value.rightsConfirmed === true ? 'yes' : '', reference, signedNote(value.note, draft.reviewer),
+  ]);
+  return csv(['id', 'contentVersion', 'upload', 'portraitAlt', 'focalPoint', 'rightsConfirmed', 'decisionReference', 'note'], rows);
+}
+
+/** Films added, each with its poster, captions and transcript, or taken off the display. */
+export function filmChangesCsv(draft, day) {
+  const reference = decisionReference('films', day);
+  const yes = (value) => (value === true ? 'yes' : '');
+  const rows = Object.values(draft.films ?? {}).map((value) => (value.decision === 'withdraw'
+    ? [value.personId, 'withdraw', value.filmId, '', '', '', '', '', '', '', '', '', reference, signedNote(value.note, draft.reviewer)]
+    : [value.personId, 'add', '', value.film, value.poster, value.captions, value.transcript, String(value.durationSeconds ?? ''), value.title ?? '',
+      yes(value.rightsConfirmed), yes(value.captionsChecked), yes(value.transcriptChecked), reference, signedNote(value.note, draft.reviewer)]));
+  return csv(['personId', 'decision', 'filmId', 'film', 'poster', 'captions', 'transcript', 'durationSeconds', 'title',
+    'rightsConfirmed', 'captionsChecked', 'transcriptChecked', 'decisionReference', 'note'], rows);
+}
+
 export function profileEditsCsv(draft, day) {
   const reference = decisionReference('profileEdits', day);
   const rows = Object.entries(draft.profileEdits ?? {}).map(([id, { seenVersion, edit, note }]) => [
@@ -260,6 +287,8 @@ export function draftCounts(draft) {
     filmStarts: Object.keys(draft.filmStarts ?? {}).length,
     signoffs: Object.keys(draft.signoffs ?? {}).length,
     filmFixes: Object.keys(draft.filmFixes ?? {}).length,
+    portraits: Object.keys(draft.portraits ?? {}).length,
+    films: Object.keys(draft.films ?? {}).length,
   };
 }
 
