@@ -88,8 +88,8 @@ export async function openExport({ root, file, replace = false, now = new Date()
     if (manifest.formatVersion !== contentFormatVersion) throw new Error(`This export is format ${manifest.formatVersion}; this app reads format ${contentFormatVersion}. Use a matching version of the app.`);
     if (contentVersionOf(manifest) !== manifest.contentVersion) throw new Error('The export\'s name does not match what it holds: it was changed after it was made.');
     const source = manifest.source ?? {};
-    if (!source['data/cihof_curated_metadata.json']) {
-      throw new Error('This export holds no source records. It came from a display delivered before the staff portal: ask for an updated display app.');
+    if (!source['data/cihof_curated_metadata.json'] || !Object.keys(source).some((path) => path.startsWith('public/media/images/'))) {
+      throw new Error('This export does not hold the records and portraits the portal works from. It came from a display delivered before the staff portal: ask for an updated display app.');
     }
     const odd = Object.keys(source).filter((path) => !isSourcePath(path) || path.split('/').includes('..'));
     if (odd.length) throw new Error(`The export holds source outside the records and media (${odd.slice(0, 3).join(', ')}).`);

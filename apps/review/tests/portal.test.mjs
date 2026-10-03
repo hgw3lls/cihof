@@ -82,6 +82,18 @@ test('a display\'s export opens as the working copy, and an update is refused un
   assert.match(outcome.problem, /Nothing has changed/);
 });
 
+test('an export from a display delivered before the portal is refused, with the reason', async () => {
+  const site = join(scratch, 'older');
+  const source = join(scratch, 'older-source');
+  mkdirSync(join(source, 'data'), { recursive: true });
+  cpSync(join(repo, 'data', 'cihof_curated_metadata.json'), join(source, 'data', 'cihof_curated_metadata.json'));
+  writeFileSync(join(source, 'content.json'), JSON.stringify({ source: await listSource(source) }));
+  cpSync(deliveredSite, site, { recursive: true });
+  const older = join(scratch, 'older.cihof');
+  await createContentStore({ dir: join(scratch, 'older-display'), deliveredSite: site, deliveredSource: source }).exportCurrent(older);
+  await assert.rejects(openExport({ root: join(scratch, 'elsewhere'), file: older }), /delivered before the staff portal/);
+});
+
 test('a failed save keeps nothing of itself', () => {
   const before = sha256(join(work, 'data', 'cihof_curated_metadata.json'));
   const { results, draft } = saveHere({ root: work, draft: { reviewer: 'Jane Smith', bios: { 'nobody-by-this-name': { correctedText: 'Words.' } } } });
