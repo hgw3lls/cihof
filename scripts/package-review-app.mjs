@@ -76,5 +76,8 @@ run('npx', ['electron-builder', ...builderArgs], { cwd: app });
 cpSync(join(root, 'docs', 'training', 'review-app.md'), join(root, 'release', 'review-app', 'REVIEW-APP-GUIDE.md'));
 cpSync(join(root, 'docs', 'training', 'staff-portal.md'), join(root, 'release', 'review-app', 'STAFF-PORTAL-GUIDE.md'));
 cpSync(join(root, 'docs', 'handover-checklist.md'), join(root, 'release', 'review-app', 'handover-checklist.md'));
+// What those two point to, laid out as they name it: the staff guide, and the training folder.
+cpSync(join(root, 'docs', 'staff-guide.md'), join(root, 'release', 'review-app', 'STAFF-GUIDE.md'));
+cpSync(join(root, 'docs', 'training'), join(root, 'release', 'review-app', 'training'), { recursive: true });
 console.log(`\nCIHOF Staff Portal for ${target} written to ${join(root, 'release', 'review-app')}`);
 console.log('It carries no records: point it at a data folder made with npm run review:data.\n');
