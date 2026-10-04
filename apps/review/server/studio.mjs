@@ -69,6 +69,21 @@ export function refreshPreview(root) {
 
 // ------------------------------------------------------- saving, and undoing
 
+/** The films in the copy (never part of its source), by path: one a change added is removed when it is undone. */
+function filmFiles(root) {
+  const films = new Set();
+  const walk = (directory) => {
+    if (!existsSync(directory)) return;
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) walk(path);
+      else if (entry.isFile() && filmFile.test(entry.name)) films.add(relative(root, path));
+    }
+  };
+  walk(join(root, 'public', 'media', 'videos'));
+  return films;
+}
+
 /** Every file of the copy's source, by path, with what tells a change: size and time. */
 function sourceFiles(root) {
   const files = new Map();
@@ -96,6 +111,9 @@ export function saveStudioChange({ root, draft, title, subject, now = new Date()
   const id = `change-${now.getTime()}-${randomUUID().slice(0, 8)}`;
   const keep = join(folder(root), 'undo', id);
   const before = sourceFiles(root);
+  const filmsBefore = filmFiles(root);
+  // How many changes the portal had listed for its next display update: every one this change adds goes when it is undone.
+  const portalBefore = readJson(join(folder(root), 'state.json'), {}).changes?.length ?? 0;
   // The tools rewrite the records and the films' captions and transcripts, and
   // only ever add pictures and films: so those are copied first, and only the
   // ones this change touched are kept after.
@@ -119,7 +137,8 @@ export function saveStudioChange({ root, draft, title, subject, now = new Date()
   const added = [...after.keys()].filter((path) => !before.has(path));
   // Keep only what the change touched.
   for (const path of before.keys()) if (!changed.includes(path)) rmSync(join(staged, path), { force: true });
-  writeJson(join(keep, 'files.json'), { changed: changed.filter(rewritable), added });
+  const filmsAdded = [...filmFiles(root)].filter((path) => !filmsBefore.has(path));
+  writeJson(join(keep, 'files.json'), { changed: changed.filter(rewritable), added: [...added, ...filmsAdded], portalBefore });
 
   const state = studioState(root);
   const change = { id, at: now.toISOString(), by: draft.reviewer, title, subject, status: 'waiting', files: changed.length + added.length };
@@ -140,11 +159,13 @@ export function undoStudioChange(root) {
   for (const path of files.added) rmSync(join(root, path), { force: true });
   rmSync(keep, { recursive: true, force: true });
   writeJson(statePath(root), { ...state, changes: state.changes.slice(0, -1) });
-  // The portal's own list of saved changes, for the next display update, loses it too.
+  // The portal's list of saved changes, for the next display update, loses
+  // every record this change made: one per kind of review it saved, and its
+  // approval's, made since. None is in an update yet: a published change cannot be undone.
   const portalPath = join(folder(root), 'state.json');
   const portal = readJson(portalPath, null);
-  if (portal && Array.isArray(portal.changes) && portal.changes.length > 0 && !portal.changes.at(-1).inUpdate) {
-    writeJson(portalPath, { ...portal, changes: portal.changes.slice(0, -1) });
+  if (portal && Array.isArray(portal.changes) && Number.isInteger(files.portalBefore)) {
+    writeJson(portalPath, { ...portal, changes: portal.changes.filter((change, index) => index < files.portalBefore || change.inUpdate) });
   }
   return { ok: true, undone: last };
 }

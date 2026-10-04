@@ -349,6 +349,14 @@ test('in the studio, a change is saved and shown at once, waits for approval bef
     const undone = await call('/api/studio/undo', {});
     assert.equal(undone.ok, true);
     assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people.find((each) => each.id === person).name, profile.name);
+
+    // A change saving two kinds at once (the name and the biography), undone: both its records go.
+    const recorded = JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length;
+    const both = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} II` }, biography: 'A biography written in the studio.' });
+    assert.equal(both.ok, true, JSON.stringify(both.results));
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length, recorded + 2);
+    assert.equal((await call('/api/studio/undo', {})).ok, true);
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length, recorded);
     const again = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} Junior` }, biography: null });
     const approved = await call('/api/studio/approve', { id: again.change.id });
     assert.equal(approved.ok, true, JSON.stringify(approved.results));
@@ -410,10 +418,19 @@ test('in the studio, a portrait, a film and a new inductee are each saved and sh
     assert.equal(added.change.subject.id, 'bea-example-2027');
     assert.ok(shown().some((each) => each.id === 'bea-example-2027'));
     assert.equal((await call('/api/studio')).changes.filter((each) => each.status === 'waiting').length, 3);
+    const portalChanges = () => JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length;
+    const listed = portalChanges();
     const undone = await call('/api/studio/undo', {});
     assert.equal(undone.ok, true);
     assert.equal(shown().some((each) => each.id === 'bea-example-2027'), false);
     assert.equal(existsSync(join(work, 'public', 'media', 'images', 'bea-example-2027', 'primary.jpg')), false);
+    assert.equal(portalChanges(), listed - 1, 'its record for the next display update goes with it');
+
+    // The film, undone too: its file goes, not only its record.
+    const filmFile = join(work, 'public', 'media', 'videos', someone.id, `${someone.id}_${parts.film.name.slice(0, 12)}.mp4`);
+    assert.equal(existsSync(filmFile), true);
+    assert.equal((await call('/api/studio/undo', {})).ok, true);
+    assert.equal(existsSync(filmFile), false, 'the film the undone change added is removed');
   } finally {
     server.kill();
   }
