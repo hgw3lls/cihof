@@ -310,6 +310,10 @@ in the app lists the files exported from your computer.
 
 ## 5. The staff portal: changing what the display shows
 
+*The staff portal now opens on the studio, the exhibit itself edited in
+place; `staff-portal.md` walks through it. The screens below are its **All
+items**.*
+
 The same app also works on what a display shows now, with nobody in
 between. Changes made this way reach the display as a **display update**, a
 file you load on the display yourself.

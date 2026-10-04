@@ -8,6 +8,7 @@ import { PlaceEditor } from './PlaceEditor.tsx';
 import { TourEditor } from './TourEditor.tsx';
 import { unwrittenTour } from './Tours.tsx';
 import { newTourId } from './tour-edit.ts';
+import { DisplayUpdateScreen } from './DisplayUpdate.tsx';
 import { Tags } from './ProfileEditor.tsx';
 import { FilmAdder, PortraitChooser, portraitProblem } from './Media.tsx';
 import { InducteeForm, blankInductee } from './NewInductees.tsx';
@@ -17,7 +18,7 @@ type Props = {
   draft: Draft;
   reload: () => Promise<void>;
   onAllItems: () => void;
-  onPublish: () => void;
+  onPublish?: () => void;
   /** One of All items' screens, for what has no place on the exhibit. */
   onOpen: (screen: Screen) => void;
 };
@@ -36,7 +37,7 @@ type Picked = { kind: string; id: string };
  * person or another, and Publish makes a display update only once none is
  * waiting.
  */
-export function Studio({ review, draft, reload, onAllItems, onPublish, onOpen }: Props) {
+export function Studio({ review, draft, reload, onAllItems, onOpen }: Props) {
   const [studio, setStudio] = useState<StudioState | null>(null);
   const [editing, setEditing] = useState(true);
   const [picked, setPicked] = useState<Picked | null>(null);
@@ -136,7 +137,9 @@ export function Studio({ review, draft, reload, onAllItems, onPublish, onOpen }:
         <button type="button" onClick={() => { setPicked({ kind: 'to-review', id: '' }); setShowWaiting(false); }}>To review</button>
         <span className="studio__spacer" />
         <button type="button" onClick={onAllItems}>All items</button>
-        <button type="button" className="primary" disabled={waiting.length > 0} title={waiting.length ? 'Approve or undo every change first' : ''} onClick={onPublish}>Publish to the display</button>
+        <button type="button" className="primary" onClick={() => { setPicked({ kind: 'display', id: '' }); setShowWaiting(false); }}>
+          The display{waiting.length === 0 && (review.portal?.pending.length ?? 0) > 0 ? ': publish' : ''}
+        </button>
       </div>
       {busy && <p className="quiet studio__status" role="status">{busy}</p>}
       {problem && <p className="problem studio__status" role="alert">{problem}</p>}
@@ -163,6 +166,23 @@ export function Studio({ review, draft, reload, onAllItems, onPublish, onOpen }:
                     } finally { setBusy(null); }
                   }} />
               )
+              : picked?.kind === 'display' && review.portal
+                ? (
+                  <div className="studio__form">
+                    {waiting.length > 0 && (
+                      <p className="notice">
+                        {waiting.length} change{waiting.length === 1 ? ' is' : 's are'} waiting for approval. Approve or undo {waiting.length === 1 ? 'it' : 'them'} before publishing.{' '}
+                        <button type="button" className="link" onClick={() => { setShowWaiting(true); setPicked(null); }}>See what is waiting</button>
+                      </p>
+                    )}
+                    <DisplayUpdateScreen portal={review.portal} waiting={unsavedInAllItems(draft)} onBack={() => setPicked(null)} onSave={() => onOpen('save')}
+                      onMade={async () => {
+                        // After a display update, or after starting again from what the display shows: the preview from the copy as it is now.
+                        await refreshStudioPreview();
+                        await refreshed(null);
+                      }} />
+                  </div>
+                )
               : picked?.kind === 'attract'
                 ? <AttractInspector key={review.attract.contentVersion} review={review} onSaved={async () => { await refreshed(null); }} />
               : picked?.kind === 'tour'
@@ -476,4 +496,9 @@ function ToReview({ review, draft, onOpen }: { review: Review; draft: Draft; onO
       </ul>
     </div>
   );
+}
+
+/** Decisions kept in All items and not yet checked and saved: not part of a display update until they are. */
+function unsavedInAllItems(draft: Draft): number {
+  return Object.entries(draft).reduce((sum, [key, value]) => (key === 'reviewer' || !value || typeof value !== 'object' ? sum : sum + Object.keys(value).length), 0);
 }

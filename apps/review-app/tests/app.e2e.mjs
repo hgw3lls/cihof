@@ -99,7 +99,7 @@ if (displayExport) {
     await portal.evaluate(({ dialog }, file) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [file] }); }, resolve(displayExport));
     await page.evaluate(() => { void window.cihofReview.openContent(); });
     // It opens on the studio: the exhibit itself, from this copy, to edit in place.
-    await page.getByRole('button', { name: 'Publish to the display' }).waitFor({ timeout: 120_000 });
+    await page.getByRole('button', { name: /^The display/ }).waitFor({ timeout: 120_000 });
     assert.equal(await portal.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getTitle()), 'CIHOF staff portal');
     const exhibit = page.frameLocator('iframe[title^="The exhibit"]');
     await exhibit.getByText('Touch to enter').first().waitFor({ timeout: 60_000 });

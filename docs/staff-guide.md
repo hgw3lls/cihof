@@ -261,8 +261,8 @@ or from a shared folder.
 1. **Start from what the display shows.** In the admin panel, **Content ›
    Export current content…**, and save the file to a USB stick. Open it in the
    staff portal (the CIHOF Staff Portal app, **File › Open a display's
-   content…**), make the changes, check and save them, and choose **Make a
-   display update**. The update is written to **Documents › CIHOF display
+   content…**), make the changes on the exhibit itself in its studio,
+   approve them, and choose **The display › Make a display update**. The update is written to **Documents › CIHOF display
    updates**. (An update made from anything else is refused, or warned about,
    so nobody's changes are lost. The walkthrough is
    `docs/training/review-app.md`, section 5.)
