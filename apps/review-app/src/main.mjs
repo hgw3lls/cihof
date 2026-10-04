@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { dataFolderProblem, freePort, installRuntime, isExportedFile, isOwnPage, isUpdateFile, isWebAddress, syncDataFolder } from './runtime.mjs';
 
 /**
- * The staff review app, installed on a staff computer.
+ * The CIHOF staff portal: the staff review app, installed on a staff computer.
  *
  * It needs no git, no Node and no copy of the project. It carries the review
  * (runtime/: its pages and server, the pipeline and the apply tools) and runs

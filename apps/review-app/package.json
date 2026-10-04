@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "main": "src/main.mjs",
-  "description": "The staff review app in a window of its own, for the one staff computer. It opens the project folder there and runs its review server; it carries no content. Not a workspace: its Electron download happens only when packaging.",
+  "description": "The CIHOF staff portal: the staff review app in a window of its own. It works on a copy of what a display shows, opened from its export or fetched over its staff connection, and makes display updates; or it reviews the records in a data folder the developer keeps. Not a workspace: its Electron download happens only when packaging.",
   "scripts": {
     "start": "electron .",
     "test": "node --test tests/*.test.mjs",
@@ -15,8 +15,8 @@
     "electron-builder": "26.15.3"
   },
   "build": {
-    "appId": "org.cihof.review",
-    "productName": "CIHOF Staff Review",
+    "appId": "org.cihof.portal",
+    "productName": "CIHOF Staff Portal",
     "copyright": "Western Reserve Historical Society",
     "directories": {
       "output": "../../release/review-app",
@@ -43,8 +43,8 @@
       "perMachine": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "CIHOF Staff Review",
-      "artifactName": "CIHOF-Staff-Review-Setup-${version}.${ext}"
+      "shortcutName": "CIHOF Staff Portal",
+      "artifactName": "CIHOF-Staff-Portal-Setup-${version}.${ext}"
     },
     "mac": {
       "target": [

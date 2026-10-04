@@ -1,5 +1,8 @@
 # The staff review app: a walkthrough for reviewers
 
+*Looking after what the display shows? The staff portal walkthrough
+(`staff-portal.md`) covers the whole routine; this one covers reviewing.*
+
 About twenty minutes, at the office computer. It follows one session from
 start to save. Section 7.1 of the staff guide (`docs/staff-guide.md`)
 has the reference detail.
@@ -14,7 +17,7 @@ the developer publishes it. You can explore freely.
 
 There are two ways to run the review. Ask the developer which is yours.
 
-- **The CIHOF Staff Review app**, installed on your computer. There is
+- **The CIHOF Staff Portal app**, installed on your computer. There is
   nothing to bring up to date: each time it opens, it copies the latest
   records from the data folder the developer keeps. The first time, it asks
   you to choose that folder.
@@ -32,7 +35,7 @@ There are two ways to run the review. Ask the developer which is yours.
 
 ## 2. Start the app
 
-Open **CIHOF Staff Review** from the Start menu, the Dock or the desktop. It
+Open **CIHOF Staff Portal** from the Start menu, the Dock or the desktop. It
 opens in a window of its own. The first time, choose the data folder the
 developer set up (the one with a folder called *data* inside it). If that
 folder cannot be reached, for example because the shared drive is not
@@ -284,7 +287,7 @@ by itself as work is saved; nothing in it is ticked by hand.
 ## 4. Check and save (or export)
 
 When you have made some decisions, the home page shows **Check and save**,
-or in the CIHOF Staff Review app **Check and export**.
+or in the CIHOF Staff Portal app **Check and export**.
 
 1. The summary lists everything you decided. Anything unfinished is named;
    finish it or clear it.

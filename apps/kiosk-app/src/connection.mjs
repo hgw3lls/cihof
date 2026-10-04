@@ -50,14 +50,15 @@ export function createStaffConnection({ content, apply, describe, scratch, onCha
     onChange();
   };
 
+  // Closed, and said so, at once; the server and its scratch files go after.
   const close = async (why) => {
     if (!open) return;
     const closing = open;
     open = null;
     clearTimeout(closing.timer);
+    note(why);
     await new Promise((done) => { closing.server.close(() => done()); closing.server.closeAllConnections?.(); });
     await rm(closing.scratch, { recursive: true, force: true });
-    note(why);
   };
 
   const handle = async (request, response) => {
@@ -80,6 +81,8 @@ export function createStaffConnection({ content, apply, describe, scratch, onCha
     if (problem) {
       session.strikes += 1;
       send(401, { error: `Refused: ${problem}.` });
+      // Recorded in the same moment the refusal goes, before anybody can ask
+      // again; close() says why at once and shuts the server down after.
       if (session.strikes >= strikesAllowed) await close('Closed: too many requests that did not have the pairing code.');
       else note(`Refused a request (${problem}) from ${request.socket.remoteAddress ?? 'somewhere'}.`);
       return;
