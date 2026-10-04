@@ -438,6 +438,25 @@ export async function makeDisplayUpdate(note: string): Promise<UpdateOutcome & {
   return request('/api/display-update', { method: 'POST', body: JSON.stringify({ note }) });
 }
 
+/** A change saved in the studio: undoable until it is published, and waiting until somebody approves it. */
+export type StudioChange = {
+  id: string; at: string; by: string; title: string; subject: { kind: string; id: string };
+  status: 'waiting' | 'approved' | 'published'; approvedBy?: string; approvedAt?: string;
+};
+export type StudioState = { changes: StudioChange[]; preview: boolean; shell: boolean };
+export type StudioOutcome = { ok: boolean; problem?: string; results?: StepResult[]; changes?: StudioChange[] };
+
+export const studioState = (): Promise<StudioState> => request('/api/studio');
+export const refreshStudioPreview = (): Promise<{ ok: boolean; output?: string }> => request('/api/studio/preview', { method: 'POST', body: '{}' });
+export const saveProfileInStudio = (change: { id: string; seenVersion: string; name: string; edit: ProfileEdit | null; biography: string | null }): Promise<StudioOutcome> =>
+  request('/api/studio/save', { method: 'POST', body: JSON.stringify({ kind: 'profile', ...change }) });
+/** Any other change the studio makes: a portrait, a film, a new inductee. */
+export const saveInStudio = (change: Record<string, unknown>): Promise<StudioOutcome & { change?: StudioChange }> =>
+  request('/api/studio/save', { method: 'POST', body: JSON.stringify(change) });
+export const approveProfileInStudio = (id: string): Promise<StudioOutcome> => request('/api/studio/approve-profile', { method: 'POST', body: JSON.stringify({ id }) });
+export const undoInStudio = (): Promise<StudioOutcome> => request('/api/studio/undo', { method: 'POST', body: '{}' });
+export const approveInStudio = (id: string): Promise<StudioOutcome> => request('/api/studio/approve', { method: 'POST', body: JSON.stringify({ id }) });
+
 /** A display reached over the network, as the portal's server reports it. */
 export type DisplayLink =
   | { connected: false; problem?: string }

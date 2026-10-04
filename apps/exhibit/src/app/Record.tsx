@@ -89,17 +89,18 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
           if (event.key === 'ArrowLeft') turn(-1);
         }}
       >
-        <div className="story__portrait">
+        <div className="story__portrait" data-edit="portrait" data-edit-id={person.id}>
           <Portrait person={person} className="story__image" />
           <div className="story__fade" aria-hidden="true" />
           {/* No film is offered where none can play: the public site carries none. */}
           {films.length > 0 && (
-            <button type="button" className="story__film" onClick={() => onPlay?.(films[0]!.id)}>
+            <button type="button" className="story__film" onClick={() => onPlay?.(films[0]!.id)} data-edit="films" data-edit-id={person.id}>
               <span className="story__play" aria-hidden="true"><span /></span>
               {films.length > 1 ? `Watch ${films.length} films` : 'Watch the film'}
             </button>
           )}
-          <div className="story__who">
+          {/* data-edit: what the staff portal's copy lets an editor pick here (editor.ts); nothing in a visitor's build reads it. */}
+          <div className="story__who" data-edit="profile" data-edit-id={person.id}>
             <p className="story__kicker">{kicker(person)}</p>
             <h2 id="recordTitle" data-autofocus tabIndex={-1}>{person.name}</h2>
             {person.contributions.length > 0 && <p className="story__honored">Honored for {person.contributions.join(' · ')}</p>}
@@ -119,7 +120,7 @@ export function Record({ person, next, ties, onClose, onNext, onShare, onPlay, o
             </div>
           )}
           <div className="story__window">
-            <div ref={columns} className="story__columns" style={{ transform: `translateX(${-shown * stride}px)` }}>
+            <div ref={columns} className="story__columns" style={{ transform: `translateX(${-shown * stride}px)` }} data-edit="biography" data-edit-id={person.id}>
               {parts.map((part, index) => <p key={index}><Rich text={part} /></p>)}
               <p className="story__credit">
                 {person.biographyCurated

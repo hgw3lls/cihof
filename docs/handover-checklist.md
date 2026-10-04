@@ -35,16 +35,19 @@ the staff portal walkthrough (`training/staff-portal.md`) have the detail.
 
 Done by the person who will look after the content, with the developer watching.
 
-- [ ] A small, real correction made in the portal, checked and saved
-- [ ] A display update made, sent to the display (or carried on a stick), and **Apply at the next reset**
+- [ ] A small, real correction made in the portal's studio: the person opened on the exhibit, **Edit**, their name or biography touched, changed and saved, and seen on the exhibit
+- [ ] **Undo** tried, and the change saved again
+- [ ] The change approved (the bar's *waiting for approval*), by a second person if the museum prefers
+- [ ] A display update made (**The display › Make a display update**), sent to the display (or carried on a stick), and **Apply at the next reset**
 - [ ] The change seen on the display after it returns to its attract screen
 - [ ] **Content › Versions kept › Show this version** on the previous version, then back to the new one: going back seen working
 - [ ] An update made from an older version, and the display's warning about it seen (start again from what the display shows)
 
 ## 4. The yearly class
 
-- [ ] The new-inductee form walked through (**New inductees**), and where the museum keeps the Hall of Fame's record of each induction to fill it from
-- [ ] Adding a film walked through (**Portraits and films › Add a film…**): the MP4, the captions, the checks
+- [ ] The new-inductee form walked through (**+ Inductee** in the studio), and where the museum keeps the Hall of Fame's record of each induction to fill it from
+- [ ] Adding a film walked through (a person's **Watch the film** in the studio, then **Add a film…**): the MP4, the captions, the checks
+- [ ] **To review** and **All items** shown: what the research holds for somebody to decide, and the card-by-card screens for working through many
 
 ## 5. Backups
 

@@ -53,18 +53,19 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
 
   // With approved words, the name sits small above the headline. Without
   // them, the name with its skyline is the headline.
+  // data-edit: what the staff portal's copy lets an editor pick (editor.ts).
   const words = text
     ? (
       <>
         {mode === 'mosaic' && <p className="attract__label"><Lockup /></p>}
-        <h2 className="attract__headline">
+        <h2 className="attract__headline" data-edit="attract" data-edit-id="attract">
           {text.headline}
           {text.unreviewed && <em className="unreviewed">Unreviewed</em>}
         </h2>
-        {text.tagline && <p className="attract__tagline">{text.tagline}</p>}
+        {text.tagline && <p className="attract__tagline" data-edit="attract" data-edit-id="attract">{text.tagline}</p>}
       </>
     )
-    : <h2 className="attract__headline attract__headline--name"><Lockup variant="display" /></h2>;
+    : <h2 className="attract__headline attract__headline--name" data-edit="attract" data-edit-id="attract"><Lockup variant="display" /></h2>;
 
   // The same call on every screen: the whole wall, or straight to one person.
   const cta = (

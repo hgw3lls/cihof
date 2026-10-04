@@ -98,9 +98,14 @@ if (displayExport) {
     await page.getByText('When you have made some decisions, you will export them here.').waitFor({ timeout: 60_000 });
     await portal.evaluate(({ dialog }, file) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [file] }); }, resolve(displayExport));
     await page.evaluate(() => { void window.cihofReview.openContent(); });
-    await page.getByRole('heading', { name: 'What would you like to review or change?' }).waitFor({ timeout: 120_000 });
+    // It opens on the studio: the exhibit itself, from this copy, to edit in place.
+    await page.getByRole('button', { name: /^The display/ }).waitFor({ timeout: 120_000 });
     assert.equal(await portal.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getTitle()), 'CIHOF staff portal');
-    console.log('  ✓ opens a display\'s export as the staff portal');
+    const exhibit = page.frameLocator('iframe[title^="The exhibit"]');
+    await exhibit.getByText('Touch to enter').first().waitFor({ timeout: 60_000 });
+    console.log('  ✓ opens a display\'s export as the staff portal, on the exhibit itself');
+    await page.getByRole('button', { name: 'All items' }).click();
+    await page.getByRole('heading', { name: 'What would you like to review or change?' }).waitFor({ timeout: 30_000 });
 
     await page.getByRole('button', { name: /^Tours/ }).click();
     await page.locator('article.tour').first().getByRole('button', { name: /^Approve it for the exhibit\s*The touchscreen/ }).click();

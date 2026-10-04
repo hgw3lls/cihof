@@ -314,3 +314,170 @@ test('the portal\'s server keeps making display updates and connecting to a disp
     await new Promise((done) => real.close(done));
   }
 });
+
+test('in the studio, a change is saved and shown at once, waits for approval before it can be published, and can be undone', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  mkdirSync(join(work, '.review'), { recursive: true });
+  writeFileSync(join(work, '.review', 'draft.json'), JSON.stringify({ reviewer: 'Jane Smith' }));
+  // As the app runs it: its own process, in the portal's copy, which it reads its records from.
+  mkdirSync(join(work, 'apps', 'review', 'dist'), { recursive: true });
+  writeFileSync(join(work, 'apps', 'review', 'dist', 'index.html'), '<!doctype html><title>Review</title>');
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  try {
+    const review = await call('/api/review');
+    const profile = review.profiles.find((each) => each.id === person);
+    const saved = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} Junior` }, biography: null });
+    assert.equal(saved.ok, true, JSON.stringify(saved.results));
+    assert.equal(saved.preview.ok, true);
+    const shown = JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people.find((each) => each.id === person);
+    assert.equal(shown.name, `${profile.edit.name} Junior`, 'the preview shows it at once');
+
+    const held = await call('/api/display-update', {});
+    assert.equal(held.ok, false);
+    assert.match(held.problem, /waiting for approval/);
+
+    // Undone, and saved again, then approved: the profile is approved as it now reads, and can be published.
+    const undone = await call('/api/studio/undo', {});
+    assert.equal(undone.ok, true);
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people.find((each) => each.id === person).name, profile.name);
+
+    // A change saving two kinds at once (the name and the biography), undone: both its records go.
+    const recorded = JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length;
+    const both = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} II` }, biography: 'A biography written in the studio.' });
+    assert.equal(both.ok, true, JSON.stringify(both.results));
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length, recorded + 2);
+    assert.equal((await call('/api/studio/undo', {})).ok, true);
+    assert.equal(JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length, recorded);
+    const again = await call('/api/studio/save', { kind: 'profile', id: person, seenVersion: profile.contentVersion, name: profile.name, edit: { ...profile.edit, name: `${profile.edit.name} Junior` }, biography: null });
+    const approved = await call('/api/studio/approve', { id: again.change.id });
+    assert.equal(approved.ok, true, JSON.stringify(approved.results));
+    assert.equal((await call('/api/review')).profiles.find((each) => each.id === person).state, 'approved');
+    const published = await call('/api/display-update', {});
+    assert.equal(published.ok, true, published.problem ?? published.output);
+    assert.equal((await call('/api/studio')).changes.at(-1).status, 'published');
+  } finally {
+    server.kill();
+  }
+});
+
+test('in the studio, a portrait, a film and a new inductee are each saved and shown at once, and undone cleanly', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  const upload = async (bytes, kind) => (await fetch(`http://127.0.0.1:${port}/api/uploads?kind=${kind}`, { method: 'POST', headers: { 'content-type': 'application/octet-stream' }, body: Buffer.from(bytes) })).json();
+  const jpeg = (width, height, salt) => [0xff, 0xd8, 0xff, 0xc0, 0x00, 0x11, 0x08, height >> 8, height & 255, width >> 8, width & 255, 3, salt, 0, 0, 0, 0];
+  const shown = () => JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8')).people;
+  try {
+    const review = await call('/api/review');
+    const someone = review.media.find((each) => each.id !== person && each.films.length === 0);
+
+    // A portrait.
+    const picture = await upload(jpeg(420, 520, 41), 'jpg');
+    const portrait = await call('/api/studio/save', { kind: 'portrait', id: someone.id, name: someone.name, choice: { seenVersion: someone.contentVersion, upload: picture.name, portraitAlt: 'A new portrait.', focalPoint: 'center', rightsConfirmed: true } });
+    assert.equal(portrait.ok, true, JSON.stringify(portrait.results));
+    assert.equal(shown().find((each) => each.id === someone.id).portrait.src, `/media/images/${someone.id}/portrait-${picture.name.slice(0, 12)}.jpg`);
+
+    // A film.
+    const parts = {
+      film: await upload([0, 0, 0, 0x18, ...Buffer.from('ftypisom'), ...Buffer.alloc(1024, 3)], 'mp4'),
+      poster: await upload(jpeg(640, 360, 42), 'jpg'),
+      captions: await upload(Buffer.from('WEBVTT\n\n00:00:00.000 --> 00:00:02.000\nHello.\n'), 'vtt'),
+      transcript: await upload(Buffer.from('Hello.\n'), 'txt'),
+    };
+    const film = await call('/api/studio/save', { kind: 'film', key: `add:${someone.id}:x`, name: someone.name, film: {
+      decision: 'add', personId: someone.id, film: parts.film.name, poster: parts.poster.name, captions: parts.captions.name, transcript: parts.transcript.name,
+      durationSeconds: 2, title: 'A studio film', rightsConfirmed: true, captionsChecked: true, transcriptChecked: true,
+    } });
+    assert.equal(film.ok, true, JSON.stringify(film.results));
+    assert.ok(shown().find((each) => each.id === someone.id).films.some((each) => each.title === 'A studio film'));
+
+    // A new inductee, then undone: gone from the preview, and their portrait file with them.
+    const face = await upload(jpeg(400, 500, 43), 'jpg');
+    const added = await call('/api/studio/save', { kind: 'new-inductee', key: 'new-1', person: {
+      name: 'Bea Example', classYear: 2027, displayName: '', sortName: 'Example, Bea', region: 'Europe', profileUrl: '', inductedBy: 'Cy Example',
+      biography: 'Bea Example taught newcomers English.', themeTags: ['Education'], countryTags: [], communityTags: [], portrait: face.name, portraitAltText: 'Bea Example.', rightsConfirmed: true,
+    } });
+    assert.equal(added.ok, true, JSON.stringify(added.results));
+    assert.equal(added.change.subject.id, 'bea-example-2027');
+    assert.ok(shown().some((each) => each.id === 'bea-example-2027'));
+    assert.equal((await call('/api/studio')).changes.filter((each) => each.status === 'waiting').length, 3);
+    const portalChanges = () => JSON.parse(readFileSync(join(work, '.portal', 'state.json'), 'utf8')).changes.length;
+    const listed = portalChanges();
+    const undone = await call('/api/studio/undo', {});
+    assert.equal(undone.ok, true);
+    assert.equal(shown().some((each) => each.id === 'bea-example-2027'), false);
+    assert.equal(existsSync(join(work, 'public', 'media', 'images', 'bea-example-2027', 'primary.jpg')), false);
+    assert.equal(portalChanges(), listed - 1, 'its record for the next display update goes with it');
+
+    // The film, undone too: its file goes, not only its record.
+    const filmFile = join(work, 'public', 'media', 'videos', someone.id, `${someone.id}_${parts.film.name.slice(0, 12)}.mp4`);
+    assert.equal(existsSync(filmFile), true);
+    assert.equal((await call('/api/studio/undo', {})).ok, true);
+    assert.equal(existsSync(filmFile), false, 'the film the undone change added is removed');
+  } finally {
+    server.kill();
+  }
+});
+
+test('in the studio, the attract words, a tour and a place are each changed in place, and a profile approved', async () => {
+  const { createServer: createNetServer } = await import('node:net');
+  const probe = createNetServer();
+  await new Promise((done) => probe.listen(0, '127.0.0.1', done));
+  const { port } = probe.address();
+  await new Promise((done) => probe.close(done));
+  const server = spawn(process.execPath, ['--experimental-strip-types', '--no-warnings=ExperimentalWarning', 'apps/review/server/server.mjs', '--no-open', `--port=${port}`, `--updates-dir=${join(scratch, 'updates')}`], { cwd: work, stdio: 'ignore' });
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if (await fetch(`http://127.0.0.1:${port}/api/studio`).then((response) => response.ok, () => false)) break;
+    await new Promise((done) => setTimeout(done, 100));
+  }
+  const call = async (path, value) => (await fetch(`http://127.0.0.1:${port}${path}`, value === undefined ? {} : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value) })).json();
+  const bundle = () => JSON.parse(readFileSync(join(work, '.portal', 'preview', 'data', 'exhibit.json'), 'utf8'));
+  try {
+    const review = await call('/api/review');
+
+    const attract = await call('/api/studio/save', { kind: 'attract', headline: 'Welcome to the Hall of Fame.', tagline: 'Meet the people who built Cleveland.' });
+    assert.equal(attract.ok, true, JSON.stringify(attract.results));
+    assert.equal(bundle().attract.headline, 'Welcome to the Hall of Fame.');
+
+    const tour = review.tours.find((each) => each.state === 'approved');
+    const edited = await call('/api/studio/save', { kind: 'tour', tourId: tour.tourId, decision: { decision: 'edit', seenVersion: tour.contentVersion, changes: { ...tour.changes, label: `${tour.changes.label} (edited)` }, audience: tour.shownOn.publicWeb ? 'kiosk-and-web' : 'kiosk' } });
+    assert.equal(edited.ok, true, JSON.stringify(edited.results));
+    assert.equal(bundle().tours.find((each) => each.id === tour.tourId)?.label, `${tour.changes.label} (edited)`, 'it stays on the exhibit, as edited');
+
+    const place = review.places.find((each) => each.words === 'current');
+    const renamed = await call('/api/studio/save', { kind: 'place', key: place.placeId, edit: {
+      decision: 'edit', placeId: place.placeId, seenVersion: place.contentVersion, name: `${place.name} (renamed)`, neighborhood: place.neighborhood,
+      type: place.type, shortHistory: place.shortHistory, people: [], audience: place.publication.publicWeb ? 'kiosk-and-web' : 'kiosk',
+    } });
+    assert.equal(renamed.ok, true, JSON.stringify(renamed.results));
+    assert.equal(bundle().places.find((each) => each.id === place.placeId)?.name, `${place.name} (renamed)`);
+
+    // One with no change of its own waiting: approving one that has is refused, since approving that change approves it.
+    const busy = new Set((await call('/api/studio')).changes.filter((each) => each.status === 'waiting').map((each) => each.subject.id));
+    const unapproved = (await call('/api/review')).profiles.find((each) => each.state !== 'approved' && each.id !== person && !busy.has(each.id));
+    if (unapproved) {
+      const approved = await call('/api/studio/approve-profile', { id: unapproved.id });
+      assert.equal(approved.ok, true, JSON.stringify(approved.results));
+      assert.equal((await call('/api/review')).profiles.find((each) => each.id === unapproved.id).state, 'approved');
+    }
+  } finally {
+    server.kill();
+  }
+});

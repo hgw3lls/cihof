@@ -121,6 +121,8 @@ export async function openExport({ root, file, replace = false, now = new Date()
     delete base.exported;
     writeJson(join(folder(root), 'base.json'), base);
     rmSync(join(folder(root), 'last.json'), { force: true });
+    // The studio starts afresh on new content: nothing to undo, nothing waiting, a new preview.
+    for (const leftover of ['studio.json', 'undo', 'preview']) rmSync(join(folder(root), leftover), { recursive: true, force: true });
     writeJson(join(folder(root), 'state.json'), {
       opened: {
         file: basename(file),

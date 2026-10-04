@@ -15,8 +15,9 @@ import { SaveScreen } from './Save.tsx';
 import { DisplayUpdateScreen } from './DisplayUpdate.tsx';
 import { Media } from './Media.tsx';
 import { NewInductees } from './NewInductees.tsx';
+import { Studio } from './Studio.tsx';
 
-type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media' | 'newClass';
+export type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'tours' | 'filmTitles' | 'filmStarts' | 'filmFixes' | 'signoffs' | 'history' | 'save' | 'update' | 'media' | 'newClass' | 'studio';
 
 /**
  * The staff review app.
@@ -29,7 +30,15 @@ type Screen = 'home' | 'profiles' | 'ties' | 'places' | 'bios' | 'attract' | 'to
 export function App() {
   const [review, setReview] = useState<Review | null>(null);
   const [draft, setDraft] = useState<Draft | null>(null);
-  const [screen, setScreen] = useState<Screen>('home');
+  const [screen, setScreenNow] = useState<Screen>('home');
+  /** The studio or All items: where Back returns to. */
+  const hub = useRef<Screen>('home');
+  const setScreen = useCallback((next: Screen) => {
+    if (next === 'studio' || next === 'home') hub.current = next;
+    setScreenNow(next);
+  }, []);
+  // The portal opens on the studio, once its mode is known.
+  const portalSeen = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [biographyFor, setBiographyFor] = useState<string | null>(null);
   const saving = useRef<Promise<unknown>>(Promise.resolve());
@@ -63,6 +72,11 @@ export function App() {
   if (error && !review) return <main className="page"><p className="problem">{error}</p></main>;
   if (!review || !draft) return <main className="page"><p className="quiet">Loading…</p></main>;
 
+  if (review.mode === 'portal' && !portalSeen.current) {
+    portalSeen.current = true;
+    if (screen === 'home') window.setTimeout(() => setScreen('studio'), 0);
+  }
+
   if (!draft.reviewer.trim()) {
     return <Welcome portal={review.mode === 'portal'} onName={(name) => update((current) => ({ ...current, reviewer: name }))} />;
   }
@@ -82,12 +96,13 @@ export function App() {
     newClass: Object.keys(draft.newClass ?? {}).length,
   };
   const waiting = counts.newClass + counts.profiles + counts.ties + counts.places + counts.bios + counts.attract + counts.tours + counts.filmTitles + counts.filmStarts + counts.signoffs + counts.filmFixes + counts.media;
-  const back = () => setScreen('home');
+  // Back goes to whichever of the studio and All items the reviewer came from.
+  const back = () => setScreen(hub.current);
 
   return (
     <>
       <header className="bar">
-        <button type="button" className="bar__home" onClick={back}>{review.mode === 'portal' ? 'CIHOF staff portal' : 'CIHOF staff review'}</button>
+        <button type="button" className="bar__home" onClick={() => (review.mode === 'portal' ? setScreen('studio') : back())}>{review.mode === 'portal' ? 'CIHOF staff portal' : 'CIHOF staff review'}</button>
         <span className="bar__who">
           {draft.reviewer}
           <button type="button" className="link" onClick={() => update((current) => ({ ...current, reviewer: '' }))}>Not you?</button>
@@ -95,6 +110,9 @@ export function App() {
       </header>
       {error && <p className="problem banner" role="alert">{error}</p>}
 
+      {screen === 'studio' && (
+        <Studio review={review} draft={draft} reload={reload} onAllItems={() => setScreen('home')} onPublish={() => setScreen('update')} onOpen={setScreen} />
+      )}
       {screen === 'home' && (
         <Home
           review={review}

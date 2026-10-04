@@ -27,8 +27,9 @@ portal, the display checks it before showing it, and you can always go back.
 The routine, every time:
 
 1. **Start from what the display shows.**
-2. **Make your changes, check them and save them** in the portal.
-3. **Make a display update.**
+2. **Make your changes on the exhibit**, in the portal's studio, and
+   approve them.
+3. **Publish**: make a display update.
 4. **Put it on the display**: send it over the network, or carry it on a
    USB stick.
 5. **Look at the display.** Go back if anything is wrong.
@@ -42,7 +43,7 @@ Two ways:
   panel: **Staff connection**, choose for how long, **Open a staff
   connection**. It shows an address and a code. In the portal: the first
   time, **Connect to a display** on the start page (or **File › Connect to a
-  display…**); after that, **Display update › Connect to the display**, then
+  display…**); after that, **The display › Connect to the display**, then
   **Start from what it shows now**. Type the address and the code exactly as
   the display shows them; the code changes every time the connection is
   opened.
@@ -57,33 +58,49 @@ If you have saved changes that are not yet in a display update, the portal
 asks before starting again, because starting again replaces them. Make a
 display update first if you want to keep them.
 
-## 3. Make your changes
+## 3. Make your changes, on the exhibit itself
 
-The home page lists everything that can be changed. Each change is made one
-item at a time, in plain words, and kept on this computer as you go: closing
-the app loses nothing. Only what the records say, never more.
+The portal opens on the **studio**: the exhibit itself, exactly as the
+display will show it, beside a panel for editing. Use it as a visitor would
+in **Preview**; switch to **Edit** to change things.
 
-| To… | Use |
+In **Edit**, everything that can be changed is outlined. Touch it, and it
+opens in the panel beside the exhibit:
+
+| Touch… | To change |
 | --- | --- |
-| Approve a profile, or correct its name, tags or lines | **Profiles** |
-| Correct a biography | **Biographies** |
-| Give somebody a new portrait, add a film, take a film off the display | **Portraits and films** |
-| Add this year's class | **New inductees** (section 5) |
-| Rename a place, change its words, tie somebody to it, add a place | **Places** |
-| Approve, edit, add or delete a tour | **Tours** |
-| Decide what two people's connection is | **Connections** |
-| Name a film, choose where a ceremony film starts, fix its captions | **Film titles**, **Where ceremony films start**, **Film captions and transcripts** |
-| The words on the attract screen | **Attract screen words** |
+| A person's name block (on their profile or the panel from the wall) | their name, how it is alphabetised, communities, honours, countries, the portrait's description, the biography |
+| Their portrait | a new picture: choose it, describe it, confirm the museum may show it |
+| **Watch the film** | their films: take one off the display, or **Add a film…** |
+| The attract screen's words | the headline and the line beneath |
+| A tour card (in **Tour**) | the tour's words, rules and people |
+| A place's panel (in **Connections**, places) | its name, neighbourhood, words and the people tied to it |
 
-Then **Check and save**: the app checks every change with the same tools
-that built the exhibit, and says plainly if anything needs fixing. **Save**
-writes them into the portal's copy, each kind of change under your name.
+To add something, use the bar above the exhibit: **+ Inductee**, **+ Tour**,
+**+ Place**.
+
+**Save** writes the change into the portal's copy and shows it on the
+exhibit at once, under your name. **Undo** takes back the last change.
 Nothing has changed on the display yet.
 
-## 4. Make a display update, and put it on the display
+**Every change waits for approval.** The bar says how many are waiting;
+touch it, look at each change on the exhibit, and **Approve** it. The same
+person may approve, as a second, deliberate look. Nothing is published while
+any change is waiting.
 
-**Make a display update** (from the save page, or the foot of the home
-page). Add a line saying what changed, for whoever loads it. The portal
+**To review** lists what the research holds that somebody must decide before
+visitors see it (profiles not yet approved, connections, places, tours, film
+titles, sign-offs); each opens its screen in **All items**. **All items**
+also has every screen card by card, for working through many at once
+(approving profiles in a row, say). Changes made there are saved with
+**Check and save**, as before.
+
+## 4. Publish to the display
+
+**The display**, at the right of the bar, opens the display panel: where
+the portal's copy came from, what is saved since the last update, and the
+connection. When nothing is waiting for approval, **Make a display update**.
+Add a line saying what changed, for whoever loads it. The portal
 builds the display's content from its copy, exactly as the exhibit is
 built, and writes one file (`cihof-update-….cihof`) to **Documents › CIHOF
 display updates**. It carries only what the display does not already have.
@@ -107,22 +124,22 @@ your change again; apply it anyway only if you are sure.
 ## 5. Each year: the new class
 
 1. **Start from what the display shows** (section 2).
-2. **New inductees › Add an inductee…** for each person, from the Hall of
+2. **+ Inductee** in the studio (or **All items › New inductees**) for each person, from the Hall of
    Fame's own record of the induction: the full name, how it is alphabetised
    (the app suggests it; check it), the class year, the region, who inducted
    them, the biography in the Hall of Fame's own words, their page on its
    website, their communities, honours and countries, and a portrait with a
    description of it. Tick that the museum may show the portrait; a new
    inductee is added only with one it may show.
-3. **Check and save**, then **Make a display update** and put it on the
-   display (section 4).
-4. Then, as for everybody else: approve their profiles (**Profiles**), write
-   what they are honoured for (the profile editor), add their films
-   (**Portraits and films**), and make another display update.
+3. Each opens on the exhibit once saved. Look at them there, approve them,
+   add their films (touch **Watch the film**, or their portrait for a better
+   picture), and publish (section 4).
 
 ## 6. A new film
 
-**Portraits and films**, choose the person, **Add a film…**. You need the
+In the studio, open the person and touch **Watch the film** (or, with no
+films yet, choose them in **All items › Portraits and films**), then **Add a
+film…**. You need the
 film as an MP4, and its captions as a `.vtt` or `.srt` file (the captions
 the video service made are a start; correct them). The app plays the film
 (one that will not play here will not play on the display either), puts the
@@ -168,7 +185,8 @@ a website, a public share or a link anybody can open. Staff guide, section 8.
 
 | It says… | What to do |
 | --- | --- |
-| **Check and save** finds a problem | Read what it says; it names the item. Fix it, or clear that choice, and check again. |
+| **Save** (or **Check and save**) finds a problem | Read what it says; it names the item. Fix it and save again. |
+| **Make a display update** says changes are waiting | Approve them (the bar says how many), or undo them. |
 | *it changed after you began editing it* | Somebody else changed it since. Discard your edit and make it again from how it is now. |
 | *Nothing has changed since the last display update* | There is nothing new to send. |
 | The display will not take an update | It names why: damaged, made for another exhibit, or a version this app cannot show. Make the update again from the portal; if it says the app needs updating, that needs a developer. |
@@ -192,8 +210,9 @@ tours, connections, the new class) is in the portal.
 ## Check your understanding
 
 1. Somebody spotted a misspelt name. What are the steps? *(Start from what
-   the display shows; Profiles, edit the name; check and save; make a
-   display update; send or carry it; apply at the next reset.)*
+   the display shows; in the studio, open them and touch their name; correct
+   it and save; approve it; make a display update; send or carry it; apply at
+   the next reset.)*
 2. The display says your update was made from an earlier version. Why, and
    what now? *(Somebody changed the display since you started. Start again
    from what it shows, and make your change again.)*

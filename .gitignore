@@ -1,5 +1,7 @@
 node_modules
 dist/
+# The exhibit, built with its editor for the staff portal (npm run review:shell).
+apps/review/exhibit-shell/
 .env
 .env.local
 

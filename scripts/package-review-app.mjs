@@ -61,6 +61,8 @@ for (const path of tracked) {
   cpSync(from, join(stage, path));
 }
 cpSync(join(root, 'apps', 'review', 'dist'), join(stage, 'apps', 'review', 'dist'), { recursive: true });
+// The exhibit with its editor, for the studio's preview: the same code as the display's, built from this checkout.
+run(process.execPath, [join(root, 'scripts', 'build-exhibit-shell.mjs'), `--out=${join(stage, 'apps', 'review', 'exhibit-shell')}`]);
 const commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
 const dirty = execFileSync('git', ['status', '--porcelain', '--', 'apps/review', 'packages', 'scripts'], { cwd: root, encoding: 'utf8' }).trim() ? '+changes' : '';
 writeFileSync(join(stage, 'BUILD'), `${commit}${dirty} ${new Date().toISOString()}\n`);
