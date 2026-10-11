@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { projectStatus } from './working-tree.js';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { applyAttractDecision, attractDecisions, publishedAttractText, readExhibitText } from '../packages/pipeline/src/build/exhibit-text.ts';
+import { applyAttractDecision, attractDecisions, publishedAboutText, publishedAttractText, readExhibitText } from '../packages/pipeline/src/build/exhibit-text.ts';
 
 /**
  * Records a curator's decision on the attract screen's words, from the staff
@@ -13,8 +13,9 @@ import { applyAttractDecision, attractDecisions, publishedAttractText, readExhib
  *            contentVersion must match the words now
  *   reword   the reviewer's own words, approved as written
  *
- * Either way the words are approved for the display only: the website has no
- * attract screen. Nothing a visitor reads about a person changes, so nothing
+ * The attract words are approved for the display only: the website has no
+ * attract screen. The About words (block about, with a body) are approved for
+ * the display and the website. Nothing a visitor reads about a person changes, so nothing
  * is recorded in the reviewed differences.
  *
  * The same gates as the other sheets:
@@ -37,8 +38,9 @@ if (!inputPath || !existsSync(inputPath)) {
   console.error('\nUsage:');
   console.error('  npm run text:apply -- --input=<sheet>');
   console.error('  npm run text:apply -- --input=… --apply --expect-hash=<sha256>');
-  console.error('\nThe sheet has one row: block,decision,contentVersion,headline,tagline,decisionReference,note');
-  console.error(`To approve the words as they are: block attract, decision approve, contentVersion ${status.contentVersion ?? '(none: no words written)'}.`);
+  console.error('\nThe sheet has a row per block (attract, about): block,decision,contentVersion,headline,tagline,body,decisionReference,note');
+  console.error(`To approve the attract words as they are: block attract, decision approve, contentVersion ${status.contentVersion ?? '(none: no words written)'}.`);
+  console.error(`To approve the About words as they are: block about, decision approve, contentVersion ${publishedAboutText('kiosk').contentVersion ?? '(none: no words written)'}.`);
   process.exit(1);
 }
 
@@ -58,9 +60,14 @@ if (args.apply) {
 const stored = readExhibitText();
 const { decisions, errors, blank } = attractDecisions(csv, stored);
 for (const decision of decisions) {
-  console.log(`\n  Attract words ${decision.decision === 'approve' ? 'approved as they are' : 'rewritten and approved'}, under ${decision.decisionReference}:`);
-  console.log(`    headline: ${decision.headline}`);
-  console.log(`    tagline:  ${decision.tagline || '(none)'}`);
+  const what = decision.block === 'about' ? 'About words' : 'Attract words';
+  console.log(`\n  ${what} ${decision.decision === 'approve' ? 'approved as they are' : 'rewritten and approved'}, under ${decision.decisionReference}:`);
+  if (decision.block === 'about') {
+    console.log(`    ${decision.body.split('\n').join('\n    ')}`);
+  } else {
+    console.log(`    headline: ${decision.headline}`);
+    console.log(`    tagline:  ${decision.tagline || '(none)'}`);
+  }
 }
 if (blank > 0) console.log(`  ${blank} row(s) left as they are.`);
 if (errors.length > 0) {
@@ -80,7 +87,8 @@ if (!args.apply) {
 }
 
 const reviewedAt = new Date().toISOString();
-const next = applyAttractDecision(stored, decisions[0], reviewedAt);
+let next = stored;
+for (const decision of decisions) next = applyAttractDecision(next, decision, reviewedAt);
 if (!args.noBackup) copyFileSync(textPath, `${textPath}.backup-${reviewedAt.replace(/[:.]/g, '-')}`);
 writeFileSync(textPath, `${JSON.stringify(next, null, 2)}\n`);
 

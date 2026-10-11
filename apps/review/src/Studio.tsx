@@ -183,6 +183,8 @@ export function Studio({ review, draft, reload, onAllItems, onOpen }: Props) {
                       }} />
                   </div>
                 )
+              : picked?.kind === 'about'
+                ? <AboutInspector key={review.about.contentVersion} review={review} onSaved={async () => { await refreshed(null); }} />
               : picked?.kind === 'attract'
                 ? <AttractInspector key={review.attract.contentVersion} review={review} onSaved={async () => { await refreshed(null); }} />
               : picked?.kind === 'tour'
@@ -412,6 +414,39 @@ function AttractInspector({ review, onSaved }: { review: Review; onSaved: () => 
       {problem && <pre className="output" role="alert">{problem}</pre>}
       <p className="actions">
         <button type="button" className="primary" disabled={busy || !changed || tooLong || !headline.trim()} onClick={() => void save()}>{busy ? 'Saving…' : 'Save'}</button>
+      </p>
+    </div>
+  );
+}
+
+/** The About words, written here and shown from the About key on the display and the website. */
+function AboutInspector({ review, onSaved }: { review: Review; onSaved: () => Promise<void> }) {
+  const [body, setBody] = useState(review.about.body);
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  const changed = body.trim() !== review.about.body.trim();
+  const tooLong = body.trim().length > review.limits.about;
+  const save = async () => {
+    setBusy(true); setProblem(null);
+    try {
+      const outcome = await saveInStudio({ kind: 'about', body: body.trim() });
+      if (!outcome.ok) { setProblem(failure(outcome)); return; }
+      await onSaved();
+    } finally { setBusy(false); }
+  };
+  return (
+    <div className="studio__form">
+      <h2>The About words</h2>
+      <p className="quiet small">
+        What a visitor reads from About, on the display and the website. A blank line starts a new paragraph.{' '}
+        {review.about.approved ? 'Approved as they read now.' : 'Not approved yet: visitors are not offered an About.'}
+      </p>
+      <label className="field"><span>The words <span className="quiet small">({body.trim().length} of {review.limits.about})</span></span>
+        <textarea rows={14} value={body} onChange={(event) => setBody(event.target.value)} /></label>
+      {tooLong && <p className="todo">Too long for the panel.</p>}
+      {problem && <pre className="output" role="alert">{problem}</pre>}
+      <p className="actions">
+        <button type="button" className="primary" disabled={busy || !changed || tooLong || !body.trim()} onClick={() => void save()}>{busy ? 'Saving…' : 'Save'}</button>
       </p>
     </div>
   );

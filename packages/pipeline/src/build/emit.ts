@@ -22,7 +22,7 @@ import { approvedFilmStart, readFilmStarts, type StoredFilmStarts } from './film
 import { previewPlaces, previewTies, type PreviewTie, type RuntimePlace } from './preview.ts';
 import { readTieDecisions, type TieDecision } from '../sources/ties.ts';
 import { decidedCorpusIds, tieRelationships } from './ties.ts';
-import { publishedAttractText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
+import { publishedAboutText, publishedAttractText, type AboutText, type AttractText, type StoredExhibitText } from './exhibit-text.ts';
 import { publishedTours, type RuntimeTour, type StoredTours } from './tours.ts';
 import { approvedFilmTitle, readFilmTitles, type StoredFilmTitles } from './film-titles.ts';
 
@@ -76,6 +76,8 @@ export type RuntimeBundle = {
    * hall's name alone.
    */
   readonly attract: AttractText | null;
+  /** The About words, or null until a curator has approved them for this target. */
+  readonly about?: AboutText | null;
   /**
    * Curated tours a curator has approved, with the people each visits. An
    * editor's preview also carries the drafts, marked.
@@ -311,6 +313,7 @@ export function buildRuntimeBundle(
     lensReport: lensAvailability(counts),
     continuationBase: sources.continuationBase ?? process.env['CIHOF_SITE_URL'] ?? null,
     attract: publishedAttractText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
+    about: publishedAboutText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
     tours: publishedTours(runtimePeople, target, { preview, ...(sources.tours ? { stored: sources.tours } : {}) }),
     filmReport: { held, blockedBy, delivery },
     contributionReport: {

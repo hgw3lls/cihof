@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { canShowFiles, checkDecisions, exportDecisions, saveDecisions, showExportedFile, type Audience, type Draft, type Review, type StepResult } from './api.ts';
 import { isComplete } from './Connections.tsx';
-import { wordingProblem } from './AttractWords.tsx';
+import { aboutWordsProblem, wordingProblem } from './AttractWords.tsx';
 import { tourStale, tourUnchosen } from './Tours.tsx';
 import { choosesNobody } from './tour-edit.ts';
 import { filmTitleProblem } from './FilmTitles.tsx';
@@ -84,7 +84,8 @@ export function SaveScreen({ review, draft, onBack, onSaved, onUpdate }: Props) 
       .map((id) => `${personName(id)}'s profile (a new portrait and another change to the profile cannot be saved together; save the portrait first)`),
     ...(review.mode === 'export' ? Object.keys({ ...(draft.portraits ?? {}), ...(draft.films ?? {}), ...(draft.newClass ?? {}) }).slice(0, 1)
       .map(() => 'new inductees, portraits and films (they cannot be exported for the developer: the files are on this computer; clear them)') : []),
-    ...Object.values(draft.attract ?? {}).filter((value) => wordingProblem(value, review.limits)).map(() => 'the attract screen words'),
+    ...(draft.attract?.attract && wordingProblem(draft.attract.attract, review.limits) ? ['the attract screen words'] : []),
+    ...(draft.attract?.about && aboutWordsProblem(draft.attract.about, review.limits) ? ['the About words'] : []),
     ...Object.entries(draft.filmTitles ?? {}).filter(([, value]) => filmTitleProblem(value, review.limits.filmTitle))
       .map(([id]) => `the title of ${review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id}'s film`),
     // An approval names the tour the reviewer saw; one that has changed since needs another look.
@@ -306,10 +307,17 @@ function summary(review: Review, draft: Draft, tieName: (id: string) => string):
     const person = place?.ties.find((tie) => tie.person.id === key.slice(at + 1))?.person.name ?? key.slice(at + 1);
     lines.push(`Places: ${person} ${value.role} at ${place?.name ?? key.slice(0, at)}`);
   }
-  for (const value of Object.values(draft.attract ?? {})) {
-    lines.push(value.decision === 'approve'
+  const attract = draft.attract?.attract;
+  if (attract) {
+    lines.push(attract.decision === 'approve'
       ? `Attract screen: approve “${review.attract.headline}”`
-      : `Attract screen: new words, “${value.headline}”`);
+      : `Attract screen: new words, “${attract.headline}”`);
+  }
+  const about = draft.attract?.about;
+  if (about) {
+    lines.push(about.decision === 'approve'
+      ? 'About words: approve them as they read now'
+      : `About words: new words, “${about.body.trim().slice(0, 80)}${about.body.trim().length > 80 ? '…' : ''}”`);
   }
   for (const [id, value] of Object.entries(draft.filmTitles ?? {})) {
     const whose = review.filmTitles.find((film) => film.filmId === id)?.people.join(', ') ?? id;

@@ -238,9 +238,9 @@ function Home({ review, draft, waiting, counts, onOpen }: {
           onOpen={() => onOpen('bios')}
         />
         <Card
-          title="Attract screen words"
-          body="The headline and line beneath on the display while nobody is using it. Approve them, or write your own."
-          progress={{ done: review.attract.approved ? 1 : 0, total: 1 }}
+          title="Attract screen words and About"
+          body="The headline and line beneath on the display while nobody is using it, and the About words a visitor can open on the display and the website. Approve them, or write your own."
+          progress={{ done: (review.attract.approved ? 1 : 0) + (review.about.approved ? 1 : 0), total: 2 }}
           pending={counts.attract}
           onOpen={() => onOpen('attract')}
         />

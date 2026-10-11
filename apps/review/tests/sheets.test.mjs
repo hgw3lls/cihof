@@ -111,13 +111,20 @@ test('a new portrait and a change to films become rows the tools read, each sign
 test('an attract-words decision carries the version seen, or the new words, never both', () => {
   const approve = rows(attractCsv({ reviewer: 'Jane Smith', attract: { attract: { decision: 'approve', seenVersion: 'text-abc', note: '' } } }, '2026-10-01'))[0];
   assert.deepEqual(approve, {
-    block: 'attract', decision: 'approve', contentVersion: 'text-abc', headline: '', tagline: '',
+    block: 'attract', decision: 'approve', contentVersion: 'text-abc', headline: '', tagline: '', body: '',
     decisionReference: 'attract-words-review-2026-10-01', note: 'Reviewed by Jane Smith in the staff review app.',
   });
   const reword = rows(attractCsv({ reviewer: 'Jane Smith', attract: { attract: { decision: 'reword', headline: 'Home, "here"', tagline: 'A line.', seenVersion: 'text-abc' } } }, '2026-10-01'))[0];
   assert.equal(reword.contentVersion, '');
   assert.equal(reword.headline, 'Home, "here"');
   assert.equal(reword.tagline, 'A line.');
+});
+
+test('the About words travel as block about, with a body only when they are rewritten', () => {
+  const approve = rows(attractCsv({ reviewer: 'Jane Smith', attract: { about: { decision: 'approve', seenVersion: 'text-abc' } } }, '2026-10-01'))[0];
+  assert.deepEqual([approve.block, approve.decision, approve.contentVersion, approve.body], ['about', 'approve', 'text-abc', '']);
+  const reword = rows(attractCsv({ reviewer: 'Jane Smith', attract: { about: { decision: 'reword', body: 'One.\n\nTwo.', seenVersion: 'text-abc' } } }, '2026-10-01'))[0];
+  assert.deepEqual([reword.block, reword.contentVersion, reword.body], ['about', '', 'One.\n\nTwo.']);
 });
 
 test('a ceremony film start names the person, the film and the second, or the beginning', () => {

@@ -234,12 +234,16 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
 
   // The attract screen's words: rewritten, and refused while too long.
   await page.getByRole('button', { name: /^Attract screen words/ }).click();
-  await page.getByRole('button', { name: /Use different words/ }).click();
+  await page.getByRole('button', { name: /Use different words/ }).first().click();
   await page.getByLabel(/^Headline/).fill('x'.repeat(61));
   await expect(page.getByText(/Not finished yet: the headline is too long/)).toBeVisible();
   await page.getByLabel(/^Headline/).fill('Test: the world, at home here.');
   await page.getByLabel(/^The line beneath/).fill('Test tagline.');
   await expect(page.getByText(/Decided\. Kept on this computer/)).toBeVisible();
+  // The About words, below them: rewritten, in two paragraphs, for the display and the website.
+  await page.getByRole('button', { name: /Use different words/ }).nth(1).click();
+  await page.getByRole('textbox', { name: /^The words/ }).fill('Test: the first paragraph.\n\nTest: the second paragraph.');
+  await expect(page.getByText(/Decided\. Kept on this computer/)).toHaveCount(2);
   await page.getByRole('button', { name: 'Back', exact: true }).click();
 
   // A curated tour, approved as shown for the exhibit, with the people it visits.
@@ -344,7 +348,7 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
   expect(log).toContain('review: biographies, 1 decision');
   expect(log).toContain('review: profile edits, 1 decision');
   expect(log).toContain('review: profiles, 2 decisions');
-  expect(log).toContain('review: attract screen words, 1 decision');
+  expect(log).toContain('review: attract screen and about words, 2 decisions');
   expect(log).toContain('review: tours, 4 decisions');
   expect(log).toContain('review: film titles, 1 decision');
   expect(log).toContain('review: where ceremony films start, 1 decision');
@@ -413,6 +417,12 @@ test('a reviewer decides, checks and saves, and each review becomes a commit', a
     headline: 'Test: the world, at home here.', tagline: 'Test tagline.',
     review: { status: 'approved', decisionReference: expect.stringMatching(/^attract-words-review-/) },
     publication: { kiosk: true, publicWeb: false },
+  });
+  const about = JSON.parse(readFileSync(join(worktree, 'data/cihof_exhibit_text.json'), 'utf8')).about;
+  expect(about).toMatchObject({
+    body: 'Test: the first paragraph.\n\nTest: the second paragraph.',
+    review: { status: 'approved', decisionReference: expect.stringMatching(/^attract-words-review-/) },
+    publication: { kiosk: true, publicWeb: true },
   });
   // The film is called by the YouTube title the reviewer kept, on the display only.
   const suggested = JSON.parse(readFileSync(join(worktree, 'data/external-research/youtube-film-titles.json'), 'utf8')).films;

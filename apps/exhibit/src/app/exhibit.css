@@ -689,12 +689,12 @@ dialog.film { background: #000; }
 
 /* ---------------------------------------------------- idle warning, sharing */
 
-.warning__panel, .share__panel, .recovery__panel { border: 2px solid var(--ink); background: var(--ground); }
+.warning__panel, .share__panel, .about__panel, .recovery__panel { border: 2px solid var(--ink); background: var(--ground); }
 /* The warning and the code lie over the display, the display dimmed behind. */
-dialog.share, dialog.warning { inset: 0; width: 100%; height: 100%; background: var(--scrim); }
-dialog.share::backdrop, dialog.warning::backdrop { background: transparent; }
-.warning__panel, .share__panel { animation: rise 300ms var(--ease) both; }
-.warning[open], .share[open] { display: grid; place-items: center; padding: 1.5rem; }
+dialog.share, dialog.warning, dialog.about { inset: 0; width: 100%; height: 100%; background: var(--scrim); }
+dialog.share::backdrop, dialog.warning::backdrop, dialog.about::backdrop { background: transparent; }
+.warning__panel, .share__panel, .about__panel { animation: rise 300ms var(--ease) both; }
+.warning[open], .share[open], .about[open] { display: grid; place-items: center; padding: 1.5rem; }
 .warning__panel { width: min(calc(900 * var(--px)), 100%); padding: calc(56 * var(--px)); }
 .warning__panel h2 { margin: 0 0 calc(20 * var(--px)); font-size: calc(66 * var(--px)); font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
 .warning__panel p { margin: 0 0 calc(40 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); }
@@ -953,3 +953,9 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 /* The staff portal's copy, in edit mode (editor.ts): what can be picked is outlined. */
 :root[data-editing="true"] [data-edit] { outline: 2px dashed rgba(255, 196, 0, 0.55); outline-offset: 3px; cursor: pointer; }
 :root[data-editing="true"] [data-edit]:hover { outline: 3px solid #ffc400; }
+
+/* About. The words a curator approved, set to be read at arm's length. */
+.about__panel { width: min(calc(900 * var(--px)), 100%); max-height: 100%; overflow-y: auto; padding: calc(56 * var(--px)); }
+.about__panel h2 { margin: 0 0 calc(24 * var(--px)); font-size: calc(56 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+.about__panel p { margin: 0 0 calc(24 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.4; }
+.about__panel button { min-height: max(var(--tap), calc(80 * var(--px))); margin-top: calc(8 * var(--px)); padding: 0 calc(48 * var(--px)); border: 0; background: var(--people); color: var(--on-lens); font-size: calc(30 * var(--px)); font-weight: 600; }

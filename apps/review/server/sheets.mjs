@@ -182,7 +182,8 @@ export function profileEditsCsv(draft, day) {
 }
 
 /**
- * The attract screen's words: approved as the reviewer saw them (the version
+ * The attract screen's words and the About words (blocks attract and about):
+ * approved as the reviewer saw them (the version
  * they saw, which text:apply checks), or rewritten and approved as written.
  */
 export function attractCsv(draft, day) {
@@ -193,10 +194,11 @@ export function attractCsv(draft, day) {
     value.decision === 'approve' ? value.seenVersion ?? '' : '',
     value.decision === 'reword' ? value.headline ?? '' : '',
     value.decision === 'reword' ? value.tagline ?? '' : '',
+    value.decision === 'reword' ? value.body ?? '' : '',
     reference,
     signedNote(value.note, draft.reviewer),
   ]);
-  return csv(['block', 'decision', 'contentVersion', 'headline', 'tagline', 'decisionReference', 'note'], rows);
+  return csv(['block', 'decision', 'contentVersion', 'headline', 'tagline', 'body', 'decisionReference', 'note'], rows);
 }
 
 /**

@@ -1,5 +1,5 @@
 {
-  "_about": "Words the exhibit shows that belong to no one person: the attract screen's headline and tagline. Each block reaches visitors only once a curator approves it for a target, with a decisionReference and the contentVersion the pipeline reports for exactly these words (npm run build:kiosk prints it). Change a word and the approval no longer matches, so the block is held back until it is approved again. Until then the attract screen shows the hall's name alone.",
+  "_about": "Words the exhibit shows that belong to no one person: the attract screen's headline and tagline, and the About words (block about, a body of paragraphs separated by a blank line, approved for the display and the website). Each block reaches visitors only once a curator approves it for a target, with a decisionReference and the contentVersion the pipeline reports for exactly these words (npm run build:kiosk prints it). Change a word and the approval no longer matches, so the block is held back until it is approved again. Until then the attract screen shows the hall's name alone.",
   "attract": {
     "headline": "The world, at home in Cleveland.",
     "tagline": "Meet the people who made it so, recognised by their communities, for their communities.",
@@ -14,6 +14,18 @@
     "publication": {
       "kiosk": true,
       "publicWeb": false
+    }
+  },
+  "about": {
+    "body": "Since 2010, the Cleveland International Hall of Fame has inducted people who have made significant and lasting contributions to our multicultural society.\n\nCleveland is home to people representing about 120 different ethnic groups.\n\nThe Hall of Fame exists not only to honor those special people, but also to inspire a new generation of leaders to follow in their footsteps.",
+    "source": "The Hall's own page, https://www.clevelandpeople.com/hof/hof.htm; wording copied from it, awaiting editorial sign-off.",
+    "review": {
+      "status": "proposed",
+      "note": "Not approved: a curator must approve these words in the staff review app before any visitor sees them."
+    },
+    "publication": {
+      "kiosk": true,
+      "publicWeb": true
     }
   }
 }
