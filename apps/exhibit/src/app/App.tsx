@@ -164,6 +164,7 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
     setChooserOpen(false);
     setEditingId(null);
     setTutorialOpen(false);
+    setAboutOpen(false);
     setInviting(false);
     invitationDue.current = true;
     // Rotating shows a different attract screen each time the display goes idle.
@@ -634,7 +635,7 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
                   }}
                 />
                 {/* Two quiet keys stacked in one column, so neither takes width from a lens. */}
-                <span className="lensbar__aid">
+                <span className={`lensbar__aid${bundle.about || inPortal ? ' lensbar__aid--three' : ''}`}>
                   <button type="button" className="lensbar__help" aria-haspopup="dialog" onClick={openTutorial}>How this works</button>
                   {/* Offered only once a curator has approved the words; an editor's copy always offers it, to pick and write them. */}
                   {(bundle.about || inPortal) && (
