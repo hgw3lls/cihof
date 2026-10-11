@@ -46,6 +46,7 @@ export function readiness(review, signoffs) {
     ties.filter((tie) => tie.role).length, ties.length, 'Places');
 
   add('Staff review app', 'Attract screen words approved', review.attract.approved ? 1 : 0, 1, 'Attract screen words');
+  add('Staff review app', 'About words approved', review.about?.approved ? 1 : 0, 1, 'Attract screen words and About');
   if (review.filmStarts.length > 0) {
     add('Staff review app', 'Ceremony films opening at each person\'s part',
       review.filmStarts.filter((entry) => entry.approvedSeconds !== null).length, review.filmStarts.length, 'Where ceremony films start');

@@ -9,7 +9,7 @@ import { readCorpusConnections } from '../../../packages/pipeline/src/sources/co
 import { readTieDecisions } from '../../../packages/pipeline/src/sources/ties.ts';
 import { connectionLabelProblem, maxConnectionLabelLength } from '@cihof/content';
 import { dataFile } from '../../../packages/pipeline/src/paths.ts';
-import { attractLimits, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
+import { aboutLimit, attractLimits, publishedAboutText, publishedAttractText, readExhibitText } from '../../../packages/pipeline/src/build/exhibit-text.ts';
 import { placeHistoryLimit } from '../../../packages/pipeline/src/build/place-text.ts';
 import { buildRuntimeBundle } from '../../../packages/pipeline/src/build/emit.ts';
 import { approvedFilmTitle, filmTitleLimit, readFilmTitles } from '../../../packages/pipeline/src/build/film-titles.ts';
@@ -174,6 +174,7 @@ export function loadReview() {
     profiles,
     kinds: relationshipKinds.map((kind) => ({ kind, ...kindGuide[kind] })),
     attract: attractWords(),
+    about: aboutWords(),
     // The communities, honours and countries already in use, offered as the profile editor's suggestions.
     profileTags: profileTagsInUse(curatedDocument),
     tours: tours(people),
@@ -191,7 +192,7 @@ export function loadReview() {
     placeTypes: Array.isArray(placesDocument.placeTypes) ? placesDocument.placeTypes : [],
     // What a new inductee's region may be (class:add checks the same list).
     regions: [...regions],
-    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
+    limits: { label: maxConnectionLabelLength, headline: attractLimits.headline, tagline: attractLimits.tagline, about: aboutLimit, placeHistory: placeHistoryLimit, filmTitle: filmTitleLimit, tour: tourLimits, profile: profileEditLimits },
     roles: placeRoles.map((role) => ({ role, label: roleGuide[role] ?? role })),
   };
 }
@@ -310,6 +311,21 @@ function attractWords() {
     contentVersion: status.contentVersion ?? '',
     approved: status.problem === null && status.text !== null,
     problem: status.problem,
+    reviewedAt: stored.review?.reviewedAt ?? null,
+  };
+}
+
+/** The About words as they stand, and whether the display and the website may show them. */
+function aboutWords() {
+  const stored = readExhibitText().about ?? {};
+  const kiosk = publishedAboutText('kiosk');
+  const web = publishedAboutText('public');
+  return {
+    body: typeof stored.body === 'string' ? stored.body : '',
+    contentVersion: kiosk.contentVersion ?? '',
+    approved: kiosk.problem === null && kiosk.text !== null,
+    approvedForWebsite: web.problem === null && web.text !== null,
+    problem: kiosk.problem,
     reviewedAt: stored.review?.reviewedAt ?? null,
   };
 }

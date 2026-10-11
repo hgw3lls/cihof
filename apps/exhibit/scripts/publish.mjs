@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishFilms, publishPortraits, publishedAttractText, placeWordsState } from '@cihof/pipeline';
+import { buildPeople, buildRuntimeBundle, writeRuntimeBundle, publishFilms, publishPortraits, publishedAboutText, publishedAttractText, placeWordsState } from '@cihof/pipeline';
 import { publishedPlaces } from '@cihof/content';
 import { readPlaceSeeds } from '@cihof/pipeline/src/sources/places.ts';
 import { resolvePreview, resolveTarget } from './target.mjs';
@@ -36,6 +36,13 @@ const attract = publishedAttractText(target, { preview });
 if (attract.problem) {
   const shown = attract.text ? 'Preview shows the attract words, marked unreviewed' : "Attract screen shows the hall's name alone";
   console.log(`${shown}: ${attract.problem}${attract.contentVersion ? ` (approving these words records contentVersion ${attract.contentVersion})` : ''}.`);
+}
+
+// The About words wait for approval the same way, for the display and the site.
+const about = publishedAboutText(target, { preview });
+if (about.problem) {
+  const shown = about.text ? 'Preview shows the About words, marked unreviewed' : 'No About control is offered';
+  console.log(`${shown}: ${about.problem}${about.contentVersion ? ` (approving these words records contentVersion ${about.contentVersion})` : ''}.`);
 }
 
 // A place approval covers its words. Of the places approved for this target,

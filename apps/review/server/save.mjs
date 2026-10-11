@@ -76,7 +76,7 @@ export const steps = [
     keys: (draft) => Object.keys(draft.profiles ?? {}),
   },
   {
-    task: 'attract', title: 'Attract screen words', script: 'text:apply', csv: attractCsv,
+    task: 'attract', title: 'Attract screen and About words', script: 'text:apply', csv: attractCsv,
     refresh: [], checks: [],
     keys: (draft) => Object.keys(draft.attract ?? {}),
   },

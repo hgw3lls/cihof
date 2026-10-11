@@ -29,6 +29,7 @@ import { applyTheme, readTheme, rememberTheme, type Theme } from './theme.ts';
 import { configuredTiming, invitationMs, isTestBuild } from './config.ts';
 import { normaliseTiming } from '../state/session.ts';
 import { nextAttractMode, readAttractSettings } from './attract-settings.ts';
+import { About } from './About.tsx';
 import { Attract } from './Attract.tsx';
 import { Lockup } from './Lockup.tsx';
 import { useRelease } from './useRelease.ts';
@@ -103,6 +104,7 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
   // in from the attract screen is offered it once, in a line they can ignore;
   // every end of a visit arms that offer again for the next one.
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [inviting, setInviting] = useState(false);
   const invitationDue = useRef(true);
   // The display is drawn at 1920 × 1080; the public site takes the screen's shape.
@@ -634,6 +636,11 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
                 {/* Two quiet keys stacked in one column, so neither takes width from a lens. */}
                 <span className="lensbar__aid">
                   <button type="button" className="lensbar__help" aria-haspopup="dialog" onClick={openTutorial}>How this works</button>
+                  {/* Offered only once a curator has approved the words; an editor's copy always offers it, to pick and write them. */}
+                  {(bundle.about || inPortal) && (
+                    <button type="button" className="lensbar__about" aria-haspopup="dialog" data-edit="about" data-edit-id="about"
+                      onClick={() => setAboutOpen(true)}>About</button>
+                  )}
                   <button id="restart" className="lensbar__restart" type="button" onClick={restart}>Start over</button>
                 </span>
               </nav>
@@ -705,6 +712,18 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
           person={sharePerson}
           siteBase={bundle.continuationBase}
           onClose={() => dispatch({ type: 'open-record', personId: sharePerson.id })}
+        />
+      )}
+
+      {aboutOpen && state.mode === 'explore' && (
+        <About
+          text={bundle.about ?? null}
+          onClose={() => {
+            setAboutOpen(false);
+            window.requestAnimationFrame(() => {
+              if (document.activeElement === document.body) document.querySelector<HTMLElement>('.lensbar__about')?.focus();
+            });
+          }}
         />
       )}
 

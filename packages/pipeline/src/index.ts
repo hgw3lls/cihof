@@ -5,5 +5,5 @@ export type { PreviewTie, RuntimePlace } from './build/preview.ts';
 export { publishedTours, tourPeople, tourPublished, tourVersion, type RuntimeTour } from './build/tours.ts';
 export { inducteeId, slugify } from './identity.ts';
 export { repoRoot, dataFile, publicFile } from './paths.ts';
-export { attractTextVersion, publishedAttractText, type AttractText } from './build/exhibit-text.ts';
+export { aboutTextVersion, attractTextVersion, publishedAboutText, publishedAttractText, type AboutText, type AttractText } from './build/exhibit-text.ts';
 export { placeHistoryLimit, placeHistoryProblem, placeTextVersion, placeWordsState } from './build/place-text.ts';

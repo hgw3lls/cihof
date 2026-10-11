@@ -117,6 +117,23 @@ export type AttractDecision =
   | { decision: 'approve'; seenVersion: string; note?: string }
   | { decision: 'reword'; headline: string; tagline: string; note?: string };
 
+/** The hall's About words, as they stand. */
+export type AboutWords = {
+  body: string;
+  contentVersion: string;
+  approved: boolean;
+  approvedForWebsite: boolean;
+  problem: string | null;
+  reviewedAt: string | null;
+};
+
+export type AboutDecision =
+  | { decision: 'approve'; seenVersion: string; note?: string }
+  | { decision: 'reword'; body: string; note?: string };
+
+/** The blocks of exhibit text a reviewer can decide on. */
+export type ExhibitTextDecisions = { attract?: AttractDecision; about?: AboutDecision };
+
 /** A curated tour, whether it is approved, and who it visits now. */
 export type Tour = {
   tourId: string;
@@ -269,7 +286,7 @@ export type Draft = {
   profiles: Record<string, ProfileDecision>;
   /** `seenVersion` is the profile the editing began from. */
   profileEdits?: Record<string, { seenVersion: string; edit: ProfileEdit; note?: string }>;
-  attract: Record<string, AttractDecision>;
+  attract: ExhibitTextDecisions;
   tours: Record<string, TourDecision>;
   filmTitles: Record<string, FilmTitleDecision>;
   filmStarts: Record<string, FilmStartDecision>;
@@ -383,6 +400,7 @@ export type Review = {
   profiles: Profile[];
   kinds: Kind[];
   attract: AttractWords;
+  about: AboutWords;
   tours: Tour[];
   /** The communities, honours and countries already in use. */
   profileTags: { communities: string[]; contributions: string[]; countries: string[] };
@@ -404,7 +422,7 @@ export type Review = {
   /** The regions a new inductee's record may name. */
   regions: string[];
   limits: {
-    label: number; headline: number; tagline: number; placeHistory: number; filmTitle: number;
+    label: number; headline: number; tagline: number; about: number; placeHistory: number; filmTitle: number;
     tour: { label: number; prompt: number; description: number; term: number; terms: number; maxPortraits: number };
     profile: { name: number; line: number; portraitAlt: number; tag: number; tags: number };
   };

@@ -382,7 +382,7 @@ function normaliseDraft(value) {
         : [];
     })),
     // One block of exhibit text so far; nothing else can name a block.
-    attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract')),
+    attract: Object.fromEntries(Object.entries(object(draft.attract)).filter(([key]) => key === 'attract' || key === 'about')),
     // Only the decisions a tour can have; an edit kept to its own fields.
     tours: Object.fromEntries(Object.entries(object(draft.tours)).flatMap(([tourId, value]) => {
       if (value?.decision === 'withdraw' || (value?.decision === 'approve' && Object.hasOwn(audiences, value.audience))) return [[tourId, value]];
@@ -488,6 +488,10 @@ function studioDraft(change, reviewer) {
     };
   }
   // The attract screen's words, as written, approved as written (text:apply's reword).
+  if (change?.kind === 'about') {
+    const draft = tidy({ attract: { about: { decision: 'reword', body: String(change.body ?? '').slice(0, 4000) } } });
+    return { title: 'The About words', subject: { kind: 'about', id: 'about' }, draft };
+  }
   if (change?.kind === 'attract') {
     const draft = tidy({ attract: { attract: { decision: 'reword', headline: String(change.headline ?? '').slice(0, 300), tagline: String(change.tagline ?? '').slice(0, 300) } } });
     return { title: 'The attract screen\'s words', subject: { kind: 'attract', id: 'attract' }, draft };

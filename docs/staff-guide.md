@@ -478,6 +478,11 @@ Either way it offers:
   are approved as you write them. Until they are approved, the display shows
   the Hall of Fame's name instead. They appear on the display only: the
   website has no attract screen.
+  The same card holds the **About words**: what the Hall of Fame says about
+  itself, opened from the *About* key on the display and on the website
+  (up to 1,500 characters; a blank line starts a new paragraph). They are
+  approved for both. Until they are approved, no About key is offered. In the
+  studio, choose *Edit* and touch the *About* key to write them in place.
 - **Film titles**: what each film is called in a person's list of films.
   Without an approved title a film is described by its length (*A 7-minute
   film*). Each film has a title on YouTube, written by whoever posted it; the
