@@ -34,3 +34,29 @@ test('approved About words open in a panel, in paragraphs, and Close returns to 
   await expect(panel).toHaveCount(0);
   await expect(key).toBeFocused();
 });
+
+test('with About offered, every key in the aid column is still a full touch target', async ({ page }) => {
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({ json: { ...bundle, about: { body: 'Words.' } } });
+  });
+  await begin(page);
+  const heights = await page.locator('.lensbar__aid > button').evaluateAll((keys) => keys.map((key) => (key as HTMLElement).offsetHeight));
+  expect(heights).toHaveLength(3);
+  for (const height of heights) expect(height).toBeGreaterThanOrEqual(48);
+});
+
+test('Start over closes About, so the next visitor does not meet it open', async ({ page }) => {
+  await page.route('**/data/exhibit.json', async (route) => {
+    const bundle = await (await route.fetch()).json();
+    await route.fulfill({ json: { ...bundle, about: { body: 'Words.' } } });
+  });
+  await begin(page);
+  await page.getByRole('button', { name: 'About', exact: true }).click();
+  await expect(page.locator('dialog.about')).toBeVisible();
+  // Start over is behind the modal for a visitor; the idle reset reaches the same state.
+  await page.evaluate(() => (document.querySelector('#restart') as HTMLButtonElement).click());
+  await expect(page.locator('dialog.about')).toHaveCount(0);
+  await page.locator('[data-begin]').click();
+  await expect(page.locator('dialog.about')).toHaveCount(0);
+});

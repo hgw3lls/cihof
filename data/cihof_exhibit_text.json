@@ -18,10 +18,13 @@
   },
   "about": {
     "body": "Since 2010, the Cleveland International Hall of Fame has inducted people who have made significant and lasting contributions to our multicultural society.\n\nCleveland is home to people representing about 120 different ethnic groups.\n\nThe Hall of Fame exists not only to honor those special people, but also to inspire a new generation of leaders to follow in their footsteps.",
-    "source": "The Hall's own page, https://www.clevelandpeople.com/hof/hof.htm; wording copied from it, awaiting editorial sign-off.",
+    "source": "The Hall's own page, https://www.clevelandpeople.com/hof/hof.htm; wording copied from it.",
     "review": {
-      "status": "proposed",
-      "note": "Not approved: a curator must approve these words in the staff review app before any visitor sees them."
+      "status": "approved",
+      "decisionReference": "about-words-review-2026-10-11",
+      "contentVersion": "text-085112812b31",
+      "reviewedAt": "2026-10-11T23:44:05.939Z",
+      "note": "Approved by Tony Yanick, who asked for it in a Claude Code session; wording is the Hall's own, from clevelandpeople.com/hof."
     },
     "publication": {
       "kiosk": true,
