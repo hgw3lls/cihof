@@ -62,7 +62,8 @@ export function opensWithStaffNote(text: string): boolean {
 /**
  * Stages the files the kiosk's published films name, next to the portraits.
  *
- * Only a kiosk calls this, and it refuses anything else: keeping video out of
+ * Only a kiosk calls this (or a public build carrying the explicit YouTube
+ * film override, which stages words and posters only), and it refuses anything else: keeping video out of
  * the public artifact must not rest on a public bundle happening to list no
  * films. Like the portraits, it copies from the published records rather than
  * the directory, so nothing a record has not cleared can arrive.
@@ -75,10 +76,17 @@ export function opensWithStaffNote(text: string): boolean {
  * gigabytes does not also mean copying them.
  */
 export function publishFilms(
-  bundle: { readonly target: string; readonly people: readonly { readonly films: readonly PublishedFilm[] }[] },
+  bundle: {
+    readonly target: string;
+    readonly filmOverride?: string;
+    readonly people: readonly { readonly films: readonly PublishedFilm[] }[];
+  },
   targetDir: string,
 ): { films: number; videosMissing: number } {
-  if (bundle.target !== 'kiosk') {
+  // The public override stages only the words and posters of films that play
+  // from YouTube; no video file is ever staged for it.
+  const publicYoutube = bundle.target === 'public' && bundle.filmOverride === 'public-youtube';
+  if (bundle.target !== 'kiosk' && !publicYoutube) {
     throw new Error(`Films are staged for the kiosk only; this bundle is for "${bundle.target}".`);
   }
 
@@ -113,6 +121,9 @@ export function publishFilms(
         throw new Error(`${film.transcript} opens with the transcript generator's note to staff; remove it from the file before publishing.`);
       }
       stage(film.transcript, { required: true, video: false });
+      if (publicYoutube && film.source.kind !== 'youtube') {
+        throw new Error(`${film.id} would put a video file on the public site.`);
+      }
       if (film.source.kind === 'local-file' && !stage(film.source.src, { required: false, video: true })) {
         videosMissing += 1;
       }

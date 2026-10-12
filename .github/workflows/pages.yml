@@ -6,9 +6,10 @@
 # panel should report that this build has no public site to link to, because it
 # has not got one.
 #
-# The public target carries no films. That is the point of publishing it rather
-# than the kiosk build, and the "Artifact is cleared" step below refuses to
-# deploy anything that turns out otherwise.
+# The public target carries no films unless the YouTube override is switched on
+# (the "youtube_films" run input or the CIHOF_PUBLIC_FILMS repository variable).
+# Either way the "Artifact is cleared" step below refuses to deploy anything
+# that does not match what was asked for.
 name: Deploy GitHub Pages
 
 on:
@@ -21,6 +22,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      youtube_films:
+        description: Show the hall's films on the public site from its YouTube channel (override; off by default)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -227,6 +233,10 @@ jobs:
         env:
           CIHOF_TARGET: public
           CIHOF_BASE_PATH: /cihof/
+          # The override toggle. Off unless this run was started with
+          # "youtube_films", or the repository variable CIHOF_PUBLIC_FILMS is
+          # set to "youtube". Empty means unset; assert:public then requires no films.
+          CIHOF_PUBLIC_FILMS: ${{ (inputs.youtube_films && 'youtube') || vars.CIHOF_PUBLIC_FILMS }}
 
       # The only check in this repository that looks at the bytes being
       # uploaded rather than the sources they came from. Everything else

@@ -66,11 +66,22 @@ export type FilmPrerequisite =
   | 'rights'
   | 'target';
 
+/**
+ * An explicit, build-time decision to show films on the public web through the
+ * hall's YouTube channel although none carries `approvedForPublicWeb`.
+ *
+ * It waives that one flag and nothing else: rights, captions, transcript and
+ * poster must still be approved, and it only means anything for the public
+ * target served from YouTube. Nothing turns it on by default.
+ */
+export type FilmOptions = { readonly publicWebOverride?: boolean };
+
 /** Every reason a holding is not publishable, so a report can say what is missing. */
 export function filmShortfalls(
   video: Record<string, unknown>,
   target: VisitorTarget,
   delivery: FilmDelivery = 'local-file',
+  options: FilmOptions = {},
 ): FilmPrerequisite[] {
   const missing: FilmPrerequisite[] = [];
 
@@ -85,8 +96,9 @@ export function filmShortfalls(
   if (!text(video['transcriptRuntimePath']) || video['transcriptStatus'] !== 'approved') missing.push('transcript');
   if (video['rightsStatus'] !== 'approved') missing.push('rights');
 
+  const overridden = options.publicWebOverride === true && target === 'public' && delivery === 'youtube';
   const approvedForTarget = target === 'public' ? video['approvedForPublicWeb'] : video['approvedForKiosk'];
-  if (approvedForTarget !== true) missing.push('target');
+  if (approvedForTarget !== true && !overridden) missing.push('target');
 
   return missing;
 }
@@ -95,11 +107,12 @@ export function publishableFilms(
   videos: readonly unknown[],
   target: VisitorTarget,
   delivery: FilmDelivery = 'local-file',
+  options: FilmOptions = {},
 ): PublishedFilm[] {
   return videos.flatMap((value) => {
     if (!value || typeof value !== 'object') return [];
     const video = value as Record<string, unknown>;
-    if (filmShortfalls(video, target, delivery).length > 0) return [];
+    if (filmShortfalls(video, target, delivery, options).length > 0) return [];
 
     const duration = video['durationSeconds'];
     const videoId = text(video['youtubeVideoId']);
