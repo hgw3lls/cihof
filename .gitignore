@@ -40,6 +40,8 @@ apps/exhibit/public/data/
 # Film assets the kiosk build stages from public/media/videos; the originals are
 # the tracked (or deliberately untracked) ones.
 apps/exhibit/public/media/videos/
+# Portraits the exhibit's publish step copies from public/media/images.
+apps/exhibit/public/media/images/
 
 # Local reports written by the data scripts
 /reports/
