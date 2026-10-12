@@ -52,7 +52,9 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
   const playable = embedded || Boolean(source?.kind === 'local-file' && source.src);
   const ownControls = playable && !problem && source?.kind === 'local-file';
   // Where our own captions cannot be shown, the reviewed words start open.
-  const [drawer, setDrawer] = useState(!ownControls);
+  // The channel's own player carries its own captions, so the reviewed words
+  // and our caption control are not offered beside it.
+  const [drawer, setDrawer] = useState(!ownControls && !embedded);
 
   // A different film starts afresh: at its beginning (or its part of the
   // ceremony), paused, with nothing wrong yet.
@@ -91,6 +93,7 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
   }, [film.id]);
 
   useEffect(() => {
+    if (embedded) return;
     let cancelled = false;
     setTranscript(null);
     fetch(asset(film.transcript))
@@ -98,7 +101,7 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
       .then((text) => { if (!cancelled) setTranscript(text); })
       .catch(() => { if (!cancelled) setTranscript(''); });
     return () => { cancelled = true; };
-  }, [film.transcript]);
+  }, [film.transcript, embedded]);
 
   const reportProgress = useCallback(() => {
     const video = videoRef.current;
@@ -160,8 +163,8 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
                 ? (
                   // The embedded player carries YouTube's own captions, not the
                   // reviewed ones: an iframe cannot be given a track element.
-                  // The reviewed transcript is what this release stands behind,
-                  // so it opens beside the film and the bar says why.
+                  // The bar says so, and the reviewed transcript and our caption
+                  // control are not offered beside it.
                   <div className="film__embed" data-shifted={drawer ? 'true' : undefined}>
                     <iframe title={`Film of ${person.name}`} src={source.embedUrl} allow="accelerometer; encrypted-media; picture-in-picture" allowFullScreen />
                   </div>
@@ -206,14 +209,16 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
               {film.title && <p className="film__subtitle">{film.title}</p>}
             </header>
 
-            <section className="film__transcript" data-open={drawer ? 'true' : undefined} aria-label={`Transcript of ${person.name}`}>
-              <h3>Transcript</h3>
-              {transcript === null
-                ? <p className="film__loading">Loading the transcript…</p>
-                : transcript
-                  ? <div>{transcript.split(/\n{2,}/).map((part, at) => <p key={at}>{part.trim()}</p>)}</div>
-                  : <p className="film__problem">The transcript could not be loaded.</p>}
-            </section>
+            {!embedded && (
+              <section className="film__transcript" data-open={drawer ? 'true' : undefined} aria-label={`Transcript of ${person.name}`}>
+                <h3>Transcript</h3>
+                {transcript === null
+                  ? <p className="film__loading">Loading the transcript…</p>
+                  : transcript
+                    ? <div>{transcript.split(/\n{2,}/).map((part, at) => <p key={at}>{part.trim()}</p>)}</div>
+                    : <p className="film__problem">The transcript could not be loaded.</p>}
+              </section>
+            )}
           </div>
 
           {several && (
@@ -247,17 +252,21 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
           <button type="button" className="film__back" disabled={!ownControls} onClick={back}>Back 10 s</button>
           <span className="film__note">
             {embedded
-              ? 'Plays from the hall’s channel, with that player’s own captions. The reviewed words are in the transcript.'
+              ? 'Plays from the hall’s channel, with that player’s own captions.'
               : start > 0 && ownControls
                 ? <button type="button" className="film__beginning" onClick={fromBeginning}>From the beginning</button>
                 : person.name}
           </span>
-          <button type="button" className="film__captions" disabled={!ownControls} aria-pressed={captionsOn} onClick={toggleCaptions}>
-            Captions {captionsOn ? 'on' : 'off'}
-          </button>
-          <button type="button" className="film__drawer" aria-pressed={drawer} onClick={() => setDrawer((open) => !open)}>
-            {drawer ? 'Hide transcript' : 'Transcript'}
-          </button>
+          {!embedded && (
+            <>
+              <button type="button" className="film__captions" disabled={!ownControls} aria-pressed={captionsOn} onClick={toggleCaptions}>
+                Captions {captionsOn ? 'on' : 'off'}
+              </button>
+              <button type="button" className="film__drawer" aria-pressed={drawer} onClick={() => setDrawer((open) => !open)}>
+                {drawer ? 'Hide transcript' : 'Transcript'}
+              </button>
+            </>
+          )}
           {several && (
             <button
               type="button"
