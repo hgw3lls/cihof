@@ -194,7 +194,11 @@ test('a film served from the channel plays there and says whose captions those a
   await expect(frame).toHaveAttribute('src', 'https://www.youtube-nocookie.com/embed/abc123');
   await expect(page.locator('.film__note')).toContainText('own captions');
   await expect(page.locator('.film video')).toHaveCount(0);
-  await expect(page.locator('.film__transcript')).toContainText('chronology');
+  // The channel's player has its own captions, so neither the transcript nor
+  // our caption control is offered beside it.
+  await expect(page.locator('.film__transcript')).toHaveCount(0);
+  await expect(page.locator('.film__captions')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /transcript/i })).toHaveCount(0);
 });
 
 test('a film with no usable source falls through to the words', async ({ page }) => {
