@@ -75,8 +75,27 @@ if (unreviewedTours.length > 0) fail(`the bundle carries ${unreviewedTours.lengt
 const people = Array.isArray(bundle.people) ? bundle.people : [];
 if (people.length === 0) fail('the bundle carries no people at all, which is not a publishable artifact');
 
+// The explicit YouTube override (CIHOF_PUBLIC_FILMS=youtube): films may appear,
+// but only as the hall's own channel through the privacy-preserving player.
+// Everything else below still applies, and a bundle that carries films without
+// declaring the override still fails.
+const overridden = bundle.filmOverride === 'public-youtube';
+if (bundle.filmOverride !== undefined && !overridden) fail(`the bundle declares an unknown film override "${bundle.filmOverride}"`);
+
 const carryingFilms = people.filter((person) => Array.isArray(person.films) && person.films.length > 0);
-if (carryingFilms.length > 0) {
+if (overridden) {
+  for (const person of carryingFilms) {
+    for (const film of person.films) {
+      const source = film.source ?? {};
+      if (source.kind !== 'youtube' || !String(source.embedUrl ?? '').startsWith('https://www.youtube-nocookie.com/embed/')) {
+        fail(`${person.id} carries a film that is not the hall's YouTube channel through youtube-nocookie.com: ${film.id}`);
+      }
+      for (const field of ['poster', 'captions', 'transcript']) {
+        if (!film[field]) fail(`${person.id} carries a film with no ${field}: ${film.id}`);
+      }
+    }
+  }
+} else if (carryingFilms.length > 0) {
   const named = carryingFilms.slice(0, 5).map((person) => `${person.id} (${person.films.length})`).join(', ');
   fail(`${carryingFilms.length} people carry films: ${named}${carryingFilms.length > 5 ? ', …' : ''}`);
 }
@@ -88,7 +107,7 @@ const totalHoldings = Object.values(manifest.assets ?? {})
   .reduce((sum, record) => sum + (Array.isArray(record.videos) ? record.videos.length : 0), 0);
 
 const report = bundle.filmReport ?? {};
-if (report.held !== totalHoldings) {
+if (!overridden && report.held !== totalHoldings) {
   fail(`the film report accounts for ${report.held} held holdings, but the manifest names ${totalHoldings} — some are unaccounted for`);
 }
 
@@ -97,7 +116,14 @@ if (report.held !== totalHoldings) {
 // different situation wearing the same number. Every holding should be held by
 // the target decision specifically.
 const heldByTarget = report.blockedBy?.target ?? 0;
-if (heldByTarget !== totalHoldings) {
+const publishedFilms = people.reduce((sum, person) => sum + (Array.isArray(person.films) ? person.films.length : 0), 0);
+if (overridden) {
+  // Every holding is either shown or held for a reason that is not the waived one.
+  if (report.held + publishedFilms !== totalHoldings) {
+    fail(`the film report holds ${report.held} and the bundle shows ${publishedFilms}, but the manifest names ${totalHoldings}`);
+  }
+  if (heldByTarget !== 0) fail(`${heldByTarget} holdings are held by the public-web decision although the override waives it`);
+} else if (heldByTarget !== totalHoldings) {
   fail(
     `${heldByTarget} of ${totalHoldings} holdings are held by the public-web decision; `
     + `the rest are held by something else (${JSON.stringify(report.blockedBy ?? {})}), which is a content problem, not a clearance one`,
@@ -120,6 +146,7 @@ for (const path of files) {
   if (!scannable.has(extname(path).toLowerCase())) continue;
   const text = readFileSync(path, 'utf8');
   for (const host of embedHosts) {
+    if (overridden && host === 'youtube-nocookie.com') continue;
     if (text.includes(host)) fail(`embedded player host "${host}" in ${relative(dist, path)}`);
   }
   // The staff portal's editing (src/app/editor.ts) is for its own copy, never a visitor's.
@@ -136,8 +163,11 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `Artifact cleared for publication: target=${bundle.target}, ${people.length} people, `
-  + `0 films, ${totalHoldings} holdings held by the public-web decision, ${files.length} files scanned.`,
+  overridden
+    ? `Artifact cleared for publication WITH THE YOUTUBE FILM OVERRIDE: target=${bundle.target}, ${people.length} people, `
+      + `${publishedFilms} films from the hall's channel, ${report.held} held, ${files.length} files scanned.`
+    : `Artifact cleared for publication: target=${bundle.target}, ${people.length} people, `
+      + `0 films, ${totalHoldings} holdings held by the public-web decision, ${files.length} files scanned.`,
 );
 
 function walk(directory) {

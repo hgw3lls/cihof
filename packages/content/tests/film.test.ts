@@ -95,3 +95,19 @@ test('local-file remains the default when nobody chooses', () => {
   assert.deepEqual(publishableFilms([cleared], 'kiosk')[0]!.source, { kind: 'local-file', src: '/media/videos/x/film.mp4' });
   assert.deepEqual(filmShortfalls({ ...cleared, runtimePath: '' }, 'kiosk'), ['file']);
 });
+
+test('the public override waives only the public-web approval, and only for YouTube', () => {
+  const cleared = {
+    youtubeVideoId: 'abc123', runtimePath: 'media/videos/a.mp4', posterRuntimePath: 'media/p.jpg',
+    captionRuntimePath: 'media/c.vtt', captionStatus: 'approved',
+    transcriptRuntimePath: 'media/t.txt', transcriptStatus: 'approved',
+    rightsStatus: 'approved', approvedForKiosk: true, approvedForPublicWeb: false,
+  };
+  const on = { publicWebOverride: true };
+  assert.deepEqual(filmShortfalls(cleared, 'public', 'youtube', on), []);
+  assert.equal(publishableFilms([cleared], 'public', 'youtube', on).length, 1);
+  assert.deepEqual(filmShortfalls(cleared, 'public', 'local-file', on), ['target'], 'never for a video file');
+  assert.deepEqual(filmShortfalls(cleared, 'public', 'youtube'), ['target'], 'off by default');
+  assert.deepEqual(filmShortfalls({ ...cleared, rightsStatus: 'needs-review' }, 'public', 'youtube', on), ['rights']);
+  assert.deepEqual(filmShortfalls({ ...cleared, captionStatus: 'needs-review' }, 'public', 'youtube', on), ['captions']);
+});

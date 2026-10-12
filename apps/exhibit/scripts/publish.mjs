@@ -58,10 +58,13 @@ if (legacy.length > 0) {
   console.log(`${legacy.length} place(s) shown for ${target} on an approval that predates recording the words; the staff review app offers them again.`);
 }
 
-if (target === 'kiosk') {
+if (target === 'kiosk' || bundle.filmOverride) {
   const films = publishFilms(bundle, resolve('public'));
   console.log(`Staged ${films.films} films' posters, captions and transcripts.`);
-  if (films.videosMissing > 0) {
+  if (bundle.filmOverride) {
+    console.warn('CIHOF_PUBLIC_FILMS=youtube: this public build shows films from the hall\'s YouTube channel without a per-film public-web approval.');
+  }
+  if (target === 'kiosk' && films.videosMissing > 0) {
     console.warn(`${films.videosMissing} of ${films.films} films have no MP4 in public/media/videos; those show their words instead.`);
   }
 }

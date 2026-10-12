@@ -94,6 +94,12 @@ export type RuntimeBundle = {
     readonly delivery: FilmDelivery;
   };
   /**
+   * Present only when this public release was built with the YouTube override
+   * (CIHOF_PUBLIC_FILMS=youtube): films shown on the public web from the hall's
+   * channel without a per-film public-web approval. `assert:public` reads it.
+   */
+  readonly filmOverride?: 'public-youtube';
+  /**
    * Why Connections is offered or withheld, in the terms a curator can act on.
    * "Zero relationships" and "ninety-five names nobody has resolved yet" are
    * the same count and different problems.
@@ -162,6 +168,8 @@ export type BundleSources = {
   readonly worksheet?: ContributionWorksheet | null;
   /** Where films are served from. Defaults per target; see `filmDeliveryFor`. */
   readonly filmDelivery?: FilmDelivery;
+  /** Show YouTube films on the public target. Defaults from CIHOF_PUBLIC_FILMS; see `publicFilmOverrideFor`. */
+  readonly publicFilmOverride?: boolean;
   /** Public site this release points its codes at. */
   readonly continuationBase?: string | null;
   /** Also show unreviewed places and proposed ties, marked. Kiosk target only. */
@@ -191,6 +199,11 @@ export function buildRuntimeBundle(
   }
   const holdings = readVideoHoldings();
   const delivery = sources.filmDelivery ?? filmDeliveryFor(target);
+  const override = sources.publicFilmOverride ?? publicFilmOverrideFor(target);
+  if (override && (target !== 'public' || delivery !== 'youtube')) {
+    throw new Error('The public film override plays films from YouTube on the public target only.');
+  }
+  const filmOptions = { publicWebOverride: override };
   const publishedIds = new Set<string>(people.map((person) => person.id as string));
   // A film that is a whole ceremony opens at this person's part of it, once a
   // curator has approved where that is (film-starts.ts).
@@ -209,7 +222,7 @@ export function buildRuntimeBundle(
     return { ...titled, source, startSeconds };
   });
   const runtimePeople = people.map((person) =>
-    toRuntimePerson(person, startingAtTheirPart(person.id, publishableFilms(holdings.get(person.id) ?? [], target, delivery)), publishedIds));
+    toRuntimePerson(person, startingAtTheirPart(person.id, publishableFilms(holdings.get(person.id) ?? [], target, delivery, filmOptions)), publishedIds));
 
   // Count what the withheld holdings are waiting on, so a silent wall is
   // explainable rather than mysterious.
@@ -217,7 +230,7 @@ export function buildRuntimeBundle(
   let held = 0;
   for (const videos of holdings.values()) {
     for (const video of videos) {
-      const shortfalls = filmShortfalls(video as Record<string, unknown>, target, delivery);
+      const shortfalls = filmShortfalls(video as Record<string, unknown>, target, delivery, filmOptions);
       if (shortfalls.length === 0) continue;
       held += 1;
       for (const reason of shortfalls) blockedBy[reason] = (blockedBy[reason] ?? 0) + 1;
@@ -316,6 +329,7 @@ export function buildRuntimeBundle(
     about: publishedAboutText(target, { preview, ...(sources.exhibitText ? { stored: sources.exhibitText } : {}) }).text,
     tours: publishedTours(runtimePeople, target, { preview, ...(sources.tours ? { stored: sources.tours } : {}) }),
     filmReport: { held, blockedBy, delivery },
+    ...(override ? { filmOverride: 'public-youtube' as const } : {}),
     contributionReport: {
       published: contributions.length,
       written: writing?.written ?? 0,
@@ -346,6 +360,21 @@ export function filmDeliveryFor(target: VisitorTarget): FilmDelivery {
   const configured = process.env['CIHOF_FILM_DELIVERY'];
   if (configured === 'local-file' || configured === 'youtube') return configured;
   return target === 'public' ? 'youtube' : 'local-file';
+}
+
+/**
+ * The override toggle for the public site's films: `CIHOF_PUBLIC_FILMS=youtube`.
+ *
+ * Off unless somebody sets it, in this build, on purpose. The kiosk ignores it
+ * (it plays its own copies), and any other value is an error rather than a
+ * guess. It is the museum's decision to show films on the public web from its
+ * channel; the build records it in the bundle so the artifact check can tell.
+ */
+export function publicFilmOverrideFor(target: VisitorTarget): boolean {
+  const raw = process.env['CIHOF_PUBLIC_FILMS']?.trim();
+  if (!raw) return false;
+  if (raw !== 'youtube') throw new Error(`CIHOF_PUBLIC_FILMS is "${raw}". Use CIHOF_PUBLIC_FILMS=youtube, or leave it unset.`);
+  return target === 'public';
 }
 
 function isFromCrosswalk(relationship: PublishedRelationship): boolean {
