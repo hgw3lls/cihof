@@ -56,7 +56,19 @@ Done by the person who will look after the content, with the developer watching.
 - [ ] The current installers of both apps stored with them
 - [ ] Everyone agrees: installers, exports, updates and films are for the display only, never on a website or a public share
 
-## 6. Signed
+## 6. Still open, and who takes each on
+
+Agreed on the day, from `npm run readiness` (the portal's *Ready for opening?*) and the order in `opening-plan.md`.
+
+| What | Who takes it on | By when |
+| --- | --- | --- |
+| The last researched place, and what the remaining people did at their places (portal, *Places*) | | |
+| Audio description for the films | | |
+| The Windows checklist on the display PC and the staff computer | | |
+| Sign-offs 1 to 6 (`sign-off.md`), then the approval to open | | |
+| The public website's lasting address, if it is to go live | | |
+
+## 7. Signed
 
 | | Name | Date |
 | --- | --- | --- |

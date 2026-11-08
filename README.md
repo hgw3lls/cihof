@@ -1,14 +1,20 @@
 # CIHOF
 
-The Cleveland International Hall of Fame exhibit: an offline touch kiosk built on a reviewed data model, and a guided staff review app for the decisions behind it.
+The Cleveland International Hall of Fame exhibit: an offline touch display built on a reviewed data model, and the CIHOF Staff Portal the museum uses to look after its content.
 
-Staff looking after the installed display: see [`docs/staff-guide.md`](docs/staff-guide.md). Every kiosk package and installer carries a copy. The first run on the real Windows machines follows [`docs/windows-checklist.md`](docs/windows-checklist.md). The checks only people can make (reach, accessibility, endurance, content and rights) are recorded on [`docs/sign-off.md`](docs/sign-off.md).
+**Start here at handover:** [`docs/handover-checklist.md`](docs/handover-checklist.md), worked through on the day with the display and the staff computer side by side. Where opening stands: `npm run readiness` (the same list as the portal's *Ready for opening?*), and the order of what is left in [`docs/opening-plan.md`](docs/opening-plan.md).
 
-The Hall of Fame's skyline lockup and its usage guide are in [`docs/brand/`](docs/brand/skyline-guidelines.md). The changed form of the logo still needs the Hall of Fame's sign-off before the exhibit opens.
+| Who | Read |
+| --- | --- |
+| Everyone looking after the display | [`docs/staff-guide.md`](docs/staff-guide.md). Every installer and kiosk package carries a copy. |
+| Gallery staff | [`docs/training/gallery-staff.md`](docs/training/gallery-staff.md) |
+| Whoever looks after the content | [`docs/training/staff-portal.md`](docs/training/staff-portal.md): the staff portal, its studio, display updates, the yearly class, films, backups |
+| Reviewers using the review screens | [`docs/training/review-app.md`](docs/training/review-app.md) |
+| Administrator, first install on Windows | [`docs/windows-checklist.md`](docs/windows-checklist.md) |
+| The people signing off reach, touch, accessibility, endurance, content and rights | [`docs/sign-off.md`](docs/sign-off.md) |
+| Anyone using the logo | [`docs/brand/`](docs/brand/skyline-guidelines.md) |
 
-Training walkthroughs, with screenshots: [`docs/training/gallery-staff.md`](docs/training/gallery-staff.md) for gallery staff and [`docs/training/review-app.md`](docs/training/review-app.md) for reviewers.
-
-Staff reviewing content: `npm run review` opens the staff review app (`apps/review`) on this computer. It takes a reviewer through profile approvals, proposed connections, places and biography corrections one at a time, then applies their decisions with the same tools as the sheets below and commits each kind of review with their name. It answers only this computer and never pushes. See section 7.1 of the staff guide.
+What still needs a developer is listed in the staff guide, *What still needs a developer*.
 
 ## Layout
 
@@ -18,8 +24,12 @@ Staff reviewing content: `npm run review` opens the staff review app (`apps/revi
 | `public/media/` | Media store (portraits, film captions, posters, transcripts). Video files are local-only and gitignored. |
 | `packages/content/` | Domain model and publication rules. No framework, no DOM. |
 | `packages/pipeline/` | Reads `data/`, emits the published bundle. |
-| `apps/exhibit/` | The kiosk. React and Vite, offline service worker, release manifest, recovery panel. |
-| `apps/web/` | Static companion pages for the QR take-home. Kept until the QR decision is made (roadmap). |
+| `apps/exhibit/` | The exhibit, the only visitor surface. React and Vite, offline service worker, release manifest, recovery panel. Also built with its editor for the staff portal's studio. |
+| `apps/kiosk-app/` | The display app (*CIHOF Exhibit*, Electron): admin panel, films folder, content updates, the staff connection. Outside the npm workspaces. |
+| `apps/review/` | The staff portal and review screens: studio, reviews, display updates. Answers only 127.0.0.1. |
+| `apps/review-app/` | The staff portal as a desktop app (*CIHOF Staff Portal*). Outside the npm workspaces. |
+| `apps/web/` | Static companion pages for the QR take-home, for when the public website has a lasting address. |
+| `docs/` | Staff guide, training, handover, opening plan, sign-off, brand. |
 | `scripts/` | Data maintenance: apply curator decisions, reports, media validation and approval sheet, film-asset check, HOF World ingest, external-research collection. |
 | `plans/` | Archive of every plan, audit and report. Start at `plans/README.md`. |
 
@@ -112,19 +122,21 @@ npm run source:external-contributions
 
 Change canonical sources, never generated output. Never invent historical claims, relationships, dates or portraits, and never change an approval state without an authorized editorial decision.
 
-## Roadmap
+## Open at handover
 
-The full plan is in [`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.md). Remaining work, in order:
+1. **Opening.** `npm run readiness` lists what is still open: the last researched place and what six people did at their places, the audio description decision for the films, the Windows checklist, sign-offs 1 to 6 and the approval to open. All of them are for people, not for code.
+2. **The public website's address.** It is decided that the website goes live; a lasting address is not yet chosen. Until `CIHOF_SITE_URL` is set to it, the display offers no take-home codes and `apps/web` stays unhosted ([`plans/docs/CLEAN_APP_PLAN.md`](plans/docs/CLEAN_APP_PLAN.md) §5.1).
+3. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the old `prepare-data.js` and are not produced now. Confirm nobody outside the museum used them (§5.3), or rebuild them in the pipeline.
+4. **A redesign of the staff portal and the display's admin panel** is planned, after handover.
 
-1. **Kiosk admin settings**: passcode-gated idle timeout, warning, motion, touch cue and hotkey. First settle whether runtime settings may only lengthen timings (§5.2).
-2. **Review-record write path** in `packages/content`: `decisionReference`, `contentVersion` and evidence per claim (§3).
-3. **Staff review app, next reviews**: `apps/review` covers profiles, connections, places and biographies. Links, film approvals and new classes are still sheets; add them as reviews when they are next needed.
-4. **QR take-home decision** (§5.1): host `apps/web` durably, or drop Share.
-5. **Standards exports** (Linked Art, CIDOC-CRM, IIIF) were produced by the removed `prepare-data.js`. Confirm nobody external consumes them (§5.3), or rebuild them in the pipeline.
+The old visitor app and old portal are in git history at `c8f749c`, for reference only.
 
-The old visitor app and old portal are in git history at `c8f749c`, the last commit before the clean-up. Keep that reference until the new portal has run through one real editorial cycle.
+## The staff portal
 
-## The staff review app, installed
+`apps/review` runs three ways. It always answers only 127.0.0.1, applies decisions with the same tools as the sheets above, never pushes, and never decides anything the reviewer did not choose.
 
-`npm run package:review-app` builds the staff review app as a desktop app of its own, in `release/review-app/` (`--target=win-zip` for a portable Windows folder from any system). It needs no git, Node or copy of the project on the staff computer. It reads the records from a data folder kept with `npm run review:data -- --out=<folder>`, such as a shared drive. A reviewer's checked decisions leave it as one file, which `npm run review:import -- --input=<file> --apply` saves in the project, one commit per kind of review under the reviewer's name.
+- **In the project:** `npm run review` opens it on this computer. Each kind of review is committed locally under the reviewer's name. Staff guide 7.1.
+- **Installed, on a data folder:** `npm run package:review-app` builds *CIHOF Staff Portal* in `release/review-app/` (`--target=win-zip` for a portable Windows folder from any system). It needs no git, Node or copy of the project. It reads a data folder kept with `npm run review:data -- --out=<folder>`, and a reviewer's checked decisions leave it as one file, which `npm run review:import -- --input=<file> --apply` saves in the project, one commit per kind of review under the reviewer's name.
+- **Installed, on a display's content:** the way the museum works day to day. The portal opens a display's content export (by USB stick, or over the staff connection the display's admin panel opens for a set time), changes it in the studio (the exhibit itself with its editor, built by `npm run review:shell`), and after approval makes a display update the display applies at its next reset. No git is involved. [`docs/training/staff-portal.md`](docs/training/staff-portal.md) walks through it.
 
+The studio's editor build is never the display's or the website's build; those compile a stub and are refused if they carry it.
