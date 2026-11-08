@@ -17,7 +17,10 @@ const base = process.env.CIHOF_BASE_PATH ?? '/cihof/';
 const files = [];
 walk(dist);
 
+// Exclude streamed films before hashing: a whole-film read can exceed Node's
+// buffer limit, and these files never belong to the precache manifest.
 const assets = files
+  .filter((path) => !isVideo(path))
   .map((path) => {
     const relativePath = relative(dist, path).split('\\').join('/');
     return { path: `${base}${relativePath}`, sha256: sha256(path), bytes: statSync(path).size };
