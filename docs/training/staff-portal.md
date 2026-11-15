@@ -47,6 +47,12 @@ Two ways:
   **Start from what it shows now**. Type the address and the code exactly as
   the display shows them; the code changes every time the connection is
   opened.
+- **On the display's own Wi-Fi** (where the display cannot reach the
+  museum network). On the display: **Staff connection**, **Open on the
+  display's own Wi-Fi**. It shows a Wi-Fi name and password as well as the
+  code. Join that Wi-Fi on the staff computer, then in the portal choose
+  **On the display's own Wi-Fi**, which fills in the address, and type the
+  code.
 - **On a USB stick** (anywhere). On the display: **Content › Export current
   content…** to the stick. In the portal: **File › Open a display's
   content…** and choose the file.
@@ -115,6 +121,9 @@ Then either:
 - **Or carry it**: copy the file to a USB stick; on the display, **Content ›
   Load a content update…**, read what it says, then **Apply at the next
   reset** or **Apply and show now**.
+- **Or from a phone**: the *CIHOF Display Remote* Android app puts the
+  same file on the display over the network, from wherever you are in the
+  gallery (`display-remote.md` in the training folder).
 
 If the display says the update was **made from an earlier version**,
 somebody else changed the display since you started. Applying it would undo

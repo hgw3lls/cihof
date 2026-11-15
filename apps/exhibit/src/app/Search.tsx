@@ -3,6 +3,7 @@ import type { RuntimePerson, RuntimePlace } from '../data/runtime.ts';
 import type { FilmHit, GroupHit, PersonHit, PlaceHit, SearchResults, SnippetPart } from '../state/search.ts';
 import { maxQueryLength } from '../state/exhibit.ts';
 import { asset, focalPoint, portraitUrl } from './Portrait.tsx';
+import { TouchKeyboard } from './TouchKeyboard.tsx';
 
 /** How many people are listed; the rest are lit on the wall, and the list says so. */
 const listedPeople = 20;
@@ -20,16 +21,21 @@ type Props = {
   onPlace: (place: RuntimePlace) => void;
   onFilm: (hit: FilmHit) => void;
   onClose: () => void;
+  /** The display's own keys, on a touchscreen with no keyboard in front of it: the installed display. */
+  touchKeyboard?: boolean;
 };
 
 /**
- * Search, in from the right, over the wall, typed on a keyboard. The people it finds light up on
+ * Search, in from the right, over the wall, typed on the display's own keys
+ * (or on a keyboard, if one is plugged in). The people it finds light up on
  * the wall as the words are typed; the list says why each one matched, and
  * finds the places, the collection's groupings and the moments in the films
  * as well.
  */
-export function Search({ query, results, gatheringFilms, suggestions, onQuery, onPerson, onGroup, onPlace, onFilm, onClose }: Props) {
+export function Search({ query, results, gatheringFilms, suggestions, onQuery, onPerson, onGroup, onPlace, onFilm, onClose, touchKeyboard = false }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const refocus = () => inputRef.current?.focus({ preventScroll: true });
+  const type = (text: string) => { onQuery((query + text).slice(0, maxQueryLength)); refocus(); };
   // The panel is still sliding in from beyond the stage's edge; focusing with a
   // scroll would pull the whole stage sideways to reach it.
   useEffect(() => { inputRef.current?.focus({ preventScroll: true }); }, []);
@@ -65,6 +71,8 @@ export function Search({ query, results, gatheringFilms, suggestions, onQuery, o
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
+            // With the display's own keys, Windows' touch keyboard never comes up over the exhibit.
+            inputMode={touchKeyboard ? 'none' : undefined}
             onChange={(event) => onQuery(event.target.value)}
           />
         </label>
@@ -137,6 +145,7 @@ export function Search({ query, results, gatheringFilms, suggestions, onQuery, o
         )}
       </div>
 
+      {touchKeyboard && <TouchKeyboard onKey={type} onDelete={() => { onQuery(query.slice(0, -1)); refocus(); }} />}
     </section>
   );
 }

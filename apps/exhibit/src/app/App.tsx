@@ -532,6 +532,7 @@ function Exhibit({ bundle, reloadBundle }: { bundle: RuntimeBundle; reloadBundle
               <aside className="sheet sheet--search" data-open={searching ? 'true' : undefined} aria-hidden={!searching}>
                 {searching && (
                   <Search
+                    touchKeyboard={bundle.target === 'kiosk'}
                     query={state.search.query}
                     results={results}
                     gatheringFilms={filmWords.gathering}

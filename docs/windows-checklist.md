@@ -76,6 +76,7 @@ Running:
 - [ ] Open a profile, the timeline, search, Connections. All respond to touch without delay.
 - [ ] Play three different films: each plays with sound and captions.
 - [ ] Unplug the network cable / turn Wi-Fi off. Everything above still works.
+- [ ] Unplug the keyboard. Open search: the keys along the bottom type, **⌫** deletes, **Space** spaces, and Windows' own touch keyboard does not appear. Plug the keyboard back in: it types in search too.
 - [ ] End the exhibit page as a crash would. With a keyboard, open Task Manager (Ctrl+Shift+Esc), go to **Details**,
       right-click a column heading, **Select columns**, tick **Command line**. Of the *CIHOF Exhibit.exe* lines, end the one
       whose command line includes `--type=renderer` (if there are two, close the admin panel first). The exhibit comes back
@@ -84,6 +85,19 @@ Running:
 - [ ] Restart Windows from the Start menu: it signs in and opens the exhibit with nobody touching it. Time from power button to exhibit: ________
 - [ ] **Pull the power** (at the wall) while it is running, wait ten seconds, restore it: it comes back into the exhibit by itself.
 - [ ] Touches land where the finger is, in all four corners and the centre.
+
+The display's own Wi-Fi (where the display cannot reach the museum network):
+
+- [ ] `netsh advfirewall firewall show rule name="CIHOF Exhibit staff connection"` (in a Command Prompt) shows the rule the installer added, for TCP 5190: yes / no.
+- [ ] The display has a Wi-Fi adapter, and Wi-Fi is on in Windows (it need not join a network). Adapter: ______________
+- [ ] Admin panel › **Staff connection** › **Open on the display's own Wi-Fi**. Within a few seconds the panel shows the Wi-Fi name `CIHOF-Display`, a password and a code. Or it says why not: ______________
+      If it says the display has no network connection to share: plug in an Ethernet cable to any switch or router and try again.
+      Where there is none, an administrator can add Windows' loopback adapter, which counts as one:
+      Device Manager › **Action › Add legacy hardware** › install manually › **Network adapters** › **Microsoft** › **Microsoft KM-TEST Loopback Adapter**. Then try again. Worked: yes / no.
+- [ ] On the staff computer, join `CIHOF-Display` with that password. In the staff portal, **Connect to a display…** › **On the display's own Wi-Fi**, type the code, connect. **Start from what it shows now** works: yes / no.
+- [ ] The same from a phone with *CIHOF Display Remote*: yes / no.
+- [ ] **Close it now** on the display: the `CIHOF-Display` Wi-Fi disappears from the staff computer's list within a minute: yes / no.
+- [ ] Open it again for 15 minutes and wait: when it closes by itself, the Wi-Fi goes too: yes / no.
 
 ## C. Office PC (Developer, then a member of staff), about 30 minutes
 

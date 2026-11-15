@@ -28,6 +28,7 @@ What still needs a developer is listed in the staff guide, *What still needs a d
 | `apps/kiosk-app/` | The display app (*CIHOF Exhibit*, Electron): admin panel, films folder, content updates, the staff connection. Outside the npm workspaces. |
 | `apps/review/` | The staff portal and review screens: studio, reviews, display updates. Answers only 127.0.0.1. |
 | `apps/review-app/` | The staff portal as a desktop app (*CIHOF Staff Portal*). Outside the npm workspaces. |
+| `apps/display-remote/` | *CIHOF Display Remote*, an Android app: a phone on the museum network reaching a display's staff connection, to see what it shows and put a display update on it. Edits nothing. Gradle, outside the npm workspaces. |
 | `apps/web/` | Static companion pages for the QR take-home, for when the public website has a lasting address. |
 | `docs/` | Staff guide, training, handover, opening plan, sign-off, brand. |
 | `scripts/` | Data maintenance: apply curator decisions, reports, media validation and approval sheet, film-asset check, HOF World ingest, external-research collection. |

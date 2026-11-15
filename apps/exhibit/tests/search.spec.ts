@@ -15,9 +15,26 @@ async function openSearch(page: Page, address = '.') {
   await expect(field(page)).toBeFocused();
 }
 
-test('typed on a keyboard, it lights the people it finds and says why', async ({ page }) => {
+test('typed on the display’s own keys, with no keyboard in front of it', async ({ page }) => {
   await openSearch(page);
-  await expect(page.getByRole('group', { name: 'Keyboard' })).toHaveCount(0);
+  const keys = panel(page).getByRole('group', { name: 'Keyboard' });
+  await expect(keys).toBeVisible();
+  for (const key of 'MACHASKX') await keys.getByRole('button', { name: key, exact: true }).click();
+  await keys.getByRole('button', { name: 'Delete' }).click();
+  await keys.getByRole('button', { name: 'E', exact: true }).click();
+  await keys.getByRole('button', { name: 'E', exact: true }).click();
+  await expect(field(page)).toHaveValue('machaskee');
+  await expect(panel(page).getByRole('region', { name: 'People' }).locator('.search__row').first()).toContainText('Alex Machaskee');
+  // The field keeps the focus, so Windows' own touch keyboard is never asked for, and a keyboard plugged in types on.
+  await expect(field(page)).toBeFocused();
+  await expect(field(page)).toHaveAttribute('inputmode', 'none');
+  await keys.getByRole('button', { name: 'Space' }).click();
+  await page.keyboard.type('mach');
+  await expect(field(page)).toHaveValue('machaskee mach');
+});
+
+test('typed on a keyboard plugged in, it lights the people it finds and says why', async ({ page }) => {
+  await openSearch(page);
   await page.keyboard.type('machaskee');
   await expect(field(page)).toHaveValue('machaskee');
 

@@ -8,6 +8,7 @@ import { createKioskServer } from './server.mjs';
 import { createContentStore } from './content-store.mjs';
 import { connectionMinutes, createStaffConnection } from './connection.mjs';
 import { filmsState } from './films-folder.mjs';
+import { createHotspot } from './hotspot.mjs';
 import { isAdminShortcut, isAllowedNavigation, isBlockedKey } from './policy.mjs';
 import { freezeWatch, heartbeatWatch } from './watch.mjs';
 import { attemptPasscode, attractProblem, attractSettings, exhibitAddress, hashPasscode, loadSettings, passcodeProblem, saveSettings, themeGround } from './settings.mjs';
@@ -57,6 +58,10 @@ let content = null;
 let pendingUpdate = null;
 /** The staff portal reaching this display over the network, while staff have it open (connection.mjs). */
 let staffConnection = null;
+/** The display's own Wi-Fi, turned on with a staff connection where there is no museum network (hotspot.mjs). */
+const hotspot = createHotspot();
+/** How to join it while it is on for the staff connection. */
+let hotspotJoin = null;
 /** The check-in watch of each exhibit window's page, by its web contents. */
 const heartbeats = new Map();
 
@@ -88,6 +93,12 @@ async function start() {
     },
     describe: () => ({ name: `CIHOF display (${hostname()})`, app: { version: app.getVersion(), ...releaseInfo() } }),
     scratch: join(app.getPath('userData'), 'connection'),
+    onClosed: async () => {
+      if (!hotspotJoin) return;
+      hotspotJoin = null;
+      const { stopped } = await hotspot.stop();
+      if (stopped) staffConnection.note('Turned the display\'s Wi-Fi off.');
+    },
   });
   app.on('before-quit', () => { void staffConnection?.close(); });
 
@@ -299,7 +310,12 @@ function adminState() {
     app: { version: app.getVersion(), platform: process.platform, ...releaseInfo() },
     films: filmsState(siteRoot, settings.videosFolder),
     content: content ? { ...content.state(), pending: pendingUpdate?.report ?? null } : { unavailable: true },
-    connection: staffConnection ? { ...staffConnection.state(), minutes: connectionMinutes } : { open: false, log: [], minutes: connectionMinutes },
+    connection: {
+      ...(staffConnection ? staffConnection.state() : { open: false, log: [] }),
+      minutes: connectionMinutes,
+      hotspotSupported: hotspot.supported,
+      hotspot: hotspotJoin && staffConnection?.state().open ? { name: hotspotJoin.name, password: hotspotJoin.password, address: `${hotspotJoin.host}:${staffConnection.state().port}` } : null,
+    },
   };
 }
 
@@ -503,12 +519,22 @@ function registerAdminHandlers() {
   });
 
   // The staff connection: opened for as long as staff choose, closed by them or by the clock.
-  handle('admin:connection-open', async ({ minutes } = {}) => {
+  // With `ownWifi`, on the display's own Wi-Fi hotspot, for where there is no museum network; it goes off when the connection closes.
+  handle('admin:connection-open', async ({ minutes, ownWifi = false } = {}) => {
     if (!staffConnection) throw new Error('The staff connection is not available on this display.');
+    // Closed first, and its hotspot with it, so a new opening starts clean.
+    await staffConnection.close();
+    let joined = null;
+    if (ownWifi) joined = await hotspot.start();
     try {
       await staffConnection.open({ minutes: Number(minutes), name: `CIHOF display (${hostname()})` });
     } catch (error) {
+      if (joined) await hotspot.stop().catch(() => {});
       throw new Error(error?.code === 'EADDRINUSE' ? 'Another program is using the staff connection\'s port (5190). Restart the display and try again.' : error.message);
+    }
+    if (joined) {
+      hotspotJoin = joined;
+      staffConnection.note(joined.startedHere ? `Turned the display's Wi-Fi on (${joined.name}).` : `The display's Wi-Fi was already on (${joined.name}); it stays on when the connection closes.`);
     }
     return adminState();
   });

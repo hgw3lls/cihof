@@ -314,8 +314,27 @@ now** ends it at once. The code changes every time it is opened, and the
 connection closes itself after a dozen requests without the right code. The
 code never crosses the network (each request is signed with it), and every
 file is checked against its checksum when it arrives. The museum network
-must let the staff computer reach the display on port 5190; on Windows,
-allow *CIHOF Exhibit* through the firewall the first time it asks.
+must let the staff computer reach the display on port 5190. The installer
+allows *CIHOF Exhibit* through the Windows firewall on that port, and the
+uninstaller removes the rule.
+
+**Where the display cannot reach the museum network**, open it with **Open
+on the display's own Wi-Fi** instead. The display turns on a Wi-Fi hotspot
+(Windows' Mobile hotspot) named `CIHOF-Display`, and the panel shows its
+password, new each time, as well as the code. On the staff computer (or the
+*CIHOF Display Remote* phone app), join that Wi-Fi, then choose **On the
+display's own Wi-Fi** in the portal: the address is always
+`192.168.137.1:5190`, so only the code needs typing. It is not `localhost`:
+that would be the staff computer itself. The hotspot turns off when the
+connection closes, however it closes. If Windows' hotspot was already on, the
+display uses it and leaves it on.
+
+Windows only makes a hotspot from a network connection the display already
+has, even one that reaches nothing. If the panel says it has none, plug an
+Ethernet cable into the display (the other end can go to any switch or
+router, with or without internet), or set up the Windows checklist's
+*The display's own Wi-Fi*. The display also needs a Wi-Fi adapter, and Wi-Fi
+turned on in Windows (it does not need to join a network).
 
 ### Forgotten passcode (Administrator)
 

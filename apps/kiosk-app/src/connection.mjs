@@ -39,9 +39,10 @@ const largestUpdate = 64 * 1024 ** 3;
  *   describe: () => object,
  *   scratch: string,
  *   onChange?: () => void,
+ *   onClosed?: (why: string) => Promise<void> | void,
  * }} options
  */
-export function createStaffConnection({ content, apply, describe, scratch, onChange = () => {} }) {
+export function createStaffConnection({ content, apply, describe, scratch, onChange = () => {}, onClosed = () => {} }) {
   let open = null;
   const log = [];
   const note = (what) => {
@@ -59,6 +60,8 @@ export function createStaffConnection({ content, apply, describe, scratch, onCha
     note(why);
     await new Promise((done) => { closing.server.close(() => done()); closing.server.closeAllConnections?.(); });
     await rm(closing.scratch, { recursive: true, force: true });
+    // Whatever was opened with it (the display's own Wi-Fi) goes too, however it closed.
+    try { await onClosed(why); } catch (error) { note(error instanceof Error ? error.message : String(error)); }
   };
 
   const handle = async (request, response) => {
@@ -196,6 +199,8 @@ export function createStaffConnection({ content, apply, describe, scratch, onCha
       return this.state();
     },
     close: () => close('Closed from the admin panel.'),
+    /** Adds a line to what the admin panel lists as having happened. */
+    note,
     /** For the admin panel: whether it is open, the code, where the portal finds it, and what happened. */
     state() {
       return {

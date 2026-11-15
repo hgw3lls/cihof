@@ -965,3 +965,12 @@ dialog.recovery { inset: 0; width: 100%; height: 100%; background: color-mix(in 
 .about__panel h2 { margin: 0 0 calc(24 * var(--px)); font-size: calc(56 * var(--px)); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
 .about__panel p { margin: 0 0 calc(24 * var(--px)); color: var(--ink-soft); font-size: calc(28 * var(--px)); line-height: 1.4; }
 .about__panel button { min-height: max(var(--tap), calc(80 * var(--px))); margin-top: calc(8 * var(--px)); padding: 0 calc(48 * var(--px)); border: 0; background: var(--people); color: var(--on-lens); font-size: calc(30 * var(--px)); font-weight: 600; }
+
+/* The display's own keys, along the bottom of search (TouchKeyboard.tsx). */
+.touchkeys { display: flex; flex: none; flex-direction: column; gap: 8px; padding: 14px 40px 20px; border-top: 1px solid var(--rule-dim); background: var(--ground); }
+.touchkeys__row { display: flex; justify-content: center; gap: 6px; }
+.touchkeys__key { flex: 1 1 0; max-width: 64px; height: 60px; padding: 0; border: 1px solid var(--rule-dim); background: transparent; color: var(--ink); font-size: 24px; font-weight: 600; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+.touchkeys__key:active { background: var(--rule); filter: none; }
+.touchkeys__key--wide { max-width: 134px; flex-grow: 2; font-size: 26px; }
+.touchkeys__key--space { max-width: none; flex-grow: 1; font-size: 19px; }
+:root[data-shape='phone'] .touchkeys { display: none; }

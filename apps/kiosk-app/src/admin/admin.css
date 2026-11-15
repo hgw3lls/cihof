@@ -57,3 +57,7 @@ button:disabled { opacity: 0.45; }
 
 .connection .code { font-size: 2.4rem; letter-spacing: 0.12em; font-weight: 700; font-variant-numeric: tabular-nums; margin: 0.4rem 0; }
 .connection .log { padding-left: 1.2rem; font-size: 0.9rem; }
+.connection .wifi { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 1rem; align-items: baseline; margin: 0.4rem 0 0.8rem; }
+.connection .wifi dt { color: var(--muted); }
+.connection .wifi dd { margin: 0; }
+.connection .code--small { font-size: 1.6rem; margin: 0; }

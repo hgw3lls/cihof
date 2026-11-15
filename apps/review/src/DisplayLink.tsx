@@ -8,6 +8,9 @@ import { applyOnDisplay, connectDisplay, disconnectDisplay, displayLink, openFro
  * checks an update exactly as one loaded from a stick, and says what it would
  * change, before anybody chooses to apply it.
  */
+/** Where a display is on its own Wi-Fi hotspot: Windows always gives it this address (apps/kiosk-app/src/hotspot.mjs). */
+const ownWifiAddress = '192.168.137.1:5190';
+
 export function DisplayConnection({ portal, onOpened }: { portal: PortalState; onOpened: () => Promise<void> }) {
   const [link, setLink] = useState<DisplayLink | null>(null);
   const [address, setAddress] = useState('');
@@ -47,6 +50,10 @@ export function DisplayConnection({ portal, onOpened }: { portal: PortalState; o
           On the display, open the admin panel, then <strong>Staff connection</strong>, and <strong>Open a staff connection</strong>.
           Type the address and the code it shows. Or carry updates on a USB stick, as before.
         </p>
+        <p className="quiet">
+          Opened on <strong>the display's own Wi-Fi</strong>? Join that Wi-Fi on this computer first, with the name and password the display shows,
+          then choose <strong>On the display's own Wi-Fi</strong> and type only the code.
+        </p>
         {link.problem && <p className="notice">{link.problem}</p>}
         <div className="field-row">
           <label className="field field--inline"><span>Address</span><input value={address} placeholder="192.168.1.40:5190" onChange={(event) => setAddress(event.target.value)} /></label>
@@ -54,7 +61,10 @@ export function DisplayConnection({ portal, onOpened }: { portal: PortalState; o
         </div>
         {problem && <p className="problem" role="alert">{problem}</p>}
         {busy && <p className="quiet" role="status">{busy}</p>}
-        <button type="button" disabled={Boolean(busy) || !address.trim() || !code.trim()} onClick={() => void connect()}>Connect</button>
+        <p className="actions" style={{ justifyContent: 'flex-start' }}>
+          <button type="button" className="link" onClick={() => setAddress(ownWifiAddress)}>On the display's own Wi-Fi</button>
+          <button type="button" disabled={Boolean(busy) || !address.trim() || !code.trim()} onClick={() => void connect()}>Connect</button>
+        </p>
       </section>
     );
   }

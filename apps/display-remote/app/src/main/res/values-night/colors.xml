@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink">#ecebe7</color>
+    <color name="quiet">#b3b0a8</color>
+    <color name="paper">#161615</color>
+    <color name="panel">#21211f</color>
+    <color name="line">#3a3935</color>
+    <color name="accent">#8fb8e0</color>
+    <color name="on_accent">#10202f</color>
+    <color name="done">#8fd096</color>
+    <color name="problem">#f0a0a0</color>
+    <color name="notice">#3a3220</color>
+</resources>
