@@ -53,7 +53,7 @@ Setting up (staff guide section 2):
 The admin panel:
 
 - [ ] Keyboard plugged in: **Ctrl + Shift + A** asks for a new passcode. Set one and record it where building codes are kept.
-- [ ] Unplug the keyboard. **Holding the top-left corner for 5 seconds** opens the keypad.
+- [ ] Unplug the keyboard. **Holding the top-left corner for 5 seconds** opens the keypad: on the attract screen, and again in the middle of a visit (touch a face first, then hold the corner).
 - [ ] Five wrong passcodes lock the keypad for a minute.
 - [ ] Where the settings file is. Expected: `%APPDATA%\CIHOF Exhibit\settings.json`.
       Actual: ______________________________________________
