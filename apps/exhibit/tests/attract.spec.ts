@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { enter } from './visit.ts';
 
 /**
@@ -102,7 +102,17 @@ test('the spotlight moves on its own, and the lit face and the lit name are the 
 test('no face hidden under the mosaic panel can be reached by keyboard or screen reader', async ({ page }) => {
   await page.goto('./?attract=mosaic');
   await expect(page.locator('.attract__panel')).toBeVisible();
-  const reachableUnderPanel = await page.evaluate(() => {
+  expect(await reachableUnderPanel(page)).toBe(0);
+  // The panel is as tall as its words, which longer words, or fonts drawn
+  // differently (as on Linux), make taller; the faces it then covers go too.
+  await page.addStyleTag({ content: '.attract__panel .attract__words { padding-top: 240px !important; }' });
+  await expect.poll(() => reachableUnderPanel(page)).toBe(0);
+  const covered = await page.locator('.attract__face[aria-hidden="true"]').count();
+  expect(covered, 'more faces are covered, and hidden, than before').toBeGreaterThan(7 * 4);
+});
+
+async function reachableUnderPanel(page: Page) {
+  return page.evaluate(() => {
     const panel = document.querySelector('.attract__panel')!.getBoundingClientRect();
     return [...document.querySelectorAll<HTMLButtonElement>('.attract__face')]
       .filter((face) => face.tabIndex >= 0 && face.getAttribute('aria-hidden') !== 'true')
@@ -113,8 +123,7 @@ test('no face hidden under the mosaic panel can be reached by keyboard or screen
         return x > panel.left && x < panel.right && y > panel.top && y < panel.bottom;
       }).length;
   });
-  expect(reachableUnderPanel).toBe(0);
-});
+}
 
 test('with motion off every name still has its turn: the lit name is on screen and the rows change', async ({ page }) => {
   await page.goto('./?attract=names&motion=0&spotlight=4');

@@ -14,6 +14,8 @@
   if (state === 'connect') { form.hidden = false; document.getElementById('address').focus(); }
   document.getElementById('connectButton').hidden = state === 'connect';
   document.getElementById('connectButton').addEventListener('click', () => { form.hidden = false; document.getElementById('address').focus(); });
+  // A display on its own Wi-Fi hotspot is always at this address (apps/kiosk-app/src/hotspot.mjs).
+  document.getElementById('ownWifi').addEventListener('click', () => { document.getElementById('address').value = '192.168.137.1:5190'; document.getElementById('code').focus(); });
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     window.cihofReview.connectDisplay(document.getElementById('address').value, document.getElementById('code').value);

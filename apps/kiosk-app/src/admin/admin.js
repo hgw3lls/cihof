@@ -112,6 +112,7 @@
         el('dt', {}, 'Content'), el('dd', {}, state.app.content),
         el('dt', {}, 'People'), el('dd', {}, String(state.app.people)),
         el('dt', {}, 'App'), el('dd', {}, `${state.app.version} · ${state.app.platform} · port ${state.settings.port}`),
+        el('dt', {}, 'Made by'), el('dd', {}, 'Tony Yanick, for Western Reserve Historical Society'),
       ),
 
       filmsSection(state),
@@ -304,19 +305,40 @@
         : [];
       section.replaceChildren(
         el('h2', { id: 'connectionTitle' }, 'Staff connection'),
-        ...(connection.open
+        ...(connection.open && connection.hotspot
+          ? [
+            el('p', {}, 'Open, on this display\'s own Wi-Fi. On the staff computer (or phone), join this Wi-Fi:'),
+            el('dl', { class: 'wifi' },
+              el('dt', {}, 'Wi-Fi'), el('dd', { class: 'code code--small' }, connection.hotspot.name),
+              el('dt', {}, 'Password'), el('dd', { class: 'code code--small', 'aria-label': 'Wi-Fi password' }, connection.hotspot.password)),
+            el('p', {}, 'Then, in the staff portal, choose The display\'s own Wi-Fi (or type the address ', el('strong', {}, connection.hotspot.address), ') and this code:'),
+            el('p', { class: 'code', 'aria-label': 'Pairing code' }, connection.code),
+          ]
+          : []),
+        ...(connection.open && !connection.hotspot
           ? [
             el('p', {}, 'Open. In the staff portal, connect to this display with:'),
             el('p', { class: 'code', 'aria-label': 'Pairing code' }, connection.code),
             el('p', {}, connection.addresses.length
               ? `Address: ${connection.addresses.join(' or ')}`
-              : 'This display has no network address: connect it to the museum network first.'),
+              : 'This display has no network address: connect it to the museum network first, or close this and open it on the display\'s own Wi-Fi.'),
+          ]
+          : []),
+        ...(connection.open
+          ? [
             el('p', { class: 'muted' }, `It closes by itself at ${when(connection.expiresAt)}. The exhibit carries on meanwhile, and the panel can be closed.`),
             el('div', { class: 'row' }, el('button', { type: 'button', onclick: () => act(() => api.closeConnection()) }, 'Close it now')),
           ]
           : [
             el('p', {}, 'Lets the staff portal fetch what this display shows and send it an update over the museum network, instead of on a USB stick. Closed until you open it, and only for as long as you choose.'),
-            el('div', { class: 'row' }, choose, el('button', { type: 'button', class: 'primary', onclick: () => act(() => api.openConnection(Number(choose.value))) }, 'Open a staff connection')),
+            ...(connection.hotspotSupported
+              ? [el('p', { class: 'muted' }, 'Where the display cannot reach the museum network, open it on the display\'s own Wi-Fi: it turns on a Wi-Fi hotspot for the staff computer to join, and turns it off again when the connection closes.')]
+              : []),
+            el('div', { class: 'row' }, choose,
+              el('button', { type: 'button', class: 'primary', onclick: () => act(() => api.openConnection(Number(choose.value))) }, 'Open a staff connection'),
+              ...(connection.hotspotSupported
+                ? [el('button', { type: 'button', onclick: () => { section.querySelector('.error')?.remove(); section.append(el('p', { class: 'muted', role: 'status' }, 'Turning on the display\'s Wi-Fi… this takes a few seconds.')); act(() => api.openConnection(Number(choose.value), true)); } }, 'Open on the display\'s own Wi-Fi')]
+                : [])),
           ]),
         ...log,
         ...(problem ? [el('p', { class: 'error', role: 'alert' }, problem)] : []),

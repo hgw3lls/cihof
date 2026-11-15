@@ -21,6 +21,6 @@ contextBridge.exposeInMainWorld('cihofAdmin', {
   showContentNow: () => ipcRenderer.invoke('admin:content-show-now'),
   cancelUpdate: () => ipcRenderer.invoke('admin:content-cancel'),
   // The staff connection: open for so many minutes, or close it.
-  openConnection: (minutes) => ipcRenderer.invoke('admin:connection-open', { minutes }),
+  openConnection: (minutes, ownWifi = false) => ipcRenderer.invoke('admin:connection-open', { minutes, ownWifi: Boolean(ownWifi) }),
   closeConnection: () => ipcRenderer.invoke('admin:connection-close'),
 });

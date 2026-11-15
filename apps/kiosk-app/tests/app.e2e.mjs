@@ -93,8 +93,17 @@ try {
   // A finger on the corner, as staff hold it on the display. Touch, not the
   // mouse: a display has no mouse, and a virtual display's mouse state can
   // interrupt a simulated press (it did on CI).
+  // Meanwhile the exhibit moves focus between its own buttons, as it does
+  // while somebody stands there (the invitation appearing, the attract screen
+  // changing). That once cancelled every hold on a real touchscreen.
   const touch = await exhibit.context().newCDPSession(exhibit);
   await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 10, y: 10 }] });
+  await exhibit.evaluate(() => {
+    const buttons = [...document.querySelectorAll('button')];
+    let at = 0;
+    const move = setInterval(() => { buttons[at++ % buttons.length]?.focus({ preventScroll: true }); }, 400);
+    setTimeout(() => clearInterval(move), 5000);
+  });
   await wait(5500);
   await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await touch.detach();

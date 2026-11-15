@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import type { AttractText, RuntimePerson } from '../data/runtime.ts';
 import type { AttractMode } from './attract-settings.ts';
 import { Portrait } from './Portrait.tsx';
@@ -20,7 +20,11 @@ const hallName = 'Cleveland International Hall of Fame';
 /** Mosaic: twelve portraits across, seven rows down, at 1920 × 1080. */
 const mosaicColumns = 12;
 const mosaicRows = 7;
-/** The text panel covers the bottom-left seven columns from the fourth row down. */
+/**
+ * The text panel covers the bottom-left seven columns from the fourth row
+ * down, as the display draws it. Its height follows its words, so where it
+ * really reaches is measured (useCovered); this is only the first guess.
+ */
 const underPanel = (index: number) => index % mosaicColumns < 7 && Math.floor(index / mosaicColumns) >= 3;
 /** Stacked: a strip of twelve across and two down. */
 const stripSize = 24;
@@ -45,7 +49,10 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
   // their turn at the front of the mosaic and in the strip.
   const order = useMemo(() => shuffled(people), [people]);
   const cells = mode === 'mosaic' ? fill(order, mosaicColumns * mosaicRows) : mode === 'stacked' ? order.slice(0, stripSize) : order;
-  const candidates = mode === 'mosaic' ? cells.map((_, index) => index).filter((index) => !underPanel(index)) : cells.map((_, index) => index);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const mosaicRef = useRef<HTMLUListElement>(null);
+  const covered = useCovered(panelRef, mosaicRef, mode === 'mosaic', text);
+  const candidates = mode === 'mosaic' ? cells.map((_, index) => index).filter((index) => !covered(index)) : cells.map((_, index) => index);
   const spot = useSpotlight(candidates, spotlightMs, mode === 'stacked');
   const spotPerson = spot === null ? null : cells[spot] ?? null;
   const reduced = usePrefersReducedMotion();
@@ -86,11 +93,11 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
 
       {mode === 'mosaic' && (
         <>
-          <div className="attract__panel" onClick={onBegin}>
+          <div className="attract__panel" ref={panelRef} onClick={onBegin}>
             {cta}
             <div className="attract__words">{words}</div>
           </div>
-          <ul className="attract__mosaic" aria-label="Inductees">
+          <ul className="attract__mosaic" ref={mosaicRef} aria-label="Inductees">
             {cells.map((person, index) => (
               <li key={`${person.id}:${index}`}>
                 <Face
@@ -101,7 +108,7 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
                   // A repeated face is the same person again, and a face under the
                   // text panel cannot be seen: neither is offered to a keyboard or
                   // a screen reader, so nothing opens a person nobody can see.
-                  hidden={cells.indexOf(person) !== index || underPanel(index)}
+                  hidden={cells.indexOf(person) !== index || covered(index)}
                   onBeginWith={onBeginWith}
                 >
                   {index === spot && <span className="attract__tag">{person.name}{person.classYear ? ` · ${person.classYear}` : ''}</span>}
@@ -139,6 +146,40 @@ export function Attract({ people, mode, spotlightMs, motion, text, onBegin, onBe
       )}
     </div>
   );
+}
+
+/**
+ * Which mosaic cells the text panel covers: those whose middle is under it.
+ * The panel is as tall as its words, which depend on what a curator wrote and
+ * on how the fonts are drawn, so it is measured, and again whenever the panel
+ * or the mosaic changes size. Until then, the layout the display was drawn for.
+ */
+function useCovered(panelRef: RefObject<HTMLDivElement | null>, mosaicRef: RefObject<HTMLUListElement | null>, active: boolean, text: AttractText | null) {
+  const [measured, setMeasured] = useState<string | null>(null);
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const mosaic = mosaicRef.current;
+    if (!active || !panel || !mosaic) return undefined;
+    const measure = () => {
+      const box = panel.getBoundingClientRect();
+      const under = [...mosaic.children].flatMap((cell, index) => {
+        const at = cell.getBoundingClientRect();
+        const x = at.left + at.width / 2;
+        const y = at.top + at.height / 2;
+        return x > box.left && x < box.right && y > box.top && y < box.bottom ? [index] : [];
+      });
+      // A string, so the same cells measured again change nothing.
+      setMeasured(under.join(','));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(panel);
+    observer.observe(mosaic);
+    void document.fonts?.ready.then(measure);
+    return () => observer.disconnect();
+  }, [panelRef, mosaicRef, active, text]);
+  const set = useMemo(() => (measured === null ? null : new Set(measured ? measured.split(',').map(Number) : [])), [measured]);
+  return (index: number) => (set ? set.has(index) : underPanel(index));
 }
 
 /** A portrait on the attract screen: grey and veiled, until the spotlight finds it. */

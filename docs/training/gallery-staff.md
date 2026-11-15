@@ -59,7 +59,8 @@ along the top; **Save this thread** keeps it for the visitors after, under
 city.
 
 **Search** finds names, words in the stories, communities, years, places and
-what is said in the films, typed on a keyboard.
+what is said in the films, typed on the keys along the bottom of search
+(or on a keyboard, if one is plugged in).
 
 ### How this works
 

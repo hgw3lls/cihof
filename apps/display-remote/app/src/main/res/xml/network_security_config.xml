@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A display's staff connection is plain http on the museum's network, at
+  whatever address its admin panel shows, so there is no name to scope this
+  to. Nothing in it is secret: every request and answer is signed with the
+  pairing code, and an update is checked against its checksum when it arrives
+  (apps/kiosk-app/src/connection-auth.mjs). The app talks to nothing else.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

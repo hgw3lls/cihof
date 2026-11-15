@@ -3,7 +3,9 @@ import { createHash, createHmac, randomBytes, randomInt, scryptSync, timingSafeE
 /**
  * How the staff portal and a display prove themselves to each other over the
  * museum's network, shared by both (connection.mjs on the display,
- * apps/review/server/display-connection.mjs in the portal).
+ * apps/review/server/display-connection.mjs in the portal), and copied in
+ * Kotlin by the Android display remote (apps/display-remote/…/Auth.kt, whose
+ * tests check it against this file). Change one, change both.
  *
  * The display shows a pairing code while its staff connection is open. The
  * code itself never crosses the network: each side turns it into a key, with

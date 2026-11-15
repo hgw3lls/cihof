@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CIHOF Display Remote</string>
+    <string name="intro">Reach a display over the museum\'s network: see what it shows, and send it a display update made in the staff portal. This phone changes nothing else.</string>
+
+    <string name="connect_title">Connect to a display</string>
+    <string name="connect_help">On the display, open the admin panel, then Staff connection, and Open a staff connection. Type the address and the code it shows. This phone must be on the museum\'s network, or on the display\'s own Wi-Fi.</string>
+    <string name="own_wifi">On the display\'s own Wi-Fi</string>
+    <string name="own_wifi_help">Opened on the display\'s own Wi-Fi? Join that Wi-Fi on this phone first, with the name and password the display shows, then choose On the display\'s own Wi-Fi and type only the code.</string>
+    <string name="address">Address</string>
+    <string name="address_hint">192.168.1.40:5190</string>
+    <string name="code">Code</string>
+    <string name="code_hint">K7RM-4QXP</string>
+    <string name="connect">Connect</string>
+    <string name="connecting">Connecting… working out the key from the code takes a moment.</string>
+
+    <string name="connected_to">Connected to %1$s</string>
+    <string name="at">At %1$s.</string>
+    <string name="refresh">Ask it again</string>
+    <string name="asking">Asking the display…</string>
+    <string name="disconnect">Disconnect</string>
+
+    <string name="send_title">Put a display update on it</string>
+    <string name="send_help">Choose a display update (a .cihof file) made with Make a display update in the staff portal and saved to this phone, or to a drive it can reach. The display checks it, and says what it would change, before anything is applied.</string>
+    <string name="choose">Choose a display update…</string>
+    <string name="choose_another">Choose another…</string>
+    <string name="sending">Sending %1$s to the display… keep this app open until it is done.</string>
+    <string name="cannot_read">%1$s cannot be read.</string>
+    <string name="anyway">Apply it anyway, replacing what changed on the display since.</string>
+    <string name="apply_later">Apply at the next reset</string>
+    <string name="apply_now">Apply and show now</string>
+    <string name="apply_now_confirm">Show it now? Only if nobody is using the display: whoever is will be taken back to the start.</string>
+    <string name="applying">Applying it on the display…</string>
+    <string name="applied_now">✓ Applied. The display is showing it now. Go and look at it.</string>
+    <string name="applied_later">✓ Applied. The display takes it over at its next reset between visitors.</string>
+</resources>

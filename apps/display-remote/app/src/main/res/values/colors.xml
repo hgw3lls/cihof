@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The staff portal's colours (apps/review/src/review.css). -->
+<resources>
+    <color name="ink">#1d1d1b</color>
+    <color name="quiet">#5f5d57</color>
+    <color name="paper">#fcfcfa</color>
+    <color name="panel">#ffffff</color>
+    <color name="line">#d9d6cf</color>
+    <color name="accent">#1f4e79</color>
+    <color name="on_accent">#ffffff</color>
+    <color name="done">#2e6b34</color>
+    <color name="problem">#9b1c1c</color>
+    <color name="notice">#fff8e6</color>
+</resources>
