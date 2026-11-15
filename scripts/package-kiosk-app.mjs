@@ -6,7 +6,7 @@ import { basename, join, resolve } from 'node:path';
  * Builds the installed exhibit as a desktop app.
  *
  *   npm run package:kiosk-app                  for this computer's system
- *   npm run package:kiosk-app -- --target=win  a Windows installer (build on Windows)
+ *   npm run package:kiosk-app -- --target=win  a Windows installer, from any system
  *   npm run package:kiosk-app -- --target=win-zip   a portable Windows folder, from any system
  *   npm run package:kiosk-app -- --target=mac | linux
  *   npm run package:kiosk-app -- --with-films  carry the films inside the app, as before
@@ -26,8 +26,8 @@ import { basename, join, resolve } from 'node:path';
  *
  * Writes to release/app/. Like the kiosk package it carries kiosk-only films,
  * so it is built by hand, on the machine that holds the video files, and never
- * published. The Windows installer needs Windows (or Wine) to build; the
- * portable zip does not.
+ * published. The Windows installer and the portable zip both build on any
+ * system.
  */
 
 const root = resolve(import.meta.dirname, '..');
@@ -44,9 +44,9 @@ const argument = process.argv.slice(2).find((a) => a.startsWith('--target='));
 const host = { win32: 'win', darwin: 'mac' }[process.platform] ?? 'linux';
 const target = argument ? argument.slice('--target='.length) : host;
 const builderArgs = {
-  // The installer is built on Windows (or Wine), where the program file can be
-  // given its icon and version details; the portable zip is built anywhere, so
-  // it leaves the program file as Electron ships it.
+  // The installer's program file is given its icon and version details.
+  // electron-builder does that in JavaScript (resedit), on any system: no
+  // Windows or Wine needed. The portable zip leaves it as Electron ships it.
   win: ['--win', 'nsis', '--x64', '-c.win.signAndEditExecutable=true'],
   'win-zip': ['--win', 'zip', '--x64'],
   mac: ['--mac', 'dmg'],
@@ -54,11 +54,6 @@ const builderArgs = {
 }[target];
 if (!builderArgs) {
   console.error(`--target=${target} is not one of win, win-zip, mac, linux.`);
-  process.exit(1);
-}
-if (target === 'win' && process.platform !== 'win32' && spawnSync('wine', ['--version']).status !== 0) {
-  console.error('The Windows installer is built on Windows (or with Wine installed).');
-  console.error('Build it on the Windows machine that holds the films, or use --target=win-zip for a portable folder.');
   process.exit(1);
 }
 

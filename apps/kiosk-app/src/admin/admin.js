@@ -112,6 +112,7 @@
         el('dt', {}, 'Content'), el('dd', {}, state.app.content),
         el('dt', {}, 'People'), el('dd', {}, String(state.app.people)),
         el('dt', {}, 'App'), el('dd', {}, `${state.app.version} · ${state.app.platform} · port ${state.settings.port}`),
+        el('dt', {}, 'Made by'), el('dd', {}, 'Tony Yanick, for Western Reserve Historical Society'),
       ),
 
       filmsSection(state),

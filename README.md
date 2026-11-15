@@ -75,7 +75,7 @@ Signing in automatically, powering on after a power cut, and Windows Assigned Ac
 
 ## Kiosk app
 
-`npm run package:kiosk-app` builds the exhibit as a desktop app with its own browser engine (Electron), in `release/app/`: a Windows installer when run on Windows (`--target=win`), or `--target=win-zip` (portable, buildable anywhere), `mac`, `linux`. It is the recommended way to run a display:
+`npm run package:kiosk-app` builds the exhibit as a desktop app with its own browser engine (Electron), in `release/app/`: a Windows installer with `--target=win` (buildable on any system), or `--target=win-zip` (a portable folder), `mac`, `linux`. It is the recommended way to run a display:
 
 - one full-screen window on the exhibit, served from the app itself: no menus, no right-click, no browser shortcuts (reload, zoom, developer tools, print), no navigating away, no pinch zoom, pointer hidden
 - a crashed or frozen page reloads itself; the app restarts daily (04:00 by default), keeps the screen awake, and starts at sign-in on Windows and macOS
@@ -141,3 +141,7 @@ The old visitor app and old portal are in git history at `c8f749c`, for referenc
 - **Installed, on a display's content:** the way the museum works day to day. The portal opens a display's content export (by USB stick, or over the staff connection the display's admin panel opens for a set time), changes it in the studio (the exhibit itself with its editor, built by `npm run review:shell`), and after approval makes a display update the display applies at its next reset. No git is involved. [`docs/training/staff-portal.md`](docs/training/staff-portal.md) walks through it.
 
 The studio's editor build is never the display's or the website's build; those compile a stub and are refused if they carry it.
+
+## Credits
+
+Designed and built by Tony Yanick for Western Reserve Historical Society.

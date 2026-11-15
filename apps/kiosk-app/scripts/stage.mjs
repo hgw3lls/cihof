@@ -45,7 +45,7 @@ writeFileSync(join(stage, 'package.json'), `${JSON.stringify({
   productName: 'CIHOF Exhibit',
   version: own.version,
   description: 'Cleveland International Hall of Fame interactive exhibit',
-  author: 'Tony Yanick',
+  author: 'Western Reserve Historical Society',
   license: 'UNLICENSED',
   type: 'module',
   main: 'main.mjs',

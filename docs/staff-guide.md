@@ -811,7 +811,7 @@ section 2). The setting stays across releases; copy the folder again only
 when films are added or changed. `MANIFEST.json` in the release lists, under
 `films.expectedInFolder`, every file the folder must hold.
 
-The installer can only be built on Windows (or with Wine). Before handing it
+The installer builds on any system (`--target=win`). Before handing it
 over:
 
 - read the summary it prints: people, relationships, and the films. A release
