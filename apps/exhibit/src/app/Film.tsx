@@ -92,6 +92,23 @@ export function Film({ person, film, onClose, onChoose, listOpen, onList, onProg
     };
   }, [film.id]);
 
+  // Most caption files are the video service's own, and pin every line to the
+  // picture's left edge (align:start position:0%). On the display they are
+  // centred along the foot of the picture instead. Only where they are drawn
+  // changes; the words and their timing are the reviewed file's.
+  useEffect(() => {
+    const element = videoRef.current?.querySelector('track');
+    if (!element) return;
+    const centre = () => {
+      for (const cue of [...(element.track.cues ?? [])]) {
+        if (cue instanceof VTTCue) { cue.align = 'center'; cue.position = 'auto'; }
+      }
+    };
+    centre();
+    element.addEventListener('load', centre);
+    return () => element.removeEventListener('load', centre);
+  }, [film.id, source?.kind]);
+
   useEffect(() => {
     if (embedded) return;
     let cancelled = false;
