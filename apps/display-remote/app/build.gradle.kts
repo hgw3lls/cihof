@@ -11,8 +11,8 @@ android {
         applicationId = "org.cihof.remote"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
     }
 
     // A release build is signed with the museum's own key, kept off this
