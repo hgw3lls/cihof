@@ -134,9 +134,9 @@ Then either:
 - **Or carry it**: copy the file to a USB stick; on the display, **Content ›
   Load a content update…**, read what it says, then **Apply at the next
   reset** or **Apply and show now**.
-- **Or from a phone**: the *CIHOF Display Remote* Android app puts the
-  same file on the display over the network, from wherever you are in the
-  gallery (`display-remote.md` in the training folder).
+- **Or from a phone**: the *CIHOF Display Remote* app (Android or iPhone)
+  puts the same file on the display over the network, from wherever you are
+  in the gallery (`display-remote.md` in the training folder).
 
 If the display says the update was **made from an earlier version**,
 somebody else changed the display since you started. Applying it would undo

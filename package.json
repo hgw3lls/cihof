@@ -18,6 +18,7 @@
     "package:kiosk-app": "node scripts/package-kiosk-app.mjs",
     "package:display-remote": "node scripts/package-display-remote.mjs",
     "test:display-remote": "node scripts/package-display-remote.mjs --test-only",
+    "test:display-remote-iphone": "sh apps/display-remote-iphone/check/run.sh",
     "content:update": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/make-content-update.mjs",
     "test": "npm test --workspace @cihof/content && npm test --workspace @cihof/pipeline && npm test --workspace @cihof/exhibit && npm test --workspace @cihof/review && node --test apps/kiosk-app/tests/*.test.mjs && node --test apps/review-app/tests/*.test.mjs",
     "test:browser": "playwright test -c apps/exhibit/playwright.config.ts",
