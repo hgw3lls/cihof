@@ -4,7 +4,8 @@ About fifteen minutes to read, and best read standing at the display. It
 covers what visitors see, what to check each day, and what to do when
 something looks wrong. The staff guide (`docs/staff-guide.md`, or
 `STAFF-GUIDE.md` beside each release) has the full detail; section numbers
-below point into it.
+below point into it. The [staff card](staff-card.md) has the daily part on one
+sheet, to print and keep by the display.
 
 ---
 
@@ -62,6 +63,8 @@ city.
 what is said in the films, typed on the keys along the bottom of search
 (or on a keyboard, if one is plugged in).
 
+![Search: "chen" typed on the display's own keys, two people lit on the wall, and the results on the right above the keys](images/display-search.jpg)
+
 ### How this works
 
 As a visitor comes in from the attract screen, the top of the screen offers
@@ -112,12 +115,14 @@ That is all. If something is wrong, see section 5.
 
 ## 4. The admin panel
 
-![The admin panel, opening on the Attract screen settings: three options, Rotate, Spotlight, Motion, Preview and Save](images/display-admin.jpg)
+![The admin panel, opening on the Attract screen and colours: Mosaic, Name wall and Stacked, then Rotate, Spotlight, Motion, Colours, Preview for 30 s and Save](images/display-admin.jpg)
 
 The admin panel is hidden from visitors. To open it:
 
 - **hold your finger on the top-left corner of the screen for 5 seconds**, or
 - with a keyboard attached, press **Ctrl + Shift + A**,
+
+![The passcode keypad: digits 1 to 9 and 0, a delete key and OK](images/display-keypad.jpg)
 
 then enter the passcode on the keypad. Five wrong tries lock the keypad for a
 minute.

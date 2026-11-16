@@ -32,6 +32,14 @@ that permission off again.
    key out from the code takes a second or two. The phone remembers the
    address; it never keeps the code, which changes every time the
    connection is opened.
+
+   Where the display cannot reach the museum network, open the connection
+   on the display with **Open on the display's own Wi-Fi** instead. It
+   shows a Wi-Fi name and password as well as the code. Join that Wi-Fi on
+   the phone (if Android asks whether to stay on a Wi-Fi with no internet,
+   choose to stay),
+   then in the app choose **On the display's own Wi-Fi**, which fills in
+   the address, and type the code.
 3. It shows what the display shows. **Ask it again** to refresh.
 4. To put an update on it: **Choose a display update…** and pick the file
    (copied to the phone, or on a drive it can reach, such as the museum's
@@ -55,7 +63,7 @@ the staff portal, from what the display shows now.
 
 | It says | What to do |
 | --- | --- |
-| No display answered at … | Check the address against the admin panel, that the phone is on the museum's Wi-Fi, and that the connection is still open. |
+| No display answered at … | Check the address against the admin panel, that the phone is on the museum's Wi-Fi (or the display's own, if it was opened that way), and that the connection is still open. |
 | The display did not accept the pairing code | Type the code the admin panel shows now; it changes each time the connection is opened. Check the phone shows the right time: the two clocks must agree to within two minutes. After a dozen wrong tries the display closes the connection itself; open it again. |
 | The display stopped answering | Its connection closed (its time ran out, or somebody closed it). Open it again and reconnect. |
 | The display will not take it | The file is not a display update, or is damaged. Make it again in the staff portal. |

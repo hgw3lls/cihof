@@ -57,6 +57,12 @@ Two ways:
   content…** to the stick. In the portal: **File › Open a display's
   content…** and choose the file.
 
+![The display's admin panel, Staff connection: how long, Open a staff connection, and Open on the display's own Wi-Fi](images/display-admin-connection.jpg)
+
+![Open on the display's own Wi-Fi: the Wi-Fi name and password to join, the address 192.168.137.1:5190, and the pairing code](images/display-admin-wifi.jpg)
+
+![The portal's Connect to a display: On the display's own Wi-Fi, Address, Code, and Connect and open what it shows](images/portal-connect.jpg)
+
 The portal's window title says **CIHOF staff portal** once it is working on
 a display's content.
 
@@ -70,6 +76,8 @@ The portal opens on the **studio**: the exhibit itself, exactly as the
 display will show it, beside a panel for editing. Use it as a visitor would
 in **Preview**; switch to **Edit** to change things.
 
+![The studio in Edit: the exhibit on the left with the attract screen's words outlined, and "Touch anything outlined" in the panel on the right](images/portal-studio.jpg)
+
 In **Edit**, everything that can be changed is outlined. Touch it, and it
 opens in the panel beside the exhibit:
 
@@ -81,6 +89,8 @@ opens in the panel beside the exhibit:
 | The attract screen's words | the headline and the line beneath |
 | A tour card (in **Tour**) | the tour's words, rules and people |
 | A place's panel (in **Connections**, places) | its name, neighbourhood, words and the people tied to it |
+
+![A person opened in Edit: their panel on the exhibit outlined, and their name, how it is alphabetised, communities and honours in the panel beside it](images/portal-edit-person.jpg)
 
 To add something, use the bar above the exhibit: **+ Inductee**, **+ Tour**,
 **+ Place**.
@@ -105,7 +115,10 @@ also has every screen card by card, for working through many at once
 
 **The display**, at the right of the bar, opens the display panel: where
 the portal's copy came from, what is saved since the last update, and the
-connection. When nothing is waiting for approval, **Make a display update**.
+connection.
+
+![The display panel: where the portal's copy came from, and Connect to the display](images/portal-display.jpg)
+ When nothing is waiting for approval, **Make a display update**.
 Add a line saying what changed, for whoever loads it. The portal
 builds the display's content from its copy, exactly as the exhibit is
 built, and writes one file (`cihof-update-….cihof`) to **Documents › CIHOF
