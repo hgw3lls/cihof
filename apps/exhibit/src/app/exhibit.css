@@ -560,13 +560,16 @@ dialog.film { background: #000; }
 .film__frame { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 136px; background: #000; color: #f2f1ec; animation: rise 400ms var(--ease) both; }
 .film__main { display: flex; min-height: 0; }
 .film__screen { position: relative; flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
-.film__video, .film__embed { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000; object-fit: contain; transition: translate 500ms var(--ease); }
+.film__video, .film__embed { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000; object-fit: contain; transition: width 500ms var(--ease); }
 /* The picture stops above a band of black that holds the progress, so the
    captions at the foot of the picture never sit on the bar. */
 .film__video { height: calc(100% - 80px); }
 /* A fade behind the name, so it reads over a bright picture. */
 .film__screen::before { content: ''; position: absolute; left: 0; right: 0; top: 0; z-index: 1; height: 200px; background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent); pointer-events: none; }
-.film__video[data-shifted], .film__embed[data-shifted] { translate: -320px 0; }
+/* With the transcript open the picture shrinks into the space beside it,
+   rather than sliding under the screen's left edge: the captions are drawn
+   inside the picture, and sliding it cut off the start of every line. */
+.film__video[data-shifted], .film__embed[data-shifted] { width: calc(100% - 640px); }
 .film__embed iframe { display: block; width: 100%; height: 100%; border: 0; }
 .film__big { position: absolute; left: 50%; top: calc(50% - 40px); translate: -50% -50%; display: grid; place-items: center; width: 168px; height: 168px; padding: 0; border: 0; background: var(--people); color: #121211; transition: opacity 300ms, translate 500ms var(--ease); }
 .film__big span { width: 0; height: 0; margin-left: 10px; border-style: solid; border-width: 30px 0 30px 52px; border-color: transparent transparent transparent currentColor; }
