@@ -23,6 +23,8 @@ export type VisitOptions = {
   readonly idleWaitMs: number;
   /** How long a single touch may take to show its result. */
   readonly stepMs?: number;
+  /** How long the offer of How this works stays when nobody answers it (config.ts: 12 s on a display). */
+  readonly invitationMs?: number;
 };
 
 export type VisitResult = {
@@ -51,6 +53,7 @@ const lensOrder = ['Years', 'Connections'];
 export async function visit(page: Page, index: number, options: VisitOptions): Promise<VisitResult> {
   const began = Date.now();
   const step = options.stepMs ?? 10_000;
+  const invitation = options.invitationMs ?? 12_000;
   const problems: string[] = [];
   // Once a visit is under way, a step that finds the attract screen back says
   // so once and the rest are skipped, rather than each waiting a whole step
@@ -120,10 +123,12 @@ export async function visit(page: Page, index: number, options: VisitOptions): P
     if (index % 3 === 1) {
       // The offer retires by itself in moments; turned down if it is still
       // there. It can go between looking and touching, so the touch waits
-      // only briefly rather than a whole step for a key that has gone.
+      // only briefly rather than a whole step for a key that has gone. A
+      // touch that misses leaves the offer to retire by itself, so the wait
+      // is as long as the offer stays, and a step more.
       const declined = page.locator('.invitation').getByRole('button', { name: 'No thanks' });
       if (await declined.count() > 0) await declined.click({ timeout: 1_000 }).catch(() => undefined);
-      await page.locator('.invitation').waitFor({ state: 'detached', timeout: step });
+      await page.locator('.invitation').waitFor({ state: 'detached', timeout: invitation + step });
     } else if (index % 3 === 2) {
       await page.getByRole('navigation', { name: 'Ways to explore' }).getByRole('button', { name: 'How this works' }).click({ timeout: step });
       const next = tutorial.locator('.tutorial__next');
